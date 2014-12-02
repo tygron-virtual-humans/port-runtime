@@ -1,7 +1,0 @@
-agentfiles {
-	"45blocks.goal" [name=ag].
-}
-
-launchpolicy {
-    launch agent:ag.
-}

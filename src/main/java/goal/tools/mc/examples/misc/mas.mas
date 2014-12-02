@@ -1,7 +1,0 @@
-agentfiles {
-	"exampleAgent.goal" [name=ag].
-}
-
-launchpolicy {
-    launch ag:ag .
-}
