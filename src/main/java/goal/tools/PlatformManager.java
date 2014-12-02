@@ -18,21 +18,6 @@
 
 package goal.tools;
 
-import goal.core.kr.KRFactory;
-import goal.core.kr.KRlanguage;
-import goal.core.mas.AgentFile;
-import goal.core.mas.MASProgram;
-import goal.core.program.GOALProgram;
-import goal.core.program.validation.ValidatorError;
-import goal.core.program.validation.ValidatorWarning;
-import goal.core.program.validation.agentfile.GOALProgramValidator;
-import goal.core.program.validation.masfile.MASProgramValidator;
-import goal.parser.ParsedObject;
-import goal.parser.antlr.UnitTestLexer;
-import goal.parser.antlr.UnitTestParser;
-import goal.parser.goal.GOALWalker;
-import goal.parser.mas.MASWalker;
-import goal.parser.unittest.UnitTestWalker;
 import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
@@ -44,6 +29,7 @@ import goal.tools.logging.Loggers;
 import goal.tools.logging.StringsLogRecord;
 import goal.tools.unittest.UnitTest;
 import goal.util.Extension;
+import goalhub.krTools.KRFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -57,8 +43,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
-import org.antlr.v4.runtime.ANTLRFileStream;
-import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.runtime.ANTLRFileStream;
+import org.antlr.runtime.CommonTokenStream;
 import org.apache.commons.io.IOUtils;
 
 /**
