@@ -1,0 +1,22 @@
+agentfiles{
+	"leader.goal".
+	"broker.goal".
+	"chameneo.goal".
+}
+
+launchpolicy{
+	launch chameneo1:chameneo.
+	launch chameneo2:chameneo.
+	launch chameneo3:chameneo.
+	launch chameneo4:chameneo.
+	launch chameneo5:chameneo.
+	launch chameneo6:chameneo.
+	launch chameneo7:chameneo.
+	launch chameneo8:chameneo.
+	launch chameneo9:chameneo.
+	launch chameneo10:chameneo.
+	launch leader:leader.
+	launch broker:broker.
+
+}
+

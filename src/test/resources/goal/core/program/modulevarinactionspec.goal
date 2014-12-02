@@ -1,0 +1,26 @@
+% test if module param is passed into the actionspec of the submodule
+
+
+main module [exit=nogoals] {
+	program{
+		if bel(result(X)) then exit-module.
+		
+		% do module call with parameter.
+		if bel(true) then test(12).
+	}
+}
+
+module test(X) [focus=new, exit=always] {
+
+	program [order=linearall] {
+		if bel(true) then action.
+		if bel(aap(Y)), bel(Y==12) then insert(result(ok)).
+	}
+	
+	actionspec {
+		action {
+		   pre{ true }
+		   post{ aap(X) }
+		}
+	}
+}

@@ -1,0 +1,36 @@
+%Correct: exhaustive example
+
+masTest {
+
+	mas 		= "correctMasUnderTest.mas2g".
+
+	agentUnderTest {
+		
+		before {
+			do beforeModule.
+		}
+		
+		test { 	
+			do moduleUnderTest(identifier, 42, 0.42, function(id,id,id)).			
+		}		
+		
+		after {
+			do afterModule(something,somethingElse).
+		}
+	}
+	
+	secondAgentUnderTest {
+		
+		before {
+			do beforeModule.
+		}
+		
+		test { 	
+			do moduleUnderTest(identifier, 42, 0.42, function(id,id,id)).			
+		}		
+		
+		after {
+			do afterModule(something,somethingElse).
+		}
+	}	
+}

@@ -1,0 +1,9 @@
+agentfiles{
+	"fibonaci.goal" [name = filename] .
+}
+
+launchpolicy{
+	launch agentUnderTest : filename.
+	launch secondAgentUnderTest : filename.
+}
+

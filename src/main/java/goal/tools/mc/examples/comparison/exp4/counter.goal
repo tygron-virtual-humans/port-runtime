@@ -1,0 +1,21 @@
+main: counter {
+	knowledge {
+	}
+	beliefs {
+		current(0) .
+		memory(0) .
+	}
+	goals {
+	}
+	program {
+		if not(goal(current(I))) , bel(current(J)) , bel(K is J+1) then adopt(current(K)) .
+		if a-goal(current(K)) , bel(J is K-1) then updateCurrent(J,K) .
+
+	}
+	actionspec {
+		updateCurrent(J,K) {
+			pre { true }
+			post { not(current(J)) , current(K) , memory(K) }
+		}
+	}
+}

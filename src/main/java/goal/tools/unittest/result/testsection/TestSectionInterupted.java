@@ -1,0 +1,52 @@
+package goal.tools.unittest.result.testsection;
+
+import goal.tools.debugger.DebuggerKilledException;
+import goal.tools.unittest.Test;
+import goal.tools.unittest.result.ResultFormatter;
+import goal.tools.unittest.result.TestResult;
+import goal.tools.unittest.testsection.TestSection;
+
+/**
+ * Exception used in a {@link TestResult} to show that while running a test
+ * section the debugger was killed.
+ *
+ * @see Test
+ * @author mpkorstanje
+ */
+public class TestSectionInterupted extends TestSectionFailed {
+	/** Date of last modification */
+	private static final long serialVersionUID = 201401252118L;
+
+	private final TestSection testSection;
+
+	@Override
+	public String toString() {
+		return "Test Section Interupted [Test Section= " + testSection + "]";
+	}
+
+	/**
+	 * Creates an interrupted test section.
+	 *
+	 * @param testSection
+	 *            that was interrupted.
+	 * @param exception
+	 *            that killed the debugger.
+	 */
+	public TestSectionInterupted(TestSection testSection,
+			DebuggerKilledException exception) {
+		super(exception);
+		this.testSection = testSection;
+	}
+
+	/**
+	 * @return the test section that was running when the debugger was killed.
+	 */
+	public TestSection getTestSection() {
+		return testSection;
+	}
+
+	@Override
+	public <T> T accept(ResultFormatter<T> formatter) {
+		return formatter.visit(this);
+	}
+}

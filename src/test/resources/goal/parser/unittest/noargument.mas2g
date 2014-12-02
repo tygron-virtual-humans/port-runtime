@@ -1,0 +1,9 @@
+agentfiles{
+	% insert (list of) agent file references below.
+	"noargument.goal" [name = filename] .
+}
+
+launchpolicy{
+	launch noargument : filename.
+}
+

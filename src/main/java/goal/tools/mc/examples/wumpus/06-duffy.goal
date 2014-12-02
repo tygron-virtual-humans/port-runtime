@@ -1,0 +1,270 @@
+main: duffy
+{
+	knowledge{
+		orientedVec([1,0], 0). 	%east
+		orientedVec([0,1], 1). 	%north
+		orientedVec([-1,0], 2).    %west
+		orientedVec([0,-1], 3).	%south
+
+		location(L) :- clock(T), at(L, T). % asks the current location of the agent
+		visited(L) :- at(L, _). % checks if the agent has already been to L
+		noForwardAction(L, NextT) :- clock(T), at(L, T), NextT is T + 1. % is used by actions who do not move the agent to calculate the current location and the new time for use in the post
+		revertPos(T, AgentL, WallL) :- TPrev is T - 1, at(AgentL, TPrev), at(WallL, T). % calculates the current location of the agent and the wall in case of a bump
+
+		facingPos([X, Y], Dir, L) :- orientedVec([FX,FY], Dir), NextX is X + FX, NextY is Y + FY, L = [NextX, NextY].
+
+		inFrontOf(NextL) :- location(L), orientation(Dir), facingPos(L, Dir, NextL). % based on the current location and the current orientation, get the location which is in front of the agent
+		toTheLeftOf(NextL) :- location(L), orientation(Dir), NewDir is mod(Dir + 1, 4), facingPos(L, NewDir, NextL). % based on the current location and the current orientation, get the location which is to the left of the agent
+		toTheRightOf(NextL) :- location(L), orientation(Dir), NewDir is mod(Dir + 3, 4), facingPos(L, NewDir, NextL). % based on the current location and the current orientation, get the location which is to the right of the agent
+		toTheBackOf(NextL) :- location(L), orientation(Dir), NewDir is mod(Dir + 2, 4), facingPos(L, NewDir, NextL). % based on the current location and the current orientation, get the location which is behind the agent
+		inFrontOfWall :- inFrontOf(L), wall(L). % determines if the agent is standing in front of a wall
+		isSafeToForward :- inFrontOf(L), not(wall(L)), safe(L). % determines if the agent is able to move forward without negative consequences
+		isDesirableToForward :- inFrontOf(L), not(wall(L)), safe(L), not(visited(L)). % determines if the agent is able to move forward without negative consequences
+		isDesirableToTurnLeft :- toTheLeftOf(L), not(wall(L)), safe(L), not(visited(L)).
+		isDesirableToTurnRight :- toTheRightOf(L), not(wall(L)), safe(L), not(visited(L)).
+		isDesirableToTurnBack :- toTheBackOf(L), not(wall(L)), safe(L), not(visited(L)).
+		safe(L) :- noPitAt(L), noWumpusAt(L).
+
+		% mostDesirableLocation gives you the most disirable location to explore
+		distance([X1,Y1], [X2,Y2], D) :- D is +(abs(-(X1, X2)), abs(-(Y1, Y2))).
+		desirableLocations(L) :- safe(L), not(visited(L)), not(wall(L)).
+		desirableScore(P, D) :- desirableLocations(P), location(L), distance(L, P, D).
+		mostDesirableLocation(L) :- findall([P, D], desirableScore(P, D), S), findOptimalLocation(S, L, _).
+		findOptimalLocation([[P, D]|XS], OP, OD) :- findOptimalLocation2(XS, OP, OD, P, D).
+		findOptimalLocation2([], P, D, P, D).
+		findOptimalLocation2([[P, D]|XS], OP, OD, P2, D2) :- D < D2, findOptimalLocation2(XS, OP, OD, P, D).
+		findOptimalLocation2([[P, D]|XS], OP, OD, P2, D2) :- D >= D2, findOptimalLocation2(XS, OP, OD, P2, D2).
+
+
+		% determines if two locations are neighbors in a diagonal way or gives all diagonal neighbors of a location
+		isDiagonalOf([X1, Y1], [X2, Y2]) :- X2 is X1 + 1, Y2 is Y1 + 1.
+		isDiagonalOf([X1, Y1], [X2, Y2]) :- X2 is X1 - 1, Y2 is Y1 + 1.
+		isDiagonalOf([X1, Y1], [X2, Y2]) :- X2 is X1 + 1, Y2 is Y1 - 1.
+		isDiagonalOf([X1, Y1], [X2, Y2]) :- X2 is X1 - 1, Y2 is Y1 - 1.
+
+		% gives all common neighbors L3 of locations L1 and L2
+		commonNeighbor(L1, L2, L3) :- facingPos(L1, 0, L3), facingPos(L2, _, L3).
+		commonNeighbor(L1, L2, L3) :- facingPos(L1, 1, L3), facingPos(L2, _, L3).
+		commonNeighbor(L1, L2, L3) :- facingPos(L1, 2, L3), facingPos(L2, _, L3).
+		commonNeighbor(L1, L2, L3) :- facingPos(L1, 3, L3), facingPos(L2, _, L3).
+
+		% use these to get the location values for cells surrounding a position
+		eastOfPos(L, NextL) :- facingPos(L, 0, NextL).
+		northOfPos(L, NextL) :- facingPos(L, 1, NextL).
+		westOfPos(L, NextL) :- facingPos(L, 2, NextL).
+		southOfPos(L, NextL) :- facingPos(L, 3, NextL).
+
+		% use these to get the location values for cells surrounding the agent
+		eastOf(NextL) :- location(L), eastOfPos(L, NextL).
+		northOf(NextL) :- location(L), northOfPos(L, NextL).
+		westOf(NextL) :- location(L), westOfPos(L, NextL).
+		southOf(NextL) :- location(L), southOfPos(L, NextL).
+
+		myReverse(Xs,Ys) :- myReverse(Xs, [], Ys).
+		myReverse([X|Xs], Revs, Ys) :- myReverse(Xs, [X | Revs], Ys).
+		myReverse([], Ys, Ys).
+
+		% Compute next action for shortest path to Pos
+		% Assumes that agent currently is at initial position of path with current orientation
+		shortestPathTo(Pos,Action) :- location(From), orientation(Dir), shortestPathPlanner(From,Pos,Path1), myReverse(Path1,Path2), extract_plan(Path2,[Action|_],Dir,_).
+		shortestVisitedPathTo(Pos,Action) :- location(From), orientation(Dir), shortestVisitedPathPlanner(From,Pos,Path1), myReverse(Path1,Path2), extract_plan(Path2,[Action|_],Dir,_).
+		shortestPathToWumpus(Action) :- location(From), orientation(Dir), wumpusAt(Pos), shortestWumpusPathPlanner(From,Pos,Path1), myReverse(Path1,Path2), extract_plan(Path2,A,Dir,_), cutOffLastAction(A, [Action|_]).
+
+		cutOffLastAction([X|XS], Y) :- cutOffLastAction2(XS, Y, X).
+		cutOffLastAction2([], [], _).
+		cutOffLastAction2([X|XS], Y, Z) :- cutOffLastAction2(XS, A, X), append([Z], A, Y).
+
+		% Based on Lee Routing Algorithm in The Art of Prolog, pp. 275-276
+		shortestPathPlanner(From,To,Path) :- waves(To,[[From],[]],Waves), path(From,To,Waves,Path).
+		shortestVisitedPathPlanner(From,To,Path) :- wavesVisited(To,[[From],[]],Waves), path(From,To,Waves,Path).
+		shortestWumpusPathPlanner(From,To,Path) :- wavesWumpus(To,[[From],[]],Waves), path(From,To,Waves,Path).
+
+		waves(To,[Wave|Waves],Waves) :- member(To,Wave),!.
+		waves(To,[Wave,LastWave|LastWaves],Waves) :- next_wave(Wave,LastWave,NextWave), waves(To,[NextWave,Wave,LastWave|LastWaves],Waves).
+		wavesVisited(To,[Wave|Waves],Waves) :- member(To,Wave),!.
+		wavesVisited(To,[Wave,LastWave|LastWaves],Waves) :- next_waveVisited(Wave,LastWave,NextWave), wavesVisited(To,[NextWave,Wave,LastWave|LastWaves],Waves).
+		wavesWumpus(To,[Wave|Waves],Waves) :- member(To,Wave),!.
+		wavesWumpus(To,[Wave,LastWave|LastWaves],Waves) :- next_waveWumpus(Wave,LastWave,NextWave), wavesWumpus(To,[NextWave,Wave,LastWave|LastWaves],Waves).
+
+		next_wave(Wave,LastWave,NextWave) :- setof(X,admissible(X,Wave,LastWave),NextWave).
+		next_waveVisited(Wave,LastWave,NextWave) :- setof(X,admissibleVisited(X,Wave,LastWave),NextWave).
+		next_waveWumpus(Wave,LastWave,NextWave) :- setof(X,admissibleWumpus(X,Wave,LastWave),NextWave).
+
+		admissible(X,Wave,LastWave) :- neighbor(X,Wave), not(member(X,LastWave)), not(member(X,Wave)).
+		admissibleVisited(X,Wave,LastWave) :- neighborVisited(X,Wave), not(member(X,LastWave)), not(member(X,Wave)).
+		admissibleWumpus(X,Wave,LastWave) :- neighborWumpus(X,Wave), not(member(X,LastWave)), not(member(X,Wave)).
+		neighbor(Pos,Wave) :- member(Pos1,Wave), adjacent(Pos,Pos1), safe(Pos), not(wall(Pos)).
+		neighborVisited(Pos,Wave) :- member(Pos1,Wave), adjacent(Pos,Pos1), visited(Pos).
+		neighborWumpus(Pos,Wave) :- member(Pos1,Wave), adjacent(Pos,Pos1), wumpusAt(Pos).
+		neighborWumpus(Pos,Wave) :- member(Pos1,Wave), adjacent(Pos,Pos1), visited(Pos).
+		adjacent([X1,Y],[X2,Y]) :- next_to(X1,X2).
+		adjacent([X,Y1],[X,Y2]) :- next_to(Y1,Y2).
+
+		next_to(A,B) :- is(A,+(B,1)).
+		next_to(A,B) :- is(A,-(B,1)).
+
+		path(Pos,Pos,Waves,[Pos]) :- !.
+		path(Pos1,Pos2,[Wave|Waves],[Pos2|Path]) :- member(Pos,Wave), adjacent(Pos,Pos2), !, path(Pos1,Pos,Waves,Path).
+
+		planStep([Pos1,Pos2],[forward],Dir,Dir) :- facingPos(Pos1,Dir,Pos2).
+		planStep([Pos1,Pos2],[turn(left),forward],Dir,NewDir) :- NewDir is mod(Dir + 1, 4), facingPos(Pos1,NewDir,Pos2).
+		planStep([Pos1,Pos2],[turn(right),forward],Dir,NewDir) :- NewDir is mod(Dir + 3, 4), facingPos(Pos1,NewDir,Pos2).
+		planStep([Pos1,Pos2],[turn(left),turn(left),forward],Dir,NewDir) :- NewDir is mod(Dir + 2, 4), facingPos(Pos1,NewDir,Pos2).
+
+		extract_plan([],[],_,_).
+		extract_plan([Pos],[],_,_).
+		extract_plan([Pos1,Pos2|Path],Plan,Dir,_) :- planStep([Pos1,Pos2],Plan1,Dir,NewDir), extract_plan([Pos2|Path],Plan2,NewDir,_), append(Plan1,Plan2,Plan).
+	}
+
+	beliefs{
+		% initial position
+		at([0,0],0).
+
+		% has only one (current) value in the belief base
+		clock(-1).
+
+		% the current state of the agent, stating an idea of what to do next (due to the lack of the ability to adopt or drop goals in the percept rules)
+		% possible states are:
+		% init:			the initial state (will become idle at the beginning of the first cycle)
+		% idle:			when the state has yet to be determined (the state is reset to this at the beginning of each cycle)
+		% doForward:	it is desirable for the agent to move forward
+		% doTurn:		it is desirable for the agent to make a turn
+		% explore:		it is not obvious whether the agent should go forward or make a turn, so go explore somewhere else
+		% grabGold:		the agent is standing on the gold, which he has to pick up the first chance he gets
+		% shootWumpus:the agent is done exploring and has to kill the wumpus in order to explore further
+		% getOut:		when the agent has the gold or has no places left to explore he should get out of the cave
+		% done:			when the agent thinks he is outside the cave
+		state(init).
+
+		% just like clock() there is only one (current) value in the belief base
+		% when rotate actions have to be done:
+		% decrease the orientation index to rotate left
+		% increase the orientation index to rotate right
+		% but keep the index bounded between [0,3]
+		orientation(0). %east
+
+		% miscellaneous initial beliefs
+		hasarrow.
+		wumpusisalive.
+		noPitAt([0,0]).
+		noWumpusAt([0,0]).
+
+	}
+
+	goals{
+		hasgold,
+		getoutofthiscave.
+	}
+
+	program{
+		if bel( state(getOut), at(S, 0), shortestVisitedPathTo(S, turn(left)) ) then turn(left).
+		if bel( state(getOut), at(S, 0), shortestVisitedPathTo(S, forward) ) then forward.
+		if bel( state(getOut), at(S, 0), shortestVisitedPathTo(S, turn(right)) ) then turn(right).
+		if bel( state(getOut), location(L), at(L, 0) ) then climb.
+		if bel( state(shootWumpus), wumpusAt(W), inFrontOf(W) ) then shoot.
+		if bel( state(shootWumpus), wumpusAt(W), location(L), orientation(Dir), DirL is mod(Dir + 1, 4), facingPos(L, DirL, W) ) then turn(left).
+		if bel( state(shootWumpus), wumpusAt(W), location(L), orientation(Dir), DirR is mod(Dir + 3, 4), facingPos(L, DirR, W) ) then turn(right).
+		if bel( state(shootWumpus), wumpusAt(W), location(L), not(facingPos(L, _, W)), shortestPathToWumpus(turn(left)) ) then turn(left).
+		if bel( state(shootWumpus), wumpusAt(W), location(L), not(facingPos(L, _, W)), shortestPathToWumpus(forward) ) then forward.
+		if bel( state(shootWumpus), wumpusAt(W), location(L), not(facingPos(L, _, W)), shortestPathToWumpus(turn(right)) ) then turn(right).
+		if bel( state(grabGold) ) then grab.
+		if bel( state(doTurn), isDesirableToTurnBack ) then turn(left).
+		if bel( state(doTurn), isDesirableToTurnLeft ) then turn(left).
+		if bel( state(doTurn), isDesirableToTurnRight ) then turn(right).
+		if bel( state(doForward) ) then forward.
+		if bel( state(explore), exploreDestination(D), shortestPathTo(D, turn(left)) ) then turn(left).
+		if bel( state(explore), exploreDestination(D), shortestPathTo(D, turn(right)) ) then turn(right).
+		if bel( state(explore), exploreDestination(D), shortestPathTo(D, forward) ) then forward.
+		if bel( state(idle) ) then noAction.
+	}
+
+	actionspec{
+			forward {
+				pre{ clock(T), inFrontOf(NextL), NextT is T + 1 }
+				post{ at(NextL, NextT) }
+			}
+
+			turn(right) {
+				pre{ orientation(OldDir), NewDir is mod(OldDir + 3, 4), noForwardAction(L, NextT) }
+				post{ not(orientation(OldDir)), orientation(NewDir), at(L, NextT) }
+			}
+
+			turn(left) {
+				pre{ orientation(OldDir), NewDir is mod(OldDir + 1, 4), noForwardAction(L, NextT) }
+				post{ not(orientation(OldDir)), orientation(NewDir), at(L, NextT) }
+			}
+
+			grab {
+				pre{ goldAt(L), noForwardAction(L, NextT), state(grabGold) }
+				post{ not(state(grabGold)), state(getOut), hasgold, not(goldAt(L)), at(L, NextT) }
+			}
+
+			shoot {
+				pre{ hasarrow, noForwardAction(L, NextT) }
+				post{ not(hasarrow), at(L, NextT) }
+			}
+
+			climb {
+				pre{ location(L), at(L, 0), state(getOut) }
+				post{ not(state(getOut)), state(done), getoutofthiscave }
+			}
+
+			noAction {
+				pre{ true }
+				post{ foo }
+			}
+	}
+
+	
+}
+
+
+======================== PERCEPT RULES =========================================
+
+
+
+
+perceptrules{
+		when input{ percept([_,_,_,_,_],T), clock(OldT) } do update{ not(clock(OldT)), clock(T) }. % update the time
+
+		when input{ state(explore), location(L), exploreDestination(L) } do update{ not(exploreDestination(L)) }. % when explore destination reached remove it
+		when input{ not(state(idle)), not(state(getOut)), not(state(done)), state(S) } do update{ not(state(S)), state(idle) }. % reset the state
+
+		% handle percepts
+		when input{ percept([breeze,_,null,_,_],T), at(L, T) } do update{ breezy(L) }.
+		when input{ percept([_,stench,null,_,_],T), at(L, T) } do update{ smelly(L) }.
+		when input{ percept([_,_,bump,_,_],T), revertPos(T, AgentL, WallL) } do update{ not(at(WallL,T)), wall(WallL), at(AgentL, T) }. 
+		when input{ percept([_,_,null,scream,_],T), wumpusAt(W) } do update{ not(wumpusisalive), not(wumpusAt(W)), noWumpusAt(W) }.
+		when input{ percept([_,_,null,_,glitter],T), at(L, T), state(S) } do update{ not(state(S)), goldAt(L), state(grabGold) }.
+		when input{ percept([_,null,null,null,_],T), location(L), facingPos(L,_, NeighborL) } do update{ noWumpusAt(NeighborL) }.
+		when input{ percept([null,_,null,null,_],T), location(L), facingPos(L,_, NeighborL) } do update{ noPitAt(NeighborL) }.
+
+		% find the pits
+		when input{ breezy(B), facingPos(B, _, L1), facingPos(B, _, L2), facingPos(B, _, L3), facingPos(B, _, L4), not(L1 = L3), not(L2 = L4), isDiagonalOf(L1, L2),isDiagonalOf(L2, L3), isDiagonalOf(L3, L4), noPitAt(L1), noPitAt(L2), noPitAt(L3) } do update{ pitAt(L4) }.
+
+		% find the wumpus
+		when input{ smelly(L1),isDiagonalOf(L1,L2), smelly(L2), commonNeighbor(L1, L2, L3), noWumpusAt(L3),commonNeighbor(L1, L2, L4), not(noWumpusAt(L4)) } do update{ wumpusAt(L4) }.
+		when input{ smelly(S1), smelly(S2), not(S1 = S2), facingPos(S1,Dir1,L1), facingPos(S2,Dir2,L1), Dir3 is mod(+(Dir1, Dir2), 4), Dir3 = 0 } do update{ wumpusAt(L1) }.
+		when input{ smelly(S), facingPos(S, _, L1), facingPos(S, _, L2), facingPos(S, _, L3), facingPos(S, _, L4), not(L1 = L3), not(L2 = L4), isDiagonalOf(L1, L2),isDiagonalOf(L2, L3), isDiagonalOf(L3, L4), noWumpusAt(L1), noWumpusAt(L2), noWumpusAt(L3) } do update{ wumpusAt(L4) }.
+		when input{ wumpusAt(L1), smelly(L2), facingPos(L2,_, L3), not(L1 = L3) } do update{ noWumpusAt(L3) }.
+
+		% updating the state of the agent so that it becomes easier to determine the next action
+		% state(grabGold) is already updated above, so don't touch it
+		when input{ state(idle), isDesirableToForward } do update{ not(state(idle)), state(doForward) }.
+		when input{ state(idle), isDesirableToTurnBack } do update{ not(state(idle)), state(doTurn) }.
+		when input{ state(idle), isDesirableToTurnLeft } do update{ not(state(idle)), state(doTurn) }.
+		when input{ state(idle), isDesirableToTurnRight } do update{ not(state(idle)), state(doTurn) }.
+		when input{ state(idle), not(desirableLocations(_)), wumpusAt(W), hasarrow, noPitAt(W) } do update{ not(state(idle)), state(shootWumpus) }.
+		when input{ state(idle), not(desirableLocations(_)) } do update{ not(state(idle)), state(getOut) }.
+		when input{ state(idle), exploreDestination(L) } do update{ not(state(idle)), state(explore) }.
+		when input{ state(idle), mostDesirableLocation(L) } do update{ not(state(idle)), state(explore), exploreDestination(L) }.
+
+		% exploreDestination opruimen indien nodig
+		when input{ not(state(explore)), exploreDestination(D) } do update { not(exploreDestination(D)) }.
+	}
+	
+	
+============================ SLICING RESULTS ===================================
+	
+	
+	

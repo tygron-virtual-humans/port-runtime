@@ -1,0 +1,14 @@
+%Correct: minimal version
+
+masTest {
+
+	mas 		= 	"correctSameNameDifferentGOALFiles.mas2g".
+
+	agentUnderTest {
+		test { 
+			do modulePiUnderTest.
+		}
+	}
+	
+	
+}

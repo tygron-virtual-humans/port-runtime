@@ -1,0 +1,209 @@
+main: wumpusAgent
+{
+	knowledge{
+		% Encodes the structure of the world: grid shaped, four possible directions
+		nextDir(left,e,n). nextDir(left,n,w). nextDir(left,w,s). nextDir(left,s,e).
+		nextDir(right,X,Y) :- nextDir(left,Y,X).
+		nextPos(e,[X,Y],[X2,Y]) :- X2 is X+1.
+		nextPos(w,[X,Y],[X2,Y]) :- X2 is X-1.
+		nextPos(n,[X,Y],[X,Y2]) :- Y2 is Y+1.
+		nextPos(s,[X,Y],[X,Y2]) :- Y2 is Y-1.
+
+		% Link two locations by a move. Can be used to find moves or locations
+		getmove(Pos/Dir,forward,NewPos/Dir) :- nextPos(Dir,Pos,NewPos).
+		getmove(Pos/Dir,turn(LR),Pos/NewDir) :- nextDir(LR,Dir,NewDir).
+
+		% Planner: Given a start position it tries to find the
+		% startest route via locations accepted by Allowed/1 to get
+		% to a location accepted by Wanted/1
+
+                % If we are at a suitable location, return an empty plan
+                planner(Pos/Dir,Allowed,Wanted,[]) :- mycall(Wanted,Pos/Dir).
+                % Initialise the planner with the current location
+                % Arg 1: The list of new locations in the current wave
+                % Arg 2: Predicate to give allowed location to travel by
+                % Arg 3: Prdicate to give locations we want to end up
+                % Arg 4: List of pair of adjecent locations, used for building plan
+                % Arg 5: Plan returned
+                % Arg 6: Start point of this plan, used in recursion
+                planner(Pos/Dir,Allowed,Wanted,Plan) :- nextsteps([Pos/Dir],Allowed,Wanted,[[Pos/Dir,Pos/Dir]],Plan,_).
+                % Step 1: Check if we can reach a suitable location from here
+                nextsteps( Curr, Allowed, Wanted, Been, [FoundMove], PrevPos ) :-
+                        setof( Move, nextstep( Curr, Allowed, Been, Move ), Moves ),  % Get next available moves
+                        sublist( filterMove(Wanted), Moves, WantedMoves ),            % If there's a good one
+                        member( [PrevPos,Pos], WantedMoves ), !, getmove(PrevPos, FoundMove, Pos). % Return it
+                % Step 2: No suitable location found, find all new location we can reach and recurse
+                nextsteps( Curr, Allowed, Wanted, Been, [FoundMove | FoundMoves], PrevPos ) :-
+                        setof( Move, nextstep( Curr, Allowed, Been, Move ), Moves ),  % Get available new locations
+                        sublist( filterMove(Wanted), Moves, [] ),                     % Check they're not wanted
+                        setof( Pos, X^member([X,Pos], Moves), NewPlaces ),            % Extract lit of places we have been yet
+                        append( Moves, Been, NewBeen ),                               % Add them to the Been list
+                        nextsteps( NewPlaces, Allowed, Wanted, NewBeen, FoundMoves, Pos ), % Recurse
+                % Now FoundMoves is the Plan to the nearest location starting at Pos. So we search the Moves list to 
+                % find out how we got to Pos, add that move to the plan and return
+                        member( [PrevPos,Pos], Moves), getmove(PrevPos,FoundMove,Pos).
+                % Tests if given move satisfies predicate
+                filterMove( Term, [_,Pos] ) :- maplist(Term,[Pos]).
+                % Find all possible next moves, given the current locations, excluding places we've already been and places which are not allowed.
+                nextstep( [Pos|_], Allowed, Been, [Pos,NewPos]) :- getmove(Pos,_,NewPos), not(member([_,NewPos],Been)), maplist(Allowed,[NewPos]).
+                nextstep( [_|T], Allowed, Been, Res ) :- nextstep( T, Allowed, Been, Res ).
+
+		% Useful statements about the world, for use with planner
+		safe(X/_) :- visited(X).
+		safe(X/_) :- wumpusAt(Y), not(Y = X), noPitAt(X), not(wallAt(X)).
+		safe(X/_) :- noPitAt(X), noWumpusAt(X), not(wallAt(X)). 
+		toexplore(X/_) :- safe(X/_), not(visited(X)), not(wallAt(X)).
+		caveexit([1,1]/_).
+		visited(X/_) :- visited(X).
+		posToKillWumpus(Pos/Dir) :- wumpusAt(X), nextPos(Dir, Pos, X).
+		posChanceToKillWumpus(Pos/Dir) :- wumpusAtList(X), member(Wumpus,X), nextPos(Dir,Pos,Wumpus).
+
+		% More common rules
+		noWallAt(X) :- visited(X).
+		% Dummy rules so program works
+		wallAt(null) :- fail. 
+		visited(null) :- fail.
+		goldAt(_) :- hasgold, !, fail.
+		wumpusAt(null) :- fail.
+		noWumpusAtFound(null) :- fail.
+		
+		% set of posible wumpus positions nearby smelly fields without the directions:
+		nearSmelly(P) :- smelly(X), setof(N,Dir^(nextPos(Dir,X,N),not(noWumpusAt(N))),P).
+		% List of positions where the Wumpus could be
+		wumpusAtList(T) :- setof(Z,S^(setof(P,X^N^(nearSmelly(P)),S),maplist(member(Z),S)),T).
+		% Wumpus is at position:
+		wumpusAt(Wumpus) :- wumpusAtList([Wumpus]).
+		% there is no wumpus anymore when it is killed
+		noWumpusAt(_) :- not(wumpusisalive).
+		% when we shoot at a position, there is no wumpus there, even when we didn't kill it
+		noWumpusAt(X) :- shotAt(X).
+		
+		% Get out if we can't find anything after a while.
+			get_plan(Plan) :- time(T), T > 1400, pos(Pos), dir(Dir), planner(Pos/Dir, visited, caveexit, Plan), !. % assert(exiting), !.
+		% Never make plan on gold
+			get_plan(Plan) :- pos(Pos), goldAt(Pos), !, fail.
+		% if wumpus found, kill it (we're still on the smelly spot, but turn to the right position)
+			get_plan(Plan) :- not(hasgold), pos(Pos), dir(Dir), wumpusAt(_), hasarrow, planner(Pos/Dir, visited, posToKillWumpus, Plan), !.
+		% explore the world
+			get_plan(Plan) :- not(hasgold), pos(Pos), dir(Dir), planner(Pos/Dir, safe, toexplore, Plan), !.
+		% still no gold, maybe the tutors have hidden the gold good, lets try to kill wumpus maybe we will find it then
+			get_plan(Plan) :- not(hasgold), pos(Pos), dir(Dir), hasarrow, planner(Pos/Dir, visited, posChanceToKillWumpus, Plan), !.
+		% When you eliminate the impossible, whatever remains -- however improbable -- must be the truth (Sir Arthur Conan Doyle).
+			get_plan(Plan) :- pos(Pos), dir(Dir), planner(Pos/Dir, visited, caveexit, Plan), !. % assert(exiting), !.
+	}
+
+	beliefs{
+		hasarrow.
+		wumpusisalive.
+		pos([1,1]).
+		prevpos([1,1]).
+		dir(e).
+		plan([]).
+		time(0).
+	}
+
+	goals{
+		hasgold,
+		getoutofthiscave.
+	}
+
+	program{
+		% move according to plan
+		if bel( plan([forward|Plan]) ) then forward.
+		if bel( plan([turn(LR)|Plan]) ) then turn(LR).
+		
+		%  make plan when plan ended or no plan yet
+		if bel( plan([]) ) then stop_plan.
+		
+		% if on gold grab it
+		if bel (pos(Pos)), bel (goldAt(Pos)) then grab.
+		
+		% if aiming at wumpus, shoot it
+		if bel(pos(Pos), dir(Dir), posToKillWumpus(Pos/Dir), hasarrow) then shoot.
+		
+		% take chance of aiming at wumpus and shoot at that spot.
+		if bel(pos(Pos), dir(Dir), not(plan(_)), not(planner(Pos/Dir,safe,toexplore,_)), posChanceToKillWumpus(Pos/Dir), hasarrow) then shoot.
+		
+		% if at cave entrance, then axit the cave if we have the gold.
+		if bel ( pos(Pos), caveexit(Pos/_), hasgold) then climb.
+		
+		% exit when wanted :)
+		if bel(pos(Pos), caveexit(Pos/_), exiting ) then climb.
+		
+		% find a path to our purpose in life
+		if bel(not(plan(_)), get_plan(Plan)) then start_plan(Plan).
+	}
+
+	actionspec{
+			start_plan(Plan) {
+				pre{ not(plan(_)) }
+				post{ plan(Plan) }
+			}
+			stop_plan {
+				pre{ plan(Plan) }
+				post{ not(plan(Plan)) }
+			}
+			forward {
+				pre{ plan([forward|Plan]), pos(Pos), dir(Dir), nextPos(Dir,Pos,NextPos) }
+				post{ plan(Plan), not(plan([forward|Plan])), not(pos(Pos)), prevpos(Pos), pos(NextPos) }
+			}
+			turn(LR) {
+				pre{ plan([turn(LR)|Plan]), pos(Pos), dir(Dir), nextDir(LR,Dir,NextDir) }
+				post{ plan(Plan), not(plan([turn(LR)|Plan])), not(dir(Dir)), dir(NextDir) }
+			}
+			grab {
+				pre{ pos(Pos), goldAt(Pos) }
+				post{ hasgold }
+			}
+			climb {
+				pre{ pos(Pos), caveexit(Pos/_) }
+				post{ getoutofthiscave }
+			}
+			shoot {
+				pre{ pos(Pos), dir(Dir), hasarrow, nextPos(Dir, Pos, NextPos) }
+				post{ not(hasarrow), shotAt(NextPos)}
+			}
+	}
+
+}
+
+======================== PERCEPT RULES =========================================
+
+	perceptrules{
+		% percept([BR,ST,BU,SC,GL],T)
+		% Bump must be first to keep location correct
+		when input{ percept([_,_,bump,_,_],T), prevpos(PrevPos), pos(Pos) } do update{ not(prevpos(PrevPos)), not(pos(Pos)), pos(PrevPos), wallAt(Pos) }.
+		when input{ percept([_,_,bump,_,_],T), plan(Plan) } do update{ not(plan(Plan)) }.
+		when input{ percept([_,_,null,_,_],T), pos(Pos), prevpos(PrevPos) } do update{ visited(Pos),  not(prevpos(PrevPos)) }.
+		
+		% If no breeze then mark surrounding square pit-free
+		when input{ percept([breeze,_,_,_,_],T), pos(X) } do update{ breezy(X) }.
+		when input{ percept([null,_,_,_,_],T), pos(X), nextPos(_,X,Neighbour), not(visited(Neighbour)), not(wallAt(Neighbour)) } 
+                   do update{ noPitAt(Neighbour) }.
+		
+		% If no stench then mark surrounding squares wumpus-free
+		when input{ percept([_,stench,_,_,_],T), pos(X) } do update{ smelly(X) }.
+		when input{ percept([_,null,_,_,_],T), pos(X), nextPos(_,X,Neighbour), not(visited(Neighbour)), not(wallAt(Neighbour)) } 
+                   do update{ noWumpusAt(Neighbour) }.
+		
+		% If glitter mark location of gold and kill the plan
+		when input{ percept([_,_,_,_,glitter],T), pos(Pos) } do update{ goldAt(Pos) }.
+		when input{ percept([_,_,_,_,glitter],T), plan(Plan) } do update{ not(plan(Plan)) }.
+		
+		% If we hear a scream the monster is dead
+		when input{ percept([_,_,_,scream,_],T) } do update { not(wumpusisalive) }.
+		
+		% Keep time
+		when input{ percept([_,_,_,_,_],T), time(Old)} do update {not(time(Old)), time(T)}.
+	}
+	
+============================ SLICING RESULTS ===================================
+
+
+if this.bel(pos(Pos) , caveexit(Pos / _) , exiting) then climb.
+if this.bel(pos(Pos) , caveexit(Pos / _) , hasgold) then climb.
+
+[SLICER] retained 7 of 9 rules
+
+Functors: {hasarrow}
+

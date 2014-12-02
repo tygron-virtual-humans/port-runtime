@@ -1,0 +1,124 @@
+main: deliveryAgent {
+	
+    knowledge {
+		
+		loaded_order(C) :- not(not_loaded_order(C)).
+		not_loaded_order(C) :- order(C,P), not(loaded(P)).
+		
+		delivered_order(C) :- not(not_delivered_order(C)).
+		not_delivered_order(C) :- 
+			customerAt(C,X), order(C,P), not(packageAt(P,X)).
+		
+		customerAt(c1,b).
+		order(c1,p0). order(c1,p1). order(c1,p2). order(c1,p3). order(c1,p4).
+		 
+		customerAt(c2,c).
+		order(c2,p5). order(c1,p6). order(c1,p7). order(c1,p8). order(c1,p9).
+		
+		depotAt(a).
+	}
+	beliefs { 
+		
+		% location of packages
+		packageAt(p0,a). packageAt(p1,a). packageAt(p2,a). packageAt(p3,a).
+		packageAt(p4,a). packageAt(p5,a). packageAt(p6,a). packageAt(p7,a).
+		packageAt(p8,a). packageAt(p9,a).
+		 
+		% location of truck
+		truckAt(a).
+    }
+	goals {
+		delivered_order(c1).
+		delivered_order(c2).
+	}
+	program {
+		
+		% pick a new order for delivery
+%		if		not(bel(current_order(D))), goal(delivered_order(C))
+%		then	insert(current_order(C)).
+		
+		% only load packages for the current customer, and do not re-load packages just unloaded to the customer
+%		if		goal(delivered_order(C)), 
+%				bel(current_order(C), order(C,P), customerAt(C,X)), 
+%				not(bel(loaded(P))), 
+%				not(bel(truckAt(X))) 
+%		then 	load(P).
+		
+		% go to the customer iff the truck is full 
+%		if		goal(delivered_order(C)), 
+%				bel(current_order(C), loaded_order(C), truckAt(X), customerAt(C,Y)) 
+%		then	goto(Y).
+		
+		% deliver packages when the truck has arrived
+%		if		goal(delivered_order(C)), 
+%				bel(current_order(C), truckAt(X), customerAt(C, X), loaded(P), order(C,P)) 
+%		then	unload(P).
+		
+		% go home if the order has been delivered
+%		if		bel(current_order(C), depotAt(X)),
+%				not(goal(delivered_order(C)))
+%		then	delete(current_order(C)) + goto(X).
+		
+		if not(goal(delivered_order(C))) then insert(done).
+		
+		module deliver_order{
+			context[focusmethod=filter]{ 
+				goal(delivered_order(C)) 
+			}
+			goals{
+				delivered_order(C), truckAt(a).
+			}
+			program{
+				
+				if		a-goal(delivered_order(C)),
+						bel(not_loaded_order(C))
+				then	adopt(loaded_order(C)).
+				
+				module load_order{
+					context[focusmethod=filter]{
+						goal(loaded_order(C)) 
+					}
+					program{
+						if		goal(loaded_order(C)), 
+								bel(order(C,P))
+						then 	load(P).
+					}
+				}
+				
+				if		goal(delivered_order(C)),
+						bel(loaded_order(C), customerAt(C,Y)) 
+				then	goto(Y).
+				
+				module unload_order{
+					context[focusmethod=filter]{ 
+						goal(delivered_order(C)),
+						bel(loaded_order(C), truckAt(X), customerAt(C,X))
+					}
+					program{
+						if		goal(delivered_order(C)),
+								bel(order(C,P))
+						then	unload(P).
+					}
+				}
+				
+				if		goal(delivered_order(C)),
+						bel(not(loaded_order(C)), truckAt(X), customerAt(C,X), depotAt(Y))
+				then	goto(Y).
+			}
+		}
+	}
+	actionspec{
+		load(P){
+			pre{ truckAt(X), packageAt(P,X) }
+			post{ loaded(P), not(packageAt(P,X)) }
+		}
+		goto(Y){
+			pre{ truckAt(X), not(X=Y) }
+			post{ truckAt(Y), not(truckAt(X))}
+		}
+		unload(P){
+			pre{ truckAt(X), loaded(P), not(packageAt(P,X)) }
+			post{ packageAt(P,X), not(loaded(P)) } 
+		}
+	}
+}

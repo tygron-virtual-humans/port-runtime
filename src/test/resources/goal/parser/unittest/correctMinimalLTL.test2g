@@ -1,0 +1,17 @@
+%Correct: minimal version of evaluate in statement.
+
+masTest {
+
+	mas 		= 	"correctMasUnderTest.mas2g".
+
+	agentUnderTest {
+		
+		test {
+		
+			evaluate {
+			
+			} in do moduleUnderTest(identifier, 42, 0.42, function).
+
+		}		
+	}
+}

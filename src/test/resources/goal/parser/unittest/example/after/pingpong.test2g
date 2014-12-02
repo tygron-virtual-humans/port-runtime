@@ -1,0 +1,22 @@
+masTest {
+
+	mas = "pingpong.mas2g".
+	timeout = 10. %seconds
+	
+	ping {
+		test { 
+			do waitFor(pong).
+		
+			evaluate {
+				atend bel(received(pong,pong)).
+			} in do pong.send(ping) + wait(3).
+			
+			do reply.
+		}
+	
+		after {
+			do pong.send(shutdown).
+		}	
+	}
+
+}

@@ -1,0 +1,9 @@
+agentfiles{
+	"pingpong.goal".
+}
+
+launchpolicy{
+	launch ping : pingpong.
+	launch pong : pingpong.
+}
+

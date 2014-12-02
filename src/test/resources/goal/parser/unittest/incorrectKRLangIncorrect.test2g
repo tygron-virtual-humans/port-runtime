@@ -1,0 +1,22 @@
+masTest {
+
+	mas = "correctMasUnderTest.mas2g".
+
+	agentUnderTest {
+		
+		before { do beforeModule. }
+		
+		test { 
+		
+			do moduleUnderTest(****, ****, ****, ****).
+			assert bel(beforeModule).
+			assert bel(moduleUnderTest) : "Messsage".
+			asert bel(not(afterModule)).
+		}
+		
+		after {	do afterModule(something,something). }
+
+		
+	}
+	
+}

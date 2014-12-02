@@ -1,0 +1,15 @@
+masTest {
+
+	mas 		= 	"moduleTwoArguments.mas2g".
+
+	agent {
+		test {
+		
+			evaluate {
+				atend bel(twoArguments(1,2)).
+				atend bel(twoArgumentsDone).
+			} in do twoArguments(1,2).
+		
+		}
+	}
+}

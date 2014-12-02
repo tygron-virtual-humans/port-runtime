@@ -1,0 +1,11 @@
+masTest {
+
+	mas = "split.mas2g".
+	timeout = 5.
+	
+	split1 {
+		test {
+			do main.
+		}
+	}
+}

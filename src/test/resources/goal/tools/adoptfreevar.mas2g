@@ -1,0 +1,11 @@
+
+agentfiles{
+	% insert (list of) agent file references below.
+	"adoptfreevar.goal" [name = filename] .
+}
+
+launchpolicy{
+	% insert appropriate launch rules for your environment and agents below.
+	launch agentName : filename .
+}
+

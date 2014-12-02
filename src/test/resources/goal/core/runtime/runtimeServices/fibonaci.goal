@@ -1,0 +1,23 @@
+% test what happens if adopting goals with free vars.
+% It should throw an IllegalStateException.
+
+init module {
+	
+	knowledge {
+	
+		fib(0,0).
+		fib(1,1).
+		fib(X,Y) :- X > 1, 
+					X2 is X - 2, fib(X2, Y2),
+					X1 is X - 1, fib(X1, Y1),
+					Y is Y1 + Y2.
+	
+	}
+
+}
+	
+main module [exit=nogoals] {
+	program{
+		if bel(fib(24,Y)) then insert(fib(Y)).
+	}
+}

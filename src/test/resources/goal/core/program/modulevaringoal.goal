@@ -1,0 +1,21 @@
+% test if module param is passed into the goalbase of the submodule
+
+
+main module [exit=nogoals] {
+	program{
+		if bel(result(X)) then exit-module.
+		
+		% do module call with parameter.
+		if bel(true) then test(12).
+	}
+}
+
+module test(X) [focus=new, exit=always] {
+	goals {
+		aap(X).
+	}
+	program [order=linear] {
+		if goal(aap(Y)), bel(Y==12) then insert(result(ok)).
+		if bel(true) then insert(result(failure)).
+	}
+}

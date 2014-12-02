@@ -1,0 +1,10 @@
+masTest {
+
+	mas 		= "correctMasUnderTest.mas2g".
+
+	agentUnderTest {
+		
+		test { do moduleUnderTest. }
+		
+	}
+}

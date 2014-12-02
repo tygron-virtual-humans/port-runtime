@@ -1,0 +1,72 @@
+init module {
+
+	actionspec {
+	
+		skip@int {
+			pre{}
+			post{}
+		}
+	}
+
+}
+
+main module [exit=nogoals] {
+	
+	program{
+		if true then exit-module.
+	}
+}
+
+%%
+%
+% Waits for 'duration' seconds. 
+%
+%%
+module wait(Duration) [focus=new,exit=nogoals] {
+
+	knowledge {
+		passedSinceStart(Duration) :- start(Start),passedSince(Duration,Start).
+		passedSince(Duration,Start):- get_time(Now), durationLt(Start,Now,Duration).
+		durationLt(Start,End,Duration) :- duration(Start,End,Duration2), Duration2 >= Duration. 
+		duration(Start,End,Duration) :- Duration is End - Start.
+	}
+
+	goals{
+		wait.
+	}
+	
+	program {
+		if bel(not(start(_)), get_time(Now)) then insert(start(Now)).
+		if bel(passedSinceStart(Duration),start(Then)) then delete(start(Then)) + exit-module.
+	}
+	
+	actionspec {
+		skip@int {
+			pre{}
+			post{}
+		}
+	}
+}
+
+module reply [exit=noaction]{
+
+	program {
+		if bel(received(X,ping)) then delete(received(X,ping))+ X.send(pong).
+		if bel(received(X,pong)) then delete(received(X,pong)) + X.send(ping).
+	}
+}
+
+
+module waitFor(Agent) [focus=new,exit=nogoals] {
+
+	goals{
+		agent(Agent).
+	}
+
+	program {
+		if true then skip.
+	}
+}
+
+
+	

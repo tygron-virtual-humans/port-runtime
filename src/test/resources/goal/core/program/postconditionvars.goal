@@ -1,0 +1,31 @@
+% test what happens if adopting goals with free vars.
+% It should throw an IllegalStateException.
+
+init module {
+	beliefs {
+		aap(1).
+	}
+
+}
+	
+main module [exit=nogoals] {
+	program [order=linearall] {
+		if bel(true) then testaction.
+		
+		% if old predicate still there, the retract part of the postcond failed.
+		if bel(aap(X)) then insert(result(failure)) + exit-module.
+		
+		% if post condition of testaction succeeds, we would get here.
+		% we deliberatly test beer(Y) to see if that fixes Y.
+		if bel(beer(Y), Y==1) then insert(result(ok)) + exit-module.
+		
+		if bel(true) then insert(failure) + exit-module.
+	}
+	
+	actionspec {
+		testaction {
+		pre {aap(X)}
+		post { not(aap(X)), beer(X) }
+		}
+	}
+}

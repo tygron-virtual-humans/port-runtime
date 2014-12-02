@@ -1,0 +1,12 @@
+environment{
+	env = "../../../../../../../../../GOALagents/BlocksWorld/blocksworld/blocksworld.jar".
+	init = [start=[2,3,0,5,0,7,0,6,8], gui="true"].
+}                  
+
+agentfiles {
+	"stackBuilder.goal".
+}
+
+launchpolicy {
+    when entity@env do launch stackbuilder:stackBuilder. 
+}

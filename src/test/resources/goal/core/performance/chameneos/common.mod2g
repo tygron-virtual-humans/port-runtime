@@ -1,0 +1,5 @@
+module printMessage(X) {
+    program {
+	    if bel(me(Me), string_concat(Me,  ': ', StrMe), string_concat(StrMe, X, StrP), print_message(informational, StrP)) then exit-module.	
+	}
+} 

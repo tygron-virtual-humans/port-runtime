@@ -1,0 +1,65 @@
+main: ag
+{
+	knowledge {
+	}
+	beliefs {
+		on(aa,table) .
+		on(ab,aa) .
+		on(ac,ab) .
+		clear(ac) .
+		on(ad,table) .
+		on(ae,ad) .
+		on(af,ae) .
+		clear(af) .
+	}
+	goals {
+		on(aa,table) , on(ab,table) , on(ac,table) , on(ad,table) , on(ae,table) , on(af,table) .
+	}
+	program {
+		if bel(clear(aa)) , bel(on(aa,aa)) then moveXfromYtoTable(aa,aa) . 
+		if bel(clear(aa)) , bel(on(aa,ab)) then moveXfromYtoTable(aa,ab) . 
+		if bel(clear(aa)) , bel(on(aa,ac)) then moveXfromYtoTable(aa,ac) . 
+		if bel(clear(aa)) , bel(on(aa,ad)) then moveXfromYtoTable(aa,ad) . 
+		if bel(clear(aa)) , bel(on(aa,ae)) then moveXfromYtoTable(aa,ae) . 
+		if bel(clear(aa)) , bel(on(aa,af)) then moveXfromYtoTable(aa,af) . 
+		if bel(clear(ab)) , bel(on(ab,aa)) then moveXfromYtoTable(ab,aa) . 
+		if bel(clear(ab)) , bel(on(ab,ab)) then moveXfromYtoTable(ab,ab) . 
+		if bel(clear(ab)) , bel(on(ab,ac)) then moveXfromYtoTable(ab,ac) . 
+		if bel(clear(ab)) , bel(on(ab,ad)) then moveXfromYtoTable(ab,ad) . 
+		if bel(clear(ab)) , bel(on(ab,ae)) then moveXfromYtoTable(ab,ae) . 
+		if bel(clear(ab)) , bel(on(ab,af)) then moveXfromYtoTable(ab,af) . 
+		if bel(clear(ac)) , bel(on(ac,aa)) then moveXfromYtoTable(ac,aa) . 
+		if bel(clear(ac)) , bel(on(ac,ab)) then moveXfromYtoTable(ac,ab) . 
+		if bel(clear(ac)) , bel(on(ac,ac)) then moveXfromYtoTable(ac,ac) . 
+		if bel(clear(ac)) , bel(on(ac,ad)) then moveXfromYtoTable(ac,ad) . 
+		if bel(clear(ac)) , bel(on(ac,ae)) then moveXfromYtoTable(ac,ae) . 
+		if bel(clear(ac)) , bel(on(ac,af)) then moveXfromYtoTable(ac,af) . 
+		if bel(clear(ad)) , bel(on(ad,aa)) then moveXfromYtoTable(ad,aa) . 
+		if bel(clear(ad)) , bel(on(ad,ab)) then moveXfromYtoTable(ad,ab) . 
+		if bel(clear(ad)) , bel(on(ad,ac)) then moveXfromYtoTable(ad,ac) . 
+		if bel(clear(ad)) , bel(on(ad,ad)) then moveXfromYtoTable(ad,ad) . 
+		if bel(clear(ad)) , bel(on(ad,ae)) then moveXfromYtoTable(ad,ae) . 
+		if bel(clear(ad)) , bel(on(ad,af)) then moveXfromYtoTable(ad,af) . 
+		if bel(clear(ae)) , bel(on(ae,aa)) then moveXfromYtoTable(ae,aa) . 
+		if bel(clear(ae)) , bel(on(ae,ab)) then moveXfromYtoTable(ae,ab) . 
+		if bel(clear(ae)) , bel(on(ae,ac)) then moveXfromYtoTable(ae,ac) . 
+		if bel(clear(ae)) , bel(on(ae,ad)) then moveXfromYtoTable(ae,ad) . 
+		if bel(clear(ae)) , bel(on(ae,ae)) then moveXfromYtoTable(ae,ae) . 
+		if bel(clear(ae)) , bel(on(ae,af)) then moveXfromYtoTable(ae,af) . 
+		if bel(clear(af)) , bel(on(af,aa)) then moveXfromYtoTable(af,aa) . 
+		if bel(clear(af)) , bel(on(af,ab)) then moveXfromYtoTable(af,ab) . 
+		if bel(clear(af)) , bel(on(af,ac)) then moveXfromYtoTable(af,ac) . 
+		if bel(clear(af)) , bel(on(af,ad)) then moveXfromYtoTable(af,ad) . 
+		if bel(clear(af)) , bel(on(af,ae)) then moveXfromYtoTable(af,ae) . 
+		if bel(clear(af)) , bel(on(af,af)) then moveXfromYtoTable(af,af) . 
+	}
+	actionspec {
+		moveXfromYtoTable(X,Y) {
+			pre {true}
+			post {not(on(X,Y)) , on(X,table) , clear(Y)}
+		}
+	}
+	perceptrules{
+		if bel(foo) then insert(bar).
+	}
+}

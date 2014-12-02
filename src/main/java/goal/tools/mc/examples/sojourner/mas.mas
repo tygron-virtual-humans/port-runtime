@@ -1,0 +1,7 @@
+agentfiles {
+	"sojourner.goal" [name=ag].
+}
+
+launchpolicy {
+    launch ag:ag.
+}

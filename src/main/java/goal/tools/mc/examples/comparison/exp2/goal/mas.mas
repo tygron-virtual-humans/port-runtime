@@ -1,0 +1,7 @@
+agentfiles {
+	"30blocks.goal" [name=ag].
+}
+
+launchpolicy {
+    launch agent:ag.
+}

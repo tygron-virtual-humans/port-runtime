@@ -1,0 +1,30 @@
+main: simpleBlenderAgent{
+	knowledge{
+		recipe(1,oranges).
+		recipe(2,strawberries).
+		enoughOranges :- recipe(Q,oranges), added(Q,oranges).
+		enoughStrawberries :- recipe(Q,strawberries), added(Q,strawberries).
+	}
+	beliefs{
+		added(0,orange).
+		added(0,strawberries).
+	}
+	goals{
+		enoughOranges.
+		enoughStrawberries.
+	}
+	program{
+		if goal(enoughOranges) then addOrange.
+		if goal(enoughStrawberries) then addStrawberry.
+	}
+	actionspec{
+		addOrange{
+			pre{ added(Q,oranges), Qnew is Q+1 } 
+			post{ not(added(Q,oranges)), added(Qnew,oranges) }
+	  	}
+	  	addStrawberry{
+			pre{ added(Q,strawberries), Qnew is Q+1 } 
+			post{ not(added(Q,strawberries)), added(Qnew,strawberries) }
+	  	}
+  	}
+}

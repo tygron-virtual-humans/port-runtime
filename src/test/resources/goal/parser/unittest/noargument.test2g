@@ -1,0 +1,12 @@
+masTest {
+
+	mas 		= 	"noargument.mas2g".
+
+	noargument {
+		test {
+			do noargument.
+			
+			evaluate {} in do main. 
+		}
+	}
+}

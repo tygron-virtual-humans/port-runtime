@@ -1,0 +1,13 @@
+environment {
+	env = "dummyEnvironment" .
+}
+
+agentfiles {
+	"fibonaci.goal" [name = dummy].
+
+}
+
+launchpolicy {
+	launch dummy : dummy.
+
+}

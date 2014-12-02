@@ -1,0 +1,17 @@
+masTest {
+
+	mas = "bw4t.mas2g" .
+	timeout = 60 . % seconds
+	
+	robot {
+		
+		test {
+
+			evaluate {
+				eventually goal(visited(Room)).		
+				atend not(goal(true)).
+				atend bel(exploredAllRooms).
+			} in do explore.
+		}
+	}
+}

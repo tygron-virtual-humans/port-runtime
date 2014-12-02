@@ -1,0 +1,28 @@
+% test if module param is passed through with listall call.
+
+init module {
+	beliefs {
+		beer(1).
+		beer(2).
+	} 
+}
+	
+main module [exit=nogoals] {
+	program{
+		if bel(result(X)) then exit-module.
+		
+		% do module call with parameter.
+		if bel(true) then test(12).
+	}
+}
+
+module test(X) [exit=always] {
+	program [order=linearall] {
+		% bit contrived, but bottom line is that we want to use X after the 'do'.
+		listall Y <- bel(beer(P)) do insert(kat(X)).
+		
+		% check that the insert above inserted kat(12) and not kat(X).
+		if bel(kat(Y), Y==12) then insert(result(ok)).
+		if bel(not(result(_))) then insert(result(failure)).
+	}
+}

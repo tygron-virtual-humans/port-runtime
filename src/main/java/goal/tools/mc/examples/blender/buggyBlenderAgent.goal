@@ -1,0 +1,41 @@
+main: buggyBlenderAgent{
+	knowledge{
+		recipe(bananas,64).
+		recipe(oranges,64).
+		toAdd(F) :- recipe(F,Qr), added(F,Q), Q<Qr.
+		filled :- ticked(bananas), ticked(oranges).
+	}
+	beliefs{
+		added(bananas,0).
+		added(oranges,0).
+		switch(off).
+	}
+	goals{
+		filled, switch(on).
+	}
+	program{
+		if bel(not(washed)) then wash.
+		if bel(toAdd(bananas)) then add(bananas,1).
+		if bel(toAdd(oranges)) then add(oranges,1).
+		if goal(filled), bel(recipe(F,_)) then tick(F).
+		if goal(switch(on)), bel(filled) then blend.
+	}
+	actionspec{
+		add(F,Qinc) {
+			pre{ added(F,Q), Qnew is Q+Qinc }
+			post{ not(added(F,Q)), added(F,Qnew) } 
+		}
+		blend{
+			pre{ switch(off) }
+			post{ not(switch(off)), switch(on) }
+		}
+		tick(F){
+			pre{ not(ticked(F)), washed, recipe(F,Qr) }
+			post{ ticked(F) }
+		}
+		wash{
+			pre{ not(washed) }
+			post{ washed }
+		}
+	}
+}

@@ -1,0 +1,322 @@
+%
+%      A G E N T  P E A C E			
+%          October 2008				
+%
+%
+% Authors:
+% Bastijn Vissers (1217747)
+% Paul van den Haak (1221760)
+% Rinde van Lon (1238434)
+% Veronika Cheplygina (1217666)
+% Andreea Radu (1391917)
+%
+
+main: agentPeace
+{
+         knowledge{
+
+				% left orientation functions, gives for any orientation, the 90 degrees to the left rotated orientation.
+     			left([1,0], [A, B]) :- A is 0, B is 1.
+				left([0,1], [A, B]) :- A is -1, B is 0.
+				left([-1,0], [A, B]) :- A is 0, B is -1.
+				left([0,-1], [A ,B]) :- A is 1, B is 0.
+
+				% right orientation functions, gives for any orientation, the 90 degrees to the right rotated orientation.
+				right([1,0], [A, B]) :- A is 0, B is -1.
+				right([0,1], [A, B]) :- A is 1, B is 0.
+				right([-1,0], [A, B]) :- A is 0, B is 1.
+				right([0,-1], [A ,B]) :- A is -1, B is 0.
+				
+				% returns true if the two specified positions are equal
+				equalPosition([X,Y], [X1,Y1]) :- X is X1, Y is Y1.
+				
+				%--------------------------------------------------
+				% Common predicates
+				%--------------------------------------------------
+
+				% returns true if there is no certainty about where the wumpus is, he could be at at least two positions.			
+				multiWumpus :- wumpusAt(Pos1), wumpusAt(Pos2), not(equalPosition(Pos1,Pos2)).
+
+				% true, if there is only one smelly belief
+				multiSmelly :- smelly([A,B]), smelly([C,D]), not(A=C),not(B=D).
+				
+				% a position is visited if it is either breezy, smelly or nothing.
+				unvisited([X,Y]) :- not(visited([X,Y])).
+				visited([X,Y]) :- breezy([X,Y]).
+				visited([X,Y]) :- smelly([X,Y]).
+				visited([X,Y]) :- nothing([X,Y]).
+
+				% returns true if there is a safe position which is both unvisited and not a wall.
+				somethingToExplore :- safe(Pos), unvisited(Pos), not(wall(Pos)),!.
+
+				% returns true if the position is next to the wumpus and looking at him.
+				facingWumpus([X,Y],[A,B]) :- NewX is X + A, NewY is Y + B, wumpusAt([NewX,NewY]).
+
+				%--------------------------------------------------
+				% Wumpus position logic
+				%--------------------------------------------------
+	
+				% situation 1. there is only one smelly, so the wumpus could be at all sides.
+				canWumpusBeHere([X,Y]) :- wumpusisalive, not(multiSmelly), not(safe([X,Y])).
+
+				% situation 2. diagonal smelly positions
+				% This function evaluates to true if the following statements are both true:
+				% - two diagonal neighbours are smelly
+				% - the other two neighbours could be smelly
+				canWumpusBeHere([X,Y]) :- wumpusisalive, XR is X+1, XL is X-1, YT is Y+1, YB is Y-1, smelly([XL,Y]), smelly([X,YT]), couldBeSmelly([XR,Y]), couldBeSmelly([X,YB]), not(visited([X,Y])).
+				canWumpusBeHere([X,Y]) :- wumpusisalive, XR is X+1, XL is X-1, YT is Y+1, YB is Y-1, smelly([XL,Y]), smelly([X,YB]), couldBeSmelly([XR,Y]), couldBeSmelly([X,YT]), not(visited([X,Y])).
+				canWumpusBeHere([X,Y]) :- wumpusisalive, XR is X+1, XL is X-1, YT is Y+1, YB is Y-1, smelly([XR,Y]), smelly([X,YT]), couldBeSmelly([XL,Y]), couldBeSmelly([X,YB]), not(visited([X,Y])).
+				canWumpusBeHere([X,Y]) :- wumpusisalive, XR is X+1, XL is X-1, YT is Y+1, YB is Y-1, smelly([XR,Y]), smelly([X,YB]), couldBeSmelly([XL,Y]), couldBeSmelly([X,YT]), not(visited([X,Y])).
+
+				% situation 3. opposite smelly positions, this is the easy situation where you are sure about the wumpus location.
+				canWumpusBeHere([X,Y]) :- wumpusisalive, XL is X+1, XR is X-1, smelly([XL,Y]), smelly([XR,Y]).
+				canWumpusBeHere([X,Y]) :- wumpusisalive, YT is Y+1, YB is Y-1, smelly([X,YT]), smelly([X,YB]).
+
+				% helper function, evaluates to true when the location on (X,Y) is visited, and not smelly OR not visited. 
+				couldBeSmelly([X,Y]) :- smelly([X,Y]).
+				couldBeSmelly([X,Y]) :- not(visited([X,Y])).
+
+				%--------------------------------------------------
+				% Exploring algorithm
+				%--------------------------------------------------
+
+				% Computes the shortest path to the closest interesting cell.
+				% +Pos, -Path
+				getPath(Pos,Path) :- pathToInterestingCell(Pos,[[Pos]],Path).
+
+				% Computes the shortest path to the closest interesting cell.
+				% + Pos = start position
+				% + [H|T] = all waves
+				% - NewPath = the path from end to Pos (maximum of one path is returned at the same time).
+				pathToInterestingCell(Pos,[H|T], NewPath) :- getUnvisitedCell(H, EndPos), path(Pos,EndPos,[H|T], NewPath),!.
+				pathToInterestingCell(Pos,[H|T], NewPath) :- nextWave(H,NewWave,[H|T]), append([NewWave],[H|T],AllWaves), pathToInterestingCell(Pos, AllWaves, NewPath).
+
+				% returns the nextwave based on the previous wave, the nextwave doesn't contain any postions already in AllWaves.
+				nextWave(PrevWave,NewWave,AllWaves) :- setof(Adj, isNextWave(PrevWave,Adj,AllWaves), NewWave ).
+					
+				% returns the first Adj which is interesting and unvisited.
+				getUnvisitedCell(Wave, Adj) :- interestingCell(Adj,Wave),unvisited(Adj),!.
+			   getUnvisitedCell([_|T], Pos) :- getUnvisitedCell(T,Pos).
+
+				% returns every Adj which is interesting, visited and not a member of any of the previous waves.
+				isNextWave(Wave,Adj,Waves) :- interestingCell(Adj,Wave), visited(Adj),not(memberOfWaves(Adj,Waves)).
+
+				% returns every Adj which is adjacent to any position in the Wave, which is safe, and which is not a wall.
+				interestingCell(Adj,Wave) :- adjacentToWave(Adj,Wave), safe(Adj), not(wall(Adj)).
+
+				% returns every neighbor of a wave				
+				adjacentToWave( Adj, [H|_]) :- adjacent(Adj, H).
+				adjacentToWave( Adj, [_|T]) :- adjacentToWave(Adj, T).
+
+				% returns true if Pos is in any of the specified Waves.
+				memberOfWaves(Pos,[H|_]) :- member(Pos,H).
+   			memberOfWaves(Pos,[_|T]) :- memberOfWaves(Pos,T).		
+		
+				%--------------------------------------------------------------
+				% Routing algorithm				
+				%--------------------------------------------------------------
+				inFrontOf([X1,Y1],[A,B], [X2,Y2]) :- X2 is X1 + A, Y2 is Y1 + B.
+
+				shortestPathTo(Pos,Actions) :- position(From), orientation(Dir), shortestPathPlanner(From,Pos,Path1),
+					reverse(Path1,Path2), extract_plan(Path2,[Actions|_],Dir,_).
+				shortestPathPlanner(From,To,Path) :- waves(To,[[From],[]],Waves), path(From,To,Waves,Path).
+
+				waves(To,[Wave|Waves],Waves) :- member(To,Wave),!.
+				waves(To,[Wave,LastWave|LastWaves],Waves) :- 
+					next_wave(Wave,LastWave,NextWave),
+					waves(To,[NextWave,Wave,LastWave|LastWaves],Waves).
+				next_wave(Wave,LastWave,NextWave) :- setof(X,admissible(X,Wave,LastWave),NextWave).
+				admissible(X,Wave,LastWave) :- neighbor(X,Wave), not(member(X,LastWave)), not(member(X,Wave)).
+				neighbor(Pos,Wave) :- member(Pos1,Wave), adjacent(Pos,Pos1), safe(Pos), not(wall(Pos)).
+				adjacent([X1,Y],[X2,Y]) :- next_to(X1,X2).
+				adjacent([X,Y1],[X,Y2]) :- next_to(Y1,Y2).
+				next_to(A,B) :- is(A,+(B,1)).
+				next_to(A,B) :- is(A,-(B,1)).
+
+				path(Pos,Pos,Waves,[Pos]) :- !.
+				path(Pos1,Pos2,[Wave|Waves],[Pos2|Path]) :-
+					member(Pos,Wave), adjacent(Pos,Pos2), !, path(Pos1,Pos,Waves,Path).
+
+				% helper function for extract plan
+				turnaround([1,0], [A, B]) :- A is -1, B is 0.
+				turnaround([0,1], [A, B]) :- A is 0, B is -1.
+				turnaround([-1,0], [A, B]) :- A is 1, B is 0.
+				turnaround([0,-1], [A ,B]) :- A is 0, B is 1.
+
+				% argument
+				% 1 - list of cells you want to visit (path)
+				% 2 - Variable, list of actions you get back to get there
+				% 3 - current orientation
+				% 4 - final orientation could be Variable
+				extract_plan([],[],_,_) :- !.
+				extract_plan([Pos],[],_,_) :- !.
+				extract_plan([Pos1,Pos2],[forward],Dir,Dir) :- inFrontOf(Pos1,Dir,Pos2), !.
+				extract_plan([Pos1,Pos2],[turn(left),forward],Dir,NewDir) :- left(Dir, NewDir), inFrontOf(Pos1,NewDir,Pos2),!.
+				extract_plan([Pos1,Pos2],[turn(right),forward],Dir,NewDir) :- right(Dir,NewDir), inFrontOf(Pos1,NewDir,Pos2),!.
+				extract_plan([Pos1,Pos2],[turn(left),turn(left),forward],Dir,NewDir) :- turnaround(Dir,NewDir), inFrontOf(Pos1,NewDir,Pos2),!.
+				extract_plan([Pos1,Pos2|Path],Plan,Dir,_) :-  
+					extract_plan([Pos1,Pos2],Plan1,Dir,NewDir), extract_plan([Pos2|Path],Plan2,NewDir,_),   
+					append(Plan1,Plan2,Plan), !.
+         }
+
+         beliefs{
+         	hasarrow.
+				wumpusisalive.
+
+				orientation([1,0]).
+				position([0,0]).
+				safe([0,0]).	
+				plan([]).
+				
+      		time(0).
+         }
+
+         goals{
+				hasgold,
+				getoutofthiscave.
+         }
+
+         program{
+				% EXPLORE
+				if bel( somethingToExplore, plan([]), not(goldAt([X,Y])), not(hasgold), orientation(Dir), position(Pos),
+							getPath(Pos,Path),reverse(Path,RevPath), extract_plan(RevPath,Actions,Dir,[1,0]) ) then newPlan(Actions).
+
+				% if there is no safe place left to explore and wumpis is alive, and the position is known, then walk to him
+				if bel( not(somethingToExplore), wumpusisalive, not(multiWumpus), wumpusAt(Wum), position(Pos), not(adjacent(Pos,Wum)),
+									adjacent(Adj,Wum), safe(Adj), not(wall(Adj)), shortestPathTo(Adj,Action) ) then newPlan([Action]).
+
+				% if there is nothing to explore, and it is not sure where the wumpus is, get out, don't risk our live.
+				if bel( not(somethingToExplore), wumpusisalive, multiWumpus, shortestPathTo([0,0],Action) ) then newPlan([Action]).
+
+				% if there is nothing to explore, and wumpus is not known to exists, then go home
+				if bel( not(somethingToExplore), not(wumpusAt(Wum)), shortestPathTo([0,0],Action) ) then newPlan([Action]).
+
+				% if we are facing wumpus, and there is nothing else to explore, kill him
+				if bel( not(somethingToExplore), wumpusisalive, not(multiWumpus), wumpusAt(Wum), position(Pos), orientation(Dir), adjacent(Pos,Wum), facingWumpus(Pos,Dir) ) then newPlan([shoot]).
+				% if we are not facing wumpus yet, turn to him.
+				if bel( not(somethingToExplore), wumpusisalive, not(multiWumpus), wumpusAt(Wum), position(Pos), orientation(Dir), adjacent(Pos,Wum), not(facingWumpus(Pos,Dir)) ) then newPlan([turn(left)]).
+
+				%Grab gold		
+				%if bel(position([X,Y]), goldAt([X,Y])), goal(hasgold) then newPlan([grab]).
+
+				%Get out if you found the gold
+				if bel(hasgold, plan([]), shortestPathTo([0,0],Action) ), goal(getoutofthiscave) then newPlan([Action]). 
+
+				%If you are at [0,0] again and want to get out, climb.
+				if bel( plan([]), position([0,0]), hasgold), goal(getoutofthiscave) then newPlan([climb]).
+				if bel( plan([]), position([0,0]), not(somethingToExplore), not(wumpusAt(Wum)) ), goal(getoutofthiscave) then newPlan([climb]).
+				if bel( plan([]), position([0,0]), not(somethingToExplore), multiWumpus ), goal(getoutofthiscave) then newPlan([climb]).
+
+				% execute plan
+				if bel( plan([forward|T]) ) then forward.
+				if bel( plan([turn(left)|T]) ) then turn(left).
+				if bel( plan([turn(right)|T]) ) then turn(right).
+				if bel( plan([])) then noAction.
+				if bel( plan([shoot|_]) ) then shoot.
+				if bel( plan([climb|_]) ) then climb.		
+				if bel( plan([grab|_]) ) then grab.		
+         }
+
+         actionspec{
+
+				% this actions sets the specified Actions list as the new plan.
+				newPlan( Actions ) {
+					pre{ plan([]) }
+					post{ plan(Actions), not(plan([])) }
+				}
+
+				% --------------------------
+				% PHYSICAL ACTIONS
+				% --------------------------
+				forward {
+					pre{ position([X,Y]), orientation([A,B]), NewX is X+A, NewY is Y+B, plan([H|T]) } 
+					post{ position( [NewX, NewY] ), not(position([X,Y])), not(plan([H|T])), plan(T) }
+           }
+
+				turn(left) {
+					pre{ orientation([A,B]), left([A,B],[NewA,NewB]), plan([H|T])  }
+					post{ orientation([NewA,NewB]), not(orientation([A,B])), not(plan([H|T])), plan(T) }
+           }
+
+				turn(right) {
+					pre{ orientation([A,B]), right([A,B],[NewA,NewB]), plan([H|T]) }
+					post{ orientation([NewA,NewB]), not(orientation([A,B])), not(plan([H|T])), plan(T) }
+           }
+
+				shoot {
+					pre{ hasarrow, plan([H|T]) }
+					post{ not(hasarrow), not(plan([H|T])), plan(T) }
+				}
+
+				grab {
+					pre { goldAt([X,Y]), position([X,Y]), plan([H|T]) }
+					post { not(goldAt([X,Y])), hasgold, not(plan([H|T])), plan(T) }
+				}
+
+				noAction {
+					pre{ true }
+					post{ foo }
+         	}
+		   
+				climb {
+					pre { position([0,0]) }
+					post { getoutofthiscave }
+				}
+         }
+
+
+}
+
+
+======================== PERCEPT RULES =========================================
+
+
+         perceptrules{
+				% BUMP (note: a wall position is not marked as safe and not marked as unsafe)
+				% Note: this one has to be executed before any other percept rule, because the position needs to correct.
+				when input{ percept([_,_,bump,_,_],T), position([X,Y]), orientation([A,B]), OldX is X-A, OldY is Y-B } 
+					do update{ wall([X,Y]), position([OldX,OldY]), not(position([X,Y])), not(safe([X,Y])),not(wumpusAt([X,Y])), bumping }.
+				when input{ percept([_,_,null,_,_],T) } do update{ not(bumping) }.
+				
+				% NO SCARY THINGS (except possibly a scream), remove any pitAt and wumpusAt
+				when input{ percept([null,null,null,_,_],T), position(Pos), adjacent(Adj,Pos), not(safe(Adj)) } do update{ safe(Adj), not(pitAt(Adj)), not(wumpusAt(Adj)) }.
+				when input{ percept([null,null,null,_,_],T), position(Pos), not(nothing(Pos)) } do update{	nothing(Pos) }.
+
+				% BREEZE -> mark all neighboring cells as pitAt, unless they are known to be safe
+				when input{ percept([breeze,_,_,_,_],T), position(Pos), not(breezy(Pos)) } do update{ breezy(Pos) }.		
+				when input{ percept([breeze,_,_,_,_],T), position(Pos), adjacent(Adj,Pos), not(safe(Adj)), not(pitAt(Adj)) } do update{ pitAt(Adj)}.
+								
+				% STENCH -> set smelly belief
+				when input{ percept([_,stench,_,_,_],T), position(Pos) } do update{ smelly(Pos) }.
+
+				% STENCH -> for every adjacent, not safe, possible wumpus location --> set WUMPUSAT
+				when input{ wumpusisalive, percept([_,stench,_,_,_],T), position(Pos), adjacent(Adj,Pos), not(safe(Adj)), canWumpusBeHere(Adj) } do update{ wumpusAt(Adj) }.
+				% STENCH -> for every adjacent, not safe, NOT possible wumpus location, NOT pitAt --> set SAFE
+				when input{ percept([_,stench,_,_,_],T), position(Pos), adjacent(Adj,Pos), not(safe(Adj)), not(canWumpusBeHere(Adj)), not(pitAt(Adj)) } do update{ safe(Adj) }.
+				
+				% STENCH -> for every wumpusAt location, where wumpus cannot be, and where no pitAt --> remove WUMPUSAT, set SAFE
+				when input{ wumpusisalive, percept([_,stench,_,_,_],T), wumpusAt(Pos), not(canWumpusBeHere(Pos)), not(pitAt(Pos)) } do update{ not(wumpusAt(Pos)), safe(Pos) }.
+				% STENCH -> for every wumpusAt location, where wumpus cannot be, and where there is pitAt --> remove WUMPUSAT
+				when input{ wumpusisalive, percept([_,stench,_,_,_],T), wumpusAt(Pos), not(canWumpusBeHere(Pos)), pitAt(Pos) } do update{ not(wumpusAt(Pos)) }.
+
+				% SCREAM -> eternal fame
+				when input{ percept([_,_,_,scream,_],T), position([X,Y]) } do update{ not(wumpusisalive) }.
+				
+				% SCREAM -> remove all wumpusAt positions, and declare them as save if there is not pitAt
+				when input{ percept([_,_,_,scream,_],T), wumpusAt(Pos), not(pitAt(Pos)) } do update{ not(wumpusAt(Pos)), safe(Pos) }.
+				when input{ percept([_,_,_,scream,_],T), wumpusAt(Pos), pitAt(Pos) } do update{ not(wumpusAt(Pos)) }.
+	
+				% TIME & GOLD
+				when input{ percept([_,_,_,_,glitter],T), position([X,Y]), plan(P) } do update{ goldAt([X,Y]), not(plan(P)), plan([grab]) }.      
+				when input{ percept([_,_,_,_,_],T), time(R) } do update{ not(time(R)), time(T) }.
+         }
+         
+         
+============================ SLICING RESULTS ===================================
+       
+       
+{if this.bel(plan([])) then noAction.}
+
+[SLICER] retained 16 of 17 rules
+
+Functors: {position, canWumpusBeHere}

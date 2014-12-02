@@ -1,0 +1,220 @@
+main: wumpusAgent
+{
+	knowledge{
+				
+
+		%-----------------------------------------------------PATHPLANNER-----------------------------------------------------
+
+		% The adaptoins to the provided pathplanner are documented in the report	
+
+		shortestPathTo(Pos,Action) :- 
+			at(From), heading(Dir), shortestPathPlanner(Pos,From,Path), extract_plan(Path,[Action|_],Dir,_),!.
+
+
+		% Based on Lee Routing Algorithm in The Art of Prolog, pp. 275-276
+
+		shortestPathPlanner(From,To,Path) :- 
+			waves(To,[[From],[]],Waves), heading(CurDir), 
+		path(From,To,Waves,CurDir,Path).
+			shortestPathPlanner(From,To,Path) :- 
+			waves(To,[[From],[]],Waves), heading(CurDir),oppositeDir(CurDir,NewDir), 
+			path(From,To,Waves,NewDir,Path).
+
+		waves(To,[Wave|Waves],Waves) :- member(To,Wave),!.
+		waves(To,[Wave,LastWave|LastWaves],Waves) :- 
+			next_wave(Wave,LastWave,NextWave), waves(To,[NextWave,Wave,LastWave|LastWaves],Waves).
+
+		next_wave(Wave,LastWave,NextWave) :- setof(X,admissible(X,Wave,LastWave),NextWave).
+
+		admissible(X,Wave,LastWave) :- neighbor(X,Wave), not(member(X,LastWave)), not(member(X,Wave)).
+
+		neighbor(Pos,Wave) :- member(Pos1,Wave), adjacent(Pos1,Pos), not(wall(Pos)), visited(Pos,_).
+	
+
+		% turns are minimise when plannig the path, by use of a virtual direction 
+		path(Pos,Pos,Waves,CurDir,[Pos]) :- !.
+		path(Pos1,Pos2,[Wave|Waves],CurDir,[Pos2|Path]) :-
+			member(Pos,Wave), inFrontOf(Pos2, CurDir, Pos), !, path(Pos1,Pos,Waves,CurDir,Path).
+		path(Pos1,Pos2,[Wave|Waves],CurDir,[Pos2|Path]) :-
+			member(Pos,Wave),rotate(CurDir,NewDir) ,inFrontOf(Pos2, NewDir, Pos), !, path(Pos1,Pos,Waves,NewDir,Path).
+		path(Pos1,Pos2,[Wave|Waves],CurDir,[Pos2|Path]) :-
+			member(Pos,Wave),rotate(NewDir,CurDir) ,inFrontOf(Pos2, NewDir, Pos), !, path(Pos1,Pos,Waves,NewDir,Path).
+
+		%The next square is preferibly the one in front of the last one with respect to the current virtual direction
+		next_square(Pos, Wave, CurDir, NextPos) :- member(NextPos,Wave), inFrontOf(Pos, CurDir ,NextPos).
+
+		extract_plan([],[],_,_).
+		extract_plan([Pos],[],_,_).
+		extract_plan([Pos1,Pos2],[forward],Dir,Dir) :- inFrontOf(Pos1,Dir,Pos2).
+		extract_plan([Pos1,Pos2],[turn(left),forward],Dir,NewDir) :-
+			is(NewDir,mod(+(Dir,90),360)), inFrontOf(Pos1,NewDir,Pos2),!.
+		extract_plan([Pos1,Pos2],[turn(right),forward],Dir,NewDir) :-
+			is(NewDir,mod(+(Dir,270),360)), inFrontOf(Pos1,NewDir,Pos2),!.
+		extract_plan([Pos1,Pos2],[turn(left),turn(left),forward],Dir,NewDir) :-
+			is(NewDir,mod(+(Dir,180),360)), inFrontOf(Pos1,NewDir,Pos2),!.
+		extract_plan([Pos1,Pos2|Path],Plan,Dir,_) :-
+			extract_plan([Pos1,Pos2],Plan1,Dir,NewDir), extract_plan([Pos2|Path],Plan2,NewDir,_),
+			append(Plan1,Plan2,Plan),!.
+
+
+
+
+		%-----------------------------------------------------Position and Orientation-----------------------------------------------------
+
+		%adjacent rule uses nextpos, but we don't care for the direction  
+		adjacent(A,B) :- inFrontOf(A,_,B).
+
+		%inFrontOf rules, to derive the adjacent square in a specific direction
+		%the first argument must be bound 
+		inFrontOf([C,A],0,[B,A]) :- B is (C + 1).
+		inFrontOf([A,C],90,[A,B]) :- B is (C + 1).
+		inFrontOf([C,A],180,[B,A]) :- B is (C - 1).
+		inFrontOf([A,C],270,[A,B]) :- B is (C - 1).
+
+		%we have four possible directions the rotate rules
+		%couple the original angle and the resulting angle of a 90 degree turn
+		rotate(0,90).
+		rotate(90,180).
+		rotate(180,270).
+		rotate(270,0).
+	
+		%opposite direction is a 180 degree turn or 2*90 
+		oppositeDir(CurDir, OppDir) :- rotate(CurDir, Z), rotate(Z, OppDir).	
+
+
+
+
+
+		%-----------------------------------------------------Wumpus and Pit detection-----------------------------------------------------
+
+		% pitAt/1 returns if a certain position is a Possible pit
+		noBreezy(Pos) :- visited(Pos,_), not(breezy(Pos)).	
+		noBreezyAround(Pos) :- adjacent(Pos,	B), noBreezy(B).
+		pitAt(Pos) :- not(visited(Pos,_)), not(noBreezyAround(Pos)). %first is for checking if we have been in Pos
+
+		%WumpusAt/2 is used to derive the locations were the wumpus may be
+		wumpusAt(Pos) :- not(wumpusisalive),fail,!. %if the wumpus is dead then wumpus(Pos). should always fail
+		
+		%in case of three destinct smelly squares we can locate the wumpus exactly 
+		wumpusAt(Pos) :- 
+			smelly(X), smelly(Y), smelly(Z), not(X=Y), not(X=Z), not(Z=Y),!,adjacent(X, Pos), adjacent(Y, Pos), adjacent(Z, Pos),!.
+		%in case of two smelly squares the conjuction of the sets of squares adjacent to each smelly squares gives the possible wumpus locations (at most two)
+ 		%when the conjuction contains two squares, one of the squares can be known save which rules it out as apossible wumpus location 
+		wumpusAt(Pos) :- 
+			smelly(X), smelly(Y), not(X=Y),!,adjacent(X, Pos), adjacent(Y, Pos), not(safeToGo(Pos)),!.
+
+		wumpusAt(Pos) :- 
+			smelly(X), adjacent(Pos,X), not(safeToGo(Pos)). 
+		
+		%notWumpusAt is used to derive the locations where the wumpus can't be 
+		notWumpusAt(Pos) :- visited(Y,_), adjacent2(Pos,Y), not(smelly(Y)).
+  		notWumpusAt(Pos) :- cleared(Pos).
+
+
+
+		%-----------------------------------------------------Finding closest unexplored square-----------------------------------------------------
+
+		% unexplored/2 finds the closest unvisited square through tracking back in time among the visited squares
+		unexplored(T,Pos2) :- wumpusisalive, visited(Pos,T), heading(H), inFrontOf(Pos,H,Pos2), not(visited(Pos2,_)), not(wumpusAt(Pos2)),not(pitAt(Pos2)),not(wall(Pos2)),!. % first check if forward ok because of cost
+		unexplored(T,Pos2) :- wumpusisalive, visited(Pos,T), adjacent(Pos,Pos2), not(visited(Pos2,_)), not(wall(Pos2)), not(wumpusAt(Pos2)), not(pitAt(Pos2)),!.
+
+		unexplored(T,Pos2) :- not(wumpusisalive), visited(Pos,T), heading(H), nextpos(Pos,H,Pos2), not(visited(Pos2,_)), not(pitAt(Pos2)),not(wall(Pos2)),!. % first check if forward ok because of cost
+		unexplored(T,Pos2) :- not(wumpusisalive), visited(Pos,T), adjacent(Pos,Pos2), not(visited(Pos2,_)), not(wall(Pos2)), not(pitAt(Pos2)),!.
+
+		unexplored(T,Pos2) :- Tnew is (T-1), not(Tnew=-1), unexplored(Tnew, Pos2).
+
+		%unvisitedForward(Pos) :- heading(H), nextpos(Pos,H,Pos2), not(visited(Pos2,_)), not(wumpusAt(Pos2)),not(pitAt(Pos2)),not(wall(Pos2)).
+	}
+
+	beliefs{
+		hasarrow.
+		wumpusisalive.
+      heading(0).
+		at([0,0]).
+		thetime(0).
+		visited([0,0],0).
+		safeToGo([0,0]).
+
+	}
+
+	goals{
+		hasgold.
+		getoutofthiscave.
+	}
+
+	program{
+
+		% If we see the gold we grap it
+		if bel(at(Pos),goldat(Pos)) then grab.
+
+		% When nothing to explore and no gold
+		if goal(hasgold), bel(thetime(T), not(unexplored(T,_)) ) then drop(hasgold).
+		
+		% If we found the gold return to [0,0] in the most efficient way 
+		if not(goal(hasgold)), bel(not(at([0,0])) ,shortestPathTo([0,0],forward)) then forward.
+		if not(goal(hasgold)), bel(not(at([0,0])) ,shortestPathTo([0,0],turn(left))) then turn(left).
+		if not(goal(hasgold)), bel(not(at([0,0])) ,shortestPathTo([0,0],turn(right))) then turn(right).
+
+		% If we are looking for the gold and the gold is not at the present location, we derive the action in order to get to the closest unvisited square 
+		if goal(hasgold), bel(at(Pos1), not(goldat(Pos1)), thetime(Time), unexplored(Time,Pos), shortestPathTo(Pos,forward)) then forward.
+		if goal(hasgold), bel(at(Pos1), not(goldat(Pos1)), thetime(Time), unexplored(Time,Pos), shortestPathTo(Pos,turn(left))) then turn(left).
+		if goal(hasgold), bel(at(Pos1), not(goldat(Pos1)), thetime(Time), unexplored(Time,Pos), shortestPathTo(Pos,turn(right))) then turn(right).
+
+		
+		% If we have the gold or dropped the goal hasgold, we climb out when reaching [0,0]  
+		if goal(getoutofthiscave), not(goal(hasgold)), bel( at([0,0])) then climb.
+
+	}
+
+	actionspec{
+			forward{
+				pre{ heading(H), thetime(T), at([X,Y]), heading(H), inFrontOf([X,Y], H, [Xnew, Ynew]), Tnew is (T+1) }
+				post{not(at([X,Y])), at([Xnew,Ynew]), not(thetime(T)), thetime(Tnew), visited([Xnew,Ynew],Tnew) }
+			}
+
+			turn(left) {
+				pre{ heading(H), rotate(H,Hnew), thetime(T), Tnew is (T+1) }
+				post{ not(heading(H)), heading(Hnew), not(thetime(T)), thetime(Tnew) }  
+			}
+			turn(right) {
+				pre{ heading(H), rotate(Hnew,H), thetime(T), Tnew is (T+1) }
+				post{ not(heading(H)), heading(Hnew), not(thetime(T)), thetime(Tnew) }  
+			}
+			grab {
+				pre {at(Pos), goldat(Pos), thetime(T), Tnew is (T+1) }
+				post {not(goldat(Pos)), not(thetime(T)), thetime(Tnew), hasgold }
+			}
+			climb {
+				pre { at([0,0]), thetime(T), Tnew is (T+1) }
+				post {getoutofthiscave, not(thetime(T)), thetime(Tnew)}
+			}
+
+	}
+
+}
+
+
+======================== PERCEPT RULES =========================================
+
+
+
+	perceptrules{
+		%when bumping into a wall we must undo the beliefs adapted in order to keep our knowledge alligned with the environment state  
+		when input{ percept([_,_,bump,_,_],T), at(Pos), heading(Hwall), oppositeDir(Hwall,OppH), inFrontOf(Pos,OppH,PosNew) } 
+			do update{wall(Pos), at(PosNew), not(at(Pos)), not(visited(Pos,T)), visited(PosNew,T) }. 	
+	
+		when input{ percept([breeze,_,_,_,_],T), at([X,Y]) } do update{ breezy([X,Y]) }.
+		when input{ percept([_,stench,_,_,_],T), at([X,Y]) } do update{ smelly([X,Y]) }.
+		when input{ percept([_,_,_,scream,_],T), at([X,Y]) } do update{ not(wumpusisalive)}.
+		when input{ percept([_,_,_,_,glitter],T), at([X,Y]) } do update{ goldat([X,Y])}.
+		when input{ percept([null,null,_,_,_],T), at([X,Y]), adjacent([X,Y],Pos) } do update{ safeToGo(Pos) }.
+	}
+	
+	
+============================ SLICING RESULTS ===================================
+	
+
+
+[SLICER] retained 9 of 9 rules
+
+Functors: {wumpusAt, at}

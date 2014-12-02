@@ -1,0 +1,154 @@
+main: ag
+{
+	knowledge {
+		block(aa) .
+		block(ab) .
+		block(ac) .
+		block(ad) .
+		block(ae) .
+		block(af) .
+		block(ag) .
+		block(ah) .
+		block(ai) .
+		block(aj) .
+		block(ak) .
+		block(al) .
+		block(am) .
+		block(an) .
+		block(ao) .
+		block(ap) .
+		block(aq) .
+		block(ar) .
+		block(as) .
+		block(at) .
+		block(au) .
+		block(av) .
+		block(aw) .
+		block(ax) .
+		block(ay) .
+		block(az) .
+		block(ba) .
+		block(bc) .
+		block(bd) .
+		block(be) .
+		block(bf) .
+		block(bg) .
+		block(bh) .
+		block(bi) .
+		block(bj) .
+		block(bk) .
+		block(bl) .
+		block(bm) .
+		block(bn) .
+		block(bo) .
+		block(bp) .
+		block(bq) .
+		block(br) .
+		block(bs) .
+		block(bt) .
+	}
+	beliefs{
+		on(aa,table) .
+		on(ab,aa) .
+		on(ac,ab) .
+		on(ad,ac) .
+		clear(ad) .
+		on(ae,table) .
+		clear(ae) .
+		on(af,table) .
+		clear(af) .
+		on(ag,table) .
+		clear(ag) .
+		on(ah,table) .
+		clear(ah) .
+		on(ai,table) .
+		clear(ai) .
+		on(aj,table) .
+		clear(aj) .
+		on(ak,table) .
+		clear(ak) .
+		on(al,table) .
+		clear(al) .
+		on(am,table) .
+		clear(am) .
+		on(an,table) .
+		clear(an) .
+		on(ao,table) .
+		clear(ao) .
+		on(ap,table) .
+		clear(ap) .
+		on(aq,table) .
+		clear(aq) .
+		on(ar,table) .
+		clear(ar) .
+		on(as,table) .
+		clear(as) .
+		on(at,table) .
+		clear(at) .
+		on(au,table) .
+		clear(au) .
+		on(av,table) .
+		clear(av) .
+		on(aw,table) .
+		clear(aw) .
+		on(ax,table) .
+		clear(ax) .
+		on(ay,table) .
+		clear(ay) .
+		on(az,table) .
+		clear(az) .
+		on(ba,table) .
+		clear(ba) .
+		on(bc,table) .
+		clear(bc) .
+		on(bd,table) .
+		clear(bd) .
+		on(be,table) .
+		clear(be) .
+		on(bf,table) .
+		clear(bf) .
+		on(bg,table) .
+		clear(bg) .
+		on(bh,table) .
+		clear(bh) .
+		on(bi,table) .
+		clear(bi) .
+		on(bj,table) .
+		clear(bj) .
+		on(bk,table) .
+		clear(bk) .
+		on(bl,table) .
+		clear(bl) .
+		on(bm,table) .
+		clear(bm) .
+		on(bn,table) .
+		clear(bn) .
+		on(bo,table) .
+		clear(bo) .
+		on(bp,table) .
+		clear(bp) .
+		on(bq,table) .
+		clear(bq) .
+		on(br,table) .
+		clear(br) .
+		on(bs,table) .
+		clear(bs) .
+		on(bt,table) .
+		clear(bt) .
+	}
+	goals{
+		on(ab,table) .
+	}
+	program {
+		if goal(on(ab,table)) , bel(on(X,Y)) , bel(clear(X)) then moveXfromYtoTable(X,Y) .
+	}
+	actionspec {
+		moveXfromYtoTable(X,Y) {
+			pre {block(Y)}
+			post {not(on(X,Y)) , on(X,table) , clear(Y)}
+		}
+	}
+	perceptrules {
+		if bel(foo) then insert(bar).
+	}
+}

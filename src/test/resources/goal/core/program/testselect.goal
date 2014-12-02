@@ -1,0 +1,30 @@
+% test module entry behaviour with focus=select option for modules.
+
+init module {
+	goals {
+		aap,kat.
+		beer,koe.
+	}
+}
+	
+main module [exit=nogoals] {
+	program{
+		if bel(result(X)) then exit-module.
+		if goal(aap), goal(beer) then aapbeer.
+		if goal(aap), goal(kat) then aapkat.
+	}
+
+}
+
+module aapbeer [focus=select]{
+	program {
+		if bel(true) then insert(result(failure)).
+	}
+}
+
+module aapkat [focus=select] {
+	program {
+		if bel(true) then insert(result(ok)).
+	}
+		
+}

@@ -1,0 +1,24 @@
+%Correct: exhaustive example
+
+masTest {
+
+	mas 		= "correctMasUnderTest.mas2g".
+
+	agentUnderTest {
+		
+		before 	{	do beforeModule. }
+		test {	
+		
+				do moduleUnderTest(identifier, 42, 0.42, function). 
+		
+				assert bel(*************).
+				assert bel(moduleUnderTest) : "Messsage".
+				assert bel(not(afterModule)).
+		}
+		after { do afterModule(something,something). }
+
+
+		
+	}
+
+}

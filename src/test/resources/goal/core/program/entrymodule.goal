@@ -1,0 +1,13 @@
+main module [exit=nogoals] {
+	program{
+		if true then insert(result(failure)).
+	}
+}
+
+module testEntryModule [exit=nogoals] {
+
+	program {
+		if true then insert(result(ok)).
+	}
+
+}

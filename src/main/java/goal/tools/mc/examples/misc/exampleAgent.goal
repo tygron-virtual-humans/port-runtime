@@ -1,0 +1,25 @@
+main : exampleAgent{
+	knowledge{
+		recite(a,b). recite(b,c). recite(c,d). recite(d,e). recite(e,f). 
+		recite(f,g). recite(g,h). recite(h,i). recite(i,j). recite(j,k).
+		recite(k,l). recite(l,m). recite(m,n). recite(n,o). recite(o,p).
+		recite(p,q). recite(q,r). recite(r,s). recite(s,t). recite(t,u).
+		recite(u,v). recite(v,w). recite(w,x). recite(x,y). recite(y,z). 
+	}
+	beliefs{
+		current(1).
+		recited(a).
+	}
+	goals{
+		current(10).
+		recited(z).
+	}
+	program{
+		if goal(current(10)) then count.
+		if goal(recited(z)) then recite.
+	}
+	actionspec{
+		count{  pre{ current(I), Next is I+1 } post{ not(current(I)), current(Next) } }
+		recite{	pre{ recited(R), recite(R,S) } post{ not(recited(R)), recited(S) } }
+	}
+}

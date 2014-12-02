@@ -1,0 +1,8 @@
+
+agentfiles {
+	"insertresultsindroptest.goal".
+}
+
+launchpolicy {
+    launch insertresultsindroptest:insertresultsindroptest. 
+}

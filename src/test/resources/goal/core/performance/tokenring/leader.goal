@@ -1,0 +1,120 @@
+init module {
+	knowledge{
+		% return seconds with two decimals (and not more to avoid suggesting ridiculous precision).
+		timeUsed(Seconds) :- startTime(StartTime), get_time(Now), Duration is Now-StartTime,
+			stamp_date_time(Duration, date(_, _, D, H, Mn, S, _, _, _), 'UTC'), Seconds is round((H*3600+Mn*60+S)*100)/100.
+	}
+	
+	beliefs{
+		countN(0).
+		% Number of times that a token will be forwarded.
+		times(1000).
+		% Number of tokens.
+		tokens(50).
+		% Keep 0.
+		nToSend(0).
+	}
+	
+	program {		
+		if bel( findall(X, agent(X), L), length(L, TotalAgents) )
+		  then insert( agents(L), nrOfAgents(TotalAgents) ).
+		% Leader initiates the creation of the ring and is the first agent that
+		% needs to be connected by some other agent.
+		if bel( me(Me) ) then insert( nodeToConnectTo(Me) ).
+		% Create a ring of agents. Leader is special as it starts creating the ring.
+		forall bel( agent(Name), me(Leader), not(Leader = Name) ) do createRing(Name, Leader).
+		% Close the ring of agents; connect the leader with the last agent that still needs to be connected to.
+		% Also record start time and send the first token.
+		if bel( nodeToConnectTo(Agent), get_time(Time), times(Times), tokens(Tokens) )
+		  then insert( next(Agent) )
+		  		+ delete( nodeToConnectTo(Agent) )
+		  		+ insert( startTime(Time) )
+				+ distributeTokens(0, Tokens).
+    }
+}
+
+% Links an agent to a previous agent thus creating a ring of agents.
+module createRing(ConnectingAgent, Leader) {
+	program {
+		% Link current agent with agent that needs to be connected to.
+		if bel( nodeToConnectTo(AgentToConnectTo) )
+		  then ConnectingAgent.send( next(AgentToConnectTo) )
+		  		+ delete( nodeToConnectTo(AgentToConnectTo) )
+				+ insert( nodeToConnectTo(ConnectingAgent) ).
+	}
+}
+
+module distributeTokens(CurrentToken, RemainingTokens) {
+	program {
+		% There are no remaining tokens to distribute, exit module.
+		if bel( RemainingTokens == 0 ) then exit-module.
+
+		% 
+		if bel( agents(L), nrOfAgents(TotalAgents),
+		    RemainingTokens >= TotalAgents,
+			NewRemainingTokens is RemainingTokens - TotalAgents,
+			NewCurrentToken is CurrentToken + TotalAgents,
+			CurrentTokenId is CurrentToken + 1)
+		  then sendTokens(L, 0, CurrentTokenId) + distributeTokens(NewCurrentToken, NewRemainingTokens).
+
+		% Must have here that remaining tokens is smaller than total number of agents
+		% (given that AgentList is not empty, condition of previous rule does not hold).
+        if bel( agents(L), nrOfAgents(TotalAgents),
+			NToSend is TotalAgents // RemainingTokens - 1,
+			CurrentTokenId is CurrentToken + 1,
+			nToSend(Old))
+		  then delete( nToSend(Old) ) + insert( nToSend(NToSend) ) + sendTokens(L, 0, CurrentTokenId).
+	}
+}
+
+module sendTokens(L, N, Id){ 
+	program{
+		% In case head of list L is empty list [] exit module again.
+		if bel( L = [] ) then exit-module.
+		
+		if bel( L = [H| T], N = 0, times(Times), nToSend(Y), IdN is Id + 1)
+	      then H.send( token(Id, Times) ) + sendTokens(T, Y, IdN).
+
+		% N must be greater than 0; only send tokens to tail of the list.
+		if bel( L = [H| T], M is N - 1, IdN is Id) then sendTokens(T, M, IdN).
+	}
+}
+
+main module {
+	program {
+		% Check if we received a token that needs to be forwarded to the next agent.
+		if bel( received(Sender, token(Id, N)), N \= 0, Y is N-1, next(NextAgent), 
+		       string_concat('Received token ', Id, Str1),
+			   string_concat(Str1, ' / ', Str2),
+			   string_concat(Str2, N, Str) )
+		  then NextAgent.send( token(Id, Y) ) + delete( received(Sender, token(Id, N)) )
+		  		+ printMessage(Str).
+
+		% Token has been forwarded specified number of times (see initial beliefs); record time we used.
+		if bel( received(Sender, token(Id,0)), timeUsed(Duration),
+				countN(C), CN is C + 1, tokens(CN),
+			   string_concat('Finished token ', Id, Str1),
+			   string_concat(Str1, ' / ', Str2),
+			   string_concat(Str2, Duration, Str),
+			   string_concat('Finished all tokens at ', Duration, StrFinal))
+		  then delete( received(Sender, token(Id, 0)) ) +
+				printMessage(Str) + printMessage(StrFinal) +
+                allother.send(simulationFinished) +
+				exit-module.
+				
+		% Token has been forwarded specified number of times (see initial beliefs); record time we used.
+		if bel( received(Sender, token(Id,0)), timeUsed(Duration),
+				countN(C), CN is C + 1, not(tokens(CN)),
+			   string_concat('Finished token ', Id, Str1),
+			   string_concat(Str1, ' / ', Str2),
+			   string_concat(Str2, Duration, Str))
+		  then delete(countN(C), received(Sender, token(Id, 0)) ) +
+		  		insert(countN(CN)) +
+				printMessage(Str).
+				
+		% Empty mail box (sent).
+		forall bel(sent(Receiver, Content)) do delete(sent(Receiver, Content)).
+	}
+}
+
+#import "common.mod2g".

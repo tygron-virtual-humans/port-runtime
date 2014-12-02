@@ -1,0 +1,10 @@
+agentfiles{
+	"ping.goal".
+	"pong.goal".
+}
+
+launchpolicy{
+	launch ping : ping.
+	launch pong : pong.
+}
+

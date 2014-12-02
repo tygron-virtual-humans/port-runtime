@@ -1,0 +1,38 @@
+main: blocksToTableAgent {
+	knowledge{
+		block(a). block(b). block(c). 
+		block(d). block(e). block(f).
+		block(g). block(h). block(i).
+		block(j). block(k). block(l).
+		block(m). block(n). block(o).
+		block(p). block(q). block(r). 
+		clear(Y) :- block(Y), not(on(X,Y)).
+		clear(table).
+	}
+	beliefs{
+		on(a,b). on(b,c). on(c,table).
+		on(d,e). on(e,f). on(f,table).
+		on(g,h). on(h,i). on(i,table).
+		on(j,k). on(k,l). on(l,table).
+		on(m,n). on(n,o). on(o,table).
+		on(p,q). on(q,r). on(r,table).
+	}
+	goals{
+		on(a,table), on(b,table), on(c,table), 
+		on(d,table), on(e,table), on(f,table),
+		on(g,table), on(h,table), on(i,table), 
+		on(j,table), on(k,table), on(l,table),
+		on(m,table), on(n,table), on(o,table), 
+		on(p,table), on(q,table), on(r,table).
+	}
+	program{
+		if a-goal(on(X,table)) then moveToTable(X).
+		% if bel(on(a,b), on(e,table)) then insert(bug).
+	}
+	actionspec{
+		moveToTable(X) {
+			pre{ clear(X), on(X,Y), block(Y) }
+			post{ not(on(X,Y)), on(X,table) }
+		}
+	}
+}

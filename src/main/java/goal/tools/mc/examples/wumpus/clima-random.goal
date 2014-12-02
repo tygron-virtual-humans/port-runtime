@@ -1,0 +1,249 @@
+main: wumpusAgent
+{
+	knowledge{
+	
+		% ==== BEGIN SECRET KNOWLEDGE ==== %
+
+
+		at(gold,138,66) :- position(138,66) , not(has(gold)).
+		position0(97,104).
+
+		% Breezes
+
+		% Stenches
+		at(stench,134,89). at(stench,133,88). at(stench,133,90). at(stench,132,89). 
+
+		% Walls
+		wall(103,75). wall(108,83). wall(116,65). wall(133,65). wall(127,73). 
+		wall(135,90). wall(98,81). wall(125,93). wall(136,65). wall(96,80). 
+		wall(113,87). wall(101,85). wall(102,105). wall(98,105). wall(121,65). 
+		wall(133,79). wall(130,73). wall(138,76). wall(109,77). wall(105,83). 
+		wall(99,69). wall(101,69). wall(133,101). wall(133,99). wall(116,101). 
+		wall(116,99). wall(103,85). wall(118,79). wall(111,83). wall(119,89). 
+		wall(122,65). wall(113,70). wall(129,73). wall(128,86). wall(98,88). 
+		wall(101,82). wall(104,103). wall(96,97). wall(96,103). wall(103,66). 
+		wall(135,100). wall(118,72). wall(108,87). wall(128,89). wall(111,96). 
+		wall(127,65). wall(111,102). wall(116,73). wall(114,77). wall(136,74). 
+		wall(98,72). wall(116,93). wall(104,71). wall(96,71). wall(123,72). 
+		wall(124,79). wall(128,65). wall(108,70). wall(101,97). wall(101,103). 
+		wall(123,73). wall(103,78). wall(106,77). wall(121,93). wall(127,79). 
+		wall(96,84). wall(111,87). wall(126,89). wall(101,87). wall(108,104). 
+		wall(108,98). wall(113,73). wall(105,79). wall(98,83). wall(126,100). 
+		wall(104,65). wall(96,65). wall(101,73). wall(96,82). wall(118,90). 
+		wall(113,93). wall(137,66). wall(126,75). wall(138,82). wall(111,79). 
+		wall(127,87). wall(117,105). wall(109,65). wall(133,95). wall(133,105). 
+		wall(103,86). wall(110,97). wall(123,90). wall(101,102). wall(126,68). 
+		wall(128,87). wall(98,89). wall(105,91). wall(122,105). wall(126,104). 
+		wall(121,80). wall(123,67). wall(121,81). wall(139,72). wall(135,87). 
+		wall(123,68). wall(136,73). wall(116,75). wall(114,79). wall(127,105). 
+		wall(127,95). wall(112,65). wall(123,104). wall(123,69). wall(132,87). 
+		wall(112,91). wall(133,73). wall(115,103). wall(96,73). wall(136,75). 
+		wall(134,73). wall(113,99). wall(113,101). wall(118,87). wall(101,89). 
+		wall(96,93). wall(104,93). wall(124,105). wall(124,95). wall(100,91). 
+		wall(118,69). wall(111,73). wall(106,79). wall(131,80). wall(107,65). 
+		wall(101,77). wall(106,99). wall(106,101). wall(131,81). wall(96,85). 
+		wall(118,92). wall(111,93). wall(135,92). wall(135,102). wall(135,98). 
+		wall(113,79). wall(123,87). wall(129,105). wall(129,95). wall(115,65). 
+		wall(137,70). wall(128,80). wall(116,84). wall(106,88). wall(115,91). 
+		wall(108,67). wall(112,103). wall(133,83). wall(109,81). wall(138,80). 
+		wall(123,88). wall(110,101). wall(116,82). wall(134,83). wall(103,87). 
+		wall(109,105). wall(137,67). wall(121,76). wall(118,83). wall(119,91). 
+		wall(121,103). wall(121,97). wall(113,74). wall(121,77). wall(124,71). 
+		wall(114,75). wall(121,82). wall(103,70). wall(118,76). wall(121,83). 
+		wall(108,89). wall(120,91). wall(111,67). wall(118,103). wall(101,68). 
+		wall(126,98). wall(106,69). wall(110,81). wall(123,66). wall(98,76). 
+		wall(126,85). wall(99,91). wall(101,91). wall(116,94). wall(110,105). 
+		wall(103,98). wall(111,69). wall(96,75). wall(104,75). wall(131,76). 
+		wall(125,91). wall(101,81). wall(97,65). wall(103,65). wall(131,97). 
+		wall(100,69). wall(131,77). wall(103,82). wall(122,71). wall(127,101). 
+		wall(106,81). wall(123,85). wall(127,83). wall(96,86). wall(115,89). 
+		wall(126,91). wall(106,105). wall(137,69). wall(114,67). wall(128,97). 
+		wall(128,103). wall(126,77). wall(115,81). wall(133,85). wall(124,101). 
+		wall(128,82). wall(116,85). wall(106,89). wall(126,94). wall(115,105). 
+		wall(137,71). wall(108,69). wall(130,83). wall(131,91). wall(135,69). 
+		wall(125,97). wall(133,96). wall(118,70). wall(111,74). wall(125,77). 
+		wall(108,92). wall(103,97). wall(121,78). wall(121,99). wall(121,101). 
+		wall(132,65). wall(126,72). wall(121,79). wall(112,87). wall(120,89). 
+		wall(119,65). wall(139,65). wall(110,77). wall(133,90). wall(118,101). 
+		wall(118,99). wall(108,90). wall(124,93). wall(135,89). wall(136,77). 
+		wall(116,79). wall(110,83). wall(117,89). wall(120,65). wall(131,73). 
+		wall(98,78). wall(113,84). wall(133,77). wall(113,71). wall(96,77). 
+		wall(135,97). wall(135,103). wall(133,76). wall(100,71). wall(108,76). 
+		wall(134,77). wall(106,84). wall(118,89). wall(96,94). wall(125,65). 
+		wall(106,67). wall(118,73). wall(115,77). wall(106,83). wall(96,87). 
+		wall(118,93). wall(133,100). wall(135,93). wall(113,83). wall(131,89). 
+		wall(96,100). wall(126,65). wall(111,70). wall(100,65). wall(116,86). 
+		wall(131,100). wall(107,97). wall(108,71). wall(123,93). wall(125,79). 
+		wall(110,87). wall(131,65). wall(98,69). wall(112,77). wall(121,86). 
+		wall(96,68). wall(98,92). wall(133,66). wall(124,75). wall(125,87). 
+		wall(119,105). wall(119,95). wall(131,96). wall(131,104). wall(108,65). 
+		wall(131,69). wall(103,74). wall(118,80). wall(108,91). wall(118,67). 
+		wall(111,97). wall(111,103). wall(106,73). wall(134,105). wall(139,66). 
+		wall(128,68). wall(127,75). wall(136,82). wall(98,80). wall(126,87). 
+		wall(106,93). wall(116,105). wall(116,95). wall(128,96). wall(126,69). 
+		wall(123,80). wall(96,79). wall(104,79). wall(121,67). wall(105,65). 
+		wall(98,99). wall(102,99). wall(102,101). wall(123,81). wall(106,85). 
+		wall(101,84). wall(111,66). wall(101,67). wall(131,87). wall(134,88). 
+		wall(121,95). wall(121,105). wall(111,65). wall(96,88). wall(111,91). 
+		wall(103,96). wall(137,73). wall(108,97). wall(133,87). wall(138,73). 
+		wall(117,75). wall(114,99). wall(110,85). wall(116,87). wall(126,105). 
+		wall(126,95). wall(101,80). wall(108,73). wall(116,100). wall(135,73). 
+		wall(118,74). wall(138,75). wall(108,93). wall(102,71). wall(112,79). 
+		wall(121,87). wall(131,95). wall(131,105). wall(114,65). wall(133,70). 
+		wall(96,70). wall(118,84). wall(114,91). wall(113,103). wall(113,97). 
+		wall(103,77). wall(128,81). wall(133,92). wall(116,68). wall(106,76). 
+		wall(111,101). wall(133,98). wall(133,102). wall(109,85). wall(105,93). 
+		wall(128,95). wall(128,105). wall(116,96). wall(96,98). wall(96,102). 
+		wall(135,91). wall(133,67). wall(123,76). wall(106,75). wall(136,81). 
+		wall(116,83). wall(113,100). wall(117,91). wall(102,65). wall(98,65). 
+		wall(123,97). wall(131,98). wall(135,83). wall(128,70). wall(123,77). 
+		wall(105,101). wall(136,80). wall(98,82). wall(113,86). wall(101,86). 
+		wall(136,67). wall(133,81). wall(118,66). wall(113,75). wall(96,81). 
+		wall(136,83). wall(131,85). wall(121,94). wall(101,71). wall(99,71). 
+		wall(133,80). wall(100,75). wall(139,67). wall(108,80). wall(106,86). 
+		wall(111,89). wall(118,91). wall(96,105). wall(104,105). wall(104,95). 
+		wall(96,95). wall(110,67). wall(120,97). wall(128,98). wall(128,102). 
+		wall(118,77). wall(111,81). wall(113,68). wall(125,71). wall(108,101). 
+		wall(108,99). wall(96,89). wall(111,95). wall(111,105). wall(135,94). 
+		wall(123,91). wall(101,66). wall(116,88). wall(98,103). wall(108,75). 
+		wall(121,85). wall(131,94). wall(114,89). wall(124,91). wall(130,103). 
+		wall(105,69). wall(98,73). wall(102,73). wall(128,77). wall(112,81). 
+		wall(100,99). wall(100,101). wall(96,72). wall(123,71). wall(126,82). 
+		wall(126,101). wall(126,99). wall(122,85). wall(102,93). wall(98,93). 
+		wall(112,105). wall(133,71). wall(105,75). wall(103,79). wall(128,83). 
+		wall(139,69). wall(116,70). wall(127,77). wall(101,88). wall(132,69). 
+		wall(118,71). wall(111,75). wall(123,101). wall(123,99). wall(99,75). 
+		wall(101,75). wall(139,71). wall(131,83). wall(98,84). wall(136,85). 
+		wall(113,89). wall(107,105). wall(96,96). wall(101,101). wall(101,99). 
+		wall(99,99). wall(96,104). wall(99,101). wall(96,67). wall(117,65). 
+		wall(124,97). wall(116,102). wall(116,98). wall(135,65). wall(126,73). 
+		wall(111,77). wall(96,83). wall(104,83). wall(106,87). wall(111,94). 
+		wall(138,65). wall(109,83). wall(123,89). wall(118,65). wall(137,65). 
+		wall(96,90). wall(105,103). wall(137,77). wall(135,101). wall(135,99). 
+		wall(131,93). wall(138,77). wall(117,79). wall(116,89). wall(113,96). 
+		wall(123,65). wall(113,98). wall(128,73). wall(108,77). wall(135,77). 
+		wall(118,78). wall(133,103). wall(133,97). wall(99,65). wall(101,65). 
+		wall(138,79). wall(103,92). wall(128,93). wall(108,94). wall(105,71). 
+		wall(128,79). wall(112,83). wall(129,89). wall(124,65). wall(96,74). 
+		wall(118,86). wall(101,90). wall(111,71). wall(138,74). wall(131,78). 
+		wall(101,79). wall(133,93). wall(116,72). wall(131,79). wall(106,80). 
+		wall(109,87). wall(130,89). wall(103,105). wall(97,105). wall(107,67). 
+		wall(129,65). wall(113,77). wall(107,83). wall(123,86). wall(103,99). 
+		wall(103,101). wall(98,85). wall(136,84). wall(122,93). wall(113,94). 
+		wall(121,72). wall(126,79). wall(127,89). wall(130,65). wall(121,73). 
+		wall(103,88). wall(106,103). wall(106,97). wall(96,66). wall(118,81). 
+		wall(131,92). wall(113,72). wall(125,75). wall(124,87). wall(101,93). 
+		wall(96,91). wall(104,91). wall(118,105). wall(135,105). wall(135,95). 
+		wall(128,69). wall(111,78). wall(128,92). wall(112,93). wall(132,105). 
+		wall(103,71). wall(128,75). wall(108,79). wall(123,105). wall(110,65). 
+		wall(127,69). wall(126,84). wall(121,100). wall(122,67). wall(109,97). 
+		wall(135,88). wall(107,73). wall(131,74). wall(102,77). wall(98,77). 
+		wall(101,83). wall(96,76). wall(131,75). wall(115,99). wall(113,85). 
+		wall(107,93). wall(120,95). wall(120,105). wall(103,67). wall(106,102). 
+		wall(106,98). wall(109,73). wall(107,79). wall(103,83). wall(134,87). 
+		wall(118,100). wall(106,65). wall(139,73). wall(107,101). wall(135,72). 
+		wall(132,73). wall(118,75). wall(115,79). wall(125,95). wall(125,105). 
+		wall(113,65). wall(98,86). wall(136,87). wall(113,91). wall(128,67). 
+		wall(114,103). wall(121,74). wall(131,90). wall(118,68). wall(111,72). 
+		wall(121,75). wall(101,94). wall(103,89). wall(130,105). wall(130,95). 
+		wall(139,70). wall(116,69). wall(110,73). wall(100,105). wall(100,95). 
+		wall(131,67). wall(98,68). wall(116,92). wall(132,67). wall(101,74). 
+		wall(128,71). wall(132,83). wall(129,85). wall(133,91). wall(138,81). 
+		wall(110,89). wall(116,91). wall(109,67). wall(122,97). wall(137,83). 
+		wall(107,69). wall(131,70). wall(103,73). wall(108,81). wall(106,72). 
+		wall(131,71). wall(118,82). wall(109,101). wall(130,85). wall(138,83). 
+		wall(103,93). wall(108,105). wall(108,95). wall(113,69). wall(107,75). 
+		wall(98,79). wall(121,91). wall(111,100). wall(119,97). wall(133,78). 
+		wall(96,78). wall(101,96). wall(104,101). wall(96,101). wall(96,99). 
+		wall(115,75). wall(138,78). wall(123,82). wall(131,101). wall(131,99). 
+		wall(133,94). wall(123,83). wall(103,84). wall(109,89). wall(122,91). 
+		wall(105,95). wall(105,105). wall(106,96). wall(116,103). wall(116,97). 
+		wall(121,70). wall(130,77). wall(113,81). wall(131,88). wall(111,68). 
+		wall(121,71). wall(128,101). wall(128,99). wall(101,95). wall(101,105). 
+		wall(99,105). wall(99,95). wall(98,87). wall(136,86). wall(107,89). 
+		wall(113,95). wall(113,105). wall(126,83). wall(127,91). wall(129,103). 
+		wall(121,102). wall(129,77). wall(108,86). wall(101,78). wall(139,68). 
+		wall(136,69). wall(128,66). wall(116,71). wall(125,101). wall(129,83). 
+		wall(132,85). wall(112,89). wall(128,91). wall(133,69). wall(115,67). 
+		wall(118,98). wall(118,102). wall(135,96). wall(135,104). wall(96,69). 
+		wall(104,69). wall(124,77). wall(114,81). wall(134,69). wall(122,101). 
+		wall(122,99). wall(118,85). wall(96,92). wall(114,105). wall(134,65). 
+		wall(98,98). wall(98,102). 
+
+
+
+		% ==== END SECRET KNOWLEDGE ==== %
+	
+		outsideCave :- not(insideCave).
+		goldLocated :- at(gold, _, _).
+		goldLocated :- has(gold).
+		
+		% position tracking
+		inFrontOf(Xcurrent, Ycurrent, east, X, Ycurrent) :- X is Xcurrent + 1.
+		inFrontOf(Xcurrent, Ycurrent, north, Xcurrent, Y) :- Y is Ycurrent + 1.
+		inFrontOf(Xcurrent, Ycurrent, west, X, Ycurrent) :- X is Xcurrent - 1.
+		inFrontOf(Xcurrent, Ycurrent, south, Xcurrent, Y) :- Y is Ycurrent - 1.
+		inFrontOf(Xcurrent, Ycurrent, X, Y) :- orientation(Dir), inFrontOf(Xcurrent, Ycurrent, Dir, X, Y).
+		behind(Xcurrent, Ycurrent, X, Y) :- orientation(Dir), orientationReversed(Dir,Rev),
+			inFrontOf(Xcurrent, Ycurrent, Rev, X, Y).
+		adjacent(X, Y, Xadj, Yadj) :- inFrontOf(X, Y, _, Xadj, Yadj).
+		
+		% orientation tracking
+		orientation(east,left,north). orientation(north,left,west).
+		orientation(west,left,south). orientation(south,left,east).
+		orientation(east,right,south). orientation(south,right,west).
+		orientation(west,right,north). orientation(north,right,east).
+		orientationReversed(east,west). orientationReversed(north,south).
+		orientationReversed(west,east). orientationReversed(south,north).
+				
+		% safeness check
+		safe(X, Y) :- previous(X, Y).
+		safe(X, Y) :- position(Xpos, Ypos), not(at(stench, Xpos, Ypos)), not(at(breeze, Xpos, Ypos)) .
+	}
+	beliefs{
+		insideCave.
+		has(arrow).
+		wumpusIsAlive.
+		orientation(east).
+		previous(-1,-1).
+	}
+	goals{
+		has(gold), outsideCave.
+	}
+	program{
+		
+		if a-goal(has(gold)), bel(position(X, Y), not(at(gold, X, Y))) then forward.
+		if a-goal(has(gold)), bel(position(X, Y), not(at(gold, X, Y))) then turn(left).
+		if a-goal(has(gold)), bel(position(X, Y), at(gold, X, Y)) then grab.
+		
+		if goal-a(has(gold)), bel(position0(X0, Y0), not(position(X0, Y0))) then forward.
+		if goal-a(has(gold)), bel(position0(X0, Y0), not(position(X0, Y0))) then turn(left).
+		if goal-a(has(gold)), bel(position0(X0, Y0), position(X0, Y0)) then climb.
+	}
+	actionspec{
+		forward {
+			pre{ position(X, Y), inFrontOf(X, Y, Xnew, Ynew), safe(Xnew, Ynew), previous(Xold, Yold) }
+			post{ not(position(X, Y)), position(Xnew, Ynew), not(previous(Xold, Yold)), previous(X, Y) }
+		}
+		turn(T) {
+			pre{ orientation(D), orientation(D,T,Dnew) }
+			post{ not(orientation(D)), orientation(Dnew) }
+		}
+		grab {
+			pre{ position(X, Y), at(gold, X, Y) }
+			post{ not(at(gold, X, Y)), has(gold) }
+		}
+		climb {
+			pre{ position0(X0, Y0) , position(X0, Y0) }
+			post{ not(insideCave), outsideCave }
+		}
+	}
+	perceptrules{
+		if bel( position(X,Y) , wall(X,Y) , previous(Xp,Yp) ) then delete( position(X,Y) ) + insert( position(Xp,Yp) ). 
+		if not(bel(position(X, Y))), bel(position0(X0, Y0)) then insert(position(X0, Y0) ).
+		
+%		if bel(position(X, Y), orientation(Dir), orientationReversed(Dir, OppDir)), not(bel(arrow( X, Y, _)))
+%		then insert( arrow(X, Y, OppDir) ).   
+	}
+}
+

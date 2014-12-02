@@ -1,0 +1,5 @@
+main module [exit=nogoals] {
+	program{
+		if true then exit-module.
+	}
+}

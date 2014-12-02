@@ -1,0 +1,19 @@
+init module{
+	beliefs{
+		test2.
+	}
+	actionspec{
+		update{
+			pre{ true }
+			post{ test1, not(test2) }
+		}
+	}
+}
+
+main module [exit=always] {
+	program [order=linearall] {
+		if true then update.
+		if bel(test1) then delete(test1) + insert(test2).
+	}
+}
+

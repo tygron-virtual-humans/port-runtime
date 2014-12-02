@@ -1,0 +1,7 @@
+agentfiles {
+	"clima-random.goal" [name=ag].
+}
+
+launchpolicy {
+    launch ag:ag.
+}

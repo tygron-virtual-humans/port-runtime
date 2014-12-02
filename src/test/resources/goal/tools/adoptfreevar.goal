@@ -1,0 +1,20 @@
+% test what happens if adopting goals with free vars.
+% It should throw an IllegalStateException.
+
+init module {
+	beliefs {
+		aap(X).
+	}
+}
+	
+main module [exit=nogoals] {
+	program{
+		if bel(result(X)) then exit-module.
+		
+		% if the following adopt does not fail, we have a bad goal in the goalbase.
+		if bel(aap(X)) then adopt(beer(X))+insert(result(failure)).
+		
+		% if previous rule failed, which we expect, we would get here.
+		if bel(true) then insert(result(ok)).
+	}
+}

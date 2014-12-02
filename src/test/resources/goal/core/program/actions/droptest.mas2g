@@ -1,0 +1,8 @@
+
+agentfiles {
+	"droptest.goal".
+}
+
+launchpolicy {
+    launch droptest:droptest. 
+}

@@ -1,0 +1,31 @@
+masTest {
+	
+	mas = "counter.mas2g".
+	timeout = 1.
+	
+	counter {
+		timeOutTest {
+			evaluate {
+				eventually bel(counter(100)).
+				always bel(true).
+				atend bel(true).
+				atstart bel(true).
+%				atstart bel(false).
+			} in do main.
+			
+			do printCounter.
+
+			evaluate {
+				eventually bel(counter(100)).
+				eventually bel(counter(20000)).
+				always bel(true).
+				atend bel(true).
+				atstart bel(true).
+%				always bel(false).
+				atend bel(false).
+			} in do main.
+		}
+	}
+
+}
+	

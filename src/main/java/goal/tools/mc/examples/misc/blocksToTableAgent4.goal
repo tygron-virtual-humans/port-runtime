@@ -1,0 +1,21 @@
+main: ag
+{
+	knowledge{
+    foo :- not(bar).
+}
+beliefs{
+    bar.
+}
+goals{
+    foo.
+}
+program{
+    if bel(true) then baz.
+}
+actionspec{
+    baz{
+       pre{ true }
+       post{ not(bar) }
+    }
+}
+}

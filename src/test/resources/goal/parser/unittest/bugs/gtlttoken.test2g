@@ -1,0 +1,11 @@
+masTest {
+
+	mas = "gtlttoken.mas2g".
+
+	gtlttokenAgent {
+		test {
+			assert bel(A is 1, B is 2, A =< A).
+			assert bel(A is 1, B is 2, A >= A).
+		}
+	}
+}

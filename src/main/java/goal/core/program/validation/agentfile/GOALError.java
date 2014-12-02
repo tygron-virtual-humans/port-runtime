@@ -1,0 +1,79 @@
+package goal.core.program.validation.agentfile;
+
+import goal.core.program.validation.ValidatorError.ValidatorErrorType;
+
+import java.util.MissingFormatArgumentException;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+
+public enum GOALError implements ValidatorErrorType {
+	ACTION_DUPLICATE_NAME,
+	ACTION_INVALID_PARAMETER,
+	ACTION_DUPLICATE_PARAMETER,
+	ACTION_ANONYMOUS_VARIABLE,
+	ACTION_UNBOUND_VARIABLE,
+	ACTION_USED_NEVER_DEFINED,
+	ACTION_NAME_CLASH,
+	ACTION_INVALID,
+	ACTION_EMPTY,
+	ACTIONSPEC_MISSING_PRE,
+	ACTIONSPEC_MISSING_POST,
+	ATOM_NO_CONTENT,
+	MODULE_DUPLICATE_NAME,
+	MODULE_MISSING_NAME,
+	MODULE_INVALID_PARAMETER,
+	MODULE_DUPLICATE_PARAMETER,
+	MODULE_ILLEGAL_FOCUS,
+	MODULE_ILLEGAL_EXIT,
+	MODULE_MISSING_PROGRAM_SECTION,
+	FUNCTION_MISSING_NAME,
+	EXITMODULE_NOTALLOWEDHERE,
+	EXITMODULE_CANNOTREACH,
+	IMPORT_MISSING_FILE,
+	MACRO_DUPLICATE_NAME,
+	MACRO_MISSING_NAME,
+	MACRO_USED_NEVER_DEFINED,
+	MACRO_INVALID,
+	OPTION_UNKNOWN,
+	OPTION_DUPLICATE,
+	OPTION_EXIT_INVALID,
+	OPTION_FOCUS_INVALID,
+	OPTION_ORDER_INVALID,
+	CONDITION_INVALID_NOT,
+	CONDITION_INVALID,
+	CONDITION_MISSING_BODY,
+	EXPRESSION_QUERIED_NEVER_DEFINED,
+	MENTAL_LITERAL_ANONYMOUS_VARIABLE,
+	LISTALL_ANONYMOUS_VARIABLE,
+	SEND_ANONYMOUS_VARIABLE,
+	POSTCONDITION_UNBOUND_VARIABLE,
+	GOAL_UNINSTANTIATED_VARIABLE,
+	MUSTHAVE_MAIN_OR_EVENT,
+	PROGRAM_NOT_IN_MODULE,
+	ANONYMOUS_MODULE_NOT_IN_MODULE,
+	RULE_INVALID,
+	RULE_MISSING_CONDITION,
+	RULE_MISSING_BODY,
+	LISTALL_MISSING_VAR,
+	SELECTOR_INVALID,
+	SEND_MISSING_SELECTOR,
+	EXTERNAL_OR_UNKNOWN;
+
+	private static final ResourceBundle BUNDLE = ResourceBundle
+			.getBundle("goal.core.program.validation.agentfile.GOALErrorMessages");
+
+	@Override
+	public String toReadableString(String... args) {
+		try {
+			return String.format(BUNDLE.getString(name()), (Object[]) args);
+		} catch (MissingResourceException e1) {
+			if (args.length > 0) {
+				return args[0];
+			} else {
+				return name();
+			}
+		} catch (MissingFormatArgumentException e2) {
+			return BUNDLE.getString(name());
+		}
+	}
+}

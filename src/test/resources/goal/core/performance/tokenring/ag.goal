@@ -1,0 +1,26 @@
+main module{
+	knowledge{
+		% Get token that needs to be sent and agent who needs to receive the token.
+		% Last token (N=0) needs to be sent to leader, all other tokens are sent to next agent in ring.
+		message(Id, N, Receiver, token(Id, Y) ) :-
+			N = 0 -> leader(Receiver), Y = N ; next(Receiver), Y is N-1 .
+	}
+	program{
+		% If we received a token, forward it.
+		if bel( received(Sender, token(Id, N)), message(Id, N, Receiver, Content),
+		       string_concat('Received token ', Id, Str1),
+			   string_concat(Str1, ' / ', Str2),
+			   string_concat(Str2, N, Str) )
+			then Receiver.send( Content ) + delete( received(Sender, token(Id, N)) ) + printMessage(Str).
+
+		% If we received information about next agent in the ring, store it.
+		if bel( received(Leader, next(Agent)) ) then insert( next(Agent), leader(Leader) ) + delete( received(Leader, next(Agent)) ).
+		
+		if bel(received(Sender, simulationFinished)) then exit-module.
+		
+		% Empty mail box (sent).
+		forall bel(sent(Receiver, Content)) do delete(sent(Receiver, Content)).
+	}
+}
+
+#import "common.mod2g".

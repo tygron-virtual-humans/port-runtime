@@ -1,0 +1,45 @@
+	% This agent manages the overall execution of the experiment.
+
+init module {
+	knowledge{
+		#import "comp.pl".
+			
+		strConcatList([H|[]], H).
+		strConcatList([H|T], Str) :- strConcatList(T,StrTemp), string_concat(H, StrTemp, Str).
+	}
+	
+	beliefs{
+		run(a,[blue, red, yellow], 600).
+		%run(b,[blue, red, yellow, red, yellow, blue, red, yellow, red, blue], 6000).
+	}
+	
+	goals{
+		
+	}
+	
+	program {
+        forall bel(member(A,[blue,red,yellow]), member(B,[blue,red,yellow]), complement(A,B,C), strConcatList([A, ' + ', B, ' -> ', C], Str)) do
+		  printMessage(Str).
+    }
+	
+	actionspec{
+		skip {
+			pre {true}
+			post {true}
+		}
+	}
+}
+	
+main module{
+	program{
+		if true then skip.
+	}
+}
+
+event module{
+	program{
+		if true then skip.
+	}
+}
+
+#import "common.mod2g".

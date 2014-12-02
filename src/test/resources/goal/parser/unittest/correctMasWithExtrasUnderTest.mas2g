@@ -1,0 +1,13 @@
+agentfiles{
+	% insert (list of) agent file references below.
+	"fibonaci.goal" [name = filename] .
+}
+
+launchpolicy{
+	launch agentUnderTest : filename.
+	launch agentUnderTest : filename.
+	launch secondAgentUnderTest : filename.
+	launch extraAgentWithNoTest : filename.
+
+}
+

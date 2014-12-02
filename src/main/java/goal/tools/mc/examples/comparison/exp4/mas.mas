@@ -1,0 +1,7 @@
+agentfiles {
+	"counter.goal" [name=ag].
+}
+
+launchpolicy {
+    launch agent:ag.
+}

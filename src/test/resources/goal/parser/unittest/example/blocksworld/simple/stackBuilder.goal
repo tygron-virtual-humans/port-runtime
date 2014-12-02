@@ -1,0 +1,84 @@
+init module {
+	knowledge{
+		% only blocks can be on top of another object.
+		block(X) :- on(X, _).
+		% a block is clear if nothing is on top of it.
+       	clear(X) :- block(X), not( on(_, X) ).
+		% the table is always clear.
+		clear('table').
+
+		% the tower predicate holds for any stack of blocks that sits on the table.
+		tower([X]) :- on(X, 'table').
+		tower([X, Y| T]) :- on(X,Y), tower([Y| T]).
+		
+	}
+	beliefs{
+		testBelief.
+	}
+	program{
+		if true then insert(testInsert).
+	}
+	actionspec{
+		% not(on(X,Y)) in precondition to prevent moving a block on the table to another place on the table.
+		move(X, Y) {
+		   pre{ clear(X), clear(Y), on(X, Z), not( on(X, Y) ) }
+		   post{ not( on(X, Z) ), on(X, Y) }
+		}
+	}
+}
+
+main module [exit=nogoals] {
+	
+	goals{
+		on('b1','table'), on('b2','b1'), on('b3','b2'), on('b4','table'), 
+		on('b5','table'), on('b6','b5'), on('b7','b6'), on('b8','b7'), on('b9','b8').
+	}
+	
+	program[order=linearall] {
+		if bel(not(clear)) then clear + insert(clear).
+		if goal(tower(T)) then build(T).
+		
+	}
+}
+
+%%
+% Builds a tower provided all blocks of the tower are either clear, 
+% already in the right position, or stacked in such a way that picking 
+% up a block clears blocks needed later on.
+%%
+module build(Tower) [exit=noaction, focus=new] {
+	
+	knowledge{
+		subTower(_,[]).
+		subTower(T,T).
+		subTower([X|T],SubT) :- subTower(T,SubT). 
+	}
+	
+	goals{
+	 	tower(Tower).
+	}
+	
+	program {
+		if goal(tower(T)), bel(subTower(T,[X,Y| Build]),tower([Y|Build])) then move(X,Y).
+		if goal(tower(T)), bel(subTower(T,[X])) then move(X,'table').	
+	}
+	
+}
+
+%%
+% Puts all blocks on the table.
+%%
+module clear [exit=noaction, focus=new]  {
+	
+	program  {
+		if bel(on(X,Y), not(Y='table')) then move(X,'table').
+	}
+}
+
+event module {
+	program {
+		% the Blocks World is fully observable.
+		forall bel( percept( on(X, Y) ), not( on(X, Y) ) ) do insert( on(X, Y) ).
+		forall bel( on(X, Y), not( percept( on(X, Y) ) ) ) do delete( on(X, Y) ).	
+	}
+}

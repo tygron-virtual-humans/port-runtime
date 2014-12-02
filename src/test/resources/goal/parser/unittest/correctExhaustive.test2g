@@ -1,0 +1,60 @@
+%Correct: exhaustive example
+
+masTest {
+
+	mas 		= "correctMasUnderTest.mas2g".
+
+	agentUnderTest {
+		
+		before {
+			assert bel(not(beforeModule)).
+			do beforeModule.
+			assert bel(beforeModule).
+		}
+		
+		test { 
+			assert bel(not(moduleUnderTest)).		
+			do moduleUnderTest(identifier, 42, 0.42, function).
+			assert bel(moduleUnderTest).
+		}		
+		
+		after {
+			assert bel(not(afterModule)).		
+			do afterModule(something,somethingElse).
+			assert bel(afterModule).			
+		}
+	}
+	
+	secondAgentUnderTest {
+		
+		before {
+			assert bel(not(beforeModule)).
+			assert bel(not(moduleUnderTest)).
+			assert bel(not(afterModule)).
+			do beforeModule.
+			assert bel(beforeModule).
+			assert bel(not(moduleUnderTest)).
+			assert bel(not(afterModule)).
+		}
+		
+		tests { 
+			assert bel(beforeModule).
+			assert bel(not(moduleUnderTest)).
+			assert bel(not(afterModule)).		
+			do moduleUnderTest(identifier, 42, 0.42, function).
+			assert bel(beforeModule).
+			assert bel(moduleUnderTest).
+			assert bel(not(afterModule)).
+		}		
+		
+		after {
+			assert bel(beforeModule).
+			assert bel(moduleUnderTest).
+			assert bel(not(afterModule)).		
+			do afterModule(something, somethingElse).
+			assert bel(beforeModule).
+			assert bel(moduleUnderTest).
+			assert bel(afterModule).
+		}
+	}	
+}

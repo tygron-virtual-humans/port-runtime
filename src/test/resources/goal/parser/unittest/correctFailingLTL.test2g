@@ -1,0 +1,20 @@
+%Correct: minimal version of evaluate in statement.
+
+masTest {
+
+	mas 		= 	"correctMasUnderTest.mas2g".
+
+	agentUnderTest {
+		
+		test {
+		
+			evaluate {
+				always bel(not(beforeModule)).
+				eventually bel(not(moduleUnderTest)).
+				atend bel(not(moduleUnderTest)).
+				
+			} in do moduleUnderTest(identifier, 42, 0.42, function).
+
+		}
+	}
+}

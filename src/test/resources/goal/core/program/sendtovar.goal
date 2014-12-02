@@ -1,0 +1,36 @@
+% test if send actions work properly if used with a variable.
+% would be nice if we could test this with multiple agents.
+% but it's acceptable to test with 1 agent.
+
+init module {
+	goals{
+		verstuurd(all,'I am going to Room_C1').
+		% we can't set as goal sent(all,_) so we need workaround.
+		
+		sentTo(all).
+		sentTo(allother).
+	}
+	program{
+		if bel(me(X), string_concat('my name is ',X,Y)) then adopt(verstuurd(allother, Y)).
+	}
+}
+	
+module test [exit=always] {
+	program [order=linear]{
+		if a-goal(verstuurd(X,Y)) then X.send(Y)+insert(verstuurd(X,Y), sentTo(X)).	
+		if bel(me(Me), received(Me,'I am going to Room_C1')) then insert(result(ok)).
+		if bel(true) then insert(result(failure)).
+	}
+}
+
+
+main module {
+	program{
+		if bel(result(X)) then exit-module.
+		
+		% proceed testing.
+		if bel(true) then test.
+	}
+}
+
+

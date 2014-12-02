@@ -1,0 +1,18 @@
+init module{
+	beliefs{
+		counter(0).
+	}
+}
+
+main module{
+	program{
+%		if bel(counter(X), X>200) then exit-module.
+		if bel(counter(X), Y is X+1) then print(X) + delete(counter(X)) + insert(counter(Y)).
+	}
+}
+
+module printCounter {
+	program{
+		if bel(counter(X), atom_concat('counter = ', X, Y)) then print(Y).
+	}
+}

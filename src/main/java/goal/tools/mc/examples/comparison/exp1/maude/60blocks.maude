@@ -1,0 +1,41 @@
+in model-checker.maude
+in querylanguage2.maude
+in additionals.maude
+in goal-sem.maude
+mod BLOCK-GOAL is
+	protecting SYNTACTICAL-DEFS .
+	protecting GOAL-PREDS .
+	sort Block .
+	subsorts GroundTerm < Block .
+	vars X Y Z : Block .
+	vars BB GB U : BeliefBase .
+	vars S : Substitution .
+	var LS : ListSubstitution .
+	op on : Block Block -> Belief .
+	op clear : Block -> Belief .
+	op block : Block -> Belief .
+	crl [on] : solve1(on(X, Y), U) => sol(top, none) if matches(on(X, Y), U) == none .
+	crl [on] : solve1(on(X, Z), U) => sol(top, S) if (S & LS) := allMatches(on(X,Z), U, U) /\ S =/= none .
+	crl [clear] : solve1(clear(X), U) => sol(top, none) if matches(clear(X), U) == none .
+	crl [clear] : solve1(clear(X), U) => sol(top, S) if (S & LS) := allMatches(clear(X), U, U) /\ S =/= none .
+	crl [block] : solve1(block(X), U) => sol(top, none) if matches(block(X), U) == none .
+	crl [block] : solve1(block(X), U) => sol(top, S) if (S & LS) := allMatches(block(X), U, U) /\ S =/= none .
+	op move : Block Block -> B-Action .
+	eq [b-act] : move(X, Z) = [block(Z) , neg on(X,Z) ;; on(X,table) ;; clear(Z)] .
+	op moveConditional : Block Block -> C-Action .
+	eq [c-act] : moveConditional(X, Z) = {goal(on(ab,table)) /\ bel(on(X,Z)) /\ bel(clear(X))} do(move(X,Z)) .
+	op lb2 : -> GMentalState .
+	eq [by2] : lb2 = << bLabel(empty), bb, gb  >> .
+	ops property : -> Prop .
+	ceq << L:Label, BB, GB >> |= property = true if matches(on(ab,table), BB) == none .
+	ops aa ab ac ad ae af ag ah ai aj ak al am an ao ap aq ar as at au av aw ax ay az ba bc bd be bf bg bh bi bj bk bl bm bn bo bp bq br bs bt bu bv bw bx by bz ca cb cc cd ce cf cg ch ci table : -> Block . 
+	eq bb = on(aa,table) ; block(aa) ; on(ab,aa) ; block(ab) ; on(ac,ab) ; block(ac) ; on(ad,ac) ; block(ad) ; clear(ad) ; on(ae,table) ; block(ae) ; clear(ae) ; on(af,table) ; block(af) ; clear(af) ; on(ag,table) ; block(ag) ; clear(ag) ; on(ah,table) ; block(ah) ; clear(ah) ; on(ai,table) ; block(ai) ; clear(ai) ; on(aj,table) ; block(aj) ; clear(aj) ; on(ak,table) ; block(ak) ; clear(ak) ; on(al,table) ; block(al) ; clear(al) ; on(am,table) ; block(am) ; clear(am) ; on(an,table) ; block(an) ; clear(an) ; on(ao,table) ; block(ao) ; clear(ao) ; on(ap,table) ; block(ap) ; clear(ap) ; on(aq,table) ; block(aq) ; clear(aq) ; on(ar,table) ; block(ar) ; clear(ar) ; on(as,table) ; block(as) ; clear(as) ; on(at,table) ; block(at) ; clear(at) ; on(au,table) ; block(au) ; clear(au) ; on(av,table) ; block(av) ; clear(av) ; on(aw,table) ; block(aw) ; clear(aw) ; on(ax,table) ; block(ax) ; clear(ax) ; on(ay,table) ; block(ay) ; clear(ay) ; on(az,table) ; block(az) ; clear(az) ; on(ba,table) ; block(ba) ; clear(ba) ; on(bc,table) ; block(bc) ; clear(bc) ; on(bd,table) ; block(bd) ; clear(bd) ; on(be,table) ; block(be) ; clear(be) ; on(bf,table) ; block(bf) ; clear(bf) ; on(bg,table) ; block(bg) ; clear(bg) ; on(bh,table) ; block(bh) ; clear(bh) ; on(bi,table) ; block(bi) ; clear(bi) ; on(bj,table) ; block(bj) ; clear(bj) ; on(bk,table) ; block(bk) ; clear(bk) ; on(bl,table) ; block(bl) ; clear(bl) ; on(bm,table) ; block(bm) ; clear(bm) ; on(bn,table) ; block(bn) ; clear(bn) ; on(bo,table) ; block(bo) ; clear(bo) ; on(bp,table) ; block(bp) ; clear(bp) ; on(bq,table) ; block(bq) ; clear(bq) ; on(br,table) ; block(br) ; clear(br) ; on(bs,table) ; block(bs) ; clear(bs) ; on(bt,table) ; block(bt) ; clear(bt) ; on(bu,table) ; block(bu) ; clear(bu) ; on(bv,table) ; block(bv) ; clear(bv) ; on(bw,table) ; block(bw) ; clear(bw) ; on(bx,table) ; block(bx) ; clear(bx) ; on(by,table) ; block(by) ; clear(by) ; on(bz,table) ; block(bz) ; clear(bz) ; on(ca,table) ; block(ca) ; clear(ca) ; on(cb,table) ; block(cb) ; clear(cb) ; on(cc,table) ; block(cc) ; clear(cc) ; on(cd,table) ; block(cd) ; clear(cd) ; on(ce,table) ; block(ce) ; clear(ce) ; on(cf,table) ; block(cf) ; clear(cf) ; on(cg,table) ; block(cg) ; clear(cg) ; on(ch,table) ; block(ch) ; clear(ch) ; on(ci,table) ; block(ci) ; clear(ci)  .
+	op gb : -> GoalBase .
+	op g1 : -> BeliefBase .
+	eq g1 = on(ab,table) .
+	eq gb = g1 .
+endm
+*** set profile off . set profile on . rew lb2 . show profile . set profile off .
+set verbose on .
+*** red modelCheck(lb2, <> property) .
+rew lb2 .

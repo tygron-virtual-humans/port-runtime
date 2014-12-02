@@ -1,0 +1,11 @@
+agentfiles{
+	"split.goal" [name = filename] .
+}
+
+launchpolicy{
+	launch split1 : filename.
+	launch split2 : filename.
+	launch split3 : filename.
+	launch split4 : filename.
+}
+

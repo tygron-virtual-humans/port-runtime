@@ -1,0 +1,164 @@
+init module {
+	knowledge {
+		% A room is a place with exactly one neighbour, i.e., only way way to get to and from that place.
+		room(PlaceID) :- zone(_,PlaceID,_,_,Neighbours), length(Neighbours,1).
+		
+		% nextColor(-Color). Color is the next color that we need.
+		nextColor(Color) :- sequenceIndex(N), sequence(Colors), nth0(N,Colors,Color).
+		
+		% which color are we holding? Fails if holding nothing.
+		holdingColor(Color) :- holding(Id), block(Color,Place,Id).
+	}
+	
+	
+	
+	program {
+		% Store map information, i.e., navigation points in agent's belief base.
+		forall bel( percept(zone(ID, Name, X, Y, Neighbours)) ) 
+		do insert( zone(ID, Name, X, Y, Neighbours) ).
+				
+		% Record current state of movement in belief base.
+		forall bel( percept(state(State)) ) do insert( state(State) ).
+		
+		% target sequence.
+		if bel(percept(sequence(Seq))) then insert(sequence(Seq)).
+		
+		%initial sequence index.
+		if bel(percept(sequenceIndex(N))) then insert(sequenceIndex(N)).
+
+		
+	}
+		
+	actionspec {	
+		
+		% The goTo action makes the agent move to a place (location) in the BW4T environment.
+		% As long as the agent has not arrived at the place it is going to, it will be in "traveling" mode.
+		goTo(Location) {
+            pre { not(state(traveling)) }
+			post { true }
+		}
+		
+		% go to a block
+		goToBlock(BlockId) {
+			pre {not(state(traveling))}
+			post{ true}
+		}
+
+		pickUp{
+		    pre { true }
+			post {  }
+		}
+		
+		putDown {
+			pre { holding(X) }
+			post { true }
+		}
+
+	}
+	
+
+}
+
+event module {
+	program{
+		forall bel(percept(not(in(X)))) do delete(in(X)).
+		forall bel(percept(in(X))) do insert(in(X)).
+
+		
+		if bel( state(State), percept(state(NewState)) ) then delete( state(State) ) + insert( state(NewState) ).
+		if bel(percept(in(Place))) then insert(visited(Place)).
+		
+		% remember new perceived blocks.
+		forall bel(percept(color(Id,Color)), percept(in(Place))) 
+		do insert(block(Color,Place, Id)) .
+
+		% facilitate finding A block.
+		forall bel(percept(color(Id,Color))) do insert(seeBlock(Id,Color)).
+		forall bel(seeBlock(Id,Color), not(percept(color(Id,Color)))) do delete(seeBlock(Id,Color)).
+
+		% update sequenceIndex.
+		if bel(percept(sequenceIndex(New)), sequenceIndex(Old)) 
+		then insert(not(sequenceIndex(Old)), sequenceIndex(New)).
+
+		%update atBlock percept		
+		forall bel(percept(not(atBlock(X)))) do delete(atBlock(X)).
+		forall bel(percept(atBlock(New))) do insert(atBlock(New)).
+
+		% update holding percept		
+		forall bel(percept(not(holding(X)))) do delete(holding(X)).
+		forall bel(percept(holding(X))) do insert(holding(X)).
+
+
+	}
+}
+
+
+
+main module [exit=nogoals] {
+	program [order=linearall] {
+		if bel(true) then deliverblock.
+	}
+}
+
+
+% visit all rooms and remember what's inside.
+module explore [focus=new, exit=nogoals] {
+	goals {
+		exploredAllRooms.
+	}
+	program  {
+		forall bel(room(Room)) do adopt(visited(Room)).
+
+		if a-goal( visited(Place) ) then goTo(Place).
+		if true then insert(exploredAllRooms).
+	}
+}
+
+
+% findblock tries to get the next block in sequence.
+module getblock(Color) [focus=new, exit=nogoals] {
+	goals {
+		holdingColor(Color).
+	}
+	
+	program {
+		if bel(not(exploredAllRooms)) then explore.
+				
+		if bel(atBlock(Id), block(Color,Place,Id))
+		then pickUp.
+		
+		% we are not yet at the block. Are we in the room?
+		
+		if bel(seeBlock(Id,Color)) then goToBlock(Id).
+		
+		% if we get here we may be executing goToBlock.
+		% Or, we may not even be in a room with a block.
+		% only do something if we don't see a block.
+		if bel(not(seeBlock(_,Color)), block(Color,Place,Id)) 
+		then goTo(Place).
+		
+	}
+}
+
+% tries to get next block and drop it to dropzone.
+module deliverblock [focus=new, exit=nogoals] {
+	program  {
+		if bel(sequenceIndex(N), N1 is N+1) then adopt(sequenceIndex(N1)).
+		
+		if bel(nextColor(Color),not(holdingColor(Color))) then getblock(Color).
+		
+		% If we get here we have the block.
+		if bel(not(in('DropZone'))) then goTo('DropZone').
+		
+		% if we get here we are in dropzone with the block.
+
+		if bel(in('DropZone')) then putDown.		
+	}
+}
+
+
+
+	
+	
+
+
