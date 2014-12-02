@@ -1,7 +1,5 @@
 package goal.core.agent;
 
-import goal.core.kr.KRlanguage;
-import goal.core.program.GOALProgram;
 import goal.core.runtime.service.agent.AgentService;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
 import goal.tools.debugger.Debugger;
@@ -11,8 +9,6 @@ import java.io.File;
 
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 import nl.tudelft.goal.messaging.messagebox.MessageBox;
-
-import org.antlr.v4.runtime.misc.Nullable;
 
 /**
  * Constructs agents with a specific {@link GOALInterpreter} and
@@ -53,7 +49,7 @@ public interface AgentFactory<DEBUGGER extends Debugger, CONTROLLER extends GOAL
 	 */
 	// FIXME: GOALProgram should have a reference to its .goal file.
 	public Agent<CONTROLLER> build(GOALProgram program, File goalProgramFile,
-			String agentBaseName, @Nullable EnvironmentPort environment)
-					throws MessagingException, KRInitFailedException;
+			String agentBaseName, EnvironmentPort environment)
+			throws MessagingException, KRInitFailedException;
 
 }

@@ -1,8 +1,6 @@
 package goal.tools.debugger;
 
 import goal.core.agent.Controller;
-import goal.core.program.GOALProgram;
-import goal.parser.IParsedObject;
 import goal.tools.debugger.SteppingDebugger.RunMode;
 
 public interface Debugger {
