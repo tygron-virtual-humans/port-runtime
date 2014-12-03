@@ -18,14 +18,14 @@
 
 package goal.tools.errorhandling.exceptions;
 
-import goal.parser.InputStreamPosition;
+import languageTools.parser.InputStreamPosition;
 
 /**
  * An exception that serves as a <b>notification</b> of the fact that we could
  * not handle something that the user did.
  * <p>
  * This exception should <b>never be thrown</b> at runtime. The exception should
- * only be used within {@link goal.core.program} for parser and validation
+ * only be used within {@link languageTools.program.agent} for parser and validation
  * related issues and within GUI/User interaction components.
  * </p>
  * <p>

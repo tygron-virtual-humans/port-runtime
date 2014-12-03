@@ -36,8 +36,8 @@
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/actions/DropAction.html" title="class in goal.core.program.actions"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/actions/ExitModuleAction.ExitTarget.html" title="enum in goal.core.program.actions"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/DropAction.html" title="class in languageTools.program.agent.actions"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/ExitModuleAction.ExitTarget.html" title="enum in languageTools.program.agent.actions"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/actions/ExitModuleAction.html" target="_top">Frames</a></li>
@@ -79,7 +79,7 @@
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">goal.core.program.actions</div>
+<div class="subTitle">languageTools.program.agent.actions</div>
 <h2 title="Class ExitModuleAction" class="title">Class ExitModuleAction</h2>
 </div>
 <div class="contentContainer">
@@ -90,10 +90,10 @@
 <li><a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">goal.parser.ParsedObject</a></li>
 <li>
 <ul class="inheritance">
-<li><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">goal.core.program.actions.Action</a></li>
+<li><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">languageTools.program.agent.actions.Action</a></li>
 <li>
 <ul class="inheritance">
-<li>goal.core.program.actions.ExitModuleAction</li>
+<li>languageTools.program.agent.actions.ExitModuleAction</li>
 </ul>
 </li>
 </ul>
@@ -111,8 +111,8 @@
 <hr>
 <br>
 <pre>public class <span class="strong">ExitModuleAction</span>
-extends <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></pre>
-<div class="block">Forces an exit from the current (non-anonymous) <a href="../../../../goal/core/program/Module.html" title="class in goal.core.program"><code>Module</code></a>.
+extends <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></pre>
+<div class="block">Forces an exit from the current (non-anonymous) <a href="../../../../goal/core/program/Module.html" title="class in languageTools.program.agent"><code>Module</code></a>.
  <p>
  Modules create an (implicit) stack of contexts <module1, module2, module3,
  ..., moduleN> when they are called, where 'moduleN' is the last module that
@@ -123,7 +123,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
  </p></div>
 <dl><dt><span class="strong">Author:</span></dt>
   <dd>N.Kraayenbrink</dd>
-<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#goal.core.program.actions.ExitModuleAction">Serialized Form</a></dd></dl>
+<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#languageTools.program.agent.actions.ExitModuleAction">Serialized Form</a></dd></dl>
 </li>
 </ul>
 </div>
@@ -144,7 +144,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ExitModuleAction.ExitTarget.html" title="enum in goal.core.program.actions">ExitModuleAction.ExitTarget</a></strong></code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ExitModuleAction.ExitTarget.html" title="enum in languageTools.program.agent.actions">ExitModuleAction.ExitTarget</a></strong></code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -162,7 +162,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 </tr>
 <tr class="altColor">
 <td class="colOne"><code><strong><a href="../../../../goal/core/program/actions/ExitModuleAction.html#ExitModuleAction(goal.parser.InputStreamPosition)">ExitModuleAction</a></strong>(<a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</code>
-<div class="block">Creates an <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in goal.core.program.actions"><code>ExitModuleAction</code></a> that forces an exit from the current
+<div class="block">Creates an <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in languageTools.program.agent.actions"><code>ExitModuleAction</code></a> that forces an exit from the current
  (non-anonymous) module, i.e., the highest non-anonymous modules on the
  (implicit) module stack; all higher anonymous modules are also exited.</div>
 </td>
@@ -183,9 +183,9 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ExitModuleAction.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
-<div class="block">Applies the given <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in goal.core.program.actions"><code>ExitModuleAction</code></a>.</div>
+<div class="block">Applies the given <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in languageTools.program.agent.actions"><code>ExitModuleAction</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -193,30 +193,30 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ExitModuleAction.html#equals(java.lang.Object)">equals</a></strong>(java.lang.Object&nbsp;obj)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in goal.core.program.actions">ExitModuleAction</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in languageTools.program.agent.actions">ExitModuleAction</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ExitModuleAction.html#evaluatePrecondition(goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger,%20boolean)">evaluatePrecondition</a></strong>(<a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate">MentalState</a>&nbsp;mentalState,
                     <a href="../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger,
                     boolean&nbsp;last)</code>
-<div class="block">Checks whether the precondition of this <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in goal.core.program.actions"><code>ExitModuleAction</code></a> holds.</div>
+<div class="block">Checks whether the precondition of this <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in languageTools.program.agent.actions"><code>ExitModuleAction</code></a> holds.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected <a href="../../../../goal/core/runtime/service/agent/Result.html" title="class in goal.core.runtime.service.agent">Result</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ExitModuleAction.html#executeAction(goal.core.runtime.service.agent.RunState,%20goal.tools.debugger.Debugger)">executeAction</a></strong>(<a href="../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;?&gt;&nbsp;runState,
              <a href="../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger)</code>
-<div class="block">Executes the <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a>.</div>
+<div class="block">Executes the <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../../goal/core/kr/language/Var.html" title="interface in goal.core.kr.language">Var</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ExitModuleAction.html#getFreeVar()">getFreeVar</a></strong>()</code>
-<div class="block">Returns the (free) variables of this <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in goal.core.program.actions"><code>ExitModuleAction</code></a>.</div>
+<div class="block">Returns the (free) variables of this <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in languageTools.program.agent.actions"><code>ExitModuleAction</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ExitModuleAction.html#getPrecondition(goal.core.kr.KRlanguage)">getPrecondition</a></strong>(<a href="../../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a>&nbsp;language)</code>
-<div class="block">The precondition of an <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in goal.core.program.actions"><code>ExitModuleAction</code></a> is <code>true</code>, or, to
+<div class="block">The precondition of an <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in languageTools.program.agent.actions"><code>ExitModuleAction</code></a> is <code>true</code>, or, to
  be more precise "bel(true)"; this means it can always be performed if the
  action is closed.</div>
 </td>
@@ -231,10 +231,10 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 </tr>
 </table>
 <ul class="blockList">
-<li class="blockList"><a name="methods_inherited_from_class_goal.core.program.actions.Action">
+<li class="blockList"><a name="methods_inherited_from_class_languageTools.program.agent.actions.Action">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;goal.core.program.actions.<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></h3>
+<h3>Methods inherited from class&nbsp;languageTools.program.agent.actions.<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></h3>
 <code><a href="../../../../goal/core/program/actions/Action.html#getName()">getName</a>, <a href="../../../../goal/core/program/actions/Action.html#isClosed()">isClosed</a>, <a href="../../../../goal/core/program/actions/Action.html#report(goal.tools.debugger.Debugger)">report</a>, <a href="../../../../goal/core/program/actions/Action.html#run(goal.core.runtime.service.agent.RunState,%20goal.core.kr.language.Substitution,%20goal.tools.debugger.Debugger,%20boolean)">run</a></code></li>
 </ul>
 <ul class="blockList">
@@ -272,7 +272,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <li class="blockList">
 <h4>ExitModuleAction</h4>
 <pre>public&nbsp;ExitModuleAction(<a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</pre>
-<div class="block">Creates an <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in goal.core.program.actions"><code>ExitModuleAction</code></a> that forces an exit from the current
+<div class="block">Creates an <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in languageTools.program.agent.actions"><code>ExitModuleAction</code></a> that forces an exit from the current
  (non-anonymous) module, i.e., the highest non-anonymous modules on the
  (implicit) module stack; all higher anonymous modules are also exited.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>source</code> - The source code location of this action, if available;
@@ -294,10 +294,10 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <li class="blockList">
 <h4>getFreeVar</h4>
 <pre>public&nbsp;java.util.Set&lt;<a href="../../../../goal/core/kr/language/Var.html" title="interface in goal.core.kr.language">Var</a>&gt;&nbsp;getFreeVar()</pre>
-<div class="block">Returns the (free) variables of this <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in goal.core.program.actions"><code>ExitModuleAction</code></a>.</div>
+<div class="block">Returns the (free) variables of this <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in languageTools.program.agent.actions"><code>ExitModuleAction</code></a>.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#getFreeVar()">getFreeVar</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#getFreeVar()">getFreeVar</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Returns:</span></dt><dd>The empty set of variables.</dd></dl>
 </li>
 </ul>
@@ -307,12 +307,12 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <ul class="blockList">
 <li class="blockList">
 <h4>applySubst</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&nbsp;applySubst(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</pre>
-<div class="block">Applies the given <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in goal.core.program.actions"><code>ExitModuleAction</code></a>.
+<pre>public&nbsp;<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&nbsp;applySubst(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</pre>
+<div class="block">Applies the given <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in languageTools.program.agent.actions"><code>ExitModuleAction</code></a>.
  As the action has no free variables there is nothing to do.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>substitution</code> - The substitution to be applied to the action.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>The exit module action "as is".</dd></dl>
 </li>
@@ -323,16 +323,16 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <ul class="blockList">
 <li class="blockList">
 <h4>getPrecondition</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a>&nbsp;getPrecondition(<a href="../../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a>&nbsp;language)
+<pre>public&nbsp;<a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a>&nbsp;getPrecondition(<a href="../../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a>&nbsp;language)
                                 throws <a href="../../../../goal/tools/errorhandling/exceptions/GOALParseException.html" title="class in goal.tools.errorhandling.exceptions">GOALParseException</a></pre>
-<div class="block">The precondition of an <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in goal.core.program.actions"><code>ExitModuleAction</code></a> is <code>true</code>, or, to
+<div class="block">The precondition of an <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in languageTools.program.agent.actions"><code>ExitModuleAction</code></a> is <code>true</code>, or, to
  be more precise "bel(true)"; this means it can always be performed if the
  action is closed.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#getPrecondition(goal.core.kr.KRlanguage)">getPrecondition</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#getPrecondition(goal.core.kr.KRlanguage)">getPrecondition</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>language</code> - The KR language used for representing the precondition.</dd>
-<dt><span class="strong">Returns:</span></dt><dd>The <a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals"><code>MentalStateCond</code></a> "bel(true)".</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The <a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc"><code>MentalStateCondition</code></a> "bel(true)".</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="../../../../goal/tools/errorhandling/exceptions/GOALParseException.html" title="class in goal.tools.errorhandling.exceptions">GOALParseException</a></code> - In case the KR parser had a problem parsing "true".</dd></dl>
 </li>
@@ -343,14 +343,14 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <ul class="blockList">
 <li class="blockList">
 <h4>evaluatePrecondition</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in goal.core.program.actions">ExitModuleAction</a>&nbsp;evaluatePrecondition(<a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate">MentalState</a>&nbsp;mentalState,
+<pre>public&nbsp;<a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in languageTools.program.agent.actions">ExitModuleAction</a>&nbsp;evaluatePrecondition(<a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate">MentalState</a>&nbsp;mentalState,
                                     <a href="../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger,
                                     boolean&nbsp;last)</pre>
-<div class="block">Checks whether the precondition of this <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in goal.core.program.actions"><code>ExitModuleAction</code></a> holds.
+<div class="block">Checks whether the precondition of this <a href="../../../../goal/core/program/actions/ExitModuleAction.html" title="class in languageTools.program.agent.actions"><code>ExitModuleAction</code></a> holds.
  See also: <a href="../../../../goal/core/program/actions/ExitModuleAction.html#getPrecondition(goal.core.kr.KRlanguage)"><code>getPrecondition(KRlanguage)</code></a>).</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#evaluatePrecondition(goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger,%20boolean)">evaluatePrecondition</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#evaluatePrecondition(goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger,%20boolean)">evaluatePrecondition</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>mentalState</code> - The <a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate"><code>MentalState</code></a> in which the precondition is
             evaluated.</dd><dd><code>debugger</code> - The current debugger</dd><dd><code>last</code> - If this is the last possible variation we are trying to
             execute, e.g. after this there are no more possibilities and
@@ -368,10 +368,10 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <pre>protected&nbsp;<a href="../../../../goal/core/runtime/service/agent/Result.html" title="class in goal.core.runtime.service.agent">Result</a>&nbsp;executeAction(<a href="../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;?&gt;&nbsp;runState,
                    <a href="../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger)</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html#executeAction(goal.core.runtime.service.agent.RunState,%20goal.tools.debugger.Debugger)">Action</a></code></strong></div>
-<div class="block">Executes the <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a>.</div>
+<div class="block">Executes the <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a>.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#executeAction(goal.core.runtime.service.agent.RunState,%20goal.tools.debugger.Debugger)">executeAction</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#executeAction(goal.core.runtime.service.agent.RunState,%20goal.tools.debugger.Debugger)">executeAction</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>runState</code> - The <a href="../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent"><code>RunState</code></a> in which the action is executed.</dd><dd><code>debugger</code> - The current debugger.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>The action that has been executed; never returns <code>null</code> but
          throws runtime exceptions if executing the action fails.</dd></dl>
@@ -442,8 +442,8 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/actions/DropAction.html" title="class in goal.core.program.actions"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/actions/ExitModuleAction.ExitTarget.html" title="enum in goal.core.program.actions"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/DropAction.html" title="class in languageTools.program.agent.actions"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/ExitModuleAction.ExitTarget.html" title="enum in languageTools.program.agent.actions"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/actions/ExitModuleAction.html" target="_top">Frames</a></li>

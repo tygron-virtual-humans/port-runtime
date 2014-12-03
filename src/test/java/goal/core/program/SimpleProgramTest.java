@@ -1,4 +1,4 @@
-package goal.core.program;
+package languageTools.program.agent;
 
 import goal.core.agent.AbstractAgentFactory;
 import goal.core.agent.Agent;
@@ -9,7 +9,7 @@ import goal.tools.adapt.Learner;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.NOPDebugger;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
-import goal.tools.errorhandling.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRInitFailedException;
 
 import java.io.File;
 
@@ -57,7 +57,7 @@ public class SimpleProgramTest extends ProgramTest {
 
 	@Override
 	protected Agent<GOALInterpreter<Debugger>> buildAgent(String id,
-			File programFile, GOALProgram program)
+			File programFile, AgentProgram program)
 					throws GOALLaunchFailureException, MessagingException,
 					KRInitFailedException {
 

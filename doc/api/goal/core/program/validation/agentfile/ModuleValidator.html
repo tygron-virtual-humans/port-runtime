@@ -36,8 +36,8 @@
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../../goal/core/program/validation/agentfile/GOALWarning.html" title="enum in goal.core.program.validation.agentfile"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../../goal/core/program/validation/agentfile/NameSpaceValidator.html" title="class in goal.core.program.validation.agentfile"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../../goal/core/program/validation/agentfile/GOALWarning.html" title="enum in languageTools.program.agent.validation.agentfile"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../../goal/core/program/validation/agentfile/NameSpaceValidator.html" title="class in languageTools.program.agent.validation.agentfile"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../index.html?goal/core/program/validation/agentfile/ModuleValidator.html" target="_top">Frames</a></li>
@@ -62,7 +62,7 @@
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#fields_inherited_from_class_goal.core.program.validation.Validator">Field</a>&nbsp;|&nbsp;</li>
+<li><a href="#fields_inherited_from_class_languageTools.program.agent.validation.Validator">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method_summary">Method</a></li>
 </ul>
@@ -79,7 +79,7 @@
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">goal.core.program.validation.agentfile</div>
+<div class="subTitle">languageTools.program.agent.validation.agentfile</div>
 <h2 title="Class ModuleValidator" class="title">Class ModuleValidator</h2>
 </div>
 <div class="contentContainer">
@@ -87,10 +87,10 @@
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li><a href="../../../../../goal/core/program/validation/Validator.html" title="class in goal.core.program.validation">goal.core.program.validation.Validator</a>&lt;<a href="../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&gt;</li>
+<li><a href="../../../../../goal/core/program/validation/Validator.html" title="class in languageTools.program.agent.validation">languageTools.program.agent.validation.Validator</a>&lt;<a href="../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&gt;</li>
 <li>
 <ul class="inheritance">
-<li>goal.core.program.validation.agentfile.ModuleValidator</li>
+<li>languageTools.program.agent.validation.agentfile.ModuleValidator</li>
 </ul>
 </li>
 </ul>
@@ -102,8 +102,8 @@
 <hr>
 <br>
 <pre>public class <span class="strong">ModuleValidator</span>
-extends <a href="../../../../../goal/core/program/validation/Validator.html" title="class in goal.core.program.validation">Validator</a>&lt;<a href="../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&gt;</pre>
-<div class="block"><a href="../../../../../goal/core/program/validation/Validator.html" title="class in goal.core.program.validation"><code>Validator</code></a> for <a href="../../../../../goal/core/program/Module.html" title="class in goal.core.program"><code>Module</code></a>s.<br>
+extends <a href="../../../../../goal/core/program/validation/Validator.html" title="class in languageTools.program.agent.validation">Validator</a>&lt;<a href="../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&gt;</pre>
+<div class="block"><a href="../../../../../goal/core/program/validation/Validator.html" title="class in languageTools.program.agent.validation"><code>Validator</code></a> for <a href="../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent"><code>Module</code></a>s.<br>
 
  Checks for the following errors:
  <ul>
@@ -113,16 +113,16 @@ extends <a href="../../../../../goal/core/program/validation/Validator.html" tit
  the <code>init</code> module.</li>
  <li>The absence of the <code><program</code> section in any other module than
  the <code>init</code> module.</li>
- <li>Errors in rules (see <a href="../../../../../goal/core/program/validation/agentfile/RuleValidator.html" title="class in goal.core.program.validation.agentfile"><code>RuleValidator</code></a>)</li>
- <li>Errors in actions (see <a href="../../../../../goal/core/program/validation/agentfile/ActionValidator.html" title="class in goal.core.program.validation.agentfile"><code>ActionValidator</code></a>)</li>
+ <li>Errors in rules (see <a href="../../../../../goal/core/program/validation/agentfile/RuleValidator.html" title="class in languageTools.program.agent.validation.agentfile"><code>RuleValidator</code></a>)</li>
+ <li>Errors in actions (see <a href="../../../../../goal/core/program/validation/agentfile/ActionValidator.html" title="class in languageTools.program.agent.validation.agentfile"><code>ActionValidator</code></a>)</li>
  </ul>
 
  Checks for the following warnings:
  <ul>
  <li>The absence of a reference to the module (unless it is the init, event or
  main module)</li>
- <li>Warnings generated by rules (see <a href="../../../../../goal/core/program/validation/agentfile/RuleValidator.html" title="class in goal.core.program.validation.agentfile"><code>RuleValidator</code></a>)</li>
- <li>Warnings generated by actions (see <a href="../../../../../goal/core/program/validation/agentfile/ActionValidator.html" title="class in goal.core.program.validation.agentfile"><code>ActionValidator</code></a>)</li>
+ <li>Warnings generated by rules (see <a href="../../../../../goal/core/program/validation/agentfile/RuleValidator.html" title="class in languageTools.program.agent.validation.agentfile"><code>RuleValidator</code></a>)</li>
+ <li>Warnings generated by actions (see <a href="../../../../../goal/core/program/validation/agentfile/ActionValidator.html" title="class in languageTools.program.agent.validation.agentfile"><code>ActionValidator</code></a>)</li>
  <li>Unused action specifications</li>
  <li>Variable names in action specifications that are the same as variables
  bound by the module's parameters. (one per name per specification)</li>
@@ -142,10 +142,10 @@ extends <a href="../../../../../goal/core/program/validation/Validator.html" tit
 </a>
 <h3>Field Summary</h3>
 <ul class="blockList">
-<li class="blockList"><a name="fields_inherited_from_class_goal.core.program.validation.Validator">
+<li class="blockList"><a name="fields_inherited_from_class_languageTools.program.agent.validation.Validator">
 <!--   -->
 </a>
-<h3>Fields inherited from class&nbsp;goal.core.program.validation.<a href="../../../../../goal/core/program/validation/Validator.html" title="class in goal.core.program.validation">Validator</a></h3>
+<h3>Fields inherited from class&nbsp;languageTools.program.agent.validation.<a href="../../../../../goal/core/program/validation/Validator.html" title="class in languageTools.program.agent.validation">Validator</a></h3>
 <code><a href="../../../../../goal/core/program/validation/Validator.html#mod2g">mod2g</a></code></li>
 </ul>
 </li>
@@ -162,9 +162,9 @@ extends <a href="../../../../../goal/core/program/validation/Validator.html" tit
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="../../../../../goal/core/program/validation/agentfile/ModuleValidator.html#ModuleValidator(goal.core.program.NameSpace,%20java.util.Set)">ModuleValidator</a></strong>(<a href="../../../../../goal/core/program/NameSpace.html" title="class in goal.core.program">NameSpace</a>&nbsp;parent,
+<td class="colOne"><code><strong><a href="../../../../../goal/core/program/validation/agentfile/ModuleValidator.html#ModuleValidator(languageTools.program.agent.NameSpace,%20java.util.Set)">ModuleValidator</a></strong>(<a href="../../../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent">NameSpace</a>&nbsp;parent,
                java.util.Set&lt;<a href="../../../../../goal/core/kr/language/Var.html" title="interface in goal.core.kr.language">Var</a>&gt;&nbsp;boundVar)</code>
-<div class="block">Returns a new instance of a <a href="../../../../../goal/core/program/validation/agentfile/ModuleValidator.html" title="class in goal.core.program.validation.agentfile"><code>ModuleValidator</code></a>.</div>
+<div class="block">Returns a new instance of a <a href="../../../../../goal/core/program/validation/agentfile/ModuleValidator.html" title="class in languageTools.program.agent.validation.agentfile"><code>ModuleValidator</code></a>.</div>
 </td>
 </tr>
 </table>
@@ -184,23 +184,23 @@ extends <a href="../../../../../goal/core/program/validation/Validator.html" tit
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../goal/core/program/validation/agentfile/ModuleValidator.html#doValidate(goal.core.program.Module)">doValidate</a></strong>(<a href="../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;subject)</code>
+<td class="colLast"><code><strong><a href="../../../../../goal/core/program/validation/agentfile/ModuleValidator.html#doValidate(languageTools.program.agent.Module)">doValidate</a></strong>(<a href="../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;subject)</code>
 <div class="block">Does the actual validation of an object.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../goal/core/program/validation/agentfile/ModuleValidator.html#setBoundVar(java.util.Set)">setBoundVar</a></strong>(java.util.Set&lt;<a href="../../../../../goal/core/kr/language/Var.html" title="interface in goal.core.kr.language">Var</a>&gt;&nbsp;boundVar)</code>
-<div class="block">The variables that have been bound by the context of this <a href="../../../../../goal/core/program/Module.html" title="class in goal.core.program"><code>Module</code></a>.</div>
+<div class="block">The variables that have been bound by the context of this <a href="../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent"><code>Module</code></a>.</div>
 </td>
 </tr>
 </table>
 <ul class="blockList">
-<li class="blockList"><a name="methods_inherited_from_class_goal.core.program.validation.Validator">
+<li class="blockList"><a name="methods_inherited_from_class_languageTools.program.agent.validation.Validator">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;goal.core.program.validation.<a href="../../../../../goal/core/program/validation/Validator.html" title="class in goal.core.program.validation">Validator</a></h3>
-<code><a href="../../../../../goal/core/program/validation/Validator.html#getAllReports()">getAllReports</a>, <a href="../../../../../goal/core/program/validation/Validator.html#getErrors()">getErrors</a>, <a href="../../../../../goal/core/program/validation/Validator.html#getWarnings()">getWarnings</a>, <a href="../../../../../goal/core/program/validation/Validator.html#isPerfect()">isPerfect</a>, <a href="../../../../../goal/core/program/validation/Validator.html#isValid()">isValid</a>, <a href="../../../../../goal/core/program/validation/Validator.html#report(goal.core.program.validation.ValidatorMessage)">report</a>, <a href="../../../../../goal/core/program/validation/Validator.html#reportToSuperior(goal.core.program.validation.Validator)">reportToSuperior</a>, <a href="../../../../../goal/core/program/validation/Validator.html#validate(T,%20boolean)">validate</a></code></li>
+<h3>Methods inherited from class&nbsp;languageTools.program.agent.validation.<a href="../../../../../goal/core/program/validation/Validator.html" title="class in languageTools.program.agent.validation">Validator</a></h3>
+<code><a href="../../../../../goal/core/program/validation/Validator.html#getAllReports()">getAllReports</a>, <a href="../../../../../goal/core/program/validation/Validator.html#getErrors()">getErrors</a>, <a href="../../../../../goal/core/program/validation/Validator.html#getWarnings()">getWarnings</a>, <a href="../../../../../goal/core/program/validation/Validator.html#isPerfect()">isPerfect</a>, <a href="../../../../../goal/core/program/validation/Validator.html#isValid()">isValid</a>, <a href="../../../../../goal/core/program/validation/Validator.html#report(languageTools.program.agent.validation.ValidatorMessage)">report</a>, <a href="../../../../../goal/core/program/validation/Validator.html#reportToSuperior(languageTools.program.agent.validation.Validator)">reportToSuperior</a>, <a href="../../../../../goal/core/program/validation/Validator.html#validate(T,%20boolean)">validate</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
@@ -223,15 +223,15 @@ extends <a href="../../../../../goal/core/program/validation/Validator.html" tit
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="ModuleValidator(goal.core.program.NameSpace, java.util.Set)">
+<a name="ModuleValidator(languageTools.program.agent.NameSpace, java.util.Set)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ModuleValidator</h4>
-<pre>public&nbsp;ModuleValidator(<a href="../../../../../goal/core/program/NameSpace.html" title="class in goal.core.program">NameSpace</a>&nbsp;parent,
+<pre>public&nbsp;ModuleValidator(<a href="../../../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent">NameSpace</a>&nbsp;parent,
                java.util.Set&lt;<a href="../../../../../goal/core/kr/language/Var.html" title="interface in goal.core.kr.language">Var</a>&gt;&nbsp;boundVar)</pre>
-<div class="block">Returns a new instance of a <a href="../../../../../goal/core/program/validation/agentfile/ModuleValidator.html" title="class in goal.core.program.validation.agentfile"><code>ModuleValidator</code></a>.</div>
+<div class="block">Returns a new instance of a <a href="../../../../../goal/core/program/validation/agentfile/ModuleValidator.html" title="class in languageTools.program.agent.validation.agentfile"><code>ModuleValidator</code></a>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>parent</code> - The namespace this module is in</dd><dd><code>boundVar</code> - Variables that have been bound by the context of this module</dd></dl>
 </li>
 </ul>
@@ -243,19 +243,19 @@ extends <a href="../../../../../goal/core/program/validation/Validator.html" tit
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="doValidate(goal.core.program.Module)">
+<a name="doValidate(languageTools.program.agent.Module)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>doValidate</h4>
-<pre>protected&nbsp;void&nbsp;doValidate(<a href="../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;subject)</pre>
+<pre>protected&nbsp;void&nbsp;doValidate(<a href="../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;subject)</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../../goal/core/program/validation/Validator.html#doValidate(T)">Validator</a></code></strong></div>
 <div class="block">Does the actual validation of an object. <a href="../../../../../goal/core/program/validation/Validator.html#validate(T,%20boolean)"><code>Validator.validate(T, boolean)</code></a> also handles
  initialization and the 'perfectness'-check afterwards.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../../goal/core/program/validation/Validator.html#doValidate(T)">doValidate</a></code>&nbsp;in class&nbsp;<code><a href="../../../../../goal/core/program/validation/Validator.html" title="class in goal.core.program.validation">Validator</a>&lt;<a href="../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&gt;</code></dd>
+<dd><code><a href="../../../../../goal/core/program/validation/Validator.html#doValidate(T)">doValidate</a></code>&nbsp;in class&nbsp;<code><a href="../../../../../goal/core/program/validation/Validator.html" title="class in languageTools.program.agent.validation">Validator</a>&lt;<a href="../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&gt;</code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>subject</code> - The object to validate.</dd></dl>
 </li>
 </ul>
@@ -266,8 +266,8 @@ extends <a href="../../../../../goal/core/program/validation/Validator.html" tit
 <li class="blockList">
 <h4>setBoundVar</h4>
 <pre>public&nbsp;void&nbsp;setBoundVar(java.util.Set&lt;<a href="../../../../../goal/core/kr/language/Var.html" title="interface in goal.core.kr.language">Var</a>&gt;&nbsp;boundVar)</pre>
-<div class="block">The variables that have been bound by the context of this <a href="../../../../../goal/core/program/Module.html" title="class in goal.core.program"><code>Module</code></a>.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>boundVar</code> - The set of variables bound by this <a href="../../../../../goal/core/program/Module.html" title="class in goal.core.program"><code>Module</code></a>'s context.</dd></dl>
+<div class="block">The variables that have been bound by the context of this <a href="../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent"><code>Module</code></a>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>boundVar</code> - The set of variables bound by this <a href="../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent"><code>Module</code></a>'s context.</dd></dl>
 </li>
 </ul>
 </li>
@@ -296,8 +296,8 @@ extends <a href="../../../../../goal/core/program/validation/Validator.html" tit
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../../goal/core/program/validation/agentfile/GOALWarning.html" title="enum in goal.core.program.validation.agentfile"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../../goal/core/program/validation/agentfile/NameSpaceValidator.html" title="class in goal.core.program.validation.agentfile"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../../goal/core/program/validation/agentfile/GOALWarning.html" title="enum in languageTools.program.agent.validation.agentfile"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../../goal/core/program/validation/agentfile/NameSpaceValidator.html" title="class in languageTools.program.agent.validation.agentfile"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../index.html?goal/core/program/validation/agentfile/ModuleValidator.html" target="_top">Frames</a></li>
@@ -322,7 +322,7 @@ extends <a href="../../../../../goal/core/program/validation/Validator.html" tit
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li><a href="#fields_inherited_from_class_goal.core.program.validation.Validator">Field</a>&nbsp;|&nbsp;</li>
+<li><a href="#fields_inherited_from_class_languageTools.program.agent.validation.Validator">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method_summary">Method</a></li>
 </ul>

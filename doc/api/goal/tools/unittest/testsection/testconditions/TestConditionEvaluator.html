@@ -177,9 +177,9 @@ implements <a href="../../../../../goal/tools/debugger/DebugObserver.html" title
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected java.util.Set&lt;<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../goal/tools/unittest/testsection/testconditions/TestConditionEvaluator.html#evaluate(goal.core.runtime.service.agent.RunState,%20goal.core.kr.language.Substitution,%20goal.core.program.literals.MentalStateCond)">evaluate</a></strong>(<a href="../../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;? extends <a href="../../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&gt;&nbsp;runState,
+<td class="colLast"><code><strong><a href="../../../../../goal/tools/unittest/testsection/testconditions/TestConditionEvaluator.html#evaluate(goal.core.runtime.service.agent.RunState,%20goal.core.kr.language.Substitution,%20languageTools.program.agent.msc.MentalStateCondition)">evaluate</a></strong>(<a href="../../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;? extends <a href="../../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&gt;&nbsp;runState,
         <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution,
-        <a href="../../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a>&nbsp;query)</code>
+        <a href="../../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a>&nbsp;query)</code>
 <div class="block">Evaluates a mental state query on the agent's <a href="../../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent"><code>RunState</code></a>.</div>
 </td>
 </tr>
@@ -195,7 +195,7 @@ implements <a href="../../../../../goal/tools/debugger/DebugObserver.html" title
 <td class="colLast"><code><strong><a href="../../../../../goal/tools/unittest/testsection/testconditions/TestConditionEvaluator.html#getCondition()">getCondition</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../goal/tools/unittest/testsection/testconditions/TestConditionEvaluator.html#getQuery()">getQuery</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
@@ -298,7 +298,7 @@ implements <a href="../../../../../goal/tools/debugger/DebugObserver.html" title
 <ul class="blockList">
 <li class="blockList">
 <h4>getQuery</h4>
-<pre>public&nbsp;<a href="../../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a>&nbsp;getQuery()</pre>
+<pre>public&nbsp;<a href="../../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a>&nbsp;getQuery()</pre>
 <dl><dt><span class="strong">Returns:</span></dt><dd>query used by the <a href="../../../../../goal/tools/unittest/testsection/testconditions/TestCondition.html" title="class in goal.tools.unittest.testsection.testconditions"><code>TestCondition</code></a>.</dd></dl>
 </li>
 </ul>
@@ -312,7 +312,7 @@ implements <a href="../../../../../goal/tools/debugger/DebugObserver.html" title
 <dl><dt><span class="strong">Returns:</span></dt><dd><a href="../../../../../goal/tools/unittest/testsection/testconditions/TestCondition.html" title="class in goal.tools.unittest.testsection.testconditions"><code>TestCondition</code></a> being evaluated.</dd></dl>
 </li>
 </ul>
-<a name="evaluate(goal.core.runtime.service.agent.RunState, goal.core.kr.language.Substitution, goal.core.program.literals.MentalStateCond)">
+<a name="evaluate(goal.core.runtime.service.agent.RunState, goal.core.kr.language.Substitution, languageTools.program.agent.msc.MentalStateCondition)">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -320,7 +320,7 @@ implements <a href="../../../../../goal/tools/debugger/DebugObserver.html" title
 <h4>evaluate</h4>
 <pre>protected&nbsp;java.util.Set&lt;<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&gt;&nbsp;evaluate(<a href="../../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;? extends <a href="../../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&gt;&nbsp;runState,
                                    <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution,
-                                   <a href="../../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a>&nbsp;query)</pre>
+                                   <a href="../../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a>&nbsp;query)</pre>
 <div class="block">Evaluates a mental state query on the agent's <a href="../../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent"><code>RunState</code></a>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>runState</code> - of the agent.</dd><dd><code>substitution</code> - the current substitution.</dd><dd><code>query</code> - the mental state query.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>result of evaluating the mental state query.</dd></dl>

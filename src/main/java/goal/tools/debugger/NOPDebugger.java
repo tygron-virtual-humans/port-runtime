@@ -1,6 +1,6 @@
 package goal.tools.debugger;
 
-import goal.core.agent.AgentId;
+import languageTools.program.agent.AgentId;
 
 public class NOPDebugger implements Debugger {
 	private final String id;

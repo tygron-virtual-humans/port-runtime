@@ -18,17 +18,16 @@
 
 package goal.core.mentalstate;
 
-import goal.core.agent.AgentId;
-import goal.core.kr.KRlanguage;
-import goal.core.kr.language.DatabaseFormula;
-import goal.core.kr.language.Query;
-import goal.core.kr.language.Substitution;
-import goal.core.kr.language.Update;
-import goal.core.program.literals.AGoalLiteral;
-import goal.core.program.literals.BelLiteral;
-import goal.core.program.literals.GoalALiteral;
-import goal.core.program.literals.GoalLiteral;
-import goal.core.program.literals.MentalLiteral;
+import krTools.language.DatabaseFormula;
+import krTools.language.Query;
+import krTools.language.Substitution;
+import krTools.language.Update;
+import languageTools.program.agent.AgentId;
+import languageTools.program.agent.msc.AGoalLiteral;
+import languageTools.program.agent.msc.BelLiteral;
+import languageTools.program.agent.msc.GoalALiteral;
+import languageTools.program.agent.msc.GoalLiteral;
+import languageTools.program.agent.msc.MentalLiteral;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.Resources;
@@ -36,7 +35,7 @@ import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
-import goal.tools.errorhandling.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRInitFailedException;
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;

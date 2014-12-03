@@ -1,6 +1,5 @@
 package goal.core.agent;
 
-import goal.core.program.Message;
 import goal.core.runtime.MessagingService;
 import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
@@ -13,6 +12,8 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import languageTools.program.agent.AgentId;
+import languageTools.program.agent.msg.Message;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 import nl.tudelft.goal.messaging.messagebox.MessageBox;
 import nl.tudelft.goal.messaging.messagebox.MessageBoxListener;

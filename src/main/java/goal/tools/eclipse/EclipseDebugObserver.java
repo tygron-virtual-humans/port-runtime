@@ -1,20 +1,19 @@
 package goal.tools.eclipse;
 
 import goal.core.agent.Agent;
-import goal.core.agent.AgentId;
-import goal.core.kr.language.DatabaseFormula;
-import goal.core.kr.language.Substitution;
+import languageTools.parser.InputStreamPosition;
+import languageTools.program.agent.AgentId;
+import krTools.language.DatabaseFormula;
+import krTools.language.Substitution;
 import goal.core.mentalstate.BASETYPE;
 import goal.core.mentalstate.GoalBase;
 import goal.core.mentalstate.MentalState;
 import goal.core.mentalstate.SingleGoal;
-import goal.core.program.Module;
-import goal.core.program.actions.Action;
-import goal.core.program.actions.ModuleCallAction;
-import goal.core.program.actions.UserSpecAction;
-import goal.core.program.literals.MentalStateCond;
-import goal.parser.IParsedObject;
-import goal.parser.InputStreamPosition;
+import languageTools.program.agent.Module;
+import languageTools.program.agent.actions.Action;
+import languageTools.program.agent.actions.ModuleCallAction;
+import languageTools.program.agent.actions.UserSpecAction;
+import languageTools.program.agent.msc.MentalStateCondition;
 import goal.preferences.DebugPreferences;
 import goal.preferences.LoggingPreferences;
 import goal.tools.IDEDebugger;
@@ -174,7 +173,7 @@ public class EclipseDebugObserver implements DebugObserver {
 			}
 			break;
 		case RULE_CONDITION_EVALUATION:
-			final MentalStateCond cond = (MentalStateCond) object;
+			final MentalStateCondition cond = (MentalStateCondition) object;
 			final List<String> rAsList = new LinkedList<>();
 			if (event.getMessage().contains("holds for")) {
 				for (final Substitution sub : cond.getLatestSubstitutions()) {

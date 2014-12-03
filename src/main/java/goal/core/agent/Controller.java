@@ -1,7 +1,7 @@
 package goal.core.agent;
 
 import goal.preferences.PMPreferences;
-import goal.tools.errorhandling.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRInitFailedException;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;

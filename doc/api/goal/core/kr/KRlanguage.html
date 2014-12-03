@@ -123,9 +123,9 @@
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../goal/core/program/dependencygraph/DependencyGraph.html" title="class in goal.core.program.dependencygraph">DependencyGraph</a>&lt;?&gt;</code></td>
+<td class="colFirst"><code><a href="../../../goal/core/program/dependencygraph/DependencyGraph.html" title="class in languageTools.program.agent.dependencygraph">DependencyGraph</a>&lt;?&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/kr/KRlanguage.html#createDependencyGraph()">createDependencyGraph</a></strong>()</code>
-<div class="block">Creates an empty, language specific <a href="../../../goal/core/program/dependencygraph/DependencyGraph.html" title="class in goal.core.program.dependencygraph"><code>DependencyGraph</code></a>.</div>
+<div class="block">Creates an empty, language specific <a href="../../../goal/core/program/dependencygraph/DependencyGraph.html" title="class in languageTools.program.agent.dependencygraph"><code>DependencyGraph</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -135,9 +135,9 @@
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/kr/KRlanguage.html#getEmptySubstitution()">getEmptySubstitution</a></strong>()</code>
-<div class="block">Needed in <code>MentalStateCond#evaluate(MentalState, SteppingDebugger)</code>
+<div class="block">Needed in <code>MentalStateCondition#evaluate(MentalState, SteppingDebugger)</code>
  and in
- <code>MentalState#queryLiteral(goal.core.program.literals.MentalLiteral, SteppingDebugger)</code>
+ <code>MentalState#queryLiteral(languageTools.program.agent.msc.MentalLiteral, SteppingDebugger)</code>
  .</div>
 </td>
 </tr>
@@ -155,7 +155,7 @@
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/kr/KRlanguage.html#initialize(goal.core.program.GOALProgram,%20java.lang.String)">initialize</a></strong>(<a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a>&nbsp;program,
+<td class="colLast"><code><strong><a href="../../../goal/core/kr/KRlanguage.html#initialize(languageTools.program.agent.GOALProgram,%20java.lang.String)">initialize</a></strong>(<a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a>&nbsp;program,
           java.lang.String&nbsp;agentname)</code>
 <div class="block">Performs knowledge representation specific initializations BEFORE the
  knowledge representation technology can be used by a particular GOAL
@@ -171,7 +171,7 @@
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../goal/core/program/expressiongraph/ExpressionGraph.html" title="class in goal.core.program.expressiongraph">ExpressionGraph</a></code></td>
+<td class="colFirst"><code><a href="../../../goal/core/program/expressiongraph/ExpressionGraph.html" title="class in languageTools.program.agent.expressiongraph">ExpressionGraph</a></code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/kr/KRlanguage.html#makeExpressionGraph()">makeExpressionGraph</a></strong>()</code>
 <div class="block"><strong>Deprecated.</strong>&nbsp;&nbsp;</div>
 </td>
@@ -220,13 +220,13 @@
 <dl><dt><span class="strong">Returns:</span></dt><dd>the name of the KR service.</dd></dl>
 </li>
 </ul>
-<a name="initialize(goal.core.program.GOALProgram, java.lang.String)">
+<a name="initialize(languageTools.program.agent.GOALProgram, java.lang.String)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>initialize</h4>
-<pre>void&nbsp;initialize(<a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a>&nbsp;program,
+<pre>void&nbsp;initialize(<a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a>&nbsp;program,
               java.lang.String&nbsp;agentname)
                 throws <a href="../../../goal/tools/errorhandling/exceptions/KRInitFailedException.html" title="class in goal.tools.errorhandling.exceptions">KRInitFailedException</a></pre>
 <div class="block">Performs knowledge representation specific initializations BEFORE the
@@ -331,9 +331,9 @@
 <li class="blockList">
 <h4>getEmptySubstitution</h4>
 <pre><a href="../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;getEmptySubstitution()</pre>
-<div class="block">Needed in <code>MentalStateCond#evaluate(MentalState, SteppingDebugger)</code>
+<div class="block">Needed in <code>MentalStateCondition#evaluate(MentalState, SteppingDebugger)</code>
  and in
- <code>MentalState#queryLiteral(goal.core.program.literals.MentalLiteral, SteppingDebugger)</code>
+ <code>MentalState#queryLiteral(languageTools.program.agent.msc.MentalLiteral, SteppingDebugger)</code>
  .</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The empty substitution.</dd></dl>
 </li>
@@ -358,9 +358,9 @@
 <li class="blockList">
 <h4>makeExpressionGraph</h4>
 <pre>@Deprecated
-<a href="../../../goal/core/program/expressiongraph/ExpressionGraph.html" title="class in goal.core.program.expressiongraph">ExpressionGraph</a>&nbsp;makeExpressionGraph()</pre>
+<a href="../../../goal/core/program/expressiongraph/ExpressionGraph.html" title="class in languageTools.program.agent.expressiongraph">ExpressionGraph</a>&nbsp;makeExpressionGraph()</pre>
 <div class="block"><span class="strong">Deprecated.</span>&nbsp;<i></i></div>
-<div class="block">Creates an initial, language-specific <a href="../../../goal/core/program/expressiongraph/ExpressionGraph.html" title="class in goal.core.program.expressiongraph"><code>ExpressionGraph</code></a>.</div>
+<div class="block">Creates an initial, language-specific <a href="../../../goal/core/program/expressiongraph/ExpressionGraph.html" title="class in languageTools.program.agent.expressiongraph"><code>ExpressionGraph</code></a>.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code>java.lang.UnsupportedOperationException</code> - When this KRLanguage does not support building a graph (or
              the functionality has been turned off).</dd></dl>
@@ -372,8 +372,8 @@
 <ul class="blockListLast">
 <li class="blockList">
 <h4>createDependencyGraph</h4>
-<pre><a href="../../../goal/core/program/dependencygraph/DependencyGraph.html" title="class in goal.core.program.dependencygraph">DependencyGraph</a>&lt;?&gt;&nbsp;createDependencyGraph()</pre>
-<div class="block">Creates an empty, language specific <a href="../../../goal/core/program/dependencygraph/DependencyGraph.html" title="class in goal.core.program.dependencygraph"><code>DependencyGraph</code></a>.</div>
+<pre><a href="../../../goal/core/program/dependencygraph/DependencyGraph.html" title="class in languageTools.program.agent.dependencygraph">DependencyGraph</a>&lt;?&gt;&nbsp;createDependencyGraph()</pre>
+<div class="block">Creates an empty, language specific <a href="../../../goal/core/program/dependencygraph/DependencyGraph.html" title="class in languageTools.program.agent.dependencygraph"><code>DependencyGraph</code></a>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>Empty dependency graph for this <a href="../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr"><code>KRlanguage</code></a>.</dd></dl>
 </li>
 </ul>

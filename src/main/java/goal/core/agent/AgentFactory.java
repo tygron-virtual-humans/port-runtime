@@ -3,7 +3,8 @@ package goal.core.agent;
 import goal.core.runtime.service.agent.AgentService;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
 import goal.tools.debugger.Debugger;
-import goal.tools.errorhandling.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRInitFailedException;
+import languageTools.program.agent.AgentProgram;
 
 import java.io.File;
 
@@ -47,8 +48,8 @@ public interface AgentFactory<DEBUGGER extends Debugger, CONTROLLER extends GOAL
 	 *             thrown when the agent could not initialize the
 	 *             {@link KRlanguage}.
 	 */
-	// FIXME: GOALProgram should have a reference to its .goal file.
-	public Agent<CONTROLLER> build(GOALProgram program, File goalProgramFile,
+	// FIXME: AgentProgram should have a reference to its .goal file.
+	public Agent<CONTROLLER> build(AgentProgram program, File goalProgramFile,
 			String agentBaseName, EnvironmentPort environment)
 			throws MessagingException, KRInitFailedException;
 

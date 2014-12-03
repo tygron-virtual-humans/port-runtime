@@ -2,7 +2,7 @@ package goal.tools.unittest;
 
 import goal.core.agent.Agent;
 import goal.core.agent.GOALInterpreter;
-import goal.core.program.GOALProgram;
+import languageTools.program.agent.AgentProgram;
 import goal.tools.adapt.Learner;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.ObservableDebugger;
@@ -14,7 +14,7 @@ import java.util.concurrent.Executor;
 
 /**
  * Interpreter that will run test programs. Once completed test results can be
- * retrieved. When no test is provided the GOALProgram will be interpreted as
+ * retrieved. When no test is provided the AgentProgram will be interpreted as
  * normal instead.
  *
  * @author M.P. Korstanje
@@ -39,7 +39,7 @@ GOALInterpreter<ObservableDebugger> {
 	 * @param learner
 	 *            used evaluate adaptive rules
 	 */
-	public UnitTestInterpreter(GOALProgram program, AgentTest test, D debugger,
+	public UnitTestInterpreter(AgentProgram program, AgentTest test, D debugger,
 			Learner learner) {
 		super(program, debugger, learner);
 		this.test = test;

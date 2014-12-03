@@ -36,8 +36,8 @@
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/actions/MentalAction.html" title="class in goal.core.program.actions"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/actions/PrintAction.html" title="class in goal.core.program.actions"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/MentalAction.html" title="class in languageTools.program.agent.actions"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/PrintAction.html" title="class in languageTools.program.agent.actions"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/actions/ModuleCallAction.html" target="_top">Frames</a></li>
@@ -79,7 +79,7 @@
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">goal.core.program.actions</div>
+<div class="subTitle">languageTools.program.agent.actions</div>
 <h2 title="Class ModuleCallAction" class="title">Class ModuleCallAction</h2>
 </div>
 <div class="contentContainer">
@@ -90,10 +90,10 @@
 <li><a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">goal.parser.ParsedObject</a></li>
 <li>
 <ul class="inheritance">
-<li><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">goal.core.program.actions.Action</a></li>
+<li><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">languageTools.program.agent.actions.Action</a></li>
 <li>
 <ul class="inheritance">
-<li>goal.core.program.actions.ModuleCallAction</li>
+<li>languageTools.program.agent.actions.ModuleCallAction</li>
 </ul>
 </li>
 </ul>
@@ -111,12 +111,12 @@
 <hr>
 <br>
 <pre>public class <span class="strong">ModuleCallAction</span>
-extends <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></pre>
+extends <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></pre>
 <div class="block">Action that makes the agent focus on a module, using one of four methods;
  <ol>
  <li>When the action is executed, and the agent focuses on the module, the new
  attention set will consist of one goal, which validates the entire context of
- the <a href="../../../../goal/core/program/Module.html" title="class in goal.core.program"><code>Module</code></a>.<br>
+ the <a href="../../../../goal/core/program/Module.html" title="class in languageTools.program.agent"><code>Module</code></a>.<br>
  To use this method, focus on a Module with the <a href="../../../../goal/core/program/Module.FocusMethod.html#SELECT"><code>Module.FocusMethod.SELECT</code></a>
  focus method.<br>
  <br>
@@ -127,7 +127,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
  </li>
  <li>When the action is executed, and the agent focuses on the module, the new
  attention set will consist of one goal for each of the positive
- <a href="../../../../goal/core/program/literals/GoalLiteral.html" title="class in goal.core.program.literals"><code>GoalLiteral</code></a> and <a href="../../../../goal/core/program/literals/AGoalLiteral.html" title="class in goal.core.program.literals"><code>AGoalLiteral</code></a>s in the instantiated context.<br>
+ <a href="../../../../goal/core/program/literals/GoalLiteral.html" title="class in languageTools.program.agent.msc"><code>GoalLiteral</code></a> and <a href="../../../../goal/core/program/literals/AGoalLiteral.html" title="class in languageTools.program.agent.msc"><code>AGoalLiteral</code></a>s in the instantiated context.<br>
  To use this method, focus on a Module with the <a href="../../../../goal/core/program/Module.FocusMethod.html#FILTER"><code>Module.FocusMethod.FILTER</code></a>
  focus method.<br>
  <br>
@@ -152,7 +152,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
  contain the goals defined in the Module's <code>goals { }</code> section.</div>
 <dl><dt><span class="strong">Author:</span></dt>
   <dd>N.Kraayenbrink</dd>
-<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#goal.core.program.actions.ModuleCallAction">Serialized Form</a></dd></dl>
+<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#languageTools.program.agent.actions.ModuleCallAction">Serialized Form</a></dd></dl>
 </li>
 </ul>
 </div>
@@ -171,11 +171,11 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="../../../../goal/core/program/actions/ModuleCallAction.html#ModuleCallAction(goal.core.program.Module,%20goal.core.program.rules.Rule,%20java.util.List,%20goal.parser.InputStreamPosition)">ModuleCallAction</a></strong>(<a href="../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;targetModule,
-                <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules">Rule</a>&nbsp;parentRule,
+<td class="colOne"><code><strong><a href="../../../../goal/core/program/actions/ModuleCallAction.html#ModuleCallAction(languageTools.program.agent.Module,%20languageTools.program.agent.rules.Rule,%20java.util.List,%20goal.parser.InputStreamPosition)">ModuleCallAction</a></strong>(<a href="../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;targetModule,
+                <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules">Rule</a>&nbsp;parentRule,
                 java.util.List&lt;<a href="../../../../goal/core/kr/language/Term.html" title="interface in goal.core.kr.language">Term</a>&gt;&nbsp;arguments,
                 <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</code>
-<div class="block">Creates a new <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in goal.core.program.actions"><code>ModuleCallAction</code></a>, which will focus the agent's
+<div class="block">Creates a new <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in languageTools.program.agent.actions"><code>ModuleCallAction</code></a>, which will focus the agent's
  attention to a certain module when executed.</div>
 </td>
 </tr>
@@ -195,7 +195,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ModuleCallAction.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
 <div class="block">Applies the substitution to the parameters of the target module (only).</div>
 </td>
@@ -205,25 +205,25 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ModuleCallAction.html#equals(java.lang.Object)">equals</a></strong>(java.lang.Object&nbsp;obj)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in goal.core.program.actions">ModuleCallAction</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in languageTools.program.agent.actions">ModuleCallAction</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ModuleCallAction.html#evaluatePrecondition(goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger,%20boolean)">evaluatePrecondition</a></strong>(<a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate">MentalState</a>&nbsp;runState,
                     <a href="../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger,
                     boolean&nbsp;last)</code>
-<div class="block">Checks whether the precondition of <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in goal.core.program.actions"><code>ModuleCallAction</code></a> holds.</div>
+<div class="block">Checks whether the precondition of <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in languageTools.program.agent.actions"><code>ModuleCallAction</code></a> holds.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected <a href="../../../../goal/core/runtime/service/agent/Result.html" title="class in goal.core.runtime.service.agent">Result</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ModuleCallAction.html#executeAction(goal.core.runtime.service.agent.RunState,%20goal.tools.debugger.Debugger)">executeAction</a></strong>(<a href="../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;?&gt;&nbsp;runState,
              <a href="../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger)</code>
-<div class="block">Executes the <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in goal.core.program.actions"><code>ModuleCallAction</code></a> by entering and initializing the
+<div class="block">Executes the <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in languageTools.program.agent.actions"><code>ModuleCallAction</code></a> by entering and initializing the
  target module and running that module.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../../goal/core/kr/language/Var.html" title="interface in goal.core.kr.language">Var</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ModuleCallAction.html#getFreeVar()">getFreeVar</a></strong>()</code>
-<div class="block">Returns the set of (free) variables that occur in this <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a>'s
+<div class="block">Returns the set of (free) variables that occur in this <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a>'s
  parameters.</div>
 </td>
 </tr>
@@ -232,13 +232,13 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ModuleCallAction.html#getParameters()">getParameters</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ModuleCallAction.html#getPrecondition(goal.core.kr.KRlanguage)">getPrecondition</a></strong>(<a href="../../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a>&nbsp;language)</code>
-<div class="block">Returns the precondition of this <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in goal.core.program.actions"><code>ModuleCallAction</code></a>.</div>
+<div class="block">Returns the precondition of this <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in languageTools.program.agent.actions"><code>ModuleCallAction</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ModuleCallAction.html#getTarget()">getTarget</a></strong>()</code>
 <div class="block">Returns the module that should be entered when executing this focus
  action.</div>
@@ -254,10 +254,10 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 </tr>
 </table>
 <ul class="blockList">
-<li class="blockList"><a name="methods_inherited_from_class_goal.core.program.actions.Action">
+<li class="blockList"><a name="methods_inherited_from_class_languageTools.program.agent.actions.Action">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;goal.core.program.actions.<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></h3>
+<h3>Methods inherited from class&nbsp;languageTools.program.agent.actions.<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></h3>
 <code><a href="../../../../goal/core/program/actions/Action.html#getName()">getName</a>, <a href="../../../../goal/core/program/actions/Action.html#isClosed()">isClosed</a>, <a href="../../../../goal/core/program/actions/Action.html#report(goal.tools.debugger.Debugger)">report</a>, <a href="../../../../goal/core/program/actions/Action.html#run(goal.core.runtime.service.agent.RunState,%20goal.core.kr.language.Substitution,%20goal.tools.debugger.Debugger,%20boolean)">run</a></code></li>
 </ul>
 <ul class="blockList">
@@ -288,20 +288,20 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="ModuleCallAction(goal.core.program.Module, goal.core.program.rules.Rule, java.util.List, goal.parser.InputStreamPosition)">
+<a name="ModuleCallAction(languageTools.program.agent.Module, languageTools.program.agent.rules.Rule, java.util.List, goal.parser.InputStreamPosition)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ModuleCallAction</h4>
-<pre>public&nbsp;ModuleCallAction(<a href="../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;targetModule,
-                <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules">Rule</a>&nbsp;parentRule,
+<pre>public&nbsp;ModuleCallAction(<a href="../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;targetModule,
+                <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules">Rule</a>&nbsp;parentRule,
                 java.util.List&lt;<a href="../../../../goal/core/kr/language/Term.html" title="interface in goal.core.kr.language">Term</a>&gt;&nbsp;arguments,
                 <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</pre>
-<div class="block">Creates a new <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in goal.core.program.actions"><code>ModuleCallAction</code></a>, which will focus the agent's
+<div class="block">Creates a new <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in languageTools.program.agent.actions"><code>ModuleCallAction</code></a>, which will focus the agent's
  attention to a certain module when executed.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>targetModule</code> - The name of the <a href="../../../../goal/core/program/Module.html" title="class in goal.core.program"><code>Module</code></a> the agent that executes this
-            action will focus on.</dd><dd><code>parentRule</code> - The <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules"><code>Rule</code></a> this action is defined in. Should only be
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>targetModule</code> - The name of the <a href="../../../../goal/core/program/Module.html" title="class in languageTools.program.agent"><code>Module</code></a> the agent that executes this
+            action will focus on.</dd><dd><code>parentRule</code> - The <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules"><code>Rule</code></a> this action is defined in. Should only be
             <code>null</code> when created to focus on the event module.</dd><dd><code>arguments</code> - The arguments of the action, used to instantiate the
             parameters of the target module.</dd><dd><code>source</code> - Where the new action as defined.</dd></dl>
 </li>
@@ -320,10 +320,10 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <ul class="blockList">
 <li class="blockList">
 <h4>getTarget</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;getTarget()</pre>
+<pre>public&nbsp;<a href="../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;getTarget()</pre>
 <div class="block">Returns the module that should be entered when executing this focus
  action.</div>
-<dl><dt><span class="strong">Returns:</span></dt><dd>The <a href="../../../../goal/core/program/Module.html" title="class in goal.core.program"><code>Module</code></a> that will be entered when executing this
+<dl><dt><span class="strong">Returns:</span></dt><dd>The <a href="../../../../goal/core/program/Module.html" title="class in languageTools.program.agent"><code>Module</code></a> that will be entered when executing this
          action.</dd></dl>
 </li>
 </ul>
@@ -345,11 +345,11 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <h4>getFreeVar</h4>
 <pre>public&nbsp;java.util.Set&lt;<a href="../../../../goal/core/kr/language/Var.html" title="interface in goal.core.kr.language">Var</a>&gt;&nbsp;getFreeVar()</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html#getFreeVar()">Action</a></code></strong></div>
-<div class="block">Returns the set of (free) variables that occur in this <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a>'s
+<div class="block">Returns the set of (free) variables that occur in this <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a>'s
  parameters.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#getFreeVar()">getFreeVar</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#getFreeVar()">getFreeVar</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Returns:</span></dt><dd>The set of variables that occur (free) in the parameters of the
          action.</dd></dl>
 </li>
@@ -360,7 +360,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <ul class="blockList">
 <li class="blockList">
 <h4>applySubst</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&nbsp;applySubst(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</pre>
+<pre>public&nbsp;<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&nbsp;applySubst(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</pre>
 <div class="block">Applies the substitution to the parameters of the target module (only).
  <p>
  Does not apply the substitution to the target module itself. Instead
@@ -369,7 +369,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
  </p></div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>substitution</code> - The substitution to apply</dd>
 <dt><span class="strong">Returns:</span></dt><dd>Instantiated focus action, where free variables in parameters
          have been substituted with terms from the substitution.</dd></dl>
@@ -381,13 +381,13 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <ul class="blockList">
 <li class="blockList">
 <h4>getPrecondition</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a>&nbsp;getPrecondition(<a href="../../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a>&nbsp;language)
+<pre>public&nbsp;<a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a>&nbsp;getPrecondition(<a href="../../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a>&nbsp;language)
                                 throws <a href="../../../../goal/tools/errorhandling/exceptions/GOALParseException.html" title="class in goal.tools.errorhandling.exceptions">GOALParseException</a></pre>
-<div class="block">Returns the precondition of this <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in goal.core.program.actions"><code>ModuleCallAction</code></a>. A focus
+<div class="block">Returns the precondition of this <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in languageTools.program.agent.actions"><code>ModuleCallAction</code></a>. A focus
  action, i.e., entering a module, has the empty precondition and can
  always be performed (as long as its parameters are closed).
  <p>
- In case the <a href="../../../../goal/core/program/Module.FocusMethod.html" title="enum in goal.core.program"><code>Module.FocusMethod</code></a> of the target module is 'select' or
+ In case the <a href="../../../../goal/core/program/Module.FocusMethod.html" title="enum in languageTools.program.agent"><code>Module.FocusMethod</code></a> of the target module is 'select' or
  'filter', the condition of the parent rule of this action should be
  evaluated in a different style and a goal to insert into the module's
  attention set (goal base) should also be found. This is considered to be
@@ -396,13 +396,13 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
  </p></div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#getPrecondition(goal.core.kr.KRlanguage)">getPrecondition</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#getPrecondition(goal.core.kr.KRlanguage)">getPrecondition</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>language</code> - The KR language used for representing the precondition.</dd>
-<dt><span class="strong">Returns:</span></dt><dd>A <a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals"><code>MentalStateCond</code></a> that represents the action's
+<dt><span class="strong">Returns:</span></dt><dd>A <a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc"><code>MentalStateCondition</code></a> that represents the action's
          precondition.</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="../../../../goal/tools/errorhandling/exceptions/GOALParseException.html" title="class in goal.tools.errorhandling.exceptions">GOALParseException</a></code> - If a parser error is generated when constructing the the
-             precondition of <a href="../../../../goal/core/program/actions/DeleteAction.html" title="class in goal.core.program.actions"><code>DeleteAction</code></a>,</dd></dl>
+             precondition of <a href="../../../../goal/core/program/actions/DeleteAction.html" title="class in languageTools.program.agent.actions"><code>DeleteAction</code></a>,</dd></dl>
 </li>
 </ul>
 <a name="evaluatePrecondition(goal.core.mentalstate.MentalState, goal.tools.debugger.Debugger, boolean)">
@@ -411,14 +411,14 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <ul class="blockList">
 <li class="blockList">
 <h4>evaluatePrecondition</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in goal.core.program.actions">ModuleCallAction</a>&nbsp;evaluatePrecondition(<a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate">MentalState</a>&nbsp;runState,
+<pre>public&nbsp;<a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in languageTools.program.agent.actions">ModuleCallAction</a>&nbsp;evaluatePrecondition(<a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate">MentalState</a>&nbsp;runState,
                                     <a href="../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger,
                                     boolean&nbsp;last)</pre>
-<div class="block">Checks whether the precondition of <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in goal.core.program.actions"><code>ModuleCallAction</code></a> holds. See
+<div class="block">Checks whether the precondition of <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in languageTools.program.agent.actions"><code>ModuleCallAction</code></a> holds. See
  also: <a href="../../../../goal/core/program/actions/ModuleCallAction.html#getPrecondition(goal.core.kr.KRlanguage)"><code>getPrecondition(KRlanguage)</code></a>.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#evaluatePrecondition(goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger,%20boolean)">evaluatePrecondition</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#evaluatePrecondition(goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger,%20boolean)">evaluatePrecondition</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>runState</code> - The <a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate"><code>MentalState</code></a> in which the precondition is
             evaluated.</dd><dd><code>debugger</code> - The current debugger</dd><dd><code>last</code> - If this is the last possible variation we are trying to
             execute, e.g. after this there are no more possibilities and
@@ -434,7 +434,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <h4>executeAction</h4>
 <pre>protected&nbsp;<a href="../../../../goal/core/runtime/service/agent/Result.html" title="class in goal.core.runtime.service.agent">Result</a>&nbsp;executeAction(<a href="../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;?&gt;&nbsp;runState,
                    <a href="../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger)</pre>
-<div class="block">Executes the <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in goal.core.program.actions"><code>ModuleCallAction</code></a> by entering and initializing the
+<div class="block">Executes the <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in languageTools.program.agent.actions"><code>ModuleCallAction</code></a> by entering and initializing the
  target module and running that module.
  <p>
  Depending on the module's focus options a new attention set needs to be
@@ -442,7 +442,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
  </p></div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#executeAction(goal.core.runtime.service.agent.RunState,%20goal.tools.debugger.Debugger)">executeAction</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#executeAction(goal.core.runtime.service.agent.RunState,%20goal.tools.debugger.Debugger)">executeAction</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>runState</code> - The <a href="../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent"><code>RunState</code></a> in which the action is executed.</dd><dd><code>debugger</code> - The current debugger.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>The action that has been executed; never returns <code>null</code> but
          throws runtime exceptions if executing the action fails.</dd></dl>
@@ -513,8 +513,8 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/actions/MentalAction.html" title="class in goal.core.program.actions"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/actions/PrintAction.html" title="class in goal.core.program.actions"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/MentalAction.html" title="class in languageTools.program.agent.actions"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/PrintAction.html" title="class in languageTools.program.agent.actions"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/actions/ModuleCallAction.html" target="_top">Frames</a></li>

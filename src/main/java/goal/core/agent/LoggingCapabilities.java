@@ -1,6 +1,6 @@
 package goal.core.agent;
 
-import goal.core.program.actions.LogAction;
+import languageTools.program.agent.actions.LogAction;
 
 /**
  * Provides an abstract representation of the logging capabilities of the agent.

@@ -18,8 +18,7 @@
 
 package goal.tools.codeanalysis;
 
-import goal.core.program.rules.Rule;
-import goal.core.program.rules.RuleSet;
+import languageTools.program.agent.rules.Rule;
 import goal.util.Statistics;
 
 import java.util.ArrayList;

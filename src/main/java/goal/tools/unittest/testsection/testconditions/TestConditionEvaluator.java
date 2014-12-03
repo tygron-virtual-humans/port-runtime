@@ -1,9 +1,9 @@
 package goal.tools.unittest.testsection.testconditions;
 
-import goal.core.kr.language.Substitution;
-import goal.core.kr.language.Term;
-import goal.core.kr.language.Var;
-import goal.core.program.literals.MentalStateCond;
+import krTools.language.Substitution;
+import krTools.language.Term;
+import krTools.language.Var;
+import languageTools.program.agent.msc.MentalStateCondition;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.DebugObserver;
 import goal.tools.debugger.Debugger;
@@ -72,7 +72,7 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 	/**
 	 * @return query used by the {@link TestCondition}.
 	 */
-	public MentalStateCond getQuery() {
+	public MentalStateCondition getQuery() {
 		return condition.getQuery();
 	}
 
@@ -95,7 +95,7 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 	 * @return result of evaluating the mental state query.
 	 */
 	protected Set<Substitution> evaluate(RunState<? extends Debugger> runState,
-			Substitution substitution, MentalStateCond query) {
+			Substitution substitution, MentalStateCondition query) {
 		// Using a NOPDebugger here to avoid endless recursion on observer
 		Debugger debugger = new NOPDebugger(getObserverName());
 		// If this condition bound a variable to the substitution,

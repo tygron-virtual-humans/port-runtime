@@ -1,11 +1,11 @@
 package goal.core.agent;
 
-import goal.core.kr.KRlanguage;
-import goal.core.program.actions.LogAction;
+import languageTools.program.agent.AgentId;
+import languageTools.program.agent.actions.LogAction;
 import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
-import goal.tools.errorhandling.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRInitFailedException;
 
 /**
  * Generic representation of an agent in the GOAL runtime environment.

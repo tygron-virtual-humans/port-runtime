@@ -1,6 +1,6 @@
 package goal.tools.eclipse;
 
-import goal.core.agent.AgentId;
+import languageTools.program.agent.AgentId;
 
 import java.util.ArrayList;
 import java.util.Collections;

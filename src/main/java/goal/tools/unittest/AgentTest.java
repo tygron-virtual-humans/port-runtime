@@ -1,7 +1,7 @@
 package goal.tools.unittest;
 
 import goal.core.agent.Agent;
-import goal.core.program.Module;
+import languageTools.program.agent.Module;
 import goal.tools.UnitTestRun;
 import goal.tools.debugger.ObservableDebugger;
 import goal.tools.unittest.result.AgentTestResult;

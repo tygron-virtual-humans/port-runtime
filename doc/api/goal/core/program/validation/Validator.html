@@ -37,7 +37,7 @@
 <div class="subNav">
 <ul class="navList">
 <li>Prev Class</li>
-<li><a href="../../../../goal/core/program/validation/ValidatorError.html" title="class in goal.core.program.validation"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/validation/ValidatorError.html" title="class in languageTools.program.agent.validation"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/validation/Validator.html" target="_top">Frames</a></li>
@@ -79,7 +79,7 @@
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">goal.core.program.validation</div>
+<div class="subTitle">languageTools.program.agent.validation</div>
 <h2 title="Class Validator" class="title">Class Validator&lt;T&gt;</h2>
 </div>
 <div class="contentContainer">
@@ -87,7 +87,7 @@
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>goal.core.program.validation.Validator&lt;T&gt;</li>
+<li>languageTools.program.agent.validation.Validator&lt;T&gt;</li>
 </ul>
 </li>
 </ul>
@@ -97,7 +97,7 @@
 <dl><dt><span class="strong">Type Parameters:</span></dt><dd><code>T</code> - The validator type.</dd></dl>
 <dl>
 <dt>Direct Known Subclasses:</dt>
-<dd><a href="../../../../goal/core/program/validation/agentfile/ActionComboValidator.html" title="class in goal.core.program.validation.agentfile">ActionComboValidator</a>, <a href="../../../../goal/core/program/validation/agentfile/ActionSpecificationValidator.html" title="class in goal.core.program.validation.agentfile">ActionSpecificationValidator</a>, <a href="../../../../goal/core/program/validation/agentfile/ActionValidator.html" title="class in goal.core.program.validation.agentfile">ActionValidator</a>, <a href="../../../../goal/core/program/validation/agentfile/GOALProgramValidator.html" title="class in goal.core.program.validation.agentfile">GOALProgramValidator</a>, <a href="../../../../goal/core/program/validation/masfile/MASProgramValidator.html" title="class in goal.core.program.validation.masfile">MASProgramValidator</a>, <a href="../../../../goal/core/program/validation/agentfile/ModuleValidator.html" title="class in goal.core.program.validation.agentfile">ModuleValidator</a>, <a href="../../../../goal/core/program/validation/agentfile/NameSpaceValidator.html" title="class in goal.core.program.validation.agentfile">NameSpaceValidator</a>, <a href="../../../../goal/core/program/validation/agentfile/RuleSetValidator.html" title="class in goal.core.program.validation.agentfile">RuleSetValidator</a>, <a href="../../../../goal/core/program/validation/agentfile/RuleValidator.html" title="class in goal.core.program.validation.agentfile">RuleValidator</a></dd>
+<dd><a href="../../../../goal/core/program/validation/agentfile/ActionComboValidator.html" title="class in languageTools.program.agent.validation.agentfile">ActionComboValidator</a>, <a href="../../../../goal/core/program/validation/agentfile/ActionSpecificationValidator.html" title="class in languageTools.program.agent.validation.agentfile">ActionSpecificationValidator</a>, <a href="../../../../goal/core/program/validation/agentfile/ActionValidator.html" title="class in languageTools.program.agent.validation.agentfile">ActionValidator</a>, <a href="../../../../goal/core/program/validation/agentfile/GOALProgramValidator.html" title="class in languageTools.program.agent.validation.agentfile">GOALProgramValidator</a>, <a href="../../../../goal/core/program/validation/masfile/MASProgramValidator.html" title="class in languageTools.program.agent.validation.masfile">MASProgramValidator</a>, <a href="../../../../goal/core/program/validation/agentfile/ModuleValidator.html" title="class in languageTools.program.agent.validation.agentfile">ModuleValidator</a>, <a href="../../../../goal/core/program/validation/agentfile/NameSpaceValidator.html" title="class in languageTools.program.agent.validation.agentfile">NameSpaceValidator</a>, <a href="../../../../goal/core/program/validation/agentfile/RuleSetValidator.html" title="class in languageTools.program.agent.validation.agentfile">RuleSetValidator</a>, <a href="../../../../goal/core/program/validation/agentfile/RuleValidator.html" title="class in languageTools.program.agent.validation.agentfile">RuleValidator</a></dd>
 </dl>
 <hr>
 <br>
@@ -109,7 +109,7 @@ extends java.lang.Object</pre>
  for <a href="../../../../goal/core/program/validation/Validator.html#doValidate(T)"><code>doValidate(T)</code></a> in each of them.<br>
  - If an object to be validated contains (links to) other objects to be
  validated, call <a href="../../../../goal/core/program/validation/Validator.html#validate(T,%20boolean)"><code>validate(T, boolean)</code></a> on a validator for that object. Then call
- <a href="../../../../goal/core/program/validation/Validator.html#reportToSuperior(goal.core.program.validation.Validator)"><code>reportToSuperior(goal.core.program.validation.Validator&lt;?&gt;)</code></a> to copy over any found errors and warnings.<br>
+ <a href="../../../../goal/core/program/validation/Validator.html#reportToSuperior(languageTools.program.agent.validation.Validator)"><code>reportToSuperior(languageTools.program.agent.validation.Validator&lt;?&gt;)</code></a> to copy over any found errors and warnings.<br>
  - It is usually preferred not to stop once such a subordinate validator
  encountered errors, but not mandatory.<br>
  - Try to call validators for child-/sub-objects in such an order that the
@@ -158,7 +158,7 @@ extends java.lang.Object</pre>
 <tr class="altColor">
 <td class="colFirst"><code>protected </code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/validation/Validator.html#Validator()">Validator</a></strong>()</code>
-<div class="block">Create a new <a href="../../../../goal/core/program/validation/Validator.html" title="class in goal.core.program.validation"><code>Validator</code></a>.</div>
+<div class="block">Create a new <a href="../../../../goal/core/program/validation/Validator.html" title="class in languageTools.program.agent.validation"><code>Validator</code></a>.</div>
 </td>
 </tr>
 </table>
@@ -183,41 +183,41 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>java.util.List&lt;<a href="../../../../goal/core/program/validation/ValidatorMessage.html" title="class in goal.core.program.validation">ValidatorMessage</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.List&lt;<a href="../../../../goal/core/program/validation/ValidatorMessage.html" title="class in languageTools.program.agent.validation">ValidatorMessage</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/validation/Validator.html#getAllReports()">getAllReports</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>java.util.List&lt;<a href="../../../../goal/core/program/validation/ValidatorError.html" title="class in goal.core.program.validation">ValidatorError</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.List&lt;<a href="../../../../goal/core/program/validation/ValidatorError.html" title="class in languageTools.program.agent.validation">ValidatorError</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/validation/Validator.html#getErrors()">getErrors</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>java.util.List&lt;<a href="../../../../goal/core/program/validation/ValidatorWarning.html" title="class in goal.core.program.validation">ValidatorWarning</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.List&lt;<a href="../../../../goal/core/program/validation/ValidatorWarning.html" title="class in languageTools.program.agent.validation">ValidatorWarning</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/validation/Validator.html#getWarnings()">getWarnings</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/validation/Validator.html#isPerfect()">isPerfect</a></strong>()</code>
-<div class="block">Checks whether the object this <a href="../../../../goal/core/program/validation/Validator.html" title="class in goal.core.program.validation"><code>Validator</code></a> last checked did not
+<div class="block">Checks whether the object this <a href="../../../../goal/core/program/validation/Validator.html" title="class in languageTools.program.agent.validation"><code>Validator</code></a> last checked did not
  generate any errors and/or warnings.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/validation/Validator.html#isValid()">isValid</a></strong>()</code>
-<div class="block">Checks whether the object this <a href="../../../../goal/core/program/validation/Validator.html" title="class in goal.core.program.validation"><code>Validator</code></a> last checked did not
+<div class="block">Checks whether the object this <a href="../../../../goal/core/program/validation/Validator.html" title="class in languageTools.program.agent.validation"><code>Validator</code></a> last checked did not
  generate any errors.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected void</code></td>
-<td class="colLast"><code><strong><a href="../../../../goal/core/program/validation/Validator.html#report(goal.core.program.validation.ValidatorMessage)">report</a></strong>(<a href="../../../../goal/core/program/validation/ValidatorMessage.html" title="class in goal.core.program.validation">ValidatorMessage</a>&nbsp;problem)</code>
-<div class="block">Reports a problem {<a href="../../../../goal/core/program/validation/ValidatorMessage.html" title="class in goal.core.program.validation"><code>ValidatorMessage</code></a>) that was found while
+<td class="colLast"><code><strong><a href="../../../../goal/core/program/validation/Validator.html#report(languageTools.program.agent.validation.ValidatorMessage)">report</a></strong>(<a href="../../../../goal/core/program/validation/ValidatorMessage.html" title="class in languageTools.program.agent.validation">ValidatorMessage</a>&nbsp;problem)</code>
+<div class="block">Reports a problem {<a href="../../../../goal/core/program/validation/ValidatorMessage.html" title="class in languageTools.program.agent.validation"><code>ValidatorMessage</code></a>) that was found while
  validating.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../goal/core/program/validation/Validator.html#reportToSuperior(goal.core.program.validation.Validator)">reportToSuperior</a></strong>(<a href="../../../../goal/core/program/validation/Validator.html" title="class in goal.core.program.validation">Validator</a>&lt;?&gt;&nbsp;superior)</code>
+<td class="colLast"><code><strong><a href="../../../../goal/core/program/validation/Validator.html#reportToSuperior(languageTools.program.agent.validation.Validator)">reportToSuperior</a></strong>(<a href="../../../../goal/core/program/validation/Validator.html" title="class in languageTools.program.agent.validation">Validator</a>&lt;?&gt;&nbsp;superior)</code>
 <div class="block">Reports any errors and warnings found to another validator.</div>
 </td>
 </tr>
@@ -277,7 +277,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>Validator</h4>
 <pre>protected&nbsp;Validator()</pre>
-<div class="block">Create a new <a href="../../../../goal/core/program/validation/Validator.html" title="class in goal.core.program.validation"><code>Validator</code></a>. Does nothing; the error and warning lists
+<div class="block">Create a new <a href="../../../../goal/core/program/validation/Validator.html" title="class in languageTools.program.agent.validation"><code>Validator</code></a>. Does nothing; the error and warning lists
  are initialized by calling <a href="../../../../goal/core/program/validation/Validator.html#validate(T,%20boolean)"><code>validate(T, boolean)</code></a> (or <a href="../../../../goal/core/program/validation/Validator.html#initialize()"><code>initialize()</code></a>,
  which is called by <a href="../../../../goal/core/program/validation/Validator.html#validate(T,%20boolean)"><code>validate(T, boolean)</code></a>).</div>
 </li>
@@ -297,7 +297,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>isValid</h4>
 <pre>public final&nbsp;boolean&nbsp;isValid()</pre>
-<div class="block">Checks whether the object this <a href="../../../../goal/core/program/validation/Validator.html" title="class in goal.core.program.validation"><code>Validator</code></a> last checked did not
+<div class="block">Checks whether the object this <a href="../../../../goal/core/program/validation/Validator.html" title="class in languageTools.program.agent.validation"><code>Validator</code></a> last checked did not
  generate any errors.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> if no errors have been found while checking the
          object using <code>#validate()</code>.</dd></dl>
@@ -310,7 +310,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>isPerfect</h4>
 <pre>public&nbsp;boolean&nbsp;isPerfect()</pre>
-<div class="block">Checks whether the object this <a href="../../../../goal/core/program/validation/Validator.html" title="class in goal.core.program.validation"><code>Validator</code></a> last checked did not
+<div class="block">Checks whether the object this <a href="../../../../goal/core/program/validation/Validator.html" title="class in languageTools.program.agent.validation"><code>Validator</code></a> last checked did not
  generate any errors and/or warnings.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> if no errors or warnings were generated during the
          last call of <a href="../../../../goal/core/program/validation/Validator.html#validate(T,%20boolean)"><code>validate(T, boolean)</code></a>.</dd></dl>
@@ -350,18 +350,18 @@ extends java.lang.Object</pre>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>subject</code> - The object to validate.</dd></dl>
 </li>
 </ul>
-<a name="report(goal.core.program.validation.ValidatorMessage)">
+<a name="report(languageTools.program.agent.validation.ValidatorMessage)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>report</h4>
-<pre>protected&nbsp;void&nbsp;report(<a href="../../../../goal/core/program/validation/ValidatorMessage.html" title="class in goal.core.program.validation">ValidatorMessage</a>&nbsp;problem)</pre>
-<div class="block">Reports a problem {<a href="../../../../goal/core/program/validation/ValidatorMessage.html" title="class in goal.core.program.validation"><code>ValidatorMessage</code></a>) that was found while
+<pre>protected&nbsp;void&nbsp;report(<a href="../../../../goal/core/program/validation/ValidatorMessage.html" title="class in languageTools.program.agent.validation">ValidatorMessage</a>&nbsp;problem)</pre>
+<div class="block">Reports a problem {<a href="../../../../goal/core/program/validation/ValidatorMessage.html" title="class in languageTools.program.agent.validation"><code>ValidatorMessage</code></a>) that was found while
  validating.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>problem</code> - The problem that was found while validating; type of the
-            problem reported must be either a <a href="../../../../goal/core/program/validation/ValidatorWarning.html" title="class in goal.core.program.validation"><code>ValidatorWarning</code></a> or
-            a <a href="../../../../goal/core/program/validation/ValidatorError.html" title="class in goal.core.program.validation"><code>ValidatorError</code></a>.</dd></dl>
+            problem reported must be either a <a href="../../../../goal/core/program/validation/ValidatorWarning.html" title="class in languageTools.program.agent.validation"><code>ValidatorWarning</code></a> or
+            a <a href="../../../../goal/core/program/validation/ValidatorError.html" title="class in languageTools.program.agent.validation"><code>ValidatorError</code></a>.</dd></dl>
 </li>
 </ul>
 <a name="getErrors()">
@@ -370,7 +370,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getErrors</h4>
-<pre>public&nbsp;java.util.List&lt;<a href="../../../../goal/core/program/validation/ValidatorError.html" title="class in goal.core.program.validation">ValidatorError</a>&gt;&nbsp;getErrors()</pre>
+<pre>public&nbsp;java.util.List&lt;<a href="../../../../goal/core/program/validation/ValidatorError.html" title="class in languageTools.program.agent.validation">ValidatorError</a>&gt;&nbsp;getErrors()</pre>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The resulting errors (if any).</dd></dl>
 </li>
 </ul>
@@ -380,7 +380,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getWarnings</h4>
-<pre>public&nbsp;java.util.List&lt;<a href="../../../../goal/core/program/validation/ValidatorWarning.html" title="class in goal.core.program.validation">ValidatorWarning</a>&gt;&nbsp;getWarnings()</pre>
+<pre>public&nbsp;java.util.List&lt;<a href="../../../../goal/core/program/validation/ValidatorWarning.html" title="class in languageTools.program.agent.validation">ValidatorWarning</a>&gt;&nbsp;getWarnings()</pre>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The resulting warnings (if any).</dd></dl>
 </li>
 </ul>
@@ -390,19 +390,19 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getAllReports</h4>
-<pre>public&nbsp;java.util.List&lt;<a href="../../../../goal/core/program/validation/ValidatorMessage.html" title="class in goal.core.program.validation">ValidatorMessage</a>&gt;&nbsp;getAllReports()</pre>
+<pre>public&nbsp;java.util.List&lt;<a href="../../../../goal/core/program/validation/ValidatorMessage.html" title="class in languageTools.program.agent.validation">ValidatorMessage</a>&gt;&nbsp;getAllReports()</pre>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The resulting errors and/or warnings (if any).</dd></dl>
 </li>
 </ul>
-<a name="reportToSuperior(goal.core.program.validation.Validator)">
+<a name="reportToSuperior(languageTools.program.agent.validation.Validator)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>reportToSuperior</h4>
-<pre>public&nbsp;void&nbsp;reportToSuperior(<a href="../../../../goal/core/program/validation/Validator.html" title="class in goal.core.program.validation">Validator</a>&lt;?&gt;&nbsp;superior)</pre>
+<pre>public&nbsp;void&nbsp;reportToSuperior(<a href="../../../../goal/core/program/validation/Validator.html" title="class in languageTools.program.agent.validation">Validator</a>&lt;?&gt;&nbsp;superior)</pre>
 <div class="block">Reports any errors and warnings found to another validator.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>superior</code> - The <a href="../../../../goal/core/program/validation/Validator.html" title="class in goal.core.program.validation"><code>Validator</code></a> to report the found errors and warnings
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>superior</code> - The <a href="../../../../goal/core/program/validation/Validator.html" title="class in languageTools.program.agent.validation"><code>Validator</code></a> to report the found errors and warnings
             to.</dd></dl>
 </li>
 </ul>
@@ -433,7 +433,7 @@ extends java.lang.Object</pre>
 <div class="subNav">
 <ul class="navList">
 <li>Prev Class</li>
-<li><a href="../../../../goal/core/program/validation/ValidatorError.html" title="class in goal.core.program.validation"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/validation/ValidatorError.html" title="class in languageTools.program.agent.validation"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/validation/Validator.html" target="_top">Frames</a></li>

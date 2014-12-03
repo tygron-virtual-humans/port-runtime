@@ -18,9 +18,9 @@
 
 package goal.tools.codeanalysis;
 
-import goal.core.program.GOALProgram;
-import goal.core.program.Module;
-import goal.core.program.literals.Macro;
+import languageTools.program.agent.AgentProgram;
+import languageTools.program.agent.Module;
+import languageTools.program.agent.msc.Macro;
 import goal.tools.PlatformManager;
 import goal.tools.errorhandling.exceptions.GOALException;
 
@@ -36,7 +36,7 @@ import java.io.IOException;
  */
 public class ProgramAnalysis {
 	private final File file;
-	private final GOALProgram program;
+	private final AgentProgram program;
 	private final CodeAnalysisOverview programOverview = new CodeAnalysisOverview();
 	private CodeAnalysisOverview predicateOverview = new CodeAnalysisOverview();
 
@@ -56,7 +56,7 @@ public class ProgramAnalysis {
 		// file. Get the associated KR language used in the program file from
 		// the MAS registry.
 
-		program = PlatformManager.getCurrent().getGOALProgram(file);
+		program = PlatformManager.getCurrent().getAgentProgram(file);
 
 		makeProgramCodeAnalysis();
 
@@ -136,13 +136,13 @@ public class ProgramAnalysis {
 	}
 
 	/**
-	 * Returns the number of {@link Macro}s defined in the {@link GOALProgram}.
+	 * Returns the number of {@link Macro}s defined in the {@link AgentProgram}.
 	 *
 	 * @param program
 	 *            The program to be analyzed.
 	 * @return The number of macros defined in the program.
 	 */
-	private static int getMacroCount(GOALProgram program) {
+	private static int getMacroCount(AgentProgram program) {
 		int count = 0;
 		for (Module module : program.getAllModules()) {
 			count += module.getNameSpace().getMacros().getItems().size();

@@ -36,8 +36,8 @@
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/rules/ListallDoRule.html" title="class in goal.core.program.rules"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/rules/RuleSet.html" title="class in goal.core.program.rules"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/rules/ListallDoRule.html" title="class in languageTools.program.agent.rules"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/rules/RuleSet.html" title="class in languageTools.program.agent.rules"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/rules/Rule.html" target="_top">Frames</a></li>
@@ -79,7 +79,7 @@
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">goal.core.program.rules</div>
+<div class="subTitle">languageTools.program.agent.rules</div>
 <h2 title="Class Rule" class="title">Class Rule</h2>
 </div>
 <div class="contentContainer">
@@ -90,7 +90,7 @@
 <li><a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">goal.parser.ParsedObject</a></li>
 <li>
 <ul class="inheritance">
-<li>goal.core.program.rules.Rule</li>
+<li>languageTools.program.agent.rules.Rule</li>
 </ul>
 </li>
 </ul>
@@ -105,20 +105,20 @@
 </dl>
 <dl>
 <dt>Direct Known Subclasses:</dt>
-<dd><a href="../../../../goal/core/program/rules/ForallDoRule.html" title="class in goal.core.program.rules">ForallDoRule</a>, <a href="../../../../goal/core/program/rules/IfThenRule.html" title="class in goal.core.program.rules">IfThenRule</a>, <a href="../../../../goal/core/program/rules/ListallDoRule.html" title="class in goal.core.program.rules">ListallDoRule</a></dd>
+<dd><a href="../../../../goal/core/program/rules/ForallDoRule.html" title="class in languageTools.program.agent.rules">ForallDoRule</a>, <a href="../../../../goal/core/program/rules/IfThenRule.html" title="class in languageTools.program.agent.rules">IfThenRule</a>, <a href="../../../../goal/core/program/rules/ListallDoRule.html" title="class in languageTools.program.agent.rules">ListallDoRule</a></dd>
 </dl>
 <hr>
 <br>
 <pre>public abstract class <span class="strong">Rule</span>
 extends <a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">ParsedObject</a></pre>
 <div class="block">A rule consists of a condition (body) and an action (head). The condition of
- a rule is a <a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals"><code>MentalStateCond</code></a>. The action of a rule is an
- <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a>. A rule is applicable if the condition of the rule AND
+ a rule is a <a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc"><code>MentalStateCondition</code></a>. The action of a rule is an
+ <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a>. A rule is applicable if the condition of the rule AND
  the precondition of the action hold. In that case, the action can be selected
  for execution.</div>
 <dl><dt><span class="strong">Author:</span></dt>
   <dd>N.Kraayenbrink, W.Pasman added support to store compiled rule.</dd>
-<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#goal.core.program.rules.Rule">Serialized Form</a></dd></dl>
+<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#languageTools.program.agent.rules.Rule">Serialized Form</a></dd></dl>
 </li>
 </ul>
 </div>
@@ -139,10 +139,10 @@ extends <a href="../../../../goal/parser/ParsedObject.html" title="class in goal
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected </code></td>
-<td class="colLast"><code><strong><a href="../../../../goal/core/program/rules/Rule.html#Rule(goal.core.program.literals.MentalStateCond,%20goal.core.program.actions.ActionCombo,%20goal.parser.InputStreamPosition)">Rule</a></strong>(<a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a>&nbsp;condition,
-    <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions">ActionCombo</a>&nbsp;action,
+<td class="colLast"><code><strong><a href="../../../../goal/core/program/rules/Rule.html#Rule(languageTools.program.agent.msc.MentalStateCondition,%20languageTools.program.agent.actions.ActionCombo,%20goal.parser.InputStreamPosition)">Rule</a></strong>(<a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a>&nbsp;condition,
+    <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions">ActionCombo</a>&nbsp;action,
     <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</code>
-<div class="block">Creates a new <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules"><code>Rule</code></a></div>
+<div class="block">Creates a new <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules"><code>Rule</code></a></div>
 </td>
 </tr>
 </table>
@@ -171,7 +171,7 @@ extends <a href="../../../../goal/parser/ParsedObject.html" title="class in goal
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions">ActionCombo</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions">ActionCombo</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/rules/Rule.html#getAction()">getAction</a></strong>()</code>
 <div class="block">Returns the action of this rule.</div>
 </td>
@@ -184,9 +184,9 @@ extends <a href="../../../../goal/parser/ParsedObject.html" title="class in goal
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/rules/Rule.html#getCondition()">getCondition</a></strong>()</code>
-<div class="block">Gets the condition (head) of this <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules"><code>Rule</code></a>.</div>
+<div class="block">Gets the condition (head) of this <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules"><code>Rule</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -199,13 +199,13 @@ extends <a href="../../../../goal/parser/ParsedObject.html" title="class in goal
 <td class="colFirst"><code><a href="../../../../goal/core/runtime/service/agent/Result.html" title="class in goal.core.runtime.service.agent">Result</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/rules/Rule.html#run(goal.core.runtime.service.agent.RunState,%20goal.core.kr.language.Substitution)">run</a></strong>(<a href="../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;?&gt;&nbsp;runState,
    <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
-<div class="block">Evaluates and applies the <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules"><code>Rule</code></a>.</div>
+<div class="block">Evaluates and applies the <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules"><code>Rule</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../goal/core/program/rules/Rule.html#setAction(goal.core.program.actions.ActionCombo)">setAction</a></strong>(<a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions">ActionCombo</a>&nbsp;action)</code>
-<div class="block">Sets the <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a> for this <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules"><code>Rule</code></a>.</div>
+<td class="colLast"><code><strong><a href="../../../../goal/core/program/rules/Rule.html#setAction(languageTools.program.agent.actions.ActionCombo)">setAction</a></strong>(<a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions">ActionCombo</a>&nbsp;action)</code>
+<div class="block">Sets the <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a> for this <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules"><code>Rule</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -261,16 +261,16 @@ extends <a href="../../../../goal/parser/ParsedObject.html" title="class in goal
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="Rule(goal.core.program.literals.MentalStateCond, goal.core.program.actions.ActionCombo, goal.parser.InputStreamPosition)">
+<a name="Rule(languageTools.program.agent.msc.MentalStateCondition, languageTools.program.agent.actions.ActionCombo, goal.parser.InputStreamPosition)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Rule</h4>
-<pre>protected&nbsp;Rule(<a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a>&nbsp;condition,
-    <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions">ActionCombo</a>&nbsp;action,
+<pre>protected&nbsp;Rule(<a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a>&nbsp;condition,
+    <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions">ActionCombo</a>&nbsp;action,
     <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</pre>
-<div class="block">Creates a new <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules"><code>Rule</code></a></div>
+<div class="block">Creates a new <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules"><code>Rule</code></a></div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>condition</code> - Determines when the rule is applicable.</dd><dd><code>action</code> - The action to perform if the rule is applicable.</dd><dd><code>source</code> - The source code location of this action, if available;
             <code>null</code> otherwise.</dd></dl>
 </li>
@@ -289,9 +289,9 @@ extends <a href="../../../../goal/parser/ParsedObject.html" title="class in goal
 <ul class="blockList">
 <li class="blockList">
 <h4>getCondition</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a>&nbsp;getCondition()</pre>
-<div class="block">Gets the condition (head) of this <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules"><code>Rule</code></a>.</div>
-<dl><dt><span class="strong">Returns:</span></dt><dd>The condition of this <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules"><code>Rule</code></a> used for evaluating whether
+<pre>public&nbsp;<a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a>&nbsp;getCondition()</pre>
+<div class="block">Gets the condition (head) of this <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules"><code>Rule</code></a>.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>The condition of this <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules"><code>Rule</code></a> used for evaluating whether
          the rule is applicable.</dd></dl>
 </li>
 </ul>
@@ -301,20 +301,20 @@ extends <a href="../../../../goal/parser/ParsedObject.html" title="class in goal
 <ul class="blockList">
 <li class="blockList">
 <h4>getAction</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions">ActionCombo</a>&nbsp;getAction()</pre>
+<pre>public&nbsp;<a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions">ActionCombo</a>&nbsp;getAction()</pre>
 <div class="block">Returns the action of this rule.</div>
-<dl><dt><span class="strong">Returns:</span></dt><dd>The <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a> that is performed if this <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules"><code>Rule</code></a> is
+<dl><dt><span class="strong">Returns:</span></dt><dd>The <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a> that is performed if this <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules"><code>Rule</code></a> is
          applied.</dd></dl>
 </li>
 </ul>
-<a name="setAction(goal.core.program.actions.ActionCombo)">
+<a name="setAction(languageTools.program.agent.actions.ActionCombo)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setAction</h4>
-<pre>public&nbsp;void&nbsp;setAction(<a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions">ActionCombo</a>&nbsp;action)</pre>
-<div class="block">Sets the <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a> for this <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules"><code>Rule</code></a>.</div>
+<pre>public&nbsp;void&nbsp;setAction(<a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions">ActionCombo</a>&nbsp;action)</pre>
+<div class="block">Sets the <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a> for this <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules"><code>Rule</code></a>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>action</code> - The action to be associated with this rule.</dd></dl>
 </li>
 </ul>
@@ -372,17 +372,17 @@ extends <a href="../../../../goal/parser/ParsedObject.html" title="class in goal
 <h4>run</h4>
 <pre>public&nbsp;<a href="../../../../goal/core/runtime/service/agent/Result.html" title="class in goal.core.runtime.service.agent">Result</a>&nbsp;run(<a href="../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;?&gt;&nbsp;runState,
          <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</pre>
-<div class="block">Evaluates and applies the <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules"><code>Rule</code></a>.
+<div class="block">Evaluates and applies the <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules"><code>Rule</code></a>.
 
  First collect all substitutions that satisfy the condition of the
- <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules"><code>Rule</code></a>. Then apply the rule using the substitutions found.
+ <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules"><code>Rule</code></a>. Then apply the rule using the substitutions found.
  Application is specific for each type of rule. <br>
  Note that there is a fundamental difference between first collecting
  substitutions and then applying the rule versus applying the rule while
- one-by-one collecting substitutions. For the <a href="../../../../goal/core/program/rules/IfThenRule.html" title="class in goal.core.program.rules"><code>IfThenRule</code></a> rule we
+ one-by-one collecting substitutions. For the <a href="../../../../goal/core/program/rules/IfThenRule.html" title="class in languageTools.program.agent.rules"><code>IfThenRule</code></a> rule we
  cannot randomly shuffle the substitutions in the latter case (and thus
  cannot randomly pick an action to execute), and for the
- <a href="../../../../goal/core/program/rules/ForallDoRule.html" title="class in goal.core.program.rules"><code>ForallDoRule</code></a> the resulting set of substitutions that satisfy the
+ <a href="../../../../goal/core/program/rules/ForallDoRule.html" title="class in languageTools.program.agent.rules"><code>ForallDoRule</code></a> the resulting set of substitutions that satisfy the
  rule's condition might be different as this set might change when
  executing actions while evaluating the rule's condition.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>runState</code> - the current run-state of the agent.</dd><dd><code>substitution</code> - the global substitution to use for rule application. These are
@@ -408,7 +408,7 @@ extends <a href="../../../../goal/parser/ParsedObject.html" title="class in goal
             module with the given <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a>. Is something (not
             null) only if <a href="../../../../goal/core/program/rules/Rule.html#isRuleSinglegoal()"><code>isRuleSinglegoal()</code></a>.</dd><dd><code>globalsubst</code> - the <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> that holds at the rule's general
             level - the module level. This is the substi before we applied
-            the condition. Needed in <a href="../../../../goal/core/program/rules/ListallDoRule.html" title="class in goal.core.program.rules"><code>ListallDoRule</code></a>.</dd>
+            the condition. Needed in <a href="../../../../goal/core/program/rules/ListallDoRule.html" title="class in languageTools.program.agent.rules"><code>ListallDoRule</code></a>.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>Result.</dd></dl>
 </li>
 </ul>
@@ -434,7 +434,7 @@ extends <a href="../../../../goal/parser/ParsedObject.html" title="class in goal
 <pre>public abstract&nbsp;java.lang.String&nbsp;toString(java.lang.String&nbsp;linePrefix)</pre>
 <div class="block">Generalization of <a href="../../../../goal/core/program/rules/Rule.html#toString()"><code>toString()</code></a>, allowing the returned string
  to be indented at various levels. Rules are printed including the
- trailing '.', and rules representing <a href="../../../../goal/core/program/Module.html" title="class in goal.core.program"><code>Module</code></a>s are printed as a
+ trailing '.', and rules representing <a href="../../../../goal/core/program/Module.html" title="class in languageTools.program.agent"><code>Module</code></a>s are printed as a
  module.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>linePrefix</code> - What to prefix every line with</dd>
 <dt><span class="strong">Returns:</span></dt><dd>A string-representation of this action rule, or the
@@ -454,7 +454,7 @@ extends <a href="../../../../goal/parser/ParsedObject.html" title="class in goal
  <code>FocusRule</code>. For a <code>FocusRule</code> this will return the same as
  <code>#toIfThenString()</code>, instead of a String-representation of the
  rule's target Module that is returned by <a href="../../../../goal/core/program/rules/Rule.html#toString()"><code>toString()</code></a>.</div>
-<dl><dt><span class="strong">Returns:</span></dt><dd>A one-line String representation of this <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules"><code>Rule</code></a>. Should be
+<dl><dt><span class="strong">Returns:</span></dt><dd>A one-line String representation of this <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules"><code>Rule</code></a>. Should be
          the result of either <code>#toIfThenString()</code> or
          <code>#toForallDoString()</code>.</dd></dl>
 </li>
@@ -485,8 +485,8 @@ extends <a href="../../../../goal/parser/ParsedObject.html" title="class in goal
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/rules/ListallDoRule.html" title="class in goal.core.program.rules"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/rules/RuleSet.html" title="class in goal.core.program.rules"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/rules/ListallDoRule.html" title="class in languageTools.program.agent.rules"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/rules/RuleSet.html" title="class in languageTools.program.agent.rules"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/rules/Rule.html" target="_top">Frames</a></li>

@@ -150,7 +150,7 @@ extends java.lang.Object</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html#TauAnalyzer(goal.core.program.GOALProgram,%20goal.tools.mc.program.goal.trans.MscSet)">TauAnalyzer</a></strong>(<a href="../../../../../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a>&nbsp;program,
+<td class="colOne"><code><strong><a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html#TauAnalyzer(languageTools.program.agent.GOALProgram,%20goal.tools.mc.program.goal.trans.MscSet)">TauAnalyzer</a></strong>(<a href="../../../../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a>&nbsp;program,
            <a href="../../../../../../goal/tools/mc/program/goal/trans/MscSet.html" title="class in goal.tools.mc.program.goal.trans">MscSet</a>&nbsp;voc)</code>
 <div class="block">Constructs a transition analyzer that analyzes the specified program,
  with respect to the specified vocabulary.</div>
@@ -188,18 +188,18 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected abstract <a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="class in goal.tools.mc.program.goal.trans">TauModule</a>&lt;<a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html" title="type parameter in TauAnalyzer">T</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html" title="type parameter in TauAnalyzer">A</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html" title="type parameter in TauAnalyzer">U</a>&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html#createTauModule(goal.core.program.Module,%20java.util.Collection)">createTauModule</a></strong>(<a href="../../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module,
+<td class="colLast"><code><strong><a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html#createTauModule(languageTools.program.agent.Module,%20java.util.Collection)">createTauModule</a></strong>(<a href="../../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module,
                java.util.Collection&lt;<a href="../../../../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&gt;&nbsp;knowledge)</code>
 <div class="block">Creates a transition module corresponding to the specified module.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected abstract <a href="../../../../../../goal/tools/mc/program/goal/trans/TauStep.html" title="class in goal.tools.mc.program.goal.trans">TauStep</a>&lt;<a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html" title="type parameter in TauAnalyzer">T</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html" title="type parameter in TauAnalyzer">A</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html" title="type parameter in TauAnalyzer">U</a>&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html#createTauStep(goal.tools.mc.program.goal.trans.TauClass,%20goal.tools.mc.program.goal.GOALConversionUniverse,%20goal.tools.mc.program.goal.GOALState,%20goal.tools.mc.program.goal.GOALState,%20goal.core.program.actions.ActionCombo)">createTauStep</a></strong>(<a href="../../../../../../goal/tools/mc/program/goal/trans/TauClass.html" title="class in goal.tools.mc.program.goal.trans">TauClass</a>&lt;<a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html" title="type parameter in TauAnalyzer">T</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html" title="type parameter in TauAnalyzer">A</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html" title="type parameter in TauAnalyzer">U</a>&gt;&nbsp;tauClass,
+<td class="colLast"><code><strong><a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html#createTauStep(goal.tools.mc.program.goal.trans.TauClass,%20goal.tools.mc.program.goal.GOALConversionUniverse,%20goal.tools.mc.program.goal.GOALState,%20goal.tools.mc.program.goal.GOALState,%20languageTools.program.agent.actions.ActionCombo)">createTauStep</a></strong>(<a href="../../../../../../goal/tools/mc/program/goal/trans/TauClass.html" title="class in goal.tools.mc.program.goal.trans">TauClass</a>&lt;<a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html" title="type parameter in TauAnalyzer">T</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html" title="type parameter in TauAnalyzer">A</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html" title="type parameter in TauAnalyzer">U</a>&gt;&nbsp;tauClass,
              <a href="../../../../../../goal/tools/mc/program/goal/GOALConversionUniverse.html" title="class in goal.tools.mc.program.goal">GOALConversionUniverse</a>&nbsp;universe,
              <a href="../../../../../../goal/tools/mc/program/goal/GOALState.html" title="class in goal.tools.mc.program.goal">GOALState</a>&nbsp;source,
              <a href="../../../../../../goal/tools/mc/program/goal/GOALState.html" title="class in goal.tools.mc.program.goal">GOALState</a>&nbsp;destination,
-             <a href="../../../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions">ActionCombo</a>&nbsp;act)</code>
+             <a href="../../../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions">ActionCombo</a>&nbsp;act)</code>
 <div class="block">Creates a step according to the specified parameters.</div>
 </td>
 </tr>
@@ -297,13 +297,13 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="TauAnalyzer(goal.core.program.GOALProgram, goal.tools.mc.program.goal.trans.MscSet)">
+<a name="TauAnalyzer(languageTools.program.agent.GOALProgram, goal.tools.mc.program.goal.trans.MscSet)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>TauAnalyzer</h4>
-<pre>public&nbsp;TauAnalyzer(<a href="../../../../../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a>&nbsp;program,
+<pre>public&nbsp;TauAnalyzer(<a href="../../../../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a>&nbsp;program,
            <a href="../../../../../../goal/tools/mc/program/goal/trans/MscSet.html" title="class in goal.tools.mc.program.goal.trans">MscSet</a>&nbsp;voc)</pre>
 <div class="block">Constructs a transition analyzer that analyzes the specified program,
  with respect to the specified vocabulary.</div>
@@ -343,7 +343,7 @@ extends java.lang.Object</pre>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>tauClass1</code> - - The one transition class.</dd><dd><code>tauClass2</code> - - The other transition class.</dd></dl>
 </li>
 </ul>
-<a name="createTauStep(goal.tools.mc.program.goal.trans.TauClass, goal.tools.mc.program.goal.GOALConversionUniverse, goal.tools.mc.program.goal.GOALState, goal.tools.mc.program.goal.GOALState, goal.core.program.actions.ActionCombo)">
+<a name="createTauStep(goal.tools.mc.program.goal.trans.TauClass, goal.tools.mc.program.goal.GOALConversionUniverse, goal.tools.mc.program.goal.GOALState, goal.tools.mc.program.goal.GOALState, languageTools.program.agent.actions.ActionCombo)">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -353,19 +353,19 @@ extends java.lang.Object</pre>
                            <a href="../../../../../../goal/tools/mc/program/goal/GOALConversionUniverse.html" title="class in goal.tools.mc.program.goal">GOALConversionUniverse</a>&nbsp;universe,
                            <a href="../../../../../../goal/tools/mc/program/goal/GOALState.html" title="class in goal.tools.mc.program.goal">GOALState</a>&nbsp;source,
                            <a href="../../../../../../goal/tools/mc/program/goal/GOALState.html" title="class in goal.tools.mc.program.goal">GOALState</a>&nbsp;destination,
-                           <a href="../../../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions">ActionCombo</a>&nbsp;act)</pre>
+                           <a href="../../../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions">ActionCombo</a>&nbsp;act)</pre>
 <div class="block">Creates a step according to the specified parameters.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>tauClass</code> - - See <a href="../../../../../../goal/tools/mc/program/goal/trans/TauStep.html#tauClass"><code>TauStep.tauClass</code></a>.</dd><dd><code>universe</code> - - See <a href="../../../../../../goal/tools/mc/program/goal/trans/TauStep.html#universe"><code>TauStep.universe</code></a>.</dd><dd><code>source</code> - - See <a href="../../../../../../goal/tools/mc/program/goal/trans/TauStep.html#source"><code>TauStep.source</code></a>.</dd><dd><code>destination</code> - - See <a href="../../../../../../goal/tools/mc/program/goal/trans/TauStep.html#destination"><code>TauStep.destination</code></a>.</dd><dd><code>act</code> - - See <a href="../../../../../../goal/tools/mc/program/goal/trans/TauStep.html#act"><code>TauStep.act</code></a>.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>The new step.</dd></dl>
 </li>
 </ul>
-<a name="createTauModule(goal.core.program.Module, java.util.Collection)">
+<a name="createTauModule(languageTools.program.agent.Module, java.util.Collection)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>createTauModule</h4>
-<pre>protected abstract&nbsp;<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="class in goal.tools.mc.program.goal.trans">TauModule</a>&lt;<a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html" title="type parameter in TauAnalyzer">T</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html" title="type parameter in TauAnalyzer">A</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html" title="type parameter in TauAnalyzer">U</a>&gt;&nbsp;createTauModule(<a href="../../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module,
+<pre>protected abstract&nbsp;<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="class in goal.tools.mc.program.goal.trans">TauModule</a>&lt;<a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html" title="type parameter in TauAnalyzer">T</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html" title="type parameter in TauAnalyzer">A</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauAnalyzer.html" title="type parameter in TauAnalyzer">U</a>&gt;&nbsp;createTauModule(<a href="../../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module,
                                java.util.Collection&lt;<a href="../../../../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&gt;&nbsp;knowledge)</pre>
 <div class="block">Creates a transition module corresponding to the specified module.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>module</code> - - The module to which the transition module to be constructed

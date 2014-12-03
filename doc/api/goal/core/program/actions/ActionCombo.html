@@ -36,8 +36,8 @@
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/actions/AdoptAction.html" title="class in goal.core.program.actions"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/AdoptAction.html" title="class in languageTools.program.agent.actions"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/actions/ActionCombo.html" target="_top">Frames</a></li>
@@ -79,7 +79,7 @@
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">goal.core.program.actions</div>
+<div class="subTitle">languageTools.program.agent.actions</div>
 <h2 title="Class ActionCombo" class="title">Class ActionCombo</h2>
 </div>
 <div class="contentContainer">
@@ -90,7 +90,7 @@
 <li><a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">goal.parser.ParsedObject</a></li>
 <li>
 <ul class="inheritance">
-<li>goal.core.program.actions.ActionCombo</li>
+<li>languageTools.program.agent.actions.ActionCombo</li>
 </ul>
 </li>
 </ul>
@@ -101,15 +101,15 @@
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><a href="../../../../goal/parser/IParsedObject.html" title="interface in goal.parser">IParsedObject</a>, java.io.Serializable, java.lang.Comparable&lt;<a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">ParsedObject</a>&gt;, java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&gt;</dd>
+<dd><a href="../../../../goal/parser/IParsedObject.html" title="interface in goal.parser">IParsedObject</a>, java.io.Serializable, java.lang.Comparable&lt;<a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">ParsedObject</a>&gt;, java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&gt;</dd>
 </dl>
 <hr>
 <br>
 <pre>public class <span class="strong">ActionCombo</span>
 extends <a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">ParsedObject</a>
-implements java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&gt;</pre>
-<div class="block">An <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a> is a list of actions that have been combined by the +
- operator in a <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules"><code>Rule</code></a> of an agent program.
+implements java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&gt;</pre>
+<div class="block">An <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a> is a list of actions that have been combined by the +
+ operator in a <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules"><code>Rule</code></a> of an agent program.
  <p>
  An action combo is executed whenever the first action in the sequence can be
  performed, i.e., the precondition of that action holds. Preconditions of
@@ -120,7 +120,7 @@ implements java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/
  </p></div>
 <dl><dt><span class="strong">Author:</span></dt>
   <dd>N.Kraayenbrink</dd>
-<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#goal.core.program.actions.ActionCombo">Serialized Form</a></dd></dl>
+<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#languageTools.program.agent.actions.ActionCombo">Serialized Form</a></dd></dl>
 </li>
 </ul>
 </div>
@@ -139,15 +139,15 @@ implements java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="../../../../goal/core/program/actions/ActionCombo.html#ActionCombo(goal.core.program.actions.Action,%20goal.parser.InputStreamPosition)">ActionCombo</a></strong>(<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&nbsp;action,
+<td class="colOne"><code><strong><a href="../../../../goal/core/program/actions/ActionCombo.html#ActionCombo(languageTools.program.agent.actions.Action,%20goal.parser.InputStreamPosition)">ActionCombo</a></strong>(<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&nbsp;action,
            <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</code>
-<div class="block">Creates an <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a> with a single <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a>.</div>
+<div class="block">Creates an <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a> with a single <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colOne"><code><strong><a href="../../../../goal/core/program/actions/ActionCombo.html#ActionCombo(java.util.Collection,%20goal.parser.InputStreamPosition)">ActionCombo</a></strong>(java.util.Collection&lt;? extends <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&gt;&nbsp;actions,
+<td class="colOne"><code><strong><a href="../../../../goal/core/program/actions/ActionCombo.html#ActionCombo(java.util.Collection,%20goal.parser.InputStreamPosition)">ActionCombo</a></strong>(java.util.Collection&lt;? extends <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&gt;&nbsp;actions,
            <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</code>
-<div class="block">Creates an <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a> from a list of <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a>s.</div>
+<div class="block">Creates an <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a> from a list of <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a>s.</div>
 </td>
 </tr>
 </table>
@@ -167,16 +167,16 @@ implements java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ActionCombo.html#addAction(goal.core.program.actions.Action)">addAction</a></strong>(<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&nbsp;action)</code>
-<div class="block">Adds an <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a> to the end of the list of actions that are part of
- this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a>.</div>
+<td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ActionCombo.html#addAction(languageTools.program.agent.actions.Action)">addAction</a></strong>(<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&nbsp;action)</code>
+<div class="block">Adds an <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a> to the end of the list of actions that are part of
+ this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions">ActionCombo</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions">ActionCombo</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ActionCombo.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
-<div class="block">Applies the given substitution to this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a> by applying it
- to each of the <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a>s that are part of this combo.</div>
+<div class="block">Applies the given substitution to this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a> by applying it
+ to each of the <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a>s that are part of this combo.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -184,19 +184,19 @@ implements java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ActionCombo.html#equals(java.lang.Object)">equals</a></strong>(java.lang.Object&nbsp;obj)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ActionCombo.html#getAction(int)">getAction</a></strong>(int&nbsp;index)</code>
-<div class="block">Returns the (index)th <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a> in this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a>.</div>
+<div class="block">Returns the (index)th <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a> in this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>java.util.Collection&lt;? extends <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.Collection&lt;? extends <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ActionCombo.html#getActions()">getActions</a></strong>()</code>
-<div class="block">Returns the <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a>s of this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a>.</div>
+<div class="block">Returns the <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a>s of this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>java.util.List&lt;<a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions">ActionCombo</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.List&lt;<a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions">ActionCombo</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ActionCombo.html#getOptions(goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger)">getOptions</a></strong>(<a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate">MentalState</a>&nbsp;mentalState,
           <a href="../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger)</code>
 <div class="block">Searches linearly through the precondition(s) of the first action in this
@@ -206,8 +206,8 @@ implements java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ActionCombo.html#hasFilterFocusAction()">hasFilterFocusAction</a></strong>()</code>
-<div class="block">Checks whether one of the action in the <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a> is a call to
- a module, i.e., a <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in goal.core.program.actions"><code>ModuleCallAction</code></a> with associated
+<div class="block">Checks whether one of the action in the <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a> is a call to
+ a module, i.e., a <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in languageTools.program.agent.actions"><code>ModuleCallAction</code></a> with associated
  <a href="../../../../goal/core/program/Module.FocusMethod.html#FILTER"><code>Module.FocusMethod.FILTER</code></a>.</div>
 </td>
 </tr>
@@ -222,7 +222,7 @@ implements java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>java.util.Iterator&lt;<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.Iterator&lt;<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ActionCombo.html#iterator()">iterator</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
@@ -230,14 +230,14 @@ implements java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ActionCombo.html#run(goal.core.runtime.service.agent.RunState,%20goal.core.kr.language.Substitution,%20boolean)">run</a></strong>(<a href="../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;?&gt;&nbsp;runState,
    <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution,
    boolean&nbsp;last)</code>
-<div class="block">Performs the <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a>.</div>
+<div class="block">Performs the <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ActionCombo.html#setAction(int,%20goal.core.program.actions.Action)">setAction</a></strong>(int&nbsp;index,
-         <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&nbsp;action)</code>
-<div class="block">Replaces the (index)th <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a> in this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a> by the
+<td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/ActionCombo.html#setAction(int,%20languageTools.program.agent.actions.Action)">setAction</a></strong>(int&nbsp;index,
+         <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&nbsp;action)</code>
+<div class="block">Replaces the (index)th <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a> in this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a> by the
  parameter action.</div>
 </td>
 </tr>
@@ -274,15 +274,15 @@ implements java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="ActionCombo(goal.core.program.actions.Action, goal.parser.InputStreamPosition)">
+<a name="ActionCombo(languageTools.program.agent.actions.Action, goal.parser.InputStreamPosition)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>ActionCombo</h4>
-<pre>public&nbsp;ActionCombo(<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&nbsp;action,
+<pre>public&nbsp;ActionCombo(<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&nbsp;action,
            <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</pre>
-<div class="block">Creates an <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a> with a single <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a>.</div>
+<div class="block">Creates an <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a> with a single <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>action</code> - A single action to add to this combo</dd><dd><code>source</code> - The source code location of this action, if available;
             <code>null</code> otherwise.</dd></dl>
 </li>
@@ -293,10 +293,10 @@ implements java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/
 <ul class="blockListLast">
 <li class="blockList">
 <h4>ActionCombo</h4>
-<pre>public&nbsp;ActionCombo(java.util.Collection&lt;? extends <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&gt;&nbsp;actions,
+<pre>public&nbsp;ActionCombo(java.util.Collection&lt;? extends <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&gt;&nbsp;actions,
            <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</pre>
-<div class="block">Creates an <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a> from a list of <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a>s.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>actions</code> - The <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a>s that should be part of this new action
+<div class="block">Creates an <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a> from a list of <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a>s.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>actions</code> - The <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a>s that should be part of this new action
             combo.</dd><dd><code>source</code> - The source code location of this action, if available;
             <code>null</code> otherwise.</dd></dl>
 </li>
@@ -315,20 +315,20 @@ implements java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/
 <ul class="blockList">
 <li class="blockList">
 <h4>getActions</h4>
-<pre>public&nbsp;java.util.Collection&lt;? extends <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&gt;&nbsp;getActions()</pre>
-<div class="block">Returns the <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a>s of this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a>.</div>
+<pre>public&nbsp;java.util.Collection&lt;? extends <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&gt;&nbsp;getActions()</pre>
+<div class="block">Returns the <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a>s of this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The actions that are part of this action combo.</dd></dl>
 </li>
 </ul>
-<a name="addAction(goal.core.program.actions.Action)">
+<a name="addAction(languageTools.program.agent.actions.Action)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>addAction</h4>
-<pre>public&nbsp;void&nbsp;addAction(<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&nbsp;action)</pre>
-<div class="block">Adds an <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a> to the end of the list of actions that are part of
- this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a>.</div>
+<pre>public&nbsp;void&nbsp;addAction(<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&nbsp;action)</pre>
+<div class="block">Adds an <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a> to the end of the list of actions that are part of
+ this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>action</code> - The action to be added.</dd></dl>
 </li>
 </ul>
@@ -338,21 +338,21 @@ implements java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/
 <ul class="blockList">
 <li class="blockList">
 <h4>getAction</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&nbsp;getAction(int&nbsp;index)</pre>
-<div class="block">Returns the (index)th <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a> in this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a>.</div>
+<pre>public&nbsp;<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&nbsp;getAction(int&nbsp;index)</pre>
+<div class="block">Returns the (index)th <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a> in this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>index</code> - The index into the action combo.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>The (index)th action of this action combo.</dd></dl>
 </li>
 </ul>
-<a name="setAction(int, goal.core.program.actions.Action)">
+<a name="setAction(int, languageTools.program.agent.actions.Action)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setAction</h4>
 <pre>public&nbsp;void&nbsp;setAction(int&nbsp;index,
-             <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&nbsp;action)</pre>
-<div class="block">Replaces the (index)th <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a> in this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a> by the
+             <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&nbsp;action)</pre>
+<div class="block">Replaces the (index)th <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a> in this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a> by the
  parameter action.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>index</code> - The index into the action combo where the action will be
             inserted.</dd><dd><code>action</code> - The action that will replace the (index)th action.</dd></dl>
@@ -365,8 +365,8 @@ implements java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/
 <li class="blockList">
 <h4>hasFilterFocusAction</h4>
 <pre>public&nbsp;boolean&nbsp;hasFilterFocusAction()</pre>
-<div class="block">Checks whether one of the action in the <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a> is a call to
- a module, i.e., a <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in goal.core.program.actions"><code>ModuleCallAction</code></a> with associated
+<div class="block">Checks whether one of the action in the <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a> is a call to
+ a module, i.e., a <a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in languageTools.program.agent.actions"><code>ModuleCallAction</code></a> with associated
  <a href="../../../../goal/core/program/Module.FocusMethod.html#FILTER"><code>Module.FocusMethod.FILTER</code></a>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> if at least one of the actions in the action combo
          is a call to a module, i.e., a focus action, with filter as
@@ -379,9 +379,9 @@ implements java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/
 <ul class="blockList">
 <li class="blockList">
 <h4>applySubst</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions">ActionCombo</a>&nbsp;applySubst(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</pre>
-<div class="block">Applies the given substitution to this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a> by applying it
- to each of the <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a>s that are part of this combo.</div>
+<pre>public&nbsp;<a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions">ActionCombo</a>&nbsp;applySubst(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</pre>
+<div class="block">Applies the given substitution to this <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a> by applying it
+ to each of the <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a>s that are part of this combo.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>substitution</code> - The substitution to be applied to the action.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>The instantiated combo action where (free) variables that are
          bound by the substitution have been instantiated by the
@@ -394,7 +394,7 @@ implements java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/
 <ul class="blockList">
 <li class="blockList">
 <h4>getOptions</h4>
-<pre>public&nbsp;java.util.List&lt;<a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions">ActionCombo</a>&gt;&nbsp;getOptions(<a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate">MentalState</a>&nbsp;mentalState,
+<pre>public&nbsp;java.util.List&lt;<a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions">ActionCombo</a>&gt;&nbsp;getOptions(<a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate">MentalState</a>&nbsp;mentalState,
                                      <a href="../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger)</pre>
 <div class="block">Searches linearly through the precondition(s) of the first action in this
  action combo until it finds one that holds. ALL instances of the combo
@@ -421,7 +421,7 @@ implements java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/
 <pre>public&nbsp;<a href="../../../../goal/core/runtime/service/agent/Result.html" title="class in goal.core.runtime.service.agent">Result</a>&nbsp;run(<a href="../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;?&gt;&nbsp;runState,
          <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution,
          boolean&nbsp;last)</pre>
-<div class="block">Performs the <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a>.</div>
+<div class="block">Performs the <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>runState</code> - The <a href="../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent"><code>RunState</code></a> in which the action is executed.</dd><dd><code>substitution</code> - The substitution provided by the action's context.</dd><dd><code>last</code> - If this is the last possible variation we are trying to
             execute, e.g. after this there are no more possibilities and
             the action will fail.</dd>
@@ -447,10 +447,10 @@ implements java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/
 <ul class="blockList">
 <li class="blockList">
 <h4>iterator</h4>
-<pre>public&nbsp;java.util.Iterator&lt;<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&gt;&nbsp;iterator()</pre>
+<pre>public&nbsp;java.util.Iterator&lt;<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&gt;&nbsp;iterator()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code>iterator</code>&nbsp;in interface&nbsp;<code>java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&gt;</code></dd>
+<dd><code>iterator</code>&nbsp;in interface&nbsp;<code>java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -518,8 +518,8 @@ implements java.lang.Iterable&lt;<a href="../../../../goal/core/program/actions/
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/actions/AdoptAction.html" title="class in goal.core.program.actions"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/AdoptAction.html" title="class in languageTools.program.agent.actions"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/actions/ActionCombo.html" target="_top">Frames</a></li>

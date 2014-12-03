@@ -1,6 +1,6 @@
 package goal.tools.unittest.testsection;
 
-import goal.core.program.actions.ActionCombo;
+import languageTools.program.agent.actions.ActionCombo;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.ObservableDebugger;

@@ -1,8 +1,7 @@
 package goal.tools.debugger;
 
-import goal.core.agent.AgentId;
+import languageTools.program.agent.AgentId;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
-import goal.parser.IParsedObject;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

@@ -1,7 +1,7 @@
 package goal.tools.adapt;
 
 import goal.core.mentalstate.MentalState;
-import goal.core.program.actions.ActionCombo;
+import languageTools.program.agent.actions.ActionCombo;
 
 import java.util.List;
 

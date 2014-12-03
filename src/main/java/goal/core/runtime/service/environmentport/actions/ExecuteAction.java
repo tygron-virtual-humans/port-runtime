@@ -1,7 +1,7 @@
 package goal.core.runtime.service.environmentport.actions;
 
 import eis.iilang.Action;
-import goal.core.program.actions.UserSpecAction;
+import languageTools.program.agent.actions.UserSpecAction;
 import goal.core.runtime.service.environment.LocalMessagingEnvironment.Messages2Environment;
 
 import java.io.Serializable;

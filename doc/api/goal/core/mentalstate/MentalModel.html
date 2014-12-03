@@ -145,7 +145,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/mentalstate/MentalModel.html#addBase(goal.core.agent.AgentId,%20goal.core.agent.AgentId,%20goal.core.kr.KRlanguage,%20java.util.Set,%20goal.core.mentalstate.BASETYPE)">addBase</a></strong>(<a href="../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;owner,
+<td class="colLast"><code><strong><a href="../../../goal/core/mentalstate/MentalModel.html#addBase(languageTools.program.agent.AgentId,%20goal.core.agent.AgentId,%20goal.core.kr.KRlanguage,%20java.util.Set,%20goal.core.mentalstate.BASETYPE)">addBase</a></strong>(<a href="../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;owner,
        <a href="../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;agentName,
        <a href="../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a>&nbsp;language,
        java.util.Set&lt;<a href="../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&gt;&nbsp;content,
@@ -263,7 +263,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/mentalstate/MentalModel.html#query(goal.core.program.literals.MentalLiteral,%20boolean,%20goal.tools.debugger.Debugger)">query</a></strong>(<a href="../../../goal/core/program/literals/MentalLiteral.html" title="class in goal.core.program.literals">MentalLiteral</a>&nbsp;literal,
+<td class="colLast"><code><strong><a href="../../../goal/core/mentalstate/MentalModel.html#query(languageTools.program.agent.msc.MentalLiteral,%20boolean,%20goal.tools.debugger.Debugger)">query</a></strong>(<a href="../../../goal/core/program/literals/MentalLiteral.html" title="class in languageTools.program.agent.msc">MentalLiteral</a>&nbsp;literal,
      boolean&nbsp;focus,
      <a href="../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger)</code>
 <div class="block">Checks if a mental atom follows from the belief and/or goal base.</div>
@@ -331,7 +331,7 @@ extends java.lang.Object</pre>
 <dt><span class="strong">Returns:</span></dt><dd>The base for the given type.</dd></dl>
 </li>
 </ul>
-<a name="addBase(goal.core.agent.AgentId, goal.core.agent.AgentId, goal.core.kr.KRlanguage, java.util.Set, goal.core.mentalstate.BASETYPE)">
+<a name="addBase(languageTools.program.agent.AgentId, languageTools.program.agent.AgentId, goal.core.kr.KRlanguage, java.util.Set, goal.core.mentalstate.BASETYPE)">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -356,7 +356,7 @@ extends java.lang.Object</pre>
              database for storing formulas of the particular type.</dd></dl>
 </li>
 </ul>
-<a name="addGoalBase(goal.core.kr.KRlanguage, java.util.List, goal.core.agent.AgentId, java.lang.String, goal.core.agent.AgentId, goal.tools.debugger.Debugger)">
+<a name="addGoalBase(goal.core.kr.KRlanguage, java.util.List, languageTools.program.agent.AgentId, java.lang.String, languageTools.program.agent.AgentId, goal.tools.debugger.Debugger)">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -411,13 +411,13 @@ extends java.lang.Object</pre>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The attention stack.</dd></dl>
 </li>
 </ul>
-<a name="query(goal.core.program.literals.MentalLiteral, boolean, goal.tools.debugger.Debugger)">
+<a name="query(languageTools.program.agent.msc.MentalLiteral, boolean, goal.tools.debugger.Debugger)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>query</h4>
-<pre>public final&nbsp;java.util.Set&lt;<a href="../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&gt;&nbsp;query(<a href="../../../goal/core/program/literals/MentalLiteral.html" title="class in goal.core.program.literals">MentalLiteral</a>&nbsp;literal,
+<pre>public final&nbsp;java.util.Set&lt;<a href="../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&gt;&nbsp;query(<a href="../../../goal/core/program/literals/MentalLiteral.html" title="class in languageTools.program.agent.msc">MentalLiteral</a>&nbsp;literal,
                                 boolean&nbsp;focus,
                                 <a href="../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger)</pre>
 <div class="block">Checks if a mental atom follows from the belief and/or goal base. A

@@ -1,6 +1,6 @@
 package goal.tools.unittest;
 
-import goal.core.mas.MASProgram;
+import languageTools.program.mas.MASProgram;
 
 import java.io.File;
 import java.util.ArrayList;

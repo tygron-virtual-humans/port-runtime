@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import eis.iilang.Percept;
-import goal.core.program.actions.UserSpecAction;
+import languageTools.program.agent.actions.UserSpecAction;
 import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;

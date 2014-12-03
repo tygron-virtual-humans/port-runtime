@@ -19,11 +19,9 @@
 package goal.core.mentalstate;
 
 import goal.core.agent.Agent;
-import goal.core.agent.AgentId;
-import goal.core.kr.KRlanguage;
-import goal.core.kr.language.Query;
-import goal.core.kr.language.Substitution;
-import goal.core.kr.language.Update;
+import krTools.language.Query;
+import krTools.language.Substitution;
+import krTools.language.Update;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
@@ -31,7 +29,8 @@ import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
-import goal.tools.errorhandling.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRInitFailedException;
+import languageTools.program.agent.AgentId;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;

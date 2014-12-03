@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import goal.core.agent.AbstractAgentFactory;
 import goal.core.agent.AgentFactory;
 import goal.core.agent.GOALInterpreter;
-import goal.core.mas.MASProgram;
+import languageTools.program.mas.MASProgram;
 import goal.core.runtime.MessagingService;
 import goal.core.runtime.service.agent.AgentService;
 import goal.core.runtime.service.agent.AgentServiceEventObserver;

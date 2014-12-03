@@ -19,25 +19,22 @@
 package goal.core.mentalstate;
 
 import goal.core.agent.Agent;
-import goal.core.agent.AgentId;
-import goal.core.kr.KRlanguage;
-import goal.core.kr.language.DatabaseFormula;
-import goal.core.kr.language.Query;
-import goal.core.kr.language.Substitution;
-import goal.core.kr.language.Update;
-import goal.core.program.GOALProgram;
-import goal.core.program.Message;
-import goal.core.program.Module;
-import goal.core.program.SelectExpression;
-import goal.core.program.SelectExpression.SelectorType;
-import goal.core.program.literals.MentalLiteral;
-import goal.core.program.literals.MentalStateCond;
+import krTools.language.DatabaseFormula;
+import krTools.language.Query;
+import krTools.language.Substitution;
+import krTools.language.Update;
+import languageTools.program.agent.AgentId;
+import languageTools.program.agent.AgentProgram;
+import languageTools.program.agent.Module;
+import languageTools.program.agent.msc.MentalLiteral;
+import languageTools.program.agent.msc.MentalStateCondition;
+import languageTools.program.agent.msg.Message;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
 import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
-import goal.tools.errorhandling.exceptions.KRInitFailedException;
-import goal.tools.errorhandling.exceptions.KRQueryFailedException;
+import krTools.errors.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRQueryFailedException;
 import goal.tools.logging.InfoLog;
 
 import java.util.ArrayList;
@@ -107,14 +104,14 @@ public class MentalState {
 	 * @param id
 	 *            The agent that owns this {@link MentalState}.
 	 * @param program
-	 *            The parsed GOALProgram of the agent
+	 *            The parsed AgentProgram of the agent
 	 * @param debugger
 	 *            The current debugger
 	 * @throws KRInitFailedException
 	 *             when initialization of the belief base, goal base, mailbox or
 	 *             percept base failed.
 	 */
-	public MentalState(AgentId id, GOALProgram program, Debugger debugger)
+	public MentalState(AgentId id, AgentProgram program, Debugger debugger)
 			throws KRInitFailedException {
 
 		// Log creation of mental state event.
@@ -226,13 +223,13 @@ public class MentalState {
 	 *            execution (when the agent's debugger should be used), debugger
 	 *            is a parameter of the method.
 	 * @param goalProgram
-	 *            The GOALProgram associated with the agent (if its me)
+	 *            The AgentProgram associated with the agent (if its me)
 	 * @throws KRInitFailedException
 	 *             If the KR technology failed to create the requested
 	 *             databases.
 	 */
 	public synchronized void addAgentModel(AgentId id, Debugger debugger,
-			GOALProgram... goalProgram) throws KRInitFailedException {
+			AgentProgram... goalProgram) throws KRInitFailedException {
 		// true if its me, the owner of this mental state.
 		boolean me = id.equals(this.agentId);
 
@@ -585,7 +582,7 @@ public class MentalState {
 
 	/**
 	 * Generates {@link Substitution}s that validate the given
-	 * {@link MentalStateCond}, with the added restriction that only one goal in
+	 * {@link MentalStateCondition}, with the added restriction that only one goal in
 	 * the goalbase may be used to validate it. This goal may be different for
 	 * each of the returned substitutions.
 	 * <p>
@@ -597,18 +594,18 @@ public class MentalState {
 	 *
 	 * <br>
 	 * This function seems very similar to
-	 * {@link MentalStateCond#evaluate(MentalState, SteppingDebugger)}. We might
+	 * {@link MentalStateCondition#evaluate(MentalState, SteppingDebugger)}. We might
 	 * want to document which one to use when.
 	 *
 	 * <h1>known issues</h1>
 	 * #1966 If there are no goals in the goalbase, contextQuery always returns
 	 * an empty set. But this is wrong, for example querying
 	 * <em>not(goal(aap))</em> should return the empty substitution as solution,
-	 * right? {@link MentalStateCond#evaluate(MentalState, SteppingDebugger)}
+	 * right? {@link MentalStateCondition#evaluate(MentalState, SteppingDebugger)}
 	 * seems to not have this problem.
 	 *
 	 * @param context
-	 *            The {@link MentalStateCond} to validate, usually a context
+	 *            The {@link MentalStateCondition} to validate, usually a context
 	 *            from a {@link Module}.
 	 *
 	 * @param validatingGoals
@@ -619,14 +616,14 @@ public class MentalState {
 	 *            The {@link SteppingDebugger} in charge of the call.
 	 *
 	 * @return The set of {@link Substitution}s that validate the given
-	 *         {@link MentalStateCond} using only one goal from the goal base.
+	 *         {@link MentalStateCondition} using only one goal from the goal base.
 	 *
 	 * @throws KRQueryFailedException
 	 *             If something went wrong when querying
 	 *
-	 *             TODO: move to MentalStateCond.
+	 *             TODO: move to MentalStateCondition.
 	 */
-	public Set<Substitution> contextQuery(MentalStateCond context,
+	public Set<Substitution> contextQuery(MentalStateCondition context,
 			Map<Substitution, List<SingleGoal>> validatingGoals,
 			Debugger debugger) {
 

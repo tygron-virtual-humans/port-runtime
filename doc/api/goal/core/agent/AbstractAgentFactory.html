@@ -173,7 +173,7 @@ implements <a href="../../../goal/core/agent/AgentFactory.html" title="interface
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected <a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a></code></td>
+<td class="colFirst"><code>protected <a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a></code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/agent/AbstractAgentFactory.html#program">program</a></strong></code>
 <div class="block">GOALProgram for the agent.</div>
 </td>
@@ -225,7 +225,7 @@ implements <a href="../../../goal/core/agent/AgentFactory.html" title="interface
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../goal/core/agent/Agent.html" title="class in goal.core.agent">Agent</a>&lt;<a href="../../../goal/core/agent/AbstractAgentFactory.html" title="type parameter in AbstractAgentFactory">C</a>&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/agent/AbstractAgentFactory.html#build(goal.core.program.GOALProgram,%20java.io.File,%20java.lang.String,%20goal.core.runtime.service.environmentport.EnvironmentPort)">build</a></strong>(<a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a>&nbsp;program,
+<td class="colLast"><code><strong><a href="../../../goal/core/agent/AbstractAgentFactory.html#build(languageTools.program.agent.GOALProgram,%20java.io.File,%20java.lang.String,%20goal.core.runtime.service.environmentport.EnvironmentPort)">build</a></strong>(<a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a>&nbsp;program,
      java.io.File&nbsp;programFile,
      java.lang.String&nbsp;agentBaseName,
      <a href="../../../goal/core/runtime/service/environmentport/EnvironmentPort.html" title="class in goal.core.runtime.service.environmentport">EnvironmentPort</a>&nbsp;environment)</code>
@@ -297,7 +297,7 @@ implements <a href="../../../goal/core/agent/AgentFactory.html" title="interface
 <ul class="blockList">
 <li class="blockList">
 <h4>program</h4>
-<pre>protected&nbsp;<a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a> program</pre>
+<pre>protected&nbsp;<a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a> program</pre>
 <div class="block">GOALProgram for the agent.</div>
 </li>
 </ul>
@@ -398,24 +398,24 @@ implements <a href="../../../goal/core/agent/AgentFactory.html" title="interface
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="build(goal.core.program.GOALProgram, java.io.File, java.lang.String, goal.core.runtime.service.environmentport.EnvironmentPort)">
+<a name="build(languageTools.program.agent.GOALProgram, java.io.File, java.lang.String, goal.core.runtime.service.environmentport.EnvironmentPort)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>build</h4>
-<pre>public&nbsp;<a href="../../../goal/core/agent/Agent.html" title="class in goal.core.agent">Agent</a>&lt;<a href="../../../goal/core/agent/AbstractAgentFactory.html" title="type parameter in AbstractAgentFactory">C</a>&gt;&nbsp;build(<a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a>&nbsp;program,
+<pre>public&nbsp;<a href="../../../goal/core/agent/Agent.html" title="class in goal.core.agent">Agent</a>&lt;<a href="../../../goal/core/agent/AbstractAgentFactory.html" title="type parameter in AbstractAgentFactory">C</a>&gt;&nbsp;build(<a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a>&nbsp;program,
              java.io.File&nbsp;programFile,
              java.lang.String&nbsp;agentBaseName,
              <a href="../../../goal/core/runtime/service/environmentport/EnvironmentPort.html" title="class in goal.core.runtime.service.environmentport">EnvironmentPort</a>&nbsp;environment)
                                           throws nl.tudelft.goal.messaging.exceptions.MessagingException,
                                                  <a href="../../../goal/tools/errorhandling/exceptions/KRInitFailedException.html" title="class in goal.tools.errorhandling.exceptions">KRInitFailedException</a></pre>
-<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../goal/core/agent/AgentFactory.html#build(goal.core.program.GOALProgram,%20java.io.File,%20java.lang.String,%20goal.core.runtime.service.environmentport.EnvironmentPort)">AgentFactory</a></code></strong></div>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../goal/core/agent/AgentFactory.html#build(languageTools.program.agent.GOALProgram,%20java.io.File,%20java.lang.String,%20goal.core.runtime.service.environmentport.EnvironmentPort)">AgentFactory</a></code></strong></div>
 <div class="block">Builds an Agent. Before throwing an exception upwards all clean up should
  have been done.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../goal/core/agent/AgentFactory.html#build(goal.core.program.GOALProgram,%20java.io.File,%20java.lang.String,%20goal.core.runtime.service.environmentport.EnvironmentPort)">build</a></code>&nbsp;in interface&nbsp;<code><a href="../../../goal/core/agent/AgentFactory.html" title="interface in goal.core.agent">AgentFactory</a>&lt;<a href="../../../goal/core/agent/AbstractAgentFactory.html" title="type parameter in AbstractAgentFactory">D</a> extends <a href="../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>,<a href="../../../goal/core/agent/AbstractAgentFactory.html" title="type parameter in AbstractAgentFactory">C</a> extends <a href="../../../goal/core/agent/GOALInterpreter.html" title="class in goal.core.agent">GOALInterpreter</a>&lt;<a href="../../../goal/core/agent/AbstractAgentFactory.html" title="type parameter in AbstractAgentFactory">D</a>&gt;&gt;</code></dd>
+<dd><code><a href="../../../goal/core/agent/AgentFactory.html#build(languageTools.program.agent.GOALProgram,%20java.io.File,%20java.lang.String,%20goal.core.runtime.service.environmentport.EnvironmentPort)">build</a></code>&nbsp;in interface&nbsp;<code><a href="../../../goal/core/agent/AgentFactory.html" title="interface in goal.core.agent">AgentFactory</a>&lt;<a href="../../../goal/core/agent/AbstractAgentFactory.html" title="type parameter in AbstractAgentFactory">D</a> extends <a href="../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>,<a href="../../../goal/core/agent/AbstractAgentFactory.html" title="type parameter in AbstractAgentFactory">C</a> extends <a href="../../../goal/core/agent/GOALInterpreter.html" title="class in goal.core.agent">GOALInterpreter</a>&lt;<a href="../../../goal/core/agent/AbstractAgentFactory.html" title="type parameter in AbstractAgentFactory">D</a>&gt;&gt;</code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>program</code> - the agent executes</dd><dd><code>programFile</code> - containing the agents program ()</dd><dd><code>agentBaseName</code> - base name for the agent. This name does not need to be unique.</dd><dd><code>environment</code> - in which the agent should be launched. May be null when no
             environment is available.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>a new agent.</dd>

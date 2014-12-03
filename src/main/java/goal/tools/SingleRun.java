@@ -3,14 +3,13 @@ package goal.tools;
 import goal.core.agent.AbstractAgentFactory;
 import goal.core.agent.AgentFactory;
 import goal.core.agent.GOALInterpreter;
-import goal.core.mas.MASProgram;
+import languageTools.program.mas.MASProgram;
 import goal.core.runtime.MessagingService;
 import goal.tools.adapt.Learner;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.LoggingObserver;
 import goal.tools.debugger.NOPDebugger;
 import goal.tools.debugger.ObservableDebugger;
-import goal.tools.errorhandling.exceptions.GOALParseException;
 
 import java.io.File;
 

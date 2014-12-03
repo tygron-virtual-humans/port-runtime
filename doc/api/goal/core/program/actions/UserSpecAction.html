@@ -36,8 +36,8 @@
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/actions/SendOnceAction.html" title="class in goal.core.program.actions"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/actions/UserSpecAction.PrePost.html" title="class in goal.core.program.actions"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/SendOnceAction.html" title="class in languageTools.program.agent.actions"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/UserSpecAction.PrePost.html" title="class in languageTools.program.agent.actions"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/actions/UserSpecAction.html" target="_top">Frames</a></li>
@@ -79,7 +79,7 @@
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">goal.core.program.actions</div>
+<div class="subTitle">languageTools.program.agent.actions</div>
 <h2 title="Class UserSpecAction" class="title">Class UserSpecAction</h2>
 </div>
 <div class="contentContainer">
@@ -90,10 +90,10 @@
 <li><a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">goal.parser.ParsedObject</a></li>
 <li>
 <ul class="inheritance">
-<li><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">goal.core.program.actions.Action</a></li>
+<li><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">languageTools.program.agent.actions.Action</a></li>
 <li>
 <ul class="inheritance">
-<li>goal.core.program.actions.UserSpecAction</li>
+<li>languageTools.program.agent.actions.UserSpecAction</li>
 </ul>
 </li>
 </ul>
@@ -111,7 +111,7 @@
 <hr>
 <br>
 <pre>public class <span class="strong">UserSpecAction</span>
-extends <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></pre>
+extends <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></pre>
 <div class="block">A user-specified action of the form 'name(parameters)' with one or more
  associated action specifications (i.e., precondition, postcondition pairs).
  Parameters are optional.
@@ -123,7 +123,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
  </p></div>
 <dl><dt><span class="strong">Author:</span></dt>
   <dd>K.Hindriks</dd>
-<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#goal.core.program.actions.UserSpecAction">Serialized Form</a></dd></dl>
+<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#languageTools.program.agent.actions.UserSpecAction">Serialized Form</a></dd></dl>
 </li>
 </ul>
 </div>
@@ -144,7 +144,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/UserSpecAction.PrePost.html" title="class in goal.core.program.actions">UserSpecAction.PrePost</a></strong></code>
+<td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/UserSpecAction.PrePost.html" title="class in languageTools.program.agent.actions">UserSpecAction.PrePost</a></strong></code>
 <div class="block">Represents a precondition,postcondition pair as specified in the action
  specification section of the GOAL agent.</div>
 </td>
@@ -168,7 +168,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
               java.util.List&lt;<a href="../../../../goal/core/kr/language/Term.html" title="interface in goal.core.kr.language">Term</a>&gt;&nbsp;parameters,
               boolean&nbsp;external,
               <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</code>
-<div class="block">Creates a <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions"><code>UserSpecAction</code></a> with name, parameter list, and sets flag
+<div class="block">Creates a <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions"><code>UserSpecAction</code></a> with name, parameter list, and sets flag
  whether action should be sent to external environment or not.</div>
 </td>
 </tr>
@@ -189,17 +189,17 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/UserSpecAction.html#addSpecification(goal.core.program.ActionSpecification)">addSpecification</a></strong>(<a href="../../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program">ActionSpecification</a>&nbsp;specification)</code>
-<div class="block">Attempts to add an <a href="../../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program"><code>ActionSpecification</code></a>, i.e., a precondition and
+<td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/UserSpecAction.html#addSpecification(languageTools.program.agent.ActionSpecification)">addSpecification</a></strong>(<a href="../../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent">ActionSpecification</a>&nbsp;specification)</code>
+<div class="block">Attempts to add an <a href="../../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent"><code>ActionSpecification</code></a>, i.e., a precondition and
  postcondition, to the list of action specifications associated with this
- <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions"><code>UserSpecAction</code></a>.</div>
+ <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions"><code>UserSpecAction</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions">UserSpecAction</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions">UserSpecAction</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/UserSpecAction.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
 <div class="block">Applies the given <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to parameters of this
- <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions"><code>UserSpecAction</code></a> as well as to all its action specifications.</div>
+ <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions"><code>UserSpecAction</code></a> as well as to all its action specifications.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -214,25 +214,25 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/UserSpecAction.html#equals(java.lang.Object)">equals</a></strong>(java.lang.Object&nbsp;obj)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/UserSpecAction.html#evaluatePrecondition(goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger,%20boolean)">evaluatePrecondition</a></strong>(<a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate">MentalState</a>&nbsp;mentalState,
                     <a href="../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger,
                     boolean&nbsp;last)</code>
-<div class="block">Evaluates the precondition(s) for this <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions"><code>UserSpecAction</code></a>.</div>
+<div class="block">Evaluates the precondition(s) for this <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions"><code>UserSpecAction</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected <a href="../../../../goal/core/runtime/service/agent/Result.html" title="class in goal.core.runtime.service.agent">Result</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/UserSpecAction.html#executeAction(goal.core.runtime.service.agent.RunState,%20goal.tools.debugger.Debugger)">executeAction</a></strong>(<a href="../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;?&gt;&nbsp;runState,
              <a href="../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger)</code>
-<div class="block">Executes this <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions"><code>UserSpecAction</code></a>.</div>
+<div class="block">Executes this <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions"><code>UserSpecAction</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../../goal/core/kr/language/Var.html" title="interface in goal.core.kr.language">Var</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/UserSpecAction.html#getFreeVar()">getFreeVar</a></strong>()</code>
 <div class="block">Returns the (free) variables that occur in the parameters of this
- <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions"><code>UserSpecAction</code></a>.</div>
+ <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions"><code>UserSpecAction</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -250,7 +250,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <tr class="rowColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="../../../../goal/core/kr/language/Term.html" title="interface in goal.core.kr.language">Term</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/UserSpecAction.html#getParameters()">getParameters</a></strong>()</code>
-<div class="block">Returns the parameters of this <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions"><code>UserSpecAction</code></a>.</div>
+<div class="block">Returns the parameters of this <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions"><code>UserSpecAction</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -260,7 +260,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/UserSpecAction.html#getPrecondition(goal.core.kr.KRlanguage)">getPrecondition</a></strong>(<a href="../../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a>&nbsp;language)</code>
 <div class="block">Returns a condition of the form "bel(precondition)" where precondition is
  the precondition from the <i>first</i> action specification.</div>
@@ -273,7 +273,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions">UserSpecAction</a></code></td>
+<td class="colFirst"><code>protected <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions">UserSpecAction</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/UserSpecAction.html#getSelectedActionSpec()">getSelectedActionSpec</a></strong>()</code>
 <div class="block">Returns this user-specified action where all action specifications other
  than the one found by <code>#getOptions(MentalState, SteppingDebugger)</code>
@@ -286,7 +286,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/UserSpecAction.html#mgu(goal.core.program.actions.Action,%20goal.core.kr.KRlanguage)">mgu</a></strong>(<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&nbsp;action,
+<td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/UserSpecAction.html#mgu(languageTools.program.agent.actions.Action,%20goal.core.kr.KRlanguage)">mgu</a></strong>(<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&nbsp;action,
    <a href="../../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a>&nbsp;language)</code>
 <div class="block">Computes a unifier for the actual parameters of this action with those of
  the given action.</div>
@@ -306,10 +306,10 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 </tr>
 </table>
 <ul class="blockList">
-<li class="blockList"><a name="methods_inherited_from_class_goal.core.program.actions.Action">
+<li class="blockList"><a name="methods_inherited_from_class_languageTools.program.agent.actions.Action">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;goal.core.program.actions.<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></h3>
+<h3>Methods inherited from class&nbsp;languageTools.program.agent.actions.<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></h3>
 <code><a href="../../../../goal/core/program/actions/Action.html#getName()">getName</a>, <a href="../../../../goal/core/program/actions/Action.html#isClosed()">isClosed</a>, <a href="../../../../goal/core/program/actions/Action.html#report(goal.tools.debugger.Debugger)">report</a>, <a href="../../../../goal/core/program/actions/Action.html#run(goal.core.runtime.service.agent.RunState,%20goal.core.kr.language.Substitution,%20goal.tools.debugger.Debugger,%20boolean)">run</a></code></li>
 </ul>
 <ul class="blockList">
@@ -350,7 +350,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
               java.util.List&lt;<a href="../../../../goal/core/kr/language/Term.html" title="interface in goal.core.kr.language">Term</a>&gt;&nbsp;parameters,
               boolean&nbsp;external,
               <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</pre>
-<div class="block">Creates a <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions"><code>UserSpecAction</code></a> with name, parameter list, and sets flag
+<div class="block">Creates a <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions"><code>UserSpecAction</code></a> with name, parameter list, and sets flag
  whether action should be sent to external environment or not.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the action.</dd><dd><code>parameters</code> - The action parameters.</dd><dd><code>external</code> - Parameter indicating whether action should be sent to external
             environment or not. <code>true</code> indicates that action should
@@ -374,7 +374,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <li class="blockList">
 <h4>getParameters</h4>
 <pre>public&nbsp;java.util.List&lt;<a href="../../../../goal/core/kr/language/Term.html" title="interface in goal.core.kr.language">Term</a>&gt;&nbsp;getParameters()</pre>
-<div class="block">Returns the parameters of this <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions"><code>UserSpecAction</code></a>.</div>
+<div class="block">Returns the parameters of this <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions"><code>UserSpecAction</code></a>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The list of action parameters.</dd></dl>
 </li>
 </ul>
@@ -399,18 +399,18 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>external</code> - If <code>true</code>, action is sent to environment.</dd></dl>
 </li>
 </ul>
-<a name="addSpecification(goal.core.program.ActionSpecification)">
+<a name="addSpecification(languageTools.program.agent.ActionSpecification)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>addSpecification</h4>
-<pre>public&nbsp;boolean&nbsp;addSpecification(<a href="../../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program">ActionSpecification</a>&nbsp;specification)
+<pre>public&nbsp;boolean&nbsp;addSpecification(<a href="../../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent">ActionSpecification</a>&nbsp;specification)
                          throws <a href="../../../../goal/tools/errorhandling/exceptions/KRInitFailedException.html" title="class in goal.tools.errorhandling.exceptions">KRInitFailedException</a></pre>
-<div class="block">Attempts to add an <a href="../../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program"><code>ActionSpecification</code></a>, i.e., a precondition and
+<div class="block">Attempts to add an <a href="../../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent"><code>ActionSpecification</code></a>, i.e., a precondition and
  postcondition, to the list of action specifications associated with this
- <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions"><code>UserSpecAction</code></a>. Fails if the action parameters of the
- specification do NOT unify with parameters of this <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions"><code>UserSpecAction</code></a>
+ <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions"><code>UserSpecAction</code></a>. Fails if the action parameters of the
+ specification do NOT unify with parameters of this <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions"><code>UserSpecAction</code></a>
  .
  <p>
  Also renames variables in the action specification to avoid clashes with
@@ -420,19 +420,19 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
             post-condition to be associated with this action.</dd>
 <dt><span class="strong">Returns:</span></dt><dd><code>true</code>, indicating successful addition of the
          specification, if parameters of the specified action unify with
-         parameters of this <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions"><code>UserSpecAction</code></a>; <code>false</code>
+         parameters of this <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions"><code>UserSpecAction</code></a>; <code>false</code>
          otherwise.</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="../../../../goal/tools/errorhandling/exceptions/KRInitFailedException.html" title="class in goal.tools.errorhandling.exceptions">KRInitFailedException</a></code></dd></dl>
 </li>
 </ul>
-<a name="mgu(goal.core.program.actions.Action, goal.core.kr.KRlanguage)">
+<a name="mgu(languageTools.program.agent.actions.Action, goal.core.kr.KRlanguage)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>mgu</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;mgu(<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&nbsp;action,
+<pre>public&nbsp;<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;mgu(<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&nbsp;action,
                <a href="../../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a>&nbsp;language)</pre>
 <div class="block">Computes a unifier for the actual parameters of this action with those of
  the given action. Also checks whether action names and number of
@@ -450,10 +450,10 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <h4>getFreeVar</h4>
 <pre>public&nbsp;java.util.Set&lt;<a href="../../../../goal/core/kr/language/Var.html" title="interface in goal.core.kr.language">Var</a>&gt;&nbsp;getFreeVar()</pre>
 <div class="block">Returns the (free) variables that occur in the parameters of this
- <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions"><code>UserSpecAction</code></a>.</div>
+ <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions"><code>UserSpecAction</code></a>.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#getFreeVar()">getFreeVar</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#getFreeVar()">getFreeVar</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Returns:</span></dt><dd>The (free) variables that occur in the action's parameters.</dd></dl>
 </li>
 </ul>
@@ -463,15 +463,15 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <ul class="blockList">
 <li class="blockList">
 <h4>applySubst</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions">UserSpecAction</a>&nbsp;applySubst(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</pre>
+<pre>public&nbsp;<a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions">UserSpecAction</a>&nbsp;applySubst(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</pre>
 <div class="block">Applies the given <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to parameters of this
- <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions"><code>UserSpecAction</code></a> as well as to all its action specifications. It
+ <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions"><code>UserSpecAction</code></a> as well as to all its action specifications. It
  instantiates all occurrences of (free) variables in the action's
  parameters, preconditions and postconditions that are bound by the
  substitution by the corresponding terms.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>substitution</code> - The substitution to be applied to the action.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>A new instantiated action where (free) variables that are bound
          by the substitution have been instantiated by the corresponding
@@ -484,13 +484,13 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <ul class="blockList">
 <li class="blockList">
 <h4>getPrecondition</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a>&nbsp;getPrecondition(<a href="../../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a>&nbsp;language)</pre>
+<pre>public&nbsp;<a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a>&nbsp;getPrecondition(<a href="../../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a>&nbsp;language)</pre>
 <div class="block">Returns a condition of the form "bel(precondition)" where precondition is
  the precondition from the <i>first</i> action specification. Does not
  support multiple action specifications.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#getPrecondition(goal.core.kr.KRlanguage)">getPrecondition</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#getPrecondition(goal.core.kr.KRlanguage)">getPrecondition</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>language</code> - The KR language used for representing the precondition.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>Precondition of this action of the form "bel(precondition)".</dd></dl>
 </li>
@@ -523,17 +523,17 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <ul class="blockList">
 <li class="blockList">
 <h4>evaluatePrecondition</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&nbsp;evaluatePrecondition(<a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate">MentalState</a>&nbsp;mentalState,
+<pre>public&nbsp;<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&nbsp;evaluatePrecondition(<a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate">MentalState</a>&nbsp;mentalState,
                           <a href="../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger,
                           boolean&nbsp;last)</pre>
-<div class="block">Evaluates the precondition(s) for this <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions"><code>UserSpecAction</code></a>. Returns an
+<div class="block">Evaluates the precondition(s) for this <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions"><code>UserSpecAction</code></a>. Returns an
  instantiated action with the first action specification for which the
  precondition holds. A substitution for instantiating the action is
  randomly selected from the set of substitutions that satisfy the
  precondition of that specification.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#evaluatePrecondition(goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger,%20boolean)">evaluatePrecondition</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#evaluatePrecondition(goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger,%20boolean)">evaluatePrecondition</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>mentalState</code> - The <a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate"><code>MentalState</code></a> in which the precondition is
             evaluated.</dd><dd><code>debugger</code> - The current debugger</dd><dd><code>last</code> - If this is the last possible variation we are trying to
             execute, e.g. after this there are no more possibilities and
@@ -563,7 +563,7 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <ul class="blockList">
 <li class="blockList">
 <h4>getSelectedActionSpec</h4>
-<pre>protected&nbsp;<a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions">UserSpecAction</a>&nbsp;getSelectedActionSpec()</pre>
+<pre>protected&nbsp;<a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions">UserSpecAction</a>&nbsp;getSelectedActionSpec()</pre>
 <div class="block">Returns this user-specified action where all action specifications other
  than the one found by <code>#getOptions(MentalState, SteppingDebugger)</code>
  have been removed.
@@ -585,10 +585,10 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <h4>executeAction</h4>
 <pre>protected&nbsp;<a href="../../../../goal/core/runtime/service/agent/Result.html" title="class in goal.core.runtime.service.agent">Result</a>&nbsp;executeAction(<a href="../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;?&gt;&nbsp;runState,
                    <a href="../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger)</pre>
-<div class="block">Executes this <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions"><code>UserSpecAction</code></a>.</div>
+<div class="block">Executes this <a href="../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions"><code>UserSpecAction</code></a>.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#executeAction(goal.core.runtime.service.agent.RunState,%20goal.tools.debugger.Debugger)">executeAction</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#executeAction(goal.core.runtime.service.agent.RunState,%20goal.tools.debugger.Debugger)">executeAction</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>runState</code> - The <a href="../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent"><code>RunState</code></a> in which this action is executed.</dd><dd><code>debugger</code> - The current debugger.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>The action that has been executed; never returns <code>null</code> but
          throws runtime exceptions if executing the action fails.</dd></dl>
@@ -674,8 +674,8 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/actions/SendOnceAction.html" title="class in goal.core.program.actions"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/actions/UserSpecAction.PrePost.html" title="class in goal.core.program.actions"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/SendOnceAction.html" title="class in languageTools.program.agent.actions"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/UserSpecAction.PrePost.html" title="class in languageTools.program.agent.actions"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/actions/UserSpecAction.html" target="_top">Frames</a></li>

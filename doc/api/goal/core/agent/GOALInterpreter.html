@@ -108,7 +108,7 @@
 <br>
 <pre>public class <span class="strong">GOALInterpreter&lt;DEBUGGER extends <a href="../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&gt;</span>
 extends <a href="../../../goal/core/agent/Controller.html" title="class in goal.core.agent">Controller</a></pre>
-<div class="block">Interpreter for <a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program"><code>GOALProgram</code></a>.
+<div class="block">Interpreter for <a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent"><code>GOALProgram</code></a>.
 
  The interpreter can be provided with a <a href="../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger"><code>Debugger</code></a> that will be called
  at specific points during the interpretation.
@@ -148,7 +148,7 @@ extends <a href="../../../goal/core/agent/Controller.html" title="class in goal.
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected <a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a></code></td>
+<td class="colFirst"><code>protected <a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a></code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/agent/GOALInterpreter.html#program">program</a></strong></code>
 <div class="block">Program ran by the interpreter.</div>
 </td>
@@ -181,7 +181,7 @@ extends <a href="../../../goal/core/agent/Controller.html" title="class in goal.
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="../../../goal/core/agent/GOALInterpreter.html#GOALInterpreter(goal.core.program.GOALProgram,%20DEBUGGER,%20goal.tools.adapt.Learner)">GOALInterpreter</a></strong>(<a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a>&nbsp;program,
+<td class="colOne"><code><strong><a href="../../../goal/core/agent/GOALInterpreter.html#GOALInterpreter(languageTools.program.agent.GOALProgram,%20DEBUGGER,%20goal.tools.adapt.Learner)">GOALInterpreter</a></strong>(<a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a>&nbsp;program,
                <a href="../../../goal/core/agent/GOALInterpreter.html" title="type parameter in GOALInterpreter">DEBUGGER</a>&nbsp;debugger,
                <a href="../../../goal/tools/adapt/Learner.html" title="interface in goal.tools.adapt">Learner</a>&nbsp;learner)</code>
 <div class="block">Constructs a new interpreter.</div>
@@ -215,7 +215,7 @@ extends <a href="../../../goal/core/agent/Controller.html" title="class in goal.
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a></code></td>
+<td class="colFirst"><code><a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a></code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/agent/GOALInterpreter.html#getProgram()">getProgram</a></strong>()</code>
 <div class="block">Returns the program ran by the interpreter.</div>
 </td>
@@ -253,7 +253,7 @@ extends <a href="../../../goal/core/agent/Controller.html" title="class in goal.
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/agent/GOALInterpreter.html#updateAgentAvailability(goal.core.agent.AgentId,%20boolean)">updateAgentAvailability</a></strong>(<a href="../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id,
+<td class="colLast"><code><strong><a href="../../../goal/core/agent/GOALInterpreter.html#updateAgentAvailability(languageTools.program.agent.AgentId,%20boolean)">updateAgentAvailability</a></strong>(<a href="../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id,
                        boolean&nbsp;available)</code>
 <div class="block">Makes agent aware of existence of other agent with id <a href="../../../goal/core/agent/AgentId.html" title="class in goal.core.agent"><code>AgentId</code></a>.</div>
 </td>
@@ -304,7 +304,7 @@ extends <a href="../../../goal/core/agent/Controller.html" title="class in goal.
 <ul class="blockList">
 <li class="blockList">
 <h4>program</h4>
-<pre>protected final&nbsp;<a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a> program</pre>
+<pre>protected final&nbsp;<a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a> program</pre>
 <div class="block">Program ran by the interpreter.</div>
 </li>
 </ul>
@@ -336,15 +336,15 @@ extends <a href="../../../goal/core/agent/Controller.html" title="class in goal.
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="GOALInterpreter(goal.core.program.GOALProgram,goal.tools.debugger.Debugger,goal.tools.adapt.Learner)">
+<a name="GOALInterpreter(languageTools.program.agent.GOALProgram,goal.tools.debugger.Debugger,goal.tools.adapt.Learner)">
 <!--   -->
-</a><a name="GOALInterpreter(goal.core.program.GOALProgram, DEBUGGER, goal.tools.adapt.Learner)">
+</a><a name="GOALInterpreter(languageTools.program.agent.GOALProgram, DEBUGGER, goal.tools.adapt.Learner)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>GOALInterpreter</h4>
-<pre>public&nbsp;GOALInterpreter(<a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a>&nbsp;program,
+<pre>public&nbsp;GOALInterpreter(<a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a>&nbsp;program,
                <a href="../../../goal/core/agent/GOALInterpreter.html" title="type parameter in GOALInterpreter">DEBUGGER</a>&nbsp;debugger,
                <a href="../../../goal/tools/adapt/Learner.html" title="interface in goal.tools.adapt">Learner</a>&nbsp;learner)</pre>
 <div class="block">Constructs a new interpreter.</div>
@@ -451,7 +451,7 @@ extends <a href="../../../goal/core/agent/Controller.html" title="class in goal.
 <ul class="blockList">
 <li class="blockList">
 <h4>getProgram</h4>
-<pre>public&nbsp;<a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a>&nbsp;getProgram()</pre>
+<pre>public&nbsp;<a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a>&nbsp;getProgram()</pre>
 <div class="block">Returns the program ran by the interpreter.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>the program ran by the interpreter</dd></dl>
 </li>
@@ -467,7 +467,7 @@ extends <a href="../../../goal/core/agent/Controller.html" title="class in goal.
 <dl><dt><span class="strong">Returns:</span></dt><dd>the debugger used while running the interpreter</dd></dl>
 </li>
 </ul>
-<a name="updateAgentAvailability(goal.core.agent.AgentId, boolean)">
+<a name="updateAgentAvailability(languageTools.program.agent.AgentId, boolean)">
 <!--   -->
 </a>
 <ul class="blockList">

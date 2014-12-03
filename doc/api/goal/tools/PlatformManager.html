@@ -98,8 +98,8 @@
 <br>
 <pre>public class <span class="strong">PlatformManager</span>
 extends java.lang.Object</pre>
-<div class="block">FIXME: This class should not be needed. <a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas"><code>MASProgram</code></a>s,
- <a href="../../goal/core/program/GOALProgram.html" title="class in goal.core.program"><code>GOALProgram</code></a>s and <a href="../../goal/tools/unittest/UnitTest.html" title="class in goal.tools.unittest"><code>UnitTest</code></a>s should contain internally
+<div class="block">FIXME: This class should not be needed. <a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas"><code>MASProgram</code></a>s,
+ <a href="../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent"><code>GOALProgram</code></a>s and <a href="../../goal/tools/unittest/UnitTest.html" title="class in goal.tools.unittest"><code>UnitTest</code></a>s should contain internally
  references to all their relevant files. Removing this class allows a large
  amount of static state to be removed from the GOAL core.
 
@@ -175,7 +175,7 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><strong><a href="../../goal/tools/PlatformManager.html#getCurrent()">getCurrent</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a></code></td>
+<td class="colFirst"><code><a href="../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a></code></td>
 <td class="colLast"><code><strong><a href="../../goal/tools/PlatformManager.html#getGOALProgram(java.io.File)">getGOALProgram</a></strong>(java.io.File&nbsp;file)</code>
 <div class="block">Returns the agent program that is the result of parsing the given file.</div>
 </td>
@@ -194,13 +194,13 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas">MASProgram</a></code></td>
+<td class="colFirst"><code><a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas">MASProgram</a></code></td>
 <td class="colLast"><code><strong><a href="../../goal/tools/PlatformManager.html#getMASProgram(java.io.File)">getMASProgram</a></strong>(java.io.File&nbsp;file)</code>
 <div class="block">DOC</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>java.util.Set&lt;<a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas">MASProgram</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.Set&lt;<a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas">MASProgram</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../goal/tools/PlatformManager.html#getMASProgramsThatUseFile(java.io.File)">getMASProgramsThatUseFile</a></strong>(java.io.File&nbsp;agentFile)</code>
 <div class="block">DOC</div>
 </td>
@@ -225,7 +225,7 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a></code></td>
+<td class="colFirst"><code><a href="../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a></code></td>
 <td class="colLast"><code><strong><a href="../../goal/tools/PlatformManager.html#parseGOALFile(java.io.File,%20goal.core.kr.KRlanguage)">parseGOALFile</a></strong>(java.io.File&nbsp;goalFile,
              <a href="../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a>&nbsp;language)</code>
 <div class="block">TODO: duplicates most of the code of <code>parseMASFile</code>...</div>
@@ -233,12 +233,12 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../goal/tools/PlatformManager.html#parseGOALFiles(java.util.List)">parseGOALFiles</a></strong>(java.util.List&lt;<a href="../../goal/core/mas/AgentFile.html" title="class in goal.core.mas">AgentFile</a>&gt;&nbsp;agentFiles)</code>
+<td class="colLast"><code><strong><a href="../../goal/tools/PlatformManager.html#parseGOALFiles(java.util.List)">parseGOALFiles</a></strong>(java.util.List&lt;<a href="../../goal/core/mas/AgentFile.html" title="class in languageTools.program.mas">AgentFile</a>&gt;&nbsp;agentFiles)</code>
 <div class="block">Parse the given agent files.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas">MASProgram</a></code></td>
+<td class="colFirst"><code><a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas">MASProgram</a></code></td>
 <td class="colLast"><code><strong><a href="../../goal/tools/PlatformManager.html#parseMASFile(java.io.File)">parseMASFile</a></strong>(java.io.File&nbsp;masFile)</code>
 <div class="block">Creates a MAS program from a MAS (.mas2g) file.</div>
 </td>
@@ -339,7 +339,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getMASProgram</h4>
-<pre>public&nbsp;<a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas">MASProgram</a>&nbsp;getMASProgram(java.io.File&nbsp;file)</pre>
+<pre>public&nbsp;<a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas">MASProgram</a>&nbsp;getMASProgram(java.io.File&nbsp;file)</pre>
 <div class="block">DOC</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>file</code> - </dd>
 <dt><span class="strong">Returns:</span></dt><dd></dd></dl>
@@ -351,7 +351,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getMASProgramsThatUseFile</h4>
-<pre>public&nbsp;java.util.Set&lt;<a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas">MASProgram</a>&gt;&nbsp;getMASProgramsThatUseFile(java.io.File&nbsp;agentFile)</pre>
+<pre>public&nbsp;java.util.Set&lt;<a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas">MASProgram</a>&gt;&nbsp;getMASProgramsThatUseFile(java.io.File&nbsp;agentFile)</pre>
 <div class="block">DOC</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>agentFile</code> - The agent file.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>a set of MAS programs that use the given agent file.</dd></dl>
@@ -402,7 +402,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getGOALProgram</h4>
-<pre>public&nbsp;<a href="../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a>&nbsp;getGOALProgram(java.io.File&nbsp;file)</pre>
+<pre>public&nbsp;<a href="../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a>&nbsp;getGOALProgram(java.io.File&nbsp;file)</pre>
 <div class="block">Returns the agent program that is the result of parsing the given file.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>file</code> - The file that is the source for the agent program.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>The agent program, if the file is an agent (.goal) file;
@@ -461,7 +461,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>parseMASFile</h4>
-<pre>public&nbsp;<a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas">MASProgram</a>&nbsp;parseMASFile(java.io.File&nbsp;masFile)
+<pre>public&nbsp;<a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas">MASProgram</a>&nbsp;parseMASFile(java.io.File&nbsp;masFile)
                         throws <a href="../../goal/tools/errorhandling/exceptions/GOALParseException.html" title="class in goal.tools.errorhandling.exceptions">GOALParseException</a></pre>
 <div class="block">Creates a MAS program from a MAS (.mas2g) file. Loads the file, parses
  its content, and validates the result.</div>
@@ -479,7 +479,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>parseGOALFiles</h4>
-<pre>public&nbsp;void&nbsp;parseGOALFiles(java.util.List&lt;<a href="../../goal/core/mas/AgentFile.html" title="class in goal.core.mas">AgentFile</a>&gt;&nbsp;agentFiles)</pre>
+<pre>public&nbsp;void&nbsp;parseGOALFiles(java.util.List&lt;<a href="../../goal/core/mas/AgentFile.html" title="class in languageTools.program.mas">AgentFile</a>&gt;&nbsp;agentFiles)</pre>
 <div class="block">Parse the given agent files.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>agentFiles</code> - The agent files.</dd></dl>
 </li>
@@ -490,7 +490,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>parseGOALFile</h4>
-<pre>public&nbsp;<a href="../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a>&nbsp;parseGOALFile(java.io.File&nbsp;goalFile,
+<pre>public&nbsp;<a href="../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a>&nbsp;parseGOALFile(java.io.File&nbsp;goalFile,
                         <a href="../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a>&nbsp;language)
                           throws <a href="../../goal/tools/errorhandling/exceptions/GOALParseException.html" title="class in goal.tools.errorhandling.exceptions">GOALParseException</a></pre>
 <div class="block">TODO: duplicates most of the code of <code>parseMASFile</code>...

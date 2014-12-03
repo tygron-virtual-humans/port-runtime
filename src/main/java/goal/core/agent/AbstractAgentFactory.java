@@ -1,12 +1,13 @@
 package goal.core.agent;
 
-import goal.core.program.GOALProgram;
+import languageTools.program.agent.AgentId;
+import languageTools.program.agent.AgentProgram;
 import goal.core.runtime.MessagingService;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
 import goal.tools.adapt.FileLearner;
 import goal.tools.adapt.Learner;
 import goal.tools.debugger.Debugger;
-import goal.tools.errorhandling.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRInitFailedException;
 import goal.tools.logging.GOALLoggerDelayed;
 
 import java.io.File;
@@ -49,9 +50,9 @@ implements AgentFactory<D, C> {
 	private final MessagingService messaging;
 
 	/**
-	 * GOALProgram for the agent.
+	 * AgentProgram for the agent.
 	 */
-	protected GOALProgram program;
+	protected AgentProgram program;
 	/**
 	 * File containing the goal program.
 	 */
@@ -103,7 +104,7 @@ implements AgentFactory<D, C> {
 	}
 
 	@Override
-	public synchronized Agent<C> build(GOALProgram program, File programFile,
+	public synchronized Agent<C> build(AgentProgram program, File programFile,
 			String agentBaseName, EnvironmentPort environment)
 					throws MessagingException, KRInitFailedException {
 
@@ -168,7 +169,7 @@ implements AgentFactory<D, C> {
 
 	private AgentId provideAgentId(MessageBoxId messageBoxId) {
 		if (messageBoxId != null) {
-			return new AgentId(messageBoxId);
+			return new AgentId(messageBoxId.getName());
 		} else {
 			return new AgentId(agentBaseName);
 		}

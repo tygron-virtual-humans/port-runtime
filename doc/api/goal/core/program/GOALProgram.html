@@ -36,8 +36,8 @@
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../goal/core/program/Message.html" title="class in goal.core.program"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../goal/core/program/Message.html" title="class in languageTools.program.agent"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../index.html?goal/core/program/GOALProgram.html" target="_top">Frames</a></li>
@@ -79,7 +79,7 @@
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">goal.core.program</div>
+<div class="subTitle">languageTools.program.agent</div>
 <h2 title="Class GOALProgram" class="title">Class GOALProgram</h2>
 </div>
 <div class="contentContainer">
@@ -90,7 +90,7 @@
 <li><a href="../../../goal/parser/ParsedObject.html" title="class in goal.parser">goal.parser.ParsedObject</a></li>
 <li>
 <ul class="inheritance">
-<li>goal.core.program.GOALProgram</li>
+<li>languageTools.program.agent.GOALProgram</li>
 </ul>
 </li>
 </ul>
@@ -117,12 +117,12 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
  </p>
  <p>
  Use the <a href="../../../goal/parser/antlr/GOALParser.html" title="class in goal.parser.antlr"><code>GOALParser</code></a> to create an agent program from a text file. When
- the parser has finished, call <a href="../../../goal/core/program/validation/agentfile/GOALProgramValidator.html" title="class in goal.core.program.validation.agentfile"><code>GOALProgramValidator</code></a> for validating and
+ the parser has finished, call <a href="../../../goal/core/program/validation/agentfile/GOALProgramValidator.html" title="class in languageTools.program.agent.validation.agentfile"><code>GOALProgramValidator</code></a> for validating and
  post-processing the the program.
  </p></div>
 <dl><dt><span class="strong">Author:</span></dt>
   <dd>W.Pasman, K.Hindriks, N.Kraayenbrink</dd>
-<dt><span class="strong">See Also:</span></dt><dd><a href="../../../serialized-form.html#goal.core.program.GOALProgram">Serialized Form</a></dd></dl>
+<dt><span class="strong">See Also:</span></dt><dd><a href="../../../serialized-form.html#languageTools.program.agent.GOALProgram">Serialized Form</a></dd></dl>
 </li>
 </ul>
 </div>
@@ -168,23 +168,23 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#addModule(goal.core.program.Module)">addModule</a></strong>(<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module)</code>
+<td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#addModule(languageTools.program.agent.Module)">addModule</a></strong>(<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module)</code>
 <div class="block">Adds a module to the set of modules defined in this program.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>java.util.Map&lt;java.lang.String,java.util.List&lt;<a href="../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program">ActionSpecification</a>&gt;&gt;</code></td>
+<td class="colFirst"><code>java.util.Map&lt;java.lang.String,java.util.List&lt;<a href="../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent">ActionSpecification</a>&gt;&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getActionSpecifications()">getActionSpecifications</a></strong>()</code>
 <div class="block">Returns the action specifications defined in the init module.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>java.util.List&lt;<a href="../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program">ActionSpecification</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.List&lt;<a href="../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent">ActionSpecification</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getAllActionSpecs()">getAllActionSpecs</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>java.util.List&lt;<a href="../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program">ActionSpecification</a>&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getAllActionSpecs(goal.core.program.Module)">getAllActionSpecs</a></strong>(<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module)</code>&nbsp;</td>
+<td class="colFirst"><code>java.util.List&lt;<a href="../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent">ActionSpecification</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getAllActionSpecs(languageTools.program.agent.Module)">getAllActionSpecs</a></strong>(<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="../../../goal/core/kr/language/Update.html" title="interface in goal.core.kr.language">Update</a>&gt;</code></td>
@@ -192,7 +192,7 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="../../../goal/core/kr/language/Update.html" title="interface in goal.core.kr.language">Update</a>&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getAllGoals(goal.core.program.Module)">getAllGoals</a></strong>(<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module)</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getAllGoals(languageTools.program.agent.Module)">getAllGoals</a></strong>(<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&gt;</code></td>
@@ -200,18 +200,18 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getAllKnowledge(goal.core.program.Module)">getAllKnowledge</a></strong>(<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module)</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getAllKnowledge(languageTools.program.agent.Module)">getAllKnowledge</a></strong>(<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>java.util.List&lt;<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.List&lt;<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getAllModules()">getAllModules</a></strong>()</code>
 <div class="block">Returns all modules that are part of the GOAL agent program, including
  (recursively) all child modules.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>java.util.List&lt;<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getAllModules(goal.core.program.Module)">getAllModules</a></strong>(<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module)</code>&nbsp;</td>
+<td class="colFirst"><code>java.util.List&lt;<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getAllModules(languageTools.program.agent.Module)">getAllModules</a></strong>(<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&gt;</code></td>
@@ -226,36 +226,36 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 <tr class="rowColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="../../../goal/core/kr/language/Update.html" title="interface in goal.core.kr.language">Update</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getInitialGoals()">getInitialGoals</a></strong>()</code>
-<div class="block">Returns the set of goals all agents using this <a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program"><code>GOALProgram</code></a>
+<div class="block">Returns the set of goals all agents using this <a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent"><code>GOALProgram</code></a>
  initially (should) have.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a></code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getKRLanguage()">getKRLanguage</a></strong>()</code>
-<div class="block">Returns the <a href="../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr"><code>KRlanguage</code></a> used in this <a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program"><code>GOALProgram</code></a>.</div>
+<div class="block">Returns the <a href="../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr"><code>KRlanguage</code></a> used in this <a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent"><code>GOALProgram</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>java.util.List&lt;<a href="../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals">Macro</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.List&lt;<a href="../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc">Macro</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getMacros()">getMacros</a></strong>()</code>
-<div class="block">Returns the <a href="../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a>s present at the <a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program"><code>GOALProgram</code></a> level (i.e.</div>
+<div class="block">Returns the <a href="../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a>s present at the <a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent"><code>GOALProgram</code></a> level (i.e.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a></code></td>
+<td class="colFirst"><code><a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a></code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getModule()">getModule</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a></code></td>
+<td class="colFirst"><code><a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a></code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getModule(java.lang.String)">getModule</a></strong>(java.lang.String&nbsp;id)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a></code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getModuleOfType(goal.core.program.Module.TYPE)">getModuleOfType</a></strong>(<a href="../../../goal/core/program/Module.TYPE.html" title="enum in goal.core.program">Module.TYPE</a>&nbsp;type)</code>&nbsp;</td>
+<td class="colFirst"><code><a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a></code></td>
+<td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getModuleOfType(languageTools.program.agent.Module.TYPE)">getModuleOfType</a></strong>(<a href="../../../goal/core/program/Module.TYPE.html" title="enum in languageTools.program.agent">Module.TYPE</a>&nbsp;type)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>java.util.Map&lt;java.lang.String,java.util.List&lt;<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&gt;&gt;</code></td>
+<td class="colFirst"><code>java.util.Map&lt;java.lang.String,java.util.List&lt;<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&gt;&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getModules()">getModules</a></strong>()</code>
 <div class="block">Returns the top-level modules.</div>
 </td>
@@ -265,7 +265,7 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 <td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getName()">getName</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program">NameSpace</a></code></td>
+<td class="colFirst"><code><a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent">NameSpace</a></code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#getNameSpace()">getNameSpace</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
@@ -274,7 +274,7 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#hasModuleOfType(goal.core.program.Module.TYPE)">hasModuleOfType</a></strong>(<a href="../../../goal/core/program/Module.TYPE.html" title="enum in goal.core.program">Module.TYPE</a>&nbsp;type)</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#hasModuleOfType(languageTools.program.agent.Module.TYPE)">hasModuleOfType</a></strong>(<a href="../../../goal/core/program/Module.TYPE.html" title="enum in languageTools.program.agent">Module.TYPE</a>&nbsp;type)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
@@ -287,7 +287,7 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 <tr class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/program/GOALProgram.html#toString(java.util.List)">toString</a></strong>(java.util.List&lt;<a href="../../../goal/util/ImportCommand.html" title="class in goal.util">ImportCommand</a>&gt;&nbsp;imports)</code>
-<div class="block">Returns a string representation of this <a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program"><code>GOALProgram</code></a> including
+<div class="block">Returns a string representation of this <a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent"><code>GOALProgram</code></a> including
  imported files.</div>
 </td>
 </tr>
@@ -373,7 +373,7 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 <ul class="blockList">
 <li class="blockList">
 <h4>getModule</h4>
-<pre>public&nbsp;<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;getModule()</pre>
+<pre>public&nbsp;<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;getModule()</pre>
 </li>
 </ul>
 <a name="getNameSpace()">
@@ -382,7 +382,7 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 <ul class="blockList">
 <li class="blockList">
 <h4>getNameSpace</h4>
-<pre>public&nbsp;<a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program">NameSpace</a>&nbsp;getNameSpace()</pre>
+<pre>public&nbsp;<a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent">NameSpace</a>&nbsp;getNameSpace()</pre>
 </li>
 </ul>
 <a name="isValidated()">
@@ -410,7 +410,7 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 <li class="blockList">
 <h4>getKRLanguage</h4>
 <pre>public&nbsp;<a href="../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a>&nbsp;getKRLanguage()</pre>
-<div class="block">Returns the <a href="../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr"><code>KRlanguage</code></a> used in this <a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program"><code>GOALProgram</code></a>.</div>
+<div class="block">Returns the <a href="../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr"><code>KRlanguage</code></a> used in this <a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent"><code>GOALProgram</code></a>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The KR language used in this program.</dd></dl>
 </li>
 </ul>
@@ -425,13 +425,13 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
          all modules.</dd></dl>
 </li>
 </ul>
-<a name="getAllKnowledge(goal.core.program.Module)">
+<a name="getAllKnowledge(languageTools.program.agent.Module)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>getAllKnowledge</h4>
-<pre>public&nbsp;java.util.Set&lt;<a href="../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&gt;&nbsp;getAllKnowledge(<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module)</pre>
+<pre>public&nbsp;java.util.Set&lt;<a href="../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&gt;&nbsp;getAllKnowledge(<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module)</pre>
 </li>
 </ul>
 <a name="getBeliefs()">
@@ -451,7 +451,7 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 <li class="blockList">
 <h4>getInitialGoals</h4>
 <pre>public&nbsp;java.util.List&lt;<a href="../../../goal/core/kr/language/Update.html" title="interface in goal.core.kr.language">Update</a>&gt;&nbsp;getInitialGoals()</pre>
-<div class="block">Returns the set of goals all agents using this <a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program"><code>GOALProgram</code></a>
+<div class="block">Returns the set of goals all agents using this <a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent"><code>GOALProgram</code></a>
  initially (should) have. The initial goals are defined in the
  <code>init</code> and/or <code>main</code> module.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The set of goals all agents using this program initially have.</dd></dl>
@@ -468,13 +468,13 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
          modules.</dd></dl>
 </li>
 </ul>
-<a name="getAllGoals(goal.core.program.Module)">
+<a name="getAllGoals(languageTools.program.agent.Module)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>getAllGoals</h4>
-<pre>public&nbsp;java.util.List&lt;<a href="../../../goal/core/kr/language/Update.html" title="interface in goal.core.kr.language">Update</a>&gt;&nbsp;getAllGoals(<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module)</pre>
+<pre>public&nbsp;java.util.List&lt;<a href="../../../goal/core/kr/language/Update.html" title="interface in goal.core.kr.language">Update</a>&gt;&nbsp;getAllGoals(<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module)</pre>
 </li>
 </ul>
 <a name="getMacros()">
@@ -483,8 +483,8 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 <ul class="blockList">
 <li class="blockList">
 <h4>getMacros</h4>
-<pre>public&nbsp;java.util.List&lt;<a href="../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals">Macro</a>&gt;&nbsp;getMacros()</pre>
-<div class="block">Returns the <a href="../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a>s present at the <a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program"><code>GOALProgram</code></a> level (i.e.
+<pre>public&nbsp;java.util.List&lt;<a href="../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc">Macro</a>&gt;&nbsp;getMacros()</pre>
+<div class="block">Returns the <a href="../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a>s present at the <a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent"><code>GOALProgram</code></a> level (i.e.
  top level).</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The macros present in at the top program level, if any; the empty
          list otherwise.</dd></dl>
@@ -496,7 +496,7 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 <ul class="blockList">
 <li class="blockList">
 <h4>getActionSpecifications</h4>
-<pre>public&nbsp;java.util.Map&lt;java.lang.String,java.util.List&lt;<a href="../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program">ActionSpecification</a>&gt;&gt;&nbsp;getActionSpecifications()</pre>
+<pre>public&nbsp;java.util.Map&lt;java.lang.String,java.util.List&lt;<a href="../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent">ActionSpecification</a>&gt;&gt;&nbsp;getActionSpecifications()</pre>
 <div class="block">Returns the action specifications defined in the init module.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The action specifications defined in the init module.</dd></dl>
 </li>
@@ -507,29 +507,29 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 <ul class="blockList">
 <li class="blockList">
 <h4>getAllActionSpecs</h4>
-<pre>public&nbsp;java.util.List&lt;<a href="../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program">ActionSpecification</a>&gt;&nbsp;getAllActionSpecs()</pre>
+<pre>public&nbsp;java.util.List&lt;<a href="../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent">ActionSpecification</a>&gt;&nbsp;getAllActionSpecs()</pre>
 <dl><dt><span class="strong">Returns:</span></dt><dd>All action specifications in the entire program, including the
          ones in the modules.</dd></dl>
 </li>
 </ul>
-<a name="getAllActionSpecs(goal.core.program.Module)">
+<a name="getAllActionSpecs(languageTools.program.agent.Module)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>getAllActionSpecs</h4>
-<pre>public&nbsp;java.util.List&lt;<a href="../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program">ActionSpecification</a>&gt;&nbsp;getAllActionSpecs(<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module)</pre>
+<pre>public&nbsp;java.util.List&lt;<a href="../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent">ActionSpecification</a>&gt;&nbsp;getAllActionSpecs(<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module)</pre>
 </li>
 </ul>
-<a name="addModule(goal.core.program.Module)">
+<a name="addModule(languageTools.program.agent.Module)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>addModule</h4>
-<pre>public&nbsp;void&nbsp;addModule(<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module)</pre>
+<pre>public&nbsp;void&nbsp;addModule(<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module)</pre>
 <div class="block">Adds a module to the set of modules defined in this program.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>module</code> - The <a href="../../../goal/core/program/Module.html" title="class in goal.core.program"><code>Module</code></a> to add to this program.</dd></dl>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>module</code> - The <a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent"><code>Module</code></a> to add to this program.</dd></dl>
 </li>
 </ul>
 <a name="getModules()">
@@ -538,9 +538,9 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 <ul class="blockList">
 <li class="blockList">
 <h4>getModules</h4>
-<pre>public&nbsp;java.util.Map&lt;java.lang.String,java.util.List&lt;<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&gt;&gt;&nbsp;getModules()</pre>
+<pre>public&nbsp;java.util.Map&lt;java.lang.String,java.util.List&lt;<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&gt;&gt;&nbsp;getModules()</pre>
 <div class="block">Returns the top-level modules.</div>
-<dl><dt><span class="strong">Returns:</span></dt><dd>The top-level modules in this <a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program"><code>GOALProgram</code></a>.</dd></dl>
+<dl><dt><span class="strong">Returns:</span></dt><dd>The top-level modules in this <a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent"><code>GOALProgram</code></a>.</dd></dl>
 </li>
 </ul>
 <a name="getAllModules()">
@@ -549,20 +549,20 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 <ul class="blockList">
 <li class="blockList">
 <h4>getAllModules</h4>
-<pre>public&nbsp;java.util.List&lt;<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&gt;&nbsp;getAllModules()</pre>
+<pre>public&nbsp;java.util.List&lt;<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&gt;&nbsp;getAllModules()</pre>
 <div class="block">Returns all modules that are part of the GOAL agent program, including
  (recursively) all child modules.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The collection of all modules defined throughout the entire GOAL
          agent program.</dd></dl>
 </li>
 </ul>
-<a name="getAllModules(goal.core.program.Module)">
+<a name="getAllModules(languageTools.program.agent.Module)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>getAllModules</h4>
-<pre>public&nbsp;java.util.List&lt;<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&gt;&nbsp;getAllModules(<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module)</pre>
+<pre>public&nbsp;java.util.List&lt;<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&gt;&nbsp;getAllModules(<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module)</pre>
 </li>
 </ul>
 <a name="getModule(java.lang.String)">
@@ -571,7 +571,7 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 <ul class="blockList">
 <li class="blockList">
 <h4>getModule</h4>
-<pre>public&nbsp;<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;getModule(java.lang.String&nbsp;id)</pre>
+<pre>public&nbsp;<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;getModule(java.lang.String&nbsp;id)</pre>
 </li>
 </ul>
 <a name="hasModule(java.lang.String)">
@@ -610,7 +610,7 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 <li class="blockList">
 <h4>toString</h4>
 <pre>public&nbsp;java.lang.String&nbsp;toString(java.util.List&lt;<a href="../../../goal/util/ImportCommand.html" title="class in goal.util">ImportCommand</a>&gt;&nbsp;imports)</pre>
-<div class="block">Returns a string representation of this <a href="../../../goal/core/program/GOALProgram.html" title="class in goal.core.program"><code>GOALProgram</code></a> including
+<div class="block">Returns a string representation of this <a href="../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent"><code>GOALProgram</code></a> including
  imported files.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>imports</code> - The imports to be included.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>A string representation of this program.</dd></dl>
@@ -644,22 +644,22 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 <dl><dt><span class="strong">Returns:</span></dt><dd>true iff this agent program does mental model queries.</dd></dl>
 </li>
 </ul>
-<a name="hasModuleOfType(goal.core.program.Module.TYPE)">
+<a name="hasModuleOfType(languageTools.program.agent.Module.TYPE)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>hasModuleOfType</h4>
-<pre>public&nbsp;boolean&nbsp;hasModuleOfType(<a href="../../../goal/core/program/Module.TYPE.html" title="enum in goal.core.program">Module.TYPE</a>&nbsp;type)</pre>
+<pre>public&nbsp;boolean&nbsp;hasModuleOfType(<a href="../../../goal/core/program/Module.TYPE.html" title="enum in languageTools.program.agent">Module.TYPE</a>&nbsp;type)</pre>
 </li>
 </ul>
-<a name="getModuleOfType(goal.core.program.Module.TYPE)">
+<a name="getModuleOfType(languageTools.program.agent.Module.TYPE)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getModuleOfType</h4>
-<pre>public&nbsp;<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;getModuleOfType(<a href="../../../goal/core/program/Module.TYPE.html" title="enum in goal.core.program">Module.TYPE</a>&nbsp;type)</pre>
+<pre>public&nbsp;<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;getModuleOfType(<a href="../../../goal/core/program/Module.TYPE.html" title="enum in languageTools.program.agent">Module.TYPE</a>&nbsp;type)</pre>
 </li>
 </ul>
 </li>
@@ -688,8 +688,8 @@ extends <a href="../../../goal/parser/ParsedObject.html" title="class in goal.pa
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../goal/core/program/Message.html" title="class in goal.core.program"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../goal/core/program/Message.html" title="class in languageTools.program.agent"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../index.html?goal/core/program/GOALProgram.html" target="_top">Frames</a></li>

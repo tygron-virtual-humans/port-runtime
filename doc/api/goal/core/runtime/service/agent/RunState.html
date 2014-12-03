@@ -124,11 +124,11 @@ extends java.lang.Object</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="../../../../../goal/core/runtime/service/agent/RunState.html#RunState(goal.core.agent.AgentId,%20goal.core.agent.EnvironmentCapabilities,%20goal.core.agent.MessagingCapabilities,%20goal.core.agent.LoggingCapabilities,%20goal.core.program.GOALProgram,%20D,%20goal.tools.adapt.Learner)">RunState</a></strong>(<a href="../../../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;agentName,
+<td class="colOne"><code><strong><a href="../../../../../goal/core/runtime/service/agent/RunState.html#RunState(languageTools.program.agent.AgentId,%20goal.core.agent.EnvironmentCapabilities,%20goal.core.agent.MessagingCapabilities,%20goal.core.agent.LoggingCapabilities,%20languageTools.program.agent.GOALProgram,%20D,%20goal.tools.adapt.Learner)">RunState</a></strong>(<a href="../../../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;agentName,
         <a href="../../../../../goal/core/agent/EnvironmentCapabilities.html" title="interface in goal.core.agent">EnvironmentCapabilities</a>&nbsp;environment,
         <a href="../../../../../goal/core/agent/MessagingCapabilities.html" title="interface in goal.core.agent">MessagingCapabilities</a>&nbsp;messaging,
         <a href="../../../../../goal/core/agent/LoggingCapabilities.html" title="interface in goal.core.agent">LoggingCapabilities</a>&nbsp;logger,
-        <a href="../../../../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a>&nbsp;program,
+        <a href="../../../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a>&nbsp;program,
         <a href="../../../../../goal/core/runtime/service/agent/RunState.html" title="type parameter in RunState">D</a>&nbsp;debugger,
         <a href="../../../../../goal/tools/adapt/Learner.html" title="interface in goal.tools.adapt">Learner</a>&nbsp;learner)</code>
 <div class="block">Creates a new <a href="../../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent"><code>RunState</code></a>.</div>
@@ -168,16 +168,16 @@ extends java.lang.Object</pre>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/RunState.html#doLog(java.lang.String)">doLog</a></strong>(java.lang.String&nbsp;message)</code>
-<div class="block">log the message of a <a href="../../../../../goal/core/program/actions/LogAction.html" title="class in goal.core.program.actions"><code>LogAction</code></a>.</div>
+<div class="block">log the message of a <a href="../../../../../goal/core/program/actions/LogAction.html" title="class in languageTools.program.agent.actions"><code>LogAction</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/RunState.html#doPerformAction(goal.core.program.actions.UserSpecAction)">doPerformAction</a></strong>(<a href="../../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions">UserSpecAction</a>&nbsp;action)</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/RunState.html#doPerformAction(languageTools.program.agent.actions.UserSpecAction)">doPerformAction</a></strong>(<a href="../../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions">UserSpecAction</a>&nbsp;action)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/RunState.html#enteredModule(goal.core.program.Module)">enteredModule</a></strong>(<a href="../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module)</code>
+<td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/RunState.html#enteredModule(languageTools.program.agent.Module)">enteredModule</a></strong>(<a href="../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module)</code>
 <div class="block">Pushes (non-anonymous) module that was just entered onto stack and
  changes top level context if one of init, event, or main module has been
  entered.</div>
@@ -185,13 +185,13 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/RunState.html#exitModule(goal.core.program.Module)">exitModule</a></strong>(<a href="../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module)</code>
+<td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/RunState.html#exitModule(languageTools.program.agent.Module)">exitModule</a></strong>(<a href="../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module)</code>
 <div class="block">Removes the last entered (non-anonymous) module from the stack of active
  modules.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/RunState.html#getActiveModule()">getActiveModule</a></strong>()</code>
 <div class="block">Returns the module that was entered most recently.</div>
 </td>
@@ -221,7 +221,7 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/RunState.html#getMainModule()">getMainModule</a></strong>()</code>
 <div class="block">Returns the main module from the <a href="../../../../../goal/core/runtime/service/agent/RunState.html#program"><code>program</code></a>.</div>
 </td>
@@ -260,7 +260,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/RunState.html#postMessage(goal.core.program.Message)">postMessage</a></strong>(<a href="../../../../../goal/core/program/Message.html" title="class in goal.core.program">Message</a>&nbsp;message)</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/RunState.html#postMessage(languageTools.program.agent.Message)">postMessage</a></strong>(<a href="../../../../../goal/core/program/Message.html" title="class in languageTools.program.agent">Message</a>&nbsp;message)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
@@ -335,9 +335,9 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="RunState(goal.core.agent.AgentId,goal.core.agent.EnvironmentCapabilities,goal.core.agent.MessagingCapabilities,goal.core.agent.LoggingCapabilities,goal.core.program.GOALProgram,goal.tools.debugger.Debugger,goal.tools.adapt.Learner)">
+<a name="RunState(languageTools.program.agent.AgentId,goal.core.agent.EnvironmentCapabilities,goal.core.agent.MessagingCapabilities,goal.core.agent.LoggingCapabilities,languageTools.program.agent.GOALProgram,goal.tools.debugger.Debugger,goal.tools.adapt.Learner)">
 <!--   -->
-</a><a name="RunState(goal.core.agent.AgentId, goal.core.agent.EnvironmentCapabilities, goal.core.agent.MessagingCapabilities, goal.core.agent.LoggingCapabilities, goal.core.program.GOALProgram, D, goal.tools.adapt.Learner)">
+</a><a name="RunState(languageTools.program.agent.AgentId, goal.core.agent.EnvironmentCapabilities, goal.core.agent.MessagingCapabilities, goal.core.agent.LoggingCapabilities, languageTools.program.agent.GOALProgram, D, goal.tools.adapt.Learner)">
 <!--   -->
 </a>
 <ul class="blockListLast">
@@ -347,12 +347,12 @@ extends java.lang.Object</pre>
         <a href="../../../../../goal/core/agent/EnvironmentCapabilities.html" title="interface in goal.core.agent">EnvironmentCapabilities</a>&nbsp;environment,
         <a href="../../../../../goal/core/agent/MessagingCapabilities.html" title="interface in goal.core.agent">MessagingCapabilities</a>&nbsp;messaging,
         <a href="../../../../../goal/core/agent/LoggingCapabilities.html" title="interface in goal.core.agent">LoggingCapabilities</a>&nbsp;logger,
-        <a href="../../../../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a>&nbsp;program,
+        <a href="../../../../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a>&nbsp;program,
         <a href="../../../../../goal/core/runtime/service/agent/RunState.html" title="type parameter in RunState">D</a>&nbsp;debugger,
         <a href="../../../../../goal/tools/adapt/Learner.html" title="interface in goal.tools.adapt">Learner</a>&nbsp;learner)
          throws <a href="../../../../../goal/tools/errorhandling/exceptions/KRInitFailedException.html" title="class in goal.tools.errorhandling.exceptions">KRInitFailedException</a></pre>
 <div class="block">Creates a new <a href="../../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent"><code>RunState</code></a>.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>agentName</code> - </dd><dd><code>environment</code> - </dd><dd><code>messaging</code> - </dd><dd><code>logger</code> - the logger for <a href="../../../../../goal/core/program/actions/LogAction.html" title="class in goal.core.program.actions"><code>LogAction</code></a>s.</dd><dd><code>program</code> - </dd><dd><code>debugger</code> - </dd><dd><code>learner</code> - </dd>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>agentName</code> - </dd><dd><code>environment</code> - </dd><dd><code>messaging</code> - </dd><dd><code>logger</code> - the logger for <a href="../../../../../goal/core/program/actions/LogAction.html" title="class in languageTools.program.agent.actions"><code>LogAction</code></a>s.</dd><dd><code>program</code> - </dd><dd><code>debugger</code> - </dd><dd><code>learner</code> - </dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="../../../../../goal/tools/errorhandling/exceptions/KRInitFailedException.html" title="class in goal.tools.errorhandling.exceptions">KRInitFailedException</a></code></dd></dl>
 </li>
@@ -564,7 +564,7 @@ public&nbsp;void&nbsp;addPercept(eis.iilang.Percept&nbsp;percept)</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getMainModule</h4>
-<pre>public&nbsp;<a href="../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;getMainModule()</pre>
+<pre>public&nbsp;<a href="../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;getMainModule()</pre>
 <div class="block">Returns the main module from the <a href="../../../../../goal/core/runtime/service/agent/RunState.html#program"><code>program</code></a>. If the program does
  not have a main module, a "dummy" instance of a main module is returned;
  see <code>#RunState(EnvironmentPort, MessageBox, GOALProgram)</code>.</div>
@@ -578,7 +578,7 @@ public&nbsp;void&nbsp;addPercept(eis.iilang.Percept&nbsp;percept)</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getActiveModule</h4>
-<pre>public&nbsp;<a href="../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;getActiveModule()</pre>
+<pre>public&nbsp;<a href="../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;getActiveModule()</pre>
 <div class="block">Returns the module that was entered most recently.
 
  <a href="../../../../../goal/tools/adapt/FileLearner.html" title="class in goal.tools.adapt"><code>FileLearner</code></a> is only user of this method, see
@@ -586,26 +586,26 @@ public&nbsp;void&nbsp;addPercept(eis.iilang.Percept&nbsp;percept)</pre>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The (non-anonymous) module that was entered last.</dd></dl>
 </li>
 </ul>
-<a name="enteredModule(goal.core.program.Module)">
+<a name="enteredModule(languageTools.program.agent.Module)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>enteredModule</h4>
-<pre>public&nbsp;void&nbsp;enteredModule(<a href="../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module)</pre>
+<pre>public&nbsp;void&nbsp;enteredModule(<a href="../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module)</pre>
 <div class="block">Pushes (non-anonymous) module that was just entered onto stack and
  changes top level context if one of init, event, or main module has been
  entered.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>module</code> - A (non-anonymous) module.</dd></dl>
 </li>
 </ul>
-<a name="exitModule(goal.core.program.Module)">
+<a name="exitModule(languageTools.program.agent.Module)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>exitModule</h4>
-<pre>public&nbsp;boolean&nbsp;exitModule(<a href="../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module)</pre>
+<pre>public&nbsp;boolean&nbsp;exitModule(<a href="../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module)</pre>
 <div class="block">Removes the last entered (non-anonymous) module from the stack of active
  modules. Should be called when exiting *any* module. The
  <a href="../../../../../goal/core/runtime/service/agent/RunState.html#topLevelRunContext"><code>topLevelRunContext</code></a> is updated here as well.</div>
@@ -654,22 +654,22 @@ public&nbsp;void&nbsp;addPercept(eis.iilang.Percept&nbsp;percept)</pre>
 <pre>public&nbsp;java.lang.Double&nbsp;getReward()</pre>
 </li>
 </ul>
-<a name="postMessage(goal.core.program.Message)">
+<a name="postMessage(languageTools.program.agent.Message)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>postMessage</h4>
-<pre>public&nbsp;void&nbsp;postMessage(<a href="../../../../../goal/core/program/Message.html" title="class in goal.core.program">Message</a>&nbsp;message)</pre>
+<pre>public&nbsp;void&nbsp;postMessage(<a href="../../../../../goal/core/program/Message.html" title="class in languageTools.program.agent">Message</a>&nbsp;message)</pre>
 </li>
 </ul>
-<a name="doPerformAction(goal.core.program.actions.UserSpecAction)">
+<a name="doPerformAction(languageTools.program.agent.actions.UserSpecAction)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>doPerformAction</h4>
-<pre>public&nbsp;void&nbsp;doPerformAction(<a href="../../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions">UserSpecAction</a>&nbsp;action)</pre>
+<pre>public&nbsp;void&nbsp;doPerformAction(<a href="../../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions">UserSpecAction</a>&nbsp;action)</pre>
 </li>
 </ul>
 <a name="doLog(java.lang.String)">
@@ -679,7 +679,7 @@ public&nbsp;void&nbsp;addPercept(eis.iilang.Percept&nbsp;percept)</pre>
 <li class="blockList">
 <h4>doLog</h4>
 <pre>public&nbsp;void&nbsp;doLog(java.lang.String&nbsp;message)</pre>
-<div class="block">log the message of a <a href="../../../../../goal/core/program/actions/LogAction.html" title="class in goal.core.program.actions"><code>LogAction</code></a>.</div>
+<div class="block">log the message of a <a href="../../../../../goal/core/program/actions/LogAction.html" title="class in languageTools.program.agent.actions"><code>LogAction</code></a>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>message</code> - The message.</dd></dl>
 </li>
 </ul>

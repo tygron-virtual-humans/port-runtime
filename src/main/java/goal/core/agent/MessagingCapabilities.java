@@ -1,8 +1,8 @@
 package goal.core.agent;
 
-import goal.core.program.Message;
-
 import java.util.Set;
+
+import languageTools.program.agent.msg.Message;
 
 /**
  * Provides and abstract representation of the ability of the agent to

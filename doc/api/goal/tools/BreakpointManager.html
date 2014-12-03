@@ -145,7 +145,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static java.util.List&lt;<a href="../../goal/parser/ParsedObject.html" title="class in goal.parser">ParsedObject</a>&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../goal/tools/BreakpointManager.html#getBreakpointObjects(goal.core.program.GOALProgram)">getBreakpointObjects</a></strong>(<a href="../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a>&nbsp;program)</code>
+<td class="colLast"><code><strong><a href="../../goal/tools/BreakpointManager.html#getBreakpointObjects(languageTools.program.agent.GOALProgram)">getBreakpointObjects</a></strong>(<a href="../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a>&nbsp;program)</code>
 <div class="block">Determines the set of objects in this program on which a breakpoint may
  be set.</div>
 </td>
@@ -209,13 +209,13 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="getBreakpointObjects(goal.core.program.GOALProgram)">
+<a name="getBreakpointObjects(languageTools.program.agent.GOALProgram)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>getBreakpointObjects</h4>
-<pre>public static&nbsp;java.util.List&lt;<a href="../../goal/parser/ParsedObject.html" title="class in goal.parser">ParsedObject</a>&gt;&nbsp;getBreakpointObjects(<a href="../../goal/core/program/GOALProgram.html" title="class in goal.core.program">GOALProgram</a>&nbsp;program)</pre>
+<pre>public static&nbsp;java.util.List&lt;<a href="../../goal/parser/ParsedObject.html" title="class in goal.parser">ParsedObject</a>&gt;&nbsp;getBreakpointObjects(<a href="../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent">GOALProgram</a>&nbsp;program)</pre>
 <div class="block">Determines the set of objects in this program on which a breakpoint may
  be set.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>program</code> - The program.</dd>
@@ -273,7 +273,7 @@ extends java.lang.Object</pre>
 <pre>public&nbsp;java.util.Set&lt;<a href="../../goal/parser/IParsedObject.html" title="interface in goal.parser">IParsedObject</a>&gt;&nbsp;getAllBreakpoints(java.io.File&nbsp;goalProgramFile)</pre>
 <div class="block">Get ALL the breakpoints, from the goal file and from the imports of the
  goal file.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>goalProgramFile</code> - a file containing a <a href="../../goal/core/program/GOALProgram.html" title="class in goal.core.program"><code>GOALProgram</code></a>.</dd>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>goalProgramFile</code> - a file containing a <a href="../../goal/core/program/GOALProgram.html" title="class in languageTools.program.agent"><code>GOALProgram</code></a>.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>list of all breakpoints in the program, including imported files.
          List can be empty if no breakpoints have been set for this goal
          program.</dd></dl>

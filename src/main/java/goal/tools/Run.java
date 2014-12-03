@@ -1,6 +1,5 @@
 package goal.tools;
 
-import goal.tools.errorhandling.exceptions.GOALParseException;
 import goal.tools.logging.Loggers;
 import goal.tools.unittest.UnitTest;
 import goal.tools.unittest.result.UnitTestResult;

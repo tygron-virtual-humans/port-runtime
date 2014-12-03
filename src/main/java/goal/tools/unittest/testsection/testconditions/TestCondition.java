@@ -1,8 +1,8 @@
 package goal.tools.unittest.testsection.testconditions;
 
-import goal.core.kr.language.Substitution;
-import goal.core.kr.language.Var;
-import goal.core.program.literals.MentalStateCond;
+import krTools.language.Substitution;
+import krTools.language.Var;
+import languageTools.program.agent.msc.MentalStateCondition;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.ObservableDebugger;
 import goal.tools.unittest.result.ResultFormatter;
@@ -21,7 +21,7 @@ public abstract class TestCondition {
 	/**
 	 * The mental state condition of the query
 	 */
-	protected final MentalStateCond query;
+	protected final MentalStateCondition query;
 	/**
 	 * An optional nested condition (... -> ...)
 	 */
@@ -45,7 +45,7 @@ public abstract class TestCondition {
 	/**
 	 * @return the mental state condition of the query
 	 */
-	public MentalStateCond getQuery() {
+	public MentalStateCondition getQuery() {
 		return this.query;
 	}
 
@@ -85,7 +85,7 @@ public abstract class TestCondition {
 	 * @param query
 	 *            A mental state condition.
 	 */
-	public TestCondition(MentalStateCond query) {
+	public TestCondition(MentalStateCondition query) {
 		this.query = query;
 		this.boundByMe = new HashSet<>();
 	}

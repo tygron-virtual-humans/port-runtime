@@ -2,13 +2,13 @@ package goal.core.agent;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import goal.core.kr.KRlanguage;
-import goal.core.program.GOALProgram;
+import krTools.KRlanguage;
+import languageTools.program.agent.AgentProgram;
 import goal.tools.PlatformManager;
 import goal.tools.adapt.FileLearner;
 import goal.tools.adapt.Learner;
 import goal.tools.debugger.NOPDebugger;
-import goal.tools.errorhandling.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRInitFailedException;
 import goal.tools.logging.Loggers;
 
 import java.io.File;
@@ -42,7 +42,7 @@ public class AgentTest {
 		AgentId id = new AgentId("TestAgent");
 		language = SWIPrologLanguage.getInstance();
 		File file = new File("src/test/resources/goal/core/agent/fibonaci.goal");
-		GOALProgram program = PlatformManager.createNew().parseGOALFile(file,
+		AgentProgram program = PlatformManager.createNew().parseGOALFile(file,
 				language);
 		MessagingCapabilities messagingCapabilities = new NoMessagingCapabilities();
 		EnvironmentCapabilities environmentCapabilities = new NoEnvironmentCapabilities();

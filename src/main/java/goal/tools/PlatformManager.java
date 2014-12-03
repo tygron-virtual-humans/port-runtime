@@ -22,8 +22,13 @@ import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALBug;
-import goal.tools.errorhandling.exceptions.GOALParseException;
-import goal.tools.errorhandling.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRInitFailedException;
+import languageTools.analyzer.agent.AgentValidator;
+import languageTools.analyzer.mas.MASValidator;
+import languageTools.errors.ValidatorError;
+import languageTools.errors.ValidatorWarning;
+import languageTools.program.agent.AgentProgram;
+import languageTools.program.mas.MASProgram;
 import goal.tools.logging.GOALLogger;
 import goal.tools.logging.Loggers;
 import goal.tools.logging.StringsLogRecord;
@@ -49,7 +54,7 @@ import org.apache.commons.io.IOUtils;
 
 /**
  * FIXME: This class should not be needed. {@link MASProgram}s,
- * {@link GOALProgram}s and {@link UnitTest}s should contain internally
+ * {@link AgentProgram}s and {@link UnitTest}s should contain internally
  * references to all their relevant files. Removing this class allows a large
  * amount of static state to be removed from the GOAL core.
  *
@@ -229,9 +234,9 @@ public class PlatformManager {
 	 * @return The agent program, if the file is an agent (.goal) file;
 	 *         {@code null} otherwise.
 	 */
-	public GOALProgram getGOALProgram(File file) {
+	public AgentProgram getAgentProgram(File file) {
 		if (isGOALFile(file)) {
-			return (GOALProgram) parsedFiles.get(file);
+			return (AgentProgram) parsedFiles.get(file);
 		} else {
 			return null;
 		}
@@ -454,7 +459,7 @@ public class PlatformManager {
 		masProgram.postProcess();
 
 		// Validate the MAS program.
-		MASProgramValidator validator = new MASProgramValidator();
+		MASValidator validator = new MASValidator();
 		validator.validate(masProgram, false);
 		if (!validator.isPerfect()) {
 			for (ValidatorError error : validator.getErrors()) {
@@ -533,7 +538,7 @@ public class PlatformManager {
 	 *             .goal file. Indicates that the returned value is null or
 	 *             otherwise invalid.
 	 */
-	public GOALProgram parseGOALFile(File goalFile, KRlanguage language)
+	public AgentProgram parseGOALFile(File goalFile, KRlanguage language)
 			throws GOALParseException {
 		// Logger to report issues found during parsing and validation.
 		GOALLogger parserLogger = Loggers.getParserLogger();
@@ -548,7 +553,7 @@ public class PlatformManager {
 					+ goalFile + " due to parser failure", e); //$NON-NLS-1$
 		}
 
-		GOALProgram program = null;
+		AgentProgram program = null;
 		// Temporarily suppress warnings while parsing.
 		Warning.suppress();
 		try {
@@ -600,7 +605,7 @@ public class PlatformManager {
 		}
 
 		// Validate the agent program.
-		GOALProgramValidator validator = new GOALProgramValidator();
+		AgentValidator validator = new AgentValidator();
 		validator.validate(program.getModule(), false);
 		if (!validator.isPerfect()) {
 			for (ValidatorError error : validator.getErrors()) {
@@ -641,7 +646,7 @@ public class PlatformManager {
 	 *         new list is created every time this method is called.
 	 */
 	public Set<File> getImportedFiles(File agentFile) {
-		final GOALProgram file = getGOALProgram(agentFile);
+		final AgentProgram file = getAgentProgram(agentFile);
 		if (file != null) {
 			return file.getImports();
 		} else {

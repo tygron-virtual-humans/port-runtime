@@ -1,7 +1,7 @@
 package goal.tools.unittest.result.testsection;
 
-import goal.core.kr.language.Substitution;
-import goal.core.program.literals.MentalStateCond;
+import krTools.language.Substitution;
+import languageTools.program.agent.msc.MentalStateCondition;
 import goal.tools.unittest.result.ResultFormatter;
 import goal.tools.unittest.testsection.AssertTest;
 
@@ -41,7 +41,7 @@ public class AssertTestResult implements TestSectionResult {
 	/**
 	 * @return the mental state query that produced this result.
 	 */
-	public MentalStateCond getMentalStateTest() {
+	public MentalStateCondition getMentalStateTest() {
 		return test.getMentalStateTest();
 	}
 

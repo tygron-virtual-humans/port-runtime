@@ -1,4 +1,4 @@
-package goal.core.program;
+package languageTools.program.agent;
 
 import static org.junit.Assert.assertSame;
 

@@ -88,19 +88,19 @@
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><a href="#goal.core.program">goal.core.program</a></td>
+<td class="colFirst"><a href="#languageTools.program.agent">languageTools.program.agent</a></td>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><a href="#goal.core.program.actions">goal.core.program.actions</a></td>
+<td class="colFirst"><a href="#languageTools.program.agent.actions">languageTools.program.agent.actions</a></td>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><a href="#goal.core.program.literals">goal.core.program.literals</a></td>
+<td class="colFirst"><a href="#languageTools.program.agent.msc">languageTools.program.agent.msc</a></td>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><a href="#goal.core.program.rules">goal.core.program.rules</a></td>
+<td class="colFirst"><a href="#languageTools.program.agent.rules">languageTools.program.agent.rules</a></td>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="rowColor">
@@ -134,9 +134,9 @@
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></code></td>
 <td class="colLast"><span class="strong">KRlanguage.</span><code><strong><a href="../../../../../goal/core/kr/KRlanguage.html#getEmptySubstitution()">getEmptySubstitution</a></strong>()</code>
-<div class="block">Needed in <code>MentalStateCond#evaluate(MentalState, SteppingDebugger)</code>
+<div class="block">Needed in <code>MentalStateCondition#evaluate(MentalState, SteppingDebugger)</code>
  and in
- <code>MentalState#queryLiteral(goal.core.program.literals.MentalLiteral, SteppingDebugger)</code>
+ <code>MentalState#queryLiteral(languageTools.program.agent.msc.MentalLiteral, SteppingDebugger)</code>
  .</div>
 </td>
 </tr>
@@ -292,11 +292,11 @@
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&gt;</code></td>
-<td class="colLast"><span class="strong">MentalState.</span><code><strong><a href="../../../../../goal/core/mentalstate/MentalState.html#contextQuery(goal.core.program.literals.MentalStateCond,%20java.util.Map,%20goal.tools.debugger.Debugger)">contextQuery</a></strong>(<a href="../../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a>&nbsp;context,
+<td class="colLast"><span class="strong">MentalState.</span><code><strong><a href="../../../../../goal/core/mentalstate/MentalState.html#contextQuery(languageTools.program.agent.msc.MentalStateCondition,%20java.util.Map,%20goal.tools.debugger.Debugger)">contextQuery</a></strong>(<a href="../../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a>&nbsp;context,
             java.util.Map&lt;<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>,java.util.List&lt;<a href="../../../../../goal/core/mentalstate/SingleGoal.html" title="class in goal.core.mentalstate">SingleGoal</a>&gt;&gt;&nbsp;validatingGoals,
             <a href="../../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger)</code>
 <div class="block">Generates <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a>s that validate the given
- <a href="../../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals"><code>MentalStateCond</code></a>, with the added restriction that only one goal in
+ <a href="../../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc"><code>MentalStateCondition</code></a>, with the added restriction that only one goal in
  the goalbase may be used to validate it.</div>
 </td>
 </tr>
@@ -318,7 +318,7 @@
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&gt;</code></td>
-<td class="colLast"><span class="strong">MentalModel.</span><code><strong><a href="../../../../../goal/core/mentalstate/MentalModel.html#query(goal.core.program.literals.MentalLiteral,%20boolean,%20goal.tools.debugger.Debugger)">query</a></strong>(<a href="../../../../../goal/core/program/literals/MentalLiteral.html" title="class in goal.core.program.literals">MentalLiteral</a>&nbsp;literal,
+<td class="colLast"><span class="strong">MentalModel.</span><code><strong><a href="../../../../../goal/core/mentalstate/MentalModel.html#query(languageTools.program.agent.msc.MentalLiteral,%20boolean,%20goal.tools.debugger.Debugger)">query</a></strong>(<a href="../../../../../goal/core/program/literals/MentalLiteral.html" title="class in languageTools.program.agent.msc">MentalLiteral</a>&nbsp;literal,
      boolean&nbsp;focus,
      <a href="../../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger)</code>
 <div class="block">Checks if a mental atom follows from the belief and/or goal base.</div>
@@ -326,7 +326,7 @@
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&gt;</code></td>
-<td class="colLast"><span class="strong">MentalState.</span><code><strong><a href="../../../../../goal/core/mentalstate/MentalState.html#query(goal.core.program.literals.MentalLiteral,%20goal.tools.debugger.Debugger)">query</a></strong>(<a href="../../../../../goal/core/program/literals/MentalLiteral.html" title="class in goal.core.program.literals">MentalLiteral</a>&nbsp;literal,
+<td class="colLast"><span class="strong">MentalState.</span><code><strong><a href="../../../../../goal/core/mentalstate/MentalState.html#query(languageTools.program.agent.msc.MentalLiteral,%20goal.tools.debugger.Debugger)">query</a></strong>(<a href="../../../../../goal/core/program/literals/MentalLiteral.html" title="class in languageTools.program.agent.msc">MentalLiteral</a>&nbsp;literal,
      <a href="../../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
@@ -365,46 +365,46 @@
 <tbody>
 <tr class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&gt;</code></td>
-<td class="colLast"><span class="strong">MentalState.</span><code><strong><a href="../../../../../goal/core/mentalstate/MentalState.html#contextQuery(goal.core.program.literals.MentalStateCond,%20java.util.Map,%20goal.tools.debugger.Debugger)">contextQuery</a></strong>(<a href="../../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a>&nbsp;context,
+<td class="colLast"><span class="strong">MentalState.</span><code><strong><a href="../../../../../goal/core/mentalstate/MentalState.html#contextQuery(languageTools.program.agent.msc.MentalStateCondition,%20java.util.Map,%20goal.tools.debugger.Debugger)">contextQuery</a></strong>(<a href="../../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a>&nbsp;context,
             java.util.Map&lt;<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>,java.util.List&lt;<a href="../../../../../goal/core/mentalstate/SingleGoal.html" title="class in goal.core.mentalstate">SingleGoal</a>&gt;&gt;&nbsp;validatingGoals,
             <a href="../../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger)</code>
 <div class="block">Generates <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a>s that validate the given
- <a href="../../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals"><code>MentalStateCond</code></a>, with the added restriction that only one goal in
+ <a href="../../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc"><code>MentalStateCondition</code></a>, with the added restriction that only one goal in
  the goalbase may be used to validate it.</div>
 </td>
 </tr>
 </tbody>
 </table>
 </li>
-<li class="blockList"><a name="goal.core.program">
+<li class="blockList"><a name="languageTools.program.agent">
 <!--   -->
 </a>
-<h3>Uses of <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a> in <a href="../../../../../goal/core/program/package-summary.html">goal.core.program</a></h3>
+<h3>Uses of <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a> in <a href="../../../../../goal/core/program/package-summary.html">languageTools.program.agent</a></h3>
 <table border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
-<caption><span>Methods in <a href="../../../../../goal/core/program/package-summary.html">goal.core.program</a> with parameters of type <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></span><span class="tabEnd">&nbsp;</span></caption>
+<caption><span>Methods in <a href="../../../../../goal/core/program/package-summary.html">languageTools.program.agent</a> with parameters of type <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program">ActionSpecification</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent">ActionSpecification</a></code></td>
 <td class="colLast"><span class="strong">ActionSpecification.</span><code><strong><a href="../../../../../goal/core/program/ActionSpecification.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;subst)</code>
-<div class="block">Creates a new instance of this <a href="../../../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program"><code>ActionSpecification</code></a> by applying
+<div class="block">Creates a new instance of this <a href="../../../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent"><code>ActionSpecification</code></a> by applying
  the parameter substitution to it.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/SelectExpression.html" title="class in goal.core.program">SelectExpression</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/SelectExpression.html" title="class in languageTools.program.agent">SelectExpression</a></code></td>
 <td class="colLast"><span class="strong">SelectExpression.</span><code><strong><a href="../../../../../goal/core/program/SelectExpression.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
-<div class="block">Applies the given <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../../goal/core/program/SelectExpression.html" title="class in goal.core.program"><code>SelectExpression</code></a>
+<div class="block">Applies the given <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../../goal/core/program/SelectExpression.html" title="class in languageTools.program.agent"><code>SelectExpression</code></a>
  in case the expression is of <a href="../../../../../goal/core/program/SelectExpression.SelectorType.html#VARIABLE"><code>SelectExpression.SelectorType.VARIABLE</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/Selector.html" title="class in goal.core.program">Selector</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent">Selector</a></code></td>
 <td class="colLast"><span class="strong">Selector.</span><code><strong><a href="../../../../../goal/core/program/Selector.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;subst)</code>
-<div class="block">Applies a <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../../goal/core/program/Selector.html" title="class in goal.core.program"><code>Selector</code></a> and returns a new
+<div class="block">Applies a <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent"><code>Selector</code></a> and returns a new
  instantiated selector.</div>
 </td>
 </tr>
@@ -412,7 +412,7 @@
 <td class="colFirst"><code>java.util.concurrent.Callable&lt;java.util.concurrent.Callable&lt;?&gt;&gt;</code></td>
 <td class="colLast"><span class="strong">Module.</span><code><strong><a href="../../../../../goal/core/program/Module.html#execute(goal.core.runtime.service.agent.RunState,%20goal.core.kr.language.Substitution)">execute</a></strong>(<a href="../../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;?&gt;&nbsp;runState,
        <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
-<div class="block">Executes one step of the <a href="../../../../../goal/core/program/Module.html" title="class in goal.core.program"><code>Module</code></a>, and returns a Runnable for
+<div class="block">Executes one step of the <a href="../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent"><code>Module</code></a>, and returns a Runnable for
  executing the next.</div>
 </td>
 </tr>
@@ -424,12 +424,12 @@
 </tbody>
 </table>
 </li>
-<li class="blockList"><a name="goal.core.program.actions">
+<li class="blockList"><a name="languageTools.program.agent.actions">
 <!--   -->
 </a>
-<h3>Uses of <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a> in <a href="../../../../../goal/core/program/actions/package-summary.html">goal.core.program.actions</a></h3>
+<h3>Uses of <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a> in <a href="../../../../../goal/core/program/actions/package-summary.html">languageTools.program.agent.actions</a></h3>
 <table border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
-<caption><span>Methods in <a href="../../../../../goal/core/program/actions/package-summary.html">goal.core.program.actions</a> that return <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></span><span class="tabEnd">&nbsp;</span></caption>
+<caption><span>Methods in <a href="../../../../../goal/core/program/actions/package-summary.html">languageTools.program.agent.actions</a> that return <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
@@ -441,7 +441,7 @@
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></code></td>
-<td class="colLast"><span class="strong">UserSpecAction.</span><code><strong><a href="../../../../../goal/core/program/actions/UserSpecAction.html#mgu(goal.core.program.actions.Action,%20goal.core.kr.KRlanguage)">mgu</a></strong>(<a href="../../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&nbsp;action,
+<td class="colLast"><span class="strong">UserSpecAction.</span><code><strong><a href="../../../../../goal/core/program/actions/UserSpecAction.html#mgu(languageTools.program.agent.actions.Action,%20goal.core.kr.KRlanguage)">mgu</a></strong>(<a href="../../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&nbsp;action,
    <a href="../../../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a>&nbsp;language)</code>
 <div class="block">Computes a unifier for the actual parameters of this action with those of
  the given action.</div>
@@ -450,7 +450,7 @@
 </tbody>
 </table>
 <table border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
-<caption><span>Methods in <a href="../../../../../goal/core/program/actions/package-summary.html">goal.core.program.actions</a> that return types with arguments of type <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></span><span class="tabEnd">&nbsp;</span></caption>
+<caption><span>Methods in <a href="../../../../../goal/core/program/actions/package-summary.html">languageTools.program.agent.actions</a> that return types with arguments of type <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
@@ -467,115 +467,115 @@
 </tbody>
 </table>
 <table border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
-<caption><span>Methods in <a href="../../../../../goal/core/program/actions/package-summary.html">goal.core.program.actions</a> with parameters of type <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></span><span class="tabEnd">&nbsp;</span></caption>
+<caption><span>Methods in <a href="../../../../../goal/core/program/actions/package-summary.html">languageTools.program.agent.actions</a> with parameters of type <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code>abstract <a href="../../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></td>
+<td class="colFirst"><code>abstract <a href="../../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></td>
 <td class="colLast"><span class="strong">Action.</span><code><strong><a href="../../../../../goal/core/program/actions/Action.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
-<div class="block">Creates a new <a href="../../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a> by applying the <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to it,
+<div class="block">Creates a new <a href="../../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a> by applying the <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to it,
  i.e.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions">ActionCombo</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions">ActionCombo</a></code></td>
 <td class="colLast"><span class="strong">ActionCombo.</span><code><strong><a href="../../../../../goal/core/program/actions/ActionCombo.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
-<div class="block">Applies the given substitution to this <a href="../../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a> by applying it
- to each of the <a href="../../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a>s that are part of this combo.</div>
+<div class="block">Applies the given substitution to this <a href="../../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a> by applying it
+ to each of the <a href="../../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a>s that are part of this combo.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/AdoptAction.html" title="class in goal.core.program.actions">AdoptAction</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/AdoptAction.html" title="class in languageTools.program.agent.actions">AdoptAction</a></code></td>
 <td class="colLast"><span class="strong">AdoptAction.</span><code><strong><a href="../../../../../goal/core/program/actions/AdoptAction.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
-<div class="block">Applies the given <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../../goal/core/program/actions/AdoptAction.html" title="class in goal.core.program.actions"><code>AdoptAction</code></a> by
+<div class="block">Applies the given <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../../goal/core/program/actions/AdoptAction.html" title="class in languageTools.program.agent.actions"><code>AdoptAction</code></a> by
  applying the substitution to the goal to be adopted and to the
- <a href="../../../../../goal/core/program/Selector.html" title="class in goal.core.program"><code>Selector</code></a> of this <a href="../../../../../goal/core/program/actions/AdoptAction.html" title="class in goal.core.program.actions"><code>AdoptAction</code></a>.</div>
+ <a href="../../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent"><code>Selector</code></a> of this <a href="../../../../../goal/core/program/actions/AdoptAction.html" title="class in languageTools.program.agent.actions"><code>AdoptAction</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/AdoptOneAction.html" title="class in goal.core.program.actions">AdoptOneAction</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/AdoptOneAction.html" title="class in languageTools.program.agent.actions">AdoptOneAction</a></code></td>
 <td class="colLast"><span class="strong">AdoptOneAction.</span><code><strong><a href="../../../../../goal/core/program/actions/AdoptOneAction.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
-<div class="block">Applies the given <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../../goal/core/program/actions/AdoptOneAction.html" title="class in goal.core.program.actions"><code>AdoptOneAction</code></a> by
+<div class="block">Applies the given <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../../goal/core/program/actions/AdoptOneAction.html" title="class in languageTools.program.agent.actions"><code>AdoptOneAction</code></a> by
  applying the substitution to the goal to be adopted and to the
- <a href="../../../../../goal/core/program/Selector.html" title="class in goal.core.program"><code>Selector</code></a> of this <a href="../../../../../goal/core/program/actions/AdoptAction.html" title="class in goal.core.program.actions"><code>AdoptAction</code></a>.</div>
+ <a href="../../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent"><code>Selector</code></a> of this <a href="../../../../../goal/core/program/actions/AdoptAction.html" title="class in languageTools.program.agent.actions"><code>AdoptAction</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/DeleteAction.html" title="class in goal.core.program.actions">DeleteAction</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/DeleteAction.html" title="class in languageTools.program.agent.actions">DeleteAction</a></code></td>
 <td class="colLast"><span class="strong">DeleteAction.</span><code><strong><a href="../../../../../goal/core/program/actions/DeleteAction.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;pSubst)</code>
 <div class="block">Applies the given <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to the <a href="../../../../../goal/core/kr/language/Update.html" title="interface in goal.core.kr.language"><code>Update</code></a>s associated
- with this <a href="../../../../../goal/core/program/actions/InsertAction.html" title="class in goal.core.program.actions"><code>InsertAction</code></a> and to the <a href="../../../../../goal/core/program/Selector.html" title="class in goal.core.program"><code>Selector</code></a> of this
- <a href="../../../../../goal/core/program/actions/DeleteAction.html" title="class in goal.core.program.actions"><code>DeleteAction</code></a>.</div>
+ with this <a href="../../../../../goal/core/program/actions/InsertAction.html" title="class in languageTools.program.agent.actions"><code>InsertAction</code></a> and to the <a href="../../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent"><code>Selector</code></a> of this
+ <a href="../../../../../goal/core/program/actions/DeleteAction.html" title="class in languageTools.program.agent.actions"><code>DeleteAction</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/DropAction.html" title="class in goal.core.program.actions">DropAction</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/DropAction.html" title="class in languageTools.program.agent.actions">DropAction</a></code></td>
 <td class="colLast"><span class="strong">DropAction.</span><code><strong><a href="../../../../../goal/core/program/actions/DropAction.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
-<div class="block">Applies the given <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../../goal/core/program/actions/DropAction.html" title="class in goal.core.program.actions"><code>DropAction</code></a> by
+<div class="block">Applies the given <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../../goal/core/program/actions/DropAction.html" title="class in languageTools.program.agent.actions"><code>DropAction</code></a> by
  applying the substitution to the goal to be dropped and to the
- <a href="../../../../../goal/core/program/Selector.html" title="class in goal.core.program"><code>Selector</code></a> of this <a href="../../../../../goal/core/program/actions/DropAction.html" title="class in goal.core.program.actions"><code>DropAction</code></a>.</div>
+ <a href="../../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent"><code>Selector</code></a> of this <a href="../../../../../goal/core/program/actions/DropAction.html" title="class in languageTools.program.agent.actions"><code>DropAction</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></td>
 <td class="colLast"><span class="strong">ExitModuleAction.</span><code><strong><a href="../../../../../goal/core/program/actions/ExitModuleAction.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
-<div class="block">Applies the given <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../../goal/core/program/actions/ExitModuleAction.html" title="class in goal.core.program.actions"><code>ExitModuleAction</code></a>.</div>
+<div class="block">Applies the given <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../../goal/core/program/actions/ExitModuleAction.html" title="class in languageTools.program.agent.actions"><code>ExitModuleAction</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/InsertAction.html" title="class in goal.core.program.actions">InsertAction</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/InsertAction.html" title="class in languageTools.program.agent.actions">InsertAction</a></code></td>
 <td class="colLast"><span class="strong">InsertAction.</span><code><strong><a href="../../../../../goal/core/program/actions/InsertAction.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
 <div class="block">Applies the given <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to the <a href="../../../../../goal/core/kr/language/Update.html" title="interface in goal.core.kr.language"><code>Update</code></a>s associated
- with this <a href="../../../../../goal/core/program/actions/InsertAction.html" title="class in goal.core.program.actions"><code>InsertAction</code></a> and to the <a href="../../../../../goal/core/program/Selector.html" title="class in goal.core.program"><code>Selector</code></a> of this
- <a href="../../../../../goal/core/program/actions/InsertAction.html" title="class in goal.core.program.actions"><code>InsertAction</code></a>.</div>
+ with this <a href="../../../../../goal/core/program/actions/InsertAction.html" title="class in languageTools.program.agent.actions"><code>InsertAction</code></a> and to the <a href="../../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent"><code>Selector</code></a> of this
+ <a href="../../../../../goal/core/program/actions/InsertAction.html" title="class in languageTools.program.agent.actions"><code>InsertAction</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/LogAction.html" title="class in goal.core.program.actions">LogAction</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/LogAction.html" title="class in languageTools.program.agent.actions">LogAction</a></code></td>
 <td class="colLast"><span class="strong">LogAction.</span><code><strong><a href="../../../../../goal/core/program/actions/LogAction.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
-<div class="block">Applies the given <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../../goal/core/program/actions/LogAction.html" title="class in goal.core.program.actions"><code>LogAction</code></a>.</div>
+<div class="block">Applies the given <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../../goal/core/program/actions/LogAction.html" title="class in languageTools.program.agent.actions"><code>LogAction</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></td>
 <td class="colLast"><span class="strong">ModuleCallAction.</span><code><strong><a href="../../../../../goal/core/program/actions/ModuleCallAction.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
 <div class="block">Applies the substitution to the parameters of the target module (only).</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/PrintAction.html" title="class in goal.core.program.actions">PrintAction</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/PrintAction.html" title="class in languageTools.program.agent.actions">PrintAction</a></code></td>
 <td class="colLast"><span class="strong">PrintAction.</span><code><strong><a href="../../../../../goal/core/program/actions/PrintAction.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
-<div class="block">Applies the given <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../../goal/core/program/actions/PrintAction.html" title="class in goal.core.program.actions"><code>PrintAction</code></a>.</div>
+<div class="block">Applies the given <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../../goal/core/program/actions/PrintAction.html" title="class in languageTools.program.agent.actions"><code>PrintAction</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions">SendAction</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions">SendAction</a></code></td>
 <td class="colLast"><span class="strong">SendAction.</span><code><strong><a href="../../../../../goal/core/program/actions/SendAction.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
-<div class="block">Applies the given <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions"><code>SendAction</code></a> by
+<div class="block">Applies the given <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions"><code>SendAction</code></a> by
  applying the substitution to the message content to be sent and to the
- <a href="../../../../../goal/core/program/Selector.html" title="class in goal.core.program"><code>Selector</code></a> of this <a href="../../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions"><code>SendAction</code></a>.</div>
+ <a href="../../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent"><code>Selector</code></a> of this <a href="../../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions"><code>SendAction</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/SendOnceAction.html" title="class in goal.core.program.actions">SendOnceAction</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/SendOnceAction.html" title="class in languageTools.program.agent.actions">SendOnceAction</a></code></td>
 <td class="colLast"><span class="strong">SendOnceAction.</span><code><strong><a href="../../../../../goal/core/program/actions/SendOnceAction.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions">UserSpecAction</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions">UserSpecAction</a></code></td>
 <td class="colLast"><span class="strong">UserSpecAction.</span><code><strong><a href="../../../../../goal/core/program/actions/UserSpecAction.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
 <div class="block">Applies the given <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to parameters of this
- <a href="../../../../../goal/core/program/actions/UserSpecAction.html" title="class in goal.core.program.actions"><code>UserSpecAction</code></a> as well as to all its action specifications.</div>
+ <a href="../../../../../goal/core/program/actions/UserSpecAction.html" title="class in languageTools.program.agent.actions"><code>UserSpecAction</code></a> as well as to all its action specifications.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/UserSpecAction.PrePost.html" title="class in goal.core.program.actions">UserSpecAction.PrePost</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/UserSpecAction.PrePost.html" title="class in languageTools.program.agent.actions">UserSpecAction.PrePost</a></code></td>
 <td class="colLast"><span class="strong">UserSpecAction.PrePost.</span><code><strong><a href="../../../../../goal/core/program/actions/UserSpecAction.PrePost.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;subst)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></td>
 <td class="colLast"><span class="strong">UserSpecOrModuleCall.</span><code><strong><a href="../../../../../goal/core/program/actions/UserSpecOrModuleCall.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;subst)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
@@ -583,7 +583,7 @@
 <td class="colLast"><span class="strong">ActionCombo.</span><code><strong><a href="../../../../../goal/core/program/actions/ActionCombo.html#run(goal.core.runtime.service.agent.RunState,%20goal.core.kr.language.Substitution,%20boolean)">run</a></strong>(<a href="../../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;?&gt;&nbsp;runState,
    <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution,
    boolean&nbsp;last)</code>
-<div class="block">Performs the <a href="../../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a>.</div>
+<div class="block">Performs the <a href="../../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -592,18 +592,18 @@
    <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution,
    <a href="../../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger,
    boolean&nbsp;last)</code>
-<div class="block">Performs the <a href="../../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions"><code>Action</code></a>.</div>
+<div class="block">Performs the <a href="../../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions"><code>Action</code></a>.</div>
 </td>
 </tr>
 </tbody>
 </table>
 </li>
-<li class="blockList"><a name="goal.core.program.literals">
+<li class="blockList"><a name="languageTools.program.agent.msc">
 <!--   -->
 </a>
-<h3>Uses of <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a> in <a href="../../../../../goal/core/program/literals/package-summary.html">goal.core.program.literals</a></h3>
+<h3>Uses of <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a> in <a href="../../../../../goal/core/program/literals/package-summary.html">languageTools.program.agent.msc</a></h3>
 <table border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
-<caption><span>Methods in <a href="../../../../../goal/core/program/literals/package-summary.html">goal.core.program.literals</a> that return types with arguments of type <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></span><span class="tabEnd">&nbsp;</span></caption>
+<caption><span>Methods in <a href="../../../../../goal/core/program/literals/package-summary.html">languageTools.program.agent.msc</a> that return types with arguments of type <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
@@ -611,89 +611,89 @@
 <tbody>
 <tr class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&gt;</code></td>
-<td class="colLast"><span class="strong">MentalStateCond.</span><code><strong><a href="../../../../../goal/core/program/literals/MentalStateCond.html#evaluate(goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger)">evaluate</a></strong>(<a href="../../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate">MentalState</a>&nbsp;mentalState,
+<td class="colLast"><span class="strong">MentalStateCondition.</span><code><strong><a href="../../../../../goal/core/program/literals/MentalStateCondition.html#evaluate(goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger)">evaluate</a></strong>(<a href="../../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate">MentalState</a>&nbsp;mentalState,
         <a href="../../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger)</code>
-<div class="block">Evaluates this <a href="../../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals"><code>MentalStateCond</code></a> on the given <a href="../../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate"><code>MentalState</code></a>.</div>
+<div class="block">Evaluates this <a href="../../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc"><code>MentalStateCondition</code></a> on the given <a href="../../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate"><code>MentalState</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&gt;</code></td>
-<td class="colLast"><span class="strong">MentalStateCond.</span><code><strong><a href="../../../../../goal/core/program/literals/MentalStateCond.html#evaluate(goal.core.kr.language.Substitution,%20goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger)">evaluate</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution,
+<td class="colLast"><span class="strong">MentalStateCondition.</span><code><strong><a href="../../../../../goal/core/program/literals/MentalStateCondition.html#evaluate(goal.core.kr.language.Substitution,%20goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger)">evaluate</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution,
         <a href="../../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate">MentalState</a>&nbsp;mentalState,
         <a href="../../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger)</code>
-<div class="block">Evaluates this <a href="../../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals"><code>MentalStateCond</code></a>.</div>
+<div class="block">Evaluates this <a href="../../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc"><code>MentalStateCondition</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&gt;</code></td>
-<td class="colLast"><span class="strong">MentalStateCond.</span><code><strong><a href="../../../../../goal/core/program/literals/MentalStateCond.html#getLatestSubstitutions()">getLatestSubstitutions</a></strong>()</code>&nbsp;</td>
+<td class="colLast"><span class="strong">MentalStateCondition.</span><code><strong><a href="../../../../../goal/core/program/literals/MentalStateCondition.html#getLatestSubstitutions()">getLatestSubstitutions</a></strong>()</code>&nbsp;</td>
 </tr>
 </tbody>
 </table>
 <table border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
-<caption><span>Methods in <a href="../../../../../goal/core/program/literals/package-summary.html">goal.core.program.literals</a> with parameters of type <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></span><span class="tabEnd">&nbsp;</span></caption>
+<caption><span>Methods in <a href="../../../../../goal/core/program/literals/package-summary.html">languageTools.program.agent.msc</a> with parameters of type <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/literals/MentalLiteral.html" title="class in goal.core.program.literals">MentalLiteral</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/literals/MentalLiteral.html" title="class in languageTools.program.agent.msc">MentalLiteral</a></code></td>
 <td class="colLast"><span class="strong">AGoalLiteral.</span><code><strong><a href="../../../../../goal/core/program/literals/AGoalLiteral.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;pSubst)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/literals/MentalLiteral.html" title="class in goal.core.program.literals">MentalLiteral</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/literals/MentalLiteral.html" title="class in languageTools.program.agent.msc">MentalLiteral</a></code></td>
 <td class="colLast"><span class="strong">BelLiteral.</span><code><strong><a href="../../../../../goal/core/program/literals/BelLiteral.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;pSubst)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/literals/MentalLiteral.html" title="class in goal.core.program.literals">MentalLiteral</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/literals/MentalLiteral.html" title="class in languageTools.program.agent.msc">MentalLiteral</a></code></td>
 <td class="colLast"><span class="strong">GoalALiteral.</span><code><strong><a href="../../../../../goal/core/program/literals/GoalALiteral.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;pSubst)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/literals/MentalLiteral.html" title="class in goal.core.program.literals">MentalLiteral</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/literals/MentalLiteral.html" title="class in languageTools.program.agent.msc">MentalLiteral</a></code></td>
 <td class="colLast"><span class="strong">GoalLiteral.</span><code><strong><a href="../../../../../goal/core/program/literals/GoalLiteral.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;pSubst)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals">Macro</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc">Macro</a></code></td>
 <td class="colLast"><span class="strong">Macro.</span><code><strong><a href="../../../../../goal/core/program/literals/Macro.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;subst)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/literals/MentalFormula.html" title="interface in goal.core.program.literals">MentalFormula</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/literals/MentalFormula.html" title="interface in languageTools.program.agent.msc">MentalFormula</a></code></td>
 <td class="colLast"><span class="strong">MentalFormula.</span><code><strong><a href="../../../../../goal/core/program/literals/MentalFormula.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;pSubst)</code>
 <div class="block">Transforms this MentalAtom.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>abstract <a href="../../../../../goal/core/program/literals/MentalLiteral.html" title="class in goal.core.program.literals">MentalLiteral</a></code></td>
+<td class="colFirst"><code>abstract <a href="../../../../../goal/core/program/literals/MentalLiteral.html" title="class in languageTools.program.agent.msc">MentalLiteral</a></code></td>
 <td class="colLast"><span class="strong">MentalLiteral.</span><code><strong><a href="../../../../../goal/core/program/literals/MentalLiteral.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;pSubst)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a></code></td>
-<td class="colLast"><span class="strong">MentalStateCond.</span><code><strong><a href="../../../../../goal/core/program/literals/MentalStateCond.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;subst)</code>
-<div class="block">Applies a given substitution to this <a href="../../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals"><code>MentalStateCond</code></a>.</div>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a></code></td>
+<td class="colLast"><span class="strong">MentalStateCondition.</span><code><strong><a href="../../../../../goal/core/program/literals/MentalStateCondition.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;subst)</code>
+<div class="block">Applies a given substitution to this <a href="../../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc"><code>MentalStateCondition</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/literals/MentalFormula.html" title="interface in goal.core.program.literals">MentalFormula</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/literals/MentalFormula.html" title="interface in languageTools.program.agent.msc">MentalFormula</a></code></td>
 <td class="colLast"><span class="strong">TrueLiteral.</span><code><strong><a href="../../../../../goal/core/program/literals/TrueLiteral.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;pSubst)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&gt;</code></td>
-<td class="colLast"><span class="strong">MentalStateCond.</span><code><strong><a href="../../../../../goal/core/program/literals/MentalStateCond.html#evaluate(goal.core.kr.language.Substitution,%20goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger)">evaluate</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution,
+<td class="colLast"><span class="strong">MentalStateCondition.</span><code><strong><a href="../../../../../goal/core/program/literals/MentalStateCondition.html#evaluate(goal.core.kr.language.Substitution,%20goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger)">evaluate</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution,
         <a href="../../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate">MentalState</a>&nbsp;mentalState,
         <a href="../../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger)</code>
-<div class="block">Evaluates this <a href="../../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals"><code>MentalStateCond</code></a>.</div>
+<div class="block">Evaluates this <a href="../../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc"><code>MentalStateCondition</code></a>.</div>
 </td>
 </tr>
 </tbody>
 </table>
 </li>
-<li class="blockList"><a name="goal.core.program.rules">
+<li class="blockList"><a name="languageTools.program.agent.rules">
 <!--   -->
 </a>
-<h3>Uses of <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a> in <a href="../../../../../goal/core/program/rules/package-summary.html">goal.core.program.rules</a></h3>
+<h3>Uses of <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a> in <a href="../../../../../goal/core/program/rules/package-summary.html">languageTools.program.agent.rules</a></h3>
 <table border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
-<caption><span>Methods in <a href="../../../../../goal/core/program/rules/package-summary.html">goal.core.program.rules</a> that return types with arguments of type <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></span><span class="tabEnd">&nbsp;</span></caption>
+<caption><span>Methods in <a href="../../../../../goal/core/program/rules/package-summary.html">languageTools.program.agent.rules</a> that return types with arguments of type <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
@@ -710,7 +710,7 @@
 </tbody>
 </table>
 <table border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
-<caption><span>Methods in <a href="../../../../../goal/core/program/rules/package-summary.html">goal.core.program.rules</a> with parameters of type <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></span><span class="tabEnd">&nbsp;</span></caption>
+<caption><span>Methods in <a href="../../../../../goal/core/program/rules/package-summary.html">languageTools.program.agent.rules</a> with parameters of type <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
@@ -750,21 +750,21 @@
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/rules/ForallDoRule.html" title="class in goal.core.program.rules">ForallDoRule</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/rules/ForallDoRule.html" title="class in languageTools.program.agent.rules">ForallDoRule</a></code></td>
 <td class="colLast"><span class="strong">ForallDoRule.</span><code><strong><a href="../../../../../goal/core/program/rules/ForallDoRule.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/rules/IfThenRule.html" title="class in goal.core.program.rules">IfThenRule</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/rules/IfThenRule.html" title="class in languageTools.program.agent.rules">IfThenRule</a></code></td>
 <td class="colLast"><span class="strong">IfThenRule.</span><code><strong><a href="../../../../../goal/core/program/rules/IfThenRule.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/rules/ListallDoRule.html" title="class in goal.core.program.rules">ListallDoRule</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/rules/ListallDoRule.html" title="class in languageTools.program.agent.rules">ListallDoRule</a></code></td>
 <td class="colLast"><span class="strong">ListallDoRule.</span><code><strong><a href="../../../../../goal/core/program/rules/ListallDoRule.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../../goal/core/program/rules/RuleSet.html" title="class in goal.core.program.rules">RuleSet</a></code></td>
+<td class="colFirst"><code><a href="../../../../../goal/core/program/rules/RuleSet.html" title="class in languageTools.program.agent.rules">RuleSet</a></code></td>
 <td class="colLast"><span class="strong">RuleSet.</span><code><strong><a href="../../../../../goal/core/program/rules/RuleSet.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
-<div class="block">Instantiates the rules in this <a href="../../../../../goal/core/program/rules/RuleSet.html" title="class in goal.core.program.rules"><code>RuleSet</code></a> with the given
+<div class="block">Instantiates the rules in this <a href="../../../../../goal/core/program/rules/RuleSet.html" title="class in languageTools.program.agent.rules"><code>RuleSet</code></a> with the given
  substitution.</div>
 </td>
 </tr>
@@ -772,20 +772,20 @@
 <td class="colFirst"><code><a href="../../../../../goal/core/runtime/service/agent/Result.html" title="class in goal.core.runtime.service.agent">Result</a></code></td>
 <td class="colLast"><span class="strong">Rule.</span><code><strong><a href="../../../../../goal/core/program/rules/Rule.html#run(goal.core.runtime.service.agent.RunState,%20goal.core.kr.language.Substitution)">run</a></strong>(<a href="../../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;?&gt;&nbsp;runState,
    <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
-<div class="block">Evaluates and applies the <a href="../../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules"><code>Rule</code></a>.</div>
+<div class="block">Evaluates and applies the <a href="../../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules"><code>Rule</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../goal/core/runtime/service/agent/Result.html" title="class in goal.core.runtime.service.agent">Result</a></code></td>
 <td class="colLast"><span class="strong">RuleSet.</span><code><strong><a href="../../../../../goal/core/program/rules/RuleSet.html#run(goal.core.runtime.service.agent.RunState,%20goal.core.kr.language.Substitution)">run</a></strong>(<a href="../../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;?&gt;&nbsp;runState,
    <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
-<div class="block">Executes this <a href="../../../../../goal/core/program/rules/RuleSet.html" title="class in goal.core.program.rules"><code>RuleSet</code></a>.</div>
+<div class="block">Executes this <a href="../../../../../goal/core/program/rules/RuleSet.html" title="class in languageTools.program.agent.rules"><code>RuleSet</code></a>.</div>
 </td>
 </tr>
 </tbody>
 </table>
 <table border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
-<caption><span>Method parameters in <a href="../../../../../goal/core/program/rules/package-summary.html">goal.core.program.rules</a> with type arguments of type <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></span><span class="tabEnd">&nbsp;</span></caption>
+<caption><span>Method parameters in <a href="../../../../../goal/core/program/rules/package-summary.html">languageTools.program.agent.rules</a> with type arguments of type <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colLast" scope="col">Method and Description</th>
@@ -967,9 +967,9 @@
 <tbody>
 <tr class="altColor">
 <td class="colFirst"><code>protected java.util.Set&lt;<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&gt;</code></td>
-<td class="colLast"><span class="strong">TestConditionEvaluator.</span><code><strong><a href="../../../../../goal/tools/unittest/testsection/testconditions/TestConditionEvaluator.html#evaluate(goal.core.runtime.service.agent.RunState,%20goal.core.kr.language.Substitution,%20goal.core.program.literals.MentalStateCond)">evaluate</a></strong>(<a href="../../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;? extends <a href="../../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&gt;&nbsp;runState,
+<td class="colLast"><span class="strong">TestConditionEvaluator.</span><code><strong><a href="../../../../../goal/tools/unittest/testsection/testconditions/TestConditionEvaluator.html#evaluate(goal.core.runtime.service.agent.RunState,%20goal.core.kr.language.Substitution,%20languageTools.program.agent.msc.MentalStateCondition)">evaluate</a></strong>(<a href="../../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;? extends <a href="../../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&gt;&nbsp;runState,
         <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution,
-        <a href="../../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a>&nbsp;query)</code>
+        <a href="../../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a>&nbsp;query)</code>
 <div class="block">Evaluates a mental state query on the agent's <a href="../../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent"><code>RunState</code></a>.</div>
 </td>
 </tr>
@@ -1031,9 +1031,9 @@
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected java.util.Set&lt;<a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&gt;</code></td>
-<td class="colLast"><span class="strong">TestConditionEvaluator.</span><code><strong><a href="../../../../../goal/tools/unittest/testsection/testconditions/TestConditionEvaluator.html#evaluate(goal.core.runtime.service.agent.RunState,%20goal.core.kr.language.Substitution,%20goal.core.program.literals.MentalStateCond)">evaluate</a></strong>(<a href="../../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;? extends <a href="../../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&gt;&nbsp;runState,
+<td class="colLast"><span class="strong">TestConditionEvaluator.</span><code><strong><a href="../../../../../goal/tools/unittest/testsection/testconditions/TestConditionEvaluator.html#evaluate(goal.core.runtime.service.agent.RunState,%20goal.core.kr.language.Substitution,%20languageTools.program.agent.msc.MentalStateCondition)">evaluate</a></strong>(<a href="../../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;? extends <a href="../../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&gt;&nbsp;runState,
         <a href="../../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution,
-        <a href="../../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a>&nbsp;query)</code>
+        <a href="../../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a>&nbsp;query)</code>
 <div class="block">Evaluates a mental state query on the agent's <a href="../../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent"><code>RunState</code></a>.</div>
 </td>
 </tr>

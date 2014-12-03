@@ -1,6 +1,6 @@
 package goal.core.runtime.events;
 
-import goal.core.agent.AgentId;
+import languageTools.program.agent.AgentId;
 
 /**
  * A new agent appeared in a RuntimeServiceManager.

@@ -2,13 +2,12 @@ package goal.core.runtime.service.agent;
 
 import goal.core.agent.Agent;
 import goal.core.agent.AgentFactory;
-import goal.core.agent.AgentId;
 import goal.core.agent.GOALInterpreter;
-import goal.core.mas.Launch;
-import goal.core.mas.LaunchRule;
-import goal.core.mas.MASProgram;
-import goal.core.mas.MultiLaunch;
-import goal.core.program.GOALProgram;
+import languageTools.program.mas.Launch;
+import languageTools.program.mas.LaunchRule;
+import languageTools.program.mas.MASProgram;
+import languageTools.program.agent.AgentId;
+import languageTools.program.agent.AgentProgram;
 import goal.core.runtime.service.agent.events.AddedLocalAgent;
 import goal.core.runtime.service.agent.events.AddedRemoteAgent;
 import goal.core.runtime.service.agent.events.AgentServiceEvent;
@@ -26,7 +25,7 @@ import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
-import goal.tools.errorhandling.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRInitFailedException;
 import goal.tools.logging.InfoLog;
 
 import java.io.File;
@@ -385,8 +384,8 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 			agentBaseName = prefix + "_" + agentBaseName;
 		}
 
-		GOALProgram program = launch.getGOALProgram();
-		// FIXME: GOALProgram should have reference to its file.
+		AgentProgram program = launch.getAgentProgram();
+		// FIXME: AgentProgram should have reference to its file.
 		File goalProgramFile = launch.getAgentFile().getAgentFile();
 		Agent<C> agent;
 		try {

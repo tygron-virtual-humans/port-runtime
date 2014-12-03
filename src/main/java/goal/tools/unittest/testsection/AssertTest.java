@@ -1,8 +1,8 @@
 package goal.tools.unittest.testsection;
 
-import goal.core.kr.language.Substitution;
+import krTools.language.Substitution;
 import goal.core.mentalstate.MentalState;
-import goal.core.program.literals.MentalStateCond;
+import languageTools.program.agent.msc.MentalStateCondition;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.ObservableDebugger;
@@ -22,7 +22,7 @@ import java.util.Set;
  */
 public class AssertTest implements TestSection {
 	private final String message;
-	private final MentalStateCond condition;
+	private final MentalStateCondition condition;
 
 	/**
 	 * Constructs a new assert test.
@@ -32,7 +32,7 @@ public class AssertTest implements TestSection {
 	 * @param message
 	 *            to display when test fails.
 	 */
-	public AssertTest(MentalStateCond condition, String message) {
+	public AssertTest(MentalStateCondition condition, String message) {
 		this.condition = condition;
 		this.message = message;
 	}
@@ -43,7 +43,7 @@ public class AssertTest implements TestSection {
 	 * @param condition
 	 *            to test
 	 */
-	public AssertTest(MentalStateCond condition) {
+	public AssertTest(MentalStateCondition condition) {
 		this(condition, "");
 	}
 
@@ -57,7 +57,7 @@ public class AssertTest implements TestSection {
 	/**
 	 * @return the query that is tested.
 	 */
-	public MentalStateCond getMentalStateTest() {
+	public MentalStateCondition getMentalStateTest() {
 		return condition;
 	}
 

@@ -19,20 +19,15 @@
 package goal.tools.adapt;
 
 import goal.core.agent.Agent;
-import goal.core.kr.language.DatabaseFormula;
-import goal.core.kr.language.Expression;
+import krTools.language.DatabaseFormula;
+import krTools.language.Expression;
 import goal.core.mentalstate.BASETYPE;
 import goal.core.mentalstate.MentalState;
-import goal.core.program.GOALProgram;
-import goal.core.program.Module;
-import goal.core.program.actions.ActionCombo;
-import goal.core.program.dependencygraph.DependencyGraph;
-import goal.core.program.dependencygraph.ModuleGraphGenerator;
-import goal.core.program.rules.RuleSet;
+import languageTools.program.agent.AgentProgram;
+import languageTools.program.agent.Module;
+import languageTools.program.agent.actions.ActionCombo;
 import goal.preferences.CorePreferences;
 import goal.tools.logging.InfoLog;
-import goal.tools.mc.program.goal.GOALConversionUniverse;
-import goal.tools.mc.program.goal.GOALMentalStateConverter;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -121,7 +116,7 @@ public class FileLearner implements Serializable, Learner {
 	/*
 	 * The program that this learner is associated with
 	 */
-	private final GOALProgram program;
+	private final AgentProgram program;
 
 	/*
 	 * File name prefix for .lrn file
@@ -141,7 +136,7 @@ public class FileLearner implements Serializable, Learner {
 	 * @param name
 	 * @param program
 	 */
-	public FileLearner(String name, GOALProgram program) {
+	public FileLearner(String name, AgentProgram program) {
 		this.converter = new GOALMentalStateConverter(null);
 
 		String filename = null;
@@ -663,7 +658,7 @@ public class FileLearner implements Serializable, Learner {
 	 * @param program
 	 * @return a {@link FileLearner} object
 	 */
-	private boolean loadLearner(String file, GOALProgram program) {
+	private boolean loadLearner(String file, AgentProgram program) {
 		try (ObjectInputStream input = new ObjectInputStream(
 				new BufferedInputStream(new FileInputStream(file)))) {
 			Object obj = input.readObject();

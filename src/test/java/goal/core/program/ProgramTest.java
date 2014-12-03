@@ -15,26 +15,26 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package goal.core.program;
+package languageTools.program.agent;
 
 import static org.junit.Assert.assertTrue;
 import goal.core.agent.Agent;
 import goal.core.agent.GOALInterpreter;
-import goal.core.kr.KRlanguage;
-import goal.core.kr.language.Query;
-import goal.core.kr.language.Substitution;
-import goal.core.kr.language.Term;
-import goal.core.kr.language.Var;
+import krTools.KRlanguage;
+import krTools.language.Query;
+import krTools.language.Substitution;
+import krTools.language.Term;
+import krTools.language.Var;
 import goal.core.mentalstate.BASETYPE;
 import goal.core.mentalstate.MentalState;
-import goal.core.program.SelectExpression.SelectorType;
+import languageTools.program.agent.SelectExpression.SelectorType;
 import goal.tools.PlatformManager;
 import goal.tools.SingleRun;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 import goal.tools.errorhandling.exceptions.GOALParseException;
-import goal.tools.errorhandling.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRInitFailedException;
 import goal.tools.logging.Loggers;
 
 import java.io.File;
@@ -115,7 +115,7 @@ public abstract class ProgramTest {
 	protected RunResult runAgent(String goalFile) throws Exception {
 		String id = "TestAgent";
 		File programFile = new File(goalFile);
-		GOALProgram program = PlatformManager.createNew().parseGOALFile(
+		AgentProgram program = PlatformManager.createNew().parseGOALFile(
 				programFile, language);
 
 		assertTrue(program.isValidated());
@@ -132,7 +132,7 @@ public abstract class ProgramTest {
 	}
 
 	protected abstract Agent<GOALInterpreter<Debugger>> buildAgent(String id,
-			File programFile, GOALProgram program)
+			File programFile, AgentProgram program)
 			throws GOALLaunchFailureException, MessagingException,
 			KRInitFailedException;
 

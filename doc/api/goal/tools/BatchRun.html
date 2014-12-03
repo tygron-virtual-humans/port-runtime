@@ -98,7 +98,7 @@
 <br>
 <pre>public class <span class="strong">BatchRun</span>
 extends java.lang.Object</pre>
-<div class="block">A Batch will run a batch of <a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas"><code>MASProgram</code></a>s a repeated number of times.
+<div class="block">A Batch will run a batch of <a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas"><code>MASProgram</code></a>s a repeated number of times.
  Between runs the state of the agents <a href="../../goal/tools/adapt/FileLearner.html" title="class in goal.tools.adapt"><code>FileLearner</code></a> can be persisted by
  setting a <code>PersistanceHelper</code>. To inspect the results of each run the
  <a href="../../goal/tools/ResultInspector.html" title="interface in goal.tools"><code>ResultInspector</code></a> can be used.</div>
@@ -129,7 +129,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="rowColor">
 <td class="colOne"><code><strong><a href="../../goal/tools/BatchRun.html#BatchRun(java.util.List)">BatchRun</a></strong>(java.util.List&lt;java.io.File&gt;&nbsp;masFiles)</code>
-<div class="block">Creates an instance of <a href="../../goal/tools/BatchRun.html" title="class in goal.tools"><code>BatchRun</code></a> using the the <a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas"><code>MASProgram</code></a>
+<div class="block">Creates an instance of <a href="../../goal/tools/BatchRun.html" title="class in goal.tools"><code>BatchRun</code></a> using the the <a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas"><code>MASProgram</code></a>
  (s).</div>
 </td>
 </tr>
@@ -151,7 +151,7 @@ extends java.lang.Object</pre>
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../goal/tools/BatchRun.html#getDebuggerOutput()">getDebuggerOutput</a></strong>()</code>
-<div class="block">Returns true if the <a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas"><code>MASProgram</code></a> will be run with a debugger that
+<div class="block">Returns true if the <a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas"><code>MASProgram</code></a> will be run with a debugger that
  logs output.</div>
 </td>
 </tr>
@@ -168,7 +168,7 @@ extends java.lang.Object</pre>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../goal/tools/BatchRun.html#setDebuggerOutput(boolean)">setDebuggerOutput</a></strong>(boolean&nbsp;debuggerOutput)</code>
-<div class="block">Set to true to run the <a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas"><code>MASProgram</code></a> with a debugger that logs
+<div class="block">Set to true to run the <a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas"><code>MASProgram</code></a> with a debugger that logs
  output.</div>
 </td>
 </tr>
@@ -229,7 +229,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>BatchRun</h4>
 <pre>public&nbsp;BatchRun(java.util.List&lt;java.io.File&gt;&nbsp;masFiles)</pre>
-<div class="block">Creates an instance of <a href="../../goal/tools/BatchRun.html" title="class in goal.tools"><code>BatchRun</code></a> using the the <a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas"><code>MASProgram</code></a>
+<div class="block">Creates an instance of <a href="../../goal/tools/BatchRun.html" title="class in goal.tools"><code>BatchRun</code></a> using the the <a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas"><code>MASProgram</code></a>
  (s).</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>masFiles</code> - to use in this <a href="../../goal/tools/BatchRun.html" title="class in goal.tools"><code>BatchRun</code></a></dd></dl>
 </li>
@@ -261,7 +261,7 @@ extends java.lang.Object</pre>
 <h4>run</h4>
 <pre>public&nbsp;void&nbsp;run()
          throws java.lang.Exception</pre>
-<div class="block">Starts the BatchRun. This will repeat running all <a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas"><code>MASProgram</code></a>s for
+<div class="block">Starts the BatchRun. This will repeat running all <a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas"><code>MASProgram</code></a>s for
  a given number of times.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code>java.lang.Exception</code> - thrown when a run fails; if multiple runs fail, only the last
@@ -275,9 +275,9 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getDebuggerOutput</h4>
 <pre>public&nbsp;boolean&nbsp;getDebuggerOutput()</pre>
-<div class="block">Returns true if the <a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas"><code>MASProgram</code></a> will be run with a debugger that
+<div class="block">Returns true if the <a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas"><code>MASProgram</code></a> will be run with a debugger that
  logs output.</div>
-<dl><dt><span class="strong">Returns:</span></dt><dd>if true the <a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas"><code>MASProgram</code></a> will be run with a printing
+<dl><dt><span class="strong">Returns:</span></dt><dd>if true the <a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas"><code>MASProgram</code></a> will be run with a printing
          debugger.</dd></dl>
 </li>
 </ul>
@@ -288,7 +288,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setDebuggerOutput</h4>
 <pre>public&nbsp;void&nbsp;setDebuggerOutput(boolean&nbsp;debuggerOutput)</pre>
-<div class="block">Set to true to run the <a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas"><code>MASProgram</code></a> with a debugger that logs
+<div class="block">Set to true to run the <a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas"><code>MASProgram</code></a> with a debugger that logs
  output.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>debuggerOutput</code> - true if the debugger should output to the console</dd></dl>
 </li>

@@ -36,8 +36,8 @@
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/actions/PrintAction.html" title="class in goal.core.program.actions"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/actions/SendOnceAction.html" title="class in goal.core.program.actions"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/PrintAction.html" title="class in languageTools.program.agent.actions"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/SendOnceAction.html" title="class in languageTools.program.agent.actions"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/actions/SendAction.html" target="_top">Frames</a></li>
@@ -79,7 +79,7 @@
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">goal.core.program.actions</div>
+<div class="subTitle">languageTools.program.agent.actions</div>
 <h2 title="Class SendAction" class="title">Class SendAction</h2>
 </div>
 <div class="contentContainer">
@@ -90,13 +90,13 @@
 <li><a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">goal.parser.ParsedObject</a></li>
 <li>
 <ul class="inheritance">
-<li><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">goal.core.program.actions.Action</a></li>
+<li><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">languageTools.program.agent.actions.Action</a></li>
 <li>
 <ul class="inheritance">
-<li><a href="../../../../goal/core/program/actions/MentalAction.html" title="class in goal.core.program.actions">goal.core.program.actions.MentalAction</a></li>
+<li><a href="../../../../goal/core/program/actions/MentalAction.html" title="class in languageTools.program.agent.actions">languageTools.program.agent.actions.MentalAction</a></li>
 <li>
 <ul class="inheritance">
-<li>goal.core.program.actions.SendAction</li>
+<li>languageTools.program.agent.actions.SendAction</li>
 </ul>
 </li>
 </ul>
@@ -115,25 +115,25 @@
 </dl>
 <dl>
 <dt>Direct Known Subclasses:</dt>
-<dd><a href="../../../../goal/core/program/actions/SendOnceAction.html" title="class in goal.core.program.actions">SendOnceAction</a></dd>
+<dd><a href="../../../../goal/core/program/actions/SendOnceAction.html" title="class in languageTools.program.agent.actions">SendOnceAction</a></dd>
 </dl>
 <hr>
 <br>
 <pre>public class <span class="strong">SendAction</span>
-extends <a href="../../../../goal/core/program/actions/MentalAction.html" title="class in goal.core.program.actions">MentalAction</a></pre>
+extends <a href="../../../../goal/core/program/actions/MentalAction.html" title="class in languageTools.program.agent.actions">MentalAction</a></pre>
 <div class="block">Sends a message to one or more <a href="../../../../goal/core/agent/Agent.html" title="class in goal.core.agent"><code>Agent</code></a>s.
  <p>
- A <a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program"><code>Selector</code></a> is used to indicate to which agent(s) the message should
+ A <a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent"><code>Selector</code></a> is used to indicate to which agent(s) the message should
  be sent.
  </p>
  <p>
- A message can have a <a href="../../../../goal/core/program/SentenceMood.html" title="enum in goal.core.program"><code>SentenceMood</code></a> and has content. The content of a
+ A message can have a <a href="../../../../goal/core/program/SentenceMood.html" title="enum in languageTools.program.agent"><code>SentenceMood</code></a> and has content. The content of a
  message is represented as a <a href="../../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language"><code>DatabaseFormula</code></a> as it should be possible
  to store a message in a database (i.e., the agent's mail box).
  </p></div>
 <dl><dt><span class="strong">Author:</span></dt>
   <dd>K.Hindriks</dd>
-<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#goal.core.program.actions.SendAction">Serialized Form</a></dd></dl>
+<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#languageTools.program.agent.actions.SendAction">Serialized Form</a></dd></dl>
 </li>
 </ul>
 </div>
@@ -152,11 +152,11 @@ extends <a href="../../../../goal/core/program/actions/MentalAction.html" title=
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="../../../../goal/core/program/actions/SendAction.html#SendAction(goal.core.program.Selector,%20goal.core.program.SentenceMood,%20goal.core.kr.language.DatabaseFormula,%20goal.parser.InputStreamPosition)">SendAction</a></strong>(<a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program">Selector</a>&nbsp;selector,
-          <a href="../../../../goal/core/program/SentenceMood.html" title="enum in goal.core.program">SentenceMood</a>&nbsp;mood,
+<td class="colOne"><code><strong><a href="../../../../goal/core/program/actions/SendAction.html#SendAction(languageTools.program.agent.Selector,%20languageTools.program.agent.SentenceMood,%20goal.core.kr.language.DatabaseFormula,%20goal.parser.InputStreamPosition)">SendAction</a></strong>(<a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent">Selector</a>&nbsp;selector,
+          <a href="../../../../goal/core/program/SentenceMood.html" title="enum in languageTools.program.agent">SentenceMood</a>&nbsp;mood,
           <a href="../../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&nbsp;content,
           <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</code>
-<div class="block">Creates a <a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions"><code>SendAction</code></a> that sends a message (content) to one or
+<div class="block">Creates a <a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions"><code>SendAction</code></a> that sends a message (content) to one or
  more agents.</div>
 </td>
 </tr>
@@ -176,11 +176,11 @@ extends <a href="../../../../goal/core/program/actions/MentalAction.html" title=
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions">SendAction</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions">SendAction</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/SendAction.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
-<div class="block">Applies the given <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions"><code>SendAction</code></a> by
+<div class="block">Applies the given <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions"><code>SendAction</code></a> by
  applying the substitution to the message content to be sent and to the
- <a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program"><code>Selector</code></a> of this <a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions"><code>SendAction</code></a>.</div>
+ <a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent"><code>Selector</code></a> of this <a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions"><code>SendAction</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -195,37 +195,37 @@ extends <a href="../../../../goal/core/program/actions/MentalAction.html" title=
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/SendAction.html#equals(java.lang.Object)">equals</a></strong>(java.lang.Object&nbsp;obj)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions">SendAction</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions">SendAction</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/SendAction.html#evaluatePrecondition(goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger,%20boolean)">evaluatePrecondition</a></strong>(<a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate">MentalState</a>&nbsp;mentalState,
                     <a href="../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger,
                     boolean&nbsp;last)</code>
-<div class="block">Checks whether the precondition of <a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions"><code>SendAction</code></a> holds.</div>
+<div class="block">Checks whether the precondition of <a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions"><code>SendAction</code></a> holds.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected <a href="../../../../goal/core/runtime/service/agent/Result.html" title="class in goal.core.runtime.service.agent">Result</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/SendAction.html#executeAction(goal.core.runtime.service.agent.RunState,%20goal.tools.debugger.Debugger)">executeAction</a></strong>(<a href="../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;?&gt;&nbsp;runState,
              <a href="../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger)</code>
-<div class="block">Executes this <a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions"><code>SendAction</code></a>.</div>
+<div class="block">Executes this <a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions"><code>SendAction</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../../goal/core/kr/language/Var.html" title="interface in goal.core.kr.language">Var</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/SendAction.html#getFreeVar()">getFreeVar</a></strong>()</code>
 <div class="block">Returns the (free) variables that occur in the content of the message to
- be sent by this <a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions"><code>SendAction</code></a> and the selector of this action.</div>
+ be sent by this <a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions"><code>SendAction</code></a> and the selector of this action.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/Message.html" title="class in goal.core.program">Message</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/Message.html" title="class in languageTools.program.agent">Message</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/SendAction.html#getMessage()">getMessage</a></strong>()</code>
 <div class="block">Returns the message of this send action.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/SendAction.html#getPrecondition(goal.core.kr.KRlanguage)">getPrecondition</a></strong>(<a href="../../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a>&nbsp;language)</code>
-<div class="block">The precondition of a <a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions"><code>SendAction</code></a> is <code>true</code>, or, to be more
+<div class="block">The precondition of a <a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions"><code>SendAction</code></a> is <code>true</code>, or, to be more
  precise "bel(true)"; this means it can always be performed if the action
  is closed.</div>
 </td>
@@ -246,17 +246,17 @@ extends <a href="../../../../goal/core/program/actions/MentalAction.html" title=
 </tr>
 </table>
 <ul class="blockList">
-<li class="blockList"><a name="methods_inherited_from_class_goal.core.program.actions.MentalAction">
+<li class="blockList"><a name="methods_inherited_from_class_languageTools.program.agent.actions.MentalAction">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;goal.core.program.actions.<a href="../../../../goal/core/program/actions/MentalAction.html" title="class in goal.core.program.actions">MentalAction</a></h3>
+<h3>Methods inherited from class&nbsp;languageTools.program.agent.actions.<a href="../../../../goal/core/program/actions/MentalAction.html" title="class in languageTools.program.agent.actions">MentalAction</a></h3>
 <code><a href="../../../../goal/core/program/actions/MentalAction.html#getSelector()">getSelector</a></code></li>
 </ul>
 <ul class="blockList">
-<li class="blockList"><a name="methods_inherited_from_class_goal.core.program.actions.Action">
+<li class="blockList"><a name="methods_inherited_from_class_languageTools.program.agent.actions.Action">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;goal.core.program.actions.<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></h3>
+<h3>Methods inherited from class&nbsp;languageTools.program.agent.actions.<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></h3>
 <code><a href="../../../../goal/core/program/actions/Action.html#getName()">getName</a>, <a href="../../../../goal/core/program/actions/Action.html#report(goal.tools.debugger.Debugger)">report</a>, <a href="../../../../goal/core/program/actions/Action.html#run(goal.core.runtime.service.agent.RunState,%20goal.core.kr.language.Substitution,%20goal.tools.debugger.Debugger,%20boolean)">run</a></code></li>
 </ul>
 <ul class="blockList">
@@ -287,20 +287,20 @@ extends <a href="../../../../goal/core/program/actions/MentalAction.html" title=
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="SendAction(goal.core.program.Selector, goal.core.program.SentenceMood, goal.core.kr.language.DatabaseFormula, goal.parser.InputStreamPosition)">
+<a name="SendAction(languageTools.program.agent.Selector, languageTools.program.agent.SentenceMood, goal.core.kr.language.DatabaseFormula, goal.parser.InputStreamPosition)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>SendAction</h4>
-<pre>public&nbsp;SendAction(<a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program">Selector</a>&nbsp;selector,
-          <a href="../../../../goal/core/program/SentenceMood.html" title="enum in goal.core.program">SentenceMood</a>&nbsp;mood,
+<pre>public&nbsp;SendAction(<a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent">Selector</a>&nbsp;selector,
+          <a href="../../../../goal/core/program/SentenceMood.html" title="enum in languageTools.program.agent">SentenceMood</a>&nbsp;mood,
           <a href="../../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&nbsp;content,
           <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</pre>
-<div class="block">Creates a <a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions"><code>SendAction</code></a> that sends a message (content) to one or
+<div class="block">Creates a <a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions"><code>SendAction</code></a> that sends a message (content) to one or
  more agents.</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>selector</code> - The <a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program"><code>Selector</code></a> of this action, indicating where the
-            message should be send to.</dd><dd><code>mood</code> - The <a href="../../../../goal/core/program/SentenceMood.html" title="enum in goal.core.program"><code>SentenceMood</code></a> of the message.</dd><dd><code>content</code> - The content of the message.</dd><dd><code>source</code> - The source code location of this action, if available;
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>selector</code> - The <a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent"><code>Selector</code></a> of this action, indicating where the
+            message should be send to.</dd><dd><code>mood</code> - The <a href="../../../../goal/core/program/SentenceMood.html" title="enum in languageTools.program.agent"><code>SentenceMood</code></a> of the message.</dd><dd><code>content</code> - The content of the message.</dd><dd><code>source</code> - The source code location of this action, if available;
             <code>null</code> otherwise.</dd></dl>
 </li>
 </ul>
@@ -318,7 +318,7 @@ extends <a href="../../../../goal/core/program/actions/MentalAction.html" title=
 <ul class="blockList">
 <li class="blockList">
 <h4>getMessage</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/Message.html" title="class in goal.core.program">Message</a>&nbsp;getMessage()</pre>
+<pre>public&nbsp;<a href="../../../../goal/core/program/Message.html" title="class in languageTools.program.agent">Message</a>&nbsp;getMessage()</pre>
 <div class="block">Returns the message of this send action.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The message of this send action.</dd></dl>
 </li>
@@ -331,10 +331,10 @@ extends <a href="../../../../goal/core/program/actions/MentalAction.html" title=
 <h4>getFreeVar</h4>
 <pre>public&nbsp;java.util.Set&lt;<a href="../../../../goal/core/kr/language/Var.html" title="interface in goal.core.kr.language">Var</a>&gt;&nbsp;getFreeVar()</pre>
 <div class="block">Returns the (free) variables that occur in the content of the message to
- be sent by this <a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions"><code>SendAction</code></a> and the selector of this action.</div>
+ be sent by this <a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions"><code>SendAction</code></a> and the selector of this action.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#getFreeVar()">getFreeVar</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#getFreeVar()">getFreeVar</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Returns:</span></dt><dd>The (free) variables that occur in the selector and message
          content of the action.</dd></dl>
 </li>
@@ -353,7 +353,7 @@ extends <a href="../../../../goal/core/program/actions/MentalAction.html" title=
  <a href="../../../../goal/core/program/Message.html#isClosed()"><code>Message.isClosed()</code></a>.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#isClosed()">isClosed</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#isClosed()">isClosed</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Returns:</span></dt><dd><code>true</code> if the send(once) action is considered closed;
          <code>false</code> otherwise.</dd></dl>
 </li>
@@ -364,13 +364,13 @@ extends <a href="../../../../goal/core/program/actions/MentalAction.html" title=
 <ul class="blockList">
 <li class="blockList">
 <h4>applySubst</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions">SendAction</a>&nbsp;applySubst(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</pre>
-<div class="block">Applies the given <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions"><code>SendAction</code></a> by
+<pre>public&nbsp;<a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions">SendAction</a>&nbsp;applySubst(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</pre>
+<div class="block">Applies the given <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions"><code>SendAction</code></a> by
  applying the substitution to the message content to be sent and to the
- <a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program"><code>Selector</code></a> of this <a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions"><code>SendAction</code></a>.</div>
+ <a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent"><code>Selector</code></a> of this <a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions"><code>SendAction</code></a>.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>substitution</code> - The substitution to be applied to the action.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>The instantiated adopt action where (free) variables that are
          bound by the substitution have been instantiated by the
@@ -383,16 +383,16 @@ extends <a href="../../../../goal/core/program/actions/MentalAction.html" title=
 <ul class="blockList">
 <li class="blockList">
 <h4>getPrecondition</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a>&nbsp;getPrecondition(<a href="../../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a>&nbsp;language)
+<pre>public&nbsp;<a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a>&nbsp;getPrecondition(<a href="../../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr">KRlanguage</a>&nbsp;language)
                                 throws <a href="../../../../goal/tools/errorhandling/exceptions/GOALParseException.html" title="class in goal.tools.errorhandling.exceptions">GOALParseException</a></pre>
-<div class="block">The precondition of a <a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions"><code>SendAction</code></a> is <code>true</code>, or, to be more
+<div class="block">The precondition of a <a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions"><code>SendAction</code></a> is <code>true</code>, or, to be more
  precise "bel(true)"; this means it can always be performed if the action
  is closed.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#getPrecondition(goal.core.kr.KRlanguage)">getPrecondition</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#getPrecondition(goal.core.kr.KRlanguage)">getPrecondition</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>language</code> - The KR language used for representing the precondition.</dd>
-<dt><span class="strong">Returns:</span></dt><dd>The <a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals"><code>MentalStateCond</code></a> "bel(true)".</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The <a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc"><code>MentalStateCondition</code></a> "bel(true)".</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="../../../../goal/tools/errorhandling/exceptions/GOALParseException.html" title="class in goal.tools.errorhandling.exceptions">GOALParseException</a></code> - In case the KR parser had a problem parsing "true".</dd></dl>
 </li>
@@ -403,14 +403,14 @@ extends <a href="../../../../goal/core/program/actions/MentalAction.html" title=
 <ul class="blockList">
 <li class="blockList">
 <h4>evaluatePrecondition</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions">SendAction</a>&nbsp;evaluatePrecondition(<a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate">MentalState</a>&nbsp;mentalState,
+<pre>public&nbsp;<a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions">SendAction</a>&nbsp;evaluatePrecondition(<a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate">MentalState</a>&nbsp;mentalState,
                               <a href="../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger,
                               boolean&nbsp;last)</pre>
-<div class="block">Checks whether the precondition of <a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions"><code>SendAction</code></a> holds. See also:
+<div class="block">Checks whether the precondition of <a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions"><code>SendAction</code></a> holds. See also:
  <a href="../../../../goal/core/program/actions/SendAction.html#getPrecondition(goal.core.kr.KRlanguage)"><code>getPrecondition(KRlanguage)</code></a>.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#evaluatePrecondition(goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger,%20boolean)">evaluatePrecondition</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#evaluatePrecondition(goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger,%20boolean)">evaluatePrecondition</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>mentalState</code> - The <a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate"><code>MentalState</code></a> in which the precondition is
             evaluated.</dd><dd><code>debugger</code> - The current debugger</dd><dd><code>last</code> - If this is the last possible variation we are trying to
             execute, e.g. after this there are no more possibilities and
@@ -440,10 +440,10 @@ extends <a href="../../../../goal/core/program/actions/MentalAction.html" title=
 <h4>executeAction</h4>
 <pre>protected&nbsp;<a href="../../../../goal/core/runtime/service/agent/Result.html" title="class in goal.core.runtime.service.agent">Result</a>&nbsp;executeAction(<a href="../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent">RunState</a>&lt;?&gt;&nbsp;runState,
                    <a href="../../../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>&nbsp;debugger)</pre>
-<div class="block">Executes this <a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions"><code>SendAction</code></a>.
+<div class="block">Executes this <a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions"><code>SendAction</code></a>.
  <p>
  First computes the set of agents that should receive the message by
- resolving the <a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program"><code>Selector</code></a> and then constructs a <a href="../../../../goal/core/program/Message.html" title="class in goal.core.program"><code>Message</code></a> for
+ resolving the <a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent"><code>Selector</code></a> and then constructs a <a href="../../../../goal/core/program/Message.html" title="class in languageTools.program.agent"><code>Message</code></a> for
  each agent that should receive the message. For each message constructed
  a corresponding 'sent' record is inserted into the mail box of the
  sender.
@@ -453,7 +453,7 @@ extends <a href="../../../../goal/core/program/actions/MentalAction.html" title=
  </p></div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/actions/Action.html#executeAction(goal.core.runtime.service.agent.RunState,%20goal.tools.debugger.Debugger)">executeAction</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/actions/Action.html#executeAction(goal.core.runtime.service.agent.RunState,%20goal.tools.debugger.Debugger)">executeAction</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>runState</code> - The <a href="../../../../goal/core/runtime/service/agent/RunState.html" title="class in goal.core.runtime.service.agent"><code>RunState</code></a> in which the action is executed.</dd><dd><code>debugger</code> - The current debugger.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>The action that has been executed; never returns <code>null</code> but
          throws runtime exceptions if executing the action fails.</dd></dl>
@@ -524,8 +524,8 @@ extends <a href="../../../../goal/core/program/actions/MentalAction.html" title=
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/actions/PrintAction.html" title="class in goal.core.program.actions"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/actions/SendOnceAction.html" title="class in goal.core.program.actions"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/PrintAction.html" title="class in languageTools.program.agent.actions"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/SendOnceAction.html" title="class in languageTools.program.agent.actions"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/actions/SendAction.html" target="_top">Frames</a></li>

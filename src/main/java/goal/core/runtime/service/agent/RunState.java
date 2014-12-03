@@ -20,25 +20,22 @@ package goal.core.runtime.service.agent;
 import eis.exceptions.EnvironmentInterfaceException;
 import eis.iilang.Percept;
 import goal.core.agent.Agent;
-import goal.core.agent.AgentId;
+import languageTools.program.agent.AgentId;
 import goal.core.agent.EnvironmentCapabilities;
 import goal.core.agent.LoggingCapabilities;
 import goal.core.agent.MessagingCapabilities;
-import goal.core.kr.KRlanguage;
-import goal.core.kr.language.DatabaseFormula;
-import goal.core.kr.language.Update;
+import krTools.language.DatabaseFormula;
+import krTools.language.Update;
 import goal.core.mentalstate.BASETYPE;
 import goal.core.mentalstate.MentalState;
 import goal.core.mentalstate.SingleGoal;
-import goal.core.program.GOALProgram;
-import goal.core.program.Message;
-import goal.core.program.Module;
-import goal.core.program.Module.TYPE;
-import goal.core.program.actions.LogAction;
-import goal.core.program.actions.ModuleCallAction;
-import goal.core.program.actions.UserSpecAction;
-import goal.core.program.rules.RuleSet;
-import goal.core.program.rules.RuleSet.RuleEvaluationOrder;
+import languageTools.program.agent.AgentProgram;
+import languageTools.program.agent.Module;
+import languageTools.program.agent.Module.TYPE;
+import languageTools.program.agent.actions.LogAction;
+import languageTools.program.agent.actions.ModuleCallAction;
+import languageTools.program.agent.actions.UserSpecAction;
+import languageTools.program.agent.msg.Message;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
 import goal.preferences.PMPreferences;
 import goal.tools.adapt.FileLearner;
@@ -53,7 +50,7 @@ import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
-import goal.tools.errorhandling.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRInitFailedException;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -84,9 +81,9 @@ public class RunState<D extends Debugger> {
 	 */
 	private final AgentId agentName;
 	/**
-	 * The GOALProgram associated with this RunState.
+	 * The AgentProgram associated with this RunState.
 	 */
-	private final GOALProgram program;
+	private final AgentProgram program;
 	/**
 	 * Counter for the number of times the agent's reasoning cycle has been
 	 * performed.
@@ -182,7 +179,7 @@ public class RunState<D extends Debugger> {
 	 */
 	public RunState(AgentId agentName, EnvironmentCapabilities environment,
 			MessagingCapabilities messaging, LoggingCapabilities logger,
-			GOALProgram program, D debugger, Learner learner)
+			AgentProgram program, D debugger, Learner learner)
 			throws KRInitFailedException {
 
 		this.environment = environment;
@@ -621,7 +618,7 @@ public class RunState<D extends Debugger> {
 	/**
 	 * Returns the main module from the {@link #program}. If the program does
 	 * not have a main module, a "dummy" instance of a main module is returned;
-	 * see {@link #RunState(EnvironmentPort, MessageBox, GOALProgram)}.
+	 * see {@link #RunState(EnvironmentPort, MessageBox, AgentProgram)}.
 	 *
 	 * @return The main module of the program, or a "dummy" instance if the
 	 *         program does not have a main module.
@@ -634,7 +631,7 @@ public class RunState<D extends Debugger> {
 	 * Returns the module that was entered most recently.
 	 *
 	 * {@link FileLearner} is only user of this method, see
-	 * {@link RuleSet#run(RunState, goal.core.kr.language.Substitution)}.
+	 * {@link RuleSet#run(RunState, krTools.language.Substitution)}.
 	 *
 	 * @return The (non-anonymous) module that was entered last.
 	 */

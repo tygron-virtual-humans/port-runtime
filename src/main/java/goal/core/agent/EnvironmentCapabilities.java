@@ -5,7 +5,7 @@ import java.util.Set;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 import eis.exceptions.EnvironmentInterfaceException;
 import eis.iilang.Percept;
-import goal.core.program.actions.UserSpecAction;
+import languageTools.program.agent.actions.UserSpecAction;
 
 /**
  * Provides and abstract representation of the capabilities of the agent in the

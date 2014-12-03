@@ -4,7 +4,7 @@ import eis.EILoader;
 import eis.EnvironmentInterfaceStandard;
 import eis.exceptions.EnvironmentInterfaceException;
 import eis.iilang.Parameter;
-import goal.core.mas.MASProgram;
+import languageTools.program.mas.MASProgram;
 import goal.core.runtime.MessagingService;
 import goal.core.runtime.service.environment.events.EnvironmentPortAddedEvent;
 import goal.core.runtime.service.environment.events.EnvironmentPortRemovedEvent;

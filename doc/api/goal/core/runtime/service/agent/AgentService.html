@@ -121,7 +121,7 @@ extends java.lang.Object</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="../../../../../goal/core/runtime/service/agent/AgentService.html#AgentService(goal.core.mas.MASProgram,%20goal.core.agent.AgentFactory)">AgentService</a></strong>(<a href="../../../../../goal/core/mas/MASProgram.html" title="class in goal.core.mas">MASProgram</a>&nbsp;program,
+<td class="colOne"><code><strong><a href="../../../../../goal/core/runtime/service/agent/AgentService.html#AgentService(languageTools.program.mas.MASProgram,%20goal.core.agent.AgentFactory)">AgentService</a></strong>(<a href="../../../../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas">MASProgram</a>&nbsp;program,
             <a href="../../../../../goal/core/agent/AgentFactory.html" title="interface in goal.core.agent">AgentFactory</a>&lt;<a href="../../../../../goal/core/runtime/service/agent/AgentService.html" title="type parameter in AgentService">D</a>,<a href="../../../../../goal/core/runtime/service/agent/AgentService.html" title="type parameter in AgentService">C</a>&gt;&nbsp;factory)</code>
 <div class="block">DOC</div>
 </td>
@@ -172,7 +172,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../goal/core/agent/Agent.html" title="class in goal.core.agent">Agent</a>&lt;<a href="../../../../../goal/core/runtime/service/agent/AgentService.html" title="type parameter in AgentService">C</a>&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/AgentService.html#getAgent(goal.core.agent.AgentId)">getAgent</a></strong>(<a href="../../../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id)</code>
+<td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/AgentService.html#getAgent(languageTools.program.agent.AgentId)">getAgent</a></strong>(<a href="../../../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id)</code>
 <div class="block">Returns the GOAL agent with name agentName, if it runs locally.</div>
 </td>
 </tr>
@@ -202,14 +202,14 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/AgentService.html#handleAgentCreated(goal.core.agent.AgentId)">handleAgentCreated</a></strong>(<a href="../../../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id)</code>
+<td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/AgentService.html#handleAgentCreated(languageTools.program.agent.AgentId)">handleAgentCreated</a></strong>(<a href="../../../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id)</code>
 <div class="block">This is called by remote <code>Runtime</code> when it is notified that a new
  agent has been created.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/AgentService.html#handleAgentRemoved(goal.core.agent.AgentId)">handleAgentRemoved</a></strong>(<a href="../../../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id)</code>
+<td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/AgentService.html#handleAgentRemoved(languageTools.program.agent.AgentId)">handleAgentRemoved</a></strong>(<a href="../../../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id)</code>
 <div class="block">If the agent was a local agent it is removed and the observers are
  notified.</div>
 </td>
@@ -231,7 +231,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/AgentService.html#isLocal(goal.core.agent.AgentId)">isLocal</a></strong>(<a href="../../../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id)</code>
+<td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/AgentService.html#isLocal(languageTools.program.agent.AgentId)">isLocal</a></strong>(<a href="../../../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id)</code>
 <div class="block">Returns true if the agent id belongs to an agent that is running on this
  system.</div>
 </td>
@@ -258,7 +258,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/AgentService.html#stopAgent(goal.core.agent.AgentId)">stopAgent</a></strong>(<a href="../../../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id)</code>
+<td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/AgentService.html#stopAgent(languageTools.program.agent.AgentId)">stopAgent</a></strong>(<a href="../../../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id)</code>
 <div class="block">Stop an agent.</div>
 </td>
 </tr>
@@ -288,13 +288,13 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="AgentService(goal.core.mas.MASProgram, goal.core.agent.AgentFactory)">
+<a name="AgentService(languageTools.program.mas.MASProgram, goal.core.agent.AgentFactory)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AgentService</h4>
-<pre>public&nbsp;AgentService(<a href="../../../../../goal/core/mas/MASProgram.html" title="class in goal.core.mas">MASProgram</a>&nbsp;program,
+<pre>public&nbsp;AgentService(<a href="../../../../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas">MASProgram</a>&nbsp;program,
             <a href="../../../../../goal/core/agent/AgentFactory.html" title="interface in goal.core.agent">AgentFactory</a>&lt;<a href="../../../../../goal/core/runtime/service/agent/AgentService.html" title="type parameter in AgentService">D</a>,<a href="../../../../../goal/core/runtime/service/agent/AgentService.html" title="type parameter in AgentService">C</a>&gt;&nbsp;factory)</pre>
 <div class="block">DOC</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>program</code> - </dd><dd><code>factory</code> - </dd>
@@ -368,7 +368,7 @@ extends java.lang.Object</pre>
 <dl><dt><span class="strong">Returns:</span></dt><dd>a set of all agents</dd></dl>
 </li>
 </ul>
-<a name="getAgent(goal.core.agent.AgentId)">
+<a name="getAgent(languageTools.program.agent.AgentId)">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -424,7 +424,7 @@ extends java.lang.Object</pre>
 <dl><dt><span class="strong">Returns:</span></dt><dd>True if there are any local agents (running or not).</dd></dl>
 </li>
 </ul>
-<a name="stopAgent(goal.core.agent.AgentId)">
+<a name="stopAgent(languageTools.program.agent.AgentId)">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -435,7 +435,7 @@ extends java.lang.Object</pre>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>id</code> - The agent to stop.</dd></dl>
 </li>
 </ul>
-<a name="handleAgentCreated(goal.core.agent.AgentId)">
+<a name="handleAgentCreated(languageTools.program.agent.AgentId)">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -448,7 +448,7 @@ extends java.lang.Object</pre>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>id</code> - of the created message box.</dd></dl>
 </li>
 </ul>
-<a name="handleAgentRemoved(goal.core.agent.AgentId)">
+<a name="handleAgentRemoved(languageTools.program.agent.AgentId)">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -504,7 +504,7 @@ extends java.lang.Object</pre>
 <dd><code>java.lang.InterruptedException</code></dd></dl>
 </li>
 </ul>
-<a name="isLocal(goal.core.agent.AgentId)">
+<a name="isLocal(languageTools.program.agent.AgentId)">
 <!--   -->
 </a>
 <ul class="blockList">

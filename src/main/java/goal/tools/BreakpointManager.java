@@ -1,12 +1,10 @@
 package goal.tools;
 
-import goal.core.program.GOALProgram;
-import goal.core.program.Module;
-import goal.core.program.actions.Action;
-import goal.core.program.actions.ActionCombo;
-import goal.core.program.rules.Rule;
-import goal.parser.IParsedObject;
-import goal.parser.ParsedObject;
+import languageTools.program.agent.AgentProgram;
+import languageTools.program.agent.Module;
+import languageTools.program.agent.actions.Action;
+import languageTools.program.agent.actions.ActionCombo;
+import languageTools.program.agent.rules.Rule;
 import goal.tools.debugger.BreakPoint;
 import goal.tools.debugger.BreakPoint.Type;
 
@@ -49,7 +47,7 @@ public class BreakpointManager {
 	 *         set. They are sorted. The ID of the objects will be the index in
 	 *         the returned list.
 	 */
-	public static List<ParsedObject> getBreakpointObjects(GOALProgram program) {
+	public static List<ParsedObject> getBreakpointObjects(AgentProgram program) {
 		// Collect all objects for which a breakpoint can be set.
 		List<ParsedObject> objects = new LinkedList<>();
 		// All action specifications can be breakpoints.
@@ -94,7 +92,7 @@ public class BreakpointManager {
 		// make sure to also update the breakpoints for all child files.
 		List<File> affectedFiles = new LinkedList<>();
 		affectedFiles.add(agentFile);
-		affectedFiles.addAll(platform.getGOALProgram(agentFile).getImports());
+		affectedFiles.addAll(platform.getAgentProgram(agentFile).getImports());
 
 		for (File file : affectedFiles) {
 			// remove and re-add all breakpoints of all affected files
@@ -114,7 +112,7 @@ public class BreakpointManager {
 		// Update the set of breakpoint objects.
 		// FIXME: where and when do we need to do this??
 		for (ParsedObject bpObj : getBreakpointObjects(platform
-				.getGOALProgram(agentFile))) {
+				.getAgentProgram(agentFile))) {
 			breakpoints.get(agentFile).add(bpObj);
 		}
 	}
@@ -148,7 +146,7 @@ public class BreakpointManager {
 		// since the breakpoints are not stored on an agent-basis but a
 		// file-basis, we only need to check the breakpoints of one of the
 		// agents that reference the given file.
-		GOALProgram program = platform.getGOALProgram(referencingAgentFiles
+		AgentProgram program = platform.getAgentProgram(referencingAgentFiles
 				.get(0));
 		for (IParsedObject bp : getBreakpointObjects(program)) {
 			// breakpointLocations.get(referencingAgentFiles.get(0))) {
@@ -228,7 +226,7 @@ public class BreakpointManager {
 		// return the breakpoints iff one of the referencing agent files is
 		// correctly parsed.
 		for (File agentFile : referencingAgentFiles) {
-			if (platform.getGOALProgram(agentFile) != null) {
+			if (platform.getAgentProgram(agentFile) != null) {
 				return breakpoints.get(file);
 			}
 		}
@@ -248,7 +246,7 @@ public class BreakpointManager {
 	private List<File> getReferencingAgentFiles(File file) {
 		List<File> referencingAgentFiles = new LinkedList<>();
 		for (File agentFile : platform.getAllGOALFiles()) {
-			for (File importedFile : platform.getGOALProgram(agentFile)
+			for (File importedFile : platform.getAgentProgram(agentFile)
 					.getImports()) {
 				if (importedFile.equals(file)) {
 					referencingAgentFiles.add(agentFile);
@@ -267,7 +265,7 @@ public class BreakpointManager {
 	 * goal file.
 	 *
 	 * @param goalProgramFile
-	 *            a file containing a {@link GOALProgram}.
+	 *            a file containing a {@link AgentProgram}.
 	 * @return list of all breakpoints in the program, including imported files.
 	 *         List can be empty if no breakpoints have been set for this goal
 	 *         program.
@@ -275,7 +273,7 @@ public class BreakpointManager {
 	public Set<IParsedObject> getAllBreakpoints(File goalProgramFile) {
 		HashSet1<IParsedObject> breakpts = new HashSet1<>();
 		breakpts.addAll(getBreakpoints(goalProgramFile));
-		for (File importedFile : platform.getGOALProgram(goalProgramFile)
+		for (File importedFile : platform.getAgentProgram(goalProgramFile)
 				.getImports()) {
 			breakpts.addAll(getBreakpoints(importedFile));
 		}

@@ -1,7 +1,7 @@
 package goal.tools;
 
-import goal.core.agent.AgentId;
-import goal.core.program.GOALProgram;
+import languageTools.program.agent.AgentId;
+import languageTools.program.agent.AgentProgram;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
 import goal.preferences.LoggingPreferences;
 import goal.tools.debugger.Channel;
@@ -20,7 +20,7 @@ public class IDEDebugger extends ObservableDebugger {
 	 * @param id
 	 *            the {@link AgentId} that this debugger controls.
 	 * @param program
-	 *            the {@link GOALProgram} that we are running (used for
+	 *            the {@link AgentProgram} that we are running (used for
 	 *            breakpoints).
 	 * @param goalProgramFile
 	 *            file behind program.
@@ -28,7 +28,7 @@ public class IDEDebugger extends ObservableDebugger {
 	 *            The current environment (if any), used when the 'new agents
 	 *            copy environment run state' option is enabled.
 	 */
-	public IDEDebugger(AgentId id, GOALProgram program, File goalProgramFile,
+	public IDEDebugger(AgentId id, AgentProgram program, File goalProgramFile,
 			EnvironmentPort env) {
 		super(id, env);
 		observer = new DebugSettingSynchronizer(this);

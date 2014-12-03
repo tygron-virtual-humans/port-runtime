@@ -1,9 +1,9 @@
 package goal.core.agent;
 
-import goal.core.program.Message;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import languageTools.program.agent.msg.Message;
 
 /**
  * NOP implementation for messaging. No messages will be received, all send

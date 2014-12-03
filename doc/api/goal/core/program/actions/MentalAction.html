@@ -36,8 +36,8 @@
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/actions/LogAction.html" title="class in goal.core.program.actions"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in goal.core.program.actions"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/LogAction.html" title="class in languageTools.program.agent.actions"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in languageTools.program.agent.actions"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/actions/MentalAction.html" target="_top">Frames</a></li>
@@ -79,7 +79,7 @@
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">goal.core.program.actions</div>
+<div class="subTitle">languageTools.program.agent.actions</div>
 <h2 title="Class MentalAction" class="title">Class MentalAction</h2>
 </div>
 <div class="contentContainer">
@@ -90,10 +90,10 @@
 <li><a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">goal.parser.ParsedObject</a></li>
 <li>
 <ul class="inheritance">
-<li><a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">goal.core.program.actions.Action</a></li>
+<li><a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">languageTools.program.agent.actions.Action</a></li>
 <li>
 <ul class="inheritance">
-<li>goal.core.program.actions.MentalAction</li>
+<li>languageTools.program.agent.actions.MentalAction</li>
 </ul>
 </li>
 </ul>
@@ -110,34 +110,34 @@
 </dl>
 <dl>
 <dt>Direct Known Subclasses:</dt>
-<dd><a href="../../../../goal/core/program/actions/AdoptAction.html" title="class in goal.core.program.actions">AdoptAction</a>, <a href="../../../../goal/core/program/actions/DeleteAction.html" title="class in goal.core.program.actions">DeleteAction</a>, <a href="../../../../goal/core/program/actions/DropAction.html" title="class in goal.core.program.actions">DropAction</a>, <a href="../../../../goal/core/program/actions/InsertAction.html" title="class in goal.core.program.actions">InsertAction</a>, <a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions">SendAction</a></dd>
+<dd><a href="../../../../goal/core/program/actions/AdoptAction.html" title="class in languageTools.program.agent.actions">AdoptAction</a>, <a href="../../../../goal/core/program/actions/DeleteAction.html" title="class in languageTools.program.agent.actions">DeleteAction</a>, <a href="../../../../goal/core/program/actions/DropAction.html" title="class in languageTools.program.agent.actions">DropAction</a>, <a href="../../../../goal/core/program/actions/InsertAction.html" title="class in languageTools.program.agent.actions">InsertAction</a>, <a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions">SendAction</a></dd>
 </dl>
 <hr>
 <br>
 <pre>public abstract class <span class="strong">MentalAction</span>
-extends <a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></pre>
+extends <a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></pre>
 <div class="block">Parent class for all actions that *only* modify the <a href="../../../../goal/core/mentalstate/MentalState.html" title="class in goal.core.mentalstate"><code>MentalState</code></a> of an
  agent and do *not* have external side effects outside the multi-agent system
  itself.
  <p>
- A mental action has a <a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program"><code>Selector</code></a> that indicates the agent whose mental
+ A mental action has a <a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent"><code>Selector</code></a> that indicates the agent whose mental
  model is affected, or the agent(s) to whom a message should be sent.
  </p>
  <p>
  The mental actions include:
  <ul>
- <li>The adopt action <a href="../../../../goal/core/program/actions/AdoptAction.html" title="class in goal.core.program.actions"><code>AdoptAction</code></a></li>
- <li>The adoptone action <a href="../../../../goal/core/program/actions/AdoptOneAction.html" title="class in goal.core.program.actions"><code>AdoptOneAction</code></a></li>
- <li>The drop action <a href="../../../../goal/core/program/actions/DropAction.html" title="class in goal.core.program.actions"><code>DropAction</code></a></li>
- <li>The insert action <a href="../../../../goal/core/program/actions/InsertAction.html" title="class in goal.core.program.actions"><code>InsertAction</code></a></li>
- <li>The delete action <a href="../../../../goal/core/program/actions/DeleteAction.html" title="class in goal.core.program.actions"><code>DeleteAction</code></a></li>
- <li>The send action <a href="../../../../goal/core/program/actions/SendAction.html" title="class in goal.core.program.actions"><code>SendAction</code></a></li>
- <li>The sendonce action <a href="../../../../goal/core/program/actions/SendOnceAction.html" title="class in goal.core.program.actions"><code>SendOnceAction</code></a></li>
+ <li>The adopt action <a href="../../../../goal/core/program/actions/AdoptAction.html" title="class in languageTools.program.agent.actions"><code>AdoptAction</code></a></li>
+ <li>The adoptone action <a href="../../../../goal/core/program/actions/AdoptOneAction.html" title="class in languageTools.program.agent.actions"><code>AdoptOneAction</code></a></li>
+ <li>The drop action <a href="../../../../goal/core/program/actions/DropAction.html" title="class in languageTools.program.agent.actions"><code>DropAction</code></a></li>
+ <li>The insert action <a href="../../../../goal/core/program/actions/InsertAction.html" title="class in languageTools.program.agent.actions"><code>InsertAction</code></a></li>
+ <li>The delete action <a href="../../../../goal/core/program/actions/DeleteAction.html" title="class in languageTools.program.agent.actions"><code>DeleteAction</code></a></li>
+ <li>The send action <a href="../../../../goal/core/program/actions/SendAction.html" title="class in languageTools.program.agent.actions"><code>SendAction</code></a></li>
+ <li>The sendonce action <a href="../../../../goal/core/program/actions/SendOnceAction.html" title="class in languageTools.program.agent.actions"><code>SendOnceAction</code></a></li>
  </ul>
  </p></div>
 <dl><dt><span class="strong">Author:</span></dt>
   <dd>N.Kraayenbrink</dd>
-<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#goal.core.program.actions.MentalAction">Serialized Form</a></dd></dl>
+<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#languageTools.program.agent.actions.MentalAction">Serialized Form</a></dd></dl>
 </li>
 </ul>
 </div>
@@ -158,10 +158,10 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected </code></td>
-<td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/MentalAction.html#MentalAction(java.lang.String,%20goal.core.program.Selector,%20goal.parser.InputStreamPosition)">MentalAction</a></strong>(java.lang.String&nbsp;name,
-            <a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program">Selector</a>&nbsp;selector,
+<td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/MentalAction.html#MentalAction(java.lang.String,%20languageTools.program.agent.Selector,%20goal.parser.InputStreamPosition)">MentalAction</a></strong>(java.lang.String&nbsp;name,
+            <a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent">Selector</a>&nbsp;selector,
             <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</code>
-<div class="block">Creates a new <a href="../../../../goal/core/program/actions/MentalAction.html" title="class in goal.core.program.actions"><code>MentalAction</code></a>.</div>
+<div class="block">Creates a new <a href="../../../../goal/core/program/actions/MentalAction.html" title="class in languageTools.program.agent.actions"><code>MentalAction</code></a>.</div>
 </td>
 </tr>
 </table>
@@ -180,17 +180,17 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program">Selector</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent">Selector</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/actions/MentalAction.html#getSelector()">getSelector</a></strong>()</code>
-<div class="block">Returns the <a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program"><code>Selector</code></a> for this <a href="../../../../goal/core/program/actions/MentalAction.html" title="class in goal.core.program.actions"><code>MentalAction</code></a>.</div>
+<div class="block">Returns the <a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent"><code>Selector</code></a> for this <a href="../../../../goal/core/program/actions/MentalAction.html" title="class in languageTools.program.agent.actions"><code>MentalAction</code></a>.</div>
 </td>
 </tr>
 </table>
 <ul class="blockList">
-<li class="blockList"><a name="methods_inherited_from_class_goal.core.program.actions.Action">
+<li class="blockList"><a name="methods_inherited_from_class_languageTools.program.agent.actions.Action">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;goal.core.program.actions.<a href="../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a></h3>
+<h3>Methods inherited from class&nbsp;languageTools.program.agent.actions.<a href="../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a></h3>
 <code><a href="../../../../goal/core/program/actions/Action.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a>, <a href="../../../../goal/core/program/actions/Action.html#evaluatePrecondition(goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger,%20boolean)">evaluatePrecondition</a>, <a href="../../../../goal/core/program/actions/Action.html#executeAction(goal.core.runtime.service.agent.RunState,%20goal.tools.debugger.Debugger)">executeAction</a>, <a href="../../../../goal/core/program/actions/Action.html#getFreeVar()">getFreeVar</a>, <a href="../../../../goal/core/program/actions/Action.html#getName()">getName</a>, <a href="../../../../goal/core/program/actions/Action.html#getPrecondition(goal.core.kr.KRlanguage)">getPrecondition</a>, <a href="../../../../goal/core/program/actions/Action.html#isClosed()">isClosed</a>, <a href="../../../../goal/core/program/actions/Action.html#report(goal.tools.debugger.Debugger)">report</a>, <a href="../../../../goal/core/program/actions/Action.html#run(goal.core.runtime.service.agent.RunState,%20goal.core.kr.language.Substitution,%20goal.tools.debugger.Debugger,%20boolean)">run</a></code></li>
 </ul>
 <ul class="blockList">
@@ -221,16 +221,16 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="MentalAction(java.lang.String, goal.core.program.Selector, goal.parser.InputStreamPosition)">
+<a name="MentalAction(java.lang.String, languageTools.program.agent.Selector, goal.parser.InputStreamPosition)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>MentalAction</h4>
 <pre>protected&nbsp;MentalAction(java.lang.String&nbsp;name,
-            <a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program">Selector</a>&nbsp;selector,
+            <a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent">Selector</a>&nbsp;selector,
             <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</pre>
-<div class="block">Creates a new <a href="../../../../goal/core/program/actions/MentalAction.html" title="class in goal.core.program.actions"><code>MentalAction</code></a>.</div>
+<div class="block">Creates a new <a href="../../../../goal/core/program/actions/MentalAction.html" title="class in languageTools.program.agent.actions"><code>MentalAction</code></a>.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the action.</dd><dd><code>selector</code> - The selector indicating on which mental model(s) this action
             should be executed. Can be <code>null</code>, in which case 'this'
             is assumed.</dd><dd><code>source</code> - The source code location of this action, if available;
@@ -251,8 +251,8 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getSelector</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program">Selector</a>&nbsp;getSelector()</pre>
-<div class="block">Returns the <a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program"><code>Selector</code></a> for this <a href="../../../../goal/core/program/actions/MentalAction.html" title="class in goal.core.program.actions"><code>MentalAction</code></a>.</div>
+<pre>public&nbsp;<a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent">Selector</a>&nbsp;getSelector()</pre>
+<div class="block">Returns the <a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent"><code>Selector</code></a> for this <a href="../../../../goal/core/program/actions/MentalAction.html" title="class in languageTools.program.agent.actions"><code>MentalAction</code></a>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The selector for this action.</dd></dl>
 </li>
 </ul>
@@ -282,8 +282,8 @@ extends <a href="../../../../goal/core/program/actions/Action.html" title="class
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/actions/LogAction.html" title="class in goal.core.program.actions"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in goal.core.program.actions"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/LogAction.html" title="class in languageTools.program.agent.actions"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/actions/ModuleCallAction.html" title="class in languageTools.program.agent.actions"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/actions/MentalAction.html" target="_top">Frames</a></li>

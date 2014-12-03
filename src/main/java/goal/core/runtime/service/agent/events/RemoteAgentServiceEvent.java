@@ -1,6 +1,6 @@
 package goal.core.runtime.service.agent.events;
 
-import goal.core.agent.AgentId;
+import languageTools.program.agent.AgentId;
 
 /**
  * superclass for events from the AgentService

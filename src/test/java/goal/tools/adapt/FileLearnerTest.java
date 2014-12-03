@@ -4,16 +4,16 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import eis.iilang.Percept;
 import goal.core.agent.Agent;
-import goal.core.agent.AgentId;
+import languageTools.program.agent.AgentId;
 import goal.core.agent.EnvironmentCapabilities;
 import goal.core.agent.GOALInterpreter;
 import goal.core.agent.LoggingCapabilities;
 import goal.core.agent.MessagingCapabilities;
 import goal.core.agent.NoLoggingCapabilities;
 import goal.core.agent.NoMessagingCapabilities;
-import goal.core.kr.KRlanguage;
-import goal.core.program.GOALProgram;
-import goal.core.program.actions.UserSpecAction;
+import krTools.KRlanguage;
+import languageTools.program.agent.AgentProgram;
+import languageTools.program.agent.actions.UserSpecAction;
 import goal.tools.PlatformManager;
 import goal.tools.debugger.NOPDebugger;
 import goal.tools.logging.Loggers;
@@ -72,7 +72,7 @@ public class FileLearnerTest {
 		AgentId id = new AgentId("TestAgent");
 		language = SWIPrologLanguage.getInstance();
 		File file = new File("src/test/resources/goal/tools/adapt/adapt.goal");
-		GOALProgram program = PlatformManager.createNew().parseGOALFile(file,
+		AgentProgram program = PlatformManager.createNew().parseGOALFile(file,
 				language);
 		MessagingCapabilities messagingCapabilities = new NoMessagingCapabilities();
 		EnvironmentCapabilities environmentCapabilities = new DummyEnvironment();

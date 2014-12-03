@@ -1,7 +1,7 @@
 package goal.tools.unittest.testsection;
 
-import goal.core.kr.language.Substitution;
-import goal.core.program.GOALProgram;
+import krTools.language.Substitution;
+import languageTools.program.agent.AgentProgram;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.DebugObserver;
@@ -70,10 +70,10 @@ public class EvaluateIn implements TestSection {
 	 * @param boundary
 	 *            an optional boundary on the evaluation (until/while)
 	 * @param program
-	 *            the GOALProgram source
+	 *            the AgentProgram source
 	 */
 	public EvaluateIn(List<TestCondition> queries, DoActionSection action,
-			TestCondition boundary, GOALProgram program) {
+			TestCondition boundary, AgentProgram program) {
 		this.conditions = queries;
 		this.action = action;
 		this.boundary = boundary;

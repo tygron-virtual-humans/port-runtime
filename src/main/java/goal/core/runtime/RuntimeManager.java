@@ -20,7 +20,6 @@ package goal.core.runtime;
 
 import eis.exceptions.EnvironmentInterfaceException;
 import goal.core.agent.Agent;
-import goal.core.agent.AgentId;
 import goal.core.agent.GOALInterpreter;
 import goal.core.runtime.RuntimeEvent.EventType;
 import goal.core.runtime.events.DeadAgent;
@@ -49,7 +48,8 @@ import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
-import goal.tools.errorhandling.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRInitFailedException;
+import languageTools.program.agent.AgentId;
 import goal.tools.logging.InfoLog;
 import goal.util.DefaultObservable;
 import goal.util.Observable;

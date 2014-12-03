@@ -18,7 +18,7 @@
 
 package goal.tools.errorhandling.exceptions;
 
-import goal.parser.InputStreamPosition;
+import languageTools.parser.InputStreamPosition;
 import goal.tools.errorhandling.Warning;
 
 /**

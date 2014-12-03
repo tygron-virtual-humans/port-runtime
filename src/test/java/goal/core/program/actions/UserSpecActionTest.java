@@ -1,16 +1,16 @@
-package goal.core.program.actions;
+package languageTools.program.agent.actions;
 
 import static org.junit.Assert.assertEquals;
 import eis.iilang.ParameterList;
-import goal.core.kr.KRFactory;
-import goal.core.kr.KRlanguage;
-import goal.core.kr.language.Query;
-import goal.core.kr.language.Substitution;
-import goal.core.kr.language.Term;
-import goal.core.kr.language.Update;
-import goal.core.kr.language.Var;
-import goal.core.program.ActionSpecification;
-import goal.tools.errorhandling.exceptions.KRInitFailedException;
+import krTools.KRFactory;
+import krTools.KRlanguage;
+import krTools.language.Query;
+import krTools.language.Substitution;
+import krTools.language.Term;
+import krTools.language.Update;
+import krTools.language.Var;
+import languageTools.program.agent.ActionSpecification;
+import krTools.errors.exceptions.KRInitFailedException;
 
 import java.util.ArrayList;
 import java.util.List;

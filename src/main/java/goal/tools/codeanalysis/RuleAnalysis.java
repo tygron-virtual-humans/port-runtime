@@ -18,16 +18,16 @@
 
 package goal.tools.codeanalysis;
 
-import goal.core.program.Module;
-import goal.core.program.actions.Action;
-import goal.core.program.actions.ModuleCallAction;
-import goal.core.program.literals.AGoalLiteral;
-import goal.core.program.literals.BelLiteral;
-import goal.core.program.literals.GoalALiteral;
-import goal.core.program.literals.GoalLiteral;
-import goal.core.program.literals.MentalLiteral;
-import goal.core.program.literals.MentalStateCond;
-import goal.core.program.rules.Rule;
+import languageTools.program.agent.Module;
+import languageTools.program.agent.actions.Action;
+import languageTools.program.agent.actions.ModuleCallAction;
+import languageTools.program.agent.msc.AGoalLiteral;
+import languageTools.program.agent.msc.BelLiteral;
+import languageTools.program.agent.msc.GoalALiteral;
+import languageTools.program.agent.msc.GoalLiteral;
+import languageTools.program.agent.msc.MentalLiteral;
+import languageTools.program.agent.msc.MentalStateCondition;
+import languageTools.program.agent.rules.Rule;
 
 import java.util.Hashtable;
 
@@ -113,7 +113,7 @@ public class RuleAnalysis {
 	 * @param condition
 	 *            The mental state condition of the rule.
 	 */
-	private void analyzeCondition(MentalStateCond condition) {
+	private void analyzeCondition(MentalStateCondition condition) {
 		for (MentalLiteral mentalLiteral : condition.getLiterals()) {
 			if (mentalLiteral instanceof BelLiteral) {
 				belAtomCount++;

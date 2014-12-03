@@ -18,7 +18,7 @@
 
 package goal.core.mentalstate;
 
-import goal.core.kr.language.DatabaseFormula;
+import krTools.language.DatabaseFormula;
 
 import java.util.Collection;
 import java.util.HashSet;

@@ -20,10 +20,9 @@ package goal.tools.debugger;
 
 import eis.iilang.EnvironmentState;
 import goal.core.agent.Agent;
-import goal.core.agent.AgentId;
+import languageTools.parser.InputStreamPosition;
+import languageTools.program.agent.AgentId;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
-import goal.parser.IParsedObject;
-import goal.parser.InputStreamPosition;
 import goal.preferences.PMPreferences;
 import goal.tools.IDEGOALInterpreter;
 import goal.tools.LaunchManager;

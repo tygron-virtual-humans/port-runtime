@@ -99,7 +99,7 @@
 <pre>public class <span class="strong">Result</span>
 extends java.lang.Object</pre>
 <div class="block">Container for the results obtained by executing actions that is passed on to
- <a href="../../../../../goal/core/program/Module.html" title="class in goal.core.program"><code>Module</code></a>s, <a href="../../../../../goal/core/program/rules/RuleSet.html" title="class in goal.core.program.rules"><code>RuleSet</code></a>s, and <a href="../../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules"><code>Rule</code></a>s.
+ <a href="../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent"><code>Module</code></a>s, <a href="../../../../../goal/core/program/rules/RuleSet.html" title="class in languageTools.program.agent.rules"><code>RuleSet</code></a>s, and <a href="../../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules"><code>Rule</code></a>s.
 
  See, e.g.: <code>Module#run(goal.core.agent.Agent)</code> and
  <code>Rule#run(goal.core.agent.AgentInt)</code>.</div>
@@ -128,7 +128,7 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colOne"><code><strong><a href="../../../../../goal/core/runtime/service/agent/Result.html#Result(goal.core.program.actions.Action)">Result</a></strong>(<a href="../../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&nbsp;action)</code>
+<td class="colOne"><code><strong><a href="../../../../../goal/core/runtime/service/agent/Result.html#Result(languageTools.program.agent.actions.Action)">Result</a></strong>(<a href="../../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&nbsp;action)</code>
 <div class="block">Add action to the result so far.</div>
 </td>
 </tr>
@@ -148,7 +148,7 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>java.util.List&lt;<a href="../../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&gt;</code></td>
+<td class="colFirst"><code>java.util.List&lt;<a href="../../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/Result.html#getActions()">getActions</a></strong>()</code>
 <div class="block">Returns the list of actions that were executed.</div>
 </td>
@@ -156,15 +156,15 @@ extends java.lang.Object</pre>
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/Result.html#hasPerformedAction()">hasPerformedAction</a></strong>()</code>
-<div class="block">Reports whether actions other than <a href="../../../../../goal/core/program/actions/ExitModuleAction.html" title="class in goal.core.program.actions"><code>ExitModuleAction</code></a>,
- <a href="../../../../../goal/core/program/actions/ModuleCallAction.html" title="class in goal.core.program.actions"><code>ModuleCallAction</code></a>, and <a href="../../../../../goal/core/program/actions/LogAction.html" title="class in goal.core.program.actions"><code>LogAction</code></a> have been performed.</div>
+<div class="block">Reports whether actions other than <a href="../../../../../goal/core/program/actions/ExitModuleAction.html" title="class in languageTools.program.agent.actions"><code>ExitModuleAction</code></a>,
+ <a href="../../../../../goal/core/program/actions/ModuleCallAction.html" title="class in languageTools.program.agent.actions"><code>ModuleCallAction</code></a>, and <a href="../../../../../goal/core/program/actions/LogAction.html" title="class in languageTools.program.agent.actions"><code>LogAction</code></a> have been performed.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../../goal/core/runtime/service/agent/Result.html#isFinished()">isFinished</a></strong>()</code>
 <div class="block">Check if module is finished: Some action was performed or module has been
- terminated by <a href="../../../../../goal/core/program/actions/ExitModuleAction.html" title="class in goal.core.program.actions"><code>ExitModuleAction</code></a>.</div>
+ terminated by <a href="../../../../../goal/core/program/actions/ExitModuleAction.html" title="class in languageTools.program.agent.actions"><code>ExitModuleAction</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -225,13 +225,13 @@ extends java.lang.Object</pre>
 <div class="block">Creates default result.</div>
 </li>
 </ul>
-<a name="Result(goal.core.program.actions.Action)">
+<a name="Result(languageTools.program.agent.actions.Action)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Result</h4>
-<pre>public&nbsp;Result(<a href="../../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&nbsp;action)</pre>
+<pre>public&nbsp;Result(<a href="../../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&nbsp;action)</pre>
 <div class="block">Add action to the result so far. An action counts as a 'real' action and
  is added to the list of executed actions if it is different from a
  FocusAction, ExitModule, and LogAction. The first two only control the
@@ -255,7 +255,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getActions</h4>
-<pre>public&nbsp;java.util.List&lt;<a href="../../../../../goal/core/program/actions/Action.html" title="class in goal.core.program.actions">Action</a>&gt;&nbsp;getActions()</pre>
+<pre>public&nbsp;java.util.List&lt;<a href="../../../../../goal/core/program/actions/Action.html" title="class in languageTools.program.agent.actions">Action</a>&gt;&nbsp;getActions()</pre>
 <div class="block">Returns the list of actions that were executed.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>List of actions that were executed.</dd></dl>
 </li>
@@ -267,8 +267,8 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>hasPerformedAction</h4>
 <pre>public&nbsp;boolean&nbsp;hasPerformedAction()</pre>
-<div class="block">Reports whether actions other than <a href="../../../../../goal/core/program/actions/ExitModuleAction.html" title="class in goal.core.program.actions"><code>ExitModuleAction</code></a>,
- <a href="../../../../../goal/core/program/actions/ModuleCallAction.html" title="class in goal.core.program.actions"><code>ModuleCallAction</code></a>, and <a href="../../../../../goal/core/program/actions/LogAction.html" title="class in goal.core.program.actions"><code>LogAction</code></a> have been performed. The
+<div class="block">Reports whether actions other than <a href="../../../../../goal/core/program/actions/ExitModuleAction.html" title="class in languageTools.program.agent.actions"><code>ExitModuleAction</code></a>,
+ <a href="../../../../../goal/core/program/actions/ModuleCallAction.html" title="class in languageTools.program.agent.actions"><code>ModuleCallAction</code></a>, and <a href="../../../../../goal/core/program/actions/LogAction.html" title="class in languageTools.program.agent.actions"><code>LogAction</code></a> have been performed. The
  latter are filtered out when adding actions to the list of exeucted
  actions in <code>#add(Action)</code>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> if a 'real' action has been performed; <code>false</code>
@@ -286,8 +286,8 @@ extends java.lang.Object</pre>
  <code>#add(Action)</code> reported that action was performed and Action was
  not <code>null</code>.
  <p>
- Note that <a href="../../../../../goal/core/program/actions/ExitModuleAction.html" title="class in goal.core.program.actions"><code>ExitModuleAction</code></a>, <a href="../../../../../goal/core/program/actions/ModuleCallAction.html" title="class in goal.core.program.actions"><code>ModuleCallAction</code></a>, and
- <a href="../../../../../goal/core/program/actions/LogAction.html" title="class in goal.core.program.actions"><code>LogAction</code></a> ARE counted here as actions as well contrary to method
+ Note that <a href="../../../../../goal/core/program/actions/ExitModuleAction.html" title="class in languageTools.program.agent.actions"><code>ExitModuleAction</code></a>, <a href="../../../../../goal/core/program/actions/ModuleCallAction.html" title="class in languageTools.program.agent.actions"><code>ModuleCallAction</code></a>, and
+ <a href="../../../../../goal/core/program/actions/LogAction.html" title="class in languageTools.program.agent.actions"><code>LogAction</code></a> ARE counted here as actions as well contrary to method
  <a href="../../../../../goal/core/runtime/service/agent/Result.html#hasPerformedAction()"><code>hasPerformedAction()</code></a>.
  </p></div>
 <dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> if action has been performed; <code>false</code>
@@ -324,7 +324,7 @@ extends java.lang.Object</pre>
 <h4>isFinished</h4>
 <pre>public&nbsp;boolean&nbsp;isFinished()</pre>
 <div class="block">Check if module is finished: Some action was performed or module has been
- terminated by <a href="../../../../../goal/core/program/actions/ExitModuleAction.html" title="class in goal.core.program.actions"><code>ExitModuleAction</code></a>.</div>
+ terminated by <a href="../../../../../goal/core/program/actions/ExitModuleAction.html" title="class in languageTools.program.agent.actions"><code>ExitModuleAction</code></a>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>True if the module is finished</dd></dl>
 </li>
 </ul>

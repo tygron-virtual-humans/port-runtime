@@ -18,8 +18,6 @@
 
 package goal.tools.adapt;
 
-import goal.tools.mc.program.goal.GOALMentalStateConverter;
-
 import java.util.Hashtable;
 import java.util.Random;
 

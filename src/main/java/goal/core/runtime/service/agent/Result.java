@@ -17,13 +17,12 @@
  */
 package goal.core.runtime.service.agent;
 
-import goal.core.program.Module;
-import goal.core.program.actions.Action;
-import goal.core.program.actions.ExitModuleAction;
-import goal.core.program.actions.LogAction;
-import goal.core.program.actions.ModuleCallAction;
-import goal.core.program.rules.Rule;
-import goal.core.program.rules.RuleSet;
+import languageTools.program.agent.Module;
+import languageTools.program.agent.actions.Action;
+import languageTools.program.agent.actions.ExitModuleAction;
+import languageTools.program.agent.actions.LogAction;
+import languageTools.program.agent.actions.ModuleCallAction;
+import languageTools.program.agent.rules.Rule;
 
 import java.util.LinkedList;
 import java.util.List;

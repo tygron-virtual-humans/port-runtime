@@ -1,28 +1,25 @@
 package goal.tools.eclipse;
 
 import goal.core.agent.Agent;
-import goal.core.kr.language.Substitution;
-import goal.core.kr.language.Var;
+import krTools.language.Substitution;
+import krTools.language.Var;
 import goal.core.mentalstate.MentalState;
-import goal.core.program.ActionSpecification;
-import goal.core.program.NameSpace;
-import goal.core.program.actions.Action;
-import goal.core.program.actions.MentalAction;
-import goal.core.program.actions.UserSpecAction;
-import goal.core.program.actions.UserSpecOrModuleCall;
-import goal.core.program.literals.MentalStateCond;
-import goal.core.program.validation.ValidatorError;
-import goal.core.program.validation.agentfile.ActionValidator;
-import goal.parser.antlr.GOALLexer;
-import goal.parser.antlr.GOALParser;
-import goal.parser.goal.GOALWalker;
+import languageTools.errors.ValidatorError;
+import languageTools.parser.GOAL;
+import languageTools.parser.GOALLexer;
+import languageTools.program.agent.ActionSpecification;
+import languageTools.program.agent.actions.Action;
+import languageTools.program.agent.actions.MentalAction;
+import languageTools.program.agent.actions.UserSpecAction;
+import languageTools.program.agent.actions.UserSpecOrModuleCall;
+import languageTools.program.agent.msc.MentalStateCondition;
 import goal.tools.IDEGOALInterpreter;
 import goal.tools.debugger.SteppingDebugger;
 import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALException;
 import goal.tools.errorhandling.exceptions.GOALUserError;
-import goal.tools.errorhandling.exceptions.KRInitFailedException;
-import goal.tools.errorhandling.exceptions.ParserException;
+import krTools.errors.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.ParserException;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -41,7 +38,7 @@ public class QueryTool {
 	}
 
 	public String doquery(String userEnteredQuery) throws GOALUserError {
-		MentalStateCond mentalStateCondition;
+		MentalStateCondition mentalStateCondition;
 		try {
 			mentalStateCondition = parseMSC(userEnteredQuery);
 		} catch (Exception e) {
@@ -114,7 +111,7 @@ public class QueryTool {
 					new StringReader(pString));
 			GOALLexer lexer = new GOALLexer(charstream);
 			CommonTokenStream stream = new CommonTokenStream(lexer);
-			GOALParser parser = new GOALParser(stream);
+			GOAL parser = new GOAL(stream);
 			return new GOALWalker(null, parser, lexer, agent.getController()
 					.getProgram().getKRLanguage());
 		} catch (IOException e) {
@@ -135,9 +132,9 @@ public class QueryTool {
 	 * @throws ParserException
 	 *             DOC
 	 */
-	private MentalStateCond parseMSC(String mentalStateCondition)
+	private MentalStateCondition parseMSC(String mentalStateCondition)
 			throws GOALException, ParserException {
-		MentalStateCond msc;
+		MentalStateCondition msc;
 
 		// Try to parse the MSC.
 		GOALWalker walker = this.prepareGOALWalker(mentalStateCondition);

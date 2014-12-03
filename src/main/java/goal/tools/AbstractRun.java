@@ -4,8 +4,8 @@ import eis.exceptions.EnvironmentInterfaceException;
 import goal.core.agent.Agent;
 import goal.core.agent.AgentFactory;
 import goal.core.agent.GOALInterpreter;
-import goal.core.mas.LaunchRule;
-import goal.core.mas.MASProgram;
+import languageTools.program.mas.LaunchRule;
+import languageTools.program.mas.MASProgram;
 import goal.core.runtime.MessagingService;
 import goal.core.runtime.RemoteRuntimeService;
 import goal.core.runtime.RuntimeManager;
@@ -14,7 +14,6 @@ import goal.core.runtime.service.environment.EnvironmentService;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALCommandCancelledException;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
-import goal.tools.errorhandling.exceptions.GOALParseException;
 import goal.tools.logging.InfoLog;
 
 import java.util.Collection;

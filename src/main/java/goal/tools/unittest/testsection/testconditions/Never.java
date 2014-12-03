@@ -1,7 +1,7 @@
 package goal.tools.unittest.testsection.testconditions;
 
-import goal.core.kr.language.Substitution;
-import goal.core.program.literals.MentalStateCond;
+import krTools.language.Substitution;
+import languageTools.program.agent.msc.MentalStateCondition;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.DebugEvent;
 import goal.tools.debugger.ObservableDebugger;
@@ -25,7 +25,7 @@ public class Never extends TestCondition {
 	 * @param query
 	 *            mental state condition to test
 	 */
-	public Never(MentalStateCond query) {
+	public Never(MentalStateCondition query) {
 		super(query);
 	}
 

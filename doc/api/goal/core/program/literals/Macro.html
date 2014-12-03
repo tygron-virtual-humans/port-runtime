@@ -36,8 +36,8 @@
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/literals/GoalLiteral.html" title="class in goal.core.program.literals"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in goal.core.program.literals"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/literals/GoalLiteral.html" title="class in languageTools.program.agent.msc"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in languageTools.program.agent.msc"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/literals/Macro.html" target="_top">Frames</a></li>
@@ -79,7 +79,7 @@
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">goal.core.program.literals</div>
+<div class="subTitle">languageTools.program.agent.msc</div>
 <h2 title="Class Macro" class="title">Class Macro</h2>
 </div>
 <div class="contentContainer">
@@ -90,7 +90,7 @@
 <li><a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">goal.parser.ParsedObject</a></li>
 <li>
 <ul class="inheritance">
-<li>goal.core.program.literals.Macro</li>
+<li>languageTools.program.agent.msc.Macro</li>
 </ul>
 </li>
 </ul>
@@ -101,18 +101,18 @@
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in goal.core.program.literals">MentalFormula</a>, <a href="../../../../goal/parser/IParsedObject.html" title="interface in goal.parser">IParsedObject</a>, java.io.Serializable, java.lang.Comparable&lt;<a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">ParsedObject</a>&gt;</dd>
+<dd><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in languageTools.program.agent.msc">MentalFormula</a>, <a href="../../../../goal/parser/IParsedObject.html" title="interface in goal.parser">IParsedObject</a>, java.io.Serializable, java.lang.Comparable&lt;<a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">ParsedObject</a>&gt;</dd>
 </dl>
 <hr>
 <br>
 <pre>public class <span class="strong">Macro</span>
 extends <a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">ParsedObject</a>
-implements <a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in goal.core.program.literals">MentalFormula</a></pre>
+implements <a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in languageTools.program.agent.msc">MentalFormula</a></pre>
 <div class="block">A representation of a macro definition:<br>
  <code>    #define macroname(arglist) definition</code></div>
 <dl><dt><span class="strong">Author:</span></dt>
   <dd>N.Kraayenbrink</dd>
-<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#goal.core.program.literals.Macro">Serialized Form</a></dd></dl>
+<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#languageTools.program.agent.msc.Macro">Serialized Form</a></dd></dl>
 </li>
 </ul>
 </div>
@@ -131,9 +131,9 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="../../../../goal/core/program/literals/Macro.html#Macro(java.lang.String,%20java.util.List,%20goal.core.program.literals.MentalStateCond,%20goal.parser.InputStreamPosition)">Macro</a></strong>(java.lang.String&nbsp;name,
+<td class="colOne"><code><strong><a href="../../../../goal/core/program/literals/Macro.html#Macro(java.lang.String,%20java.util.List,%20languageTools.program.agent.msc.MentalStateCondition,%20goal.parser.InputStreamPosition)">Macro</a></strong>(java.lang.String&nbsp;name,
      java.util.List&lt;<a href="../../../../goal/core/kr/language/Term.html" title="interface in goal.core.kr.language">Term</a>&gt;&nbsp;parameters,
-     <a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a>&nbsp;definition,
+     <a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a>&nbsp;definition,
      <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</code>
 <div class="block">Creates a new macro definition.</div>
 </td>
@@ -154,7 +154,7 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals">Macro</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc">Macro</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/literals/Macro.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;subst)</code>
 <div class="block">Transforms this MentalAtom.</div>
 </td>
@@ -167,9 +167,9 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/literals/Macro.html#getDefinition()">getDefinition</a></strong>()</code>
-<div class="block">Returns the definition of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a>.</div>
+<div class="block">Returns the definition of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -179,19 +179,19 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <tr class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/literals/Macro.html#getName()">getName</a></strong>()</code>
-<div class="block">The name of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a>.</div>
+<div class="block">The name of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="../../../../goal/core/kr/language/Term.html" title="interface in goal.core.kr.language">Term</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/literals/Macro.html#getParameters()">getParameters</a></strong>()</code>
-<div class="block">Returns the parameters of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a>.</div>
+<div class="block">Returns the parameters of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/literals/Macro.html#getSignature()">getSignature</a></strong>()</code>
-<div class="block">Gets a string representing the signature of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a>.</div>
+<div class="block">Gets a string representing the signature of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -201,27 +201,27 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/literals/Macro.html#isUsed()">isUsed</a></strong>()</code>
-<div class="block">Returns whether this <a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a> is used in the corresponding agent
+<div class="block">Returns whether this <a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a> is used in the corresponding agent
  program.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/literals/Macro.html#markUsed()">markUsed</a></strong>()</code>
-<div class="block">Marks this <a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a> as used, see <a href="../../../../goal/core/program/validation/agentfile/RuleValidator.html#doValidate(goal.core.program.rules.Rule)"><code>RuleValidator.doValidate(goal.core.program.rules.Rule)</code></a>.</div>
+<div class="block">Marks this <a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a> as used, see <a href="../../../../goal/core/program/validation/agentfile/RuleValidator.html#doValidate(languageTools.program.agent.rules.Rule)"><code>RuleValidator.doValidate(languageTools.program.agent.rules.Rule)</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../goal/core/program/literals/Macro.html#setDefinition(goal.core.program.literals.Macro)">setDefinition</a></strong>(<a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals">Macro</a>&nbsp;macro)</code>
-<div class="block">Sets the definition of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a>, using the definition provided
+<td class="colLast"><code><strong><a href="../../../../goal/core/program/literals/Macro.html#setDefinition(languageTools.program.agent.msc.Macro)">setDefinition</a></strong>(<a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc">Macro</a>&nbsp;macro)</code>
+<div class="block">Sets the definition of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a>, using the definition provided
  by the parameter macro.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/literals/Macro.html#toShortString()">toShortString</a></strong>()</code>
-<div class="block">A string representation of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a> which consists only of the
+<div class="block">A string representation of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a> which consists only of the
  name and parameters of the macro.</div>
 </td>
 </tr>
@@ -258,7 +258,7 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="Macro(java.lang.String, java.util.List, goal.core.program.literals.MentalStateCond, goal.parser.InputStreamPosition)">
+<a name="Macro(java.lang.String, java.util.List, languageTools.program.agent.msc.MentalStateCondition, goal.parser.InputStreamPosition)">
 <!--   -->
 </a>
 <ul class="blockListLast">
@@ -266,14 +266,14 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <h4>Macro</h4>
 <pre>public&nbsp;Macro(java.lang.String&nbsp;name,
      java.util.List&lt;<a href="../../../../goal/core/kr/language/Term.html" title="interface in goal.core.kr.language">Term</a>&gt;&nbsp;parameters,
-     <a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a>&nbsp;definition,
+     <a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a>&nbsp;definition,
      <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</pre>
 <div class="block">Creates a new macro definition.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name/label of the macro</dd><dd><code>parameters</code> - The parameters of the macro (can be the empty list but not
-            null).</dd><dd><code>definition</code> - The <a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals"><code>MentalStateCond</code></a> the macro is a shorthand for. If
+            null).</dd><dd><code>definition</code> - The <a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc"><code>MentalStateCondition</code></a> the macro is a shorthand for. If
             null, this macro reference still needs to be resolved. See
-            <a href="../../../../goal/core/program/validation/agentfile/RuleValidator.html#doValidate(goal.core.program.rules.Rule)"><code>RuleValidator.doValidate(goal.core.program.rules.Rule)</code></a> of Should only be null for
-            macro instances.</dd><dd><code>source</code> - The location of the start of the new <a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a>'s
+            <a href="../../../../goal/core/program/validation/agentfile/RuleValidator.html#doValidate(languageTools.program.agent.rules.Rule)"><code>RuleValidator.doValidate(languageTools.program.agent.rules.Rule)</code></a> of Should only be null for
+            macro instances.</dd><dd><code>source</code> - The location of the start of the new <a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a>'s
             definition. May be null if not created by a parser.</dd></dl>
 </li>
 </ul>
@@ -292,7 +292,7 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <li class="blockList">
 <h4>getName</h4>
 <pre>public&nbsp;java.lang.String&nbsp;getName()</pre>
-<div class="block">The name of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a>.</div>
+<div class="block">The name of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The name of this macro.</dd></dl>
 </li>
 </ul>
@@ -303,7 +303,7 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <li class="blockList">
 <h4>getParameters</h4>
 <pre>public&nbsp;java.util.List&lt;<a href="../../../../goal/core/kr/language/Term.html" title="interface in goal.core.kr.language">Term</a>&gt;&nbsp;getParameters()</pre>
-<div class="block">Returns the parameters of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a>.</div>
+<div class="block">Returns the parameters of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The list of parameters of this macro.</dd></dl>
 </li>
 </ul>
@@ -313,20 +313,20 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>getDefinition</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a>&nbsp;getDefinition()</pre>
-<div class="block">Returns the definition of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a>.</div>
+<pre>public&nbsp;<a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a>&nbsp;getDefinition()</pre>
+<div class="block">Returns the definition of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The definition of this macro.</dd></dl>
 </li>
 </ul>
-<a name="setDefinition(goal.core.program.literals.Macro)">
+<a name="setDefinition(languageTools.program.agent.msc.Macro)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setDefinition</h4>
-<pre>public&nbsp;void&nbsp;setDefinition(<a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals">Macro</a>&nbsp;macro)
+<pre>public&nbsp;void&nbsp;setDefinition(<a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc">Macro</a>&nbsp;macro)
                    throws <a href="../../../../goal/tools/errorhandling/exceptions/GOALBug.html" title="class in goal.tools.errorhandling.exceptions">GOALBug</a></pre>
-<div class="block">Sets the definition of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a>, using the definition provided
+<div class="block">Sets the definition of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a>, using the definition provided
  by the parameter macro.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>macro</code> - The macro definition used to set the definition for this
             macro.</dd>
@@ -341,8 +341,8 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <li class="blockList">
 <h4>isUsed</h4>
 <pre>public&nbsp;boolean&nbsp;isUsed()</pre>
-<div class="block">Returns whether this <a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a> is used in the corresponding agent
- program. <a href="../../../../goal/core/program/validation/agentfile/RuleValidator.html" title="class in goal.core.program.validation.agentfile"><code>RuleValidator</code></a>s check whether a macro is actually used.</div>
+<div class="block">Returns whether this <a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a> is used in the corresponding agent
+ program. <a href="../../../../goal/core/program/validation/agentfile/RuleValidator.html" title="class in languageTools.program.agent.validation.agentfile"><code>RuleValidator</code></a>s check whether a macro is actually used.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> if the macro is used in the agent program;
          <code>false</code> otherwise.</dd></dl>
 </li>
@@ -354,7 +354,7 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <li class="blockList">
 <h4>markUsed</h4>
 <pre>public&nbsp;void&nbsp;markUsed()</pre>
-<div class="block">Marks this <a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a> as used, see <a href="../../../../goal/core/program/validation/agentfile/RuleValidator.html#doValidate(goal.core.program.rules.Rule)"><code>RuleValidator.doValidate(goal.core.program.rules.Rule)</code></a>.</div>
+<div class="block">Marks this <a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a> as used, see <a href="../../../../goal/core/program/validation/agentfile/RuleValidator.html#doValidate(languageTools.program.agent.rules.Rule)"><code>RuleValidator.doValidate(languageTools.program.agent.rules.Rule)</code></a>.</div>
 </li>
 </ul>
 <a name="applySubst(goal.core.kr.language.Substitution)">
@@ -363,12 +363,12 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>applySubst</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals">Macro</a>&nbsp;applySubst(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;subst)</pre>
+<pre>public&nbsp;<a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc">Macro</a>&nbsp;applySubst(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;subst)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../goal/core/program/literals/MentalFormula.html#applySubst(goal.core.kr.language.Substitution)">MentalFormula</a></code></strong></div>
 <div class="block">Transforms this MentalAtom.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/literals/MentalFormula.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in goal.core.program.literals">MentalFormula</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/literals/MentalFormula.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in languageTools.program.agent.msc">MentalFormula</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>subst</code> - The substitution to transform this atom with.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>The transformed version of this atom.</dd></dl>
 </li>
@@ -382,7 +382,7 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <pre>public&nbsp;java.util.Set&lt;<a href="../../../../goal/core/kr/language/Var.html" title="interface in goal.core.kr.language">Var</a>&gt;&nbsp;getFreeVar()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/literals/MentalFormula.html#getFreeVar()">getFreeVar</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in goal.core.program.literals">MentalFormula</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/literals/MentalFormula.html#getFreeVar()">getFreeVar</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in languageTools.program.agent.msc">MentalFormula</a></code></dd>
 <dt><span class="strong">Returns:</span></dt><dd>All free variables in this atom. When this atom is used in a
          query, these variables are bound.</dd></dl>
 </li>
@@ -424,7 +424,7 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <pre>public&nbsp;java.lang.String&nbsp;toString()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/literals/MentalFormula.html#toString()">toString</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in goal.core.program.literals">MentalFormula</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/literals/MentalFormula.html#toString()">toString</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in languageTools.program.agent.msc">MentalFormula</a></code></dd>
 <dt><strong>Overrides:</strong></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 </dl>
@@ -437,7 +437,7 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <li class="blockList">
 <h4>toShortString</h4>
 <pre>public&nbsp;java.lang.String&nbsp;toShortString()</pre>
-<div class="block">A string representation of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a> which consists only of the
+<div class="block">A string representation of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a> which consists only of the
  name and parameters of the macro.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>A string representation of the name and parameters of this macro.</dd></dl>
 </li>
@@ -449,7 +449,7 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <li class="blockList">
 <h4>getSignature</h4>
 <pre>public&nbsp;java.lang.String&nbsp;getSignature()</pre>
-<div class="block">Gets a string representing the signature of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a>.</div>
+<div class="block">Gets a string representing the signature of this <a href="../../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>A string of the format {macro name}/{number of parameters}</dd></dl>
 </li>
 </ul>
@@ -479,8 +479,8 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/literals/GoalLiteral.html" title="class in goal.core.program.literals"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in goal.core.program.literals"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/literals/GoalLiteral.html" title="class in languageTools.program.agent.msc"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in languageTools.program.agent.msc"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/literals/Macro.html" target="_top">Frames</a></li>

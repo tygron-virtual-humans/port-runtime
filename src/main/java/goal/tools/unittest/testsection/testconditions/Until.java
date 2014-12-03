@@ -1,7 +1,7 @@
 package goal.tools.unittest.testsection.testconditions;
 
-import goal.core.kr.language.Substitution;
-import goal.core.program.literals.MentalStateCond;
+import krTools.language.Substitution;
+import languageTools.program.agent.msc.MentalStateCondition;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.DebugEvent;
 import goal.tools.debugger.ObservableDebugger;
@@ -23,7 +23,7 @@ public class Until extends TestCondition {
 	 * @param query
 	 *            to evaluate
 	 */
-	public Until(MentalStateCond query) {
+	public Until(MentalStateCondition query) {
 		super(query);
 	}
 

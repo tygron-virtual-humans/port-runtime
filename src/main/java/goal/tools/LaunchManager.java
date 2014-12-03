@@ -1,8 +1,8 @@
 package goal.tools;
 
 import goal.core.agent.AgentFactory;
-import goal.core.mas.LaunchRule;
-import goal.core.mas.MASProgram;
+import languageTools.program.mas.LaunchRule;
+import languageTools.program.mas.MASProgram;
 import goal.core.runtime.MessagingService;
 import goal.core.runtime.RemoteRuntimeService;
 import goal.core.runtime.RuntimeManager;
@@ -12,7 +12,6 @@ import goal.preferences.PMPreferences;
 import goal.preferences.RunPreferences;
 import goal.tools.errorhandling.exceptions.GOALCommandCancelledException;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
-import goal.tools.errorhandling.exceptions.GOALParseException;
 import goal.tools.logging.InfoLog;
 
 import java.awt.Component;

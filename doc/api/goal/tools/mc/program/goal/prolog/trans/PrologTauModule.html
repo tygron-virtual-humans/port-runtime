@@ -139,7 +139,7 @@ extends <a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="../../../../../../../goal/tools/mc/program/goal/prolog/trans/PrologTauModule.html#PrologTauModule(goal.core.program.Module,%20java.util.Collection)">PrologTauModule</a></strong>(<a href="../../../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module,
+<td class="colOne"><code><strong><a href="../../../../../../../goal/tools/mc/program/goal/prolog/trans/PrologTauModule.html#PrologTauModule(languageTools.program.agent.Module,%20java.util.Collection)">PrologTauModule</a></strong>(<a href="../../../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module,
                java.util.Collection&lt;<a href="../../../../../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&gt;&nbsp;knowledge)</code>
 <div class="block">Constructs a transition module corresponding to the specified module.</div>
 </td>
@@ -174,7 +174,7 @@ extends <a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected <a href="../../../../../../../goal/tools/mc/program/goal/prolog/trans/PrologTauClass.html" title="class in goal.tools.mc.program.goal.prolog.trans">PrologTauClass</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../../../goal/tools/mc/program/goal/prolog/trans/PrologTauModule.html#createTransitionClass(goal.core.program.rules.Rule)">createTransitionClass</a></strong>(<a href="../../../../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules">Rule</a>&nbsp;rule)</code>
+<td class="colLast"><code><strong><a href="../../../../../../../goal/tools/mc/program/goal/prolog/trans/PrologTauModule.html#createTransitionClass(languageTools.program.agent.rules.Rule)">createTransitionClass</a></strong>(<a href="../../../../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules">Rule</a>&nbsp;rule)</code>
 <div class="block">Creates a transition class that fits this transition module, and that
  corresponds to the specified rule.</div>
 </td>
@@ -185,7 +185,7 @@ extends <a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;goal.tools.mc.program.goal.trans.<a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="class in goal.tools.mc.program.goal.trans">TauModule</a></h3>
-<code><a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#getActionOptions(goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger)">getActionOptions</a>, <a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#getClasses()">getClasses</a>, <a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#getDerives()">getDerives</a>, <a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#getRepository()">getRepository</a>, <a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#hideRule(goal.core.program.rules.Rule)">hideRule</a>, <a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#searchTauClass(goal.core.program.rules.Rule)">searchTauClass</a></code></li>
+<code><a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#getActionOptions(goal.core.mentalstate.MentalState,%20goal.tools.debugger.Debugger)">getActionOptions</a>, <a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#getClasses()">getClasses</a>, <a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#getDerives()">getDerives</a>, <a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#getRepository()">getRepository</a>, <a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#hideRule(languageTools.program.agent.rules.Rule)">hideRule</a>, <a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#searchTauClass(languageTools.program.agent.rules.Rule)">searchTauClass</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
@@ -208,13 +208,13 @@ extends <a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="PrologTauModule(goal.core.program.Module, java.util.Collection)">
+<a name="PrologTauModule(languageTools.program.agent.Module, java.util.Collection)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>PrologTauModule</h4>
-<pre>public&nbsp;PrologTauModule(<a href="../../../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module,
+<pre>public&nbsp;PrologTauModule(<a href="../../../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module,
                java.util.Collection&lt;<a href="../../../../../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&gt;&nbsp;knowledge)</pre>
 <div class="block">Constructs a transition module corresponding to the specified module.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>module</code> - - The module to which the transition module to be constructed
@@ -229,19 +229,19 @@ extends <a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="createTransitionClass(goal.core.program.rules.Rule)">
+<a name="createTransitionClass(languageTools.program.agent.rules.Rule)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>createTransitionClass</h4>
-<pre>protected&nbsp;<a href="../../../../../../../goal/tools/mc/program/goal/prolog/trans/PrologTauClass.html" title="class in goal.tools.mc.program.goal.prolog.trans">PrologTauClass</a>&nbsp;createTransitionClass(<a href="../../../../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules">Rule</a>&nbsp;rule)</pre>
-<div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#createTransitionClass(goal.core.program.rules.Rule)">TauModule</a></code></strong></div>
+<pre>protected&nbsp;<a href="../../../../../../../goal/tools/mc/program/goal/prolog/trans/PrologTauClass.html" title="class in goal.tools.mc.program.goal.prolog.trans">PrologTauClass</a>&nbsp;createTransitionClass(<a href="../../../../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules">Rule</a>&nbsp;rule)</pre>
+<div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#createTransitionClass(languageTools.program.agent.rules.Rule)">TauModule</a></code></strong></div>
 <div class="block">Creates a transition class that fits this transition module, and that
  corresponds to the specified rule.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#createTransitionClass(goal.core.program.rules.Rule)">createTransitionClass</a></code>&nbsp;in class&nbsp;<code><a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="class in goal.tools.mc.program.goal.trans">TauModule</a>&lt;swiprolog3.language.PrologTerm,<a href="../../../../../../../goal/tools/mc/program/goal/prolog/trans/PrologAtom.html" title="class in goal.tools.mc.program.goal.prolog.trans">PrologAtom</a>,swiprolog3.language.PrologUpdate&gt;</code></dd>
+<dd><code><a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#createTransitionClass(languageTools.program.agent.rules.Rule)">createTransitionClass</a></code>&nbsp;in class&nbsp;<code><a href="../../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="class in goal.tools.mc.program.goal.trans">TauModule</a>&lt;swiprolog3.language.PrologTerm,<a href="../../../../../../../goal/tools/mc/program/goal/prolog/trans/PrologAtom.html" title="class in goal.tools.mc.program.goal.prolog.trans">PrologAtom</a>,swiprolog3.language.PrologUpdate&gt;</code></dd>
 <dt><span class="strong">Returns:</span></dt><dd>The created transition class.</dd></dl>
 </li>
 </ul>

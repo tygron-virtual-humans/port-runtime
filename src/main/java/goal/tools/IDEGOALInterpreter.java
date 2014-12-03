@@ -2,12 +2,12 @@ package goal.tools;
 
 import eis.iilang.Percept;
 import goal.core.agent.GOALInterpreter;
-import goal.core.kr.language.DatabaseFormula;
-import goal.core.program.GOALProgram;
-import goal.core.program.actions.Action;
-import goal.core.program.actions.ActionCombo;
-import goal.core.program.actions.MentalAction;
-import goal.core.program.actions.UserSpecAction;
+import krTools.language.DatabaseFormula;
+import languageTools.program.agent.AgentProgram;
+import languageTools.program.agent.actions.Action;
+import languageTools.program.agent.actions.ActionCombo;
+import languageTools.program.agent.actions.MentalAction;
+import languageTools.program.agent.actions.UserSpecAction;
 import goal.core.runtime.service.agent.Result;
 import goal.tools.adapt.Learner;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class IDEGOALInterpreter extends GOALInterpreter<IDEDebugger> {
 
-	public IDEGOALInterpreter(GOALProgram program, IDEDebugger debugger,
+	public IDEGOALInterpreter(AgentProgram program, IDEDebugger debugger,
 			Learner learner) {
 		super(program, debugger, learner);
 	}

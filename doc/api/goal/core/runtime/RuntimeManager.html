@@ -215,7 +215,7 @@ implements <a href="../../../goal/util/Observable.html" title="interface in goal
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../goal/core/agent/Agent.html" title="class in goal.core.agent">Agent</a>&lt;<a href="../../../goal/core/runtime/RuntimeManager.html" title="type parameter in RuntimeManager">C</a>&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/runtime/RuntimeManager.html#getAgent(goal.core.agent.AgentId)">getAgent</a></strong>(<a href="../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id)</code>
+<td class="colLast"><code><strong><a href="../../../goal/core/runtime/RuntimeManager.html#getAgent(languageTools.program.agent.AgentId)">getAgent</a></strong>(<a href="../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id)</code>
 <div class="block">Returns the agent with the given <code>id</code>.</div>
 </td>
 </tr>
@@ -262,7 +262,7 @@ implements <a href="../../../goal/util/Observable.html" title="interface in goal
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/runtime/RuntimeManager.html#resetAgent(goal.core.agent.AgentId)">resetAgent</a></strong>(<a href="../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id)</code>
+<td class="colLast"><code><strong><a href="../../../goal/core/runtime/RuntimeManager.html#resetAgent(languageTools.program.agent.AgentId)">resetAgent</a></strong>(<a href="../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id)</code>
 <div class="block"><strong>Deprecated.</strong>&nbsp;
 <div class="block"><i>use <a href="../../../goal/core/agent/Agent.html#reset()"><code>Agent.reset()</code></a> instead</i></div>
 </div>
@@ -270,7 +270,7 @@ implements <a href="../../../goal/util/Observable.html" title="interface in goal
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/runtime/RuntimeManager.html#restartAgent(goal.core.agent.AgentId)">restartAgent</a></strong>(<a href="../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id)</code>
+<td class="colLast"><code><strong><a href="../../../goal/core/runtime/RuntimeManager.html#restartAgent(languageTools.program.agent.AgentId)">restartAgent</a></strong>(<a href="../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id)</code>
 <div class="block"><strong>Deprecated.</strong>&nbsp;
 <div class="block"><i>use <a href="../../../goal/core/agent/Agent.html#reset()"><code>Agent.reset()</code></a> instead</i></div>
 </div>
@@ -290,7 +290,7 @@ implements <a href="../../../goal/util/Observable.html" title="interface in goal
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/runtime/RuntimeManager.html#stopAgent(goal.core.agent.AgentId)">stopAgent</a></strong>(<a href="../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id)</code>
+<td class="colLast"><code><strong><a href="../../../goal/core/runtime/RuntimeManager.html#stopAgent(languageTools.program.agent.AgentId)">stopAgent</a></strong>(<a href="../../../goal/core/agent/AgentId.html" title="class in goal.core.agent">AgentId</a>&nbsp;id)</code>
 <div class="block">Stops agent with the given <code>id</code>.</div>
 </td>
 </tr>
@@ -378,7 +378,7 @@ implements <a href="../../../goal/util/Observable.html" title="interface in goal
 <dd><code>java.lang.InterruptedException</code> - DOC</dd></dl>
 </li>
 </ul>
-<a name="getAgent(goal.core.agent.AgentId)">
+<a name="getAgent(languageTools.program.agent.AgentId)">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -447,7 +447,7 @@ implements <a href="../../../goal/util/Observable.html" title="interface in goal
 <dl><dt><span class="strong">Returns:</span></dt><dd>a list of available environments.</dd></dl>
 </li>
 </ul>
-<a name="resetAgent(goal.core.agent.AgentId)">
+<a name="resetAgent(languageTools.program.agent.AgentId)">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -460,7 +460,7 @@ public&nbsp;void&nbsp;resetAgent(<a href="../../../goal/core/agent/AgentId.html"
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>id</code> - of agent to reset</dd></dl>
 </li>
 </ul>
-<a name="restartAgent(goal.core.agent.AgentId)">
+<a name="restartAgent(languageTools.program.agent.AgentId)">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -498,7 +498,7 @@ public&nbsp;void&nbsp;restartAgent(<a href="../../../goal/core/agent/AgentId.htm
 <dd><code>eis.exceptions.EnvironmentInterfaceException</code> - when the environment could not be started.</dd></dl>
 </li>
 </ul>
-<a name="stopAgent(goal.core.agent.AgentId)">
+<a name="stopAgent(languageTools.program.agent.AgentId)">
 <!--   -->
 </a>
 <ul class="blockList">

@@ -4,7 +4,6 @@ import eis.iilang.EnvironmentState;
 import goal.core.agent.Agent;
 import goal.core.runtime.RuntimeManager;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
-import goal.parser.IParsedObject;
 import goal.preferences.LoggingPreferences;
 import goal.tools.BreakpointManager;
 import goal.tools.IDEDebugger;

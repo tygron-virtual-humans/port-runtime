@@ -134,7 +134,7 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected <a href="../../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a></code></td>
+<td class="colFirst"><code>protected <a href="../../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#module">module</a></strong></code>
 <div class="block">The module corresponding to this transition module.</div>
 </td>
@@ -166,7 +166,7 @@ extends java.lang.Object</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#TauModule(goal.core.program.Module,%20java.util.Collection)">TauModule</a></strong>(<a href="../../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module,
+<td class="colOne"><code><strong><a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#TauModule(languageTools.program.agent.Module,%20java.util.Collection)">TauModule</a></strong>(<a href="../../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module,
          java.util.Collection&lt;<a href="../../../../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&gt;&nbsp;knowledge)</code>
 <div class="block">Constructs a transition module corresponding to the specified module.</div>
 </td>
@@ -201,7 +201,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected abstract <a href="../../../../../../goal/tools/mc/program/goal/trans/TauClass.html" title="class in goal.tools.mc.program.goal.trans">TauClass</a>&lt;<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="type parameter in TauModule">T</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="type parameter in TauModule">A</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="type parameter in TauModule">U</a>&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#createTransitionClass(goal.core.program.rules.Rule)">createTransitionClass</a></strong>(<a href="../../../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules">Rule</a>&nbsp;rule)</code>
+<td class="colLast"><code><strong><a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#createTransitionClass(languageTools.program.agent.rules.Rule)">createTransitionClass</a></strong>(<a href="../../../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules">Rule</a>&nbsp;rule)</code>
 <div class="block">Creates a transition class that fits this transition module, and that
  corresponds to the specified rule.</div>
 </td>
@@ -233,14 +233,14 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#hideRule(goal.core.program.rules.Rule)">hideRule</a></strong>(<a href="../../../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules">Rule</a>&nbsp;rule)</code>
+<td class="colLast"><code><strong><a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#hideRule(languageTools.program.agent.rules.Rule)">hideRule</a></strong>(<a href="../../../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules">Rule</a>&nbsp;rule)</code>
 <div class="block">Hides a rule from the program section of the module corresponding to this
  transition module such that it is no longer checked for applicability.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../../goal/tools/mc/program/goal/trans/TauClass.html" title="class in goal.tools.mc.program.goal.trans">TauClass</a>&lt;<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="type parameter in TauModule">T</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="type parameter in TauModule">A</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="type parameter in TauModule">U</a>&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#searchTauClass(goal.core.program.rules.Rule)">searchTauClass</a></strong>(<a href="../../../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules">Rule</a>&nbsp;rule)</code>
+<td class="colLast"><code><strong><a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html#searchTauClass(languageTools.program.agent.rules.Rule)">searchTauClass</a></strong>(<a href="../../../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules">Rule</a>&nbsp;rule)</code>
 <div class="block">Search the transition class corresponding to the specified rule.</div>
 </td>
 </tr>
@@ -282,7 +282,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>module</h4>
-<pre>protected&nbsp;<a href="../../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a> module</pre>
+<pre>protected&nbsp;<a href="../../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a> module</pre>
 <div class="block">The module corresponding to this transition module.</div>
 </li>
 </ul>
@@ -314,13 +314,13 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="TauModule(goal.core.program.Module, java.util.Collection)">
+<a name="TauModule(languageTools.program.agent.Module, java.util.Collection)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>TauModule</h4>
-<pre>public&nbsp;TauModule(<a href="../../../../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module,
+<pre>public&nbsp;TauModule(<a href="../../../../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module,
          java.util.Collection&lt;<a href="../../../../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&gt;&nbsp;knowledge)</pre>
 <div class="block">Constructs a transition module corresponding to the specified module.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>module</code> - - The module to which the transition module to be constructed
@@ -335,13 +335,13 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="createTransitionClass(goal.core.program.rules.Rule)">
+<a name="createTransitionClass(languageTools.program.agent.rules.Rule)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>createTransitionClass</h4>
-<pre>protected abstract&nbsp;<a href="../../../../../../goal/tools/mc/program/goal/trans/TauClass.html" title="class in goal.tools.mc.program.goal.trans">TauClass</a>&lt;<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="type parameter in TauModule">T</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="type parameter in TauModule">A</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="type parameter in TauModule">U</a>&gt;&nbsp;createTransitionClass(<a href="../../../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules">Rule</a>&nbsp;rule)</pre>
+<pre>protected abstract&nbsp;<a href="../../../../../../goal/tools/mc/program/goal/trans/TauClass.html" title="class in goal.tools.mc.program.goal.trans">TauClass</a>&lt;<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="type parameter in TauModule">T</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="type parameter in TauModule">A</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="type parameter in TauModule">U</a>&gt;&nbsp;createTransitionClass(<a href="../../../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules">Rule</a>&nbsp;rule)</pre>
 <div class="block">Creates a transition class that fits this transition module, and that
  corresponds to the specified rule.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The created transition class.</dd></dl>
@@ -420,25 +420,25 @@ extends java.lang.Object</pre>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The goal respository associated with this transition module.</dd></dl>
 </li>
 </ul>
-<a name="hideRule(goal.core.program.rules.Rule)">
+<a name="hideRule(languageTools.program.agent.rules.Rule)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>hideRule</h4>
-<pre>public&nbsp;void&nbsp;hideRule(<a href="../../../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules">Rule</a>&nbsp;rule)</pre>
+<pre>public&nbsp;void&nbsp;hideRule(<a href="../../../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules">Rule</a>&nbsp;rule)</pre>
 <div class="block">Hides a rule from the program section of the module corresponding to this
  transition module such that it is no longer checked for applicability.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>rule</code> - - The rule to be hided.</dd></dl>
 </li>
 </ul>
-<a name="searchTauClass(goal.core.program.rules.Rule)">
+<a name="searchTauClass(languageTools.program.agent.rules.Rule)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>searchTauClass</h4>
-<pre>public&nbsp;<a href="../../../../../../goal/tools/mc/program/goal/trans/TauClass.html" title="class in goal.tools.mc.program.goal.trans">TauClass</a>&lt;<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="type parameter in TauModule">T</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="type parameter in TauModule">A</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="type parameter in TauModule">U</a>&gt;&nbsp;searchTauClass(<a href="../../../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules">Rule</a>&nbsp;rule)</pre>
+<pre>public&nbsp;<a href="../../../../../../goal/tools/mc/program/goal/trans/TauClass.html" title="class in goal.tools.mc.program.goal.trans">TauClass</a>&lt;<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="type parameter in TauModule">T</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="type parameter in TauModule">A</a>,<a href="../../../../../../goal/tools/mc/program/goal/trans/TauModule.html" title="type parameter in TauModule">U</a>&gt;&nbsp;searchTauClass(<a href="../../../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules">Rule</a>&nbsp;rule)</pre>
 <div class="block">Search the transition class corresponding to the specified rule.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>rule</code> - - The rule whose corresponding transition class is to be
             sought.</dd>

@@ -1,13 +1,13 @@
 package goal.core.performance;
 
-import goal.core.agent.AgentId;
-import goal.core.kr.language.DatabaseFormula;
+import languageTools.program.agent.AgentId;
+import krTools.language.DatabaseFormula;
 import goal.core.mentalstate.BASETYPE;
 import goal.core.mentalstate.BeliefBase;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
-import goal.tools.errorhandling.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRInitFailedException;
 
 import java.lang.management.ManagementFactory;
 import java.util.HashSet;

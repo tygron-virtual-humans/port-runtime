@@ -1,6 +1,6 @@
 package goal.tools.unittest.result.testsection;
 
-import goal.core.program.actions.ActionCombo;
+import languageTools.program.agent.actions.ActionCombo;
 import goal.core.runtime.service.agent.Result;
 import goal.tools.unittest.result.ResultFormatter;
 import goal.tools.unittest.testsection.DoActionSection;

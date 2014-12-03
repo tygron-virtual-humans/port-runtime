@@ -36,8 +36,8 @@
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/rules/ForallDoRule.html" title="class in goal.core.program.rules"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/rules/ListallDoRule.html" title="class in goal.core.program.rules"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/rules/ForallDoRule.html" title="class in languageTools.program.agent.rules"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/rules/ListallDoRule.html" title="class in languageTools.program.agent.rules"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/rules/IfThenRule.html" target="_top">Frames</a></li>
@@ -79,7 +79,7 @@
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">goal.core.program.rules</div>
+<div class="subTitle">languageTools.program.agent.rules</div>
 <h2 title="Class IfThenRule" class="title">Class IfThenRule</h2>
 </div>
 <div class="contentContainer">
@@ -90,10 +90,10 @@
 <li><a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">goal.parser.ParsedObject</a></li>
 <li>
 <ul class="inheritance">
-<li><a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules">goal.core.program.rules.Rule</a></li>
+<li><a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules">languageTools.program.agent.rules.Rule</a></li>
 <li>
 <ul class="inheritance">
-<li>goal.core.program.rules.IfThenRule</li>
+<li>languageTools.program.agent.rules.IfThenRule</li>
 </ul>
 </li>
 </ul>
@@ -111,16 +111,16 @@
 <hr>
 <br>
 <pre>public class <span class="strong">IfThenRule</span>
-extends <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules">Rule</a></pre>
+extends <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules">Rule</a></pre>
 <div class="block"><p>
  A rule of the form:<br>
  <code>&nbsp;&nbsp;&nbsp;&nbsp;if CONDITION then RESULT</code><br>
  <br>
- Where <code>CONDITION</code> is a <a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals"><code>MentalStateCond</code></a>, and
- <code>RESULT</code> an <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a>.
+ Where <code>CONDITION</code> is a <a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc"><code>MentalStateCondition</code></a>, and
+ <code>RESULT</code> an <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a>.
  </p>
  <p>
- When evaluated in a <a href="../../../../goal/core/program/rules/RuleSet.html" title="class in goal.core.program.rules"><code>RuleSet</code></a>, of all possible <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a>s
+ When evaluated in a <a href="../../../../goal/core/program/rules/RuleSet.html" title="class in languageTools.program.agent.rules"><code>RuleSet</code></a>, of all possible <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a>s
  that make the rule valid, only one may be executed.<br>
  This type of rule can be located in any <code>program{}</code>-section of any
  module in a GOAL agent, as well as in the <code>perceptrules{}</code>
@@ -128,7 +128,7 @@ extends <a href="../../../../goal/core/program/rules/Rule.html" title="class in 
  </p></div>
 <dl><dt><span class="strong">Author:</span></dt>
   <dd>K.Hindriks</dd>
-<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#goal.core.program.rules.IfThenRule">Serialized Form</a></dd></dl>
+<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#languageTools.program.agent.rules.IfThenRule">Serialized Form</a></dd></dl>
 </li>
 </ul>
 </div>
@@ -147,10 +147,10 @@ extends <a href="../../../../goal/core/program/rules/Rule.html" title="class in 
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="../../../../goal/core/program/rules/IfThenRule.html#IfThenRule(goal.core.program.literals.MentalStateCond,%20goal.core.program.actions.ActionCombo,%20goal.parser.InputStreamPosition)">IfThenRule</a></strong>(<a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a>&nbsp;condition,
-          <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions">ActionCombo</a>&nbsp;action,
+<td class="colOne"><code><strong><a href="../../../../goal/core/program/rules/IfThenRule.html#IfThenRule(languageTools.program.agent.msc.MentalStateCondition,%20languageTools.program.agent.actions.ActionCombo,%20goal.parser.InputStreamPosition)">IfThenRule</a></strong>(<a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a>&nbsp;condition,
+          <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions">ActionCombo</a>&nbsp;action,
           <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</code>
-<div class="block">Creates a new <a href="../../../../goal/core/program/rules/IfThenRule.html" title="class in goal.core.program.rules"><code>IfThenRule</code></a> from a condition and a result.</div>
+<div class="block">Creates a new <a href="../../../../goal/core/program/rules/IfThenRule.html" title="class in languageTools.program.agent.rules"><code>IfThenRule</code></a> from a condition and a result.</div>
 </td>
 </tr>
 </table>
@@ -179,9 +179,9 @@ extends <a href="../../../../goal/core/program/rules/Rule.html" title="class in 
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/rules/IfThenRule.html" title="class in goal.core.program.rules">IfThenRule</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/rules/IfThenRule.html" title="class in languageTools.program.agent.rules">IfThenRule</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/rules/IfThenRule.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</code>
-<div class="block">Applies the given <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules"><code>Rule</code></a>.</div>
+<div class="block">Applies the given <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules"><code>Rule</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -200,11 +200,11 @@ extends <a href="../../../../goal/core/program/rules/Rule.html" title="class in 
 </tr>
 </table>
 <ul class="blockList">
-<li class="blockList"><a name="methods_inherited_from_class_goal.core.program.rules.Rule">
+<li class="blockList"><a name="methods_inherited_from_class_languageTools.program.agent.rules.Rule">
 <!--   -->
 </a>
-<h3>Methods inherited from class&nbsp;goal.core.program.rules.<a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules">Rule</a></h3>
-<code><a href="../../../../goal/core/program/rules/Rule.html#getAction()">getAction</a>, <a href="../../../../goal/core/program/rules/Rule.html#getBoundVar()">getBoundVar</a>, <a href="../../../../goal/core/program/rules/Rule.html#getCondition()">getCondition</a>, <a href="../../../../goal/core/program/rules/Rule.html#isRuleSinglegoal()">isRuleSinglegoal</a>, <a href="../../../../goal/core/program/rules/Rule.html#run(goal.core.runtime.service.agent.RunState,%20goal.core.kr.language.Substitution)">run</a>, <a href="../../../../goal/core/program/rules/Rule.html#setAction(goal.core.program.actions.ActionCombo)">setAction</a>, <a href="../../../../goal/core/program/rules/Rule.html#setPreCompiledQuery(goal.core.kr.language.CompiledQuery)">setPreCompiledQuery</a>, <a href="../../../../goal/core/program/rules/Rule.html#toString()">toString</a></code></li>
+<h3>Methods inherited from class&nbsp;languageTools.program.agent.rules.<a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules">Rule</a></h3>
+<code><a href="../../../../goal/core/program/rules/Rule.html#getAction()">getAction</a>, <a href="../../../../goal/core/program/rules/Rule.html#getBoundVar()">getBoundVar</a>, <a href="../../../../goal/core/program/rules/Rule.html#getCondition()">getCondition</a>, <a href="../../../../goal/core/program/rules/Rule.html#isRuleSinglegoal()">isRuleSinglegoal</a>, <a href="../../../../goal/core/program/rules/Rule.html#run(goal.core.runtime.service.agent.RunState,%20goal.core.kr.language.Substitution)">run</a>, <a href="../../../../goal/core/program/rules/Rule.html#setAction(languageTools.program.agent.actions.ActionCombo)">setAction</a>, <a href="../../../../goal/core/program/rules/Rule.html#setPreCompiledQuery(goal.core.kr.language.CompiledQuery)">setPreCompiledQuery</a>, <a href="../../../../goal/core/program/rules/Rule.html#toString()">toString</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods_inherited_from_class_goal.parser.ParsedObject">
@@ -234,20 +234,20 @@ extends <a href="../../../../goal/core/program/rules/Rule.html" title="class in 
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="IfThenRule(goal.core.program.literals.MentalStateCond, goal.core.program.actions.ActionCombo, goal.parser.InputStreamPosition)">
+<a name="IfThenRule(languageTools.program.agent.msc.MentalStateCondition, languageTools.program.agent.actions.ActionCombo, goal.parser.InputStreamPosition)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>IfThenRule</h4>
-<pre>public&nbsp;IfThenRule(<a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals">MentalStateCond</a>&nbsp;condition,
-          <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions">ActionCombo</a>&nbsp;action,
+<pre>public&nbsp;IfThenRule(<a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc">MentalStateCondition</a>&nbsp;condition,
+          <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions">ActionCombo</a>&nbsp;action,
           <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</pre>
-<div class="block">Creates a new <a href="../../../../goal/core/program/rules/IfThenRule.html" title="class in goal.core.program.rules"><code>IfThenRule</code></a> from a condition and a result.</div>
+<div class="block">Creates a new <a href="../../../../goal/core/program/rules/IfThenRule.html" title="class in languageTools.program.agent.rules"><code>IfThenRule</code></a> from a condition and a result.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>condition</code> - The condition of the new rule. The result will never happen if
             this condition is not satisfied.</dd><dd><code>action</code> - The result of the new rule. If there is a <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a>
             that makes the condition <code>true</code> and this a valid
-            <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in goal.core.program.actions"><code>ActionCombo</code></a>, it may be considered for execution.</dd><dd><code>source</code> - From where in the stream the new <a href="../../../../goal/core/program/rules/IfThenRule.html" title="class in goal.core.program.rules"><code>IfThenRule</code></a> was read.
+            <a href="../../../../goal/core/program/actions/ActionCombo.html" title="class in languageTools.program.agent.actions"><code>ActionCombo</code></a>, it may be considered for execution.</dd><dd><code>source</code> - From where in the stream the new <a href="../../../../goal/core/program/rules/IfThenRule.html" title="class in languageTools.program.agent.rules"><code>IfThenRule</code></a> was read.
             May be <code>null</code> if the rule is not created by a parser.</dd></dl>
 </li>
 </ul>
@@ -265,9 +265,9 @@ extends <a href="../../../../goal/core/program/rules/Rule.html" title="class in 
 <ul class="blockList">
 <li class="blockList">
 <h4>applySubst</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/rules/IfThenRule.html" title="class in goal.core.program.rules">IfThenRule</a>&nbsp;applySubst(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</pre>
+<pre>public&nbsp;<a href="../../../../goal/core/program/rules/IfThenRule.html" title="class in languageTools.program.agent.rules">IfThenRule</a>&nbsp;applySubst(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;substitution)</pre>
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../goal/core/program/rules/Rule.html#applySubst(goal.core.kr.language.Substitution)">Rule</a></code></strong></div>
-<div class="block">Applies the given <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules"><code>Rule</code></a>.</div>
+<div class="block">Applies the given <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> to this <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules"><code>Rule</code></a>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The instantiated rule where free variables bound by the
          substitution have been replaced by ground terms.</dd></dl>
 </li>
@@ -287,13 +287,13 @@ extends <a href="../../../../goal/core/program/rules/Rule.html" title="class in 
  condition of the rule.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/rules/Rule.html#apply(goal.core.runtime.service.agent.RunState,%20java.util.Set,%20java.util.HashMap,%20goal.core.kr.language.Substitution)">apply</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules">Rule</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/rules/Rule.html#apply(goal.core.runtime.service.agent.RunState,%20java.util.Set,%20java.util.HashMap,%20goal.core.kr.language.Substitution)">apply</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules">Rule</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>runState</code> - the current run-state of the agent.</dd><dd><code>substset</code> - Set of substitutions that satisfy the condition of this rule.</dd><dd><code>substGoalLinks</code> - A set of links between <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a>s and lists of
             <a href="../../../../goal/core/mentalstate/SingleGoal.html" title="class in goal.core.mentalstate"><code>SingleGoal</code></a>s that validate the context of the target
             module with the given <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a>. Is something (not
             null) only if <a href="../../../../goal/core/program/rules/Rule.html#isRuleSinglegoal()"><code>Rule.isRuleSinglegoal()</code></a>.</dd><dd><code>globaSubstitution</code> - the <a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language"><code>Substitution</code></a> that holds at the rule's general
             level - the module level. This is the substi before we applied
-            the condition. Needed in <a href="../../../../goal/core/program/rules/ListallDoRule.html" title="class in goal.core.program.rules"><code>ListallDoRule</code></a>.</dd>
+            the condition. Needed in <a href="../../../../goal/core/program/rules/ListallDoRule.html" title="class in languageTools.program.agent.rules"><code>ListallDoRule</code></a>.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>Result.</dd></dl>
 </li>
 </ul>
@@ -307,11 +307,11 @@ extends <a href="../../../../goal/core/program/rules/Rule.html" title="class in 
 <div class="block"><strong>Description copied from class:&nbsp;<code><a href="../../../../goal/core/program/rules/Rule.html#toString(java.lang.String)">Rule</a></code></strong></div>
 <div class="block">Generalization of <a href="../../../../goal/core/program/rules/Rule.html#toString()"><code>Rule.toString()</code></a>, allowing the returned string
  to be indented at various levels. Rules are printed including the
- trailing '.', and rules representing <a href="../../../../goal/core/program/Module.html" title="class in goal.core.program"><code>Module</code></a>s are printed as a
+ trailing '.', and rules representing <a href="../../../../goal/core/program/Module.html" title="class in languageTools.program.agent"><code>Module</code></a>s are printed as a
  module.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/rules/Rule.html#toString(java.lang.String)">toString</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules">Rule</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/rules/Rule.html#toString(java.lang.String)">toString</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules">Rule</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>linePrefix</code> - What to prefix every line with</dd>
 <dt><span class="strong">Returns:</span></dt><dd>A string-representation of this action rule, or the
          string-representation of the module this action rule represents.</dd></dl>
@@ -333,8 +333,8 @@ extends <a href="../../../../goal/core/program/rules/Rule.html" title="class in 
  rule's target Module that is returned by <a href="../../../../goal/core/program/rules/Rule.html#toString()"><code>Rule.toString()</code></a>.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/rules/Rule.html#toRuleString()">toRuleString</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules">Rule</a></code></dd>
-<dt><span class="strong">Returns:</span></dt><dd>A one-line String representation of this <a href="../../../../goal/core/program/rules/Rule.html" title="class in goal.core.program.rules"><code>Rule</code></a>. Should be
+<dd><code><a href="../../../../goal/core/program/rules/Rule.html#toRuleString()">toRuleString</a></code>&nbsp;in class&nbsp;<code><a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules">Rule</a></code></dd>
+<dt><span class="strong">Returns:</span></dt><dd>A one-line String representation of this <a href="../../../../goal/core/program/rules/Rule.html" title="class in languageTools.program.agent.rules"><code>Rule</code></a>. Should be
          the result of either <code>#toIfThenString()</code> or
          <code>#toForallDoString()</code>.</dd></dl>
 </li>
@@ -365,8 +365,8 @@ extends <a href="../../../../goal/core/program/rules/Rule.html" title="class in 
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/rules/ForallDoRule.html" title="class in goal.core.program.rules"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/rules/ListallDoRule.html" title="class in goal.core.program.rules"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/rules/ForallDoRule.html" title="class in languageTools.program.agent.rules"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/rules/ListallDoRule.html" title="class in languageTools.program.agent.rules"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/rules/IfThenRule.html" target="_top">Frames</a></li>

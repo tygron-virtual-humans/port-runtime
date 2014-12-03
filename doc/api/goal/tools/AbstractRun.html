@@ -103,7 +103,7 @@
 <br>
 <pre>public abstract class <span class="strong">AbstractRun&lt;D extends <a href="../../goal/tools/debugger/Debugger.html" title="interface in goal.tools.debugger">Debugger</a>,C extends <a href="../../goal/core/agent/GOALInterpreter.html" title="class in goal.core.agent">GOALInterpreter</a>&lt;D&gt;&gt;</span>
 extends java.lang.Object</pre>
-<div class="block">Abstract run can be used to run a <a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas"><code>MASProgram</code></a>. The run will setup the
+<div class="block">Abstract run can be used to run a <a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas"><code>MASProgram</code></a>. The run will setup the
  environment, launch the agents. When all agents have terminated the
  environment will be terminated as well. It is also possible to terminate the
  mas after a certain duration.
@@ -160,7 +160,7 @@ extends java.lang.Object</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="../../goal/tools/AbstractRun.html#AbstractRun(goal.core.mas.MASProgram)">AbstractRun</a></strong>(<a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas">MASProgram</a>&nbsp;program)</code>
+<td class="colOne"><code><strong><a href="../../goal/tools/AbstractRun.html#AbstractRun(languageTools.program.mas.MASProgram)">AbstractRun</a></strong>(<a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas">MASProgram</a>&nbsp;program)</code>
 <div class="block">Constructs a new abstract run of the MASProgram.</div>
 </td>
 </tr>
@@ -193,7 +193,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected <a href="../../goal/core/runtime/RuntimeManager.html" title="class in goal.core.runtime">RuntimeManager</a>&lt;<a href="../../goal/tools/AbstractRun.html" title="type parameter in AbstractRun">D</a>,<a href="../../goal/tools/AbstractRun.html" title="type parameter in AbstractRun">C</a>&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../goal/tools/AbstractRun.html#buildRuntime(goal.core.mas.MASProgram)">buildRuntime</a></strong>(<a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas">MASProgram</a>&nbsp;program)</code>
+<td class="colLast"><code><strong><a href="../../goal/tools/AbstractRun.html#buildRuntime(languageTools.program.mas.MASProgram)">buildRuntime</a></strong>(<a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas">MASProgram</a>&nbsp;program)</code>
 <div class="block">Builds the <a href="../../goal/core/runtime/RuntimeManager.html" title="class in goal.core.runtime"><code>RuntimeManager</code></a> that will be used to run the
  MASProgram.</div>
 </td>
@@ -214,7 +214,7 @@ extends java.lang.Object</pre>
 <tr class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../goal/tools/AbstractRun.html#isDebugerOutput()">isDebugerOutput</a></strong>()</code>
-<div class="block">Returns true if the <a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas"><code>MASProgram</code></a> will be started with a logging
+<div class="block">Returns true if the <a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas"><code>MASProgram</code></a> will be started with a logging
  debugger.</div>
 </td>
 </tr>
@@ -227,7 +227,7 @@ extends java.lang.Object</pre>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../goal/tools/AbstractRun.html#setDebuggerOutput(boolean)">setDebuggerOutput</a></strong>(boolean&nbsp;debuggerOutput)</code>
-<div class="block">Set to true to start the <a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas"><code>MASProgram</code></a> with a logging debugger.</div>
+<div class="block">Set to true to start the <a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas"><code>MASProgram</code></a> with a logging debugger.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -303,13 +303,13 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="AbstractRun(goal.core.mas.MASProgram)">
+<a name="AbstractRun(languageTools.program.mas.MASProgram)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>AbstractRun</h4>
-<pre>public&nbsp;AbstractRun(<a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas">MASProgram</a>&nbsp;program)</pre>
+<pre>public&nbsp;AbstractRun(<a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas">MASProgram</a>&nbsp;program)</pre>
 <div class="block">Constructs a new abstract run of the MASProgram.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>program</code> - to run</dd></dl>
 </li>
@@ -362,9 +362,9 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>isDebugerOutput</h4>
 <pre>public&nbsp;boolean&nbsp;isDebugerOutput()</pre>
-<div class="block">Returns true if the <a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas"><code>MASProgram</code></a> will be started with a logging
+<div class="block">Returns true if the <a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas"><code>MASProgram</code></a> will be started with a logging
  debugger.</div>
-<dl><dt><span class="strong">Returns:</span></dt><dd>true if the <a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas"><code>MASProgram</code></a> will be started with a logging
+<dl><dt><span class="strong">Returns:</span></dt><dd>true if the <a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas"><code>MASProgram</code></a> will be started with a logging
          debugger</dd></dl>
 </li>
 </ul>
@@ -375,7 +375,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setDebuggerOutput</h4>
 <pre>public&nbsp;void&nbsp;setDebuggerOutput(boolean&nbsp;debuggerOutput)</pre>
-<div class="block">Set to true to start the <a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas"><code>MASProgram</code></a> with a logging debugger.</div>
+<div class="block">Set to true to start the <a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas"><code>MASProgram</code></a> with a logging debugger.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>debuggerOutput</code> - true if a logging debugger should be used.</dd></dl>
 </li>
 </ul>
@@ -445,13 +445,13 @@ extends java.lang.Object</pre>
 <dd><code>java.lang.InterruptedException</code></dd></dl>
 </li>
 </ul>
-<a name="buildRuntime(goal.core.mas.MASProgram)">
+<a name="buildRuntime(languageTools.program.mas.MASProgram)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>buildRuntime</h4>
-<pre>protected&nbsp;<a href="../../goal/core/runtime/RuntimeManager.html" title="class in goal.core.runtime">RuntimeManager</a>&lt;<a href="../../goal/tools/AbstractRun.html" title="type parameter in AbstractRun">D</a>,<a href="../../goal/tools/AbstractRun.html" title="type parameter in AbstractRun">C</a>&gt;&nbsp;buildRuntime(<a href="../../goal/core/mas/MASProgram.html" title="class in goal.core.mas">MASProgram</a>&nbsp;program)
+<pre>protected&nbsp;<a href="../../goal/core/runtime/RuntimeManager.html" title="class in goal.core.runtime">RuntimeManager</a>&lt;<a href="../../goal/tools/AbstractRun.html" title="type parameter in AbstractRun">D</a>,<a href="../../goal/tools/AbstractRun.html" title="type parameter in AbstractRun">C</a>&gt;&nbsp;buildRuntime(<a href="../../goal/core/mas/MASProgram.html" title="class in languageTools.program.mas">MASProgram</a>&nbsp;program)
                                                                                 throws <a href="../../goal/tools/errorhandling/exceptions/GOALLaunchFailureException.html" title="class in goal.tools.errorhandling.exceptions">GOALLaunchFailureException</a></pre>
 <div class="block">Builds the <a href="../../goal/core/runtime/RuntimeManager.html" title="class in goal.core.runtime"><code>RuntimeManager</code></a> that will be used to run the
  MASProgram.</div>

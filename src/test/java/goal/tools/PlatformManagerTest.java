@@ -2,7 +2,7 @@ package goal.tools;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import goal.core.mas.MASProgram;
+import languageTools.program.mas.MASProgram;
 import goal.tools.errorhandling.exceptions.GOALParseException;
 import goal.util.Extension;
 

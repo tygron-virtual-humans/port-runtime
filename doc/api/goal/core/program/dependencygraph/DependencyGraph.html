@@ -36,8 +36,8 @@
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/dependencygraph/ActionSpecificationGraphGenerator.html" title="class in goal.core.program.dependencygraph"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/dependencygraph/DependencyGraphGenerator.html" title="class in goal.core.program.dependencygraph"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/dependencygraph/ActionSpecificationGraphGenerator.html" title="class in languageTools.program.agent.dependencygraph"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/dependencygraph/DependencyGraphGenerator.html" title="class in languageTools.program.agent.dependencygraph"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/dependencygraph/DependencyGraph.html" target="_top">Frames</a></li>
@@ -79,7 +79,7 @@
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">goal.core.program.dependencygraph</div>
+<div class="subTitle">languageTools.program.agent.dependencygraph</div>
 <h2 title="Class DependencyGraph" class="title">Class DependencyGraph&lt;T extends <a href="../../../../goal/core/kr/language/Expression.html" title="interface in goal.core.kr.language">Expression</a>&gt;</h2>
 </div>
 <div class="contentContainer">
@@ -87,7 +87,7 @@
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>goal.core.program.dependencygraph.DependencyGraph&lt;T&gt;</li>
+<li>languageTools.program.agent.dependencygraph.DependencyGraph&lt;T&gt;</li>
 </ul>
 </li>
 </ul>
@@ -100,7 +100,7 @@
 <pre>public abstract class <span class="strong">DependencyGraph&lt;T extends <a href="../../../../goal/core/kr/language/Expression.html" title="interface in goal.core.kr.language">Expression</a>&gt;</span>
 extends java.lang.Object</pre>
 <div class="block"><p>
- A <a href="../../../../goal/core/program/dependencygraph/DependencyGraph.html" title="class in goal.core.program.dependencygraph"><code>DependencyGraph</code></a> consists of a set of <a href="../../../../goal/core/program/dependencygraph/Node.html" title="class in goal.core.program.dependencygraph"><code>Node</code></a>s, where each node
+ A <a href="../../../../goal/core/program/dependencygraph/DependencyGraph.html" title="class in languageTools.program.agent.dependencygraph"><code>DependencyGraph</code></a> consists of a set of <a href="../../../../goal/core/program/dependencygraph/Node.html" title="class in languageTools.program.agent.dependencygraph"><code>Node</code></a>s, where each node
  represents an expression from the KR language used. Links between the nodes
  represent dependencies. That is, whenever a link from one expression node to
  another expression node exists, the evaluation of the first expression
@@ -142,7 +142,7 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Field and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected java.util.Map&lt;java.lang.String,<a href="../../../../goal/core/program/dependencygraph/Node.html" title="class in goal.core.program.dependencygraph">Node</a>&lt;<a href="../../../../goal/core/program/dependencygraph/DependencyGraph.html" title="type parameter in DependencyGraph">T</a>&gt;&gt;</code></td>
+<td class="colFirst"><code>protected java.util.Map&lt;java.lang.String,<a href="../../../../goal/core/program/dependencygraph/Node.html" title="class in languageTools.program.agent.dependencygraph">Node</a>&lt;<a href="../../../../goal/core/program/dependencygraph/DependencyGraph.html" title="type parameter in DependencyGraph">T</a>&gt;&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/dependencygraph/DependencyGraph.html#graph">graph</a></strong></code>
 <div class="block">A hash map is used to store nodes in the dependency graph.</div>
 </td>
@@ -184,13 +184,13 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/dependencygraph/DependencyGraph.html#add(goal.core.kr.language.DatabaseFormula,%20boolean,%20boolean)">add</a></strong>(<a href="../../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&nbsp;formula,
    boolean&nbsp;defined,
    boolean&nbsp;queried)</code>
-<div class="block">Adds a definition to this <a href="../../../../goal/core/program/dependencygraph/DependencyGraph.html" title="class in goal.core.program.dependencygraph"><code>DependencyGraph</code></a>.</div>
+<div class="block">Adds a definition to this <a href="../../../../goal/core/program/dependencygraph/DependencyGraph.html" title="class in languageTools.program.agent.dependencygraph"><code>DependencyGraph</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>abstract void</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/dependencygraph/DependencyGraph.html#add(goal.core.kr.language.Query)">add</a></strong>(<a href="../../../../goal/core/kr/language/Query.html" title="interface in goal.core.kr.language">Query</a>&nbsp;query)</code>
-<div class="block">Adds a <a href="../../../../goal/core/kr/language/Query.html" title="interface in goal.core.kr.language"><code>Query</code></a> to this <a href="../../../../goal/core/program/dependencygraph/DependencyGraph.html" title="class in goal.core.program.dependencygraph"><code>DependencyGraph</code></a>.</div>
+<div class="block">Adds a <a href="../../../../goal/core/kr/language/Query.html" title="interface in goal.core.kr.language"><code>Query</code></a> to this <a href="../../../../goal/core/program/dependencygraph/DependencyGraph.html" title="class in languageTools.program.agent.dependencygraph"><code>DependencyGraph</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -245,7 +245,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>graph</h4>
-<pre>protected&nbsp;java.util.Map&lt;java.lang.String,<a href="../../../../goal/core/program/dependencygraph/Node.html" title="class in goal.core.program.dependencygraph">Node</a>&lt;<a href="../../../../goal/core/program/dependencygraph/DependencyGraph.html" title="type parameter in DependencyGraph">T</a> extends <a href="../../../../goal/core/kr/language/Expression.html" title="interface in goal.core.kr.language">Expression</a>&gt;&gt; graph</pre>
+<pre>protected&nbsp;java.util.Map&lt;java.lang.String,<a href="../../../../goal/core/program/dependencygraph/Node.html" title="class in languageTools.program.agent.dependencygraph">Node</a>&lt;<a href="../../../../goal/core/program/dependencygraph/DependencyGraph.html" title="type parameter in DependencyGraph">T</a> extends <a href="../../../../goal/core/kr/language/Expression.html" title="interface in goal.core.kr.language">Expression</a>&gt;&gt; graph</pre>
 <div class="block">A hash map is used to store nodes in the dependency graph. The strings to
  index the nodes are the signatures associated with the expression stored
  in a node.</div>
@@ -286,7 +286,7 @@ extends java.lang.Object</pre>
        boolean&nbsp;defined,
        boolean&nbsp;queried)
                   throws <a href="../../../../goal/tools/errorhandling/exceptions/GOALUserError.html" title="class in goal.tools.errorhandling.exceptions">GOALUserError</a></pre>
-<div class="block">Adds a definition to this <a href="../../../../goal/core/program/dependencygraph/DependencyGraph.html" title="class in goal.core.program.dependencygraph"><code>DependencyGraph</code></a>. The given formula may
+<div class="block">Adds a definition to this <a href="../../../../goal/core/program/dependencygraph/DependencyGraph.html" title="class in languageTools.program.agent.dependencygraph"><code>DependencyGraph</code></a>. The given formula may
  contain sub-expressions that define the main operator and that need to be
  stored in separate nodes as the defined operator may depend on these
  sub-expressions.</div>
@@ -303,9 +303,9 @@ extends java.lang.Object</pre>
 <h4>add</h4>
 <pre>public abstract&nbsp;void&nbsp;add(<a href="../../../../goal/core/kr/language/Query.html" title="interface in goal.core.kr.language">Query</a>&nbsp;query)
                   throws <a href="../../../../goal/tools/errorhandling/exceptions/GOALUserError.html" title="class in goal.tools.errorhandling.exceptions">GOALUserError</a></pre>
-<div class="block">Adds a <a href="../../../../goal/core/kr/language/Query.html" title="interface in goal.core.kr.language"><code>Query</code></a> to this <a href="../../../../goal/core/program/dependencygraph/DependencyGraph.html" title="class in goal.core.program.dependencygraph"><code>DependencyGraph</code></a>. If a query is a
+<div class="block">Adds a <a href="../../../../goal/core/kr/language/Query.html" title="interface in goal.core.kr.language"><code>Query</code></a> to this <a href="../../../../goal/core/program/dependencygraph/DependencyGraph.html" title="class in languageTools.program.agent.dependencygraph"><code>DependencyGraph</code></a>. If a query is a
  composed formula, then the formula is broken down in its constituents and
- represented by several <a href="../../../../goal/core/program/dependencygraph/Node.html" title="class in goal.core.program.dependencygraph"><code>Node</code></a>s.</div>
+ represented by several <a href="../../../../goal/core/program/dependencygraph/Node.html" title="class in languageTools.program.agent.dependencygraph"><code>Node</code></a>s.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>query</code> - The query that is added.</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="../../../../goal/tools/errorhandling/exceptions/GOALUserError.html" title="class in goal.tools.errorhandling.exceptions">GOALUserError</a></code></dd></dl>
@@ -384,8 +384,8 @@ extends java.lang.Object</pre>
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/dependencygraph/ActionSpecificationGraphGenerator.html" title="class in goal.core.program.dependencygraph"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/dependencygraph/DependencyGraphGenerator.html" title="class in goal.core.program.dependencygraph"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/dependencygraph/ActionSpecificationGraphGenerator.html" title="class in languageTools.program.agent.dependencygraph"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/dependencygraph/DependencyGraphGenerator.html" title="class in languageTools.program.agent.dependencygraph"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/dependencygraph/DependencyGraph.html" target="_top">Frames</a></li>

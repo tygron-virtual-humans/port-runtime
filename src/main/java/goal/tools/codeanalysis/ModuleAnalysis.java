@@ -18,7 +18,7 @@
 
 package goal.tools.codeanalysis;
 
-import goal.core.program.Module;
+import languageTools.program.agent.Module;
 
 /**
  * Creates a code analysis for a module.

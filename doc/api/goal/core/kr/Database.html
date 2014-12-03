@@ -170,7 +170,7 @@
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>java.util.Collection&lt;java.lang.String&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/kr/Database.html#getReceiversOfMessage(goal.core.program.Message)">getReceiversOfMessage</a></strong>(<a href="../../../goal/core/program/Message.html" title="class in goal.core.program">Message</a>&nbsp;message)</code>
+<td class="colLast"><code><strong><a href="../../../goal/core/kr/Database.html#getReceiversOfMessage(languageTools.program.agent.Message)">getReceiversOfMessage</a></strong>(<a href="../../../goal/core/program/Message.html" title="class in languageTools.program.agent">Message</a>&nbsp;message)</code>
 <div class="block">Performs a query on the database returning all receivers of the given
  message according to the message base.</div>
 </td>
@@ -189,7 +189,7 @@
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>java.util.Set&lt;<a href="../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&gt;</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/kr/Database.html#insert(goal.core.program.Message,%20boolean)">insert</a></strong>(<a href="../../../goal/core/program/Message.html" title="class in goal.core.program">Message</a>&nbsp;message,
+<td class="colLast"><code><strong><a href="../../../goal/core/kr/Database.html#insert(languageTools.program.agent.Message,%20boolean)">insert</a></strong>(<a href="../../../goal/core/program/Message.html" title="class in languageTools.program.agent">Message</a>&nbsp;message,
       boolean&nbsp;received)</code>
 <div class="block">Inserts a sent or received fact for the given message into the database.</div>
 </td>
@@ -309,13 +309,13 @@
 <dd><code><a href="../../../goal/tools/errorhandling/exceptions/KRQueryFailedException.html" title="class in goal.tools.errorhandling.exceptions">KRQueryFailedException</a></code></dd></dl>
 </li>
 </ul>
-<a name="getReceiversOfMessage(goal.core.program.Message)">
+<a name="getReceiversOfMessage(languageTools.program.agent.Message)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>getReceiversOfMessage</h4>
-<pre>java.util.Collection&lt;java.lang.String&gt;&nbsp;getReceiversOfMessage(<a href="../../../goal/core/program/Message.html" title="class in goal.core.program">Message</a>&nbsp;message)</pre>
+<pre>java.util.Collection&lt;java.lang.String&gt;&nbsp;getReceiversOfMessage(<a href="../../../goal/core/program/Message.html" title="class in languageTools.program.agent">Message</a>&nbsp;message)</pre>
 <div class="block">Performs a query on the database returning all receivers of the given
  message according to the message base.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>message</code> - The message.</dd>
@@ -362,13 +362,13 @@
 <dt><span class="strong">Returns:</span></dt><dd>The formula that was added to the percept base.</dd></dl>
 </li>
 </ul>
-<a name="insert(goal.core.program.Message, boolean)">
+<a name="insert(languageTools.program.agent.Message, boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>insert</h4>
-<pre>java.util.Set&lt;<a href="../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&gt;&nbsp;insert(<a href="../../../goal/core/program/Message.html" title="class in goal.core.program">Message</a>&nbsp;message,
+<pre>java.util.Set&lt;<a href="../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&gt;&nbsp;insert(<a href="../../../goal/core/program/Message.html" title="class in languageTools.program.agent">Message</a>&nbsp;message,
                                     boolean&nbsp;received)</pre>
 <div class="block">Inserts a sent or received fact for the given message into the database.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>message</code> - The message that has been sent or received.</dd><dd><code>received</code> - <code>true</code> if the message has been received; <code>false</code>
@@ -413,7 +413,7 @@
 <dt><span class="strong">Returns:</span></dt><dd>The formula that was deleted from the percept base.</dd></dl>
 </li>
 </ul>
-<a name="updateAgentFact(boolean, goal.core.agent.AgentId, boolean)">
+<a name="updateAgentFact(boolean, languageTools.program.agent.AgentId, boolean)">
 <!--   -->
 </a>
 <ul class="blockList">

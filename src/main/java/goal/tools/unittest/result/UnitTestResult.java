@@ -1,7 +1,7 @@
 package goal.tools.unittest.result;
 
-import goal.core.agent.AgentId;
-import goal.core.mas.MASProgram;
+import languageTools.program.agent.AgentId;
+import languageTools.program.mas.MASProgram;
 import goal.tools.RunTest;
 import goal.tools.unittest.AgentTest;
 import goal.tools.unittest.UnitTest;

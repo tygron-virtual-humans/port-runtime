@@ -36,8 +36,8 @@
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in goal.core.program.literals"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in languageTools.program.agent.msc"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/literals/MentalLiteral.html" target="_top">Frames</a></li>
@@ -79,7 +79,7 @@
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">goal.core.program.literals</div>
+<div class="subTitle">languageTools.program.agent.msc</div>
 <h2 title="Class MentalLiteral" class="title">Class MentalLiteral</h2>
 </div>
 <div class="contentContainer">
@@ -90,7 +90,7 @@
 <li><a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">goal.parser.ParsedObject</a></li>
 <li>
 <ul class="inheritance">
-<li>goal.core.program.literals.MentalLiteral</li>
+<li>languageTools.program.agent.msc.MentalLiteral</li>
 </ul>
 </li>
 </ul>
@@ -101,23 +101,23 @@
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in goal.core.program.literals">MentalFormula</a>, <a href="../../../../goal/parser/IParsedObject.html" title="interface in goal.parser">IParsedObject</a>, java.io.Serializable, java.lang.Comparable&lt;<a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">ParsedObject</a>&gt;</dd>
+<dd><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in languageTools.program.agent.msc">MentalFormula</a>, <a href="../../../../goal/parser/IParsedObject.html" title="interface in goal.parser">IParsedObject</a>, java.io.Serializable, java.lang.Comparable&lt;<a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">ParsedObject</a>&gt;</dd>
 </dl>
 <dl>
 <dt>Direct Known Subclasses:</dt>
-<dd><a href="../../../../goal/core/program/literals/AGoalLiteral.html" title="class in goal.core.program.literals">AGoalLiteral</a>, <a href="../../../../goal/core/program/literals/BelLiteral.html" title="class in goal.core.program.literals">BelLiteral</a>, <a href="../../../../goal/core/program/literals/GoalALiteral.html" title="class in goal.core.program.literals">GoalALiteral</a>, <a href="../../../../goal/core/program/literals/GoalLiteral.html" title="class in goal.core.program.literals">GoalLiteral</a></dd>
+<dd><a href="../../../../goal/core/program/literals/AGoalLiteral.html" title="class in languageTools.program.agent.msc">AGoalLiteral</a>, <a href="../../../../goal/core/program/literals/BelLiteral.html" title="class in languageTools.program.agent.msc">BelLiteral</a>, <a href="../../../../goal/core/program/literals/GoalALiteral.html" title="class in languageTools.program.agent.msc">GoalALiteral</a>, <a href="../../../../goal/core/program/literals/GoalLiteral.html" title="class in languageTools.program.agent.msc">GoalLiteral</a></dd>
 </dl>
 <hr>
 <br>
 <pre>public abstract class <span class="strong">MentalLiteral</span>
 extends <a href="../../../../goal/parser/ParsedObject.html" title="class in goal.parser">ParsedObject</a>
-implements <a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in goal.core.program.literals">MentalFormula</a></pre>
+implements <a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in languageTools.program.agent.msc">MentalFormula</a></pre>
 <div class="block">A mental literal is an object of the form <selector>.bel(...) or
  <selector>.goal(...), (or goal-a or a-goal). It can also be of the negated
  form, so not(...).</div>
 <dl><dt><span class="strong">Author:</span></dt>
   <dd>K.Hindriks</dd>
-<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#goal.core.program.literals.MentalLiteral">Serialized Form</a></dd></dl>
+<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#languageTools.program.agent.msc.MentalLiteral">Serialized Form</a></dd></dl>
 </li>
 </ul>
 </div>
@@ -147,7 +147,7 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected <a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program">Selector</a></code></td>
+<td class="colFirst"><code>protected <a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent">Selector</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/literals/MentalLiteral.html#selector">selector</a></strong></code>&nbsp;</td>
 </tr>
 </table>
@@ -165,9 +165,9 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="../../../../goal/core/program/literals/MentalLiteral.html#MentalLiteral(boolean,%20goal.core.kr.language.Query,%20goal.core.program.Selector,%20goal.parser.InputStreamPosition)">MentalLiteral</a></strong>(boolean&nbsp;posLiteral,
+<td class="colOne"><code><strong><a href="../../../../goal/core/program/literals/MentalLiteral.html#MentalLiteral(boolean,%20goal.core.kr.language.Query,%20languageTools.program.agent.Selector,%20goal.parser.InputStreamPosition)">MentalLiteral</a></strong>(boolean&nbsp;posLiteral,
              <a href="../../../../goal/core/kr/language/Query.html" title="interface in goal.core.kr.language">Query</a>&nbsp;formula,
-             <a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program">Selector</a>&nbsp;selector,
+             <a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent">Selector</a>&nbsp;selector,
              <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</code>
 <div class="block">A mental literal is an atomic query on the mental state.</div>
 </td>
@@ -191,7 +191,7 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>abstract <a href="../../../../goal/core/program/literals/MentalLiteral.html" title="class in goal.core.program.literals">MentalLiteral</a></code></td>
+<td class="colFirst"><code>abstract <a href="../../../../goal/core/program/literals/MentalLiteral.html" title="class in languageTools.program.agent.msc">MentalLiteral</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/literals/MentalLiteral.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></strong>(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;pSubst)</code>
 <div class="block">Transforms this MentalAtom.</div>
 </td>
@@ -209,7 +209,7 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/literals/MentalLiteral.html#getLiteralTypeString()">getLiteralTypeString</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program">Selector</a></code></td>
+<td class="colFirst"><code><a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent">Selector</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/literals/MentalLiteral.html#getSelector()">getSelector</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
@@ -219,7 +219,7 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <tr class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><strong><a href="../../../../goal/core/program/literals/MentalLiteral.html#isPositive()">isPositive</a></strong>()</code>
-<div class="block">Returns whether this <a href="../../../../goal/core/program/literals/MentalLiteral.html" title="class in goal.core.program.literals"><code>MentalLiteral</code></a> is a positive literal.</div>
+<div class="block">Returns whether this <a href="../../../../goal/core/program/literals/MentalLiteral.html" title="class in languageTools.program.agent.msc"><code>MentalLiteral</code></a> is a positive literal.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -232,7 +232,7 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../goal/core/program/literals/MentalLiteral.html#setSelector(goal.core.program.Selector)">setSelector</a></strong>(<a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program">Selector</a>&nbsp;selector)</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../goal/core/program/literals/MentalLiteral.html#setSelector(languageTools.program.agent.Selector)">setSelector</a></strong>(<a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent">Selector</a>&nbsp;selector)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
@@ -292,7 +292,7 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <ul class="blockListLast">
 <li class="blockList">
 <h4>selector</h4>
-<pre>protected&nbsp;<a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program">Selector</a> selector</pre>
+<pre>protected&nbsp;<a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent">Selector</a> selector</pre>
 </li>
 </ul>
 </li>
@@ -303,7 +303,7 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="MentalLiteral(boolean, goal.core.kr.language.Query, goal.core.program.Selector, goal.parser.InputStreamPosition)">
+<a name="MentalLiteral(boolean, goal.core.kr.language.Query, languageTools.program.agent.Selector, goal.parser.InputStreamPosition)">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -311,14 +311,14 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <h4>MentalLiteral</h4>
 <pre>public&nbsp;MentalLiteral(boolean&nbsp;posLiteral,
              <a href="../../../../goal/core/kr/language/Query.html" title="interface in goal.core.kr.language">Query</a>&nbsp;formula,
-             <a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program">Selector</a>&nbsp;selector,
+             <a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent">Selector</a>&nbsp;selector,
              <a href="../../../../goal/parser/InputStreamPosition.html" title="class in goal.parser">InputStreamPosition</a>&nbsp;source)</pre>
 <div class="block">A mental literal is an atomic query on the mental state. Examples:
  bel(...), goal(...) or not(bel(...)). The 'not' is implemented via the
  pPos argument.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>posLiteral</code> - The polarity of the mental literal. Default is true. If set to
-            false, the literal is of the form not(...).</dd><dd><code>formula</code> - The <a href="../../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr"><code>KRlanguage</code></a> query inside the mental literal.</dd><dd><code>selector</code> - The mental model <a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program"><code>Selector</code></a> prefix of the mental
-            literal. Eg, the 'self' in self.bel(...).</dd><dd><code>type</code> - The type of this <a href="../../../../goal/core/program/literals/MentalLiteral.html" title="class in goal.core.program.literals"><code>MentalLiteral</code></a>, i.e. either a belief,
+            false, the literal is of the form not(...).</dd><dd><code>formula</code> - The <a href="../../../../goal/core/kr/KRlanguage.html" title="interface in goal.core.kr"><code>KRlanguage</code></a> query inside the mental literal.</dd><dd><code>selector</code> - The mental model <a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent"><code>Selector</code></a> prefix of the mental
+            literal. Eg, the 'self' in self.bel(...).</dd><dd><code>type</code> - The type of this <a href="../../../../goal/core/program/literals/MentalLiteral.html" title="class in languageTools.program.agent.msc"><code>MentalLiteral</code></a>, i.e. either a belief,
             goal, achievement (a-)goal, or a goal(-a) achieved.</dd><dd><code>source</code> - The position in the source code where this mental literal is
             located.</dd></dl>
 </li>
@@ -346,12 +346,12 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>applySubst</h4>
-<pre>public abstract&nbsp;<a href="../../../../goal/core/program/literals/MentalLiteral.html" title="class in goal.core.program.literals">MentalLiteral</a>&nbsp;applySubst(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;pSubst)</pre>
+<pre>public abstract&nbsp;<a href="../../../../goal/core/program/literals/MentalLiteral.html" title="class in languageTools.program.agent.msc">MentalLiteral</a>&nbsp;applySubst(<a href="../../../../goal/core/kr/language/Substitution.html" title="interface in goal.core.kr.language">Substitution</a>&nbsp;pSubst)</pre>
 <div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../goal/core/program/literals/MentalFormula.html#applySubst(goal.core.kr.language.Substitution)">MentalFormula</a></code></strong></div>
 <div class="block">Transforms this MentalAtom.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/literals/MentalFormula.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in goal.core.program.literals">MentalFormula</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/literals/MentalFormula.html#applySubst(goal.core.kr.language.Substitution)">applySubst</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in languageTools.program.agent.msc">MentalFormula</a></code></dd>
 <dt><span class="strong">Parameters:</span></dt><dd><code>pSubst</code> - The substitution to transform this atom with.</dd>
 <dt><span class="strong">Returns:</span></dt><dd>The transformed version of this atom.</dd></dl>
 </li>
@@ -363,7 +363,7 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <li class="blockList">
 <h4>isPositive</h4>
 <pre>public&nbsp;boolean&nbsp;isPositive()</pre>
-<div class="block">Returns whether this <a href="../../../../goal/core/program/literals/MentalLiteral.html" title="class in goal.core.program.literals"><code>MentalLiteral</code></a> is a positive literal.</div>
+<div class="block">Returns whether this <a href="../../../../goal/core/program/literals/MentalLiteral.html" title="class in languageTools.program.agent.msc"><code>MentalLiteral</code></a> is a positive literal.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd><code>true</code> if the literal is positive; <code>false</code>
          otherwise.</dd></dl>
 </li>
@@ -401,16 +401,16 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <ul class="blockList">
 <li class="blockList">
 <h4>getSelector</h4>
-<pre>public&nbsp;<a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program">Selector</a>&nbsp;getSelector()</pre>
+<pre>public&nbsp;<a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent">Selector</a>&nbsp;getSelector()</pre>
 </li>
 </ul>
-<a name="setSelector(goal.core.program.Selector)">
+<a name="setSelector(languageTools.program.agent.Selector)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>setSelector</h4>
-<pre>public&nbsp;void&nbsp;setSelector(<a href="../../../../goal/core/program/Selector.html" title="class in goal.core.program">Selector</a>&nbsp;selector)</pre>
+<pre>public&nbsp;void&nbsp;setSelector(<a href="../../../../goal/core/program/Selector.html" title="class in languageTools.program.agent">Selector</a>&nbsp;selector)</pre>
 </li>
 </ul>
 <a name="getFreeVar()">
@@ -422,7 +422,7 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <pre>public&nbsp;java.util.Set&lt;<a href="../../../../goal/core/kr/language/Var.html" title="interface in goal.core.kr.language">Var</a>&gt;&nbsp;getFreeVar()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/literals/MentalFormula.html#getFreeVar()">getFreeVar</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in goal.core.program.literals">MentalFormula</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/literals/MentalFormula.html#getFreeVar()">getFreeVar</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in languageTools.program.agent.msc">MentalFormula</a></code></dd>
 <dt><span class="strong">Returns:</span></dt><dd>All free variables in this atom. When this atom is used in a
          query, these variables are bound.</dd></dl>
 </li>
@@ -454,7 +454,7 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 <pre>public&nbsp;java.lang.String&nbsp;toString()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
-<dd><code><a href="../../../../goal/core/program/literals/MentalFormula.html#toString()">toString</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in goal.core.program.literals">MentalFormula</a></code></dd>
+<dd><code><a href="../../../../goal/core/program/literals/MentalFormula.html#toString()">toString</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in languageTools.program.agent.msc">MentalFormula</a></code></dd>
 <dt><strong>Overrides:</strong></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 </dl>
@@ -486,8 +486,8 @@ implements <a href="../../../../goal/core/program/literals/MentalFormula.html" t
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in goal.core.program.literals"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../../goal/core/program/literals/MentalStateCond.html" title="class in goal.core.program.literals"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../../goal/core/program/literals/MentalFormula.html" title="interface in languageTools.program.agent.msc"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../goal/core/program/literals/MentalStateCondition.html" title="class in languageTools.program.agent.msc"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?goal/core/program/literals/MentalLiteral.html" target="_top">Frames</a></li>

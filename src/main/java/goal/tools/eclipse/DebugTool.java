@@ -1,6 +1,6 @@
 package goal.tools.eclipse;
 
-import goal.core.mas.MASProgram;
+import languageTools.program.mas.MASProgram;
 import goal.core.runtime.RuntimeManager;
 import goal.preferences.LoggingPreferences;
 import goal.preferences.Preferences;

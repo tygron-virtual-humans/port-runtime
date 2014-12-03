@@ -1,25 +1,26 @@
 package goal.core.agent;
 
-import goal.core.program.GOALProgram;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.adapt.Learner;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.Warning;
-import goal.tools.errorhandling.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRInitFailedException;
+import languageTools.program.agent.AgentId;
+import languageTools.program.agent.AgentProgram;
 import goal.tools.logging.InfoLog;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 
 /**
- * Interpreter for {@link GOALProgram}.
+ * Interpreter for {@link AgentProgram}.
  *
  * The interpreter can be provided with a {@link Debugger} that will be called
  * at specific points during the interpretation.
  *
  * A {@link Learner} will be consulted during the Adaptive sections of a
- * GOALProgram.
+ * AgentProgram.
  *
  * @author mpkorstanje
  *
@@ -35,7 +36,7 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 	/**
 	 * Program ran by the interpreter.
 	 */
-	protected final GOALProgram program;
+	protected final AgentProgram program;
 	/**
 	 * Debugger used while running the interpreter.
 	 */
@@ -55,7 +56,7 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 	 * @param learner
 	 *            used evaluate adaptive rules
 	 */
-	public GOALInterpreter(GOALProgram program, DEBUGGER debugger,
+	public GOALInterpreter(AgentProgram program, DEBUGGER debugger,
 			Learner learner) {
 		this.program = program;
 		this.debugger = debugger;
@@ -137,7 +138,7 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 	 *
 	 * @return the program ran by the interpreter
 	 */
-	public GOALProgram getProgram() {
+	public AgentProgram getProgram() {
 		return program;
 	}
 

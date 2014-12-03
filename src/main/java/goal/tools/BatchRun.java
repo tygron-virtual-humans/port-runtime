@@ -1,6 +1,6 @@
 package goal.tools;
 
-import goal.core.mas.MASProgram;
+import languageTools.program.mas.MASProgram;
 import goal.tools.adapt.FileLearner;
 import goal.tools.errorhandling.Warning;
 

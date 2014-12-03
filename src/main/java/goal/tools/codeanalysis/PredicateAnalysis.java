@@ -18,10 +18,8 @@
 
 package goal.tools.codeanalysis;
 
-import goal.core.kr.language.Expression;
-import goal.core.program.GOALProgram;
-import goal.core.program.expressiongraph.ExpressionGraph;
-import goal.core.program.expressiongraph.GOALProgramGraphGenerator;
+import krTools.language.Expression;
+import languageTools.program.agent.AgentProgram;
 
 import java.io.File;
 import java.util.Hashtable;
@@ -35,7 +33,7 @@ import java.util.Hashtable;
 public class PredicateAnalysis {
 
 	private final File file;
-	private final GOALProgram program;
+	private final AgentProgram program;
 	private int numDefinitions; // number of definitions in expressionGraph
 
 	private final CodeAnalysisOverview overview = new CodeAnalysisOverview();
@@ -54,7 +52,7 @@ public class PredicateAnalysis {
 	 * @param program
 	 *            is program to be analysed.
 	 */
-	public PredicateAnalysis(File file, GOALProgram program) {
+	public PredicateAnalysis(File file, AgentProgram program) {
 		this.file = file;
 		this.program = program;
 
@@ -67,7 +65,7 @@ public class PredicateAnalysis {
 	 * expression hash table.
 	 */
 	private void performAnalysis() {
-		GOALProgramGraphGenerator programGraphGenerator = new GOALProgramGraphGenerator();
+		AgentProgramGraphGenerator programGraphGenerator = new AgentProgramGraphGenerator();
 		programGraphGenerator.setKRlanguage(program.getKRLanguage());
 		programGraphGenerator.createGraph(program, null);
 		ExpressionGraph expressionGraph = programGraphGenerator.getGraph();

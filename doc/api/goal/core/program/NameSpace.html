@@ -36,8 +36,8 @@
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../goal/core/program/Module.TYPE.html" title="enum in goal.core.program"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../goal/core/program/NameSpace.Store.html" title="class in goal.core.program"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../goal/core/program/Module.TYPE.html" title="enum in languageTools.program.agent"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../goal/core/program/NameSpace.Store.html" title="class in languageTools.program.agent"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../index.html?goal/core/program/NameSpace.html" target="_top">Frames</a></li>
@@ -79,7 +79,7 @@
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">goal.core.program</div>
+<div class="subTitle">languageTools.program.agent</div>
 <h2 title="Class NameSpace" class="title">Class NameSpace</h2>
 </div>
 <div class="contentContainer">
@@ -87,7 +87,7 @@
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>goal.core.program.NameSpace</li>
+<li>languageTools.program.agent.NameSpace</li>
 </ul>
 </li>
 </ul>
@@ -116,7 +116,7 @@ extends java.lang.Object</pre>
  <li>First, create a scope local to a particular module by adding the
  knowledge, action specifications, modules, and macros defined within the
  module's context.</li>
- <li>Second, call the method <a href="../../../goal/core/program/NameSpace.html#inherit(goal.core.program.NameSpace,%20boolean)"><code>inherit(NameSpace, boolean)</code></a> to inherit
+ <li>Second, call the method <a href="../../../goal/core/program/NameSpace.html#inherit(languageTools.program.agent.NameSpace,%20boolean)"><code>inherit(NameSpace, boolean)</code></a> to inherit
  items from a context (e.g. the global program or the parent module context).
  Two cases should be distinguished: (i) The global agent program scope which
  inherits definitions from the <code>init</code> module (in this case no
@@ -147,7 +147,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/program/NameSpace.Store.html" title="class in goal.core.program">NameSpace.Store</a>&lt;<a href="../../../goal/core/program/NameSpace.Store.html" title="type parameter in NameSpace.Store">T</a>&gt;</strong></code>
+<td class="colLast"><code><strong><a href="../../../goal/core/program/NameSpace.Store.html" title="class in languageTools.program.agent">NameSpace.Store</a>&lt;<a href="../../../goal/core/program/NameSpace.Store.html" title="type parameter in NameSpace.Store">T</a>&gt;</strong></code>
 <div class="block">Stores items of type T in a <code>LinkedHashMap</code>.</div>
 </td>
 </tr>
@@ -187,9 +187,9 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/program/NameSpace.html#addActionSpecification(goal.core.program.ActionSpecification)">addActionSpecification</a></strong>(<a href="../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program">ActionSpecification</a>&nbsp;actionSpec)</code>
-<div class="block">Adds an <a href="../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program"><code>ActionSpecification</code></a> to those present in this
- <a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program"><code>NameSpace</code></a>.</div>
+<td class="colLast"><code><strong><a href="../../../goal/core/program/NameSpace.html#addActionSpecification(languageTools.program.agent.ActionSpecification)">addActionSpecification</a></strong>(<a href="../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent">ActionSpecification</a>&nbsp;actionSpec)</code>
+<div class="block">Adds an <a href="../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent"><code>ActionSpecification</code></a> to those present in this
+ <a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent"><code>NameSpace</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -212,27 +212,27 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/program/NameSpace.html#addMacro(goal.core.program.literals.Macro)">addMacro</a></strong>(<a href="../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals">Macro</a>&nbsp;macro)</code>
-<div class="block">Adds a <a href="../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a> to those present in this <a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program"><code>NameSpace</code></a>.</div>
+<td class="colLast"><code><strong><a href="../../../goal/core/program/NameSpace.html#addMacro(languageTools.program.agent.msc.Macro)">addMacro</a></strong>(<a href="../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc">Macro</a>&nbsp;macro)</code>
+<div class="block">Adds a <a href="../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a> to those present in this <a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent"><code>NameSpace</code></a>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/program/NameSpace.html#addModule(goal.core.program.Module)">addModule</a></strong>(<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module)</code>
-<div class="block">Adds a <a href="../../../goal/core/program/Module.html" title="class in goal.core.program"><code>Module</code></a> to those present in this <a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program"><code>NameSpace</code></a>.</div>
+<td class="colLast"><code><strong><a href="../../../goal/core/program/NameSpace.html#addModule(languageTools.program.agent.Module)">addModule</a></strong>(<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module)</code>
+<div class="block">Adds a <a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent"><code>Module</code></a> to those present in this <a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent"><code>NameSpace</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program">NameSpace</a></code></td>
+<td class="colFirst"><code><a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent">NameSpace</a></code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/program/NameSpace.html#clone()">clone</a></strong>()</code>
 <div class="block">Returns a clone of a name space.</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../goal/core/program/NameSpace.Store.html" title="class in goal.core.program">NameSpace.Store</a>&lt;<a href="../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program">ActionSpecification</a>&gt;</code></td>
+<td class="colFirst"><code><a href="../../../goal/core/program/NameSpace.Store.html" title="class in languageTools.program.agent">NameSpace.Store</a>&lt;<a href="../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent">ActionSpecification</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/program/NameSpace.html#getActionSpecifications()">getActionSpecifications</a></strong>()</code>
-<div class="block">Returns the <a href="../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program"><code>ActionSpecification</code></a>s present in this
- <a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program"><code>NameSpace</code></a> in the form of a <code>LinkedHashMap</code>.</div>
+<div class="block">Returns the <a href="../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent"><code>ActionSpecification</code></a>s present in this
+ <a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent"><code>NameSpace</code></a> in the form of a <code>LinkedHashMap</code>.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -254,24 +254,24 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code><a href="../../../goal/core/program/NameSpace.Store.html" title="class in goal.core.program">NameSpace.Store</a>&lt;<a href="../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals">Macro</a>&gt;</code></td>
+<td class="colFirst"><code><a href="../../../goal/core/program/NameSpace.Store.html" title="class in languageTools.program.agent">NameSpace.Store</a>&lt;<a href="../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc">Macro</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/program/NameSpace.html#getMacros()">getMacros</a></strong>()</code>
-<div class="block">Returns the <a href="../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a>s present in this <a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program"><code>NameSpace</code></a> in the form
+<div class="block">Returns the <a href="../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a>s present in this <a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent"><code>NameSpace</code></a> in the form
  of a <code>LinkedHashMap</code>.</div>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code><a href="../../../goal/core/program/NameSpace.Store.html" title="class in goal.core.program">NameSpace.Store</a>&lt;<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&gt;</code></td>
+<td class="colFirst"><code><a href="../../../goal/core/program/NameSpace.Store.html" title="class in languageTools.program.agent">NameSpace.Store</a>&lt;<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&gt;</code></td>
 <td class="colLast"><code><strong><a href="../../../goal/core/program/NameSpace.html#getModules()">getModules</a></strong>()</code>
-<div class="block">Returns the <a href="../../../goal/core/program/Module.html" title="class in goal.core.program"><code>Module</code></a>s present in this <a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program"><code>NameSpace</code></a> in the form
+<div class="block">Returns the <a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent"><code>Module</code></a>s present in this <a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent"><code>NameSpace</code></a> in the form
  of a <code>LinkedHashMap</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../goal/core/program/NameSpace.html#inherit(goal.core.program.NameSpace,%20boolean)">inherit</a></strong>(<a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program">NameSpace</a>&nbsp;nameSpace,
+<td class="colLast"><code><strong><a href="../../../goal/core/program/NameSpace.html#inherit(languageTools.program.agent.NameSpace,%20boolean)">inherit</a></strong>(<a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent">NameSpace</a>&nbsp;nameSpace,
        boolean&nbsp;override)</code>
-<div class="block">Inherits definitions from other <a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program"><code>NameSpace</code></a>.</div>
+<div class="block">Inherits definitions from other <a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent"><code>NameSpace</code></a>.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -307,8 +307,8 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>NameSpace</h4>
 <pre>public&nbsp;NameSpace()</pre>
-<div class="block">Creates an empty name space and sets its owner. This <a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program"><code>NameSpace</code></a>
- defines the scope of its owner (a <a href="../../../goal/core/program/Module.html" title="class in goal.core.program"><code>Module</code></a>) and determines to which
+<div class="block">Creates an empty name space and sets its owner. This <a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent"><code>NameSpace</code></a>
+ defines the scope of its owner (a <a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent"><code>Module</code></a>) and determines to which
  items its owner has access.</div>
 </li>
 </ul>
@@ -326,7 +326,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>clone</h4>
-<pre>public&nbsp;<a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program">NameSpace</a>&nbsp;clone()</pre>
+<pre>public&nbsp;<a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent">NameSpace</a>&nbsp;clone()</pre>
 <div class="block">Returns a clone of a name space. This clone only provides copied
  references to the same items in the name space, i.e. the items themselves
  should not be modified.</div>
@@ -344,7 +344,7 @@ extends java.lang.Object</pre>
 <h4>getKnowledge</h4>
 <pre>public&nbsp;java.util.List&lt;<a href="../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&gt;&nbsp;getKnowledge()</pre>
 <div class="block">Returns the knowledge, i.e. a list of <a href="../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language"><code>DatabaseFormula</code></a>s, present
- in this <a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program"><code>NameSpace</code></a>.</div>
+ in this <a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent"><code>NameSpace</code></a>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The knowledge present in this name space.</dd></dl>
 </li>
 </ul>
@@ -368,7 +368,7 @@ extends java.lang.Object</pre>
 <h4>getBeliefs</h4>
 <pre>public&nbsp;java.util.List&lt;<a href="../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language">DatabaseFormula</a>&gt;&nbsp;getBeliefs()</pre>
 <div class="block">Returns the beliefs, i.e. a list of <a href="../../../goal/core/kr/language/DatabaseFormula.html" title="interface in goal.core.kr.language"><code>DatabaseFormula</code></a>s, present in
- this <a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program"><code>NameSpace</code></a>.</div>
+ this <a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent"><code>NameSpace</code></a>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The beliefs present in this name space.</dd></dl>
 </li>
 </ul>
@@ -392,7 +392,7 @@ extends java.lang.Object</pre>
 <h4>getGoals</h4>
 <pre>public&nbsp;java.util.List&lt;<a href="../../../goal/core/kr/language/Update.html" title="interface in goal.core.kr.language">Update</a>&gt;&nbsp;getGoals()</pre>
 <div class="block">Returns the goals, i.e. a list of <a href="../../../goal/core/kr/language/Update.html" title="interface in goal.core.kr.language"><code>Update</code></a>s, present in this
- <a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program"><code>NameSpace</code></a>.</div>
+ <a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent"><code>NameSpace</code></a>.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The goals present in this name space.</dd></dl>
 </li>
 </ul>
@@ -414,23 +414,23 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getActionSpecifications</h4>
-<pre>public&nbsp;<a href="../../../goal/core/program/NameSpace.Store.html" title="class in goal.core.program">NameSpace.Store</a>&lt;<a href="../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program">ActionSpecification</a>&gt;&nbsp;getActionSpecifications()</pre>
-<div class="block">Returns the <a href="../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program"><code>ActionSpecification</code></a>s present in this
- <a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program"><code>NameSpace</code></a> in the form of a <code>LinkedHashMap</code>. Keys are
+<pre>public&nbsp;<a href="../../../goal/core/program/NameSpace.Store.html" title="class in languageTools.program.agent">NameSpace.Store</a>&lt;<a href="../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent">ActionSpecification</a>&gt;&nbsp;getActionSpecifications()</pre>
+<div class="block">Returns the <a href="../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent"><code>ActionSpecification</code></a>s present in this
+ <a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent"><code>NameSpace</code></a> in the form of a <code>LinkedHashMap</code>. Keys are
  strings of the form "name/nr" where "name" is the name and "nr" is the
  number of parameters of the action.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The action specifications present in this name space.</dd></dl>
 </li>
 </ul>
-<a name="addActionSpecification(goal.core.program.ActionSpecification)">
+<a name="addActionSpecification(languageTools.program.agent.ActionSpecification)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>addActionSpecification</h4>
-<pre>public&nbsp;void&nbsp;addActionSpecification(<a href="../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program">ActionSpecification</a>&nbsp;actionSpec)</pre>
-<div class="block">Adds an <a href="../../../goal/core/program/ActionSpecification.html" title="class in goal.core.program"><code>ActionSpecification</code></a> to those present in this
- <a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program"><code>NameSpace</code></a>.
+<pre>public&nbsp;void&nbsp;addActionSpecification(<a href="../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent">ActionSpecification</a>&nbsp;actionSpec)</pre>
+<div class="block">Adds an <a href="../../../goal/core/program/ActionSpecification.html" title="class in languageTools.program.agent"><code>ActionSpecification</code></a> to those present in this
+ <a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent"><code>NameSpace</code></a>.
  <p>
  If the action specified is already present in the name space (identified
  by its name and number of parameters), the action specification is added
@@ -445,25 +445,25 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getModules</h4>
-<pre>public&nbsp;<a href="../../../goal/core/program/NameSpace.Store.html" title="class in goal.core.program">NameSpace.Store</a>&lt;<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&gt;&nbsp;getModules()</pre>
-<div class="block">Returns the <a href="../../../goal/core/program/Module.html" title="class in goal.core.program"><code>Module</code></a>s present in this <a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program"><code>NameSpace</code></a> in the form
+<pre>public&nbsp;<a href="../../../goal/core/program/NameSpace.Store.html" title="class in languageTools.program.agent">NameSpace.Store</a>&lt;<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&gt;&nbsp;getModules()</pre>
+<div class="block">Returns the <a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent"><code>Module</code></a>s present in this <a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent"><code>NameSpace</code></a> in the form
  of a <code>LinkedHashMap</code>. Keys are strings of the form "name/nr" where
  "name" is the name and "nr" is the number of parameters of the module.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The modules present in this name space.</dd></dl>
 </li>
 </ul>
-<a name="addModule(goal.core.program.Module)">
+<a name="addModule(languageTools.program.agent.Module)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>addModule</h4>
-<pre>public&nbsp;void&nbsp;addModule(<a href="../../../goal/core/program/Module.html" title="class in goal.core.program">Module</a>&nbsp;module)</pre>
-<div class="block">Adds a <a href="../../../goal/core/program/Module.html" title="class in goal.core.program"><code>Module</code></a> to those present in this <a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program"><code>NameSpace</code></a>.
+<pre>public&nbsp;void&nbsp;addModule(<a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent">Module</a>&nbsp;module)</pre>
+<div class="block">Adds a <a href="../../../goal/core/program/Module.html" title="class in languageTools.program.agent"><code>Module</code></a> to those present in this <a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent"><code>NameSpace</code></a>.
  <p>
  If the module is already present in the name space (identified by its
  name and number of parameters), the module is added to the list of
- modules associated with that module. <a href="../../../goal/core/program/validation/Validator.html" title="class in goal.core.program.validation"><code>Validator</code></a>s check for name
+ modules associated with that module. <a href="../../../goal/core/program/validation/Validator.html" title="class in languageTools.program.agent.validation"><code>Validator</code></a>s check for name
  clashes and report any issues.
  </p></div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>module</code> - The module to be added.</dd></dl>
@@ -475,39 +475,39 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getMacros</h4>
-<pre>public&nbsp;<a href="../../../goal/core/program/NameSpace.Store.html" title="class in goal.core.program">NameSpace.Store</a>&lt;<a href="../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals">Macro</a>&gt;&nbsp;getMacros()</pre>
-<div class="block">Returns the <a href="../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a>s present in this <a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program"><code>NameSpace</code></a> in the form
+<pre>public&nbsp;<a href="../../../goal/core/program/NameSpace.Store.html" title="class in languageTools.program.agent">NameSpace.Store</a>&lt;<a href="../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc">Macro</a>&gt;&nbsp;getMacros()</pre>
+<div class="block">Returns the <a href="../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a>s present in this <a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent"><code>NameSpace</code></a> in the form
  of a <code>LinkedHashMap</code>. Keys are strings of the form "name/nr" where
  "name" is the name and "nr" is the number of parameters of the macro.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>The macros present in this name space.</dd></dl>
 </li>
 </ul>
-<a name="addMacro(goal.core.program.literals.Macro)">
+<a name="addMacro(languageTools.program.agent.msc.Macro)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>addMacro</h4>
-<pre>public&nbsp;void&nbsp;addMacro(<a href="../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals">Macro</a>&nbsp;macro)</pre>
-<div class="block">Adds a <a href="../../../goal/core/program/literals/Macro.html" title="class in goal.core.program.literals"><code>Macro</code></a> to those present in this <a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program"><code>NameSpace</code></a>.
+<pre>public&nbsp;void&nbsp;addMacro(<a href="../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc">Macro</a>&nbsp;macro)</pre>
+<div class="block">Adds a <a href="../../../goal/core/program/literals/Macro.html" title="class in languageTools.program.agent.msc"><code>Macro</code></a> to those present in this <a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent"><code>NameSpace</code></a>.
  <p>
  If the macro is already present in the name space (identified by its name
  and number of parameters), the macro is added to the list of macros
- associated with that macro. <a href="../../../goal/core/program/validation/Validator.html" title="class in goal.core.program.validation"><code>Validator</code></a>s check for name clashes and
+ associated with that macro. <a href="../../../goal/core/program/validation/Validator.html" title="class in languageTools.program.agent.validation"><code>Validator</code></a>s check for name clashes and
  report any issues.
  </p></div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>macro</code> - The macro to be added.</dd></dl>
 </li>
 </ul>
-<a name="inherit(goal.core.program.NameSpace, boolean)">
+<a name="inherit(languageTools.program.agent.NameSpace, boolean)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>inherit</h4>
-<pre>public&nbsp;void&nbsp;inherit(<a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program">NameSpace</a>&nbsp;nameSpace,
+<pre>public&nbsp;void&nbsp;inherit(<a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent">NameSpace</a>&nbsp;nameSpace,
            boolean&nbsp;override)</pre>
-<div class="block">Inherits definitions from other <a href="../../../goal/core/program/NameSpace.html" title="class in goal.core.program"><code>NameSpace</code></a>. Local definitions from
+<div class="block">Inherits definitions from other <a href="../../../goal/core/program/NameSpace.html" title="class in languageTools.program.agent"><code>NameSpace</code></a>. Local definitions from
  this name space override definitions from given (parameter) name space if
  override parameter is set to true.</div>
 <dl><dt><span class="strong">Parameters:</span></dt><dd><code>nameSpace</code> - The name space from which definitions are inherited.</dd><dd><code>override</code> - If set to true, definitions from this name space take
@@ -555,8 +555,8 @@ extends java.lang.Object</pre>
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../goal/core/program/Module.TYPE.html" title="enum in goal.core.program"><span class="strong">Prev Class</span></a></li>
-<li><a href="../../../goal/core/program/NameSpace.Store.html" title="class in goal.core.program"><span class="strong">Next Class</span></a></li>
+<li><a href="../../../goal/core/program/Module.TYPE.html" title="enum in languageTools.program.agent"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../goal/core/program/NameSpace.Store.html" title="class in languageTools.program.agent"><span class="strong">Next Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../index.html?goal/core/program/NameSpace.html" target="_top">Frames</a></li>

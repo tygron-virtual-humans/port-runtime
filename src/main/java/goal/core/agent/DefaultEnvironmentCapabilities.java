@@ -2,7 +2,8 @@ package goal.core.agent;
 
 import eis.exceptions.EnvironmentInterfaceException;
 import eis.iilang.Percept;
-import goal.core.program.actions.UserSpecAction;
+import languageTools.program.agent.AgentId;
+import languageTools.program.agent.actions.UserSpecAction;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
 
 import java.util.Collection;
@@ -81,7 +82,7 @@ public class DefaultEnvironmentCapabilities implements EnvironmentCapabilities {
 	 * (non-Javadoc)
 	 *
 	 * @see
-	 * goal.core.agent.Capabilities#performAction(goal.core.program.actions.
+	 * goal.core.agent.Capabilities#performAction(languageTools.program.agent.actions.
 	 * UserSpecAction)
 	 */
 	@Override

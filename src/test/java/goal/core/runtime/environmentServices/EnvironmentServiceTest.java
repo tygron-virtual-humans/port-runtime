@@ -9,7 +9,7 @@ import eis.EnvironmentInterfaceStandard;
 import eis.exceptions.EnvironmentInterfaceException;
 import eis.exceptions.ManagementException;
 import eis.iilang.Parameter;
-import goal.core.mas.MASProgram;
+import languageTools.program.mas.MASProgram;
 import goal.core.runtime.MessagingService;
 import goal.core.runtime.service.environment.EnvironmentService;
 import goal.core.runtime.service.environment.EnvironmentServiceObserver;

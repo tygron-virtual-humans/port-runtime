@@ -42,7 +42,7 @@ public interface Debugger {
 	 * @param associate
 	 *            The object being associated with the breakpoint. May be null
 	 *            if the breakpoint is not associated with any object. See
-	 *            {@link GOALProgram#getBreakpointObjects()} for which
+	 *            {@link AgentProgram#getBreakpointObjects()} for which
 	 *            {@link IParsedObject}s the user can put a breakpoint on.
 	 * @param message
 	 *            is a user-readable message that describes the breakpoint
