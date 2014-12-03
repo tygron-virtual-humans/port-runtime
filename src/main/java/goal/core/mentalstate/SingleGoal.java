@@ -4,6 +4,7 @@ import krTools.KRInterface;
 import krTools.language.Update;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 import krTools.database.Database;
+import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
 import languageTools.program.agent.AgentId;
 
@@ -127,8 +128,8 @@ public class SingleGoal {
 	 */
 	protected void cleanUp() {
 		try {
-			this.database.cleanUp();
-		} catch (KRInitFailedException e) {
+			this.database.destroy();
+		} catch (KRDatabaseException e) {
 			throw new GOALRuntimeErrorException("Could not remove goal "
 					+ this.goal + " from database", e);
 		}

@@ -205,10 +205,8 @@ public class EnvironmentService {
 		// FIXME this allows one to create a new env or to use an existing one
 		// by specifying a name ending on ".jar" or not in the MAS file.
 		if (environmentName.endsWith(".jar")) { //$NON-NLS-1$
-			File environmentFile = masProgram.getEnvironmentInfo()
-					.getEnvironmentFile();
-			Map<String, Parameter> initialization = masProgram
-					.getEnvironmentInfo().getInitParameters();
+			File environmentFile = masProgram.getEnvironmentfile();
+			Map<String, Parameter> initialization = masProgram.getInitParameters();
 			// Launch local environment.
 			if (environmentFile != null) {
 				// Reference to environment file provided in MAS file; load it.

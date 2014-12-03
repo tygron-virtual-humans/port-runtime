@@ -5,6 +5,7 @@ import languageTools.parser.InputStreamPosition;
 import languageTools.program.agent.AgentId;
 import krTools.language.DatabaseFormula;
 import krTools.language.Substitution;
+import krTools.parser.SourceInfo;
 import goal.core.mentalstate.BASETYPE;
 import goal.core.mentalstate.GoalBase;
 import goal.core.mentalstate.MentalState;
@@ -31,7 +32,7 @@ import java.util.List;
 public class EclipseDebugObserver implements DebugObserver {
 	private final Agent<IDEGOALInterpreter> agent;
 	private final InputReaderWriter writer;
-	private InputStreamPosition source;
+	private SourceInfo source;
 	private boolean initialized = false;
 
 	/**
@@ -47,7 +48,7 @@ public class EclipseDebugObserver implements DebugObserver {
 			final InputReaderWriter writer) {
 		this.agent = agent;
 		this.writer = writer;
-		this.source = agent.getController().getProgram().getSource();
+		this.source = agent.getController().getProgram().getSourceInfo();
 	}
 
 	/**
@@ -73,13 +74,8 @@ public class EclipseDebugObserver implements DebugObserver {
 	public void notifyBreakpointHit(DebugEvent event) {
 		final Object object = event.getAssociatedObject();
 		// Update the last known source position
-		if (object instanceof IParsedObject) {
-			final IParsedObject parsed = (IParsedObject) object;
-			if (parsed.getSource() != null) {
-				this.source = parsed.getSource();
-			}
-		} else if (object instanceof InputStreamPosition) {
-			this.source = (InputStreamPosition) object;
+		if (object instanceof SourceInfo) {
+			this.source = (SourceInfo) object;
 		}
 		final AgentId agentId = this.agent.getId();
 		if (DebugPreferences.getChannelState(event.getChannel()).canView()
@@ -237,7 +233,7 @@ public class EclipseDebugObserver implements DebugObserver {
 	 */
 	public void suspendAtSource() {
 		if (!this.initialized) {
-			final InputStreamPosition saved = this.source;
+			final SourceInfo saved = this.source;
 			final MentalState init = this.agent.getController().getRunState()
 					.getMentalState();
 			final SingleGoal[] goals = init

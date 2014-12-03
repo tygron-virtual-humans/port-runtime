@@ -25,6 +25,7 @@ import goal.tools.errorhandling.exceptions.GOALBug;
 import krTools.KRInterface;
 import krTools.errors.exceptions.KRInitFailedException;
 import krTools.errors.exceptions.ParserException;
+import krTools.parser.SourceInfo;
 import languageTools.analyzer.agent.AgentValidator;
 import languageTools.analyzer.mas.MASValidator;
 import languageTools.errors.Message;
@@ -99,7 +100,7 @@ public class PlatformManager {
 	/**
 	 * All files with associated parsed objects.
 	 */
-	private final Map<File, ParsedObject> parsedFiles;
+	private final Map<File, SourceInfo> parsedFiles;
 
 	public static PlatformManager getCurrent() {
 		if (current == null) {
@@ -124,7 +125,7 @@ public class PlatformManager {
 	}
 
 	private PlatformManager() {
-		this.parsedFiles = new HashMap<File, ParsedObject>();
+		this.parsedFiles = new HashMap<>();
 	}
 
 	public BreakpointManager getBreakpointManager() {
@@ -141,7 +142,7 @@ public class PlatformManager {
 	 * @param file
 	 * @param object
 	 */
-	public void addParsedObject(File file, ParsedObject object) {
+	public void addIParsedObject(File file, SourceInfo object) {
 		parsedFiles.put(file, object);
 	}
 
@@ -150,7 +151,7 @@ public class PlatformManager {
 	 *
 	 * @param file
 	 */
-	public void removeParsedObject(File file) {
+	public void removeIParsedObject(File file) {
 		parsedFiles.remove(file);
 	}
 
@@ -180,7 +181,7 @@ public class PlatformManager {
 		for (File file : parsedFiles.keySet()) {
 			if (isMASFile(file)) {
 				MASProgram masProgram = (MASProgram) parsedFiles.get(file);
-				if (masProgram.getAgentPaths().contains(agentFile)) {
+				if (masProgram.getAgentFiles().contains(agentFile)) {
 					masPrograms.add(masProgram);
 				}
 			}
@@ -418,7 +419,7 @@ public class PlatformManager {
 				throw new Exception("Invalid MAS file"); //$NON-NLS-1$
 			}
 			// We have a parsed object; let's add it to the parsed object map.
-			addParsedObject(masFile, masProgram);
+			addIParsedObject(masFile, masProgram.getSourceInfo());
 		} catch (Exception e) {
 			// FIXME: do NOT catch generic Exception
 			// other exceptions may occur in the parser; these are bugs.
@@ -457,9 +458,6 @@ public class PlatformManager {
 			// no need to further process the program if errors exist.
 			return masProgram;
 		}
-
-		// Process the MAS program.
-		masProgram.postProcess();
 
 		// Validate the MAS program.
 		MASValidator validator = new MASValidator();
@@ -565,7 +563,7 @@ public class PlatformManager {
 				throw new Exception("Invalid GOAL file"); //$NON-NLS-1$
 			}
 			// We have a parsed object; let's add it to the parsed object map.
-			addParsedObject(goalFile, program);
+			addIParsedObject(goalFile, program.getSourceInfo());
 		} catch (Exception e) {
 			// FIXME: do NOT catch generic Exception
 			// other exceptions may occur in the parser;

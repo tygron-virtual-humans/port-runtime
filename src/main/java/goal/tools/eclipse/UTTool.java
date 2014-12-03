@@ -21,10 +21,8 @@ public class UTTool {
 			final SingleRun run = new SingleRun(mas2g);
 			final MASProgram program = PlatformManager.getCurrent()
 					.getMASProgram(mas2g);
-			final EnvironmentInfo info = program.getEnvironmentInfo();
-			info.addJar(args[1]);
-			info.setEnvironmentFile(new File(args[1]));
-			info.setInitParameters(parseInit(info.getInitParameters(), args[2],
+			program.setEnvironmentfile(new File(args[1]));
+			program.setInitParameters(parseInit(program.getInitParameters(), args[2],
 					args[3]));
 			run.run();
 			System.exit(0);

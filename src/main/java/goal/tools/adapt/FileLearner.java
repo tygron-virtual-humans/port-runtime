@@ -166,7 +166,7 @@ public class FileLearner implements Serializable, Learner {
 		 * instance and start a new learning episode
 		 */
 		for (Module module : program.getAllModules()) {
-			if (module.getRuleSet().getRuleOrder() == RuleSet.RuleEvaluationOrder.ADAPTIVE) {
+			if (module.getRuleSet().getRuleOrder() == RuleEvaluationOrder.ADAPTIVE) {
 				init(module, getAlgorithm(module.getName()));
 				startEpisode(module.getName());
 			}

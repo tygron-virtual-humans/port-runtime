@@ -1,5 +1,6 @@
 package goal.tools;
 
+import krTools.parser.SourceInfo;
 import languageTools.program.agent.AgentProgram;
 import languageTools.program.agent.Module;
 import languageTools.program.agent.actions.Action;
@@ -28,7 +29,7 @@ public class BreakpointManager {
 	 * which {@link IParsedObject}s present in that file a breakpoint has been
 	 * set.
 	 */
-	private final Map<File, Set<IParsedObject>> breakpoints;
+	private final Map<File, Set<SourceInfo>> breakpoints;
 	private final PlatformManager platform;
 
 	public BreakpointManager(PlatformManager platform) {
@@ -47,9 +48,9 @@ public class BreakpointManager {
 	 *         set. They are sorted. The ID of the objects will be the index in
 	 *         the returned list.
 	 */
-	public static List<ParsedObject> getBreakpointObjects(AgentProgram program) {
+	public static List<SourceInfo> getBreakpointObjects(AgentProgram program) {
 		// Collect all objects for which a breakpoint can be set.
-		List<ParsedObject> objects = new LinkedList<>();
+		List<SourceInfo> objects = new LinkedList<>();
 		// All action specifications can be breakpoints.
 		objects.addAll(program.getAllActionSpecs());
 
@@ -68,7 +69,7 @@ public class BreakpointManager {
 			if (module.isAnonymous()) {
 				continue;
 			}
-			objects.add(module);
+			objects.add(module.getSourceInfo());
 		}
 
 		Collections.sort(objects);
@@ -96,14 +97,14 @@ public class BreakpointManager {
 
 		for (File file : affectedFiles) {
 			// remove and re-add all breakpoints of all affected files
-			Set<IParsedObject> originalBPs = breakpoints.remove(file);
+			Set<SourceInfo> originalBPs = breakpoints.remove(file);
 			if (originalBPs == null) {
 				continue;
 			}
-			for (IParsedObject bp : originalBPs) {
+			for (SourceInfo bp : originalBPs) {
 				// HACK. we should respect breakpoint types.
-				addBreakpoint(bp.getSource().getSourceFile(), new BreakPoint(
-						agentFile, bp.getSource().getLineNumber() - 1,
+				addBreakpoint(bp.getSource(), new BreakPoint(
+						agentFile, bp.getLineNumber() - 1,
 						bp instanceof Action ? BreakPoint.Type.CONDITIONAL
 								: BreakPoint.Type.ALWAYS));
 			}
@@ -111,7 +112,7 @@ public class BreakpointManager {
 
 		// Update the set of breakpoint objects.
 		// FIXME: where and when do we need to do this??
-		for (ParsedObject bpObj : getBreakpointObjects(platform
+		for (SourceInfo bpObj : getBreakpointObjects(platform
 				.getAgentProgram(agentFile))) {
 			breakpoints.get(agentFile).add(bpObj);
 		}
@@ -148,7 +149,7 @@ public class BreakpointManager {
 		// agents that reference the given file.
 		AgentProgram program = platform.getAgentProgram(referencingAgentFiles
 				.get(0));
-		for (IParsedObject bp : getBreakpointObjects(program)) {
+		for (SourceInfo bp : getBreakpointObjects(program)) {
 			// breakpointLocations.get(referencingAgentFiles.get(0))) {
 			/*
 			 * since the breakpoint-objects are ordered, the first match is the
@@ -157,7 +158,7 @@ public class BreakpointManager {
 			 */
 			if (bp.getSource().definedAfter(sourceFile, bpt.getLine())
 					&& (bpt.getType() == Type.ALWAYS || (bp instanceof ActionCombo))) {
-				line = bp.getSource().getLineNumber();
+				line = bp.getLineNumber();
 				addBreakpoint(bp);
 				break;
 			}
@@ -172,14 +173,13 @@ public class BreakpointManager {
 	 *            The location to put a breakpoint. Contains a reference to the
 	 *            file it is located in.
 	 */
-	private void addBreakpoint(IParsedObject breakpos) {
+	private void addBreakpoint(SourceInfo breakpos) {
 		assert breakpos != null;
-		if (!breakpoints.containsKey(breakpos.getSource().getSourceFile())) {
-			breakpoints.put(breakpos.getSource().getSourceFile(),
-					new HashSet<IParsedObject>());
+		if (!breakpoints.containsKey(breakpos.getSource())) {
+			breakpoints.put(breakpos.getSource(),
+					new HashSet<SourceInfo>());
 		}
-		Set<IParsedObject> bps = breakpoints.get(breakpos.getSource()
-				.getSourceFile());
+		Set<SourceInfo> bps = breakpoints.get(breakpos.getSource());
 		bps.add(breakpos);
 	}
 
@@ -216,7 +216,7 @@ public class BreakpointManager {
 	 *            The file to get the breakpoints for
 	 * @return A set of IParsedObjects corresponding to breakpoints.
 	 */
-	public Set<IParsedObject> getBreakpoints(File file) {
+	public Set<SourceInfo> getBreakpoints(File file) {
 		// return null when the agent file is not valid. Indicates that the
 		// breakpoints should not be updated.
 		List<File> referencingAgentFiles = getReferencingAgentFiles(file);
@@ -270,8 +270,8 @@ public class BreakpointManager {
 	 *         List can be empty if no breakpoints have been set for this goal
 	 *         program.
 	 */
-	public Set<IParsedObject> getAllBreakpoints(File goalProgramFile) {
-		HashSet1<IParsedObject> breakpts = new HashSet1<>();
+	public Set<SourceInfo> getAllBreakpoints(File goalProgramFile) {
+		HashSet1<SourceInfo> breakpts = new HashSet1<>();
 		breakpts.addAll(getBreakpoints(goalProgramFile));
 		for (File importedFile : platform.getAgentProgram(goalProgramFile)
 				.getImports()) {

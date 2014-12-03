@@ -22,6 +22,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Set;
 
+import krTools.parser.SourceInfo;
+
 public class InputReaderWriter extends Thread {
 	private final BufferedReader input;
 	private final BufferedWriter output;
@@ -236,9 +238,8 @@ public class InputReaderWriter extends Thread {
 			for (final Agent<IDEGOALInterpreter> agent : this.runtime
 					.getAgents()) {
 				try {
-					final Set<IParsedObject> newbreakpoints = breaks
-							.getBreakpoints(agent.getController().getProgram()
-									.getSource().getSourceFile());
+					final Set<SourceInfo> newbreakpoints = breaks
+							.getBreakpoints(agent.getController().getProgram().getSourceFile());
 					agent.getController().getDebugger()
 							.setBreakpoints(newbreakpoints);
 				} catch (final Exception e) {

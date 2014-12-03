@@ -69,7 +69,7 @@ public class LaunchManager {
 		String host = getMiddlewareHostName();
 
 		// FIXME: find a better way to prevent launching a MAS with errors...
-		if (!masProgram.isValidated()) {
+		if (!masProgram.isValid()) {
 			throw new GOALLaunchFailureException("Cannot launch MAS "
 					+ masProgram + " because it (or a child) has errors.");
 		}

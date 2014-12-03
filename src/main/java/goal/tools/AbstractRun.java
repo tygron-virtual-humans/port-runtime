@@ -238,7 +238,7 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 
 		// FIXME: find a better way to prevent launching a MASFile with
 		// errors...
-		if (!program.isValidated()) {
+		if (!program.canRun()) {
 			throw new GOALLaunchFailureException("Cannot launch MAS " + program
 					+ " because it (or a child) has errors.");
 		}

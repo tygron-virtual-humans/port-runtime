@@ -20,6 +20,7 @@ package goal.tools.debugger;
 
 import eis.iilang.EnvironmentState;
 import goal.core.agent.Agent;
+import krTools.parser.SourceInfo;
 import languageTools.parser.InputStreamPosition;
 import languageTools.program.agent.AgentId;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
@@ -489,11 +490,9 @@ public class SteppingDebugger implements Debugger {
 			String message, Object... args) {
 		// make sure there is a source attached to the object.
 		// just ignore the event if there isn't
-		InputStreamPosition source = null;
-		if (associatedObject instanceof InputStreamPosition) {
-			source = (InputStreamPosition) associatedObject;
-		} else if (associatedObject instanceof IParsedObject) {
-			source = ((IParsedObject) associatedObject).getSource();
+		SourceInfo source = null;
+		if (associatedObject instanceof SourceInfo) {
+			source = ((SourceInfo) associatedObject);
 		}
 		if (source != null && breakpointIds.contains(source.getID())) {
 			final Agent<IDEGOALInterpreter> agent = LaunchManager.getCurrent()
@@ -520,11 +519,11 @@ public class SteppingDebugger implements Debugger {
 	 * @param breakpoints
 	 *            The set of breakpoints.
 	 */
-	public void setBreakpoints(Set<IParsedObject> breakpoints) {
+	public void setBreakpoints(Set<SourceInfo> breakpoints) {
 		breakpointIds.clear();
 		if (breakpoints != null) {
-			for (IParsedObject breakpoint : breakpoints) {
-				this.setBreakpoint(breakpoint.getSource().getID());
+			for (SourceInfo breakpoint : breakpoints) {
+				this.setBreakpoint(breakpoint.getID());
 			}
 		}
 	}

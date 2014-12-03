@@ -386,7 +386,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 
 		AgentProgram program = launch.getAgentProgram();
 		// FIXME: AgentProgram should have reference to its file.
-		File goalProgramFile = launch.getAgentFile().getAgentFile();
+		File goalProgramFile = launch.getAgentFile();
 		Agent<C> agent;
 		try {
 			agent = factory.build(program, goalProgramFile, agentBaseName,
@@ -458,8 +458,8 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 
 		for (LaunchRule launchRule : launchrules) {
 			// check whether type-condition exists and is satisfied
-			if (!launchRule.getEntityType().equals("")
-					&& !launchRule.getEntityType().equals(type)) {
+			if (!launchRule.getRequiredEntityType().equals("")
+					&& !launchRule.getRequiredEntityType().equals(type)) {
 				continue;
 			}
 
@@ -467,8 +467,8 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 			warning = Resources.get(WarningStrings.MISMATCH_ENTITY_NAME_RULE);
 
 			// check whether label condition exists and is not satisfied
-			if (!launchRule.getEntityName().equals("")
-					&& !launchRule.getEntityName().equals(newEntity)) {
+			if (!launchRule.getRequiredEntityName().equals("")
+					&& !launchRule.getRequiredEntityName().equals(newEntity)) {
 				continue;
 			}
 

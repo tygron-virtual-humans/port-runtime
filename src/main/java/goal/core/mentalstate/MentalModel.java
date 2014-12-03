@@ -36,6 +36,7 @@ import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
+import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
 
 import java.util.HashSet;
@@ -218,8 +219,8 @@ public class MentalModel {
 		// Clean up knowledge, belief, percept bases, and mailbox.
 		for (BASETYPE type : this.beliefBases.keySet()) {
 			try {
-				this.beliefBases.get(type).getDatabase().cleanUp();
-			} catch (KRInitFailedException e) {
+				this.beliefBases.get(type).getDatabase().destroy();
+			} catch (KRDatabaseException e) {
 				throw new GOALRuntimeErrorException("Could not remove " + type,
 						e);
 			}

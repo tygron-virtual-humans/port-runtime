@@ -1,5 +1,6 @@
 package goal.tools.debugger;
 
+import krTools.parser.SourceInfo;
 import languageTools.program.agent.AgentId;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
 
@@ -136,10 +137,10 @@ public class ObservableDebugger extends SteppingDebugger {
 		boolean hit = super.checkUserBreakpointHit(associatedObject, message,
 				args);
 		if (hit) {
-			IParsedObject parsedObject = (IParsedObject) associatedObject;
+			SourceInfo parsedObject = (SourceInfo) associatedObject;
 			DebugEvent event = new DebugEvent(getRunMode(), getName(),
 					"Hit user defined breakpoint on " + parsedObject + "("
-							+ parsedObject.getSource() + ")",
+							+ parsedObject + ")",
 							Channel.BREAKPOINTS, associatedObject);
 			notifyObservers(Channel.BREAKPOINTS, event);
 		}
