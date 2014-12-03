@@ -3,6 +3,7 @@ package goal.tools;
 import krTools.parser.SourceInfo;
 import languageTools.program.agent.AgentProgram;
 import languageTools.program.agent.Module;
+import languageTools.program.agent.Module.TYPE;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.ActionCombo;
 import languageTools.program.agent.rules.Rule;
@@ -55,7 +56,7 @@ public class BreakpointManager {
 		objects.addAll(program.getAllActionSpecs());
 
 		// #2117: All condition and action parts of rules can be breakpoints.
-		for (Module module : program.getAllModules()) {
+		for (Module module : program.getModules()) {
 			int ruleCount = module.getRuleSet().getRuleCount();
 			for (int i = 0; i < ruleCount; i++) {
 				Rule rule = module.getRuleSet().getRule(i);
@@ -65,14 +66,14 @@ public class BreakpointManager {
 		}
 
 		// All non-anonymous modules may also be breakpoints.
-		for (Module module : program.getAllModules()) {
-			if (module.isAnonymous()) {
+		for (Module module : program.getModules()) {
+			if (module.getType() == TYPE.ANONYMOUS) {
 				continue;
 			}
 			objects.add(module.getSourceInfo());
 		}
 
-		Collections.sort(objects);
+		//Collections.sort(objects);
 
 		// See to it that all objects have a unique identifier.
 		for (int i = 0; i < objects.size(); i++) {
@@ -93,7 +94,7 @@ public class BreakpointManager {
 		// make sure to also update the breakpoints for all child files.
 		List<File> affectedFiles = new LinkedList<>();
 		affectedFiles.add(agentFile);
-		affectedFiles.addAll(platform.getAgentProgram(agentFile).getImports());
+		//affectedFiles.addAll(platform.getAgentProgram(agentFile).getImports());
 
 		for (File file : affectedFiles) {
 			// remove and re-add all breakpoints of all affected files
@@ -246,13 +247,13 @@ public class BreakpointManager {
 	private List<File> getReferencingAgentFiles(File file) {
 		List<File> referencingAgentFiles = new LinkedList<>();
 		for (File agentFile : platform.getAllGOALFiles()) {
-			for (File importedFile : platform.getAgentProgram(agentFile)
+			/*for (File importedFile : platform.getAgentProgram(agentFile)
 					.getImports()) {
 				if (importedFile.equals(file)) {
 					referencingAgentFiles.add(agentFile);
 					break;
 				}
-			}
+			}*/
 			if (agentFile.getName().equals(file.getName())) {
 				referencingAgentFiles.add(agentFile);
 			}
@@ -273,10 +274,10 @@ public class BreakpointManager {
 	public Set<SourceInfo> getAllBreakpoints(File goalProgramFile) {
 		HashSet1<SourceInfo> breakpts = new HashSet1<>();
 		breakpts.addAll(getBreakpoints(goalProgramFile));
-		for (File importedFile : platform.getAgentProgram(goalProgramFile)
+		/*for (File importedFile : platform.getAgentProgram(goalProgramFile)
 				.getImports()) {
 			breakpts.addAll(getBreakpoints(importedFile));
-		}
+		}*/
 		return breakpts;
 	}
 

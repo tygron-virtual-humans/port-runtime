@@ -194,13 +194,13 @@ public class EnvironmentService {
 	EnvironmentInterfaceException, InterruptedException,
 	MessagingException {
 		// If MAS file does not have environment section, there is nothing to do
-		if (!masProgram.hasEnvironmentSection()) {
+		if (!masProgram.hasEnvironment()) {
 			return;
 		}
 
 		// Get environment name, file (if it exists), and initialization
 		// parameters.
-		String environmentName = masProgram.getEnvironmentName();
+		String environmentName = masProgram.getEnvironmentfile().getName();
 
 		// FIXME this allows one to create a new env or to use an existing one
 		// by specifying a name ending on ".jar" or not in the MAS file.

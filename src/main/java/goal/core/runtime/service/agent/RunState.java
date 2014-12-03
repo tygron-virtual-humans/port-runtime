@@ -38,6 +38,7 @@ import languageTools.program.agent.actions.LogAction;
 import languageTools.program.agent.actions.ModuleCallAction;
 import languageTools.program.agent.actions.UserSpecAction;
 import languageTools.program.agent.msg.Message;
+import languageTools.program.agent.rules.Rule;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
 import goal.preferences.PMPreferences;
 import goal.tools.adapt.FileLearner;
@@ -54,6 +55,7 @@ import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 import krTools.errors.exceptions.KRInitFailedException;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -189,9 +191,9 @@ public class RunState<D extends Debugger> {
 		this.logActionsLogger = logger;
 
 		// Get the built-in modules from the agent's program, if available.
-		this.initModule = program.getModule().getModuleOfType(TYPE.INIT);
-		this.eventModule = program.getModule().getModuleOfType(TYPE.EVENT);
-		this.mainModule = program.getModule().getModuleOfType(TYPE.MAIN);
+		this.initModule = program.getModuleOfType(TYPE.INIT);
+		this.eventModule = program.getModuleOfType(TYPE.EVENT);
+		this.mainModule = program.getModuleOfType(TYPE.MAIN);
 
 		// Check there is a main module; create a "dummy" one if main is absent.
 		if (this.mainModule == null) {
@@ -200,8 +202,8 @@ public class RunState<D extends Debugger> {
 			this.mainModule = new Module("main", TYPE.MAIN, 
 					program.getKRInterface(), null); //$NON-NLS-1$
 			// Add an empty set of rules to the module.
-			this.mainModule.setRuleSet(new RuleSet(RuleEvaluationOrder.LINEAR,
-					null));
+			this.mainModule.setRuleEvaluationOrder(RuleEvaluationOrder.LINEAR);
+			this.mainModule.setRules(new ArrayList<Rule>(0));
 		}
 
 		// Store reference to program for possible reset.
@@ -650,7 +652,7 @@ public class RunState<D extends Debugger> {
 	 *            A (non-anonymous) module.
 	 */
 	public void enteredModule(Module module) {
-		if (module.isAnonymous()) {
+		if (module.getType() == TYPE.ANONYMOUS) {
 			return;
 		}
 
@@ -678,7 +680,7 @@ public class RunState<D extends Debugger> {
 	 *         anonymous module.
 	 */
 	public boolean exitModule(Module module) {
-		if (module.isAnonymous()) {
+		if (module.getType() == TYPE.ANONYMOUS) {
 			return false;
 		}
 

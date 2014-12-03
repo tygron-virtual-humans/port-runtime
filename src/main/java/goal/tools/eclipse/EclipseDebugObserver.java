@@ -264,7 +264,7 @@ public class EclipseDebugObserver implements DebugObserver {
 		final int diff = this.source.getStopIndex()
 				- this.source.getStartIndex();
 		final String[] params = new String[] {
-				this.source.getSourceFile().getPath(),
+				this.source.getSource().getPath(),
 				Integer.toString(this.source.getLineNumber()),
 				Integer.toString(this.source.getCharacterPosition()),
 				Integer.toString(this.source.getCharacterPosition() + diff) };
