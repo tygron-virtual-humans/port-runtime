@@ -19,6 +19,7 @@
 package goal.core.mentalstate;
 
 import eis.iilang.Percept;
+import krTools.KRInterface;
 import krTools.language.DatabaseFormula;
 import krTools.language.Query;
 import krTools.language.Substitution;
@@ -67,16 +68,15 @@ import java.util.Set;
  * @modified N.Kraayenbrink extending {@link Observable}
  */
 public class BeliefBase {
-
 	/**
 	 * The name of the agent whose goals are modeled by this goal base.
 	 */
 	private final AgentId agentName;
 	/**
-	 * The {@link KRlanguage} used for representing the contents of this
+	 * The {@link KRInterface} used for representing the contents of this
 	 * {@link BeliefBase}.
 	 */
-	private final KRlanguage language;
+	private final KRInterface language;
 	/**
 	 * The {@link BASETYPE} of this {@link BeliefBase}. Indicates whether base
 	 * is used for percepts, mails, knowledge, or beliefs. Goals are handled by
@@ -127,7 +127,7 @@ public class BeliefBase {
 	 *             If the KR technology failed to create and/or initialize a new
 	 *             database.
 	 */
-	public BeliefBase(BASETYPE baseType, KRlanguage language,
+	public BeliefBase(BASETYPE baseType, KRInterface language,
 			Set<DatabaseFormula> content, AgentId owner, AgentId agentName)
 					throws KRInitFailedException {
 
@@ -162,7 +162,7 @@ public class BeliefBase {
 	}
 
 	/**
-	 * Returns the {@link Database} used by the {@link KRlanguage} for
+	 * Returns the {@link Database} used by the {@link KRInterface} for
 	 * representing this {@link BeliefBase}.
 	 *
 	 * @return The database used by the KR language for representing this belief

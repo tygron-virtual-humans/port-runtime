@@ -19,6 +19,7 @@
 package goal.core.mentalstate;
 
 import goal.core.agent.Agent;
+import krTools.KRInterface;
 import krTools.language.Query;
 import krTools.language.Substitution;
 import krTools.language.Update;
@@ -77,11 +78,10 @@ import java.util.Set;
  */
 
 public final class GoalBase implements Iterable<SingleGoal> {
-
 	/**
 	 * The KR language used for representing the goals in this {@link GoalBase}.
 	 */
-	private final KRlanguage language;
+	private final KRInterface language;
 	/**
 	 * The contents of this {@link GoalBase}. WARNING: only add and remove goals
 	 * using {@link #addGoal(SingleGoal)} and {@link #remove(SingleGoal)} unless
@@ -128,7 +128,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 *            The name of the agent whose goals are modeled in this goal
 	 *            base.
 	 */
-	public GoalBase(KRlanguage language, AgentId owner, String name,
+	public GoalBase(KRInterface language, AgentId owner, String name,
 			AgentId... agentName) {
 		this.owner = owner;
 		this.name = name;
@@ -157,7 +157,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 *            The name of the agent whose goals are modeled in this goal
 	 *            base.
 	 */
-	public GoalBase(KRlanguage language, SingleGoal singleGoal, AgentId owner,
+	public GoalBase(KRInterface language, SingleGoal singleGoal, AgentId owner,
 			String name, Debugger debugger, AgentId... agentName) {
 		this(language, owner, name, agentName);
 		this.addGoal(singleGoal, debugger);

@@ -25,6 +25,7 @@ import goal.core.mentalstate.BASETYPE;
 import goal.core.mentalstate.MentalState;
 import languageTools.program.agent.AgentProgram;
 import languageTools.program.agent.Module;
+import languageTools.program.agent.Module.RuleEvaluationOrder;
 import languageTools.program.agent.actions.ActionCombo;
 import goal.preferences.CorePreferences;
 import goal.tools.logging.InfoLog;
@@ -251,7 +252,7 @@ public class FileLearner implements Serializable, Learner {
 		new InfoLog("Computing filter for module " + module.getName() + ".");
 
 		ModuleGraphGenerator moduleGraphGenerator = new ModuleGraphGenerator();
-		moduleGraphGenerator.setKRlanguage(module.getKRLanguage());
+		moduleGraphGenerator.setKRlanguage(module.getKRInterface());
 		moduleGraphGenerator.createGraph(module, null);
 		DependencyGraph<?> filter = moduleGraphGenerator.getGraph();
 		List<? extends Expression> queried = filter.getQueries();
@@ -582,7 +583,7 @@ public class FileLearner implements Serializable, Learner {
 		 * ADAPTIVE modules going from RUNNING->KILLED.
 		 */
 		for (Module module : program.getAllModules()) {
-			if (module.getRuleSet().getRuleOrder() == RuleSet.RuleEvaluationOrder.ADAPTIVE) {
+			if (module.getRuleSet().getRuleOrder() == RuleEvaluationOrder.ADAPTIVE) {
 				/*
 				 * Learning was performed in this program so we will save the
 				 * learner before we finish.

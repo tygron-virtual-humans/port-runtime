@@ -4,6 +4,7 @@ import eis.exceptions.EnvironmentInterfaceException;
 import goal.core.agent.Agent;
 import goal.core.agent.AgentFactory;
 import goal.core.agent.GOALInterpreter;
+import krTools.errors.exceptions.ParserException;
 import languageTools.program.mas.LaunchRule;
 import languageTools.program.mas.MASProgram;
 import goal.core.runtime.MessagingService;
@@ -155,7 +156,7 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	 *            of the duration to wait
 	 * @throws MessagingException
 	 * @throws GOALCommandCancelledException
-	 * @throws GOALParseException
+	 * @throws ParserException
 	 * @throws GOALLaunchFailureException
 	 * @throws InterruptedException
 	 * @throws EnvironmentInterfaceException
@@ -163,7 +164,7 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	// FIXME: This amount of exceptions is ridiculous. Clean this up.
 	@SuppressWarnings("unchecked")
 	public void run() throws MessagingException, GOALCommandCancelledException,
-	GOALParseException, GOALLaunchFailureException,
+	ParserException, GOALLaunchFailureException,
 	InterruptedException, EnvironmentInterfaceException {
 		RuntimeManager<? extends D, ? extends C> runtimeManager = null;
 		try {
@@ -249,7 +250,7 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 		}
 
 		// Launch the multi-agent system. and start the runtime environment.
-		new InfoLog("Launching MAS " + program.getMASFile() + ".");
+		new InfoLog("Launching MAS " + program.getSourceFile() + ".");
 
 		// init MessagingFactory and get our messaging system
 

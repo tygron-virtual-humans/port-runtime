@@ -3,6 +3,7 @@ package goal.tools;
 import goal.core.agent.AbstractAgentFactory;
 import goal.core.agent.AgentFactory;
 import goal.core.agent.GOALInterpreter;
+import krTools.errors.exceptions.ParserException;
 import languageTools.program.mas.MASProgram;
 import goal.core.runtime.MessagingService;
 import goal.tools.adapt.Learner;
@@ -32,10 +33,10 @@ public class SingleRun extends AbstractRun<Debugger, GOALInterpreter<Debugger>> 
 	 *
 	 * @param masFile
 	 *            file to use as a MASProgram
-	 * @throws GOALParseException
+	 * @throws ParserException
 	 *             when the mas file could not be parsed.
 	 */
-	public SingleRun(File masFile) throws GOALParseException {
+	public SingleRun(File masFile) throws ParserException {
 		super(PlatformManager.createNew().parseMASFile(masFile));
 	}
 

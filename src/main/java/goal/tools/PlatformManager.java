@@ -22,9 +22,12 @@ import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALBug;
+import krTools.KRInterface;
 import krTools.errors.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.ParserException;
 import languageTools.analyzer.agent.AgentValidator;
 import languageTools.analyzer.mas.MASValidator;
+import languageTools.errors.Message;
 import languageTools.errors.ValidatorError;
 import languageTools.errors.ValidatorWarning;
 import languageTools.program.agent.AgentProgram;
@@ -108,9 +111,9 @@ public class PlatformManager {
 
 	public static PlatformManager createNew() {
 		current = new PlatformManager();
-		for (final String language : KRFactory.getLanguages()) {
+		for (final String language : KRFactory.getSupportedInterfaces()) {
 			try {
-				KRFactory.get(language).reset();
+				KRFactory.getInterface(language).reset();
 			} catch (final KRInitFailedException e) {
 				new Warning(String.format(
 						Resources.get(WarningStrings.INTERNAL_PROBLEM),
@@ -326,7 +329,7 @@ public class PlatformManager {
 		return files;
 	}
 
-	public UnitTest parseUnitTestFile(File file) throws GOALParseException {
+	public UnitTest parseUnitTestFile(File file) throws ParserException {
 		// Logger to report issues found during parsing and validation.
 		GOALLogger parserLogger = Loggers.getParserLogger();
 		parserLogger.log(new StringsLogRecord(Level.INFO, "Parsing test file " //$NON-NLS-1$
@@ -372,7 +375,7 @@ public class PlatformManager {
 			}
 			return program;
 		} catch (IOException e) {
-			throw new GOALParseException("Could not find test file " + file //$NON-NLS-1$
+			throw new ParserException("Could not find test file " + file //$NON-NLS-1$
 					+ " due to ", e); //$NON-NLS-1$
 		}
 	}
@@ -383,14 +386,14 @@ public class PlatformManager {
 	 *
 	 * @param masFile
 	 *            The the MAS (.mas2g) file.
-	 * @throws GOALParseException
+	 * @throws ParserException
 	 *             If ANTLR stream cannot be opened. If parsing MAS file
 	 *             generates errors.
 	 * @throws IOException
 	 *             If file could not be closed properly.
 	 * @return The parsed and validated MAS program.
 	 */
-	public MASProgram parseMASFile(File masFile) throws GOALParseException {
+	public MASProgram parseMASFile(File masFile) throws ParserException {
 		// Logger to report issues found during parsing and validation.
 		GOALLogger parserLogger = Loggers.getParserLogger();
 		parserLogger.log(new StringsLogRecord(Level.INFO, "Parsing mas file " //$NON-NLS-1$
@@ -400,7 +403,7 @@ public class PlatformManager {
 		try {
 			walker = MASWalker.getWalker(masFile);
 		} catch (Exception e) {
-			throw new GOALParseException(
+			throw new ParserException(
 					"Could not initialize MAS parsing structure for '" //$NON-NLS-1$
 							+ masFile + "' due to ", e); //$NON-NLS-1$
 		}
@@ -462,11 +465,11 @@ public class PlatformManager {
 		MASValidator validator = new MASValidator();
 		validator.validate(masProgram, false);
 		if (!validator.isPerfect()) {
-			for (ValidatorError error : validator.getErrors()) {
+			for (Message error : validator.getErrors()) {
 				parserLogger.log(new StringsLogRecord(Level.SEVERE, error
 						.toString()));
 			}
-			for (ValidatorWarning warning : validator.getWarnings()) {
+			for (Message warning : validator.getWarnings()) {
 				parserLogger.log(new StringsLogRecord(Level.WARNING, warning
 						.toString()));
 			}
@@ -530,7 +533,7 @@ public class PlatformManager {
 	 * @param language
 	 *            The KR language that is used in the agent file.
 	 * @return GOAL program resulting from parsing the agent file.
-	 * @throws GOALParseException
+	 * @throws ParserException
 	 *             if the file does not exist, is a directory rather than a
 	 *             regular file, or for some other reason cannot be opened for
 	 *             reading. Or if an ANTLR stream could not be opened. if the
@@ -538,8 +541,8 @@ public class PlatformManager {
 	 *             .goal file. Indicates that the returned value is null or
 	 *             otherwise invalid.
 	 */
-	public AgentProgram parseGOALFile(File goalFile, KRlanguage language)
-			throws GOALParseException {
+	public AgentProgram parseGOALFile(File goalFile, KRInterface language)
+			throws ParserException {
 		// Logger to report issues found during parsing and validation.
 		GOALLogger parserLogger = Loggers.getParserLogger();
 		parserLogger.log(new StringsLogRecord(Level.INFO, "Parsing agent file " //$NON-NLS-1$
@@ -549,7 +552,7 @@ public class PlatformManager {
 		try {
 			walker = GOALWalker.getWalker(goalFile, language);
 		} catch (Exception e) {
-			throw new GOALParseException("Could not parse GOAL file " //$NON-NLS-1$
+			throw new ParserException("Could not parse GOAL file " //$NON-NLS-1$
 					+ goalFile + " due to parser failure", e); //$NON-NLS-1$
 		}
 
@@ -578,12 +581,12 @@ public class PlatformManager {
 
 		// Report any errors encountered during parsing.
 		boolean hasErrors = false;
-		for (ValidatorError error : walker.getErrors()) {
+		for (Message error : walker.getErrors()) {
 			hasErrors = true;
 			parserLogger.log(new StringsLogRecord(Level.SEVERE, error
 					.toString()));
 		}
-		for (ValidatorWarning warning : walker.getWarnings()) {
+		for (Message warning : walker.getWarnings()) {
 			parserLogger.log(new StringsLogRecord(Level.WARNING, warning
 					.toString()));
 		}
@@ -608,11 +611,11 @@ public class PlatformManager {
 		AgentValidator validator = new AgentValidator();
 		validator.validate(program.getModule(), false);
 		if (!validator.isPerfect()) {
-			for (ValidatorError error : validator.getErrors()) {
+			for (Message error : validator.getErrors()) {
 				parserLogger.log(new StringsLogRecord(Level.SEVERE, error
 						.toString()));
 			}
-			for (ValidatorWarning warning : validator.getWarnings()) {
+			for (Message warning : validator.getWarnings()) {
 				parserLogger.log(new StringsLogRecord(Level.WARNING, warning
 						.toString()));
 			}

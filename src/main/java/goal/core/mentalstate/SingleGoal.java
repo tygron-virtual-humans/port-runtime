@@ -1,5 +1,6 @@
 package goal.core.mentalstate;
 
+import krTools.KRInterface;
 import krTools.language.Update;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 import krTools.database.Database;
@@ -55,11 +56,11 @@ public class SingleGoal {
 	 * @param agent
 	 *            The agent this goal is for
 	 * @param language
-	 *            The KRlanguage to use
+	 *            The KRInterface to use
 	 * @throws GOALRuntimeErrorException
-	 *             see {@link KRlanguage#makeDatabase}.
+	 *             see {@link KRInterface#makeDatabase}.
 	 */
-	protected SingleGoal(Update goal, AgentId agent, KRlanguage language) {
+	protected SingleGoal(Update goal, AgentId agent, KRInterface language) {
 		this.goal = goal;
 
 		try {

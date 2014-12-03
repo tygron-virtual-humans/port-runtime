@@ -379,7 +379,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 		if (PMPreferences.getUseMASNameAsAgentPrefix()) {
 			String prefix = "";
 			// FIXME: Should be able to get MASFile from Launch.
-			prefix = this.masProgram.getMASFile().getName();
+			prefix = this.masProgram.getSourceFile().getName();
 			prefix = prefix.substring(0, prefix.indexOf("."));
 			agentBaseName = prefix + "_" + agentBaseName;
 		}

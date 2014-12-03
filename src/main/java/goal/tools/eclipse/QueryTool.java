@@ -113,7 +113,7 @@ public class QueryTool {
 			CommonTokenStream stream = new CommonTokenStream(lexer);
 			GOAL parser = new GOAL(stream);
 			return new GOALWalker(null, parser, lexer, agent.getController()
-					.getProgram().getKRLanguage());
+					.getProgram().getKRInterface());
 		} catch (IOException e) {
 			throw new GOALBug("internal error while handling the query", e);
 		}
@@ -226,7 +226,7 @@ public class QueryTool {
 			// TODO: now sets by default that action is EXTERNAL and should be
 			// sent to environment.
 			act = new UserSpecAction(act.getName(),
-					((UserSpecOrModuleCall) act).getParameters(), true, null);
+					((UserSpecOrModuleCall) act).getParameters(), true, null,null,null);
 			// Search for all corresponding action specifications.
 			for (ActionSpecification specification : agent.getController()
 					.getProgram().getAllActionSpecs()) {

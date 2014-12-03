@@ -49,7 +49,7 @@ public class Agent<CONTROLLER extends Controller> {
 	 *            a logger for {@link LogAction}s.
 	 *
 	 * @throws KRInitFailedException
-	 *             when the agent could not initialize the KRLanguage
+	 *             when the agent could not initialize the KRInterface
 	 */
 	public Agent(AgentId id, EnvironmentCapabilities environment,
 			MessagingCapabilities messaging, LoggingCapabilities logger,
@@ -148,7 +148,7 @@ public class Agent<CONTROLLER extends Controller> {
 	 * @throws InterruptedException
 	 *             when interrupted while waiting for the agent to stop
 	 * @throws KRInitFailedException
-	 *             when failing to reset the {@link KRlanguage}.
+	 *             when failing to reset the {@link KRInterface}.
 	 */
 	public void reset() throws InterruptedException, KRInitFailedException {
 		controller.reset();

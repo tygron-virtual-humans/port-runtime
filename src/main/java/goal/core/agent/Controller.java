@@ -41,7 +41,7 @@ public abstract class Controller {
 	 * @param agent
 	 *            controlled by this controller.
 	 * @throws KRInitFailedException
-	 *             when the controller could not initialize the KRLanguage.
+	 *             when the controller could not initialize the KRInterface.
 	 */
 	protected void initalizeController(Agent<? extends Controller> agent)
 			throws KRInitFailedException {
@@ -139,7 +139,7 @@ public abstract class Controller {
 	 * @throws InterruptedException
 	 *             when interrupted while waiting for the agent to stop.
 	 * @throws KRInitFailedException
-	 *             when unable to initialize the KRLanguage when restarting the
+	 *             when unable to initialize the KRInterface when restarting the
 	 *             agent.
 	 */
 	public final void reset() throws InterruptedException,
@@ -158,7 +158,7 @@ public abstract class Controller {
 	 * @throws InterruptedException
 	 *             when interrupted while waiting for the agent to reset.
 	 * @throws KRInitFailedException
-	 *             when unable to initialize the KRLanguage when restarting the
+	 *             when unable to initialize the KRInterface when restarting the
 	 *             agent.
 	 */
 	protected void onReset() throws InterruptedException, KRInitFailedException {

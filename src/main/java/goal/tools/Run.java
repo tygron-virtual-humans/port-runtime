@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import krTools.errors.exceptions.ParserException;
 import localmessaging.LocalMessaging;
 import nl.tudelft.goal.messaging.Messaging;
 
@@ -100,12 +101,12 @@ public class Run {
 	/**
 	 * @param args
 	 * @throws ParseException
-	 * @throws GOALParseException
+	 * @throws ParserException
 	 * @throws FileNotFoundException
 	 * @throws Exception
 	 */
 	public static void run(String... args) throws ParseException,
-			GOALParseException, FileNotFoundException, Exception {
+			ParserException, FileNotFoundException, Exception {
 		// Get start time.
 		long startTime = System.nanoTime();
 
@@ -237,7 +238,7 @@ public class Run {
 	 * @return a list of T
 	 * @throws ParseException
 	 *             when no left over arguments were present
-	 * @throws GOALParseException
+	 * @throws ParserException
 	 *             when the file could not be parsed
 	 * @throws FileNotFoundException
 	 *             when the argument was not a file or directory

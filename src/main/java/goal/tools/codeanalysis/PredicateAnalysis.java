@@ -66,7 +66,7 @@ public class PredicateAnalysis {
 	 */
 	private void performAnalysis() {
 		AgentProgramGraphGenerator programGraphGenerator = new AgentProgramGraphGenerator();
-		programGraphGenerator.setKRlanguage(program.getKRLanguage());
+		programGraphGenerator.setKRInterface(program.getKRInterface());
 		programGraphGenerator.createGraph(program, null);
 		ExpressionGraph expressionGraph = programGraphGenerator.getGraph();
 

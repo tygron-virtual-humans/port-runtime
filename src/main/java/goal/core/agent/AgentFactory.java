@@ -46,7 +46,7 @@ public interface AgentFactory<DEBUGGER extends Debugger, CONTROLLER extends GOAL
 	 *             thrown when the agent could not setup a {@link MessageBox}
 	 * @throws KRInitFailedException
 	 *             thrown when the agent could not initialize the
-	 *             {@link KRlanguage}.
+	 *             {@link KRInterface}.
 	 */
 	// FIXME: AgentProgram should have a reference to its .goal file.
 	public Agent<CONTROLLER> build(AgentProgram program, File goalProgramFile,

@@ -45,7 +45,7 @@ public class DoActionSection implements TestSection {
 			throws TestSectionFailed {
 		runState.startCycle(false);
 		Result result = action.run(runState, runState.getMentalState()
-				.getKRLanguage().getEmptySubstitution(), false);
+				.getKRInterface().getEmptySubstitution(), false);
 		return new ActionResult(this, result);
 
 	}

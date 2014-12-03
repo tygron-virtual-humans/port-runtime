@@ -19,6 +19,7 @@
 package goal.core.mentalstate;
 
 import goal.core.agent.Agent;
+import krTools.KRInterface;
 import krTools.language.DatabaseFormula;
 import krTools.language.Query;
 import krTools.language.Substitution;
@@ -58,7 +59,7 @@ import nl.tudelft.goal.messaging.messagebox.MessageBox;
  * beliefs and goals.
  * <p>
  * Assumes that a mental state is represented using a single knowledge
- * representation language, i.e. {@link KRlanguage}.
+ * representation language, i.e. {@link KRInterface}.
  * </p>
  * <p>
  * To get notified about changes you can subscribe as Observer to the individual
@@ -70,7 +71,6 @@ import nl.tudelft.goal.messaging.messagebox.MessageBox;
  *
  */
 public class MentalState {
-
 	/**
 	 * The name of the agent that owns this {@link MentalState}.
 	 */
@@ -78,9 +78,9 @@ public class MentalState {
 
 	private final Set<AgentId> knownAgents = new LinkedHashSet<>();
 	/**
-	 * The {@link KRlanguage} used for representing this {@link MentalState}.
+	 * The {@link KRInterface} used for representing this {@link MentalState}.
 	 */
-	private final KRlanguage language;
+	private final KRInterface language;
 	/**
 	 * Keys are string that represent the agent name as known and provided by
 	 * EIS. Note that the Prolog representation may be different. TRAC #1128.
@@ -121,20 +121,20 @@ public class MentalState {
 		 * First store the agent's name and KR language; only thereafter call
 		 * #addAgentModel(String, Debugger).
 		 */
-		this.language = program.getKRLanguage();
+		this.language = program.getKRInterface();
 		this.usesMentalModeling = program.usesMentalModels();
 		this.agentId = id;
 		this.addAgentModel(id, debugger, program);
 	}
 
 	/**
-	 * Returns the {@link KRlanguage} used for representing components in this
+	 * Returns the {@link KRInterface} used for representing components in this
 	 * {@link MentalState}.
 	 *
 	 * @return The KR language used for representing components in this mental
 	 *         state.
 	 */
-	public KRlanguage getKRLanguage() {
+	public KRInterface getKRInterface() {
 		return this.language;
 	}
 
@@ -382,7 +382,7 @@ public class MentalState {
 		 */
 		if (!literal.isPositive()) {
 			if (result.isEmpty()) {
-				result.add(this.getKRLanguage().getEmptySubstitution());
+				result.add(this.getKRInterface().getEmptySubstitution());
 			} else {
 				return new LinkedHashSet<>(0);
 			}

@@ -36,7 +36,7 @@ public class IDEGOALInterpreter extends GOALInterpreter<IDEDebugger> {
 		if (action instanceof MentalAction) {
 			runState.getDebugger().setKeepRunning(true);
 			action.run(runState,
-					program.getKRLanguage().getEmptySubstitution(),
+					program.getKRInterface().getEmptySubstitution(),
 					runState.getDebugger(), false);
 			runState.getDebugger().setKeepRunning(false);
 		}
@@ -55,7 +55,7 @@ public class IDEGOALInterpreter extends GOALInterpreter<IDEDebugger> {
 	 * @return The of the action.
 	 */
 	public Result doPerformAction(ActionCombo action) {
-		return action.run(runState, program.getKRLanguage()
+		return action.run(runState, program.getKRInterface()
 				.getEmptySubstitution(), false);
 	}
 

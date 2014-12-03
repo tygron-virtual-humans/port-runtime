@@ -18,6 +18,7 @@
 
 package goal.core.mentalstate;
 
+import krTools.KRInterface;
 import krTools.language.DatabaseFormula;
 import krTools.language.Query;
 import krTools.language.Substitution;
@@ -151,7 +152,7 @@ public class MentalModel {
 	/**
 	 * Adds a {@link BeliefBase} of type {@link BASETYPE} to this
 	 * {@link MentalModel}. Use
-	 * {@link #addGoalBase(String, KRlanguage, Set, BASETYPE)} to add a goal
+	 * {@link #addGoalBase(String, KRInterface, Set, BASETYPE)} to add a goal
 	 * base!
 	 *
 	 * @param owner
@@ -160,7 +161,7 @@ public class MentalModel {
 	 *            The name of the agent whose beliefs, etc. are represented in
 	 *            this mental model.
 	 * @param language
-	 *            The {@link KRlanguage} used for representing formulas in the
+	 *            The {@link KRInterface} used for representing formulas in the
 	 *            belief base.
 	 * @param content
 	 *            The content, i.e. a set of {@link DatabaseFormula}s, to be
@@ -171,7 +172,7 @@ public class MentalModel {
 	 *             If the KR technology was unable to create the requested
 	 *             database for storing formulas of the particular type.
 	 */
-	public void addBase(AgentId owner, AgentId agentName, KRlanguage language,
+	public void addBase(AgentId owner, AgentId agentName, KRInterface language,
 			Set<DatabaseFormula> content, BASETYPE type)
 			throws KRInitFailedException {
 		if (type.equals(BASETYPE.GOALBASE)) {
@@ -197,7 +198,7 @@ public class MentalModel {
 	 * @param agentName
 	 * @param debugger
 	 */
-	public void addGoalBase(KRlanguage language, List<Update> content,
+	public void addGoalBase(KRInterface language, List<Update> content,
 			AgentId owner, String name, AgentId agentName, Debugger debugger) {
 		// Create new goal base and add content.
 		GoalBase goalBase = new GoalBase(language, owner, name, agentName);

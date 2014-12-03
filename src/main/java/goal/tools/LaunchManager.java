@@ -1,6 +1,7 @@
 package goal.tools;
 
 import goal.core.agent.AgentFactory;
+import krTools.errors.exceptions.ParserException;
 import languageTools.program.mas.LaunchRule;
 import languageTools.program.mas.MASProgram;
 import goal.core.runtime.MessagingService;
@@ -57,12 +58,12 @@ public class LaunchManager {
 	 * @param masProgram
 	 *            The registry that specifies how the MAS is to be launched.
 	 * @return DOC
-	 * @throws GOALParseException
+	 * @throws ParserException
 	 * @throws GOALCommandCancelledException
 	 * @throws GOALLaunchFailureException
 	 */
 	public RuntimeManager<IDEDebugger, IDEGOALInterpreter> launchMAS(
-			MASProgram masProgram) throws GOALParseException,
+			MASProgram masProgram) throws ParserException,
 			GOALCommandCancelledException, GOALLaunchFailureException {
 		// Determine where to host middleware; ask user if needed.
 		String host = getMiddlewareHostName();
@@ -80,7 +81,7 @@ public class LaunchManager {
 		}
 
 		// Launch the multi-agent system. and start the runtime environment.
-		new InfoLog("Launching MAS " + masProgram.getMASFile() + ".");
+		new InfoLog("Launching MAS " + masProgram.getSourceFile() + ".");
 
 		// Initialize Messaging support.
 		MessagingFactory.add(new LocalMessaging());

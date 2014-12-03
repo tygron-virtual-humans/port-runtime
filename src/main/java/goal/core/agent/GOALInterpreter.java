@@ -76,7 +76,7 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 	protected void initalizeController(Agent<? extends Controller> agent)
 			throws KRInitFailedException {
 		super.initalizeController(agent);
-		program.getKRLanguage().initialize(program, agent.getId().getName());
+		program.getKRInterface().initialize(/*program, agent.getId().getName()*/);
 		this.runState = new RunState<>(agent.getId(), agent.getEnvironment(),
 				agent.getMessaging(), agent.getLogging(), program, debugger,
 				learner);
@@ -108,7 +108,7 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 								0, "%s has been started", agent.getId());
 						runState.startCycle(false);
 						call = runState.getMainModule().execute(runState,
-								program.getKRLanguage().getEmptySubstitution());
+								program.getKRInterface().getEmptySubstitution());
 					}
 					Callable<Callable<?>> out = null;
 					if (call != null) {

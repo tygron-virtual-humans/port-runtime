@@ -37,9 +37,9 @@ public class PMPreferences {
 		 */
 		rememberLastUsedAgentDir,
 		/**
-		 * default KRLanguage name to use
+		 * default KRInterface name to use
 		 */
-		defaultKRLanguage,
+		defaultKRInterface,
 		/**
 		 * sleep agents when they receive same percepts and do same actions all
 		 * the time
@@ -88,7 +88,7 @@ public class PMPreferences {
 		init(Pref.removeKilledAgent, false);
 		init(Pref.agentCopyEnvRunState, false);
 		init(Pref.sleepRepetetiveAgent, false);
-		init(Pref.defaultKRLanguage, "swiprolog");
+		init(Pref.defaultKRInterface, "swiprolog");
 		init(Pref.agentsBrowseDir, runIn + "/GOALagents");
 		init(Pref.useMASNameAsAgentPrefix, false);
 		init(Pref.threadPoolSize, Runtime.getRuntime().availableProcessors());
@@ -161,8 +161,8 @@ public class PMPreferences {
 	 *
 	 * @return default KR language, typically "swiprolog".
 	 */
-	public static String getDefaultKRLanguage() {
-		return (String) get(Pref.defaultKRLanguage);
+	public static String getDefaultKRInterface() {
+		return (String) get(Pref.defaultKRInterface);
 	}
 
 	/**
@@ -229,8 +229,8 @@ public class PMPreferences {
 	/**
 	 * set the Default KR Language to use
 	 */
-	public static void setDefaultKRLanguage(String defaultKRLanguage) {
-		put(Pref.defaultKRLanguage, defaultKRLanguage);
+	public static void setDefaultKRInterface(String defaultKRInterface) {
+		put(Pref.defaultKRInterface, defaultKRInterface);
 	}
 
 	/**

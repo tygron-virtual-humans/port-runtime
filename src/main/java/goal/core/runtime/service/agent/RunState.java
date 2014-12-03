@@ -24,6 +24,7 @@ import languageTools.program.agent.AgentId;
 import goal.core.agent.EnvironmentCapabilities;
 import goal.core.agent.LoggingCapabilities;
 import goal.core.agent.MessagingCapabilities;
+import krTools.KRInterface;
 import krTools.language.DatabaseFormula;
 import krTools.language.Update;
 import goal.core.mentalstate.BASETYPE;
@@ -31,6 +32,7 @@ import goal.core.mentalstate.MentalState;
 import goal.core.mentalstate.SingleGoal;
 import languageTools.program.agent.AgentProgram;
 import languageTools.program.agent.Module;
+import languageTools.program.agent.Module.RuleEvaluationOrder;
 import languageTools.program.agent.Module.TYPE;
 import languageTools.program.agent.actions.LogAction;
 import languageTools.program.agent.actions.ModuleCallAction;
@@ -195,8 +197,8 @@ public class RunState<D extends Debugger> {
 		if (this.mainModule == null) {
 			// program did not specify a main module; insert a fake one to make
 			// sure event module is continually run.
-			this.mainModule = new Module("main", null, TYPE.MAIN, null, //$NON-NLS-1$
-					program.getKRLanguage());
+			this.mainModule = new Module("main", TYPE.MAIN, 
+					program.getKRInterface(), null); //$NON-NLS-1$
 			// Add an empty set of rules to the module.
 			this.mainModule.setRuleSet(new RuleSet(RuleEvaluationOrder.LINEAR,
 					null));
@@ -308,12 +310,12 @@ public class RunState<D extends Debugger> {
 	}
 
 	/**
-	 * Returns the {@link KRlanguage}.
+	 * Returns the {@link KRInterface}.
 	 *
 	 * @return The KR language.
 	 */
-	private KRlanguage getKRLanguage() {
-		return this.getMentalState().getKRLanguage();
+	private KRInterface getKRInterface() {
+		return this.getMentalState().getKRInterface();
 	}
 
 	/**
@@ -401,7 +403,7 @@ public class RunState<D extends Debugger> {
 			}
 
 			try {
-				Update update = this.getMentalState().getKRLanguage()
+				Update update = this.getMentalState().getKRInterface()
 						.parseUpdate(content.toString());
 
 				switch (message.getMood()) {
@@ -450,10 +452,10 @@ public class RunState<D extends Debugger> {
 		// TODO: do this in a proper but also EFFICIENT way!!
 		// TRAC #1125, #1128, #738. This is getting ugly, see #....
 		// Identifier eisname = new Identifier(message.getSender().getName());
-		// AgentId langSpecificSenderName = new AgentId(this.getKRLanguage()
+		// AgentId langSpecificSenderName = new AgentId(this.getKRInterface()
 		// .ConvertEISParameterToTerm(eisname).toString());
 		//
-		// DatabaseFormula formula = this.getKRLanguage().parseDBFormula(
+		// DatabaseFormula formula = this.getKRInterface().parseDBFormula(
 		// message.toString(false, langSpecificSenderName) + ".");
 		// this.getMentalState().insert(formula, BASETYPE.MAILBOX, debugger);
 	}
@@ -598,14 +600,14 @@ public class RunState<D extends Debugger> {
 
 		// If there is an init module, run it in the first round.
 		if (this.initModule != null && this.getRoundCounter() == 1) {
-			this.initModule.executeFully(this, this.getKRLanguage()
+			this.initModule.executeFully(this, this.getKRInterface()
 					.getEmptySubstitution());
 		}
 
 		// If there is an event module, run it at the start of a cycle (but not
 		// in the first round).
 		if (this.eventModule != null && event) {
-			this.eventModule.executeFully(this, this.getKRLanguage()
+			this.eventModule.executeFully(this, this.getKRInterface()
 					.getEmptySubstitution());
 		}
 

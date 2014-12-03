@@ -110,7 +110,7 @@ public class UnitTestResult {
 	 * @return the file containing the {@link MASProgram}
 	 */
 	public File getMasFile() {
-		return unitTest.getMasProgram().getMASFile();
+		return unitTest.getMasProgram().getSourceFile();
 	}
 
 	/**
