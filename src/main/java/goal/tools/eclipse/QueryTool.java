@@ -8,6 +8,7 @@ import languageTools.errors.ValidatorError;
 import languageTools.parser.GOAL;
 import languageTools.parser.GOALLexer;
 import languageTools.program.agent.ActionSpecification;
+import languageTools.program.agent.Module;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.MentalAction;
 import languageTools.program.agent.actions.UserSpecAction;
@@ -228,17 +229,18 @@ public class QueryTool {
 			act = new UserSpecAction(act.getName(),
 					((UserSpecOrModuleCall) act).getParameters(), true, null,null,null);
 			// Search for all corresponding action specifications.
-			for (ActionSpecification specification : agent.getController()
-					.getProgram().getAllActionSpecs()) {
-				if (act.getName().equals(specification.getAction().getName())
-						&& (((UserSpecAction) act).getParameters().size() == specification
-						.getAction().getParameters().size())) {
-					try {
-						((UserSpecAction) act).addSpecification(specification);
-					} catch (KRInitFailedException e) {
-						throw new GOALUserError(
-								"Failed to associate specification with action: "
-										+ e.getMessage(), e);
+			for( Module module : agent.getController().getProgram().getModules()){
+				for (ActionSpecification specification : module.getActionSpecifications() ) {
+					if (act.getName().equals(specification.getAction().getName())
+							&& (((UserSpecAction) act).getParameters().size() == specification
+							.getAction().getParameters().size())) {
+						try {
+							((UserSpecAction) act).addSpecification(specification);
+						} catch (KRInitFailedException e) {
+							throw new GOALUserError(
+									"Failed to associate specification with action: "
+											+ e.getMessage(), e);
+						}
 					}
 				}
 			}

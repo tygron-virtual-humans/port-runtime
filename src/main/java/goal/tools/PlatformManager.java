@@ -112,7 +112,7 @@ public class PlatformManager {
 
 	public static PlatformManager createNew() {
 		current = new PlatformManager();
-		for (final String language : KRFactory.getSupportedInterfaces()) {
+		/*for (final String language : KRFactory.getSupportedInterfaces()) {
 			try {
 				KRFactory.getInterface(language).reset();
 			} catch (final KRInitFailedException e) {
@@ -120,7 +120,7 @@ public class PlatformManager {
 						Resources.get(WarningStrings.INTERNAL_PROBLEM),
 						"PlatformManager::createNew()", language), e);
 			}
-		}
+		} FIXME: no longer necessary?! */
 		return current;
 	}
 

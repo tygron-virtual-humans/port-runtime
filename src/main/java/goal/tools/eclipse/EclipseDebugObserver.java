@@ -261,8 +261,11 @@ public class EclipseDebugObserver implements DebugObserver {
 			this.source = saved;
 			this.initialized = true;
 		}
-		final int diff = this.source.getStopIndex()
-				- this.source.getStartIndex();
+		int diff = 0;
+		if( source instanceof InputStreamPosition){
+			final InputStreamPosition isource = (InputStreamPosition)source;
+			diff = isource.getStopIndex() - isource.getStartIndex();
+		}
 		final String[] params = new String[] {
 				this.source.getSource().getPath(),
 				Integer.toString(this.source.getLineNumber()),

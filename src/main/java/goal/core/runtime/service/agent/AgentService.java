@@ -122,8 +122,8 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 *             DOC
 	 */
 	public synchronized void start() throws GOALLaunchFailureException {
-		for (MultiLaunch multilaunch : masProgram.getLaunches()) {
-			for (Launch launch : multilaunch.getLaunches()) {
+		for (LaunchRule multilaunch : masProgram.getLaunchRules()) {
+			for (Launch launch : multilaunch.getInstructions()) {
 				for (int i = 0; i < launch.getNumberOfAgentsToLaunch(); i++) {
 					launchAgent(launch);
 				}
@@ -370,8 +370,8 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 		// This allows the ID's be be created once and used for everything.
 
 		// Get base name for the agent. Either provided by the Launch or the
-		// Environment.
-		String agentBaseName = launch.getAgentBaseName(newEntity);
+		// Environment. FIXME: application count?!
+		String agentBaseName = launch.getGivenName(newEntity,0);
 
 		// Check whether agent name should be prefixed with name of MAS (file).
 		// Useful when running multiple MAS files using the batch runner.
@@ -478,7 +478,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 			// check if the maximum number of times this rule should be fired
 			// has been reached.
 			if (launchRule.incrementApplicationCount()) {
-				for (Launch launch : launchRule.getLaunches()) {
+				for (Launch launch : launchRule.getInstructions()) {
 					try {
 						launchAgent(launch, newEntity, port);
 					} catch (Exception e) {

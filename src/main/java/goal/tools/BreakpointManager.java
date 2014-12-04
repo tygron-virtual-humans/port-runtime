@@ -1,6 +1,8 @@
 package goal.tools;
 
 import krTools.parser.SourceInfo;
+import languageTools.parser.InputStreamPosition;
+import languageTools.program.agent.ActionSpecification;
 import languageTools.program.agent.AgentProgram;
 import languageTools.program.agent.Module;
 import languageTools.program.agent.Module.TYPE;
@@ -49,19 +51,21 @@ public class BreakpointManager {
 	 *         set. They are sorted. The ID of the objects will be the index in
 	 *         the returned list.
 	 */
-	public static List<SourceInfo> getBreakpointObjects(AgentProgram program) {
+	public static List<InputStreamPosition> getBreakpointObjects(AgentProgram program) {
 		// Collect all objects for which a breakpoint can be set.
-		List<SourceInfo> objects = new LinkedList<>();
-		// All action specifications can be breakpoints.
-		objects.addAll(program.getAllActionSpecs());
+		List<InputStreamPosition> objects = new LinkedList<>();
 
+		// All action specifications can be breakpoints.
 		// #2117: All condition and action parts of rules can be breakpoints.
 		for (Module module : program.getModules()) {
-			int ruleCount = module.getRuleSet().getRuleCount();
-			for (int i = 0; i < ruleCount; i++) {
-				Rule rule = module.getRuleSet().getRule(i);
-				objects.add(rule.getCondition());
-				objects.add(rule.getAction());
+			for( Rule rule : module.getRules()) {
+				// FIXME: no sourceinfo for these elements?!
+				//objects.add(rule.getCondition());
+				//objects.add(rule.getAction());
+			}
+			for( ActionSpecification spec :  module.getActionSpecifications() ) {
+				// FIXME: no sourceinfo for these elements?!
+				//objects.add(spec);
 			}
 		}
 
@@ -70,10 +74,10 @@ public class BreakpointManager {
 			if (module.getType() == TYPE.ANONYMOUS) {
 				continue;
 			}
-			objects.add(module.getSourceInfo());
+			objects.add((InputStreamPosition)module.getSourceInfo());
 		}
 
-		//Collections.sort(objects);
+		Collections.sort(objects);
 
 		// See to it that all objects have a unique identifier.
 		for (int i = 0; i < objects.size(); i++) {
@@ -150,15 +154,15 @@ public class BreakpointManager {
 		// agents that reference the given file.
 		AgentProgram program = platform.getAgentProgram(referencingAgentFiles
 				.get(0));
-		for (SourceInfo bp : getBreakpointObjects(program)) {
+		for (InputStreamPosition bp : getBreakpointObjects(program)) {
 			// breakpointLocations.get(referencingAgentFiles.get(0))) {
 			/*
 			 * since the breakpoint-objects are ordered, the first match is the
 			 * first object after the given line in the given file. If the
 			 * breakpoint is conditional, search for the first action
 			 */
-			if (bp.getSource().definedAfter(sourceFile, bpt.getLine())
-					&& (bpt.getType() == Type.ALWAYS || (bp instanceof ActionCombo))) {
+			if (bp.definedAfter(sourceFile, bpt.getLine())
+					&& (bpt.getType() == Type.ALWAYS /*|| (bp instanceof ActionCombo)*/)) {
 				line = bp.getLineNumber();
 				addBreakpoint(bp);
 				break;

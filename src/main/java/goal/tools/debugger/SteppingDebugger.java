@@ -187,8 +187,7 @@ public class SteppingDebugger implements Debugger {
 	 */
 	protected boolean keepRunning = false;
 	/**
-	 * If an ID (see {@link InputStreamPosition#getID()} is in this set, we
-	 * break on it.
+	 * If an ID is in this set, we break on it.
 	 */
 	private final Set<Integer> breakpointIds = new HashSet<>();
 	private final Map<Integer, Integer> had = new HashMap<>();
