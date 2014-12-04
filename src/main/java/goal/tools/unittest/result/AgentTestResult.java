@@ -1,6 +1,6 @@
 package goal.tools.unittest.result;
 
-import goal.tools.unittest.AgentTest;
+import languageTools.program.test.AgentTest;
 import goal.tools.unittest.result.testsection.AssertTestResult;
 
 /**

@@ -1,6 +1,7 @@
 package goal.tools.unittest;
 
 import languageTools.program.mas.MASProgram;
+import languageTools.program.test.AgentTest;
 
 import java.io.File;
 import java.util.ArrayList;
