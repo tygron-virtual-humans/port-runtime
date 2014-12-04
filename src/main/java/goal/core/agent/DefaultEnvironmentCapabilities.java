@@ -1,9 +1,8 @@
 package goal.core.agent;
 
 import eis.exceptions.EnvironmentInterfaceException;
+import eis.iilang.Action;
 import eis.iilang.Percept;
-import languageTools.program.agent.AgentId;
-import languageTools.program.agent.actions.UserSpecAction;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
 
 import java.util.Collection;
@@ -12,6 +11,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
+import languageTools.program.agent.AgentId;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 
 /**
@@ -48,23 +48,23 @@ public class DefaultEnvironmentCapabilities implements EnvironmentCapabilities {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.core.agent.Capabilities#getReward()
 	 */
 	@Override
 	public Double getReward() throws MessagingException,
-	EnvironmentInterfaceException {
+			EnvironmentInterfaceException {
 		return environment.getReward(id.getName());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.core.agent.Capabilities#getPercepts()
 	 */
 	@Override
 	public Set<Percept> getPercepts() throws MessagingException,
-	EnvironmentInterfaceException {
+			EnvironmentInterfaceException {
 		Set<Percept> percepts = new LinkedHashSet<>();
 
 		percepts.addAll(perceptBuffer);
@@ -80,22 +80,22 @@ public class DefaultEnvironmentCapabilities implements EnvironmentCapabilities {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
-	 * goal.core.agent.Capabilities#performAction(languageTools.program.agent.actions.
-	 * UserSpecAction)
+	 * goal.core.agent.Capabilities#performAction(languageTools.program.agent
+	 * .actions. UserSpecAction)
 	 */
 	@Override
-	public void performAction(UserSpecAction action) throws MessagingException,
-	EnvironmentInterfaceException {
+	public void performAction(Action action) throws MessagingException,
+			EnvironmentInterfaceException {
 		Collection<Percept> percepts = environment.performAction(id.getName(),
-				action.convert());
+				action);
 		perceptBuffer.addAll(percepts);
 	}
 
 	@Override
 	public void dispose() throws MessagingException,
-	EnvironmentInterfaceException {
+			EnvironmentInterfaceException {
 		environment.freeAgent(id.getName());
 	}
 }
