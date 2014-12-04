@@ -1,9 +1,6 @@
 package goal.tools;
 
 import goal.core.agent.AgentFactory;
-import krTools.errors.exceptions.ParserException;
-import languageTools.program.mas.LaunchRule;
-import languageTools.program.mas.MASProgram;
 import goal.core.runtime.MessagingService;
 import goal.core.runtime.RemoteRuntimeService;
 import goal.core.runtime.RuntimeManager;
@@ -19,6 +16,9 @@ import java.awt.Component;
 
 import javax.swing.JOptionPane;
 
+import krTools.errors.exceptions.ParserException;
+import languageTools.program.mas.LaunchRule;
+import languageTools.program.mas.MASProgram;
 import localmessaging.LocalMessaging;
 import nl.tudelft.goal.messaging.Messaging;
 import nl.tudelft.goal.messaging.MessagingFactory;
