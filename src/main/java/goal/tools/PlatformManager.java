@@ -44,6 +44,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -503,18 +504,11 @@ public class PlatformManager {
 	 * @param agentFiles
 	 *            The agent files.
 	 */
-	public void parseGOALFiles(List<AgentFile> agentFiles) {
-		for (AgentFile agentFile : agentFiles) {
+	public void parseGOALFiles(List<File> agentFiles) {
+		for (File agentFile : agentFiles) {
 			try {
-				// Let's be careful here; many things may have gone wrong, one
-				// of them being that the
-				// file specified in the agent file section does not exist.
-				// No need to report anything, that should already have been
-				// done above.
-				if (agentFile.getAgentFile() != null) {
-					parseGOALFile(agentFile.getAgentFile(),
+					parseGOALFile(agentFile,
 							agentFile.getKRLang());
-				}
 			} catch (Exception e) {
 				throw new GOALBug("Unexpected failure in parser", e); //$NON-NLS-1$
 			}
@@ -646,12 +640,12 @@ public class PlatformManager {
 	 * @return The list of files that are imported by the given agent file. A
 	 *         new list is created every time this method is called.
 	 */
-	public Set<File> getImportedFiles(File agentFile) {
+	public List<File> getImportedFiles(File agentFile) {
 		final AgentProgram file = getAgentProgram(agentFile);
 		if (file != null) {
-			return file.getImports();
+			return file.getImportedModules();
 		} else {
-			return new HashSet<>(0);
+			return new ArrayList<>(0);
 		}
 	}
 

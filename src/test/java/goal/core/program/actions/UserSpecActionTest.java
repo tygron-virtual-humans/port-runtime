@@ -63,7 +63,7 @@ public class UserSpecActionTest {
 	 * @return
 	 */
 	public Substitution getUnifier(Var var, Term term) {
-		Substitution unifier = language.getEmptySubstitution();
+		Substitution unifier = language.getSubstitution(null);
 		unifier.addBinding(var, term);
 		return unifier;
 	}

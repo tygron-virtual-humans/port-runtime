@@ -108,7 +108,7 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 								0, "%s has been started", agent.getId());
 						runState.startCycle(false);
 						call = runState.getMainModule().execute(runState,
-								program.getKRInterface().getEmptySubstitution());
+								program.getKRInterface().getSubstitution(null));
 					}
 					Callable<Callable<?>> out = null;
 					if (call != null) {
