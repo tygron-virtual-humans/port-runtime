@@ -80,20 +80,20 @@
 
 		<dependency>
 			<groupId>com.github.goalhub.messaging</groupId>
-			<artifactId>messaging</artifactId>
-			<version>1.0.1</version>
+			<artifactId>messaginginterface</artifactId>
+			<version>1.1.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.github.goalhub.messaging</groupId>
 			<artifactId>localmessaging</artifactId>
-			<version>1.0.1</version>
+			<version>1.1.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.github.goalhub.messaging</groupId>
 			<artifactId>rmimessaging</artifactId>
-			<version>1.0.1</version>
+			<version>1.1.1</version>
 		</dependency>
 
 		<dependency>
