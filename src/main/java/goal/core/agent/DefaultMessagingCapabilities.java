@@ -4,10 +4,12 @@ import goal.core.runtime.MessagingService;
 import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
+import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALMessagingException;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -16,6 +18,7 @@ import languageTools.program.agent.AgentId;
 import languageTools.program.agent.msg.Message;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 import nl.tudelft.goal.messaging.messagebox.MessageBox;
+import nl.tudelft.goal.messaging.messagebox.MessageBoxId;
 import nl.tudelft.goal.messaging.messagebox.MessageBoxListener;
 
 /**
@@ -75,7 +78,7 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.core.agent.Capabilities#clear()
 	 */
 	@Override
@@ -90,7 +93,7 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.core.agent.Capabilities#getAllMessages()
 	 */
 	@Override
@@ -104,7 +107,7 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.core.agent.Capabilities#postMessage(goal.core.agent.Message)
 	 */
 	@Override
@@ -112,8 +115,18 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 		// Send mails to each of the receivers of the message.
 		for (AgentId receiver : message.getReceivers()) {
 			try {
-				messageBox.send(messageBox.createMessage(receiver, message,
-						null));
+				List<MessageBoxId> recvBoxes = messaging.getClient()
+						.getMessageBoxes(null, receiver.getName());
+				if (recvBoxes.isEmpty()) {
+					new Warning("unknown receiver " + receiver);
+					continue;
+				}
+				if (recvBoxes.size() != 1) {
+					throw new GOALBug("The messagebox name " + receiver
+							+ " is not unique!");
+				}
+				messageBox.send(messageBox.createMessage(recvBoxes.get(0),
+						message, null));
 			} catch (MessagingException e) {
 				throw new GOALMessagingException(e.getMessage(), e);
 			}
