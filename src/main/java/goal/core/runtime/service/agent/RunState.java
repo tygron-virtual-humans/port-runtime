@@ -20,25 +20,12 @@ package goal.core.runtime.service.agent;
 import eis.exceptions.EnvironmentInterfaceException;
 import eis.iilang.Percept;
 import goal.core.agent.Agent;
-import languageTools.program.agent.AgentId;
 import goal.core.agent.EnvironmentCapabilities;
 import goal.core.agent.LoggingCapabilities;
 import goal.core.agent.MessagingCapabilities;
-import krTools.KRInterface;
-import krTools.language.DatabaseFormula;
-import krTools.language.Update;
 import goal.core.mentalstate.BASETYPE;
 import goal.core.mentalstate.MentalState;
 import goal.core.mentalstate.SingleGoal;
-import languageTools.program.agent.AgentProgram;
-import languageTools.program.agent.Module;
-import languageTools.program.agent.Module.RuleEvaluationOrder;
-import languageTools.program.agent.Module.TYPE;
-import languageTools.program.agent.actions.LogAction;
-import languageTools.program.agent.actions.ModuleCallAction;
-import languageTools.program.agent.actions.UserSpecAction;
-import languageTools.program.agent.msg.Message;
-import languageTools.program.agent.rules.Rule;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
 import goal.preferences.PMPreferences;
 import goal.tools.adapt.FileLearner;
@@ -53,7 +40,6 @@ import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
-import krTools.errors.exceptions.KRInitFailedException;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -61,6 +47,20 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
+import krTools.KRInterface;
+import krTools.errors.exceptions.KRInitFailedException;
+import krTools.language.DatabaseFormula;
+import krTools.language.Update;
+import languageTools.program.agent.AgentId;
+import languageTools.program.agent.AgentProgram;
+import languageTools.program.agent.Module;
+import languageTools.program.agent.Module.RuleEvaluationOrder;
+import languageTools.program.agent.Module.TYPE;
+import languageTools.program.agent.actions.LogAction;
+import languageTools.program.agent.actions.ModuleCallAction;
+import languageTools.program.agent.actions.UserSpecAction;
+import languageTools.program.agent.msg.Message;
+import languageTools.program.agent.rules.Rule;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 import nl.tudelft.goal.messaging.messagebox.MessageBox;
 
@@ -199,7 +199,7 @@ public class RunState<D extends Debugger> {
 		if (this.mainModule == null) {
 			// program did not specify a main module; insert a fake one to make
 			// sure event module is continually run.
-			this.mainModule = new Module("main", TYPE.MAIN, 
+			this.mainModule = new Module("main", TYPE.MAIN,
 					program.getKRInterface(), null); //$NON-NLS-1$
 			// Add an empty set of rules to the module.
 			this.mainModule.setRuleEvaluationOrder(RuleEvaluationOrder.LINEAR);
@@ -390,7 +390,7 @@ public class RunState<D extends Debugger> {
 	 *            the new message
 	 */
 	private void processMessageMentalModel(Message message) {
-		DatabaseFormula content = message.getContent();
+		Update update = message.getContent();
 		AgentId sender = message.getSender();
 
 		if (this.usesMentalModels) {
@@ -405,8 +405,6 @@ public class RunState<D extends Debugger> {
 			}
 
 			try {
-				Update update = this.getMentalState().getKRInterface()
-						.parseUpdate(content.toString());
 
 				switch (message.getMood()) {
 				case INDICATIVE:
@@ -430,7 +428,7 @@ public class RunState<D extends Debugger> {
 				this.getMentalState().updateGoalState(debugger, sender);
 			} catch (Exception e) {
 				throw new GOALBug("Processing of message with content: " //$NON-NLS-1$
-						+ content + " failed due to exception " + e.toString(), //$NON-NLS-1$
+						+ update + " failed due to exception " + e.toString(), //$NON-NLS-1$
 						e);
 			}
 		}
