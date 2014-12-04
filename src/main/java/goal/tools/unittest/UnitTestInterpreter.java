@@ -3,6 +3,7 @@ package goal.tools.unittest;
 import goal.core.agent.Agent;
 import goal.core.agent.GOALInterpreter;
 import languageTools.program.agent.AgentProgram;
+import languageTools.program.test.AgentTest;
 import goal.tools.adapt.Learner;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.ObservableDebugger;

@@ -2,8 +2,8 @@ package goal.tools.unittest.result;
 
 import languageTools.program.agent.AgentId;
 import languageTools.program.mas.MASProgram;
+import languageTools.program.test.AgentTest;
 import goal.tools.RunTest;
-import goal.tools.unittest.AgentTest;
 import goal.tools.unittest.UnitTest;
 
 import java.io.File;

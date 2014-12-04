@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import krTools.errors.exceptions.ParserException;
+import languageTools.program.test.AgentTest;
 import localmessaging.LocalMessaging;
 import nl.tudelft.goal.messaging.Messaging;
 
@@ -191,7 +192,7 @@ public class Run {
 		List<UnitTestResult> results = new ArrayList<>(testFiles.size());
 
 		for (File unitTestFile : testFiles) {
-			UnitTest unitTest = PlatformManager.createNew().parseUnitTestFile(
+			AgentTest unitTest = PlatformManager.createNew().parseUnitTestFile(
 					unitTestFile);
 			UnitTestRun testRun = new UnitTestRun(unitTest);
 			UnitTestRunResultInspector inspector = new UnitTestRunResultInspector(

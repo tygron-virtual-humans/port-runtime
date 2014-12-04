@@ -1,6 +1,5 @@
 package goal.tools.unittest.result;
 
-import goal.tools.unittest.AgentTest;
 import goal.tools.unittest.result.testsection.ActionResult;
 import goal.tools.unittest.result.testsection.AssertTestFailed;
 import goal.tools.unittest.result.testsection.AssertTestResult;
@@ -25,6 +24,8 @@ import goal.tools.unittest.testsection.testconditions.While;
 
 import java.util.List;
 import java.util.Map.Entry;
+
+import languageTools.program.test.AgentTest;
 
 /**
  * Formats a {@link UnitTestResult} in a concise and readable fashion.

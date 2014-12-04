@@ -28,11 +28,13 @@ import krTools.errors.exceptions.ParserException;
 import krTools.parser.SourceInfo;
 import languageTools.analyzer.agent.AgentValidator;
 import languageTools.analyzer.mas.MASValidator;
+import languageTools.analyzer.test.TestValidator;
 import languageTools.errors.Message;
 import languageTools.errors.ValidatorError;
 import languageTools.errors.ValidatorWarning;
 import languageTools.program.agent.AgentProgram;
 import languageTools.program.mas.MASProgram;
+import languageTools.program.test.AgentTest;
 import goal.tools.logging.GOALLogger;
 import goal.tools.logging.Loggers;
 import goal.tools.logging.StringsLogRecord;
@@ -53,8 +55,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
-import org.antlr.runtime.ANTLRFileStream;
-import org.antlr.runtime.CommonTokenStream;
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -331,54 +331,54 @@ public class PlatformManager {
 		return files;
 	}
 
-	public UnitTest parseUnitTestFile(File file) throws ParserException {
+	public AgentTest parseUnitTestFile(File file) throws ParserException {
 		// Logger to report issues found during parsing and validation.
 		GOALLogger parserLogger = Loggers.getParserLogger();
 		parserLogger.log(new StringsLogRecord(Level.INFO, "Parsing test file " //$NON-NLS-1$
-				+ file.getAbsolutePath()));
+				+ file.getPath()));
 
-		try {
-			ANTLRFileStream stream = new ANTLRFileStream(file.getPath());
-			UnitTestLexer lexer = new UnitTestLexer(stream);
-			CommonTokenStream tokens = new CommonTokenStream(lexer);
+		TestValidator validator = new TestValidator(file.getPath());
+		validator.validate();
+		AgentTest test = validator.getProgram();
+		if (test == null) {
+			throw new ParserException("Invalid Test file"); //$NON-NLS-1$
+		}
+		addIParsedObject(file, test.getSourceInfo());
 
-			UnitTestParser parser = new UnitTestParser(tokens);
-			UnitTestWalker interpreter = new UnitTestWalker(file);
-			parser.removeErrorListeners();
-			parser.addErrorListener(interpreter);
+		// Report any errors encountered during parsing.
+		boolean hasErrors = false, hasWarnings = false;
+		for (Message error : validator.getErrors()) {
+			hasErrors = true;
+			parserLogger.log(new StringsLogRecord(Level.SEVERE, error
+					.toString()));
+		}
+		for (Message warning : validator.getWarnings()) {
+			hasWarnings = true;
+			parserLogger.log(new StringsLogRecord(Level.WARNING, warning
+					.toString()));
+		}
 
-			Warning.suppress();
-
-			UnitTest program = interpreter.visitUnitTest(parser.unitTest());
-
-			// Log messages.
-			boolean hasErrors = false;
-			for (ValidatorError error : interpreter.getErrors()) {
-				hasErrors = true;
-				parserLogger.log(new StringsLogRecord(Level.SEVERE, error
-						.toString()));
+		if (hasErrors) {
+			parserLogger.log(new StringsLogRecord(Level.INFO,
+					"Parsing completed with errors.")); //$NON-NLS-1$
+			// Also output warning to IDE console.
+			Loggers.getWarningLogger().logln(
+					String.format(Resources.get(WarningStrings.PARSING_ERRORS),
+							file.getPath()));
+			return test;
+		} else {
+			// Build message for final log report.
+			StringBuilder message = new StringBuilder(35);
+			message.append(String.format(
+					Resources.get(WarningStrings.PARSING_COMPLETED),
+					file.getPath()));
+			if (hasWarnings) {
+				message.append(Resources.get(WarningStrings.WITH_WARNINGS));
 			}
-			for (ValidatorWarning warning : interpreter.getWarnings()) {
-				parserLogger.log(new StringsLogRecord(Level.WARNING, warning
-						.toString()));
-			}
+			// Provide message to logger.
+			parserLogger.log(new StringsLogRecord(Level.INFO, message.toString()));
 
-			// stop suppressing warnings and print any suppressed warnings
-			Warning.release();
-
-			// Report errors;
-			if (hasErrors) {
-				// Output errors to parser tab (via parser logger).
-				parserLogger.log(new StringsLogRecord(Level.INFO,
-						"Parsing completed with errors.")); //$NON-NLS-1$
-			} else {
-				parserLogger.log(new StringsLogRecord(Level.INFO,
-						"Parsed successfully.")); //$NON-NLS-1$
-			}
-			return program;
-		} catch (IOException e) {
-			throw new ParserException("Could not find test file " + file //$NON-NLS-1$
-					+ " due to ", e); //$NON-NLS-1$
+			return test;
 		}
 	}
 
@@ -399,51 +399,29 @@ public class PlatformManager {
 		// Logger to report issues found during parsing and validation.
 		GOALLogger parserLogger = Loggers.getParserLogger();
 		parserLogger.log(new StringsLogRecord(Level.INFO, "Parsing mas file " //$NON-NLS-1$
-				+ masFile.getAbsolutePath()));
-
-		MASWalker walker = null;
-		try {
-			walker = MASWalker.getWalker(masFile);
-		} catch (Exception e) {
-			throw new ParserException(
-					"Could not initialize MAS parsing structure for '" //$NON-NLS-1$
-							+ masFile + "' due to ", e); //$NON-NLS-1$
+				+ masFile.getPath()));
+		
+		MASValidator validator = new MASValidator(masFile.getPath());
+		validator.validate();
+		MASProgram masProgram = validator.getProgram();
+		if (masProgram == null) {
+			throw new ParserException("Invalid MAS file"); //$NON-NLS-1$
 		}
-
-		// Result of parsing file is stored in MASProgram.
-		MASProgram masProgram = null;
-		// Temporarily suppress warnings.
-		Warning.suppress();
-		try {
-			masProgram = walker.getProgram();
-			if (masProgram == null) {
-				throw new Exception("Invalid MAS file"); //$NON-NLS-1$
-			}
-			// We have a parsed object; let's add it to the parsed object map.
-			addIParsedObject(masFile, masProgram.getSourceInfo());
-		} catch (Exception e) {
-			// FIXME: do NOT catch generic Exception
-			// other exceptions may occur in the parser; these are bugs.
-			Warning.release(); // release the warnings; we're exiting this
-			// method
-			throw new GOALBug("Fatal exception handling MAS file " + masFile, e); //$NON-NLS-1$
-		}
+		addIParsedObject(masFile, masProgram.getSourceInfo());
 
 		// Log messages.
-		boolean hasErrors = false;
-		for (ValidatorError error : walker.getErrors()) {
+		boolean hasErrors = false, hasWarnings = false;;
+		for (Message error : validator.getErrors()) {
 			hasErrors = true;
 			parserLogger.log(new StringsLogRecord(Level.SEVERE, error
 					.toString()));
 		}
-		for (ValidatorWarning warning : walker.getWarnings()) {
+		for (Message warning : validator.getWarnings()) {
+			hasWarnings = true;
 			parserLogger.log(new StringsLogRecord(Level.WARNING, warning
 					.toString()));
 		}
-		// stop suppressing warnings and print any suppressed warnings
-		Warning.release();
 
-		// Report errors;
 		if (hasErrors) {
 			// Output errors to parser tab (via parser logger).
 			parserLogger.log(new StringsLogRecord(Level.INFO,
@@ -451,51 +429,30 @@ public class PlatformManager {
 			// Also output warning to IDE console.
 			Loggers.getWarningLogger().logln(
 					String.format(Resources.get(WarningStrings.PARSING_ERRORS),
-							masFile.getAbsolutePath()));
+							masFile.getPath()));
 
-			// parse found agent files
-			parseGOALFiles(masProgram.getAgentFiles());
+			// parse any found agent files anyway
+			parseGOALFiles(masProgram);
 
 			// no need to further process the program if errors exist.
 			return masProgram;
-		}
-
-		// Validate the MAS program.
-		MASValidator validator = new MASValidator();
-		validator.validate(masProgram, false);
-		if (!validator.isPerfect()) {
-			for (Message error : validator.getErrors()) {
-				parserLogger.log(new StringsLogRecord(Level.SEVERE, error
-						.toString()));
+		} else {
+			// Build message for final log report.
+			StringBuilder message = new StringBuilder(35);
+			message.append(String.format(
+					Resources.get(WarningStrings.PARSING_COMPLETED),
+					masFile.getPath()));
+			if (hasWarnings) {
+				message.append(Resources.get(WarningStrings.WITH_WARNINGS));
 			}
-			for (Message warning : validator.getWarnings()) {
-				parserLogger.log(new StringsLogRecord(Level.WARNING, warning
-						.toString()));
-			}
+			// Provide message to logger.
+			parserLogger.log(new StringsLogRecord(Level.INFO, message.toString()));
+	
+			// Parse the agent files that are part of the MAS file.
+			parseGOALFiles(masProgram);
+	
+			return masProgram;
 		}
-		masProgram.setValidated(validator.isValid());
-
-		// Build message for final log report.
-		StringBuilder message = new StringBuilder(35);
-		message.append(String.format(
-				Resources.get(WarningStrings.PARSING_COMPLETED),
-				masFile.getName()));
-		if (!validator.isValid()) {
-			message.append(Resources.get(WarningStrings.WITH_ERRORS));
-			// Also output warning to IDE console.
-			Loggers.getWarningLogger().logln(
-					String.format(Resources.get(WarningStrings.FOUND_ERRORS),
-							masFile));
-		} else if (!validator.isPerfect()) {
-			message.append(Resources.get(WarningStrings.WITH_WARNINGS));
-		}
-		// Provide message to logger.
-		parserLogger.log(new StringsLogRecord(Level.INFO, message.toString()));
-
-		// Parse the agent files that are part of the MAS file.
-		parseGOALFiles(masProgram.getAgentFiles());
-
-		return masProgram;
 	}
 
 	/**
@@ -504,11 +461,10 @@ public class PlatformManager {
 	 * @param agentFiles
 	 *            The agent files.
 	 */
-	public void parseGOALFiles(List<File> agentFiles) {
-		for (File agentFile : agentFiles) {
+	public void parseGOALFiles(MASProgram mas) {
+		for (File agentFile : mas.getAgentFiles()) {
 			try {
-					parseGOALFile(agentFile,
-							agentFile.getKRLang());
+				parseGOALFile(agentFile, mas.getKRInterface(agentFile));
 			} catch (Exception e) {
 				throw new GOALBug("Unexpected failure in parser", e); //$NON-NLS-1$
 			}
@@ -538,95 +494,51 @@ public class PlatformManager {
 		// Logger to report issues found during parsing and validation.
 		GOALLogger parserLogger = Loggers.getParserLogger();
 		parserLogger.log(new StringsLogRecord(Level.INFO, "Parsing agent file " //$NON-NLS-1$
-				+ goalFile.getAbsolutePath()));
+				+ goalFile.getPath()));
 
-		GOALWalker walker = null;
-		try {
-			walker = GOALWalker.getWalker(goalFile, language);
-		} catch (Exception e) {
-			throw new ParserException("Could not parse GOAL file " //$NON-NLS-1$
-					+ goalFile + " due to parser failure", e); //$NON-NLS-1$
+		AgentValidator validator = new AgentValidator(goalFile.getPath());
+		validator.validate();
+		AgentProgram program = validator.getProgram();
+		if (program == null) {
+			throw new ParserException("Invalid GOAL file"); //$NON-NLS-1$
 		}
-
-		AgentProgram program = null;
-		// Temporarily suppress warnings while parsing.
-		Warning.suppress();
-		try {
-			program = walker.getProgram();
-			if (program == null) {
-				throw new Exception("Invalid GOAL file"); //$NON-NLS-1$
-			}
-			// We have a parsed object; let's add it to the parsed object map.
-			addIParsedObject(goalFile, program.getSourceInfo());
-		} catch (Exception e) {
-			// FIXME: do NOT catch generic Exception
-			// other exceptions may occur in the parser;
-			// these are caused by ANTLR trying to proceed after an error
-			// which can cause core exceptions by instantiating null objects
-			program = null;
-			if (walker.getErrors().isEmpty()) {
-				// then something is really wrong
-				Warning.release();
-				throw new GOALBug("Unexpected failure in parser", e); //$NON-NLS-1$
-			}
-		}
+		addIParsedObject(goalFile, program.getSourceInfo());
 
 		// Report any errors encountered during parsing.
-		boolean hasErrors = false;
-		for (Message error : walker.getErrors()) {
+		boolean hasErrors = false, hasWarnings = false;
+		for (Message error : validator.getErrors()) {
 			hasErrors = true;
 			parserLogger.log(new StringsLogRecord(Level.SEVERE, error
 					.toString()));
 		}
-		for (Message warning : walker.getWarnings()) {
+		for (Message warning : validator.getWarnings()) {
+			hasWarnings = true;
 			parserLogger.log(new StringsLogRecord(Level.WARNING, warning
 					.toString()));
 		}
 
-		// End suppressing warnings and print any suppressed warnings.
-		Warning.release();
-
-		// no need to try and validate the program if there are already some
-		// parse errors
 		if (hasErrors) {
 			parserLogger.log(new StringsLogRecord(Level.INFO,
 					"Parsing completed with errors.")); //$NON-NLS-1$
 			// Also output warning to IDE console.
 			Loggers.getWarningLogger().logln(
 					String.format(Resources.get(WarningStrings.PARSING_ERRORS),
-							goalFile.getAbsolutePath()));
-			// Do not validate before correct parse.
+							goalFile.getPath()));
+			return program;
+		} else {
+			// Build message for final log report.
+			StringBuilder message = new StringBuilder(35);
+			message.append(String.format(
+					Resources.get(WarningStrings.PARSING_COMPLETED),
+					goalFile.getPath()));
+			if (hasWarnings) {
+				message.append(Resources.get(WarningStrings.WITH_WARNINGS));
+			}
+			// Provide message to logger.
+			parserLogger.log(new StringsLogRecord(Level.INFO, message.toString()));
+
 			return program;
 		}
-
-		// Validate the agent program.
-		AgentValidator validator = new AgentValidator();
-		validator.validate(program.getModule(), false);
-		if (!validator.isPerfect()) {
-			for (Message error : validator.getErrors()) {
-				parserLogger.log(new StringsLogRecord(Level.SEVERE, error
-						.toString()));
-			}
-			for (Message warning : validator.getWarnings()) {
-				parserLogger.log(new StringsLogRecord(Level.WARNING, warning
-						.toString()));
-			}
-			if (!validator.isValid()) {
-				// Also output warning to IDE console.
-				Loggers.getWarningLogger().logln(
-						String.format(
-								Resources.get(WarningStrings.FOUND_ERRORS),
-								goalFile));
-				return program;
-			}
-		} else {
-			parserLogger.log(new StringsLogRecord(Level.INFO, "Parsing of " //$NON-NLS-1$
-					+ goalFile.getName() + " completed successfully.")); //$NON-NLS-1$
-		}
-
-		program.setValidated(validator.isValid());
-
-		return program;
 	}
 
 	/**
