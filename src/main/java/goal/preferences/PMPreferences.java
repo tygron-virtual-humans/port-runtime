@@ -91,7 +91,7 @@ public class PMPreferences {
 		init(Pref.defaultKRInterface, "swiprolog");
 		init(Pref.agentsBrowseDir, runIn + "/GOALagents");
 		init(Pref.useMASNameAsAgentPrefix, false);
-		init(Pref.threadPoolSize, Runtime.getRuntime().availableProcessors());
+		init(Pref.threadPoolSize, 0);
 	}
 
 	public static Map<String, Object> getPrefs() {

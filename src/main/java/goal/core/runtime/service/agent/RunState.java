@@ -601,14 +601,14 @@ public class RunState<D extends Debugger> {
 		// If there is an init module, run it in the first round.
 		if (this.initModule != null && this.getRoundCounter() == 1) {
 			this.initModule.executeFully(this, this.getKRInterface()
-					.getEmptySubstitution());
+					.getSubstitution(null));
 		}
 
 		// If there is an event module, run it at the start of a cycle (but not
 		// in the first round).
 		if (this.eventModule != null && event) {
 			this.eventModule.executeFully(this, this.getKRInterface()
-					.getEmptySubstitution());
+					.getSubstitution(null));
 		}
 
 		event = false;

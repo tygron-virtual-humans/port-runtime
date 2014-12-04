@@ -77,7 +77,7 @@ public class EvaluateIn implements TestSection {
 		this.conditions = queries;
 		this.action = action;
 		this.boundary = boundary;
-		this.substitution = program.getKRInterface().getEmptySubstitution();
+		this.substitution = program.getKRInterface().getSubstitution(null);
 	}
 
 	/**

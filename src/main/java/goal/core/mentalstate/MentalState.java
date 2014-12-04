@@ -382,7 +382,7 @@ public class MentalState {
 		 */
 		if (!literal.isPositive()) {
 			if (result.isEmpty()) {
-				result.add(this.getKRInterface().getEmptySubstitution());
+				result.add(this.getKRInterface().getSubstitution(null));
 			} else {
 				return new LinkedHashSet<>(0);
 			}
