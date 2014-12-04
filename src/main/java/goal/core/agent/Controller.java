@@ -6,6 +6,9 @@ import krTools.errors.exceptions.KRInitFailedException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Controller for an {@link Agent}.
@@ -17,8 +20,16 @@ import java.util.concurrent.Executors;
  * @author mpkorstanje
  */
 public abstract class Controller {
-	private final static Executor pool = Executors
-			.newFixedThreadPool(PMPreferences.getThreadPoolSize());
+	private final static Executor pool;
+	static {
+		if (PMPreferences.getThreadPoolSize() > 0) {
+			pool = Executors.newFixedThreadPool(PMPreferences
+					.getThreadPoolSize());
+		} else {
+			pool = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 0L,
+					TimeUnit.MILLISECONDS, new SynchronousQueue<Runnable>());
+		}
+	}
 	/**
 	 * The agent controlled by the controller.
 	 */
