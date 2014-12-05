@@ -109,14 +109,13 @@ public class ModuleExecutor {
 			// Add all goals defined in the goals section of this module to the
 			// current attention set.
 			for (Query goal : module.getGoals()) {
-				AdoptAction adopt = new AdoptAction(new Selector(
-						SelectorType.THIS, null),
-						goal.applySubst(substitution), null);
+				ActionExecutor adopt = new AdoptActionExecutor(
+						new AdoptAction(new Selector(SelectorType.THIS, null),
+								goal.applySubst(substitution), null));
 				adopt = adopt.evaluatePrecondition(runState.getMentalState(),
 						runState.getDebugger(), false);
 				if (adopt != null) {
-					adopt.run(runState, substitution, runState.getDebugger(),
-							false);
+					adopt.run(runState, substitution, runState.getDebugger(), false);
 				}
 			}
 
@@ -128,7 +127,8 @@ public class ModuleExecutor {
 		}
 
 		// Evaluate and apply the rules of this module
-		result = this.ruleSet.run(runState, substitution);
+		result = new RulesExecutor(module.getRules(), module.getRuleEvaluationOrder())
+			.run(runState, substitution);
 
 		// exit module if {@link ExitModuleAction} has been performed.
 		boolean exit = result.isModuleTerminated();
