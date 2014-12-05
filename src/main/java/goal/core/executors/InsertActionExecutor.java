@@ -39,8 +39,8 @@ public class InsertActionExecutor extends ActionExecutor {
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
 		MentalState mentalState = runState.getMentalState();
 
-		mentalState.insert(this.beliefUpdate, BASETYPE.BELIEFBASE, debugger);
-		mentalState.insert(this.mailboxUpdate, BASETYPE.MAILBOX, debugger);
+		mentalState.insert(action.beliefUpdate, BASETYPE.BELIEFBASE, debugger);
+		mentalState.insert(action.mailboxUpdate, BASETYPE.MAILBOX, debugger);
 
 		mentalState.updateGoalState(debugger);
 

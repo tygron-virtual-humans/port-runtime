@@ -343,18 +343,19 @@ public class MentalState {
 			throw new GOALRuntimeErrorException(
 					"Processing of selector failed: " + e.getMessage(), e);
 		}
-		boolean any = literal.getSelector().getAny();
-		boolean focusl = literal.getSelector().getFocus();
+		boolean any = literal.getSelector().getType() != SelectorType.ALL
+				&& literal.getSelector().getType() != SelectorType.ALLOTHER;
+		boolean focus = literal.getSelector().getType() != SelectorType.SELF;
 
 		// Evaluate query and compute solutions.
 		Set<Substitution> result = this.models.get(agents.next()).query(
-				literal, focusl, debugger);
+				literal, focus, debugger);
 
 		if (any) {
 			// We need to find only one agent whose mental model satisfies this
 			// literal.
 			while (agents.hasNext() && result.isEmpty()) {
-				result = this.models.get(agents.next()).query(literal, focusl,
+				result = this.models.get(agents.next()).query(literal, focus,
 						debugger);
 			}
 		} else {
@@ -366,7 +367,7 @@ public class MentalState {
 				for (Substitution subst : result) {
 					Set<Substitution> tempResult = this.models.get(
 							agents.next()).query(literal.applySubst(subst),
-									focusl, debugger);
+									focus, debugger);
 					for (Substitution tempSubst : tempResult) {
 						currentResults.add(subst.combine(tempSubst));
 					}

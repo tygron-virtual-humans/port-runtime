@@ -8,6 +8,17 @@ import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 import krTools.language.Substitution;
 import languageTools.program.agent.actions.Action;
+import languageTools.program.agent.actions.AdoptAction;
+import languageTools.program.agent.actions.DeleteAction;
+import languageTools.program.agent.actions.DropAction;
+import languageTools.program.agent.actions.ExitModuleAction;
+import languageTools.program.agent.actions.InsertAction;
+import languageTools.program.agent.actions.LogAction;
+import languageTools.program.agent.actions.ModuleCallAction;
+import languageTools.program.agent.actions.PrintAction;
+import languageTools.program.agent.actions.SendAction;
+import languageTools.program.agent.actions.SendOnceAction;
+import languageTools.program.agent.actions.UserSpecAction;
 
 /**
  * Abstract base class for part of the ActionExecutors
@@ -137,5 +148,33 @@ public abstract class ActionExecutor {
 
 	public String toString() {
 		return "execute(" + getAction().toString() + ")";
+	}
+	
+	public static ActionExecutor getActionExecutor(Action<?> action){
+		if(action instanceof AdoptAction){
+			return new AdoptActionExecutor((AdoptAction)action);
+		} else if(action instanceof DeleteAction){
+			return new DeleteActionExecutor((DeleteAction)action);
+		} else if(action instanceof DropAction){
+			return new DropActionExecutor((DropAction)action);
+		} else if(action instanceof ExitModuleAction){
+			return new ExitModuleActionExecutor((ExitModuleAction)action);
+		} else if(action instanceof InsertAction){
+			return new InsertActionExecutor((InsertAction)action);
+		} else if(action instanceof LogAction){
+			return new LogActionExecutor((LogAction)action);
+		} else if(action instanceof ModuleCallAction){
+			return new ModuleCallActionExecutor((ModuleCallAction)action);
+		} else if(action instanceof PrintAction){
+			return new PrintActionExecutor((PrintAction)action);
+		} else if(action instanceof SendAction){
+			return new SendActionExecutor((SendAction)action);
+		} else if(action instanceof SendOnceAction){
+			return new SendOnceActionExecutor((SendOnceAction)action);
+		} else if(action instanceof UserSpecAction){
+			return new UserSpecActionExecutor((UserSpecAction)action);
+		} else {
+			return null;
+		}
 	}
 }

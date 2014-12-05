@@ -33,8 +33,8 @@ public class AdoptActionExecutor extends ActionExecutor {
 					.isEmpty()) {
 				// precondition holds for at least one instance.
 				Selector selector = action.getSelector();
-				if (selector.isType(SelectorType.SELF)
-						|| selector.isType(SelectorType.THIS)) {
+				if (selector.getType() == SelectorType.SELF
+						|| selector.getType() == SelectorType.THIS) {
 					debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION,
 							this, "Precondition of action %s holds.", this);
 					return this;
@@ -60,7 +60,7 @@ public class AdoptActionExecutor extends ActionExecutor {
 		// TODO: handle selector.
 		// Set<String> agentNames = this.getSelector().resolve(mentalState);
 
-		boolean topLevel = action.getSelector().isType(SelectorType.SELF);
+		boolean topLevel = action.getSelector().getType() == SelectorType.SELF;
 		mentalState.adopt(action.getUpdate(), !topLevel, debugger,
 				mentalState.getAgentId());
 

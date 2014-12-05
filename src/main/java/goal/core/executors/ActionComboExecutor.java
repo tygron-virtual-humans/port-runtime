@@ -88,8 +88,7 @@ public class ActionComboExecutor {
 				// Create new action which only has the action specification
 				// found
 				// by calling #getOptions(runState).
-				UserSpecAction singleActionSpec = userspec.
-						.getSelectedActionSpec();
+				UserSpecAction singleActionSpec = userspec.getSelectedActionSpec();
 				// Create action combo using new user specified action.
 				ActionCombo option = new ActionCombo();
 				option.addAction(singleActionSpec);
@@ -153,8 +152,8 @@ public class ActionComboExecutor {
 
 		for (Action<?> action : actions) {
 			// FIXME is this ok if action is a ModuleCallAction??
-			Result result = action.run(runState, substitution,
-					runState.getDebugger(), last);
+			Result result = ActionExecutor.getActionExecutor(action)
+					.run(runState, substitution,runState.getDebugger(), last);
 			comboResult.merge(result);
 			// If module needs to be terminated, i.e., {@link ExitModuleAction}
 			// has been performed, then exit execution of combo action.

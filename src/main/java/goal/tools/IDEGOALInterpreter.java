@@ -2,6 +2,8 @@ package goal.tools;
 
 import eis.iilang.Percept;
 import goal.core.agent.GOALInterpreter;
+import goal.core.executors.ActionComboExecutor;
+import goal.core.executors.ActionExecutor;
 import goal.core.runtime.service.agent.Result;
 import goal.tools.adapt.Learner;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
@@ -32,11 +34,11 @@ public class IDEGOALInterpreter extends GOALInterpreter<IDEDebugger> {
 	 *            The action to be executed in the environment.
 	 * @throws GOALActionFailedException
 	 */
-	public void doPerformAction(Action action) throws GOALActionFailedException {
+	public void doPerformAction(Action<?> action) throws GOALActionFailedException {
 		// Perform mental action.
 		if (action instanceof MentalAction) {
 			runState.getDebugger().setKeepRunning(true);
-			action.run(runState,
+			ActionExecutor.getActionExecutor(action).run(runState,
 					program.getKRInterface().getSubstitution(null),
 					runState.getDebugger(), false);
 			runState.getDebugger().setKeepRunning(false);
@@ -56,8 +58,8 @@ public class IDEGOALInterpreter extends GOALInterpreter<IDEDebugger> {
 	 * @return The of the action.
 	 */
 	public Result doPerformAction(ActionCombo action) {
-		return action.run(runState, program.getKRInterface()
-				.getSubstitution(null), false);
+		return new ActionComboExecutor(action).run(runState, 
+				program.getKRInterface().getSubstitution(null), false);
 	}
 
 	/**

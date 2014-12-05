@@ -83,7 +83,8 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 		runState.setFocusGoal(null);
 
 		// Run target module.
-		Result result = action.getTarget().executeFully(runState, moduleSubstitution);
+		Result result = new ModuleExecutor(action.getTarget())
+			.executeFully(runState, moduleSubstitution);
 		// TODO: the module is run entirely here, bypassing the default
 		// task-based scheduling; I'm not sure that is the desired effect here
 		// -Vincent

@@ -23,6 +23,7 @@ import goal.core.agent.Agent;
 import goal.core.agent.EnvironmentCapabilities;
 import goal.core.agent.LoggingCapabilities;
 import goal.core.agent.MessagingCapabilities;
+import goal.core.executors.ModuleExecutor;
 import goal.core.mentalstate.BASETYPE;
 import goal.core.mentalstate.MentalState;
 import goal.core.mentalstate.SingleGoal;
@@ -600,15 +601,15 @@ public class RunState<D extends Debugger> {
 
 		// If there is an init module, run it in the first round.
 		if (this.initModule != null && this.getRoundCounter() == 1) {
-			this.initModule.executeFully(this, this.getKRInterface()
-					.getSubstitution(null));
+			new ModuleExecutor(this.initModule).
+				executeFully(this, getKRInterface().getSubstitution(null));
 		}
 
 		// If there is an event module, run it at the start of a cycle (but not
 		// in the first round).
 		if (this.eventModule != null && event) {
-			this.eventModule.executeFully(this, this.getKRInterface()
-					.getSubstitution(null));
+			new ModuleExecutor(this.eventModule)
+				.executeFully(this, getKRInterface().getSubstitution(null));
 		}
 
 		event = false;

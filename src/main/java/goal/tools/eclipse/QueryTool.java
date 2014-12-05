@@ -18,6 +18,8 @@ import krTools.errors.exceptions.KRInitFailedException;
 import krTools.errors.exceptions.ParserException;
 import krTools.language.Substitution;
 import krTools.language.Var;
+import languageTools.analyzer.agent.AgentValidator;
+import languageTools.errors.Message;
 import languageTools.errors.ValidatorError;
 import languageTools.parser.GOAL;
 import languageTools.parser.GOALLexer;
@@ -80,13 +82,7 @@ public class QueryTool {
 					+ "initialized its databases");
 		}
 		try {
-			Action action = parseAction(userEnteredAction);
-			ActionValidator val = new ActionValidator(new NameSpace(),
-					new HashSet<Var>());
-			if (!val.validate(action, false)) {
-				throw new GOALUserError("Action " + action + " is not valid:\n"
-						+ val.getAllReports());
-			}
+			Action<?> action = parseAction(userEnteredAction);
 			if (action.isClosed()) {
 				// Perform the action.
 				this.agent.getController().doPerformAction(action);
@@ -109,7 +105,7 @@ public class QueryTool {
 	 *            is the string to be parsed.
 	 * @return a GOALWAlker that can parse text at the GOAL level.
 	 */
-	private GOALWalker prepareGOALWalker(String pString) {
+	private AgentValidator prepareGOALWalker(String pString) {
 		try {
 			ANTLRInputStream charstream = new ANTLRInputStream(
 					new StringReader(pString));
@@ -141,7 +137,7 @@ public class QueryTool {
 		MentalStateCondition msc;
 
 		// Try to parse the MSC.
-		GOALWalker walker = this.prepareGOALWalker(mentalStateCondition);
+		AgentValidator walker = this.prepareGOALWalker(mentalStateCondition);
 		try {
 			msc = walker.visitConditions(walker.getParser().conditions());
 		} catch (Exception ex) {
@@ -173,12 +169,12 @@ public class QueryTool {
 	 *             if error occured..
 	 * @throws ParserException
 	 */
-	private void checkParserErrors(GOALWalker walker, String query, String desc)
+	private void checkParserErrors(AgentValidator walker, String query, String desc)
 			throws GOALUserError, ParserException {
-		List<ValidatorError> errors = walker.getErrors();
+		List<Message> errors = walker.getErrors();
 		String errMessage = "";
 		if (!errors.isEmpty()) {
-			for (ValidatorError err : errors) {
+			for (Message err : errors) {
 				errMessage += err.toString() + "\n";
 			}
 		}
@@ -199,12 +195,12 @@ public class QueryTool {
 	 * @modified W.Pasman 8feb2012 now also UserSpecActions can be parsed.
 	 * @modified K.Hindriks if UserOrFocusAction action must be UserSpecAction.
 	 */
-	private Action parseAction(String action) throws GOALException,
+	private Action<?> parseAction(String action) throws GOALException,
 	ParserException {
-		Action act;
+		Action<?> act;
 
 		// try and parse the MSC. It should not throw a RecognitionException.
-		GOALWalker walker = this.prepareGOALWalker(action);
+		AgentValidator walker = this.prepareGOALWalker(action);
 		try {
 			act = walker.visitAction(walker.getParser().action());
 		} catch (Exception ex) {

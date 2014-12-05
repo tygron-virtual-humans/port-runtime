@@ -1,5 +1,6 @@
 package goal.core.agent;
 
+import goal.core.executors.ModuleExecutor;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.adapt.Learner;
 import goal.tools.debugger.Channel;
@@ -108,7 +109,7 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 						debugger.breakpoint(Channel.REASONING_CYCLE_SEPARATOR,
 								0, "%s has been started", agent.getId());
 						runState.startCycle(false);
-						call = runState.getMainModule().execute(runState,
+						call = new ModuleExecutor(runState.getMainModule()).execute(runState,
 								program.getKRInterface().getSubstitution(null));
 					}
 					Callable<Callable<?>> out = null;
