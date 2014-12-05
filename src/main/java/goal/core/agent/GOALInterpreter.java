@@ -8,10 +8,13 @@ import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.Warning;
 import goal.tools.logging.InfoLog;
 
+import java.rmi.activation.UnknownObjectException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 
+import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRQueryFailedException;
 import languageTools.program.agent.AgentId;
 import languageTools.program.agent.AgentProgram;
 
@@ -85,7 +88,7 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 	}
 
 	@Override
-	public void onReset() throws InterruptedException, KRInitFailedException {
+	public void onReset() throws InterruptedException, KRInitFailedException, KRDatabaseException, KRQueryFailedException, UnknownObjectException {
 		runState.reset();
 		debugger.reset();
 	}

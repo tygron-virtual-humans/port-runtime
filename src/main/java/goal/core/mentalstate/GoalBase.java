@@ -189,20 +189,21 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 *            The current debugger.
 	 */
 	protected void setGoals(List<Update> content, Debugger debugger) {
-		for (Update goal : content) {
-			try
-			{
+		try
+		{
+			mentalState.MentalState state = MentalStateFactory.getInterface(
+					owner.getKRInterface().getClass());
+			for (Update goal : content) {
 				count++;
 				getTime();
-				addGoal(new SingleGoal(goal, owner, 
-						MentalStateFactory.getDefaultInterface()), debugger);
+				addGoal(new SingleGoal(goal, owner, state), debugger);
 				updateTimeUsed();
 			}
-			catch (Exception e) {
-				new Warning(debugger, String.format(
-						Resources.get(WarningStrings.FAILED_ADD_GOAL),
-						goal.toString(), this.owner.toString()), e);
-			}
+		}
+		catch (Exception e) {
+			new Warning(debugger, String.format(
+					Resources.get(WarningStrings.FAILED_ADD_GOAL),
+					content.toString(), this.owner.toString()), e);
 		}
 	}
 
@@ -271,10 +272,11 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 */
 	public boolean insert(Update goal, Debugger debugger) {
 		try {
+			mentalState.MentalState state = MentalStateFactory.getInterface(
+					owner.getKRInterface().getClass());
 			count++;
 			getTime();
-			addGoal(new SingleGoal(goal, this.owner, 
-					MentalStateFactory.getDefaultInterface()), debugger);
+			addGoal(new SingleGoal(goal, this.owner, state), debugger);
 			updateTimeUsed();
 		} catch (Exception e) {
 			new Warning(debugger, String.format(

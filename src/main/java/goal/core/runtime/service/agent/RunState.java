@@ -41,6 +41,7 @@ import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 
+import java.rmi.activation.UnknownObjectException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -289,9 +290,10 @@ public class RunState<D extends Debugger> {
 	 * @throws KRInitFailedException
 	 * @throws KRQueryFailedException 
 	 * @throws KRDatabaseException 
+	 * @throws UnknownObjectException 
 	 */
 	public void reset() 
-			throws KRInitFailedException, KRDatabaseException, KRQueryFailedException {
+			throws KRInitFailedException, KRDatabaseException, KRQueryFailedException, UnknownObjectException {
 		roundCounter = 0;
 		// Clean up old and create new initial mental state.
 		this.mentalState.cleanUp();

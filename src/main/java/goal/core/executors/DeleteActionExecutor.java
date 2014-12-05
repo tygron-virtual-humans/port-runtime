@@ -18,6 +18,8 @@
 
 package goal.core.executors;
 
+import java.rmi.activation.UnknownObjectException;
+
 import krTools.errors.exceptions.KRInitFailedException;
 import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
@@ -40,14 +42,15 @@ public class DeleteActionExecutor extends ActionExecutor {
 	@Override
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
 		try {
-			mentalState.MentalState state = MentalStateFactory.getDefaultInterface();
+			mentalState.MentalState state = MentalStateFactory.getInterface(
+					action.getKRInterface().getClass());
 			MentalState mentalState = runState.getMentalState();
 			mentalState.delete(state.filterMailUpdates(action.getUpdate(), false),
 					BASETYPE.BELIEFBASE, debugger);
 			mentalState.delete(state.filterMailUpdates(action.getUpdate(), true), 
 					BASETYPE.MAILBOX, debugger);
 			mentalState.updateGoalState(debugger);
-		} catch (KRInitFailedException e) {
+		} catch (UnknownObjectException e) {
 			throw new GOALRuntimeErrorException(
 					"Separating beliefs from mails for deletion failed: " + e.getMessage(), e);
 		}

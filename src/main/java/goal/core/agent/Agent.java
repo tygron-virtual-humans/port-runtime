@@ -1,10 +1,14 @@
 package goal.core.agent;
 
+import java.rmi.activation.UnknownObjectException;
+
 import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 import krTools.KRInterface;
+import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRQueryFailedException;
 import languageTools.program.agent.AgentId;
 import languageTools.program.agent.actions.LogAction;
 
@@ -150,8 +154,12 @@ public class Agent<CONTROLLER extends Controller> {
 	 *             when interrupted while waiting for the agent to stop
 	 * @throws KRInitFailedException
 	 *             when failing to reset the {@link KRInterface}.
+	 * @throws KRQueryFailedException 
+	 * @throws KRDatabaseException 
+	 * @throws UnknownObjectException 
 	 */
-	public void reset() throws InterruptedException, KRInitFailedException {
+	public void reset() 
+			throws InterruptedException, KRInitFailedException, KRDatabaseException, KRQueryFailedException, UnknownObjectException {
 		controller.reset();
 	}
 

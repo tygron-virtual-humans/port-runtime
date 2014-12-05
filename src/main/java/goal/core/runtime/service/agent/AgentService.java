@@ -23,6 +23,7 @@ import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 import goal.tools.logging.InfoLog;
 
 import java.io.File;
+import java.rmi.activation.UnknownObjectException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -33,7 +34,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRQueryFailedException;
 import languageTools.program.agent.AgentId;
 import languageTools.program.agent.AgentProgram;
 import languageTools.program.mas.Launch;
@@ -560,11 +563,14 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	/**
 	 * Resets all local agents.
 	 *
-	 * @throws KRInitFailedException
 	 * @throws InterruptedException
+	 * @throws KRInitFailedException
+	 * @throws KRQueryFailedException 
+	 * @throws KRDatabaseException 
+	 * @throws UnknownObjectException 
 	 */
-	public synchronized void reset() throws KRInitFailedException,
-			InterruptedException {
+	public synchronized void reset() 
+			throws InterruptedException, KRInitFailedException, KRDatabaseException, KRQueryFailedException, UnknownObjectException {
 		for (Agent<C> a : agents.local()) {
 			a.reset();
 		}

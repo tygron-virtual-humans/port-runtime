@@ -27,6 +27,7 @@ import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 import goal.tools.logging.InfoLog;
 
+import java.rmi.activation.UnknownObjectException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -118,9 +119,10 @@ public class MentalState {
 	 *             percept base failed.
 	 * @throws KRQueryFailedException 
 	 * @throws KRDatabaseException 
+	 * @throws UnknownObjectException 
 	 */
 	public MentalState(AgentId id, AgentProgram program, Debugger debugger)
-			throws KRInitFailedException, KRDatabaseException, KRQueryFailedException {
+			throws KRInitFailedException, KRDatabaseException, KRQueryFailedException, UnknownObjectException {
 		// Log creation of mental state event.
 		new InfoLog("initializing mental state...");
 		this.usesMentalModeling = program.usesMentalModels();
@@ -227,9 +229,10 @@ public class MentalState {
 	 *             databases.
 	 * @throws KRQueryFailedException 
 	 * @throws KRDatabaseException 
+	 * @throws UnknownObjectException 
 	 */
 	public synchronized void addAgentModel(AgentId id, Debugger debugger) 
-			throws KRInitFailedException, KRDatabaseException, KRQueryFailedException {
+			throws KRInitFailedException, KRDatabaseException, KRQueryFailedException, UnknownObjectException {
 		// true if its me, the owner of this mental state.
 		boolean me = id.equals(this.agentId);
 
@@ -251,7 +254,8 @@ public class MentalState {
 			// that there is an(other) agent because we have a(n empty) mental
 			// state.
 			MentalModel model = new MentalModel();
-			mentalState.MentalState state = MentalStateFactory.getDefaultInterface();
+			mentalState.MentalState state = MentalStateFactory.getInterface(
+					agentProgram.getKRInterface().getClass());
 
 			// Get content for the initial belief and goal base.
 			if (me) {

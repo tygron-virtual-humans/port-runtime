@@ -56,11 +56,14 @@ import java.lang.management.ManagementFactory;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.rmi.activation.UnknownObjectException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRQueryFailedException;
 import languageTools.program.agent.AgentId;
 import nl.tudelft.goal.messaging.Messaging;
 import nl.tudelft.goal.messaging.client.MessagingClient;
@@ -569,7 +572,7 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	public void resetAgent(AgentId id) {
 		try {
 			agentService.getAgent(id).reset();
-		} catch (KRInitFailedException e) {
+		} catch (KRInitFailedException | KRDatabaseException | KRQueryFailedException | UnknownObjectException e) {
 			new Warning(Resources.get(WarningStrings.FAILED_RESET_AGENT), e);
 		} catch (InterruptedException e) {
 			new Warning(Resources.get(WarningStrings.INTERRUPT_RESET_AGENT), e);

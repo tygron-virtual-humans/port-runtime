@@ -8,6 +8,7 @@ import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 
+import java.rmi.activation.UnknownObjectException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -188,9 +189,10 @@ public class RuleExecutor {
 			// Create new substitution, replacing our #variable.
 			Substitution fullSubst = globalsubst.clone();
 			try {
-				Term newTerm = substitutionsToTerm(applicableSubst);
+				Term newTerm = substitutionsToTerm(applicableSubst,
+						runState.getActiveModule().getKRInterface());
 				fullSubst.addBinding(((ListallDoRule)rule).getVariable(), newTerm);
-			} catch (KRInitFailedException e) {
+			} catch (KRInitFailedException | UnknownObjectException e) {
 				throw new GOALRuntimeErrorException(
 						"Converting substitutions to a term failed: " + e.getMessage(), e);
 			}
@@ -212,10 +214,11 @@ public class RuleExecutor {
 	 *         list of all values for that var in the given set of
 	 *         {@link Substitution}s.
 	 * @throws KRInitFailedException 
+	 * @throws UnknownObjectException 
 	 */
-	private Term substitutionsToTerm(Set<Substitution> substitutions) 
-			throws KRInitFailedException {
-		mentalState.MentalState state = MentalStateFactory.getDefaultInterface();
+	private Term substitutionsToTerm(Set<Substitution> substitutions, KRInterface language) 
+			throws KRInitFailedException, UnknownObjectException {
+		mentalState.MentalState state =  MentalStateFactory.getInterface(language.getClass());
 		// First make single terms from each substitution.
 		List<Term> substsAsTerms = new ArrayList<>(substitutions.size());
 		// Get the variables from the condition of the rule; bindings for those

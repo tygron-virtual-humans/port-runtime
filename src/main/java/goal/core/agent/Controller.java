@@ -2,6 +2,7 @@ package goal.core.agent;
 
 import goal.preferences.PMPreferences;
 
+import java.rmi.activation.UnknownObjectException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -9,7 +10,9 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRQueryFailedException;
 
 /**
  * Controller for an {@link Agent}.
@@ -153,9 +156,12 @@ public abstract class Controller {
 	 * @throws KRInitFailedException
 	 *             when unable to initialize the KRInterface when restarting the
 	 *             agent.
+	 * @throws KRDatabaseException
+	 * @throws KRQueryFailedException
+	 * @throws UnknownObjectException
 	 */
-	public final void reset() throws InterruptedException,
-	KRInitFailedException {
+	public final void reset() 
+			throws InterruptedException, KRInitFailedException, KRDatabaseException, KRQueryFailedException, UnknownObjectException {
 		terminate();
 		awaitTermination();
 		onReset();
@@ -172,8 +178,12 @@ public abstract class Controller {
 	 * @throws KRInitFailedException
 	 *             when unable to initialize the KRInterface when restarting the
 	 *             agent.
+	 * @throws KRDatabaseException
+	 * @throws KRQueryFailedException
+	 * @throws UnknownObjectException
 	 */
-	protected void onReset() throws InterruptedException, KRInitFailedException {
+	protected void onReset()
+			throws InterruptedException, KRInitFailedException, KRDatabaseException, KRQueryFailedException, UnknownObjectException {
 	}
 
 	/**

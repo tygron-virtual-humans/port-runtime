@@ -18,6 +18,8 @@
 
 package goal.core.executors;
 
+import java.rmi.activation.UnknownObjectException;
+
 import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
@@ -41,14 +43,15 @@ public class InsertActionExecutor extends ActionExecutor {
 	@Override
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
 		try {
-			mentalState.MentalState state = MentalStateFactory.getDefaultInterface();
+			mentalState.MentalState state = MentalStateFactory.getInterface(
+					action.getKRInterface().getClass());
 			MentalState mentalState = runState.getMentalState();
 			mentalState.insert(state.filterMailUpdates(action.getUpdate(), false),
 					BASETYPE.BELIEFBASE, debugger);
 			mentalState.insert(state.filterMailUpdates(action.getUpdate(), true), 
 					BASETYPE.MAILBOX, debugger);
 			mentalState.updateGoalState(debugger);
-		} catch (KRInitFailedException e) {
+		} catch (UnknownObjectException e) {
 			throw new GOALRuntimeErrorException(
 					"Separating beliefs from mails for insertion failed: " + e.getMessage(), e);
 		}
