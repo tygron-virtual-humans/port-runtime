@@ -1,6 +1,5 @@
 package goal.tools.eclipse;
 
-import languageTools.program.mas.MASProgram;
 import goal.core.runtime.RuntimeManager;
 import goal.preferences.LoggingPreferences;
 import goal.preferences.Preferences;
@@ -12,6 +11,8 @@ import goal.tools.logging.InfoLog;
 import goal.tools.logging.Loggers;
 
 import java.io.File;
+
+import languageTools.program.mas.MASProgram;
 
 public class DebugTool {
 

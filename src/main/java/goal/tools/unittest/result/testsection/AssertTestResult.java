@@ -1,11 +1,12 @@
 package goal.tools.unittest.result.testsection;
 
-import krTools.language.Substitution;
-import languageTools.program.agent.msc.MentalStateCondition;
 import goal.tools.unittest.result.ResultFormatter;
 import goal.tools.unittest.testsection.AssertTest;
 
 import java.util.Set;
+
+import krTools.language.Substitution;
+import languageTools.program.agent.msc.MentalStateCondition;
 
 /**
  * Stores the result of a {@link MentalStateTeste}. A test produces a set of

@@ -19,11 +19,6 @@
 package goal.core.mentalstate;
 
 import eis.iilang.Percept;
-import krTools.KRInterface;
-import krTools.language.DatabaseFormula;
-import krTools.language.Query;
-import krTools.language.Substitution;
-import krTools.language.Update;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
@@ -32,15 +27,21 @@ import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
-import krTools.database.Database;
-import krTools.errors.exceptions.KRInitFailedException;
-import languageTools.program.agent.AgentId;
-import languageTools.program.agent.msg.Message;
 
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Observable;
 import java.util.Set;
+
+import krTools.KRInterface;
+import krTools.database.Database;
+import krTools.errors.exceptions.KRInitFailedException;
+import krTools.language.DatabaseFormula;
+import krTools.language.Query;
+import krTools.language.Substitution;
+import krTools.language.Update;
+import languageTools.program.agent.AgentId;
+import languageTools.program.agent.msg.Message;
 
 /**
  * <p>

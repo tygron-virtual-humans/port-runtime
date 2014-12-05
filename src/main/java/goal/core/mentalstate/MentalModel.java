@@ -18,7 +18,26 @@
 
 package goal.core.mentalstate;
 
+import goal.tools.debugger.Channel;
+import goal.tools.debugger.Debugger;
+import goal.tools.errorhandling.Resources;
+import goal.tools.errorhandling.Warning;
+import goal.tools.errorhandling.WarningStrings;
+import goal.tools.errorhandling.exceptions.GOALBug;
+import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
+
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
+
 import krTools.KRInterface;
+import krTools.errors.exceptions.KRDatabaseException;
+import krTools.errors.exceptions.KRInitFailedException;
 import krTools.language.DatabaseFormula;
 import krTools.language.Query;
 import krTools.language.Substitution;
@@ -29,24 +48,6 @@ import languageTools.program.agent.msc.BelLiteral;
 import languageTools.program.agent.msc.GoalALiteral;
 import languageTools.program.agent.msc.GoalLiteral;
 import languageTools.program.agent.msc.MentalLiteral;
-import goal.tools.debugger.Channel;
-import goal.tools.debugger.Debugger;
-import goal.tools.errorhandling.Resources;
-import goal.tools.errorhandling.Warning;
-import goal.tools.errorhandling.WarningStrings;
-import goal.tools.errorhandling.exceptions.GOALBug;
-import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
-import krTools.errors.exceptions.KRDatabaseException;
-import krTools.errors.exceptions.KRInitFailedException;
-
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
 
 /**
  * A {@link MentalModel} is a belief base and a stack of goal bases. The top of

@@ -1,8 +1,5 @@
 package goal.tools.unittest.testsection.testconditions;
 
-import krTools.language.Substitution;
-import krTools.language.Var;
-import languageTools.program.agent.msc.MentalStateCondition;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.ObservableDebugger;
 import goal.tools.unittest.result.ResultFormatter;
@@ -10,6 +7,10 @@ import goal.tools.unittest.result.ResultFormatter;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import krTools.language.Substitution;
+import krTools.language.Var;
+import languageTools.program.agent.msc.MentalStateCondition;
 
 /**
  * Abstract base for any test condition. Test conditions are evaluated in the

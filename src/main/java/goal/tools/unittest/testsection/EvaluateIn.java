@@ -1,7 +1,5 @@
 package goal.tools.unittest.testsection;
 
-import krTools.language.Substitution;
-import languageTools.program.agent.AgentProgram;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.DebugObserver;
@@ -20,6 +18,9 @@ import goal.tools.unittest.testsection.testconditions.TestConditionFailedExcepti
 
 import java.util.ArrayList;
 import java.util.List;
+
+import krTools.language.Substitution;
+import languageTools.program.agent.AgentProgram;
 
 /**
  * Evaluate-in statement. The evaluate-in statement evaluates a list of

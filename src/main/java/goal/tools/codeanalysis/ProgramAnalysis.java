@@ -18,14 +18,15 @@
 
 package goal.tools.codeanalysis;
 
-import languageTools.program.agent.AgentProgram;
-import languageTools.program.agent.Module;
-import languageTools.program.agent.msc.Macro;
 import goal.tools.PlatformManager;
 import goal.tools.errorhandling.exceptions.GOALException;
 
 import java.io.File;
 import java.io.IOException;
+
+import languageTools.program.agent.AgentProgram;
+import languageTools.program.agent.Module;
+import languageTools.program.agent.msc.Macro;
 
 /**
  * Create an analysis of the contents of a GOAL program (#1186).

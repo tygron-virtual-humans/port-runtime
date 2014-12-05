@@ -20,9 +20,6 @@ package goal.tools.debugger;
 
 import eis.iilang.EnvironmentState;
 import goal.core.agent.Agent;
-import krTools.parser.SourceInfo;
-import languageTools.parser.InputStreamPosition;
-import languageTools.program.agent.AgentId;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
 import goal.preferences.PMPreferences;
 import goal.tools.IDEGOALInterpreter;
@@ -33,6 +30,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+
+import krTools.parser.SourceInfo;
+import languageTools.program.agent.AgentId;
 
 /**
  * <p>

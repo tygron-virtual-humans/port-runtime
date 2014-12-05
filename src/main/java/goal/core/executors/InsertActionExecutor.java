@@ -18,33 +18,42 @@
 
 package goal.core.executors;
 
+import goal.core.mentalstate.BASETYPE;
+import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
 import krTools.language.Substitution;
 import languageTools.program.agent.actions.Action;
-import languageTools.program.agent.actions.ExitModuleAction;
+import languageTools.program.agent.actions.InsertAction;
 
-public class ExitModuleActionExecutor extends ActionExecutor {
+public class InsertActionExecutor extends ActionExecutor {
 
-	private ExitModuleAction action;
+	private InsertAction action;
 
-	public ExitModuleActionExecutor(ExitModuleAction act) {
+	public InsertActionExecutor(InsertAction act) {
 		this.action = act;
 	}
 
 	@Override
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
+		MentalState mentalState = runState.getMentalState();
+
+		mentalState.insert(this.beliefUpdate, BASETYPE.BELIEFBASE, debugger);
+		mentalState.insert(this.mailboxUpdate, BASETYPE.MAILBOX, debugger);
+
+		mentalState.updateGoalState(debugger);
+
 		report(debugger);
 
 		return new Result(action);
 	}
-	
+
 	@Override
 	protected ActionExecutor applySubst(Substitution subst) {
-		return this; // exit-module has no free variables
+		return new InsertActionExecutor(action.applySubst(subst));
 	}
-
+	
 	@Override
 	public Action<?> getAction() {
 		return action;

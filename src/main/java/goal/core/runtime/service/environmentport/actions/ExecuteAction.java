@@ -1,10 +1,10 @@
 package goal.core.runtime.service.environmentport.actions;
 
-import eis.iilang.Action;
-import languageTools.program.agent.actions.UserSpecAction;
-import goal.core.runtime.service.environment.LocalMessagingEnvironment.Messages2Environment;
-
 import java.io.Serializable;
+
+import languageTools.program.agent.actions.UserSpecAction;
+import eis.iilang.Action;
+import goal.core.runtime.service.environment.LocalMessagingEnvironment.Messages2Environment;
 
 /**
  * Executes the EIS executeAction command.

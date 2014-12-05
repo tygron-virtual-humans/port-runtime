@@ -13,16 +13,14 @@ import languageTools.program.agent.actions.Action;
  * Abstract base class for part of the ActionExecutors
  * 
  * @author W.Pasman 4dec14
- *
  */
 public abstract class ActionExecutor {
-
 	/**
 	 * Get the parsed {@link Action}.
 	 * 
 	 * @return {@link Action}
 	 */
-	abstract public Action getAction();
+	abstract public Action<?> getAction();
 
 	/**
 	 * Checks whether the precondition of this {@link Action} holds and, if this
@@ -54,9 +52,7 @@ public abstract class ActionExecutor {
 	 * @param subst
 	 *            the substitution to be applied
 	 */
-	protected ActionExecutor applySubst(Substitution subst) {
-		return getAction().applySubst(substitution);
-	}
+	protected abstract ActionExecutor applySubst(Substitution subst);
 
 	/**
 	 * Performs the {@link Action}. First applies the given {@link Substitution}
@@ -82,8 +78,7 @@ public abstract class ActionExecutor {
 	 *             not indicated in the program, or other exeptions occurred.
 	 */
 	public final Result run(RunState<?> runState,
-			krTools.language.Substitution substitution, Debugger debugger,
-			boolean last) {
+			Substitution substitution, Debugger debugger, boolean last) {
 		Result result = new Result();
 
 		// Apply the substitution provided by the (module and rule condition)
@@ -104,8 +99,7 @@ public abstract class ActionExecutor {
 				result.merge(action.executeAction(runState, debugger));
 			} else {
 				throw new GOALActionFailedException(
-						"Attempt to execute action " + action + "@"
-								+ this.getSource() + " with free variables.");
+						"Attempt to execute action " + action + " with free variables.");
 			}
 		} else {
 			debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, this,

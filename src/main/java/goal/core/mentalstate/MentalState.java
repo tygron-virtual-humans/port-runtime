@@ -19,23 +19,10 @@
 package goal.core.mentalstate;
 
 import goal.core.agent.Agent;
-import krTools.KRInterface;
-import krTools.language.DatabaseFormula;
-import krTools.language.Query;
-import krTools.language.Substitution;
-import krTools.language.Update;
-import languageTools.program.agent.AgentId;
-import languageTools.program.agent.AgentProgram;
-import languageTools.program.agent.Module;
-import languageTools.program.agent.msc.MentalLiteral;
-import languageTools.program.agent.msc.MentalStateCondition;
-import languageTools.program.agent.msg.Message;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
 import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
-import krTools.errors.exceptions.KRInitFailedException;
-import krTools.errors.exceptions.KRQueryFailedException;
 import goal.tools.logging.InfoLog;
 
 import java.util.ArrayList;
@@ -49,6 +36,20 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import krTools.KRInterface;
+import krTools.errors.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRQueryFailedException;
+import krTools.language.DatabaseFormula;
+import krTools.language.Query;
+import krTools.language.Substitution;
+import krTools.language.Update;
+import languageTools.program.agent.AgentId;
+import languageTools.program.agent.AgentProgram;
+import languageTools.program.agent.Module;
+import languageTools.program.agent.msc.MentalLiteral;
+import languageTools.program.agent.msc.MentalStateCondition;
+import languageTools.program.agent.msg.Message;
+import languageTools.program.agent.selector.Selector.SelectorType;
 import nl.tudelft.goal.messaging.messagebox.MessageBox;
 
 /**

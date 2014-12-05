@@ -18,6 +18,8 @@
 
 package goal.tools.codeanalysis;
 
+import java.util.Hashtable;
+
 import languageTools.program.agent.Module;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.ModuleCallAction;
@@ -28,8 +30,6 @@ import languageTools.program.agent.msc.GoalLiteral;
 import languageTools.program.agent.msc.MentalLiteral;
 import languageTools.program.agent.msc.MentalStateCondition;
 import languageTools.program.agent.rules.Rule;
-
-import java.util.Hashtable;
 
 /**
  * Creates a <em>static</em> analysis of a program section.

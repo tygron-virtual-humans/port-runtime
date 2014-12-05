@@ -23,28 +23,34 @@ import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
 import krTools.language.Substitution;
 import languageTools.program.agent.actions.Action;
-import languageTools.program.agent.actions.ExitModuleAction;
+import languageTools.program.agent.actions.PrintAction;
 
-public class ExitModuleActionExecutor extends ActionExecutor {
+public class PrintActionExecutor extends ActionExecutor {
 
-	private ExitModuleAction action;
+	private PrintAction action;
 
-	public ExitModuleActionExecutor(ExitModuleAction act) {
-		this.action = act;
+	public PrintActionExecutor(PrintAction action) {
+		this.action = action;
 	}
 
 	@Override
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
+		String output = action.getParameters().toString();
+		boolean beginQuote = output.startsWith("\"") || output.startsWith("'");
+		boolean endQuote = output.endsWith("\"") || output.endsWith("'");
+		System.out.println(output.substring(beginQuote ? 1 : 0,
+				endQuote ? output.length() - 1 : output.length()));
+
 		report(debugger);
 
 		return new Result(action);
 	}
-	
+
 	@Override
 	protected ActionExecutor applySubst(Substitution subst) {
-		return this; // exit-module has no free variables
+		return new PrintActionExecutor(action.applySubst(subst));
 	}
-
+	
 	@Override
 	public Action<?> getAction() {
 		return action;

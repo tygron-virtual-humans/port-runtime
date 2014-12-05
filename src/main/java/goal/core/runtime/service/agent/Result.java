@@ -17,15 +17,15 @@
  */
 package goal.core.runtime.service.agent;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import languageTools.program.agent.Module;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.ExitModuleAction;
 import languageTools.program.agent.actions.LogAction;
 import languageTools.program.agent.actions.ModuleCallAction;
 import languageTools.program.agent.rules.Rule;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Container for the results obtained by executing actions that is passed on to

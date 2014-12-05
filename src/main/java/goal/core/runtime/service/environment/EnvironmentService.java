@@ -4,7 +4,6 @@ import eis.EILoader;
 import eis.EnvironmentInterfaceStandard;
 import eis.exceptions.EnvironmentInterfaceException;
 import eis.iilang.Parameter;
-import languageTools.program.mas.MASProgram;
 import goal.core.runtime.MessagingService;
 import goal.core.runtime.service.environment.events.EnvironmentPortAddedEvent;
 import goal.core.runtime.service.environment.events.EnvironmentPortRemovedEvent;
@@ -26,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import languageTools.program.mas.MASProgram;
 import nl.tudelft.goal.messaging.Messaging;
 import nl.tudelft.goal.messaging.client.MessagingEvent;
 import nl.tudelft.goal.messaging.client.MessagingListener;

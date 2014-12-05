@@ -1,9 +1,9 @@
 package goal.tools.unittest.result.testsection;
 
-import languageTools.program.agent.actions.ActionCombo;
 import goal.core.runtime.service.agent.Result;
 import goal.tools.unittest.result.ResultFormatter;
 import goal.tools.unittest.testsection.DoActionSection;
+import languageTools.program.agent.actions.ActionCombo;
 
 /**
  * Result of evaluating the {@link DoActionSection} rule.

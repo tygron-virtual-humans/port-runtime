@@ -1,6 +1,5 @@
 package goal.tools;
 
-import languageTools.program.mas.MASProgram;
 import goal.tools.adapt.FileLearner;
 import goal.tools.errorhandling.Warning;
 
@@ -8,6 +7,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
+import languageTools.program.mas.MASProgram;
 import localmessaging.LocalMessaging;
 import nl.tudelft.goal.messaging.Messaging;
 

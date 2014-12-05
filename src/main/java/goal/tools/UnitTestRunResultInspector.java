@@ -1,7 +1,6 @@
 package goal.tools;
 
 import goal.core.agent.Agent;
-import languageTools.program.agent.AgentId;
 import goal.tools.debugger.ObservableDebugger;
 import goal.tools.unittest.UnitTest;
 import goal.tools.unittest.UnitTestInterpreter;
@@ -10,6 +9,8 @@ import goal.tools.unittest.result.UnitTestResult;
 
 import java.util.Collection;
 import java.util.HashMap;
+
+import languageTools.program.agent.AgentId;
 
 /**
  * Inspects the results of a {@link RunTest}. The results are provided as a

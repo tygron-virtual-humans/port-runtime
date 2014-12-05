@@ -1,20 +1,10 @@
 package goal.tools.eclipse;
 
 import goal.core.agent.Agent;
-import languageTools.parser.InputStreamPosition;
-import languageTools.program.agent.AgentId;
-import krTools.language.DatabaseFormula;
-import krTools.language.Substitution;
-import krTools.parser.SourceInfo;
 import goal.core.mentalstate.BASETYPE;
 import goal.core.mentalstate.GoalBase;
 import goal.core.mentalstate.MentalState;
 import goal.core.mentalstate.SingleGoal;
-import languageTools.program.agent.Module;
-import languageTools.program.agent.actions.Action;
-import languageTools.program.agent.actions.ModuleCallAction;
-import languageTools.program.agent.actions.UserSpecAction;
-import languageTools.program.agent.msc.MentalStateCondition;
 import goal.preferences.DebugPreferences;
 import goal.preferences.LoggingPreferences;
 import goal.tools.IDEDebugger;
@@ -28,6 +18,17 @@ import goal.tools.eclipse.DebugCommand.Command;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+
+import krTools.language.DatabaseFormula;
+import krTools.language.Substitution;
+import krTools.parser.SourceInfo;
+import languageTools.parser.InputStreamPosition;
+import languageTools.program.agent.AgentId;
+import languageTools.program.agent.Module;
+import languageTools.program.agent.actions.Action;
+import languageTools.program.agent.actions.ModuleCallAction;
+import languageTools.program.agent.actions.UserSpecAction;
+import languageTools.program.agent.msc.MentalStateCondition;
 
 public class EclipseDebugObserver implements DebugObserver {
 	private final Agent<IDEGOALInterpreter> agent;

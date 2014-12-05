@@ -1,9 +1,23 @@
 package goal.tools.eclipse;
 
 import goal.core.agent.Agent;
+import goal.core.mentalstate.MentalState;
+import goal.tools.IDEGOALInterpreter;
+import goal.tools.debugger.SteppingDebugger;
+import goal.tools.errorhandling.exceptions.GOALBug;
+import goal.tools.errorhandling.exceptions.GOALException;
+import goal.tools.errorhandling.exceptions.GOALUserError;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import krTools.errors.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.ParserException;
 import krTools.language.Substitution;
 import krTools.language.Var;
-import goal.core.mentalstate.MentalState;
 import languageTools.errors.ValidatorError;
 import languageTools.parser.GOAL;
 import languageTools.parser.GOALLexer;
@@ -14,22 +28,11 @@ import languageTools.program.agent.actions.MentalAction;
 import languageTools.program.agent.actions.UserSpecAction;
 import languageTools.program.agent.actions.UserSpecOrModuleCall;
 import languageTools.program.agent.msc.MentalStateCondition;
-import goal.tools.IDEGOALInterpreter;
-import goal.tools.debugger.SteppingDebugger;
-import goal.tools.errorhandling.exceptions.GOALBug;
-import goal.tools.errorhandling.exceptions.GOALException;
-import goal.tools.errorhandling.exceptions.GOALUserError;
-import krTools.errors.exceptions.KRInitFailedException;
-import krTools.errors.exceptions.ParserException;
-
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+
+import antlr.NameSpace;
 
 public class QueryTool {
 	private final Agent<IDEGOALInterpreter> agent;

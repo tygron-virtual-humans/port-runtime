@@ -1,11 +1,10 @@
 package goal.tools.eclipse;
 
-import languageTools.program.agent.AgentId;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import languageTools.program.agent.AgentId;
 import nl.tudelft.goal.messaging.messagebox.MessageBoxId;
 
 public class DebugCommand {

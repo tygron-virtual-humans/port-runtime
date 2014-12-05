@@ -19,14 +19,8 @@
 package goal.tools.adapt;
 
 import goal.core.agent.Agent;
-import krTools.language.DatabaseFormula;
-import krTools.language.Expression;
 import goal.core.mentalstate.BASETYPE;
 import goal.core.mentalstate.MentalState;
-import languageTools.program.agent.AgentProgram;
-import languageTools.program.agent.Module;
-import languageTools.program.agent.Module.RuleEvaluationOrder;
-import languageTools.program.agent.actions.ActionCombo;
 import goal.preferences.CorePreferences;
 import goal.tools.logging.InfoLog;
 
@@ -53,6 +47,13 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.Vector;
+
+import krTools.language.DatabaseFormula;
+import krTools.language.Expression;
+import languageTools.program.agent.AgentProgram;
+import languageTools.program.agent.Module;
+import languageTools.program.agent.Module.RuleEvaluationOrder;
+import languageTools.program.agent.actions.ActionCombo;
 
 /**
  * The generic learner. This class makes the link between GOAL core and the

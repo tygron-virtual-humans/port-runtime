@@ -1,7 +1,6 @@
 package goal.tools;
 
 import goal.tools.logging.Loggers;
-import goal.tools.unittest.UnitTest;
 import goal.tools.unittest.result.UnitTestResult;
 import goal.tools.unittest.result.UnitTestResultFormatter;
 

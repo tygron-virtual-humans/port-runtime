@@ -1,14 +1,5 @@
 package goal.tools;
 
-import krTools.parser.SourceInfo;
-import languageTools.parser.InputStreamPosition;
-import languageTools.program.agent.ActionSpecification;
-import languageTools.program.agent.AgentProgram;
-import languageTools.program.agent.Module;
-import languageTools.program.agent.Module.TYPE;
-import languageTools.program.agent.actions.Action;
-import languageTools.program.agent.actions.ActionCombo;
-import languageTools.program.agent.rules.Rule;
 import goal.tools.debugger.BreakPoint;
 import goal.tools.debugger.BreakPoint.Type;
 
@@ -20,6 +11,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import krTools.parser.SourceInfo;
+import languageTools.parser.InputStreamPosition;
+import languageTools.program.agent.ActionSpecification;
+import languageTools.program.agent.AgentProgram;
+import languageTools.program.agent.Module;
+import languageTools.program.agent.Module.TYPE;
+import languageTools.program.agent.actions.Action;
+import languageTools.program.agent.rules.Rule;
 
 /**
  * Manages all breakpoints set by a user in a file.

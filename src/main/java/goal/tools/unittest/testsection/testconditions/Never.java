@@ -1,7 +1,5 @@
 package goal.tools.unittest.testsection.testconditions;
 
-import krTools.language.Substitution;
-import languageTools.program.agent.msc.MentalStateCondition;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.DebugEvent;
 import goal.tools.debugger.ObservableDebugger;
@@ -9,6 +7,9 @@ import goal.tools.unittest.result.ResultFormatter;
 import goal.tools.unittest.testsection.EvaluateIn;
 
 import java.util.Set;
+
+import krTools.language.Substitution;
+import languageTools.program.agent.msc.MentalStateCondition;
 
 /**
  * Never operator for LTL queries in {@link EvaluateIn}. The mental state

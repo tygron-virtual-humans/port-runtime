@@ -1,7 +1,6 @@
 package goal.tools.eclipse;
 
 import goal.core.agent.Agent;
-import languageTools.program.agent.AgentId;
 import goal.core.runtime.RuntimeEvent;
 import goal.core.runtime.RuntimeEventObserver;
 import goal.core.runtime.RuntimeManager;
@@ -11,6 +10,8 @@ import goal.tools.eclipse.DebugCommand.Command;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import languageTools.program.agent.AgentId;
 
 public class EclipseEventObserver implements RuntimeEventObserver {
 	private final Map<AgentId, EclipseDebugObserver> observers;

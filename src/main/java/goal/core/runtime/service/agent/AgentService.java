@@ -3,11 +3,6 @@ package goal.core.runtime.service.agent;
 import goal.core.agent.Agent;
 import goal.core.agent.AgentFactory;
 import goal.core.agent.GOALInterpreter;
-import languageTools.program.mas.Launch;
-import languageTools.program.mas.LaunchRule;
-import languageTools.program.mas.MASProgram;
-import languageTools.program.agent.AgentId;
-import languageTools.program.agent.AgentProgram;
 import goal.core.runtime.service.agent.events.AddedLocalAgent;
 import goal.core.runtime.service.agent.events.AddedRemoteAgent;
 import goal.core.runtime.service.agent.events.AgentServiceEvent;
@@ -25,7 +20,6 @@ import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
-import krTools.errors.exceptions.KRInitFailedException;
 import goal.tools.logging.InfoLog;
 
 import java.io.File;
@@ -39,6 +33,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import krTools.errors.exceptions.KRInitFailedException;
+import languageTools.program.agent.AgentId;
+import languageTools.program.agent.AgentProgram;
+import languageTools.program.mas.Launch;
+import languageTools.program.mas.LaunchRule;
+import languageTools.program.mas.MASProgram;
 import nl.tudelft.goal.messaging.Messaging;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 

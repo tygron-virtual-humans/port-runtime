@@ -1,11 +1,11 @@
 package goal.core.mentalstate;
 
-import krTools.KRInterface;
-import krTools.language.Update;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
+import krTools.KRInterface;
 import krTools.database.Database;
 import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
+import krTools.language.Update;
 import languageTools.program.agent.AgentId;
 
 /*********** SingleGoal class ****************/

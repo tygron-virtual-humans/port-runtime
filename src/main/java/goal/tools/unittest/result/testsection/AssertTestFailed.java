@@ -1,8 +1,8 @@
 package goal.tools.unittest.result.testsection;
 
-import languageTools.program.agent.msc.MentalStateCondition;
 import goal.tools.unittest.result.ResultFormatter;
 import goal.tools.unittest.testsection.AssertTest;
+import languageTools.program.agent.msc.MentalStateCondition;
 
 public class AssertTestFailed extends TestSectionFailed {
 

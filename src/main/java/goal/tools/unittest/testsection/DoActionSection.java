@@ -1,6 +1,5 @@
 package goal.tools.unittest.testsection;
 
-import languageTools.program.agent.actions.ActionCombo;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.ObservableDebugger;
@@ -8,6 +7,7 @@ import goal.tools.unittest.result.ResultFormatter;
 import goal.tools.unittest.result.testsection.ActionResult;
 import goal.tools.unittest.result.testsection.TestSectionFailed;
 import goal.tools.unittest.result.testsection.TestSectionResult;
+import languageTools.program.agent.actions.ActionCombo;
 
 /**
  * Action rule for test program. Executes an {@link ActionCombo}.

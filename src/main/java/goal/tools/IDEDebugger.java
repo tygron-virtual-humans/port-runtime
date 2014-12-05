@@ -1,7 +1,5 @@
 package goal.tools;
 
-import languageTools.program.agent.AgentId;
-import languageTools.program.agent.AgentProgram;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
 import goal.preferences.LoggingPreferences;
 import goal.tools.debugger.Channel;
@@ -11,6 +9,9 @@ import goal.tools.debugger.ObservableDebugger;
 import goal.tools.logging.InfoLog;
 
 import java.io.File;
+
+import languageTools.program.agent.AgentId;
+import languageTools.program.agent.AgentProgram;
 
 public class IDEDebugger extends ObservableDebugger {
 	private final DebugSettingSynchronizer observer;

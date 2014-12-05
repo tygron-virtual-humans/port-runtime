@@ -3,11 +3,12 @@ package goal.core.agent;
 import goal.core.runtime.service.agent.AgentService;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
 import goal.tools.debugger.Debugger;
-import krTools.errors.exceptions.KRInitFailedException;
-import languageTools.program.agent.AgentProgram;
 
 import java.io.File;
 
+import krTools.KRInterface;
+import krTools.errors.exceptions.KRInitFailedException;
+import languageTools.program.agent.AgentProgram;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 import nl.tudelft.goal.messaging.messagebox.MessageBox;
 

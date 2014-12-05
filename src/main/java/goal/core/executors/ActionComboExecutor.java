@@ -32,29 +32,15 @@ import java.util.Set;
 import krTools.language.Substitution;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.ActionCombo;
+import languageTools.program.agent.actions.ModuleCallAction;
 import languageTools.program.agent.actions.UserSpecAction;
 
-/**
- * An {@link ActionCombo} is a list of actions that have been combined by the +
- * operator in a {@link Rule} of an agent program.
- * <p>
- * An action combo is executed whenever the first action in the sequence can be
- * performed, i.e., the precondition of that action holds. Preconditions of
- * other actions are only inspected after the actions that precede the actions
- * in the list have been executed. If a precondition that is evaluated fails,
- * the execution of the action combo is terminated and the remaining actions are
- * not performed.
- * </p>
- *
- * @author N.Kraayenbrink
- * @modified K.Hindriks
- */
 public class ActionComboExecutor {
 
-	private ActionCombo action;
+	private ActionCombo actions;
 
 	public ActionComboExecutor(ActionCombo act) {
-		action = act;
+		this.actions = act;
 	}
 
 	/**
@@ -83,7 +69,7 @@ public class ActionComboExecutor {
 		Set<Substitution> solutions;
 
 		// Get the first action from the list of actions of this combo.
-		Action firstaction = this.actions.get(0);
+		Action<?> firstaction = this.actions.getActions().get(0);
 
 		// TWO CASES: Distinguish user-specified actions from all other actions.
 		if (firstaction instanceof UserSpecAction) {
@@ -102,14 +88,14 @@ public class ActionComboExecutor {
 				// Create new action which only has the action specification
 				// found
 				// by calling #getOptions(runState).
-				UserSpecAction singleActionSpec = userspec
+				UserSpecAction singleActionSpec = userspec.
 						.getSelectedActionSpec();
 				// Create action combo using new user specified action.
-				ActionCombo option = new ActionCombo(singleActionSpec,
-						singleActionSpec.getSource());
+				ActionCombo option = new ActionCombo();
+				option.addAction(singleActionSpec);
 				// Add other actions that follow first action.
 				for (int i = 1; i < this.actions.size(); i++) {
-					option.addAction(this.actions.get(i));
+					option.addAction(this.actions.getActions().get(i));
 				}
 				// Create instantiations and add to options.
 				for (Substitution substitution : solutions) {
@@ -120,7 +106,6 @@ public class ActionComboExecutor {
 						throw new GOALActionFailedException(
 								"Attempt to execute "
 										+ option.applySubst(substitution)
-										+ " @" + this.getSource()
 										+ " with free variables.");
 					}
 				}
@@ -138,11 +123,10 @@ public class ActionComboExecutor {
 				// If action is not closed throw exception.
 				if (firstaction.isClosed()) {
 					// Action is an option, add the combo as option.
-					options.add(this);
+					options.add(actions);
 				} else {
 					throw new GOALActionFailedException("Attempt to execute "
-							+ this + " @" + this.getSource()
-							+ " with free variables.");
+							+ actions + " with free variables.");
 				}
 			}
 		}
@@ -167,7 +151,7 @@ public class ActionComboExecutor {
 			boolean last) {
 		Result comboResult = new Result();
 
-		for (Action action : this) {
+		for (Action<?> action : actions) {
 			// FIXME is this ok if action is a ModuleCallAction??
 			Result result = action.run(runState, substitution,
 					runState.getDebugger(), last);
@@ -187,10 +171,4 @@ public class ActionComboExecutor {
 
 		return comboResult;
 	}
-
-	@Override
-	public Action getAction() {
-		return action;
-	}
-
 }

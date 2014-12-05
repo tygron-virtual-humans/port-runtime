@@ -48,8 +48,6 @@ import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
-import krTools.errors.exceptions.KRInitFailedException;
-import languageTools.program.agent.AgentId;
 import goal.tools.logging.InfoLog;
 import goal.util.DefaultObservable;
 import goal.util.Observable;
@@ -62,6 +60,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import krTools.errors.exceptions.KRInitFailedException;
+import languageTools.program.agent.AgentId;
 import nl.tudelft.goal.messaging.Messaging;
 import nl.tudelft.goal.messaging.client.MessagingClient;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;

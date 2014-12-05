@@ -18,11 +18,11 @@
 
 package goal.tools.codeanalysis;
 
-import krTools.language.Expression;
-import languageTools.program.agent.AgentProgram;
-
 import java.io.File;
 import java.util.Hashtable;
+
+import krTools.language.Expression;
+import languageTools.program.agent.AgentProgram;
 
 /**
  * Performs a code analysis of the predicates in a GOAL agent program.

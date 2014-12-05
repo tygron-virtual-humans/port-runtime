@@ -1,8 +1,6 @@
 package goal.tools.unittest.testsection;
 
-import krTools.language.Substitution;
 import goal.core.mentalstate.MentalState;
-import languageTools.program.agent.msc.MentalStateCondition;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.ObservableDebugger;
@@ -12,6 +10,9 @@ import goal.tools.unittest.result.testsection.AssertTestResult;
 import goal.tools.unittest.result.testsection.TestSectionResult;
 
 import java.util.Set;
+
+import krTools.language.Substitution;
+import languageTools.program.agent.msc.MentalStateCondition;
 
 /**
  * A mental state test is executed on the agents {@link RunState}. This can be

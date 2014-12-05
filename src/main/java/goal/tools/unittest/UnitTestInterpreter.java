@@ -2,8 +2,6 @@ package goal.tools.unittest;
 
 import goal.core.agent.Agent;
 import goal.core.agent.GOALInterpreter;
-import languageTools.program.agent.AgentProgram;
-import languageTools.program.test.AgentTest;
 import goal.tools.adapt.Learner;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.ObservableDebugger;
@@ -12,6 +10,9 @@ import goal.tools.unittest.result.UnitTestInterpreterResult;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
+
+import languageTools.program.agent.AgentProgram;
+import languageTools.program.test.AgentTest;
 
 /**
  * Interpreter that will run test programs. Once completed test results can be

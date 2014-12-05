@@ -1,7 +1,6 @@
 package goal.core.agent;
 
 import goal.preferences.PMPreferences;
-import krTools.errors.exceptions.KRInitFailedException;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
@@ -9,6 +8,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import krTools.errors.exceptions.KRInitFailedException;
 
 /**
  * Controller for an {@link Agent}.

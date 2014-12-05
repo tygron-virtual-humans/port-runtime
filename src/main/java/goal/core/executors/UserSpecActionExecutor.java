@@ -29,34 +29,29 @@ import goal.tools.debugger.SteppingDebugger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Set;
 
+import krTools.language.Query;
 import krTools.language.Substitution;
 import krTools.language.Update;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.UserSpecAction;
 
-/**
- * A user-specified action of the form 'name(parameters)' with one or more
- * associated action specifications (i.e., precondition, postcondition pairs).
- * Parameters are optional.
- * <p>
- * A user-specified action should at least have one associated action
- * specification. In case an action has multiple action specifications the order
- * of the specifications in the program is taken into account: a specification
- * that occurs before another one is used whenever it is applicable.
- * </p>
- *
- * @author K.Hindriks
- * @author W.Pasman
- */
 public class UserSpecActionExecutor extends ActionExecutor {
 
 	private UserSpecAction action;
+	private Substitution solution = null;
+	private int indexIntoSpecifications;
 
 	public UserSpecActionExecutor(UserSpecAction act) {
-		action = act;
+		this.action = act;
+	}
+	
+	/**
+	 * @return The latest substitution from calling evaluatePrecondition
+	 */
+	public Substitution getLatestSubstitution() {
+		return this.solution;
 	}
 
 	@Override
@@ -66,12 +61,9 @@ public class UserSpecActionExecutor extends ActionExecutor {
 		final Set<Substitution> solutions = getOptions(mentalState, debugger);
 
 		// Return null if no precondition was found that holds; otherwise return
-		// an
-		// instantiated action with the action specification that was found
-		// first for
-		// which the precondition holds and use a randomly selected substitution
-		// to
-		// instantiate the action.
+		// an  instantiated action with the action specification that was found
+		// first for which the precondition holds and use a randomly selected 
+		// substitution to instantiate the action.
 		if (solutions.isEmpty()) {
 			// None of the preconditions holds.
 			if (last) {
@@ -90,8 +82,8 @@ public class UserSpecActionExecutor extends ActionExecutor {
 			// Report success.
 			debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION_USERSPEC,
 					action, "Precondition { %s } of action %s holds for: %s.",
-					action.getPreconditions(), action.getName(), solution);
-			return action.applySubst(this.solution);
+					action.getPrecondition(), action.getName(), solution);
+			return new UserSpecActionExecutor(action.applySubst(this.solution));
 		}
 	}
 
@@ -158,10 +150,11 @@ public class UserSpecActionExecutor extends ActionExecutor {
 
 		// Create new action that only has specification found by
 		// #getOptions(RunState).
-		UserSpecAction action = new UserSpecAction(this.getName(),
-				this.getParameters(), this.external, this.getSource());
+		UserSpecAction action = new UserSpecAction(action.getName(),
+				action.getParameters(), action.getExernal(), null, null, 
+				action.getSourceInfo());
 		// Get first action specification found for which precondition holds.
-		PrePost actionspec = this.specifications.get(indexIntoSpecifications);
+		PrePost actionspec = specifications.get(indexIntoSpecifications);
 		// Do NOT use addSpecification as this renames variables.
 		action.specifications.add(actionspec);
 
@@ -177,12 +170,12 @@ public class UserSpecActionExecutor extends ActionExecutor {
 	@Override
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
 		// Send the action to the environment if it should be sent.
-		if (this.external) {
-			runState.doPerformAction(this);
+		if (action.getExernal()) {
+			runState.doPerformAction(action);
 		}
 
 		// Apply the action's postcondition.
-		Update postcondition = this.specifications.get(0).getPostcondition();
+		Update postcondition = specifications.get(0).getPostcondition();
 		runState.getMentalState().insert(postcondition, BASETYPE.BELIEFBASE,
 				debugger);
 
@@ -195,26 +188,14 @@ public class UserSpecActionExecutor extends ActionExecutor {
 		return new Result(action);
 	}
 
-	/**
-	 * Converts this user specified action in GOAL to an action recognized by
-	 * EIS.
-	 *
-	 * @return The EIS action.
-	 */
-	public eis.iilang.Action convert() {
-		// Convert parameters.
-		LinkedList<eis.iilang.Parameter> parameters = new LinkedList<>();
-		for (Term term : action.getParameters()) {
-			parameters.add(term.convert());
-		}
-
-		// Return converted EIS action.
-		return new eis.iilang.Action(this.getName(), parameters);
-	}
-
 	@Override
-	public Action getAction() {
+	protected ActionExecutor applySubst(Substitution subst) {
+		this.solution = subst;
+		return new UserSpecActionExecutor(action.applySubst(subst));
+	}
+	
+	@Override
+	public Action<?> getAction() {
 		return action;
 	}
-
 }

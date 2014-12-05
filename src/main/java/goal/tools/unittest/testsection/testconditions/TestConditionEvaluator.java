@@ -1,9 +1,5 @@
 package goal.tools.unittest.testsection.testconditions;
 
-import krTools.language.Substitution;
-import krTools.language.Term;
-import krTools.language.Var;
-import languageTools.program.agent.msc.MentalStateCondition;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.DebugObserver;
 import goal.tools.debugger.Debugger;
@@ -15,6 +11,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import krTools.language.Substitution;
+import krTools.language.Term;
+import krTools.language.Var;
+import languageTools.program.agent.msc.MentalStateCondition;
 
 /**
  * Base to evaluate {@link TestCondition}s in the context of a running agent.

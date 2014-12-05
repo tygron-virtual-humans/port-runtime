@@ -744,7 +744,7 @@ public class RunState<D extends Debugger> {
 
 	public void doPerformAction(UserSpecAction action) {
 		try {
-			environment.performAction(action);
+			environment.performAction(action.convert());
 		} catch (EnvironmentInterfaceException e) {
 			new Warning(String.format(
 					Resources.get(WarningStrings.FAILED_ACTION_EXECUTE),

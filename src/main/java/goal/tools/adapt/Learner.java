@@ -1,9 +1,10 @@
 package goal.tools.adapt;
 
 import goal.core.mentalstate.MentalState;
-import languageTools.program.agent.actions.ActionCombo;
 
 import java.util.List;
+
+import languageTools.program.agent.actions.ActionCombo;
 
 /**
  * To make decisions in adaptive sections of the GOAL program the interpreter

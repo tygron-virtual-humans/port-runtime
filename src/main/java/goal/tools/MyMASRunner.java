@@ -3,9 +3,7 @@ package goal.tools;
 import goal.core.agent.AbstractAgentFactory;
 import goal.core.agent.Agent;
 import goal.core.agent.AgentFactory;
-import languageTools.program.agent.AgentId;
 import goal.core.agent.GOALInterpreter;
-import languageTools.program.mas.MASProgram;
 import goal.core.runtime.MessagingService;
 import goal.tools.adapt.FileLearner;
 import goal.tools.adapt.Learner;
@@ -17,6 +15,8 @@ import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 import java.io.File;
 import java.util.Collection;
 
+import languageTools.program.agent.AgentId;
+import languageTools.program.mas.MASProgram;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 
 public class MyMASRunner {

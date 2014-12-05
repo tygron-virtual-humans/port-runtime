@@ -18,12 +18,13 @@
 
 package goal.tools.codeanalysis;
 
-import languageTools.program.agent.rules.Rule;
 import goal.util.Statistics;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+
+import languageTools.program.agent.rules.Rule;
 
 /**
  * Analyzes a set of rules.

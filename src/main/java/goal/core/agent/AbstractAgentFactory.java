@@ -1,13 +1,10 @@
 package goal.core.agent;
 
-import languageTools.program.agent.AgentId;
-import languageTools.program.agent.AgentProgram;
 import goal.core.runtime.MessagingService;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
 import goal.tools.adapt.FileLearner;
 import goal.tools.adapt.Learner;
 import goal.tools.debugger.Debugger;
-import krTools.errors.exceptions.KRInitFailedException;
 import goal.tools.logging.GOALLoggerDelayed;
 
 import java.io.File;
@@ -15,6 +12,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import krTools.errors.exceptions.KRInitFailedException;
+import languageTools.program.agent.AgentId;
+import languageTools.program.agent.AgentProgram;
 import nl.tudelft.goal.messaging.exceptions.CommunicationFailureException;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 import nl.tudelft.goal.messaging.messagebox.MessageBox;

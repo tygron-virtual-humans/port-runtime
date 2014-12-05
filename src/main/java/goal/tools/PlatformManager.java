@@ -19,28 +19,13 @@
 package goal.tools;
 
 import goal.tools.errorhandling.Resources;
-import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALBug;
-import krTools.KRInterface;
-import krTools.errors.exceptions.KRInitFailedException;
-import krTools.errors.exceptions.ParserException;
-import krTools.parser.SourceInfo;
-import languageTools.analyzer.agent.AgentValidator;
-import languageTools.analyzer.mas.MASValidator;
-import languageTools.analyzer.test.TestValidator;
-import languageTools.errors.Message;
-import languageTools.errors.ValidatorError;
-import languageTools.errors.ValidatorWarning;
-import languageTools.program.agent.AgentProgram;
-import languageTools.program.mas.MASProgram;
-import languageTools.program.test.AgentTest;
 import goal.tools.logging.GOALLogger;
 import goal.tools.logging.Loggers;
 import goal.tools.logging.StringsLogRecord;
 import goal.tools.unittest.UnitTest;
 import goal.util.Extension;
-import goalhub.krTools.KRFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -54,6 +39,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
+
+import krTools.KRInterface;
+import krTools.errors.exceptions.ParserException;
+import krTools.parser.SourceInfo;
+import languageTools.analyzer.agent.AgentValidator;
+import languageTools.analyzer.mas.MASValidator;
+import languageTools.analyzer.test.TestValidator;
+import languageTools.errors.Message;
+import languageTools.program.agent.AgentProgram;
+import languageTools.program.mas.MASProgram;
+import languageTools.program.test.AgentTest;
 
 import org.apache.commons.io.IOUtils;
 

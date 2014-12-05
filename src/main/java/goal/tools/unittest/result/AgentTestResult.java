@@ -1,7 +1,7 @@
 package goal.tools.unittest.result;
 
-import languageTools.program.test.AgentTest;
 import goal.tools.unittest.result.testsection.AssertTestResult;
+import languageTools.program.test.AgentTest;
 
 /**
  * Stores the result of a {@link AgentTest}. A test produces a list of a

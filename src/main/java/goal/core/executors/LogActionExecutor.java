@@ -22,55 +22,50 @@ import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
+import krTools.language.Substitution;
+import krTools.language.Term;
+import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.LogAction;
 
-/**
- * @author W.Pasman
- */
 public class LogActionExecutor extends ActionExecutor {
 
 	private LogAction action;
 
 	public LogActionExecutor(LogAction act) {
-		action = act;
+		this.action = act;
 	}
 
-	/**
-	 * {@inheritDoc}<br>
-	 * Executes the {@link LogActionExecutor} by exporting the requested
-	 * database to a file. The parameters for the action are extracted from this
-	 * action's argument. .
-	 */
 	@Override
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
 		MentalState mentalState = runState.getMentalState();
 
-		boolean self = false;
-		boolean bb = false, gb = false, kb = false, mb = false, pb = false;
-		switch (LogOptions.fromString(action.argument.toString())) {
-		case BB:
-			bb = true;
-			break;
-		case GB:
-			gb = true;
-			break;
-		case KB:
-			kb = true;
-			break;
-		case MB:
-			mb = true;
-			break;
-		case PB:
-			pb = true;
-			break;
-		default:
-		case TEXT:
-			runState.doLog(argument.toString());
-			break;
-		}
-		if (kb || bb || pb || mb || gb) {
-			String ms = mentalState.toString(kb, bb, pb, mb, gb, !self);
-			runState.doLog(ms);
+		for( final Term param : action.getParameters()){
+			boolean bb = false, gb = false, kb = false, mb = false, pb = false;
+			switch (LogOptions.fromString(param.toString())) {
+				case BB:
+					bb = true;
+					break;
+				case GB:
+					gb = true;
+					break;
+				case KB:
+					kb = true;
+					break;
+				case MB:
+					mb = true;
+					break;
+				case PB:
+					pb = true;
+					break;
+				default:
+				case TEXT:
+					runState.doLog(param.toString());
+					break;
+			}
+			if (kb || bb || pb || mb || gb) {
+				String ms = mentalState.toString(kb, bb, pb, mb, gb, true);
+				runState.doLog(ms);
+			}
 		}
 
 		// Report action was performed.
@@ -115,4 +110,13 @@ public class LogActionExecutor extends ActionExecutor {
 		}
 	}
 
+	@Override
+	protected ActionExecutor applySubst(Substitution subst) {
+		return new LogActionExecutor(action.applySubst(subst));
+	}
+	
+	@Override
+	public Action<?> getAction() {
+		return action;
+	}
 }

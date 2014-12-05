@@ -5,13 +5,14 @@ import goal.tools.adapt.Learner;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.Warning;
-import krTools.errors.exceptions.KRInitFailedException;
-import languageTools.program.agent.AgentId;
-import languageTools.program.agent.AgentProgram;
 import goal.tools.logging.InfoLog;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
+
+import krTools.errors.exceptions.KRInitFailedException;
+import languageTools.program.agent.AgentId;
+import languageTools.program.agent.AgentProgram;
 
 /**
  * Interpreter for {@link AgentProgram}.

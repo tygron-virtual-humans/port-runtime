@@ -1,11 +1,11 @@
 package goal.tools.unittest.testsection.testconditions;
 
-import krTools.language.Substitution;
-import languageTools.program.agent.msc.MentalStateCondition;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.DebugEvent;
 import goal.tools.debugger.ObservableDebugger;
 import goal.tools.unittest.result.ResultFormatter;
+import krTools.language.Substitution;
+import languageTools.program.agent.msc.MentalStateCondition;
 
 /**
  * While operator. When the mental state condition evaluated by this operator

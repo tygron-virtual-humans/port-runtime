@@ -1,14 +1,14 @@
 package goal.tools.unittest;
 
-import languageTools.program.mas.MASProgram;
-import languageTools.program.test.AgentTest;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import languageTools.program.mas.MASProgram;
+import languageTools.program.test.AgentTest;
 
 /**
  * UnitTest for GOAL. A unit test consists of a list of tests

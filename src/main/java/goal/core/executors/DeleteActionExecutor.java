@@ -19,55 +19,21 @@
 package goal.core.executors;
 
 import goal.core.mentalstate.BASETYPE;
-import goal.core.mentalstate.BeliefBase;
-import goal.core.mentalstate.GoalBase;
 import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
-import krTools.language.Update;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.DeleteAction;
 
-/**
- * Deletes an {@link Update} from the {@link BeliefBase} base and/or mail box.
- * As these are two different databases that the agent maintains, two updates
- * are associated with the delete action. One update for the agent's belief base
- * and one for the agent's mail box.
- * <p>
- * If the action is closed, the delete action can be performed, but only the
- * update to the belief base is required to be closed. The update to the agent's
- * mail box may contain variables in order to be able to remove interrogatives
- * (questions) that have been sent or received from the mail box again.
- * </p>
- * <p>
- * Percepts of the form {@code percept(...)} cannot be removed from the percept
- * base by a delete action. Percepts are automatically removed from the agent's
- * percept base every start of a reasoning cycle.
- * </p>
- *
- * @author K.Hindriks
- */
 public class DeleteActionExecutor extends ActionExecutor {
 
 	private DeleteAction action;
 
 	public DeleteActionExecutor(DeleteAction act) {
-		action = act;
+		this.action = act;
 	}
 
-	@Override
-	public DeleteActionExecutor applySubst(
-			krTools.language.Substitution substitution) {
-		return new DeleteActionExecutor(action.applySubst(substitution));
-	}
-
-	/**
-	 * {@inheritDoc} <br>
-	 * Executes the {@link DeleteAction} by applying the {@link Update}s to the
-	 * {@link BeliefBase} and/or mail box. Also may update the {@link GoalBase}
-	 * if a goal holds after the update; those goals are removed.
-	 */
 	@Override
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
 		MentalState mentalState = runState.getMentalState();
@@ -85,10 +51,15 @@ public class DeleteActionExecutor extends ActionExecutor {
 
 		return new Result(action);
 	}
-
+	
 	@Override
-	public Action getAction() {
-		return action;
+	public DeleteActionExecutor applySubst(
+			krTools.language.Substitution substitution) {
+		return new DeleteActionExecutor(action.applySubst(substitution));
 	}
 
+	@Override
+	public Action<?> getAction() {
+		return action;
+	}
 }

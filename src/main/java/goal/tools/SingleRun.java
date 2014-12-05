@@ -3,8 +3,6 @@ package goal.tools;
 import goal.core.agent.AbstractAgentFactory;
 import goal.core.agent.AgentFactory;
 import goal.core.agent.GOALInterpreter;
-import krTools.errors.exceptions.ParserException;
-import languageTools.program.mas.MASProgram;
 import goal.core.runtime.MessagingService;
 import goal.tools.adapt.Learner;
 import goal.tools.debugger.Debugger;
@@ -13,6 +11,9 @@ import goal.tools.debugger.NOPDebugger;
 import goal.tools.debugger.ObservableDebugger;
 
 import java.io.File;
+
+import krTools.errors.exceptions.ParserException;
+import languageTools.program.mas.MASProgram;
 
 /**
  * A single run of a {@link MASProgram}. This class can be used to launch, run

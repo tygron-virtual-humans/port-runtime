@@ -18,12 +18,11 @@
 
 package goal.core.executors;
 
-import goal.core.mentalstate.GoalBase;
 import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
-import krTools.language.Update;
+import krTools.language.Substitution;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.DropAction;
 
@@ -36,36 +35,27 @@ public class DropActionExecutor extends ActionExecutor {
 	private DropAction action;
 
 	public DropActionExecutor(DropAction act) {
-		action = act;
+		this.action = act;
 	}
 
-	/**
-	 * Executes the {@link DropActionExecutor} by dropping all goals that follow
-	 * from the {@link Update} goal to be dropped from the {@link GoalBase}.
-	 *
-	 * TODO: only goals of agent itself can be removed but not those of other //
-	 * agents? Selector is not used??
-	 */
 	@Override
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
 		MentalState mentalState = runState.getMentalState();
 
 		mentalState.drop(action.getUpdate(), debugger);
 
-		// Report action was performed.
 		report(debugger);
 
 		return new Result(action);
 	}
-
+	
 	@Override
-	public String toString() {
-		return "drop(" + action + ")";
+	protected ActionExecutor applySubst(Substitution subst) {
+		return new DropActionExecutor(action.applySubst(subst));
 	}
 
 	@Override
-	public Action getAction() {
+	public Action<?> getAction() {
 		return action;
 	}
-
 }

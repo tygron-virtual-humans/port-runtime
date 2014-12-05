@@ -18,12 +18,12 @@
 
 package goal.core.mentalstate;
 
-import krTools.language.DatabaseFormula;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
+
+import krTools.language.DatabaseFormula;
 
 /**
  * Represents a set of formulas that have been inserted into a corresponding

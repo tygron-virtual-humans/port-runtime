@@ -1,12 +1,13 @@
 package goal.tools.debugger;
 
-import krTools.parser.SourceInfo;
-import languageTools.program.agent.AgentId;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import krTools.parser.SourceInfo;
+import languageTools.program.agent.AgentId;
 
 public class ObservableDebugger extends SteppingDebugger {
 	/**

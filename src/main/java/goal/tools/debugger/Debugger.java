@@ -2,6 +2,7 @@ package goal.tools.debugger;
 
 import goal.core.agent.Controller;
 import goal.tools.debugger.SteppingDebugger.RunMode;
+import languageTools.program.agent.AgentProgram;
 
 public interface Debugger {
 	/**

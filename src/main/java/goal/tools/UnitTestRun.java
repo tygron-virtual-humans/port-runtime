@@ -1,6 +1,5 @@
 package goal.tools;
 
-import languageTools.program.test.AgentTest;
 import goal.core.agent.AbstractAgentFactory;
 import goal.core.agent.Agent;
 import goal.core.agent.AgentFactory;
@@ -11,6 +10,7 @@ import goal.tools.debugger.LoggingObserver;
 import goal.tools.debugger.ObservableDebugger;
 import goal.tools.unittest.UnitTest;
 import goal.tools.unittest.UnitTestInterpreter;
+import languageTools.program.test.AgentTest;
 
 /**
  * Runs a {@link UnitTest} program. During the test agent are created with a

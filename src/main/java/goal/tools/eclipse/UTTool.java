@@ -4,7 +4,6 @@ import eis.iilang.Identifier;
 import eis.iilang.Numeral;
 import eis.iilang.Parameter;
 import eis.iilang.ParameterList;
-import languageTools.program.mas.MASProgram;
 import goal.tools.PlatformManager;
 import goal.tools.SingleRun;
 import goal.tools.logging.Loggers;
@@ -12,6 +11,8 @@ import goal.tools.logging.Loggers;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import languageTools.program.mas.MASProgram;
 
 public class UTTool {
 	public static void main(final String[] args) {
