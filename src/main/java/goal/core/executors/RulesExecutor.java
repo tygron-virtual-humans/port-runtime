@@ -197,8 +197,8 @@ public class RulesExecutor {
 				for (Substitution substitution : solutions) {
 					// First, instantiate the rule's action by applying the
 					// substitution found.
-					ActionCombo instantiatedAction = rule.getAction()
-							.applySubst(substitution);
+					ActionComboExecutor instantiatedAction = new ActionComboExecutor(
+							rule.getAction().applySubst(substitution));
 					// Second, check precondition and add all options for this
 					// instantiation.
 					actionOptions.addAll(instantiatedAction.getOptions(

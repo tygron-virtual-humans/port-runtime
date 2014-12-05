@@ -65,6 +65,7 @@ import languageTools.program.agent.actions.UserSpecAction;
 import languageTools.program.agent.msg.Message;
 import languageTools.program.agent.rules.Rule;
 import mentalState.BASETYPE;
+import mentalstatefactory.MentalStateFactory;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 import nl.tudelft.goal.messaging.messagebox.MessageBox;
 
@@ -743,8 +744,10 @@ public class RunState<D extends Debugger> {
 
 	public void doPerformAction(UserSpecAction action) {
 		try {
-			environment.performAction(action.convert());
-		} catch (EnvironmentInterfaceException e) {
+			mentalState.MentalState state = MentalStateFactory.getInterface(
+					program.getKRInterface().getClass());
+			environment.performAction(state.convert(action));
+		} catch (EnvironmentInterfaceException | UnknownObjectException e) {
 			new Warning(String.format(
 					Resources.get(WarningStrings.FAILED_ACTION_EXECUTE),
 					action.toString()), e);

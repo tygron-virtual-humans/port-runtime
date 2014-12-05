@@ -75,7 +75,7 @@ public class ActionComboExecutor {
 		if (firstaction instanceof UserSpecAction) {
 			// USER-SPECIFIED ACTION MAY HAVE MULTIPLE ACTION SPECS
 			// (PRECONDITIONS).
-			UserSpecAction userspec = (UserSpecAction) firstaction;
+			UserSpecActionExecutor userspec = new UserSpecActionExecutor((UserSpecAction) firstaction);
 
 			// Find the first action specification whose precondition holds.
 			solutions = userspec.getOptions(mentalState, debugger);
@@ -118,7 +118,8 @@ public class ActionComboExecutor {
 			// the action combo).
 
 			// Evaluate the precondition of first action in combo.
-			if (firstaction.evaluatePrecondition(mentalState, debugger, false) != null) {
+			if (ActionExecutor.getActionExecutor(firstaction).
+					evaluatePrecondition(mentalState, debugger, false) != null) {
 				// If action is not closed throw exception.
 				if (firstaction.isClosed()) {
 					// Action is an option, add the combo as option.
