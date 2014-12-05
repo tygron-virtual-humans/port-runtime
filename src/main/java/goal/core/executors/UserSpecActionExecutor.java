@@ -18,7 +18,6 @@
 
 package goal.core.executors;
 
-import goal.core.mentalstate.BASETYPE;
 import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
@@ -36,6 +35,7 @@ import krTools.language.Substitution;
 import krTools.language.Update;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.UserSpecAction;
+import mentalState.BASETYPE;
 
 public class UserSpecActionExecutor extends ActionExecutor {
 

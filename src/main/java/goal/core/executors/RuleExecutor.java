@@ -6,6 +6,7 @@ import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
+import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,6 +18,7 @@ import java.util.Random;
 import java.util.Set;
 
 import krTools.KRInterface;
+import krTools.errors.exceptions.KRInitFailedException;
 import krTools.language.Substitution;
 import krTools.language.Term;
 import krTools.language.Var;
@@ -24,6 +26,7 @@ import languageTools.program.agent.rules.ForallDoRule;
 import languageTools.program.agent.rules.IfThenRule;
 import languageTools.program.agent.rules.ListallDoRule;
 import languageTools.program.agent.rules.Rule;
+import mentalstatefactory.MentalStateFactory;
 
 public class RuleExecutor {
 	private Rule rule;
@@ -183,10 +186,14 @@ public class RuleExecutor {
 			}
 
 			// Create new substitution, replacing our #variable.
-			Term newTerm = substitutionsToTerm(applicableSubst, runState
-					.getMentalState().getKRInterface());
 			Substitution fullSubst = globalsubst.clone();
-			fullSubst.addBinding(((ListallDoRule)rule).getVariable(), newTerm);
+			try {
+				Term newTerm = substitutionsToTerm(applicableSubst);
+				fullSubst.addBinding(((ListallDoRule)rule).getVariable(), newTerm);
+			} catch (KRInitFailedException e) {
+				throw new GOALRuntimeErrorException(
+						"Converting substitutions to a term failed: " + e.getMessage(), e);
+			}
 
 			result = executor.run(runState, fullSubst, true);
 		}
@@ -204,9 +211,11 @@ public class RuleExecutor {
 	 * @return A new term for the {@link #variable}. The substitution will be a
 	 *         list of all values for that var in the given set of
 	 *         {@link Substitution}s.
+	 * @throws KRInitFailedException 
 	 */
-	private Term substitutionsToTerm(Set<Substitution> substitutions,
-			KRInterface language) {
+	private Term substitutionsToTerm(Set<Substitution> substitutions) 
+			throws KRInitFailedException {
+		mentalState.MentalState state = MentalStateFactory.getDefaultInterface();
 		// First make single terms from each substitution.
 		List<Term> substsAsTerms = new ArrayList<>(substitutions.size());
 		// Get the variables from the condition of the rule; bindings for those
@@ -226,7 +235,7 @@ public class RuleExecutor {
 			if (subTerms.size() == 1) {
 				substsAsTerms.add(subTerms.get(0));
 			} else if (subTerms.size() > 1) {
-				substsAsTerms.add(language.makeList(subTerms));
+				substsAsTerms.add(state.makeList(subTerms));
 			}
 			// if empty, do not add anything.
 			// it means there is no substitution, so we want the end result to
@@ -235,6 +244,6 @@ public class RuleExecutor {
 
 		// Second combine the substitutions turned into terms into a single list
 		// term.
-		return language.makeList(substsAsTerms);
+		return state.makeList(substsAsTerms);
 	}
 }

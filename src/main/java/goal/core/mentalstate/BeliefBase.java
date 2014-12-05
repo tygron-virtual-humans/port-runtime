@@ -35,13 +35,17 @@ import java.util.Set;
 
 import krTools.KRInterface;
 import krTools.database.Database;
+import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRQueryFailedException;
 import krTools.language.DatabaseFormula;
 import krTools.language.Query;
 import krTools.language.Substitution;
 import krTools.language.Update;
 import languageTools.program.agent.AgentId;
+import languageTools.program.agent.AgentProgram;
 import languageTools.program.agent.msg.Message;
+import mentalState.BASETYPE;
 
 /**
  * <p>
@@ -74,11 +78,6 @@ public class BeliefBase {
 	 */
 	private final AgentId agentName;
 	/**
-	 * The {@link KRInterface} used for representing the contents of this
-	 * {@link BeliefBase}.
-	 */
-	private final KRInterface language;
-	/**
 	 * The {@link BASETYPE} of this {@link BeliefBase}. Indicates whether base
 	 * is used for percepts, mails, knowledge, or beliefs. Goals are handled by
 	 * {@link GoalBase}s.
@@ -93,7 +92,10 @@ public class BeliefBase {
 	 * The KR database used for storing the contents of this base.
 	 */
 	private Database database = null;
-
+	/**
+	 * DOC
+	 */
+	private mentalState.MentalState state;
 	/**
 	 * Keeps track of number of queries and updates performed.
 	 */
@@ -127,20 +129,17 @@ public class BeliefBase {
 	 * @throws KRInitFailedException
 	 *             If the KR technology failed to create and/or initialize a new
 	 *             database.
+	 * @throws KRQueryFailedException 
+	 * @throws KRDatabaseException 
 	 */
-	public BeliefBase(BASETYPE baseType, KRInterface language,
-			Set<DatabaseFormula> content, AgentId owner, AgentId agentName)
-					throws KRInitFailedException {
-
+	public BeliefBase(BASETYPE baseType, mentalState.MentalState state,
+			List<DatabaseFormula> content, AgentProgram owner, AgentId agentName)
+					throws KRInitFailedException, KRDatabaseException, KRQueryFailedException {
 		this.agentName = agentName;
-		this.language = language;
 		this.type = baseType;
-
+		this.state = state;		
 		this.theory = new Theory(content);
-
-		this.database = this.language.makeDatabase(this.type, content,
-				owner.getName());
-
+		this.database = state.makeDatabase(this.type, content, owner);
 	}
 
 	/**
@@ -255,14 +254,20 @@ public class BeliefBase {
 	 * @param debugger
 	 */
 	public void insert(Message message, boolean received, Debugger debugger) {
-		Set<DatabaseFormula> updates = database.insert(message, received);
-		for (DatabaseFormula formula : updates) {
-			boolean change = theory.add(formula);
-			if (change) {
-				debugger.breakpoint(getChannel(), formula,
-						"%s has been inserted into the mailbox of %s.",
-						formula, agentName);
+		try {
+			Set<DatabaseFormula> updates = state.insert(database, message, received);
+			for (DatabaseFormula formula : updates) {
+				boolean change = theory.add(formula);
+				if (change) {
+					debugger.breakpoint(getChannel(), formula,
+							"%s has been inserted into the mailbox of %s.",
+							formula, agentName);
+				}
 			}
+		} catch (KRDatabaseException e) {
+			new Warning(debugger, String.format(
+					"Failed to add message %s to %s (received: %s)",
+					message.toString(), this.database.getName(), received), e);
 		}
 	}
 
@@ -286,7 +291,7 @@ public class BeliefBase {
 				debugger.breakpoint(getChannel(), formula,
 						"%s has been deleted from the belief base of %s.",
 						formula, agentName);
-			} catch (Exception e) {
+			} catch (KRDatabaseException e) {
 				new Warning(debugger, String.format(
 						Resources.get(WarningStrings.FAILED_DEL_DBFORMULA),
 						formula.toString(), this.database.getName()), e);
@@ -367,20 +372,29 @@ public class BeliefBase {
 			debugger.breakpoint(Channel.PERCEPTS, null, "Processing percepts.");
 
 			Database perceptbase = getDatabase();
-			DatabaseFormula formula;
 			for (eis.iilang.Percept percept : deleteList) {
-				formula = perceptbase.delete(percept);
-				theory.remove(formula);
-				debugger.breakpoint(getChannel(), formula,
-						"%s has been deleted from the percept base of %s.",
-						formula, agentName);
+				try {
+					DatabaseFormula formula = state.delete(perceptbase, percept);
+					theory.remove(formula);
+					debugger.breakpoint(getChannel(), formula,
+							"%s has been deleted from the percept base of %s.",
+							formula, agentName);
+				} catch (KRDatabaseException e) {
+					throw new GOALRuntimeErrorException("Could not delete percept"
+							+ percept + " from " +  agentName + "'s" + "percept base", e);
+				}
 			}
 			for (eis.iilang.Percept percept : addList) {
-				formula = perceptbase.insert(percept);
-				theory.add(formula);
-				debugger.breakpoint(getChannel(), formula,
-						"%s has been inserted into the percept base of %s.",
-						formula, agentName);
+				try {
+					DatabaseFormula formula = state.insert(perceptbase, percept);
+					theory.add(formula);
+					debugger.breakpoint(getChannel(), formula,
+							"%s has been inserted into the percept base of %s.",
+							formula, agentName);
+				} catch (KRDatabaseException e) {
+					throw new GOALRuntimeErrorException("Could not add percept"
+							+ percept + " into " +  agentName + "'s" + "percept base", e);
+				}
 			}
 			debugger.breakpoint(Channel.PERCEPTS, null, "Percepts processed.");
 		}
@@ -396,18 +410,17 @@ public class BeliefBase {
 	 * @throws KRInitFailedException
 	 */
 	public void updateAgentFact(boolean insert, AgentId id, boolean me) {
-		Set<DatabaseFormula> updates;
 		try {
-			updates = database.updateAgentFact(insert, id, me);
-		} catch (KRInitFailedException e) {
+			Set<DatabaseFormula> updates = state.updateAgentFact(database, insert, id, me);
+			for (DatabaseFormula formula : updates) {
+				theory.add(formula);
+			}
+		} catch (KRDatabaseException e) {
 			throw new GOALRuntimeErrorException("Could not "
 					+ (insert ? "add " : "remove ") + "fact that " + id
 					+ (me ? " (which is me) " : "") + "exists "
 					+ (insert ? "to " : "from ")
 					+ (me ? "my " : agentName + "'s") + "belief base", e);
-		}
-		for (DatabaseFormula formula : updates) {
-			theory.add(formula);
 		}
 
 		// Report update of belief base.

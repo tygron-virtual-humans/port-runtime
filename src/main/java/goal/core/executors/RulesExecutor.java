@@ -187,8 +187,7 @@ public class RulesExecutor {
 			solutions = rule.getCondition().evaluate(mentalState, debugger);
 			// Listall rules need to be processed further.
 			if (rule instanceof ListallDoRule) {
-				solutions = ((ListallDoRule) rule).getVarSubstitution(
-						solutions, mentalState.getKRInterface());
+				solutions = ((ListallDoRule) rule).getVarSubstitution(solutions);
 			}
 
 			// If condition holds, then check for action options;

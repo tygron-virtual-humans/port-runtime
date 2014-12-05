@@ -18,7 +18,6 @@
 
 package goal.core.executors;
 
-import goal.core.mentalstate.BASETYPE;
 import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
@@ -33,6 +32,7 @@ import languageTools.program.agent.AgentId;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.SendAction;
 import languageTools.program.agent.msg.Message;
+import mentalState.BASETYPE;
 
 public class SendActionExecutor extends ActionExecutor {
 
@@ -46,7 +46,7 @@ public class SendActionExecutor extends ActionExecutor {
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
 		MentalState mentalState = runState.getMentalState();
 
-		Set<AgentId> receivers = determineReceivers(mentalState, debugger);
+		Set<AgentId> receivers = determineReceivers(mentalState);
 		Message message = action.getMessage();
 
 		message.setReceivers(receivers);
@@ -90,14 +90,11 @@ public class SendActionExecutor extends ActionExecutor {
 	 *
 	 * @param mentalState
 	 *            The {@link MentalState} in which the action is executed.
-	 * @param debugger
-	 *            The current debugger
 	 * @return A list of agents that should receive the message.
 	 */
-	private Set<AgentId> determineReceivers(MentalState mentalState,
-			Debugger debugger) {
+	private Set<AgentId> determineReceivers(MentalState mentalState) {
 		try {
-			return action.getSelector().resolve(mentalState);
+			return resolve(action.getSelector(),mentalState);
 		} catch (KRInitFailedException e) {
 			throw new GOALActionFailedException(
 					"Could not determine receivers: " + e.getMessage(), e);

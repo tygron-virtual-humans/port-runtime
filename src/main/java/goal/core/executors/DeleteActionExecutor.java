@@ -18,13 +18,16 @@
 
 package goal.core.executors;
 
-import goal.core.mentalstate.BASETYPE;
+import krTools.errors.exceptions.KRInitFailedException;
 import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
+import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.DeleteAction;
+import mentalState.BASETYPE;
+import mentalstatefactory.MentalStateFactory;
 
 public class DeleteActionExecutor extends ActionExecutor {
 
@@ -36,15 +39,18 @@ public class DeleteActionExecutor extends ActionExecutor {
 
 	@Override
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
-		MentalState mentalState = runState.getMentalState();
-
-		mentalState.delete(action.getUpdate().beliefUpdate,
-				BASETYPE.BELIEFBASE, debugger);
-		mentalState.delete(action.getUpdate().mailboxUpdate, BASETYPE.MAILBOX,
-				debugger);
-
-		// Check if goals have been achieved and, if so, update goal base.
-		mentalState.updateGoalState(debugger);
+		try {
+			mentalState.MentalState state = MentalStateFactory.getDefaultInterface();
+			MentalState mentalState = runState.getMentalState();
+			mentalState.delete(state.filterMailUpdates(action.getUpdate(), false),
+					BASETYPE.BELIEFBASE, debugger);
+			mentalState.delete(state.filterMailUpdates(action.getUpdate(), true), 
+					BASETYPE.MAILBOX, debugger);
+			mentalState.updateGoalState(debugger);
+		} catch (KRInitFailedException e) {
+			throw new GOALRuntimeErrorException(
+					"Separating beliefs from mails for deletion failed: " + e.getMessage(), e);
+		}
 
 		// Report action was performed.
 		report(debugger);

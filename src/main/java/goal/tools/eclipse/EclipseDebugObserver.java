@@ -1,7 +1,6 @@
 package goal.tools.eclipse;
 
 import goal.core.agent.Agent;
-import goal.core.mentalstate.BASETYPE;
 import goal.core.mentalstate.GoalBase;
 import goal.core.mentalstate.MentalState;
 import goal.core.mentalstate.SingleGoal;
@@ -29,6 +28,7 @@ import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.ModuleCallAction;
 import languageTools.program.agent.actions.UserSpecAction;
 import languageTools.program.agent.msc.MentalStateCondition;
+import mentalState.BASETYPE;
 
 public class EclipseDebugObserver implements DebugObserver {
 	private final Agent<IDEGOALInterpreter> agent;

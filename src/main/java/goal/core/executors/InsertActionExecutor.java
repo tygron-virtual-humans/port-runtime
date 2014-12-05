@@ -18,14 +18,17 @@
 
 package goal.core.executors;
 
-import goal.core.mentalstate.BASETYPE;
 import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
+import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
+import krTools.errors.exceptions.KRInitFailedException;
 import krTools.language.Substitution;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.InsertAction;
+import mentalState.BASETYPE;
+import mentalstatefactory.MentalStateFactory;
 
 public class InsertActionExecutor extends ActionExecutor {
 
@@ -37,12 +40,18 @@ public class InsertActionExecutor extends ActionExecutor {
 
 	@Override
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
-		MentalState mentalState = runState.getMentalState();
-
-		mentalState.insert(action.beliefUpdate, BASETYPE.BELIEFBASE, debugger);
-		mentalState.insert(action.mailboxUpdate, BASETYPE.MAILBOX, debugger);
-
-		mentalState.updateGoalState(debugger);
+		try {
+			mentalState.MentalState state = MentalStateFactory.getDefaultInterface();
+			MentalState mentalState = runState.getMentalState();
+			mentalState.insert(state.filterMailUpdates(action.getUpdate(), false),
+					BASETYPE.BELIEFBASE, debugger);
+			mentalState.insert(state.filterMailUpdates(action.getUpdate(), true), 
+					BASETYPE.MAILBOX, debugger);
+			mentalState.updateGoalState(debugger);
+		} catch (KRInitFailedException e) {
+			throw new GOALRuntimeErrorException(
+					"Separating beliefs from mails for insertion failed: " + e.getMessage(), e);
+		}
 
 		report(debugger);
 

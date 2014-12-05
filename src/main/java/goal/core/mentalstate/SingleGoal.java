@@ -5,8 +5,11 @@ import krTools.KRInterface;
 import krTools.database.Database;
 import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRQueryFailedException;
 import krTools.language.Update;
 import languageTools.program.agent.AgentId;
+import languageTools.program.agent.AgentProgram;
+import mentalState.BASETYPE;
 
 /*********** SingleGoal class ****************/
 
@@ -56,18 +59,18 @@ public class SingleGoal {
 	 *            update are empty).
 	 * @param agent
 	 *            The agent this goal is for
-	 * @param language
-	 *            The KRInterface to use
+	 * @param state
+	 *            DOC
 	 * @throws GOALRuntimeErrorException
 	 *             see {@link KRInterface#makeDatabase}.
 	 */
-	protected SingleGoal(Update goal, AgentId agent, KRInterface language) {
+	protected SingleGoal(Update goal, AgentProgram agent,
+			mentalState.MentalState state) {
 		this.goal = goal;
-
 		try {
-			this.database = language.makeDatabase(BASETYPE.GOALBASE,
-					this.goal.getAddList(), agent.getName());
-		} catch (KRInitFailedException e) {
+			this.database = state.makeDatabase(BASETYPE.GOALBASE,
+					this.goal.getAddList(), agent);
+		} catch (KRInitFailedException | KRDatabaseException | KRQueryFailedException e) {
 			throw new GOALRuntimeErrorException("Could not add new goal "
 					+ goal, e);
 		}

@@ -18,7 +18,6 @@
 
 package goal.core.executors;
 
-import goal.core.mentalstate.BASETYPE;
 import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
@@ -38,6 +37,7 @@ import languageTools.program.agent.AgentId;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.SendOnceAction;
 import languageTools.program.agent.msg.Message;
+import mentalState.BASETYPE;
 
 public class SendOnceActionExecutor extends ActionExecutor {
 
@@ -103,7 +103,7 @@ public class SendOnceActionExecutor extends ActionExecutor {
 			Debugger debugger) {
 		Set<AgentId> receivers;
 		try {
-			receivers = action.getSelector().resolve(mentalState);
+			receivers = resolve(action.getSelector(),mentalState);
 		} catch (KRInitFailedException e) {
 			throw new GOALActionFailedException(
 					"Could not determine receivers: " + e.getMessage(), e);
@@ -111,13 +111,11 @@ public class SendOnceActionExecutor extends ActionExecutor {
 		Set<AgentId> done = new LinkedHashSet<>();
 
 		// Check which intended recipients already have received the message.
-		KRInterface language = mentalState.getKRInterface();
 		Update update;
 		Query query;
 		for (AgentId receiver : receivers) {
 			try {
-				update = language.parseUpdate(action.getMessage().toString(true,
-						receiver));
+				update = parseUpdate(action.getMessage().toString(true,receiver));
 			} catch (ParserException e) {
 				throw new GOALActionFailedException(
 						"Failed to create record of"

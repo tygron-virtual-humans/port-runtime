@@ -24,7 +24,6 @@ import goal.core.agent.EnvironmentCapabilities;
 import goal.core.agent.LoggingCapabilities;
 import goal.core.agent.MessagingCapabilities;
 import goal.core.executors.ModuleExecutor;
-import goal.core.mentalstate.BASETYPE;
 import goal.core.mentalstate.MentalState;
 import goal.core.mentalstate.SingleGoal;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
@@ -49,7 +48,9 @@ import java.util.LinkedList;
 import java.util.Set;
 
 import krTools.KRInterface;
+import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRQueryFailedException;
 import krTools.language.DatabaseFormula;
 import krTools.language.Update;
 import languageTools.program.agent.AgentId;
@@ -62,6 +63,7 @@ import languageTools.program.agent.actions.ModuleCallAction;
 import languageTools.program.agent.actions.UserSpecAction;
 import languageTools.program.agent.msg.Message;
 import languageTools.program.agent.rules.Rule;
+import mentalState.BASETYPE;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 import nl.tudelft.goal.messaging.messagebox.MessageBox;
 
@@ -285,12 +287,15 @@ public class RunState<D extends Debugger> {
 	 * @throws GOALLaunchFailureException
 	 *             DOC
 	 * @throws KRInitFailedException
+	 * @throws KRQueryFailedException 
+	 * @throws KRDatabaseException 
 	 */
-	public void reset() throws KRInitFailedException {
+	public void reset() 
+			throws KRInitFailedException, KRDatabaseException, KRQueryFailedException {
 		roundCounter = 0;
 		// Clean up old and create new initial mental state.
 		this.mentalState.cleanUp();
-		this.mentalState = new MentalState(this.getId(), program, debugger);
+		this.mentalState = new MentalState(getId(), program, debugger);
 		//
 		previousPercepts.clear();
 		previousMessages.clear();
@@ -310,15 +315,6 @@ public class RunState<D extends Debugger> {
 		if (mentalState != null) {
 			mentalState.cleanUp();
 		}
-	}
-
-	/**
-	 * Returns the {@link KRInterface}.
-	 *
-	 * @return The KR language.
-	 */
-	private KRInterface getKRInterface() {
-		return this.getMentalState().getKRInterface();
 	}
 
 	/**
@@ -602,14 +598,14 @@ public class RunState<D extends Debugger> {
 		// If there is an init module, run it in the first round.
 		if (this.initModule != null && this.getRoundCounter() == 1) {
 			new ModuleExecutor(this.initModule).
-				executeFully(this, getKRInterface().getSubstitution(null));
+				executeFully(this, this.initModule.getKRInterface().getSubstitution(null));
 		}
 
 		// If there is an event module, run it at the start of a cycle (but not
 		// in the first round).
 		if (this.eventModule != null && event) {
 			new ModuleExecutor(this.eventModule)
-				.executeFully(this, getKRInterface().getSubstitution(null));
+				.executeFully(this, this.eventModule.getKRInterface().getSubstitution(null));
 		}
 
 		event = false;

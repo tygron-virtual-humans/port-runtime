@@ -18,7 +18,6 @@
 
 package goal.core.mentalstate;
 
-import goal.core.agent.Agent;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
@@ -35,12 +34,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import krTools.KRInterface;
 import krTools.errors.exceptions.KRInitFailedException;
 import krTools.language.Query;
 import krTools.language.Substitution;
 import krTools.language.Update;
 import languageTools.program.agent.AgentId;
+import languageTools.program.agent.AgentProgram;
+import mentalstatefactory.MentalStateFactory;
 
 /**
  * <p>
@@ -80,10 +80,6 @@ import languageTools.program.agent.AgentId;
 
 public final class GoalBase implements Iterable<SingleGoal> {
 	/**
-	 * The KR language used for representing the goals in this {@link GoalBase}.
-	 */
-	private final KRInterface language;
-	/**
 	 * The contents of this {@link GoalBase}. WARNING: only add and remove goals
 	 * using {@link #addGoal(SingleGoal)} and {@link #remove(SingleGoal)} unless
 	 * {@link SingleGoal#markOccurrence} or {@link SingleGoal#unmarkOccurrence}
@@ -91,9 +87,9 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 */
 	private final Set<SingleGoal> goals = new LinkedHashSet<>();
 	/**
-	 * The name of the {@link Agent} that owns this {@link GoalBase}.
+	 * The name of the {@link AgentProgram} that owns this {@link GoalBase}.
 	 */
-	private final AgentId owner;
+	private final AgentProgram owner;
 	/**
 	 * The name of the agent whose goals are modeled by this goal base.
 	 */
@@ -122,6 +118,8 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 * @param language
 	 *            The KR language used for representing goals.
 	 * @param owner
+	 * 			  The agent that owns this goal base.
+	 * @param me
 	 *            The name of the agent that owns this goal base.
 	 * @param name
 	 *            The name of the base itself.
@@ -129,26 +127,25 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 *            The name of the agent whose goals are modeled in this goal
 	 *            base.
 	 */
-	public GoalBase(KRInterface language, AgentId owner, String name,
+	public GoalBase(AgentId me, AgentProgram owner, String name,
 			AgentId... agentName) {
 		this.owner = owner;
 		this.name = name;
 		if (agentName.length == 0) {
-			this.agentName = this.owner;
+			this.agentName = me;
 		} else {
 			this.agentName = agentName[0];
 		}
-		this.language = language;
 	}
 
 	/**
 	 * Creates a goal base with a single, already existing goal inside.
 	 *
-	 * @param language
-	 *            The KR language used for representing goals.
 	 * @param singleGoal
 	 *            The goal to be inserted as only goal in the new goal base.
 	 * @param owner
+	 * 			  The agent that owns this goal base.
+	 * @param me
 	 *            The name of the agent that owns this goal base.
 	 * @param name
 	 *            The name of the base itself.
@@ -158,9 +155,9 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 *            The name of the agent whose goals are modeled in this goal
 	 *            base.
 	 */
-	public GoalBase(KRInterface language, SingleGoal singleGoal, AgentId owner,
+	public GoalBase(SingleGoal singleGoal, AgentId me, AgentProgram owner,
 			String name, Debugger debugger, AgentId... agentName) {
-		this(language, owner, name, agentName);
+		this(me, owner, name, agentName);
 		this.addGoal(singleGoal, debugger);
 	}
 
@@ -188,18 +185,24 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 *
 	 * @param content
 	 *            The content to be added to this goal base.
-	 * @param agentName
-	 *            The name of the agent that owns this goal base.
 	 * @param debugger
 	 *            The current debugger.
 	 */
-	protected void setGoals(List<Update> content, AgentId agentName,
-			Debugger debugger) {
+	protected void setGoals(List<Update> content, Debugger debugger) {
 		for (Update goal : content) {
-			count++;
-			getTime();
-			this.addGoal(new SingleGoal(goal, agentName, language), debugger);
-			updateTimeUsed();
+			try
+			{
+				count++;
+				getTime();
+				addGoal(new SingleGoal(goal, owner, 
+						MentalStateFactory.getDefaultInterface()), debugger);
+				updateTimeUsed();
+			}
+			catch (Exception e) {
+				new Warning(debugger, String.format(
+						Resources.get(WarningStrings.FAILED_ADD_GOAL),
+						goal.toString(), this.owner.toString()), e);
+			}
 		}
 	}
 
@@ -240,9 +243,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 				// Get current time used in this thread.
 				count++;
 				getTime();
-
 				substitutions.addAll(goal.getGoalDatabase().query(query));
-
 				// Update time used.
 				updateTimeUsed();
 			} catch (Exception e) {
@@ -272,7 +273,8 @@ public final class GoalBase implements Iterable<SingleGoal> {
 		try {
 			count++;
 			getTime();
-			addGoal(new SingleGoal(goal, this.owner, language), debugger);
+			addGoal(new SingleGoal(goal, this.owner, 
+					MentalStateFactory.getDefaultInterface()), debugger);
 			updateTimeUsed();
 		} catch (Exception e) {
 			new Warning(debugger, String.format(
@@ -331,11 +333,9 @@ public final class GoalBase implements Iterable<SingleGoal> {
 				// Get current time used in this thread.
 				count++;
 				getTime();
-
 				if (!goal.getGoalDatabase().query(dropgoal.toQuery()).isEmpty()) {
 					goalsToBeDropped.add(goal);
 				}
-
 				// Update time used.
 				updateTimeUsed();
 			} catch (Exception e) {

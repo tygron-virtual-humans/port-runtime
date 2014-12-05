@@ -109,11 +109,12 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 		switch (action.getTarget().getFocusMethod()) {
 		case NEW:
 			// Create new empty goal base to construct a new attention set.
-			return new GoalBase(mentalstate.getKRInterface(),
-					mentalstate.getAgentId(), action.getTarget().getName());
+			return new GoalBase(
+					mentalstate.getAgentId(), mentalstate.getOwner(), 
+					action.getTarget().getName());
 		case SELECT:
 			GoalBase newAttentionSet = new GoalBase(
-					mentalstate.getKRInterface(), mentalstate.getAgentId(),
+					mentalstate.getAgentId(), mentalstate.getOwner(), 
 					action.getTarget().getName());
 			newAttentionSet.addGoal(goal, debugger);
 			return newAttentionSet;
@@ -175,8 +176,9 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 			throws GOALActionFailedException {
 		MentalModel agentModel = mentalstate.getOwnModel();
 
-		GoalBase newAttentionSet = new GoalBase(mentalstate.getKRInterface(),
-				mentalstate.getAgentId(), action.getTarget().getName());
+		GoalBase newAttentionSet = new GoalBase(
+				mentalstate.getAgentId(), mentalstate.getOwner(), 
+				action.getTarget().getName());
 
 		// get the goals as obtained from the context, and add them to
 		// the goalbase

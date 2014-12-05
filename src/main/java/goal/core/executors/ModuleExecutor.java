@@ -1,6 +1,5 @@
 package goal.core.executors;
 
-import goal.core.mentalstate.BASETYPE;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
@@ -16,6 +15,7 @@ import languageTools.program.agent.Module;
 import languageTools.program.agent.Module.TYPE;
 import languageTools.program.agent.actions.AdoptAction;
 import languageTools.program.agent.selector.Selector.SelectorType;
+import mentalState.BASETYPE;
 
 public class ModuleExecutor {
 	private Module module;

@@ -38,16 +38,19 @@ import java.util.Stack;
 import krTools.KRInterface;
 import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRQueryFailedException;
 import krTools.language.DatabaseFormula;
 import krTools.language.Query;
 import krTools.language.Substitution;
 import krTools.language.Update;
 import languageTools.program.agent.AgentId;
+import languageTools.program.agent.AgentProgram;
 import languageTools.program.agent.msc.AGoalLiteral;
 import languageTools.program.agent.msc.BelLiteral;
 import languageTools.program.agent.msc.GoalALiteral;
 import languageTools.program.agent.msc.GoalLiteral;
 import languageTools.program.agent.msc.MentalLiteral;
+import mentalState.BASETYPE;
 
 /**
  * A {@link MentalModel} is a belief base and a stack of goal bases. The top of
@@ -173,10 +176,12 @@ public class MentalModel {
 	 * @throws KRInitFailedException
 	 *             If the KR technology was unable to create the requested
 	 *             database for storing formulas of the particular type.
+	 * @throws KRQueryFailedException 
+	 * @throws KRDatabaseException 
 	 */
-	public void addBase(AgentId owner, AgentId agentName, KRInterface language,
-			Set<DatabaseFormula> content, BASETYPE type)
-			throws KRInitFailedException {
+	public void addBase(AgentProgram owner, AgentId agentName, mentalState.MentalState state,
+			List<DatabaseFormula> content, BASETYPE type)
+			throws KRInitFailedException, KRDatabaseException, KRQueryFailedException {
 		if (type.equals(BASETYPE.GOALBASE)) {
 			throw new GOALBug(
 					"The method addBase was used to set a base of type "
@@ -184,7 +189,7 @@ public class MentalModel {
 							+ "but should only be used to add other bases. Use"
 							+ "the method addGoalBase to add a goal base.");
 		}
-		BeliefBase base = new BeliefBase(type, language, content, owner,
+		BeliefBase base = new BeliefBase(type, state, content, owner,
 				agentName);
 		this.beliefBases.put(type, base);
 	}
@@ -200,11 +205,11 @@ public class MentalModel {
 	 * @param agentName
 	 * @param debugger
 	 */
-	public void addGoalBase(KRInterface language, List<Update> content,
+	public void addGoalBase(List<Update> content, AgentProgram agent,
 			AgentId owner, String name, AgentId agentName, Debugger debugger) {
 		// Create new goal base and add content.
-		GoalBase goalBase = new GoalBase(language, owner, name, agentName);
-		goalBase.setGoals(content, owner, debugger);
+		GoalBase goalBase = new GoalBase(owner, agent, name, agentName);
+		goalBase.setGoals(content, debugger);
 		// Push the goal base on the stack of goal bases.
 		this.goalBases.push(goalBase);
 	}

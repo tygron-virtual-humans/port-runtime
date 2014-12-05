@@ -19,6 +19,8 @@
 package goal.core.mentalstate;
 
 import goal.core.agent.Agent;
+import goal.core.executors.ActionExecutor;
+import goal.core.executors.ExitModuleActionExecutor;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
 import goal.tools.errorhandling.exceptions.GOALBug;
@@ -37,6 +39,7 @@ import java.util.Set;
 import java.util.Stack;
 
 import krTools.KRInterface;
+import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
 import krTools.errors.exceptions.KRQueryFailedException;
 import krTools.language.DatabaseFormula;
@@ -50,6 +53,8 @@ import languageTools.program.agent.msc.MentalLiteral;
 import languageTools.program.agent.msc.MentalStateCondition;
 import languageTools.program.agent.msg.Message;
 import languageTools.program.agent.selector.Selector.SelectorType;
+import mentalState.BASETYPE;
+import mentalstatefactory.MentalStateFactory;
 import nl.tudelft.goal.messaging.messagebox.MessageBox;
 
 /**
@@ -76,12 +81,12 @@ public class MentalState {
 	 * The name of the agent that owns this {@link MentalState}.
 	 */
 	private final AgentId agentId;
+	/**
+	 * The program associated with agent that owns this {@link MentalState}.
+	 */
+	private final AgentProgram agentProgram;
 
 	private final Set<AgentId> knownAgents = new LinkedHashSet<>();
-	/**
-	 * The {@link KRInterface} used for representing this {@link MentalState}.
-	 */
-	private final KRInterface language;
 	/**
 	 * Keys are string that represent the agent name as known and provided by
 	 * EIS. Note that the Prolog representation may be different. TRAC #1128.
@@ -111,32 +116,17 @@ public class MentalState {
 	 * @throws KRInitFailedException
 	 *             when initialization of the belief base, goal base, mailbox or
 	 *             percept base failed.
+	 * @throws KRQueryFailedException 
+	 * @throws KRDatabaseException 
 	 */
 	public MentalState(AgentId id, AgentProgram program, Debugger debugger)
-			throws KRInitFailedException {
-
+			throws KRInitFailedException, KRDatabaseException, KRQueryFailedException {
 		// Log creation of mental state event.
 		new InfoLog("initializing mental state...");
-
-		/**
-		 * First store the agent's name and KR language; only thereafter call
-		 * #addAgentModel(String, Debugger).
-		 */
-		this.language = program.getKRInterface();
 		this.usesMentalModeling = program.usesMentalModels();
 		this.agentId = id;
-		this.addAgentModel(id, debugger, program);
-	}
-
-	/**
-	 * Returns the {@link KRInterface} used for representing components in this
-	 * {@link MentalState}.
-	 *
-	 * @return The KR language used for representing components in this mental
-	 *         state.
-	 */
-	public KRInterface getKRInterface() {
-		return this.language;
+		this.agentProgram = program;
+		this.addAgentModel(id, debugger);
 	}
 
 	/**
@@ -146,6 +136,15 @@ public class MentalState {
 	 */
 	public AgentId getAgentId() {
 		return this.agentId;
+	}
+	
+	/**
+	 * Returns the {@link AgentProgram} that owns this {@link MentalState}.
+	 *
+	 * @return The agent that owns this mental state.
+	 */
+	public AgentProgram getOwner() {
+		return this.agentProgram;
 	}
 
 	/**
@@ -223,14 +222,14 @@ public class MentalState {
 	 *            (in order to avoid halting on this action) than during agent
 	 *            execution (when the agent's debugger should be used), debugger
 	 *            is a parameter of the method.
-	 * @param goalProgram
-	 *            The AgentProgram associated with the agent (if its me)
 	 * @throws KRInitFailedException
 	 *             If the KR technology failed to create the requested
 	 *             databases.
+	 * @throws KRQueryFailedException 
+	 * @throws KRDatabaseException 
 	 */
-	public synchronized void addAgentModel(AgentId id, Debugger debugger,
-			AgentProgram... goalProgram) throws KRInitFailedException {
+	public synchronized void addAgentModel(AgentId id, Debugger debugger) 
+			throws KRInitFailedException, KRDatabaseException, KRQueryFailedException {
 		// true if its me, the owner of this mental state.
 		boolean me = id.equals(this.agentId);
 
@@ -252,31 +251,26 @@ public class MentalState {
 			// that there is an(other) agent because we have a(n empty) mental
 			// state.
 			MentalModel model = new MentalModel();
+			mentalState.MentalState state = MentalStateFactory.getDefaultInterface();
 
 			// Get content for the initial belief and goal base.
 			if (me) {
-				if (goalProgram.length != 1) {
-					throw new GOALBug(
-							"Could not find program to extract initial mental state content from.");
-				}
 				// Create the bases from the parsed GOAL agent program.
-				model.addBase(agentId, agentId, language,
-						goalProgram[0].getAllKnowledge(),
+				model.addBase(agentProgram, agentId, state,
+						agentProgram.getAllKnowledge(),
 						BASETYPE.KNOWLEDGEBASE);
-				model.addBase(agentId, agentId, language,
-						new LinkedHashSet<DatabaseFormula>(), BASETYPE.MAILBOX);
-				model.addBase(agentId, agentId, language,
-						new LinkedHashSet<DatabaseFormula>(),
+				model.addBase(agentProgram, agentId, state,
+						new LinkedList<DatabaseFormula>(), BASETYPE.MAILBOX);
+				model.addBase(agentProgram, agentId, state,
+						new LinkedList<DatabaseFormula>(),
 						BASETYPE.PERCEPTBASE);
 			}
 			// Create the belief base.
-			Set<DatabaseFormula> initialBeliefs = new LinkedHashSet<>(0);
-			model.addBase(this.agentId, id, this.language, initialBeliefs,
+			model.addBase(agentProgram, id, state, new LinkedList<DatabaseFormula>(),
 					BASETYPE.BELIEFBASE);
 			// Create the goal base.
-			List<Update> initialGoals = new ArrayList<>(0);
-			model.addGoalBase(this.language, initialGoals, this.agentId,
-					"main", id, debugger);
+			model.addGoalBase(new LinkedList<Update>(), agentProgram, 
+					agentId, "main", id, debugger);
 
 			// Add the mental model to the map of mental models maintained by
 			// this
@@ -338,7 +332,8 @@ public class MentalState {
 		// Process selector.
 		Iterator<AgentId> agents;
 		try {
-			agents = literal.getSelector().resolve(this).iterator();
+			agents = new ExitModuleActionExecutor(null)
+			.resolve(literal.getSelector(),this).iterator();
 		} catch (KRInitFailedException e) {
 			throw new GOALRuntimeErrorException(
 					"Processing of selector failed: " + e.getMessage(), e);
@@ -384,7 +379,7 @@ public class MentalState {
 		 */
 		if (!literal.isPositive()) {
 			if (result.isEmpty()) {
-				result.add(this.getKRInterface().getSubstitution(null));
+				result.add(agentProgram.getKRInterface().getSubstitution(null));
 			} else {
 				return new LinkedHashSet<>(0);
 			}
@@ -639,8 +634,8 @@ public class MentalState {
 			this.models
 			.get(this.agentId)
 			.getAttentionStack()
-			.push(new GoalBase(this.language, goal, this.agentId, this
-					.getAgentId().getName(), debugger, this.agentId));
+			.push(new GoalBase(goal, agentId, agentProgram,
+					getAgentId().getName(), debugger, agentId));
 
 			// get the substitutions that make the given context true, given
 			// the current single goal. Add these to the total set of
@@ -677,10 +672,13 @@ public class MentalState {
 	 * @param msg
 	 *            The {@link Message} to be search for in the message base
 	 * @return a Set of agent names.
+	 * @throws KRQueryFailedException 
+	 * @throws KRInitFailedException 
 	 */
-	public Collection<String> getReceiversOfMessage(Message msg) {
-		return getOwnModel().getBase(BASETYPE.MAILBOX).getDatabase()
-				.getReceiversOfMessage(msg);
+	public Collection<String> getReceiversOfMessage(Message msg)
+			throws KRQueryFailedException, KRInitFailedException {
+		mentalState.MentalState state = MentalStateFactory.getDefaultInterface();
+		return state.getReceiversOfMessage(getOwnModel().getBase(BASETYPE.MAILBOX).getDatabase(), msg );
 	}
 
 	/*********** helper methods ****************/

@@ -19,7 +19,6 @@
 package goal.tools.adapt;
 
 import goal.core.agent.Agent;
-import goal.core.mentalstate.BASETYPE;
 import goal.core.mentalstate.MentalState;
 import goal.preferences.CorePreferences;
 import goal.tools.logging.InfoLog;
@@ -54,6 +53,7 @@ import languageTools.program.agent.AgentProgram;
 import languageTools.program.agent.Module;
 import languageTools.program.agent.Module.RuleEvaluationOrder;
 import languageTools.program.agent.actions.ActionCombo;
+import mentalState.BASETYPE;
 
 /**
  * The generic learner. This class makes the link between GOAL core and the

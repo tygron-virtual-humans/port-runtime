@@ -1,8 +1,8 @@
 package goal.core.performance;
 
 import languageTools.program.agent.AgentId;
+import mentalState.BASETYPE;
 import krTools.language.DatabaseFormula;
-import goal.core.mentalstate.BASETYPE;
 import goal.core.mentalstate.BeliefBase;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
