@@ -18,7 +18,7 @@ public class EvaluateInInterrupted extends TestSectionInterupted {
 	@Override
 	public String toString() {
 		return "EvaluateInInterrupted [evaluateIn=" + super.getTestSection()
-				+ ", evaluators=" + evaluators + ", exception="
+				+ ", evaluators=" + this.evaluators + ", exception="
 				+ super.getCause() + "]";
 	}
 

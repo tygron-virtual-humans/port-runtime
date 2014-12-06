@@ -25,14 +25,14 @@ public class AssociateEntity extends Action {
 	 * @return the agentName
 	 */
 	public String getAgentName() {
-		return agentName;
+		return this.agentName;
 	}
 
 	/**
 	 * @return the entity
 	 */
 	public String getEntity() {
-		return entity;
+		return this.entity;
 	}
 
 	@Override

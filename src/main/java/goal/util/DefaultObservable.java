@@ -20,17 +20,17 @@ import java.util.Set;
  *            the type of event objects created by this observable.
  */
 public class DefaultObservable<OBS extends Observer<SRC, OBJ>, SRC, OBJ>
-implements Observable<OBS, SRC, OBJ> {
+		implements Observable<OBS, SRC, OBJ> {
 	Set<OBS> observers = new HashSet<>();
 
 	@Override
 	public synchronized void addObserver(OBS observer) {
-		observers.add(observer);
+		this.observers.add(observer);
 	}
 
 	@Override
 	public synchronized void removeObserver(OBS observer) {
-		observers.remove(observer);
+		this.observers.remove(observer);
 	}
 
 	/**
@@ -39,7 +39,7 @@ implements Observable<OBS, SRC, OBJ> {
 	 * @return the current list of observers
 	 */
 	private synchronized Set<OBS> getObservers() {
-		return new HashSet<>(observers);
+		return new HashSet<>(this.observers);
 	}
 
 	/**

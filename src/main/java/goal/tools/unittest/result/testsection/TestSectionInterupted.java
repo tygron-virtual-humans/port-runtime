@@ -21,7 +21,8 @@ public class TestSectionInterupted extends TestSectionFailed {
 
 	@Override
 	public String toString() {
-		return "Test Section Interupted [Test Section= " + testSection + "]";
+		return "Test Section Interupted [Test Section= " + this.testSection
+				+ "]";
 	}
 
 	/**
@@ -42,7 +43,7 @@ public class TestSectionInterupted extends TestSectionFailed {
 	 * @return the test section that was running when the debugger was killed.
 	 */
 	public TestSection getTestSection() {
-		return testSection;
+		return this.testSection;
 	}
 
 	@Override

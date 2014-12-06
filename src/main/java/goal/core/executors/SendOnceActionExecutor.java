@@ -27,7 +27,6 @@ import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import krTools.KRInterface;
 import krTools.errors.exceptions.KRInitFailedException;
 import krTools.errors.exceptions.ParserException;
 import krTools.language.Query;
@@ -41,10 +40,10 @@ import mentalState.BASETYPE;
 
 public class SendOnceActionExecutor extends ActionExecutor {
 
-	private SendOnceAction action;
+	private final SendOnceAction action;
 
 	public SendOnceActionExecutor(SendOnceAction act) {
-		action = act;
+		this.action = act;
 	}
 
 	@Override
@@ -52,7 +51,7 @@ public class SendOnceActionExecutor extends ActionExecutor {
 		MentalState mentalState = runState.getMentalState();
 
 		Set<AgentId> receivers = determineReceivers(mentalState, debugger);
-		Message message = action.getMessage();
+		Message message = this.action.getMessage();
 
 		message.setReceivers(receivers);
 		message.setSender(mentalState.getAgentId());
@@ -61,7 +60,7 @@ public class SendOnceActionExecutor extends ActionExecutor {
 
 		mentalState.getOwnBase(BASETYPE.MAILBOX).insert(message, false,
 				debugger);
-		
+
 		// TODO: implement functionality below but then efficiently!!
 		// Identifier eisname = new Identifier(receiver.getName());
 		// try{
@@ -87,9 +86,9 @@ public class SendOnceActionExecutor extends ActionExecutor {
 
 		report(debugger);
 
-		return new Result(action);
+		return new Result(this.action);
 	}
-	
+
 	/**
 	 * Returns the list of agent names that should receive the message.
 	 *
@@ -103,7 +102,7 @@ public class SendOnceActionExecutor extends ActionExecutor {
 			Debugger debugger) {
 		Set<AgentId> receivers;
 		try {
-			receivers = resolve(action.getSelector(),mentalState);
+			receivers = resolve(this.action.getSelector(), mentalState);
 		} catch (KRInitFailedException e) {
 			throw new GOALActionFailedException(
 					"Could not determine receivers: " + e.getMessage(), e);
@@ -115,13 +114,14 @@ public class SendOnceActionExecutor extends ActionExecutor {
 		Query query;
 		for (AgentId receiver : receivers) {
 			try {
-				update = parseUpdate(action.getMessage().toString(true,receiver));
+				update = parseUpdate(this.action.getMessage().toString(true,
+						receiver));
 			} catch (ParserException e) {
 				throw new GOALActionFailedException(
 						"Failed to create record of"
 								+ "message to be sent for: "
-								+ action.getMessage().toString(true, receiver) + ".",
-								e);
+								+ this.action.getMessage().toString(true,
+										receiver) + ".", e);
 			}
 			query = update.toQuery();
 			if (!mentalState.query(query, BASETYPE.MAILBOX, debugger).isEmpty()) {
@@ -132,14 +132,14 @@ public class SendOnceActionExecutor extends ActionExecutor {
 		receivers.removeAll(done);
 		return receivers;
 	}
-	
+
 	@Override
 	protected ActionExecutor applySubst(Substitution subst) {
-		return new SendOnceActionExecutor(action.applySubst(subst));
+		return new SendOnceActionExecutor(this.action.applySubst(subst));
 	}
-	
+
 	@Override
 	public Action<?> getAction() {
-		return action;
+		return this.action;
 	}
 }

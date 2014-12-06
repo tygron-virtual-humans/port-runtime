@@ -15,10 +15,10 @@ public class NewEnvironment implements RemoteRuntimeEvent {
 	private final MessageBoxId messageBoxId;
 
 	public NewEnvironment(MessageBoxId id) {
-		messageBoxId = id;
+		this.messageBoxId = id;
 	}
 
 	public MessageBoxId getMessageBoxId() {
-		return messageBoxId;
+		return this.messageBoxId;
 	}
 }

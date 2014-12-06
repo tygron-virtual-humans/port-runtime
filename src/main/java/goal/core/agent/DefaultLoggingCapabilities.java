@@ -15,12 +15,12 @@ public class DefaultLoggingCapabilities implements LoggingCapabilities {
 	 *            The GOALLogger to use
 	 */
 	public DefaultLoggingCapabilities(GOALLogger logger) {
-		logActionLogger = logger;
+		this.logActionLogger = logger;
 	}
 
 	@Override
 	public void log(String message) {
-		logActionLogger.logln(message);
+		this.logActionLogger.logln(message);
 	}
 
 	@Override

@@ -58,7 +58,7 @@ public class Statistics {
 	 * @return ArrayList<Double> of data elements.
 	 */
 	public List<Double> getData() {
-		return dataSet;
+		return this.dataSet;
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class Statistics {
 	 *            The new data element.
 	 */
 	public void add(Double d) {
-		dataSet.add(d);
+		this.dataSet.add(d);
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class Statistics {
 	 * @return true if empty, else false.
 	 */
 	public boolean isEmpty() {
-		return dataSet.isEmpty();
+		return this.dataSet.isEmpty();
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class Statistics {
 	 * @return The number of items in the data set.
 	 */
 	public int getSize() {
-		return dataSet.size();
+		return this.dataSet.size();
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class Statistics {
 	 */
 	public Double getSum() {
 		Double sum = 0.0;
-		for (Double d : dataSet) {
+		for (Double d : this.dataSet) {
 			sum = sum + d;
 		}
 		return sum;
@@ -139,8 +139,8 @@ public class Statistics {
 		if (isEmpty()) {
 			throw new ArithmeticException("Data set is empty.");
 		}
-		Double minValue = dataSet.get(0);
-		for (Double d : dataSet) {
+		Double minValue = this.dataSet.get(0);
+		for (Double d : this.dataSet) {
 			if (d < minValue) {
 				minValue = d;
 			}
@@ -160,8 +160,8 @@ public class Statistics {
 		if (isEmpty()) {
 			throw new ArithmeticException("Data set is empty.");
 		}
-		Double maxValue = dataSet.get(0);
-		for (Double d : dataSet) {
+		Double maxValue = this.dataSet.get(0);
+		for (Double d : this.dataSet) {
 			if (d > maxValue) {
 				maxValue = d;
 			}

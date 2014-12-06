@@ -79,13 +79,13 @@ public class BatchRun {
 	 */
 	public void run() throws Exception {
 		Exception last = null;
-		for (long i = 0; i < repeats; i++) {
-			for (File masFile : masFiles) {
+		for (long i = 0; i < this.repeats; i++) {
+			for (File masFile : this.masFiles) {
 				try {
 					SingleRun singleRun = new SingleRun(masFile);
-					singleRun.setDebuggerOutput(debuggerOutput);
-					singleRun.setMessaging(messaging);
-					singleRun.setMessagingHost(messagingHost);
+					singleRun.setDebuggerOutput(this.debuggerOutput);
+					singleRun.setMessaging(this.messaging);
+					singleRun.setMessagingHost(this.messagingHost);
 					singleRun.run();
 				} catch (Exception any) {
 					new Warning("Repeat " + i + " of " + masFile
@@ -107,7 +107,7 @@ public class BatchRun {
 	 *         debugger.
 	 */
 	public boolean getDebuggerOutput() {
-		return debuggerOutput;
+		return this.debuggerOutput;
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class BatchRun {
 	 * @return the messagingHost
 	 */
 	public String getMessagingHost() {
-		return messagingHost;
+		return this.messagingHost;
 	}
 
 	/**

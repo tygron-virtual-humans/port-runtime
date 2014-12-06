@@ -2,14 +2,14 @@ package goal.tools;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import languageTools.program.mas.MASProgram;
-import goal.tools.errorhandling.exceptions.GOALParseException;
 import goal.util.Extension;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+
+import languageTools.program.mas.MASProgram;
 
 import org.junit.Test;
 

@@ -23,14 +23,7 @@ import java.util.TreeMap;
 
 public class DBExportPreferences {
 	public enum Pref {
-		exportbeliefs,
-		exportpercepts,
-		exportmailbox,
-		exportgoals,
-		separatefiles,
-		openaftersave,
-		exportBrowseDir,
-		rememberLastUsedExportDir
+		exportbeliefs, exportpercepts, exportmailbox, exportgoals, separatefiles, openaftersave, exportBrowseDir, rememberLastUsedExportDir
 	}
 
 	private static Map<String, Object> preferences;

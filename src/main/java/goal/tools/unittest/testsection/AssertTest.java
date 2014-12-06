@@ -53,14 +53,14 @@ public class AssertTest implements TestSection {
 	 * @return the message to display if the test does not pass.
 	 */
 	public String getMessage() {
-		return message;
+		return this.message;
 	}
 
 	/**
 	 * @return the query that is tested.
 	 */
 	public MentalStateCondition getMentalStateTest() {
-		return condition;
+		return this.condition;
 	}
 
 	/**
@@ -78,8 +78,8 @@ public class AssertTest implements TestSection {
 			throws AssertTestFailed {
 		MentalState ms = runState.getMentalState();
 		Debugger debugger = runState.getDebugger();
-		Set<Substitution> subs = new MentalStateConditionExecutor(condition)
-			.evaluate(ms, debugger);
+		Set<Substitution> subs = new MentalStateConditionExecutor(
+				this.condition).evaluate(ms, debugger);
 		if (subs.isEmpty()) {
 			throw new AssertTestFailed(this);
 		}
@@ -93,8 +93,8 @@ public class AssertTest implements TestSection {
 	 */
 	@Override
 	public String toString() {
-		return "MentalStateTest [condition=" + condition + ", message="
-				+ message + "]";
+		return "MentalStateTest [condition=" + this.condition + ", message="
+				+ this.message + "]";
 	}
 
 	@Override

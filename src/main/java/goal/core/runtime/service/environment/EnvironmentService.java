@@ -114,15 +114,15 @@ public class EnvironmentService {
 	 */
 	public void addEnvironmentPort(MessageBoxId id) {
 		EnvironmentPort port = null;
-		synchronized (environmentPorts) {
+		synchronized (this.environmentPorts) {
 			// We already have a port for this
 			// environment. Quitely ignore.
-			if (environmentPorts.containsKey(id)) {
+			if (this.environmentPorts.containsKey(id)) {
 				return;
 			}
 			try {
-				port = new EnvironmentPort(id, messagingService);
-				environmentPorts.put(id, port);
+				port = new EnvironmentPort(id, this.messagingService);
+				this.environmentPorts.put(id, port);
 			} catch (GOALLaunchFailureException e) {
 				new Warning(String.format(
 						Resources.get(WarningStrings.FAILED_CREATE_ENV_PORT),
@@ -152,13 +152,13 @@ public class EnvironmentService {
 	 */
 	public void removeEnvironmentPort(MessageBoxId id) {
 		EnvironmentPort port = null;
-		synchronized (environmentPorts) {
+		synchronized (this.environmentPorts) {
 			// We dont'have a port for this
 			// environment. Quitely ignore.
-			if (!environmentPorts.containsKey(id)) {
+			if (!this.environmentPorts.containsKey(id)) {
 				return;
 			}
-			port = environmentPorts.remove(id);
+			port = this.environmentPorts.remove(id);
 			try {
 				port.shutDown();
 			} catch (Exception e) {
@@ -197,30 +197,31 @@ public class EnvironmentService {
 	 * @throws MessagingException
 	 */
 	public void start() throws GOALLaunchFailureException,
-	EnvironmentInterfaceException, InterruptedException,
-	MessagingException {
+			EnvironmentInterfaceException, InterruptedException,
+			MessagingException {
 		// If MAS file does not have environment section, there is nothing to do
-		if (!masProgram.hasEnvironment()) {
+		if (!this.masProgram.hasEnvironment()) {
 			return;
 		}
 
 		// Get environment name, file (if it exists), and initialization
 		// parameters.
-		String environmentName = masProgram.getEnvironmentfile().getName();
+		String environmentName = this.masProgram.getEnvironmentfile().getName();
 
 		// FIXME this allows one to create a new env or to use an existing one
 		// by specifying a name ending on ".jar" or not in the MAS file.
 		if (environmentName.endsWith(".jar")) { //$NON-NLS-1$
-			File environmentFile = masProgram.getEnvironmentfile();
+			File environmentFile = this.masProgram.getEnvironmentfile();
 			// Launch local environment.
 			if (environmentFile != null) {
-				Map<String, Parameter> initialization = convertMapToEIS(masProgram.getInitParameters());
+				Map<String, Parameter> initialization = convertMapToEIS(this.masProgram
+						.getInitParameters());
 				// Reference to environment file provided in MAS file; load it.
 				environmentName = environmentName.substring(0,
 						environmentName.lastIndexOf(".jar")); //$NON-NLS-1$
-				localEnvironment = launchLocalMessaginEnvironment(
+				this.localEnvironment = launchLocalMessaginEnvironment(
 						environmentName, environmentFile, initialization);
-				addEnvironmentPort(localEnvironment.getMessageBoxId());
+				addEnvironmentPort(this.localEnvironment.getMessageBoxId());
 			}
 
 		} else {
@@ -229,7 +230,7 @@ public class EnvironmentService {
 				// get the environment that has the exact name as we received
 				// from the MAS. note that this may be different from the one we
 				// just launched.
-				List<MessageBoxId> boxes = messagingService.getClient()
+				List<MessageBoxId> boxes = this.messagingService.getClient()
 						.getMessageBoxes(Type.ENVIRONMENT, environmentName);
 				if (boxes.isEmpty()) {
 					new Warning(
@@ -242,7 +243,7 @@ public class EnvironmentService {
 				}
 			} catch (MessagingException e) {
 				try {
-					localEnvironment.shutDown();
+					this.localEnvironment.shutDown();
 				} catch (Exception ignore) {
 				}
 				throw e;
@@ -253,46 +254,46 @@ public class EnvironmentService {
 		// subscribe. This is important because the environment may start
 		// threads of its own. In combination with the late listener pattern
 		// this may cause race conditions where events happen twice.
-		if (localEnvironment != null) {
+		if (this.localEnvironment != null) {
 			try {
-				localEnvironment.initialize();
+				this.localEnvironment.initialize();
 			} catch (EnvironmentInterfaceException e) {
 				try {
-					localEnvironment.shutDown();
+					this.localEnvironment.shutDown();
 				} catch (Exception ignore) {
 				}
 				throw e;
 			}
 		}
 
-		messagingService.getClient().addListener(messagingListener);
+		this.messagingService.getClient().addListener(this.messagingListener);
 	}
-	
-	private static Map<String, Parameter> convertMapToEIS(Map<String, Object> init) {
+
+	private static Map<String, Parameter> convertMapToEIS(
+			Map<String, Object> init) {
 		Map<String, Parameter> result = new HashMap<>(init.size());
-		for( final String key : init.keySet() ) {
+		for (final String key : init.keySet()) {
 			final Object value = init.get(key);
-			result.put(key,convertValueToEIS(value));
+			result.put(key, convertValueToEIS(value));
 		}
 		return result;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private static Parameter convertValueToEIS(Object value) {
-		if( value instanceof Number ) {
-			return new Numeral((Number)value);
-		} else if( value instanceof AbstractMap.SimpleEntry ) {
-			AbstractMap.SimpleEntry<String,Object[]> map = 
-					(AbstractMap.SimpleEntry<String,Object[]>)value;
+		if (value instanceof Number) {
+			return new Numeral((Number) value);
+		} else if (value instanceof AbstractMap.SimpleEntry) {
+			AbstractMap.SimpleEntry<String, Object[]> map = (AbstractMap.SimpleEntry<String, Object[]>) value;
 			Parameter[] params = new Parameter[map.getValue().length];
-			for( int i = 0; i < params.length; ++i ) {
+			for (int i = 0; i < params.length; ++i) {
 				params[i] = convertValueToEIS(map.getValue()[i]);
 			}
-			return new Function(map.getKey(),params);
-		} else if( value instanceof List ) {
-			List<Object> oldlist = (List<Object>)value;
+			return new Function(map.getKey(), params);
+		} else if (value instanceof List) {
+			List<Object> oldlist = (List<Object>) value;
 			Parameter[] newlist = new Parameter[oldlist.size()];
-			for( int i = 0; i < newlist.length; ++i ) {
+			for (int i = 0; i < newlist.length; ++i) {
 				newlist[i] = convertValueToEIS(oldlist.get(i));
 			}
 			return new ParameterList(newlist);
@@ -309,7 +310,7 @@ public class EnvironmentService {
 	private LocalMessagingEnvironment launchLocalMessaginEnvironment(
 			String environmentName, File environmentFile,
 			Map<String, Parameter> initialization)
-					throws GOALLaunchFailureException {
+			throws GOALLaunchFailureException {
 		new InfoLog("Launching environment service..."); //$NON-NLS-1$
 
 		// Load environment interface.
@@ -318,7 +319,7 @@ public class EnvironmentService {
 					.fromJarFile(environmentFile);
 			// Launch environment interface locally.
 			LocalMessagingEnvironment environment = new LocalMessagingEnvironment(
-					eis, environmentName, initialization, messagingService);
+					eis, environmentName, initialization, this.messagingService);
 			new InfoLog("OK."); //$NON-NLS-1$
 
 			return environment;
@@ -336,7 +337,7 @@ public class EnvironmentService {
 	 *         remotly.
 	 */
 	public LocalMessagingEnvironment getLocalEnvironment() {
-		return localEnvironment;
+		return this.localEnvironment;
 	}
 
 	/**
@@ -348,8 +349,8 @@ public class EnvironmentService {
 	 * @return the environment port connecting to the environment with the id.
 	 */
 	public EnvironmentPort getEnvironmentPort(MessageBoxId id) {
-		synchronized (environmentPorts) {
-			return environmentPorts.get(id);
+		synchronized (this.environmentPorts) {
+			return this.environmentPorts.get(id);
 		}
 	}
 
@@ -360,8 +361,8 @@ public class EnvironmentService {
 	 * @return a list of environment ports
 	 */
 	public Collection<EnvironmentPort> getEnvironmentPorts() {
-		synchronized (environmentPorts) {
-			return new ArrayList<>(environmentPorts.values());
+		synchronized (this.environmentPorts) {
+			return new ArrayList<>(this.environmentPorts.values());
 		}
 	}
 
@@ -374,23 +375,23 @@ public class EnvironmentService {
 	 * @throws InterruptedException
 	 */
 	public void shutDown() throws MessagingException,
-	EnvironmentInterfaceException, InterruptedException {
-		if (localEnvironment != null) {
+			EnvironmentInterfaceException, InterruptedException {
+		if (this.localEnvironment != null) {
 			notifyObservers(new RemovedLocalEnvironment(
-					localEnvironment.getMessageBoxId()));
+					this.localEnvironment.getMessageBoxId()));
 		}
-		synchronized (environmentPorts) {
+		synchronized (this.environmentPorts) {
 			Collection<EnvironmentPort> ports = new ArrayList<>(
-					environmentPorts.values());
-			environmentPorts.clear();
+					this.environmentPorts.values());
+			this.environmentPorts.clear();
 			for (EnvironmentPort port : ports) {
 				port.shutDown();
 			}
 		}
 
-		if (localEnvironment != null) {
-			localEnvironment.shutDown();
-			localEnvironment = null;
+		if (this.localEnvironment != null) {
+			this.localEnvironment.shutDown();
+			this.localEnvironment = null;
 		}
 	}
 
@@ -399,7 +400,7 @@ public class EnvironmentService {
 	/**********************************************/
 
 	private void notifyObservers(EnvironmentServiceEvent evt) {
-		for (EnvironmentServiceObserver obs : observers) {
+		for (EnvironmentServiceObserver obs : this.observers) {
 			try {
 				obs.environmentServiceEventOccured(this, evt);
 			} catch (Exception e) {
@@ -411,6 +412,6 @@ public class EnvironmentService {
 	}
 
 	public void addObserver(EnvironmentServiceObserver obs) {
-		observers.add(obs);
+		this.observers.add(obs);
 	}
 }

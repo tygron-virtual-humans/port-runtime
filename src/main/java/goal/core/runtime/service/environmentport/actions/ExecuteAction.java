@@ -13,7 +13,7 @@ import goal.core.runtime.service.environment.LocalMessagingEnvironment.Messages2
  * @modified K.Hindriks No longer uses A parser to convert action to EIS.
  */
 public class ExecuteAction extends
-goal.core.runtime.service.environmentport.actions.Action {
+		goal.core.runtime.service.environmentport.actions.Action {
 	/** Generated serialVersionUID */
 	private static final long serialVersionUID = 296779255592185534L;
 	private final eis.iilang.Action eisAction;
@@ -36,7 +36,7 @@ goal.core.runtime.service.environmentport.actions.Action {
 	 * @return the EIS action
 	 */
 	public Action getAction() {
-		return eisAction;
+		return this.eisAction;
 	}
 
 	@Override
@@ -49,6 +49,6 @@ goal.core.runtime.service.environmentport.actions.Action {
 	 * @return the agentName
 	 */
 	public String getAgentName() {
-		return agentName;
+		return this.agentName;
 	}
 }

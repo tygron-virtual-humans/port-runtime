@@ -239,9 +239,10 @@ public class InputReaderWriter extends Thread {
 					.getAgents()) {
 				try {
 					final Set<SourceInfo> newbreakpoints = breaks
-							.getBreakpoints(agent.getController().getProgram().getSourceFile());
+							.getBreakpoints(agent.getController().getProgram()
+									.getSourceFile());
 					agent.getController().getDebugger()
-							.setBreakpoints(newbreakpoints);
+					.setBreakpoints(newbreakpoints);
 				} catch (final Exception e) {
 					write(e);
 				}
@@ -249,7 +250,7 @@ public class InputReaderWriter extends Thread {
 			return true;
 		case STOP:
 			try {
-				runtime.shutDown();
+				this.runtime.shutDown();
 			} catch (final Exception ignore) {
 			} finally {
 				System.exit(0);

@@ -29,21 +29,21 @@ public class AssertTestResult implements TestSectionResult {
 	}
 
 	private boolean checkPassed() {
-		return !result.isEmpty();
+		return !this.result.isEmpty();
 	}
 
 	/**
 	 * @return the message to display should this test fail.
 	 */
 	public String getMessage() {
-		return test.getMessage();
+		return this.test.getMessage();
 	}
 
 	/**
 	 * @return the mental state query that produced this result.
 	 */
 	public MentalStateCondition getMentalStateTest() {
-		return test.getMentalStateTest();
+		return this.test.getMentalStateTest();
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class AssertTestResult implements TestSectionResult {
 	 * @return true if the test passed.
 	 */
 	public boolean isPassed() {
-		return passsed;
+		return this.passsed;
 	}
 
 	/**
@@ -64,8 +64,8 @@ public class AssertTestResult implements TestSectionResult {
 	 */
 	@Override
 	public String toString() {
-		return "MentalStateTestResult [test=" + test + ", passsed=" + passsed
-				+ "]";
+		return "MentalStateTestResult [test=" + this.test + ", passsed="
+				+ this.passsed + "]";
 	}
 
 	@Override

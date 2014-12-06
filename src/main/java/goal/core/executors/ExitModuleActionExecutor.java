@@ -27,7 +27,7 @@ import languageTools.program.agent.actions.ExitModuleAction;
 
 public class ExitModuleActionExecutor extends ActionExecutor {
 
-	private ExitModuleAction action;
+	private final ExitModuleAction action;
 
 	public ExitModuleActionExecutor(ExitModuleAction act) {
 		this.action = act;
@@ -37,9 +37,9 @@ public class ExitModuleActionExecutor extends ActionExecutor {
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
 		report(debugger);
 
-		return new Result(action);
+		return new Result(this.action);
 	}
-	
+
 	@Override
 	protected ActionExecutor applySubst(Substitution subst) {
 		return this; // exit-module has no free variables
@@ -47,6 +47,6 @@ public class ExitModuleActionExecutor extends ActionExecutor {
 
 	@Override
 	public Action<?> getAction() {
-		return action;
+		return this.action;
 	}
 }

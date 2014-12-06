@@ -27,12 +27,12 @@ import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.DropAction;
 
 /**
- * 
+ *
  * @author W.Pasman 4dec14
  */
 public class DropActionExecutor extends ActionExecutor {
 
-	private DropAction action;
+	private final DropAction action;
 
 	public DropActionExecutor(DropAction act) {
 		this.action = act;
@@ -42,20 +42,20 @@ public class DropActionExecutor extends ActionExecutor {
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
 		MentalState mentalState = runState.getMentalState();
 
-		mentalState.drop(action.getUpdate(), debugger);
+		mentalState.drop(this.action.getUpdate(), debugger);
 
 		report(debugger);
 
-		return new Result(action);
+		return new Result(this.action);
 	}
-	
+
 	@Override
 	protected ActionExecutor applySubst(Substitution subst) {
-		return new DropActionExecutor(action.applySubst(subst));
+		return new DropActionExecutor(this.action.applySubst(subst));
 	}
 
 	@Override
 	public Action<?> getAction() {
-		return action;
+		return this.action;
 	}
 }

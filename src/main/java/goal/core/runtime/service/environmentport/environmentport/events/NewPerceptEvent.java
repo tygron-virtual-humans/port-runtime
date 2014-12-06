@@ -23,13 +23,13 @@ public class NewPerceptEvent extends EnvironmentEvent {
 	 * @return The agent
 	 */
 	public String getAgent() {
-		return agent;
+		return this.agent;
 	}
 
 	/**
 	 * @return The percept
 	 */
 	public Percept getPercept() {
-		return percept;
+		return this.percept;
 	}
 }

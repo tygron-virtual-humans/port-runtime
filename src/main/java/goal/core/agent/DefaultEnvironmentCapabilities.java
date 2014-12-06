@@ -48,54 +48,54 @@ public class DefaultEnvironmentCapabilities implements EnvironmentCapabilities {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see goal.core.agent.Capabilities#getReward()
 	 */
 	@Override
 	public Double getReward() throws MessagingException,
-			EnvironmentInterfaceException {
-		return environment.getReward(id.getName());
+	EnvironmentInterfaceException {
+		return this.environment.getReward(this.id.getName());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see goal.core.agent.Capabilities#getPercepts()
 	 */
 	@Override
 	public Set<Percept> getPercepts() throws MessagingException,
-			EnvironmentInterfaceException {
+	EnvironmentInterfaceException {
 		Set<Percept> percepts = new LinkedHashSet<>();
 
-		percepts.addAll(perceptBuffer);
-		perceptBuffer.clear();
+		percepts.addAll(this.perceptBuffer);
+		this.perceptBuffer.clear();
 
 		// Only request percepts from environment if we are connected to an
 		// environment and that environment is running;
 		// otherwise, return the empty list.
-		percepts.addAll(environment.getPercepts(id.getName()));
+		percepts.addAll(this.environment.getPercepts(this.id.getName()));
 
 		return percepts;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * goal.core.agent.Capabilities#performAction(languageTools.program.agent
 	 * .actions. UserSpecAction)
 	 */
 	@Override
 	public void performAction(Action action) throws MessagingException,
-			EnvironmentInterfaceException {
-		Collection<Percept> percepts = environment.performAction(id.getName(),
-				action);
-		perceptBuffer.addAll(percepts);
+	EnvironmentInterfaceException {
+		Collection<Percept> percepts = this.environment.performAction(
+				this.id.getName(), action);
+		this.perceptBuffer.addAll(percepts);
 	}
 
 	@Override
 	public void dispose() throws MessagingException,
-			EnvironmentInterfaceException {
-		environment.freeAgent(id.getName());
+	EnvironmentInterfaceException {
+		this.environment.freeAgent(this.id.getName());
 	}
 }

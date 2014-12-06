@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 import goal.core.agent.AbstractAgentFactory;
 import goal.core.agent.AgentFactory;
 import goal.core.agent.GOALInterpreter;
-import languageTools.program.mas.MASProgram;
 import goal.core.runtime.MessagingService;
 import goal.core.runtime.service.agent.AgentService;
 import goal.core.runtime.service.agent.AgentServiceEventObserver;
@@ -18,6 +17,7 @@ import goal.tools.logging.Loggers;
 
 import java.io.File;
 
+import languageTools.program.mas.MASProgram;
 import localmessaging.LocalMessaging;
 
 import org.junit.After;
@@ -48,60 +48,60 @@ public class AgentServiceTest {
 				.parseMASFile(
 						new File(
 								"src/test/resources/goal/core/runtime/runtimeServices/fibonaci.mas2g"));
-		messaging = new MessagingService("localhost", new LocalMessaging());
+		this.messaging = new MessagingService("localhost", new LocalMessaging());
 		AgentFactory<NOPDebugger, GOALInterpreter<NOPDebugger>> factory = new AbstractAgentFactory<NOPDebugger, GOALInterpreter<NOPDebugger>>(
-				messaging) {
+				this.messaging) {
 
 			@Override
 			protected NOPDebugger provideDebugger() {
-				return new NOPDebugger(agentId);
+				return new NOPDebugger(this.agentId);
 			}
 
 			@Override
 			protected GOALInterpreter<NOPDebugger> provideController(
 					NOPDebugger debugger, Learner learner) {
-				return new GOALInterpreter<NOPDebugger>(program, debugger,
+				return new GOALInterpreter<NOPDebugger>(this.program, debugger,
 						learner);
 			}
 		};
 
-		runtimeService = new AgentService<NOPDebugger, GOALInterpreter<NOPDebugger>>(
+		this.runtimeService = new AgentService<NOPDebugger, GOALInterpreter<NOPDebugger>>(
 				program, factory);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		runtimeService.awaitTermination();
-		runtimeService.dispose();
-		messaging.shutDown();
+		this.runtimeService.awaitTermination();
+		this.runtimeService.dispose();
+		this.messaging.shutDown();
 	}
 
 	@Test(timeout = 15000)
 	public void testStart() throws GOALLaunchFailureException,
-	InterruptedException {
-		runtimeService.start();
-		runtimeService.awaitTermination();
+			InterruptedException {
+		this.runtimeService.start();
+		this.runtimeService.awaitTermination();
 	}
 
 	int agentsStarted = 0;
 
 	@Test
 	public void testStartStop() throws GOALLaunchFailureException,
-	InterruptedException {
-		runtimeService.addObserver(new AgentServiceEventObserver() {
+			InterruptedException {
+		this.runtimeService.addObserver(new AgentServiceEventObserver() {
 			@Override
 			public void agentServiceEvent(AgentService rs, AgentServiceEvent evt) {
-				agentsStarted++;
+				AgentServiceTest.this.agentsStarted++;
 			}
 		});
 
-		runtimeService.start();
+		this.runtimeService.start();
 
-		runtimeService.shutDown();
-		runtimeService.awaitTermination();
+		this.runtimeService.shutDown();
+		this.runtimeService.awaitTermination();
 
-		assertEquals(4, agentsStarted);
-		assertEquals(4, runtimeService.getAgents().size());
-		assertTrue(runtimeService.getAliveAgents().isEmpty());
+		assertEquals(4, this.agentsStarted);
+		assertEquals(4, this.runtimeService.getAgents().size());
+		assertTrue(this.runtimeService.getAliveAgents().isEmpty());
 	}
 }

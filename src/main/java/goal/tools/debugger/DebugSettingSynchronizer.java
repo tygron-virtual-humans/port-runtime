@@ -85,9 +85,9 @@ public class DebugSettingSynchronizer implements PropertyChangeListener {
 		}
 
 		if (ChannelState.valueOf(evt.getNewValue().toString()).shouldPause()) {
-			debugger.addPause(channel);
+			this.debugger.addPause(channel);
 		} else {
-			debugger.removePause(channel);
+			this.debugger.removePause(channel);
 		}
 	}
 

@@ -35,7 +35,8 @@ public class Test {
 
 	@Override
 	public String toString() {
-		return "Test " + id + " [Test Sections =" + testSections + "]";
+		return "Test " + this.id + " [Test Sections =" + this.testSections
+				+ "]";
 	}
 
 	/**
@@ -77,8 +78,9 @@ public class Test {
 	 * @return result of executing the test.
 	 */
 	public TestResult run(RunState<? extends ObservableDebugger> runState) {
-		List<TestSectionResult> results = new ArrayList<>(testSections.size());
-		for (TestSection section : testSections) {
+		List<TestSectionResult> results = new ArrayList<>(
+				this.testSections.size());
+		for (TestSection section : this.testSections) {
 			try {
 				TestSectionResult result = section.run(runState);
 				results.add(result);
@@ -105,7 +107,7 @@ public class Test {
 	 * @return true if the program is a before section
 	 */
 	public boolean isBefore() {
-		return id.equalsIgnoreCase("before");
+		return this.id.equalsIgnoreCase("before");
 	}
 
 	/**
@@ -113,6 +115,6 @@ public class Test {
 	 * @return true if the program is an after section
 	 */
 	public boolean isAfter() {
-		return id.equalsIgnoreCase("after");
+		return this.id.equalsIgnoreCase("after");
 	}
 }

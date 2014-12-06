@@ -26,10 +26,11 @@ import goal.tools.adapt.Learner;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.NOPDebugger;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
-import krTools.errors.exceptions.KRInitFailedException;
 
 import java.io.File;
 
+import krTools.errors.exceptions.KRInitFailedException;
+import languageTools.program.agent.AgentProgram;
 import localmessaging.LocalMessaging;
 import nl.tudelft.goal.messaging.Messaging;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
@@ -47,8 +48,8 @@ public class SendToVar extends ProgramTest {
 	@Override
 	protected Agent<GOALInterpreter<Debugger>> buildAgent(String id,
 			File programFile, AgentProgram program)
-					throws GOALLaunchFailureException, MessagingException,
-					KRInitFailedException {
+			throws GOALLaunchFailureException, MessagingException,
+			KRInitFailedException {
 
 		Messaging messaging = new LocalMessaging();
 		MessagingService messagingService = new MessagingService("localhost",
@@ -58,13 +59,14 @@ public class SendToVar extends ProgramTest {
 
 			@Override
 			protected Debugger provideDebugger() {
-				return new NOPDebugger(agentId);
+				return new NOPDebugger(this.agentId);
 			}
 
 			@Override
 			protected GOALInterpreter<Debugger> provideController(
 					Debugger debugger, Learner learner) {
-				return new GOALInterpreter<Debugger>(program, debugger, learner);
+				return new GOALInterpreter<Debugger>(this.program, debugger,
+						learner);
 			}
 		};
 

@@ -13,38 +13,13 @@ public class DebugCommand {
 
 	public enum Command {
 		// received
-		PAUSE,
-		RUN,
-		STEP,
-		BREAKS,
-		STOP,
+		PAUSE, RUN, STEP, BREAKS, STOP,
 		// received and/or sent
 		EVAL,
 		// sent
-		RUNMODE,
-		LOG,
-		LAUNCHED,
-		SUSPEND,
-		INSERTED_BEL,
-		DELETED_BEL,
-		INSERTED_PERCEPT,
-		DELETED_PERCEPT,
-		INSERTED_MAIL,
-		DELETED_MAIL,
-		ADOPTED,
-		DROPPED,
-		FOCUS,
-		DEFOCUS,
-		RULE_EVALUATION,
-		PRECOND_EVALUATION,
-		MODULE_ENTRY,
-		MODULE_EXIT,
-		EXECUTED,
+		RUNMODE, LOG, LAUNCHED, SUSPEND, INSERTED_BEL, DELETED_BEL, INSERTED_PERCEPT, DELETED_PERCEPT, INSERTED_MAIL, DELETED_MAIL, ADOPTED, DROPPED, FOCUS, DEFOCUS, RULE_EVALUATION, PRECOND_EVALUATION, MODULE_ENTRY, MODULE_EXIT, EXECUTED,
 		// environment
-		ENV_CREATED,
-		ENV_STATE,
-		ENV_PAUSE,
-		ENV_RUN
+		ENV_CREATED, ENV_STATE, ENV_PAUSE, ENV_RUN
 	}
 
 	private final Command command;
@@ -143,7 +118,7 @@ public class DebugCommand {
 				if (other.environment != null) {
 					return false;
 				}
-			} else if (!this.environment.equals(environment)) {
+			} else if (!this.environment.equals(this.environment)) {
 				return false;
 			} else if (this.command != other.command) {
 				return false;
@@ -186,8 +161,8 @@ public class DebugCommand {
 		final String environment = envName.replace('\n', ' ').replace(
 				DELIMITER, "\\" + DELIMITER);
 		buffer.append(DELIMITER).append(this.command.name()).append(DELIMITER)
-		.append(agent).append(DELIMITER).append(environment)
-		.append(DELIMITER).append(this.data.size());
+				.append(agent).append(DELIMITER).append(environment)
+				.append(DELIMITER).append(this.data.size());
 		for (final String data : this.data) {
 			final String d = data.replace('\n', ' ').replace(DELIMITER,
 					"\\" + DELIMITER);
@@ -228,6 +203,10 @@ public class DebugCommand {
 	}
 
 	public static class StubBoxId extends MessageBoxId {
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 4910214653662191537L;
 		private final String name;
 
 		public StubBoxId(final String name) {

@@ -42,7 +42,7 @@ public class SingleRun extends AbstractRun<Debugger, GOALInterpreter<Debugger>> 
 	}
 
 	private class SingleRunAgentFactory extends
-	AbstractAgentFactory<Debugger, GOALInterpreter<Debugger>> {
+			AbstractAgentFactory<Debugger, GOALInterpreter<Debugger>> {
 
 		public SingleRunAgentFactory(MessagingService messaging) {
 			super(messaging);
@@ -50,20 +50,20 @@ public class SingleRun extends AbstractRun<Debugger, GOALInterpreter<Debugger>> 
 
 		@Override
 		protected Debugger provideDebugger() {
-			if (debuggerOutput) {
+			if (SingleRun.this.debuggerOutput) {
 				ObservableDebugger observabledebugger = new ObservableDebugger(
-						agentId, environment);
+						this.agentId, this.environment);
 				new LoggingObserver(observabledebugger);
 				return observabledebugger;
 			} else {
-				return new NOPDebugger(agentId);
+				return new NOPDebugger(this.agentId);
 			}
 		}
 
 		@Override
 		protected GOALInterpreter<Debugger> provideController(
 				Debugger debugger, Learner learner) {
-			return new GOALInterpreter<>(program, debugger, learner);
+			return new GOALInterpreter<>(this.program, debugger, learner);
 		}
 
 	}

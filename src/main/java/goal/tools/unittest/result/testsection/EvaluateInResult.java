@@ -19,8 +19,9 @@ public class EvaluateInResult implements TestSectionResult {
 
 	@Override
 	public String toString() {
-		return "EvaluateInResult [evaluateIn=" + evaluateIn + ", evaluators="
-				+ evaluators + ", passed=" + passed + "]";
+		return "EvaluateInResult [evaluateIn=" + this.evaluateIn
+				+ ", evaluators=" + this.evaluators + ", passed=" + this.passed
+				+ "]";
 	}
 
 	private final EvaluateIn evaluateIn;
@@ -40,7 +41,7 @@ public class EvaluateInResult implements TestSectionResult {
 	}
 
 	private boolean checkPassed() {
-		for (TestConditionEvaluator evaluator : evaluators) {
+		for (TestConditionEvaluator evaluator : this.evaluators) {
 			if (!evaluator.isPassed()) {
 				return false;
 			}
@@ -49,15 +50,15 @@ public class EvaluateInResult implements TestSectionResult {
 	}
 
 	public EvaluateIn getEvaluateIn() {
-		return evaluateIn;
+		return this.evaluateIn;
 	}
 
 	public List<TestConditionEvaluator> getEvaluators() {
-		return evaluators;
+		return this.evaluators;
 	}
 
 	public boolean isPassed() {
-		return passed;
+		return this.passed;
 	}
 
 	@Override

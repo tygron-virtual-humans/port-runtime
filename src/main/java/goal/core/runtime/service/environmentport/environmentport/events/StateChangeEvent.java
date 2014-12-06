@@ -18,7 +18,7 @@ public class StateChangeEvent extends EnvironmentEvent {
 
 	/** @return The environment state */
 	public EnvironmentState getState() {
-		return newState;
+		return this.newState;
 	}
 
 }

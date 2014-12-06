@@ -32,7 +32,7 @@ public class IDEDebugger extends ObservableDebugger {
 	public IDEDebugger(AgentId id, AgentProgram program, File goalProgramFile,
 			EnvironmentPort env) {
 		super(id, env);
-		observer = new DebugSettingSynchronizer(this);
+		this.observer = new DebugSettingSynchronizer(this);
 		setBreakpoints(PlatformManager.getCurrent().getBreakpointManager()
 				.getAllBreakpoints(goalProgramFile));
 	}
@@ -66,6 +66,6 @@ public class IDEDebugger extends ObservableDebugger {
 	@Override
 	public void dispose() {
 		super.dispose();
-		observer.stop();
+		this.observer.stop();
 	}
 }

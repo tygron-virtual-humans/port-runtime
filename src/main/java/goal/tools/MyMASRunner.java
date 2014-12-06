@@ -40,7 +40,7 @@ public class MyMASRunner {
 	}
 
 	private static class MyRun extends
-			AbstractRun<MyDebugger, GOALInterpreter<MyDebugger>> {
+	AbstractRun<MyDebugger, GOALInterpreter<MyDebugger>> {
 
 		public MyRun(MASProgram program) {
 			super(program);
@@ -58,7 +58,7 @@ public class MyMASRunner {
 	}
 
 	private static class MyAgentFactory extends
-			AbstractAgentFactory<MyDebugger, GOALInterpreter<MyDebugger>> {
+	AbstractAgentFactory<MyDebugger, GOALInterpreter<MyDebugger>> {
 
 		public MyAgentFactory(MessagingService messaging) {
 			super(messaging);
@@ -71,12 +71,13 @@ public class MyMASRunner {
 			 * agent use the NOPDebugger. If you want to use features of your
 			 * debugger in the result inspector don't forget to change the Type.
 			 */
-			return new MyDebugger(agentId);
+			return new MyDebugger(this.agentId);
 		}
 
 		@Override
 		protected Learner provideLearner() {
-			FileLearner learner = new FileLearner(agentId.getName(), program);
+			FileLearner learner = new FileLearner(this.agentId.getName(),
+					this.program);
 			/*
 			 * Configure the learner here.
 			 */
@@ -91,7 +92,8 @@ public class MyMASRunner {
 			 * GOALInterpreter. If you want to use features of your controller
 			 * in the result inspector don't forget to change the Type.
 			 */
-			return new GOALInterpreter<MyDebugger>(program, debugger, learner);
+			return new GOALInterpreter<MyDebugger>(this.program, debugger,
+					learner);
 		}
 	}
 
@@ -112,14 +114,14 @@ public class MyMASRunner {
 			super.breakpoint(channel, associate, message, args);
 			if (channel == Channel.ACTION_EXECUTED_USERSPEC
 					|| channel == Channel.ACTION_EXECUTED_BUILTIN) {
-				actionCount++;
+				this.actionCount++;
 			}
 		}
 
 	}
 
 	private static class MyInspector implements
-			ResultInspector<GOALInterpreter<MyDebugger>> {
+	ResultInspector<GOALInterpreter<MyDebugger>> {
 
 		public MyInspector() {
 		}

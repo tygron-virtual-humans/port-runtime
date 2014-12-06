@@ -49,14 +49,14 @@ public class EnvironmentPortTest {
 
 	@Before
 	public void setUp() throws Exception {
-		eis = new MockEnvironment();
-		messaging = new MessagingService("localhost", new LocalMessaging());
-		environment = new LocalMessagingEnvironment(eis, environmentName,
-				initialization, messaging);
-		environment.initialize();
-		environmentPort = new EnvironmentPort(environment.getMessageBoxId(),
-				messaging);
-		environmentPort.startPort();
+		this.eis = new MockEnvironment();
+		this.messaging = new MessagingService("localhost", new LocalMessaging());
+		this.environment = new LocalMessagingEnvironment(this.eis,
+				this.environmentName, this.initialization, this.messaging);
+		this.environment.initialize();
+		this.environmentPort = new EnvironmentPort(
+				this.environment.getMessageBoxId(), this.messaging);
+		this.environmentPort.startPort();
 
 	}
 
@@ -67,26 +67,26 @@ public class EnvironmentPortTest {
 	 */
 	private void waitForEnvState(EnvironmentState state) {
 		int tries = 0;
-		while (eis.getState() != state && tries++ < 20) {
+		while (this.eis.getState() != state && tries++ < 20) {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		assert (eis.getState() == state);
+		assert (this.eis.getState() == state);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		environment.shutDown();
-		environmentPort.shutDown();
-		messaging.shutDown();
+		this.environment.shutDown();
+		this.environmentPort.shutDown();
+		this.messaging.shutDown();
 	}
 
 	@Test
 	public void testStartPortShutDown() throws MessagingException,
-	InterruptedException {
+			InterruptedException {
 		// FIXME: Executing this will hang tear down. Message boxes that have
 		// been deleted can still send messages but not recieve them.
 		// environmentPort.startPort();
@@ -96,80 +96,80 @@ public class EnvironmentPortTest {
 
 	@Test
 	public void testStart() throws MessagingException, InterruptedException,
-	EnvironmentInterfaceException {
-		environmentPort.pause();
+			EnvironmentInterfaceException {
+		this.environmentPort.pause();
 		waitForEnvState(EnvironmentState.PAUSED);
-		environmentPort.start();
+		this.environmentPort.start();
 		waitForEnvState(EnvironmentState.RUNNING);
 	}
 
 	@Test
 	public void testPause() throws MessagingException, InterruptedException,
-	EnvironmentInterfaceException {
-		assertNotEquals(EnvironmentState.PAUSED, eis.getState());
-		environmentPort.pause();
+			EnvironmentInterfaceException {
+		assertNotEquals(EnvironmentState.PAUSED, this.eis.getState());
+		this.environmentPort.pause();
 		waitForEnvState(EnvironmentState.PAUSED);
 	}
 
 	@Test
 	public void testKill() throws MessagingException, InterruptedException,
-	EnvironmentInterfaceException {
-		assertNotEquals(EnvironmentState.KILLED, eis.getState());
-		environmentPort.kill();
+			EnvironmentInterfaceException {
+		assertNotEquals(EnvironmentState.KILLED, this.eis.getState());
+		this.environmentPort.kill();
 		waitForEnvState(EnvironmentState.KILLED);
 	}
 
 	@Test
 	public void testReset() throws MessagingException, InterruptedException,
-	EnvironmentInterfaceException {
-		environmentPort.kill();
-		assertNotEquals(EnvironmentState.RUNNING, eis.getState());
-		environmentPort.reset();
+			EnvironmentInterfaceException {
+		this.environmentPort.kill();
+		assertNotEquals(EnvironmentState.RUNNING, this.eis.getState());
+		this.environmentPort.reset();
 		waitForEnvState(EnvironmentState.RUNNING);
 	}
 
 	@Test(expected = PerceiveException.class)
 	public void testGetPerceptsNonExistingAgent() throws MessagingException,
-	EnvironmentInterfaceException {
-		environmentPort.getPercepts("NonExistingAgent");
+			EnvironmentInterfaceException {
+		this.environmentPort.getPercepts("NonExistingAgent");
 	}
 
 	@Test
 	public void testGetPercepts() throws MessagingException,
-	EnvironmentInterfaceException {
-		environmentPort.registerAgent("ExistingAgent");
-		environmentPort.associateEntity("ExistingAgent", "ExistingEntity");
-		assertFalse(environmentPort.getPercepts("ExistingAgent").isEmpty());
+			EnvironmentInterfaceException {
+		this.environmentPort.registerAgent("ExistingAgent");
+		this.environmentPort.associateEntity("ExistingAgent", "ExistingEntity");
+		assertFalse(this.environmentPort.getPercepts("ExistingAgent").isEmpty());
 	}
 
 	@Test
 	public void testGetReward() throws MessagingException,
-	EnvironmentInterfaceException {
-		assertNotNull(environmentPort.getReward("NonExistingAgent"));
+			EnvironmentInterfaceException {
+		assertNotNull(this.environmentPort.getReward("NonExistingAgent"));
 	}
 
 	@Test
 	public void testRegisterAgent() throws MessagingException,
-	EnvironmentInterfaceException {
-		environmentPort.registerAgent("ExistingAgent");
-		assertTrue(eis.getAgents().contains("ExistingAgent"));
+			EnvironmentInterfaceException {
+		this.environmentPort.registerAgent("ExistingAgent");
+		assertTrue(this.eis.getAgents().contains("ExistingAgent"));
 	}
 
 	@Test
 	public void testAssociateEntity() throws MessagingException,
-	EnvironmentInterfaceException {
-		assertFalse(eis.getFreeEntities().isEmpty());
-		environmentPort.registerAgent("ExistingAgent");
-		environmentPort.associateEntity("ExistingAgent", "ExistingEntity");
-		assertTrue(eis.getFreeEntities().isEmpty());
+			EnvironmentInterfaceException {
+		assertFalse(this.eis.getFreeEntities().isEmpty());
+		this.environmentPort.registerAgent("ExistingAgent");
+		this.environmentPort.associateEntity("ExistingAgent", "ExistingEntity");
+		assertTrue(this.eis.getFreeEntities().isEmpty());
 	}
 
 	@Test
 	public void testPerformAction() throws MessagingException,
-	EnvironmentInterfaceException {
-		environmentPort.registerAgent("ExistingAgent");
-		environmentPort.associateEntity("ExistingAgent", "ExistingEntity");
-		assertNotNull(environmentPort.performAction("ExistingAgent",
+			EnvironmentInterfaceException {
+		this.environmentPort.registerAgent("ExistingAgent");
+		this.environmentPort.associateEntity("ExistingAgent", "ExistingEntity");
+		assertNotNull(this.environmentPort.performAction("ExistingAgent",
 				new Action("Act")));
 	}
 

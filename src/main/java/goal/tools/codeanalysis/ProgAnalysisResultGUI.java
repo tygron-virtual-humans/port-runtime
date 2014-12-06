@@ -79,28 +79,28 @@ public class ProgAnalysisResultGUI implements ChangeListener {
 		if (analysis == null) {
 			throw new NullPointerException("analysis is null");
 		}
-		codeAnalysis = analysis;
-		programOverview = codeAnalysis.getProgramCodeAnalysis();
-		predicateOverview = codeAnalysis.getPredicateCodeAnalysis();
+		this.codeAnalysis = analysis;
+		this.programOverview = this.codeAnalysis.getProgramCodeAnalysis();
+		this.predicateOverview = this.codeAnalysis.getPredicateCodeAnalysis();
 
-		JScrollPane scrolltext = new JScrollPane(textArea);
+		JScrollPane scrolltext = new JScrollPane(this.textArea);
 		scrolltext
-		.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
 		JPanel settingspanel = new JPanel();
 		settingspanel.setLayout(new FlowLayout());
-		settingspanel.add(verboseCheckBox, FlowLayout.LEFT);
-		settingspanel.add(showPredicatesOverviewCheckBox, FlowLayout.LEFT);
-		settingspanel.add(briefOverviewCheckBox, FlowLayout.LEFT);
+		settingspanel.add(this.verboseCheckBox, FlowLayout.LEFT);
+		settingspanel.add(this.showPredicatesOverviewCheckBox, FlowLayout.LEFT);
+		settingspanel.add(this.briefOverviewCheckBox, FlowLayout.LEFT);
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.add(scrolltext, BorderLayout.CENTER);
 		panel.add(settingspanel, BorderLayout.NORTH);
 
-		verboseCheckBox.addChangeListener(this);
-		briefOverviewCheckBox.addChangeListener(this);
-		showPredicatesOverviewCheckBox.addChangeListener(this);
+		this.verboseCheckBox.addChangeListener(this);
+		this.briefOverviewCheckBox.addChangeListener(this);
+		this.showPredicatesOverviewCheckBox.addChangeListener(this);
 
 		updateText();
 
@@ -108,7 +108,7 @@ public class ProgAnalysisResultGUI implements ChangeListener {
 		JDialog dialog = pane.createDialog(
 				parent,
 				"Code analysis of the GOAL agent file "
-						+ codeAnalysis.getFileName());
+						+ this.codeAnalysis.getFileName());
 
 		dialog.setResizable(true);
 		dialog.setVisible(true);
@@ -138,16 +138,17 @@ public class ProgAnalysisResultGUI implements ChangeListener {
 		// && showPredicatesOverviewCheckBox.isSelected() == showPredicates)
 		// return;
 
-		boolean brief = briefOverviewCheckBox.isSelected();
-		boolean showPredicates = showPredicatesOverviewCheckBox.isSelected();
-		boolean verbose = verboseCheckBox.isSelected();
+		boolean brief = this.briefOverviewCheckBox.isSelected();
+		boolean showPredicates = this.showPredicatesOverviewCheckBox
+				.isSelected();
+		boolean verbose = this.verboseCheckBox.isSelected();
 
-		String text = programOverview.getText(brief, verbose);
+		String text = this.programOverview.getText(brief, verbose);
 
 		if (showPredicates) {
-			text = text + predicateOverview.getText(brief, verbose);
+			text = text + this.predicateOverview.getText(brief, verbose);
 		}
 
-		textArea.setText(text);
+		this.textArea.setText(text);
 	}
 }

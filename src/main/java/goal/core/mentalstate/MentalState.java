@@ -19,7 +19,6 @@
 package goal.core.mentalstate;
 
 import goal.core.agent.Agent;
-import goal.core.executors.ActionExecutor;
 import goal.core.executors.ExitModuleActionExecutor;
 import goal.core.executors.MentalStateConditionExecutor;
 import goal.tools.debugger.Debugger;
@@ -29,7 +28,6 @@ import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 import goal.tools.logging.InfoLog;
 
 import java.rmi.activation.UnknownObjectException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -118,12 +116,13 @@ public class MentalState {
 	 * @throws KRInitFailedException
 	 *             when initialization of the belief base, goal base, mailbox or
 	 *             percept base failed.
-	 * @throws KRQueryFailedException 
-	 * @throws KRDatabaseException 
-	 * @throws UnknownObjectException 
+	 * @throws KRQueryFailedException
+	 * @throws KRDatabaseException
+	 * @throws UnknownObjectException
 	 */
 	public MentalState(AgentId id, AgentProgram program, Debugger debugger)
-			throws KRInitFailedException, KRDatabaseException, KRQueryFailedException, UnknownObjectException {
+			throws KRInitFailedException, KRDatabaseException,
+			KRQueryFailedException, UnknownObjectException {
 		// Log creation of mental state event.
 		new InfoLog("initializing mental state...");
 		this.usesMentalModeling = program.usesMentalModels();
@@ -140,7 +139,7 @@ public class MentalState {
 	public AgentId getAgentId() {
 		return this.agentId;
 	}
-	
+
 	/**
 	 * Returns the {@link AgentProgram} that owns this {@link MentalState}.
 	 *
@@ -156,7 +155,7 @@ public class MentalState {
 	 * @return The agent's own mental model.
 	 */
 	public MentalModel getOwnModel() {
-		return models.get(agentId);
+		return this.models.get(this.agentId);
 	}
 
 	/**
@@ -228,12 +227,13 @@ public class MentalState {
 	 * @throws KRInitFailedException
 	 *             If the KR technology failed to create the requested
 	 *             databases.
-	 * @throws KRQueryFailedException 
-	 * @throws KRDatabaseException 
-	 * @throws UnknownObjectException 
+	 * @throws KRQueryFailedException
+	 * @throws KRDatabaseException
+	 * @throws UnknownObjectException
 	 */
-	public synchronized void addAgentModel(AgentId id, Debugger debugger) 
-			throws KRInitFailedException, KRDatabaseException, KRQueryFailedException, UnknownObjectException {
+	public synchronized void addAgentModel(AgentId id, Debugger debugger)
+			throws KRInitFailedException, KRDatabaseException,
+			KRQueryFailedException, UnknownObjectException {
 		// true if its me, the owner of this mental state.
 		boolean me = id.equals(this.agentId);
 
@@ -255,27 +255,26 @@ public class MentalState {
 			// that there is an(other) agent because we have a(n empty) mental
 			// state.
 			MentalModel model = new MentalModel();
-			mentalState.MentalState state = MentalStateFactory.getInterface(
-					agentProgram.getKRInterface().getClass());
+			mentalState.MentalState state = MentalStateFactory
+					.getInterface(this.agentProgram.getKRInterface().getClass());
 
 			// Get content for the initial belief and goal base.
 			if (me) {
 				// Create the bases from the parsed GOAL agent program.
-				model.addBase(agentProgram, agentId, state,
-						agentProgram.getAllKnowledge(),
+				model.addBase(this.agentProgram, this.agentId, state,
+						this.agentProgram.getAllKnowledge(),
 						BASETYPE.KNOWLEDGEBASE);
-				model.addBase(agentProgram, agentId, state,
+				model.addBase(this.agentProgram, this.agentId, state,
 						new LinkedList<DatabaseFormula>(), BASETYPE.MAILBOX);
-				model.addBase(agentProgram, agentId, state,
-						new LinkedList<DatabaseFormula>(),
-						BASETYPE.PERCEPTBASE);
+				model.addBase(this.agentProgram, this.agentId, state,
+						new LinkedList<DatabaseFormula>(), BASETYPE.PERCEPTBASE);
 			}
 			// Create the belief base.
-			model.addBase(agentProgram, id, state, new LinkedList<DatabaseFormula>(),
-					BASETYPE.BELIEFBASE);
+			model.addBase(this.agentProgram, id, state,
+					new LinkedList<DatabaseFormula>(), BASETYPE.BELIEFBASE);
 			// Create the goal base.
-			model.addGoalBase(new LinkedList<Update>(), agentProgram, 
-					agentId, "main", id, debugger);
+			model.addGoalBase(new LinkedList<Update>(), this.agentProgram,
+					this.agentId, "main", id, debugger);
 
 			// Add the mental model to the map of mental models maintained by
 			// this
@@ -286,7 +285,7 @@ public class MentalState {
 		// Insert the agent's existence as a fact 'agent(name)' in the belief
 		// base.
 		getOwnBase(BASETYPE.BELIEFBASE).updateAgentFact(true, id, me);
-		knownAgents.add(id);
+		this.knownAgents.add(id);
 	}
 
 	/**
@@ -305,7 +304,7 @@ public class MentalState {
 		// Delete the fact that (other) agent exists from this agent's belief
 		// base.
 		getOwnBase(BASETYPE.BELIEFBASE).updateAgentFact(false, id, false);
-		knownAgents.remove(id);
+		this.knownAgents.remove(id);
 
 		// Agent with agentName no longer exists; remove corresponding mental
 		// model.
@@ -337,8 +336,8 @@ public class MentalState {
 		// Process selector.
 		Iterator<AgentId> agents;
 		try {
-			agents = new ExitModuleActionExecutor(null)
-			.resolve(literal.getSelector(),this).iterator();
+			agents = new ExitModuleActionExecutor(null).resolve(
+					literal.getSelector(), this).iterator();
 		} catch (KRInitFailedException e) {
 			throw new GOALRuntimeErrorException(
 					"Processing of selector failed: " + e.getMessage(), e);
@@ -367,7 +366,7 @@ public class MentalState {
 				for (Substitution subst : result) {
 					Set<Substitution> tempResult = this.models.get(
 							agents.next()).query(literal.applySubst(subst),
-									focus, debugger);
+							focus, debugger);
 					for (Substitution tempSubst : tempResult) {
 						currentResults.add(subst.combine(tempSubst));
 					}
@@ -384,7 +383,8 @@ public class MentalState {
 		 */
 		if (!literal.isPositive()) {
 			if (result.isEmpty()) {
-				result.add(agentProgram.getKRInterface().getSubstitution(null));
+				result.add(this.agentProgram.getKRInterface().getSubstitution(
+						null));
 			} else {
 				return new LinkedHashSet<>(0);
 			}
@@ -584,9 +584,9 @@ public class MentalState {
 
 	/**
 	 * Generates {@link Substitution}s that validate the given
-	 * {@link MentalStateCondition}, with the added restriction that only one goal in
-	 * the goalbase may be used to validate it. This goal may be different for
-	 * each of the returned substitutions.
+	 * {@link MentalStateCondition}, with the added restriction that only one
+	 * goal in the goalbase may be used to validate it. This goal may be
+	 * different for each of the returned substitutions.
 	 * <p>
 	 * * Does focus/defocus using self.goal etc work in context condition too??
 	 * Nick: it should. for the filter focus method the context is just
@@ -596,19 +596,20 @@ public class MentalState {
 	 *
 	 * <br>
 	 * This function seems very similar to
-	 * {@link MentalStateCondition#evaluate(MentalState, SteppingDebugger)}. We might
-	 * want to document which one to use when.
+	 * {@link MentalStateCondition#evaluate(MentalState, SteppingDebugger)}. We
+	 * might want to document which one to use when.
 	 *
 	 * <h1>known issues</h1>
 	 * #1966 If there are no goals in the goalbase, contextQuery always returns
 	 * an empty set. But this is wrong, for example querying
 	 * <em>not(goal(aap))</em> should return the empty substitution as solution,
-	 * right? {@link MentalStateCondition#evaluate(MentalState, SteppingDebugger)}
+	 * right?
+	 * {@link MentalStateCondition#evaluate(MentalState, SteppingDebugger)}
 	 * seems to not have this problem.
 	 *
 	 * @param context
-	 *            The {@link MentalStateCondition} to validate, usually a context
-	 *            from a {@link Module}.
+	 *            The {@link MentalStateCondition} to validate, usually a
+	 *            context from a {@link Module}.
 	 *
 	 * @param validatingGoals
 	 *            An existing {@link HashMap} (usually empty), where links
@@ -618,7 +619,8 @@ public class MentalState {
 	 *            The {@link SteppingDebugger} in charge of the call.
 	 *
 	 * @return The set of {@link Substitution}s that validate the given
-	 *         {@link MentalStateCondition} using only one goal from the goal base.
+	 *         {@link MentalStateCondition} using only one goal from the goal
+	 *         base.
 	 *
 	 * @throws KRQueryFailedException
 	 *             If something went wrong when querying
@@ -637,17 +639,17 @@ public class MentalState {
 		for (SingleGoal goal : this.getAttentionSet()) {
 			// temporarily only have one of the goals
 			this.models
-			.get(this.agentId)
-			.getAttentionStack()
-			.push(new GoalBase(goal, agentId, agentProgram,
-					getAgentId().getName(), debugger, agentId));
+					.get(this.agentId)
+					.getAttentionStack()
+					.push(new GoalBase(goal, this.agentId, this.agentProgram,
+							getAgentId().getName(), debugger, this.agentId));
 
 			// get the substitutions that make the given context true, given
 			// the current single goal. Add these to the total set of
 			// substitutions.
 			try {
 				partSubsts = new MentalStateConditionExecutor(context)
-					.evaluate(this, debugger);
+						.evaluate(this, debugger);
 				if (!partSubsts.isEmpty()) {
 					substitutions.addAll(partSubsts);
 					// make sure we do not have to re-query everything in order
@@ -678,13 +680,15 @@ public class MentalState {
 	 * @param msg
 	 *            The {@link Message} to be search for in the message base
 	 * @return a Set of agent names.
-	 * @throws KRQueryFailedException 
-	 * @throws KRInitFailedException 
+	 * @throws KRQueryFailedException
+	 * @throws KRInitFailedException
 	 */
 	public Collection<String> getReceiversOfMessage(Message msg)
 			throws KRQueryFailedException, KRInitFailedException {
-		mentalState.MentalState state = MentalStateFactory.getDefaultInterface();
-		return state.getReceiversOfMessage(getOwnModel().getBase(BASETYPE.MAILBOX).getDatabase(), msg );
+		mentalState.MentalState state = MentalStateFactory
+				.getDefaultInterface();
+		return state.getReceiversOfMessage(
+				getOwnModel().getBase(BASETYPE.MAILBOX).getDatabase(), msg);
 	}
 
 	/*********** helper methods ****************/
@@ -769,7 +773,7 @@ public class MentalState {
 	public long getCount() {
 		long countSum = 0;
 
-		for (MentalModel model : models.values()) {
+		for (MentalModel model : this.models.values()) {
 			// Add count for mailbox, percept and belief bases.
 			for (BASETYPE type : BASETYPE.values()) {
 				if (model.getBase(type) != null) {

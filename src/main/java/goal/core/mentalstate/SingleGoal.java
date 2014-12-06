@@ -7,7 +7,6 @@ import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
 import krTools.errors.exceptions.KRQueryFailedException;
 import krTools.language.Update;
-import languageTools.program.agent.AgentId;
 import languageTools.program.agent.AgentProgram;
 import mentalState.BASETYPE;
 
@@ -70,7 +69,8 @@ public class SingleGoal {
 		try {
 			this.database = state.makeDatabase(BASETYPE.GOALBASE,
 					this.goal.getAddList(), agent);
-		} catch (KRInitFailedException | KRDatabaseException | KRQueryFailedException e) {
+		} catch (KRInitFailedException | KRDatabaseException
+				| KRQueryFailedException e) {
 			throw new GOALRuntimeErrorException("Could not add new goal "
 					+ goal, e);
 		}
@@ -119,7 +119,7 @@ public class SingleGoal {
 	 */
 	protected void unmarkOccurrence() {
 		this.useCount--;
-		if (useCount == 0) {
+		if (this.useCount == 0) {
 			cleanUp();
 		}
 	}

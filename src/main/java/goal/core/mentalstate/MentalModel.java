@@ -176,12 +176,13 @@ public class MentalModel {
 	 * @throws KRInitFailedException
 	 *             If the KR technology was unable to create the requested
 	 *             database for storing formulas of the particular type.
-	 * @throws KRQueryFailedException 
-	 * @throws KRDatabaseException 
+	 * @throws KRQueryFailedException
+	 * @throws KRDatabaseException
 	 */
-	public void addBase(AgentProgram owner, AgentId agentName, mentalState.MentalState state,
-			List<DatabaseFormula> content, BASETYPE type)
-			throws KRInitFailedException, KRDatabaseException, KRQueryFailedException {
+	public void addBase(AgentProgram owner, AgentId agentName,
+			mentalState.MentalState state, List<DatabaseFormula> content,
+			BASETYPE type) throws KRInitFailedException, KRDatabaseException,
+			KRQueryFailedException {
 		if (type.equals(BASETYPE.GOALBASE)) {
 			throw new GOALBug(
 					"The method addBase was used to set a base of type "
@@ -189,8 +190,7 @@ public class MentalModel {
 							+ "but should only be used to add other bases. Use"
 							+ "the method addGoalBase to add a goal base.");
 		}
-		BeliefBase base = new BeliefBase(type, state, content, owner,
-				agentName);
+		BeliefBase base = new BeliefBase(type, state, content, owner, agentName);
 		this.beliefBases.put(type, base);
 	}
 
@@ -234,12 +234,12 @@ public class MentalModel {
 		this.beliefBases.clear();
 
 		// Clean up attention stack.
-		while (!goalBases.isEmpty()) {
+		while (!this.goalBases.isEmpty()) {
 			// We're cleaning up and removing goal bases.
 			// Collect and sum time used by KR and query/update count.
-			timeUsedByKR += goalBases.peek().getTimeUsedByKR();
-			count += goalBases.peek().getCount();
-			goalBases.pop().cleanUp();
+			this.timeUsedByKR += this.goalBases.peek().getTimeUsedByKR();
+			this.count += this.goalBases.peek().getCount();
+			this.goalBases.pop().cleanUp();
 		}
 	}
 
@@ -462,7 +462,7 @@ public class MentalModel {
 	 *            The debugger controlling the call
 	 */
 	public void updateGoalState(Debugger debugger) {
-		if (goalBases.isEmpty()) {
+		if (this.goalBases.isEmpty()) {
 			// nothing to do here (model is not used).
 			return;
 		}
@@ -580,7 +580,7 @@ public class MentalModel {
 	 *         base by the KR language.
 	 */
 	public long getTimeUsedByKR() {
-		return timeUsedByKR;
+		return this.timeUsedByKR;
 	}
 
 	/**
@@ -590,7 +590,7 @@ public class MentalModel {
 	 * @return The total number of queries performed on this belief base.
 	 */
 	public long getCount() {
-		return count;
+		return this.count;
 	}
 
 }

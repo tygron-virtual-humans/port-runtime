@@ -40,7 +40,7 @@ public class AtEnd extends TestCondition {
 	 *         operator (empty string if none)
 	 */
 	public String getModuleName() {
-		return (this.module == null) ? "" : ("[" + module.getName() + "]");
+		return (this.module == null) ? "" : ("[" + this.module.getName() + "]");
 	}
 
 	@Override
@@ -50,7 +50,8 @@ public class AtEnd extends TestCondition {
 
 	@Override
 	public String toString() {
-		return "AtEnd [query=" + query + ", module=" + getModuleName() + "]";
+		return "AtEnd [query=" + this.query + ", module=" + getModuleName()
+				+ "]";
 	}
 
 	@Override
@@ -103,13 +104,14 @@ public class AtEnd extends TestCondition {
 
 			@Override
 			public void notifyBreakpointHit(DebugEvent event) {
-				if (module != null && event != null && !isPassed()) {
+				if (AtEnd.this.module != null && event != null && !isPassed()) {
 					switch (event.getChannel()) {
 					case EVENT_MODULE_EXIT:
 					case MAIN_MODULE_EXIT:
 					case INIT_MODULE_EXIT:
 					case USER_MODULE_EXIT:
-						if (module.equals(event.getAssociatedObject())) {
+						if (AtEnd.this.module.equals(event
+								.getAssociatedObject())) {
 							break;
 						} else {
 							return;
@@ -123,7 +125,7 @@ public class AtEnd extends TestCondition {
 
 			@Override
 			public void lastEvaluation() {
-				if (module == null) {
+				if (AtEnd.this.module == null) {
 					evaluation();
 				}
 				if (hasNestedCondition()) {

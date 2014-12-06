@@ -15,10 +15,10 @@ public class DeadAgent implements RemoteRuntimeEvent {
 	private final AgentId agentId;
 
 	public DeadAgent(AgentId id) {
-		agentId = id;
+		this.agentId = id;
 	}
 
 	public AgentId getAgentId() {
-		return agentId;
+		return this.agentId;
 	}
 }

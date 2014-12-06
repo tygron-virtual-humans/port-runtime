@@ -33,6 +33,6 @@ public class GetReward extends Action {
 	@Override
 	public Serializable invoke(Messages2Environment messages2Environment)
 			throws QueryException {
-		return messages2Environment.getReward(agentName);
+		return messages2Environment.getReward(this.agentName);
 	}
 }

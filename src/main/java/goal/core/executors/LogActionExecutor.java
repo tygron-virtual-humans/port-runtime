@@ -29,7 +29,7 @@ import languageTools.program.agent.actions.LogAction;
 
 public class LogActionExecutor extends ActionExecutor {
 
-	private LogAction action;
+	private final LogAction action;
 
 	public LogActionExecutor(LogAction act) {
 		this.action = act;
@@ -39,28 +39,28 @@ public class LogActionExecutor extends ActionExecutor {
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
 		MentalState mentalState = runState.getMentalState();
 
-		for( final Term param : action.getParameters()){
+		for (final Term param : this.action.getParameters()) {
 			boolean bb = false, gb = false, kb = false, mb = false, pb = false;
 			switch (LogOptions.fromString(param.toString())) {
-				case BB:
-					bb = true;
-					break;
-				case GB:
-					gb = true;
-					break;
-				case KB:
-					kb = true;
-					break;
-				case MB:
-					mb = true;
-					break;
-				case PB:
-					pb = true;
-					break;
-				default:
-				case TEXT:
-					runState.doLog(param.toString());
-					break;
+			case BB:
+				bb = true;
+				break;
+			case GB:
+				gb = true;
+				break;
+			case KB:
+				kb = true;
+				break;
+			case MB:
+				mb = true;
+				break;
+			case PB:
+				pb = true;
+				break;
+			default:
+			case TEXT:
+				runState.doLog(param.toString());
+				break;
 			}
 			if (kb || bb || pb || mb || gb) {
 				String ms = mentalState.toString(kb, bb, pb, mb, gb, true);
@@ -71,12 +71,12 @@ public class LogActionExecutor extends ActionExecutor {
 		// Report action was performed.
 		report(debugger);
 
-		return new Result(action);
+		return new Result(this.action);
 	}
 
 	/**
 	 * Available options for logging.
-	 * 
+	 *
 	 * @author W.Pasman
 	 * @modified K.Hindriks
 	 */
@@ -112,11 +112,11 @@ public class LogActionExecutor extends ActionExecutor {
 
 	@Override
 	protected ActionExecutor applySubst(Substitution subst) {
-		return new LogActionExecutor(action.applySubst(subst));
+		return new LogActionExecutor(this.action.applySubst(subst));
 	}
-	
+
 	@Override
 	public Action<?> getAction() {
-		return action;
+		return this.action;
 	}
 }

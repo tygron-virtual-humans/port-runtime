@@ -32,8 +32,8 @@ import languageTools.program.test.AgentTest;
 public class UnitTestResult {
 	@Override
 	public String toString() {
-		return "UnitTestResult [unitTest=" + unitTest + ", results=" + results
-				+ ", passed=" + passed + "]";
+		return "UnitTestResult [unitTest=" + this.unitTest + ", results="
+				+ this.results + ", passed=" + this.passed + "]";
 	}
 
 	private final UnitTest unitTest;
@@ -57,7 +57,7 @@ public class UnitTestResult {
 		Map<AgentTest, List<UnitTestInterpreterResult>> results = new HashMap<>();
 
 		// Create entry for all tests.
-		for (AgentTest test : unitTest.getTests()) {
+		for (AgentTest test : this.unitTest.getTests()) {
 			results.put(test, new LinkedList<UnitTestInterpreterResult>());
 		}
 
@@ -87,7 +87,7 @@ public class UnitTestResult {
 	 *         otherwise.
 	 */
 	private boolean checkPassed() {
-		for (List<UnitTestInterpreterResult> tr : results.values()) {
+		for (List<UnitTestInterpreterResult> tr : this.results.values()) {
 			if (tr.isEmpty()) {
 				return false;
 			}
@@ -104,14 +104,14 @@ public class UnitTestResult {
 	 * @return the file containing the {@link UnitTest}
 	 */
 	public File getUnitTestFile() {
-		return unitTest.getFile();
+		return this.unitTest.getFile();
 	}
 
 	/**
 	 * @return the file containing the {@link MASProgram}
 	 */
 	public File getMasFile() {
-		return unitTest.getMasProgram().getSourceFile();
+		return this.unitTest.getMasProgram().getSourceFile();
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class UnitTestResult {
 	 * @return the results of the test.
 	 */
 	public Map<AgentTest, List<UnitTestInterpreterResult>> getResults() {
-		return results;
+		return this.results;
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class UnitTestResult {
 	 * @return true if the test is passed.
 	 */
 	public boolean isPassed() {
-		return passed;
+		return this.passed;
 	}
 
 	/**

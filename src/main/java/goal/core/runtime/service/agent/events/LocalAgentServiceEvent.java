@@ -15,6 +15,6 @@ public class LocalAgentServiceEvent extends AgentServiceEvent {
 	}
 
 	public Agent<?> getAgent() {
-		return agent;
+		return this.agent;
 	}
 }

@@ -24,20 +24,20 @@ public class FreeEntityEvent extends EnvironmentEvent {
 	 * @return The entity
 	 */
 	public String getEntity() {
-		return entity;
+		return this.entity;
 	}
 
 	/**
 	 * @return The agents
 	 */
 	public Collection<String> getAgents() {
-		return agents;
+		return this.agents;
 	}
 
 	/**
 	 * @return The type of the free entity
 	 */
 	public String getType() {
-		return type;
+		return this.type;
 	}
 }

@@ -92,16 +92,16 @@ public class GOALLogger {
 	 *            user's preferences.
 	 */
 	public GOALLogger(String name, boolean eligibleForLogToFile) {
-		logger = Logger.getLogger(name);
+		this.logger = Logger.getLogger(name);
 		// do not use any parent handlers, they print too much.
-		logger.setUseParentHandlers(false);
+		this.logger.setUseParentHandlers(false);
 		if (eligibleForLogToFile && LoggingPreferences.getLogToFile()) {
 			addLogToFileHandler();
 		}
 
-		consoleHandler = new ConsoleHandler();
-		consoleHandler.setFormatter(new SingleLineFormatter());
-		consoleHandler.setLevel(Level.ALL);
+		this.consoleHandler = new ConsoleHandler();
+		this.consoleHandler.setFormatter(new SingleLineFormatter());
+		this.consoleHandler.setLevel(Level.ALL);
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class GOALLogger {
 	 * @return The name of the logger.
 	 */
 	public String getName() {
-		return logger.getName();
+		return this.logger.getName();
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class GOALLogger {
 	 */
 	public void log(GOALLogRecord record) {
 		if (record.getMessage() != null && !record.getMessage().isEmpty()) {
-			logger.log(record);
+			this.logger.log(record);
 		}
 	}
 
@@ -133,7 +133,7 @@ public class GOALLogger {
 	 */
 	private void log(String message) {
 		if (message != null && !message.isEmpty()) {
-			logger.warning(message);
+			this.logger.warning(message);
 		}
 	}
 
@@ -158,7 +158,7 @@ public class GOALLogger {
 	 *            a logging Handler
 	 */
 	public void addHandler(Handler handler) {
-		logger.addHandler(handler);
+		this.logger.addHandler(handler);
 	}
 
 	/**
@@ -167,19 +167,19 @@ public class GOALLogger {
 	protected void addLogToFileHandler() {
 		try {
 			String fname = LoggingPreferences.getLogDirectory();
-			fname += "/" + logger.getName() //$NON-NLS-1$
+			fname += "/" + this.logger.getName() //$NON-NLS-1$
 					+ (LoggingPreferences.getOverwriteFile() ? "" : "_%u") //$NON-NLS-1$ //$NON-NLS-2$
 					+ ".log"; //$NON-NLS-1$
-			fileHandler = new FileHandler(fname);
-			addHandler(fileHandler);
+			this.fileHandler = new FileHandler(fname);
+			addHandler(this.fileHandler);
 		} catch (SecurityException e) {
 			new Warning(String.format(
 					Resources.get(WarningStrings.FAILED_LOG_TO_FILE),
-					logger.getName()), e);
+					this.logger.getName()), e);
 		} catch (IOException e) {
 			new Warning(String.format(
 					Resources.get(WarningStrings.FAILED_LOG_TO_FILE),
-					logger.getName()), e);
+					this.logger.getName()), e);
 		}
 	}
 
@@ -191,17 +191,17 @@ public class GOALLogger {
 	 *            The logging handler to remove.
 	 */
 	public void removeHandler(Handler handler) {
-		logger.removeHandler(handler);
+		this.logger.removeHandler(handler);
 	}
 
 	/**
 	 * Do not log to file any more (if we did)
 	 */
 	public void removeLogToFileHandler() {
-		if (fileHandler != null) {
-			logger.removeHandler(fileHandler);
-			fileHandler.close();
-			fileHandler = null;
+		if (this.fileHandler != null) {
+			this.logger.removeHandler(this.fileHandler);
+			this.fileHandler.close();
+			this.fileHandler = null;
 		}
 	}
 
@@ -209,14 +209,14 @@ public class GOALLogger {
 	 * Adds a handler to the logger that will print all messages to the console.
 	 */
 	public void addConsoleLogger() {
-		logger.addHandler(consoleHandler);
+		this.logger.addHandler(this.consoleHandler);
 	}
 
 	/**
 	 * Stops messages being printed to the console.
 	 */
 	public void removeConsoleLogger() {
-		logger.removeHandler(consoleHandler);
+		this.logger.removeHandler(this.consoleHandler);
 	}
 
 }

@@ -102,10 +102,10 @@ public class LaunchManager {
 		RemoteRuntimeService<IDEDebugger, IDEGOALInterpreter> remoteRuntimeService = new RemoteRuntimeService<>(
 				messagingService);
 
-		runtimeManager = new RuntimeManager<>(messagingService, runtimeService,
-				environmentService, remoteRuntimeService);
+		this.runtimeManager = new RuntimeManager<>(messagingService,
+				runtimeService, environmentService, remoteRuntimeService);
 
-		return runtimeManager;
+		return this.runtimeManager;
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class LaunchManager {
 	 * @return The runtime service manager, or {@code null} if not available.
 	 */
 	public RuntimeManager<IDEDebugger, IDEGOALInterpreter> getRuntimeManager() {
-		return runtimeManager;
+		return this.runtimeManager;
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class LaunchManager {
 	 *         {@link RuntimeManager}; {@code false} otherwise.
 	 */
 	public boolean isRuntimeEnvironmentAvailable() {
-		return runtimeManager != null;
+		return this.runtimeManager != null;
 	}
 
 	/**
@@ -159,9 +159,9 @@ public class LaunchManager {
 	 * @throws GOALLaunchFailureException
 	 */
 	public void shutDownRuntime() throws GOALLaunchFailureException {
-		if (runtimeManager != null) {
-			runtimeManager.shutDown();
+		if (this.runtimeManager != null) {
+			this.runtimeManager.shutDown();
 		}
-		runtimeManager = null;
+		this.runtimeManager = null;
 	}
 }

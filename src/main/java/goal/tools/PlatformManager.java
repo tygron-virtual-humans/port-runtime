@@ -109,15 +109,14 @@ public class PlatformManager {
 
 	public static PlatformManager createNew() {
 		current = new PlatformManager();
-		/*for (final String language : KRFactory.getSupportedInterfaces()) {
-			try {
-				KRFactory.getInterface(language).reset();
-			} catch (final KRInitFailedException e) {
-				new Warning(String.format(
-						Resources.get(WarningStrings.INTERNAL_PROBLEM),
-						"PlatformManager::createNew()", language), e);
-			}
-		} FIXME: no longer necessary?! */
+		/*
+		 * for (final String language : KRFactory.getSupportedInterfaces()) {
+		 * try { KRFactory.getInterface(language).reset(); } catch (final
+		 * KRInitFailedException e) { new Warning(String.format(
+		 * Resources.get(WarningStrings.INTERNAL_PROBLEM),
+		 * "PlatformManager::createNew()", language), e); } } FIXME: no longer
+		 * necessary?!
+		 */
 		return current;
 	}
 
@@ -140,7 +139,7 @@ public class PlatformManager {
 	 * @param object
 	 */
 	public void addIParsedObject(File file, SourceInfo object) {
-		parsedFiles.put(file, object);
+		this.parsedFiles.put(file, object);
 	}
 
 	/**
@@ -149,7 +148,7 @@ public class PlatformManager {
 	 * @param file
 	 */
 	public void removeIParsedObject(File file) {
-		parsedFiles.remove(file);
+		this.parsedFiles.remove(file);
 	}
 
 	/**
@@ -160,7 +159,7 @@ public class PlatformManager {
 	 */
 	public MASProgram getMASProgram(File file) {
 		if (isMASFile(file)) {
-			return (MASProgram) parsedFiles.get(file);
+			return (MASProgram) this.parsedFiles.get(file);
 		} else {
 			return null;
 		}
@@ -175,9 +174,9 @@ public class PlatformManager {
 	 */
 	public Set<MASProgram> getMASProgramsThatUseFile(File agentFile) {
 		Set<MASProgram> masPrograms = new HashSet<>();
-		for (File file : parsedFiles.keySet()) {
+		for (File file : this.parsedFiles.keySet()) {
 			if (isMASFile(file)) {
-				MASProgram masProgram = (MASProgram) parsedFiles.get(file);
+				MASProgram masProgram = (MASProgram) this.parsedFiles.get(file);
 				if (masProgram.getAgentFiles().contains(agentFile)) {
 					masPrograms.add(masProgram);
 				}
@@ -219,7 +218,7 @@ public class PlatformManager {
 	 */
 	public Set<File> getAllGOALFiles() {
 		Set<File> agentFiles = new HashSet<>();
-		for (File file : parsedFiles.keySet()) {
+		for (File file : this.parsedFiles.keySet()) {
 			if (isGOALFile(file)) {
 				agentFiles.add(file);
 			}
@@ -237,7 +236,7 @@ public class PlatformManager {
 	 */
 	public AgentProgram getAgentProgram(File file) {
 		if (isGOALFile(file)) {
-			return (AgentProgram) parsedFiles.get(file);
+			return (AgentProgram) this.parsedFiles.get(file);
 		} else {
 			return null;
 		}
@@ -372,7 +371,8 @@ public class PlatformManager {
 				message.append(Resources.get(WarningStrings.WITH_WARNINGS));
 			}
 			// Provide message to logger.
-			parserLogger.log(new StringsLogRecord(Level.INFO, message.toString()));
+			parserLogger.log(new StringsLogRecord(Level.INFO, message
+					.toString()));
 
 			return test;
 		}
@@ -396,7 +396,7 @@ public class PlatformManager {
 		GOALLogger parserLogger = Loggers.getParserLogger();
 		parserLogger.log(new StringsLogRecord(Level.INFO, "Parsing mas file " //$NON-NLS-1$
 				+ masFile.getPath()));
-		
+
 		MASValidator validator = new MASValidator(masFile.getPath());
 		validator.validate();
 		MASProgram masProgram = validator.getProgram();
@@ -406,7 +406,8 @@ public class PlatformManager {
 		addIParsedObject(masFile, masProgram.getSourceInfo());
 
 		// Log messages.
-		boolean hasErrors = false, hasWarnings = false;;
+		boolean hasErrors = false, hasWarnings = false;
+		;
 		for (Message error : validator.getErrors()) {
 			hasErrors = true;
 			parserLogger.log(new StringsLogRecord(Level.SEVERE, error
@@ -442,11 +443,12 @@ public class PlatformManager {
 				message.append(Resources.get(WarningStrings.WITH_WARNINGS));
 			}
 			// Provide message to logger.
-			parserLogger.log(new StringsLogRecord(Level.INFO, message.toString()));
-	
+			parserLogger.log(new StringsLogRecord(Level.INFO, message
+					.toString()));
+
 			// Parse the agent files that are part of the MAS file.
 			parseGOALFiles(masProgram);
-	
+
 			return masProgram;
 		}
 	}
@@ -531,7 +533,8 @@ public class PlatformManager {
 				message.append(Resources.get(WarningStrings.WITH_WARNINGS));
 			}
 			// Provide message to logger.
-			parserLogger.log(new StringsLogRecord(Level.INFO, message.toString()));
+			parserLogger.log(new StringsLogRecord(Level.INFO, message
+					.toString()));
 
 			return program;
 		}

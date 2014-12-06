@@ -37,7 +37,7 @@ public class Always extends TestCondition {
 
 	@Override
 	public String toString() {
-		return "Always [query=" + query + "]";
+		return "Always [query=" + this.query + "]";
 	}
 
 	@Override

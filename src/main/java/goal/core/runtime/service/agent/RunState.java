@@ -48,7 +48,6 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
-import krTools.KRInterface;
 import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
 import krTools.errors.exceptions.KRQueryFailedException;
@@ -189,7 +188,7 @@ public class RunState<D extends Debugger> {
 	public RunState(AgentId agentName, EnvironmentCapabilities environment,
 			MessagingCapabilities messaging, LoggingCapabilities logger,
 			AgentProgram program, D debugger, Learner learner)
-			throws KRInitFailedException {
+					throws KRInitFailedException {
 
 		this.environment = environment;
 		this.messaging = messaging;
@@ -205,7 +204,7 @@ public class RunState<D extends Debugger> {
 			// program did not specify a main module; insert a fake one to make
 			// sure event module is continually run.
 			this.mainModule = new Module("main", TYPE.MAIN,
-					program.getKRInterface(), null); //$NON-NLS-1$
+					program.getKRInterface(), null);
 			// Add an empty set of rules to the module.
 			this.mainModule.setRuleEvaluationOrder(RuleEvaluationOrder.LINEAR);
 			this.mainModule.setRules(new ArrayList<Rule>(0));
@@ -245,18 +244,18 @@ public class RunState<D extends Debugger> {
 	 * @return The number of rounds.
 	 */
 	public int getRoundCounter() {
-		return roundCounter;
+		return this.roundCounter;
 	}
 
 	/**
 	 * Increase the round counter by one.
 	 */
 	public void incrementRoundCounter() {
-		roundCounter++;
+		this.roundCounter++;
 	}
 
 	public long getStartTime() {
-		return start;
+		return this.start;
 	}
 
 	public void setStartTime(long start) {
@@ -289,24 +288,24 @@ public class RunState<D extends Debugger> {
 	 * @throws GOALLaunchFailureException
 	 *             DOC
 	 * @throws KRInitFailedException
-	 * @throws KRQueryFailedException 
-	 * @throws KRDatabaseException 
-	 * @throws UnknownObjectException 
+	 * @throws KRQueryFailedException
+	 * @throws KRDatabaseException
+	 * @throws UnknownObjectException
 	 */
-	public void reset() 
-			throws KRInitFailedException, KRDatabaseException, KRQueryFailedException, UnknownObjectException {
-		roundCounter = 0;
+	public void reset() throws KRInitFailedException, KRDatabaseException,
+			KRQueryFailedException, UnknownObjectException {
+		this.roundCounter = 0;
 		// Clean up old and create new initial mental state.
 		this.mentalState.cleanUp();
-		this.mentalState = new MentalState(getId(), program, debugger);
+		this.mentalState = new MentalState(getId(), this.program, this.debugger);
 		//
-		previousPercepts.clear();
-		previousMessages.clear();
-		messaging.reset();
-		focusgoal = null;
-		activeStackOfModules.clear();
-		sleepConditionsHoldingPreviousCycle = false;
-		topLevelRunContext = TYPE.MAIN;
+		this.previousPercepts.clear();
+		this.previousMessages.clear();
+		this.messaging.reset();
+		this.focusgoal = null;
+		this.activeStackOfModules.clear();
+		this.sleepConditionsHoldingPreviousCycle = false;
+		this.topLevelRunContext = TYPE.MAIN;
 	}
 
 	/**
@@ -315,8 +314,8 @@ public class RunState<D extends Debugger> {
 	 */
 	synchronized public void dispose() {
 		// Check whether we need to cleanup mental state.
-		if (mentalState != null) {
-			mentalState.cleanUp();
+		if (this.mentalState != null) {
+			this.mentalState.cleanUp();
 		}
 	}
 
@@ -358,7 +357,7 @@ public class RunState<D extends Debugger> {
 
 		// nothing to do if both add and delete lists are empty.
 		getMentalState().getOwnBase(BASETYPE.PERCEPTBASE).updatePercepts(
-				addList, deleteList, debugger);
+				addList, deleteList, this.debugger);
 	}
 
 	/**
@@ -396,9 +395,9 @@ public class RunState<D extends Debugger> {
 		if (this.usesMentalModels) {
 			if (!this.getMentalState().getKnownAgents().contains(sender)) {
 				try {
-					this.getMentalState().addAgentModel(sender, debugger);
+					this.getMentalState().addAgentModel(sender, this.debugger);
 				} catch (Exception e) {
-					new Warning(debugger, String.format(
+					new Warning(this.debugger, String.format(
 							Resources.get(WarningStrings.FAILED_ADD_MODEL),
 							sender.getName()));
 				}
@@ -409,23 +408,24 @@ public class RunState<D extends Debugger> {
 				switch (message.getMood()) {
 				case INDICATIVE:
 					this.getMentalState().insert(update, BASETYPE.BELIEFBASE,
-							debugger, sender);
+							this.debugger, sender);
 					break;
 				case IMPERATIVE:
-					this.getMentalState().adopt(update, true, debugger, sender);
+					this.getMentalState().adopt(update, true, this.debugger,
+							sender);
 					this.getMentalState().delete(update, BASETYPE.BELIEFBASE,
-							debugger, sender);
+							this.debugger, sender);
 					break;
 				case INTERROGATIVE:
 					this.getMentalState().delete(update, BASETYPE.BELIEFBASE,
-							debugger, sender);
+							this.debugger, sender);
 					break;
 				default:
 					throw new GOALBug(
 							"Received a message with unexpected mood: " //$NON-NLS-1$
-									+ message.getMood());
+							+ message.getMood());
 				}
-				this.getMentalState().updateGoalState(debugger, sender);
+				this.getMentalState().updateGoalState(this.debugger, sender);
 			} catch (Exception e) {
 				throw new GOALBug("Processing of message with content: " //$NON-NLS-1$
 						+ update + " failed due to exception " + e.toString(), //$NON-NLS-1$
@@ -448,7 +448,7 @@ public class RunState<D extends Debugger> {
 		 * indicative.
 		 */
 		getMentalState().getOwnBase(BASETYPE.MAILBOX).insert(message, true,
-				debugger);
+				this.debugger);
 		// TODO: do this in a proper but also EFFICIENT way!!
 		// TRAC #1125, #1128, #738. This is getting ugly, see #....
 		// Identifier eisname = new Identifier(message.getSender().getName());
@@ -466,7 +466,7 @@ public class RunState<D extends Debugger> {
 	 * @return The goal to focus on, if available; {@code null} otherwise.
 	 */
 	public SingleGoal getFocusGoal() {
-		return focusgoal;
+		return this.focusgoal;
 	}
 
 	/**
@@ -490,7 +490,7 @@ public class RunState<D extends Debugger> {
 
 	/**
 	 * DOC
-	 * 
+	 *
 	 * @param isActionPerformed
 	 */
 	public void startCycle(boolean isActionPerformed) {
@@ -499,7 +499,7 @@ public class RunState<D extends Debugger> {
 
 	private Set<Percept> getPercepts() throws DebuggerKilledException {
 		try {
-			return environment.getPercepts();
+			return this.environment.getPercepts();
 		} catch (MessagingException e) {
 			// typically, when system is taken down.
 			throw new DebuggerKilledException(
@@ -532,17 +532,17 @@ public class RunState<D extends Debugger> {
 	 */
 	// TODO: Does not yet support measuring time used in Thread.
 	public void startCycle(boolean isActionPerformed, Set<Percept> initial) {
-		Set<Message> newMessages = messaging.getAllMessages();
+		Set<Message> newMessages = this.messaging.getAllMessages();
 		Set<Percept> newPercepts = initial;
 		if (initial.isEmpty()) {
 			newPercepts = getPercepts();
 		}
 
-		event = !newMessages.isEmpty() || !newPercepts.isEmpty()
+		this.event = !newMessages.isEmpty() || !newPercepts.isEmpty()
 				|| isActionPerformed;
 
-		boolean sameMessages = newMessages.equals(previousMessages);
-		boolean samePercepts = newPercepts.equals(previousPercepts);
+		boolean sameMessages = newMessages.equals(this.previousMessages);
+		boolean samePercepts = newPercepts.equals(this.previousPercepts);
 		boolean sleepConditionsHoldingNow = samePercepts && sameMessages
 				&& !isActionPerformed;
 
@@ -551,12 +551,13 @@ public class RunState<D extends Debugger> {
 		 * sleep mode we wait till new messages or percepts come in.
 		 */
 		if (PMPreferences.getSleepRepeatingAgent()) {
-			if (sleepConditionsHoldingPreviousCycle
+			if (this.sleepConditionsHoldingPreviousCycle
 					&& sleepConditionsHoldingNow) {
 				// sleep condition holds also NOW. Go sleep.
-				debugger.breakpoint(Channel.SLEEP, null, "Going to sleep mode."); //$NON-NLS-1$
+				this.debugger.breakpoint(Channel.SLEEP, null,
+						"Going to sleep mode."); //$NON-NLS-1$
 
-				while (sleepConditionsHoldingPreviousCycle) {
+				while (this.sleepConditionsHoldingPreviousCycle) {
 					// TODO would be nice to be event triggered here,
 					// and wake up on new message or percept, e.g., by
 					// using a blocking queue. But we are using a pull model for
@@ -572,17 +573,17 @@ public class RunState<D extends Debugger> {
 					// If so, we should kill the thread we're using; the
 					// debugger will
 					// take care of this.
-					debugger.breakpoint(Channel.RUNMODE, null, "sleeping"); //$NON-NLS-1$
+					this.debugger.breakpoint(Channel.RUNMODE, null, "sleeping"); //$NON-NLS-1$
 					Thread.yield();
 
-					newMessages = messaging.getAllMessages();
+					newMessages = this.messaging.getAllMessages();
 					newPercepts = getPercepts();
-					sameMessages = newMessages.equals(previousMessages);
-					samePercepts = newPercepts.equals(previousPercepts);
-					sleepConditionsHoldingPreviousCycle = samePercepts
+					sameMessages = newMessages.equals(this.previousMessages);
+					samePercepts = newPercepts.equals(this.previousPercepts);
+					this.sleepConditionsHoldingPreviousCycle = samePercepts
 							&& sameMessages;
 				}
-				debugger.breakpoint(Channel.SLEEP, null,
+				this.debugger.breakpoint(Channel.SLEEP, null,
 						"Woke up from sleep mode."); //$NON-NLS-1$
 			}
 		}
@@ -591,30 +592,30 @@ public class RunState<D extends Debugger> {
 		this.incrementRoundCounter();
 		this.debugger.breakpoint(Channel.REASONING_CYCLE_SEPARATOR,
 				getRoundCounter(), " +++++++ Cycle " + getRoundCounter() //$NON-NLS-1$
-						+ " +++++++ "); //$NON-NLS-1$
+				+ " +++++++ "); //$NON-NLS-1$
 
 		// Get and process percepts.
-		this.processPercepts(newPercepts, previousPercepts);
+		this.processPercepts(newPercepts, this.previousPercepts);
 		// Get messages and update message box.
 		this.processMessages(newMessages);
 
 		// If there is an init module, run it in the first round.
 		if (this.initModule != null && this.getRoundCounter() == 1) {
-			new ModuleExecutor(this.initModule).
-				executeFully(this, this.initModule.getKRInterface().getSubstitution(null));
+			new ModuleExecutor(this.initModule).executeFully(this,
+					this.initModule.getKRInterface().getSubstitution(null));
 		}
 
 		// If there is an event module, run it at the start of a cycle (but not
 		// in the first round).
-		if (this.eventModule != null && event) {
-			new ModuleExecutor(this.eventModule)
-				.executeFully(this, this.eventModule.getKRInterface().getSubstitution(null));
+		if (this.eventModule != null && this.event) {
+			new ModuleExecutor(this.eventModule).executeFully(this,
+					this.eventModule.getKRInterface().getSubstitution(null));
 		}
 
-		event = false;
-		previousMessages = newMessages;
-		previousPercepts = newPercepts;
-		sleepConditionsHoldingPreviousCycle = sleepConditionsHoldingNow;
+		this.event = false;
+		this.previousMessages = newMessages;
+		this.previousPercepts = newPercepts;
+		this.sleepConditionsHoldingPreviousCycle = sleepConditionsHoldingNow;
 	}
 
 	/**
@@ -696,9 +697,9 @@ public class RunState<D extends Debugger> {
 			// case we're leaving the agent, no need to reset context.
 			break;
 		}
-		activeStackOfModules.pop();
+		this.activeStackOfModules.pop();
 		// Report module re-entry on module's debug channel.
-		return (activeStackOfModules.peek() != null);
+		return (this.activeStackOfModules.peek() != null);
 	}
 
 	/**
@@ -716,14 +717,14 @@ public class RunState<D extends Debugger> {
 	 * @return the Learner
 	 */
 	public Learner getLearner() {
-		return learner;
+		return this.learner;
 	}
 
 	public boolean setMainModule(String id) {
 		if (id == null) {
 			return true;
-		} else if (program.hasModule(id)) {
-			mainModule = program.getModule(id);
+		} else if (this.program.hasModule(id)) {
+			this.mainModule = this.program.getModule(id);
 			return true;
 		}
 		return false;
@@ -731,7 +732,7 @@ public class RunState<D extends Debugger> {
 
 	public Double getReward() {
 		try {
-			return environment.getReward();
+			return this.environment.getReward();
 		} catch (Exception e) {
 			new Warning(Resources.get(WarningStrings.FAILED_ENV_GET_REWARD), e);
 			return null;
@@ -739,14 +740,14 @@ public class RunState<D extends Debugger> {
 	}
 
 	public void postMessage(Message message) {
-		messaging.postMessage(message);
+		this.messaging.postMessage(message);
 	}
 
 	public void doPerformAction(UserSpecAction action) {
 		try {
-			mentalState.MentalState state = MentalStateFactory.getInterface(
-					program.getKRInterface().getClass());
-			environment.performAction(state.convert(action));
+			mentalState.MentalState state = MentalStateFactory
+					.getInterface(this.program.getKRInterface().getClass());
+			this.environment.performAction(state.convert(action));
 		} catch (EnvironmentInterfaceException | UnknownObjectException e) {
 			new Warning(String.format(
 					Resources.get(WarningStrings.FAILED_ACTION_EXECUTE),
@@ -765,6 +766,6 @@ public class RunState<D extends Debugger> {
 	 *            The message.
 	 */
 	public void doLog(String message) {
-		logActionsLogger.log(message);
+		this.logActionsLogger.log(message);
 	}
 }

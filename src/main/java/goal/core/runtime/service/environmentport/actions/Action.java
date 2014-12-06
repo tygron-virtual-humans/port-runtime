@@ -18,7 +18,7 @@ public abstract class Action implements Serializable {
 	 * @return The message
 	 */
 	public Message getMessage() {
-		return message;
+		return this.message;
 	}
 
 	public void setMessage(Message message) {
@@ -32,12 +32,12 @@ public abstract class Action implements Serializable {
 	 * @return The ID of the message sender
 	 * */
 	public MessageBoxId getSender() {
-		return message.getSender();
+		return this.message.getSender();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

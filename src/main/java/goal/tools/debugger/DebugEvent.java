@@ -35,6 +35,10 @@ import java.util.logging.LogRecord;
  */
 @SuppressWarnings("serial")
 public class DebugEvent extends GOALLogRecord {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -3206247375363310299L;
 	private final RunMode mode;
 	private final String source; // name of the source that generated the event
 	/**
@@ -96,7 +100,7 @@ public class DebugEvent extends GOALLogRecord {
 	 *         agent does not generate events).
 	 */
 	public RunMode getRunMode() {
-		return mode;
+		return this.mode;
 	}
 
 	/**
@@ -105,7 +109,7 @@ public class DebugEvent extends GOALLogRecord {
 	 * @return
 	 */
 	public String getSource() {
-		return source;
+		return this.source;
 	}
 
 	/**

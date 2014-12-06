@@ -23,18 +23,7 @@ import java.util.TreeMap;
 
 public class LoggingPreferences {
 	public enum Pref {
-		javadetails,
-		stackdump,
-		suppresslevel,
-		logtofile,
-		logconsoles,
-		overwritelogfiles,
-		showlogtime,
-		logdirectory,
-		showLogsInConsole,
-		eclipseActionHistory,
-		eclipseAgentConsoles,
-		eclipseDebug
+		javadetails, stackdump, suppresslevel, logtofile, logconsoles, overwritelogfiles, showlogtime, logdirectory, showLogsInConsole, eclipseActionHistory, eclipseAgentConsoles, eclipseDebug
 	}
 
 	private static final int DEFAULT_NUMBER_OF_WARNING_REPEATS = 5;

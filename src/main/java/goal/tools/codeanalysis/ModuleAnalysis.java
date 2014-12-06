@@ -48,13 +48,16 @@ public class ModuleAnalysis {
 	 * Creates a code analysis for the module.
 	 */
 	public void makeModuleCodeAnalysis() {
-		moduleOverview.add("Code analysis overview for the module",
-				module.getName());
-		moduleOverview.add("#Knowledge clauses", module.getKnowledge().size());
-		moduleOverview.add("#Goals", module.getGoals().size());
-		actionRulesAnalysis = new RuleSetAnalysis(module.getRules());
-		moduleOverview.add(actionRulesAnalysis.getRuleSetCodeAnalysis());
-		moduleOverview.add("#Action specifications", module.getActionSpecifications().size());
+		this.moduleOverview.add("Code analysis overview for the module",
+				this.module.getName());
+		this.moduleOverview.add("#Knowledge clauses", this.module
+				.getKnowledge().size());
+		this.moduleOverview.add("#Goals", this.module.getGoals().size());
+		this.actionRulesAnalysis = new RuleSetAnalysis(this.module.getRules());
+		this.moduleOverview.add(this.actionRulesAnalysis
+				.getRuleSetCodeAnalysis());
+		this.moduleOverview.add("#Action specifications", this.module
+				.getActionSpecifications().size());
 	}
 
 	/**
@@ -63,6 +66,6 @@ public class ModuleAnalysis {
 	 * @return code analysis overview for module.
 	 */
 	public CodeAnalysisOverview getModuleCodeAnalysisOverview() {
-		return moduleOverview;
+		return this.moduleOverview;
 	}
 }

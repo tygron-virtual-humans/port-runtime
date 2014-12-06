@@ -30,12 +30,12 @@ import languageTools.program.agent.rules.Rule;
 import mentalstatefactory.MentalStateFactory;
 
 public class RuleExecutor {
-	private Rule rule;
-	
-	public RuleExecutor(Rule rule){
+	private final Rule rule;
+
+	public RuleExecutor(Rule rule) {
 		this.rule = rule;
 	}
-	
+
 	/**
 	 * Evaluates and applies the {@link Rule}.
 	 *
@@ -66,20 +66,22 @@ public class RuleExecutor {
 		Debugger debugger = runState.getDebugger();
 
 		// FIXME using #toRuleString to prevent adding trailing dot...
-		debugger.breakpoint(Channel.RULE_CONDITIONAL_VIEW, rule.getCondition(),
-				"Evaluating rule %s.", rule.toString());
+		debugger.breakpoint(Channel.RULE_CONDITIONAL_VIEW,
+				this.rule.getCondition(), "Evaluating rule %s.",
+				this.rule.toString());
 
 		// Get substitutions that satisfy rule condition.
 		// determine the rule mode
-		if (rule.isRuleSinglegoal()) {
+		if (this.rule.isRuleSinglegoal()) {
 			// rule is evaluated with single goals from attention set.
 			substGoalLinks = new HashMap<>();
-			substset = mentalState.contextQuery(rule.getCondition(), substGoalLinks,
-					debugger);
+			substset = mentalState.contextQuery(this.rule.getCondition(),
+					substGoalLinks, debugger);
 		} else {
 			// rule is evaluated using all goals in current attention set.
-			substset = new MentalStateConditionExecutor(rule.getCondition())
-				.evaluate(substitution, mentalState, debugger);
+			substset = new MentalStateConditionExecutor(
+					this.rule.getCondition()).evaluate(substitution,
+					mentalState, debugger);
 		}
 
 		// If condition does not hold (no solutions), then report and return.
@@ -87,19 +89,20 @@ public class RuleExecutor {
 			// FIXME using #toRuleString to prevent adding trailing dot...
 			// #3079 this must NOT pass the action to the debugger.
 			debugger.breakpoint(Channel.RULE_CONDITION_EVALUATION,
-					rule.getCondition(), "Condition of rule %s does not hold.",
-					rule.toString());
+					this.rule.getCondition(),
+					"Condition of rule %s does not hold.", this.rule.toString());
 			return new Result();
 		}
 
 		// FIXME using #toRuleString to prevent adding trailing dot...
 		// #3079 this must pass the ACTION to the debugger
 		debugger.breakpoint(Channel.HIDDEN_RULE_CONDITION_EVALUATION,
-				rule.getAction(), "Condition of rule %s holds.",
-				rule.toString());
+				this.rule.getAction(), "Condition of rule %s holds.",
+				this.rule.toString());
 		debugger.breakpoint(Channel.RULE_CONDITION_EVALUATION,
-				rule.getCondition(), "Condition of rule %s holds for: %s.",
-				rule.toString(), substset);
+				this.rule.getCondition(),
+				"Condition of rule %s holds for: %s.", this.rule.toString(),
+				substset);
 
 		// Apply rule.
 		Result result = apply(runState, substset, substGoalLinks, substitution);
@@ -112,42 +115,45 @@ public class RuleExecutor {
 
 		return result;
 	}
-	
+
 	private Result apply(RunState<?> runState, Set<Substitution> substset,
 			HashMap<Substitution, List<SingleGoal>> substGoalLinks,
 			Substitution globalsubst) {
-		final ActionComboExecutor executor = new ActionComboExecutor(rule.getAction());
+		final ActionComboExecutor executor = new ActionComboExecutor(
+				this.rule.getAction());
 		Result result = new Result();
 		// TODO: does not yet take collecting of goals for FILTER and SELECT
 		// options of modules into account...
 
-		if(rule instanceof IfThenRule){
+		if (this.rule instanceof IfThenRule) {
 			// Shuffle list of substitutions.
 			List<Substitution> substlist = new ArrayList<>(substset);
 			Collections.shuffle(substlist);
-	
+
 			// Find action whose precondition also holds and perform it.
 			// We later handle {@link ExitModuleAction}.
 			final int max = substlist.size() - 1;
 			for (int i = 0; i <= max; i++) {
 				/**
-				 * find the single goal that made this substitution true Stays null
-				 * if this is not {@link Rule#isRuleSinglegoal()}.
+				 * find the single goal that made this substitution true Stays
+				 * null if this is not {@link Rule#isRuleSinglegoal()}.
 				 */
 				final Substitution subst = substlist.get(i);
 				if (substGoalLinks != null) {
-					List<SingleGoal> validatingGoals = substGoalLinks.get(subst);
+					List<SingleGoal> validatingGoals = substGoalLinks
+							.get(subst);
 					runState.setFocusGoal(validatingGoals.get(new Random()
-							.nextInt(validatingGoals.size())));
+					.nextInt(validatingGoals.size())));
 				}
-	
+
 				result.merge(executor.run(runState, subst, i == max));
 				if (result.hasPerformedAction()) {
 					break;
 				}
 			}
-		} else if(rule instanceof ForallDoRule){
-			// Apply rule as long as there are still substitutions that satisfy its
+		} else if (this.rule instanceof ForallDoRule) {
+			// Apply rule as long as there are still substitutions that satisfy
+			// its
 			// condition, and no {@link ExitModuleAction} has been performed.
 			for (Substitution substitution : substset) {
 				if (substGoalLinks == null) {
@@ -165,7 +171,7 @@ public class RuleExecutor {
 					}
 				}
 			}
-		} else if(rule instanceof ListallDoRule){
+		} else if (this.rule instanceof ListallDoRule) {
 			// #2578. We pick a random validating goal. Under discussion.
 			SingleGoal goal = null;
 			Set<Substitution> applicableSubst = substset;
@@ -190,12 +196,14 @@ public class RuleExecutor {
 			// Create new substitution, replacing our #variable.
 			Substitution fullSubst = globalsubst.clone();
 			try {
-				Term newTerm = substitutionsToTerm(applicableSubst,
-						runState.getActiveModule().getKRInterface());
-				fullSubst.addBinding(((ListallDoRule)rule).getVariable(), newTerm);
+				Term newTerm = substitutionsToTerm(applicableSubst, runState
+						.getActiveModule().getKRInterface());
+				fullSubst.addBinding(((ListallDoRule) this.rule).getVariable(),
+						newTerm);
 			} catch (KRInitFailedException | UnknownObjectException e) {
 				throw new GOALRuntimeErrorException(
-						"Converting substitutions to a term failed: " + e.getMessage(), e);
+						"Converting substitutions to a term failed: "
+								+ e.getMessage(), e);
 			}
 
 			result = executor.run(runState, fullSubst, true);
@@ -203,7 +211,7 @@ public class RuleExecutor {
 
 		return result;
 	}
-	
+
 	/**
 	 * Combines all given substitutions into a single {@link Term}.
 	 *
@@ -214,24 +222,26 @@ public class RuleExecutor {
 	 * @return A new term for the {@link #variable}. The substitution will be a
 	 *         list of all values for that var in the given set of
 	 *         {@link Substitution}s.
-	 * @throws KRInitFailedException 
-	 * @throws UnknownObjectException 
+	 * @throws KRInitFailedException
+	 * @throws UnknownObjectException
 	 */
-	private Term substitutionsToTerm(Set<Substitution> substitutions, KRInterface language) 
-			throws KRInitFailedException, UnknownObjectException {
-		mentalState.MentalState state =  MentalStateFactory.getInterface(language.getClass());
+	private Term substitutionsToTerm(Set<Substitution> substitutions,
+			KRInterface language) throws KRInitFailedException,
+			UnknownObjectException {
+		mentalState.MentalState state = MentalStateFactory
+				.getInterface(language.getClass());
 		// First make single terms from each substitution.
 		List<Term> substsAsTerms = new ArrayList<>(substitutions.size());
 		// Get the variables from the condition of the rule; bindings for those
 		// variables will be turned into a list.
-		Set<Var> boundVar = rule.getCondition().getFreeVar();
+		Set<Var> boundVar = this.rule.getCondition().getFreeVar();
 		List<Term> subTerms;
 		for (Substitution substitution : substitutions) {
 			subTerms = new LinkedList<>();
 			for (Var v : boundVar) {
-				//if (!v.isAnonymous()) { FIXME
-					subTerms.add(substitution.get(v));
-				//}
+				// if (!v.isAnonymous()) { FIXME
+				subTerms.add(substitution.get(v));
+				// }
 			}
 			// if there is only one bound var, we shouldn't make lists of them.
 			// the end result should simply be a list of values instead of a

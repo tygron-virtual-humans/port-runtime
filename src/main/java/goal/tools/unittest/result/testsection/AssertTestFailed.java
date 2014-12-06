@@ -6,15 +6,20 @@ import languageTools.program.agent.msc.MentalStateCondition;
 
 public class AssertTestFailed extends TestSectionFailed {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 8967793218598029712L;
+
 	@Override
 	public String toString() {
-		return "AssertTestFailed [test=" + test + "]";
+		return "AssertTestFailed [test=" + this.test + "]";
 	}
 
 	private final AssertTest test;
 
 	public AssertTest getTest() {
-		return test;
+		return this.test;
 	}
 
 	public AssertTestFailed(AssertTest test) {
@@ -27,7 +32,7 @@ public class AssertTestFailed extends TestSectionFailed {
 	}
 
 	public MentalStateCondition getMentalStateTest() {
-		return test.getMentalStateTest();
+		return this.test.getMentalStateTest();
 	}
 
 }

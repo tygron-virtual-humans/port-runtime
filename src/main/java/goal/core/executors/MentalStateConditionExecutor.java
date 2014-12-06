@@ -14,12 +14,12 @@ import languageTools.program.agent.msc.MentalLiteral;
 import languageTools.program.agent.msc.MentalStateCondition;
 
 public class MentalStateConditionExecutor {
-	private MentalStateCondition condition;
-	
-	public MentalStateConditionExecutor(MentalStateCondition condition){
+	private final MentalStateCondition condition;
+
+	public MentalStateConditionExecutor(MentalStateCondition condition) {
 		this.condition = condition;
 	}
-	
+
 	/**
 	 * Evaluates this {@link MentalStateCond}. First applies a given
 	 * {@link Substitution} to the condition and then evaluates the condition on
@@ -42,8 +42,8 @@ public class MentalStateConditionExecutor {
 	public Set<Substitution> evaluate(Substitution substitution,
 			MentalState mentalState, Debugger debugger) {
 		Set<Substitution> result = new MentalStateConditionExecutor(
-				condition.applySubst(substitution)).evaluate(
-				mentalState, debugger);
+				this.condition.applySubst(substitution)).evaluate(mentalState,
+				debugger);
 		Set<Substitution> combinedResult = new LinkedHashSet<>(result.size());
 		for (Substitution resultSubst : result) {
 			combinedResult.add(resultSubst.combine(substitution));
@@ -65,19 +65,21 @@ public class MentalStateConditionExecutor {
 	public Set<Substitution> evaluate(MentalState mentalState, Debugger debugger) {
 		Set<Substitution> result, newResults, subResults;
 		MentalLiteral currentFormula;
-		List<MentalFormula> formulas = condition.getSubFormulas();
+		List<MentalFormula> formulas = this.condition.getSubFormulas();
 		if (formulas.isEmpty()) {
 			// The mental state condition 'empty' represents 'true'.
 			// Return an empty substitution, as no variables need to be bound.
 			result = new LinkedHashSet<>(1);
-			result.add(mentalState.getOwner().getKRInterface().getSubstitution(null));
+			result.add(mentalState.getOwner().getKRInterface()
+					.getSubstitution(null));
 		} else {
 			// There is at least one mental literal, so evaluate it.
-			result = mentalState.query((MentalLiteral)formulas.get(0), debugger);
+			result = mentalState.query((MentalLiteral) formulas.get(0),
+					debugger);
 			// evaluate the other formulas in order
 			for (int i = 1; i < formulas.size(); i++) {
 				newResults = new LinkedHashSet<>();
-				currentFormula = (MentalLiteral)formulas.get(i);
+				currentFormula = (MentalLiteral) formulas.get(i);
 
 				// for each partial result that we already have, evaluate
 				// the new mental formula

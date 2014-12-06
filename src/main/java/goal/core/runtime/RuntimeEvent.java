@@ -121,7 +121,7 @@ public class RuntimeEvent {
 	 * @return type of the event.
 	 */
 	public EventType getType() {
-		return type;
+		return this.type;
 	}
 
 	/**
@@ -130,11 +130,11 @@ public class RuntimeEvent {
 	 * @return object that is source of event, e.g. agent or registry.
 	 */
 	public Object getSource() {
-		return obj;
+		return this.obj;
 	}
 
 	@Override
 	public String toString() {
-		return "RuntimeEvent[" + type + "," + obj + "]";
+		return "RuntimeEvent[" + this.type + "," + this.obj + "]";
 	}
 }

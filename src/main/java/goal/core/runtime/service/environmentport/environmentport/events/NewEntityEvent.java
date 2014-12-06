@@ -20,14 +20,14 @@ public class NewEntityEvent extends EnvironmentEvent {
 	 * @return The entity
 	 */
 	public String getEntity() {
-		return entity;
+		return this.entity;
 	}
 
 	/**
 	 * @return The type of the new entity
 	 */
 	public String getType() {
-		return type;
+		return this.type;
 	}
 
 }

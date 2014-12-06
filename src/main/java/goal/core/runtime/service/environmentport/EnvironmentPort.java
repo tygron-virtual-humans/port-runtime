@@ -89,7 +89,8 @@ public class EnvironmentPort {
 		public boolean newMessage(Message message) {
 			// Only listen to messages send from the environment we
 			// we are subscribed to.
-			if (!message.getSender().equals(environmentMessageBoxId)) {
+			if (!message.getSender().equals(
+					EnvironmentPort.this.environmentMessageBoxId)) {
 				return false;
 			}
 
@@ -106,8 +107,8 @@ public class EnvironmentPort {
 				}
 
 				if (message.getContent() instanceof StateChangeEvent) {
-					environmentState = ((StateChangeEvent) message.getContent())
-							.getState();
+					EnvironmentPort.this.environmentState = ((StateChangeEvent) message
+							.getContent()).getState();
 				}
 
 				notifyObservers((EnvironmentEvent) message.getContent());
@@ -153,7 +154,7 @@ public class EnvironmentPort {
 		try {
 			id = messaging.getNewUniqueID("environmentport", //$NON-NLS-1$
 					Type.ENVIRONMENTPORT);
-			messagebox = messaging.getNewMessageBox(id);
+			this.messagebox = messaging.getNewMessageBox(id);
 		} catch (MessagingException e1) {
 			throw new GOALLaunchFailureException("can't get new messagebox id", //$NON-NLS-1$
 					e1);
@@ -180,8 +181,8 @@ public class EnvironmentPort {
 	 */
 	private Serializable callRemoteAction(String agentName,
 			goal.core.runtime.service.environmentport.actions.Action action)
-			throws NoEnvironmentException, EnvironmentInterfaceException,
-			MessagingException {
+					throws NoEnvironmentException, EnvironmentInterfaceException,
+					MessagingException {
 		/*
 		 * FIXME To handle the call, this function is using a temporary
 		 * messagebox. not clear why this is done. Older comments here indicate
@@ -190,7 +191,7 @@ public class EnvironmentPort {
 		 */
 		MessageBox clientMessageBox = getClientMessageBox(agentName);
 		Message result = clientMessageBox.blockingSend(clientMessageBox
-				.createMessage(environmentMessageBoxId, action, null));
+				.createMessage(this.environmentMessageBoxId, action, null));
 		checkResult(result);
 		return result.getContent();
 	}
@@ -225,28 +226,29 @@ public class EnvironmentPort {
 	 * @throws EnvironmentInterfaceException
 	 */
 	public synchronized void shutDown() throws MessagingException,
-			EnvironmentInterfaceException {
+	EnvironmentInterfaceException {
 		try {
 			reset();
 		} catch (Exception ignore) {
 		}
 
-		messagebox.removeListener(messageboxlistener);
-		messaging.deleteMessageBox(messagebox);
-		for (MessageBox box : clients.values()) {
-			messaging.deleteMessageBox(box);
+		this.messagebox.removeListener(this.messageboxlistener);
+		this.messaging.deleteMessageBox(this.messagebox);
+		for (MessageBox box : this.clients.values()) {
+			this.messaging.deleteMessageBox(box);
 		}
 	}
 
 	public synchronized void startPort() throws MessagingException {
-		messagebox.addListener(messageboxlistener);
+		this.messagebox.addListener(this.messageboxlistener);
 
-		Message result = messagebox.blockingSend(messagebox.createMessage(
-				environmentMessageBoxId, new Subscribe(), null));
+		Message result = this.messagebox.blockingSend(this.messagebox
+				.createMessage(this.environmentMessageBoxId, new Subscribe(),
+						null));
 
 		@SuppressWarnings("unchecked")
 		List<EnvironmentEvent> events = (List<EnvironmentEvent>) result
-				.getContent();
+		.getContent();
 
 		for (EnvironmentEvent event : events) {
 			notifyObservers(event);
@@ -261,10 +263,11 @@ public class EnvironmentPort {
 	 * @throws EnvironmentInterfaceException
 	 */
 	public synchronized void start() throws MessagingException,
-			EnvironmentInterfaceException {
-		if (environmentState != EnvironmentState.RUNNING) {
-			Message result = messagebox.blockingSend(messagebox.createMessage(
-					environmentMessageBoxId, new Start(), null));
+	EnvironmentInterfaceException {
+		if (this.environmentState != EnvironmentState.RUNNING) {
+			Message result = this.messagebox.blockingSend(this.messagebox
+					.createMessage(this.environmentMessageBoxId, new Start(),
+							null));
 			checkResult(result);
 		}
 	}
@@ -277,10 +280,11 @@ public class EnvironmentPort {
 	 * @throws EnvironmentInterfaceException
 	 */
 	public synchronized void pause() throws MessagingException,
-			EnvironmentInterfaceException {
-		if (environmentState != EnvironmentState.PAUSED) {
-			Message result = messagebox.blockingSend(messagebox.createMessage(
-					environmentMessageBoxId, new Pause(), null));
+	EnvironmentInterfaceException {
+		if (this.environmentState != EnvironmentState.PAUSED) {
+			Message result = this.messagebox.blockingSend(this.messagebox
+					.createMessage(this.environmentMessageBoxId, new Pause(),
+							null));
 			checkResult(result);
 		}
 	}
@@ -293,10 +297,11 @@ public class EnvironmentPort {
 	 * @throws EnvironmentInterfaceException
 	 */
 	public synchronized void kill() throws MessagingException,
-			EnvironmentInterfaceException {
-		if (environmentState != EnvironmentState.KILLED) {
-			Message result = messagebox.blockingSend(messagebox.createMessage(
-					environmentMessageBoxId, new Kill(), null));
+	EnvironmentInterfaceException {
+		if (this.environmentState != EnvironmentState.KILLED) {
+			Message result = this.messagebox.blockingSend(this.messagebox
+					.createMessage(this.environmentMessageBoxId, new Kill(),
+							null));
 			checkResult(result);
 		}
 	}
@@ -311,9 +316,10 @@ public class EnvironmentPort {
 	 * @throws EnvironmentInterfaceException
 	 */
 	public synchronized void reset() throws MessagingException,
-			EnvironmentInterfaceException {
-		Message result = messagebox.blockingSend(messagebox.createMessage(
-				environmentMessageBoxId, new Reset(), null));
+	EnvironmentInterfaceException {
+		Message result = this.messagebox
+				.blockingSend(this.messagebox.createMessage(
+						this.environmentMessageBoxId, new Reset(), null));
 		checkResult(result);
 	}
 
@@ -328,8 +334,9 @@ public class EnvironmentPort {
 	 */
 	public synchronized void registerAgent(String agentName)
 			throws MessagingException, EnvironmentInterfaceException {
-		Message result = messagebox.blockingSend(messagebox.createMessage(
-				environmentMessageBoxId, new RegisterAgent(agentName), null));
+		Message result = this.messagebox.blockingSend(this.messagebox
+				.createMessage(this.environmentMessageBoxId, new RegisterAgent(
+						agentName), null));
 		checkResult(result);
 	}
 
@@ -342,12 +349,12 @@ public class EnvironmentPort {
 	 * @throws EnvironmentInterfaceException
 	 */
 	public void freeAgent(String agentName) throws MessagingException,
-			EnvironmentInterfaceException {
+	EnvironmentInterfaceException {
 		try {
 			callRemoteAction(agentName, new FreeAgent(agentName));
 			// Clean up after agent frees itself.
 			MessageBox clientMessageBox = getClientMessageBox(agentName);
-			messaging.deleteMessageBox(clientMessageBox);
+			this.messaging.deleteMessageBox(clientMessageBox);
 		} catch (EnvironmentInterfaceException e) {
 			throw e;
 		}
@@ -366,9 +373,9 @@ public class EnvironmentPort {
 	 */
 	public synchronized void associateEntity(String agentName, String newEntity)
 			throws MessagingException, EnvironmentInterfaceException {
-		Message result = messagebox.blockingSend(messagebox.createMessage(
-				environmentMessageBoxId, new AssociateEntity(agentName,
-						newEntity), null));
+		Message result = this.messagebox.blockingSend(this.messagebox
+				.createMessage(this.environmentMessageBoxId,
+						new AssociateEntity(agentName, newEntity), null));
 		checkResult(result);
 	}
 
@@ -378,7 +385,7 @@ public class EnvironmentPort {
 	 */
 	@Override
 	public String toString() {
-		return environmentMessageBoxId.getName();
+		return this.environmentMessageBoxId.getName();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -417,13 +424,13 @@ public class EnvironmentPort {
 	 */
 	private synchronized MessageBox getClientMessageBox(String agentName)
 			throws MessagingException {
-		if (!clients.containsKey(agentName)) {
-			MessageBoxId id = messaging.getNewUniqueID(agentName,
+		if (!this.clients.containsKey(agentName)) {
+			MessageBoxId id = this.messaging.getNewUniqueID(agentName,
 					Type.ENVIRONMENTPORT);
-			MessageBox messageBox = messaging.getNewMessageBox(id);
-			clients.put(agentName, messageBox);
+			MessageBox messageBox = this.messaging.getNewMessageBox(id);
+			this.clients.put(agentName, messageBox);
 		}
-		return clients.get(agentName);
+		return this.clients.get(agentName);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -446,8 +453,9 @@ public class EnvironmentPort {
 
 	public synchronized Double getReward(String entityName)
 			throws MessagingException, EnvironmentInterfaceException {
-		Message result = messagebox.blockingSend(messagebox.createMessage(
-				environmentMessageBoxId, new GetReward(entityName), null));
+		Message result = this.messagebox.blockingSend(this.messagebox
+				.createMessage(this.environmentMessageBoxId, new GetReward(
+						entityName), null));
 		if (result.getContent() == null) {
 			return null;
 		} else if (result.getContent() instanceof Double) {
@@ -461,7 +469,7 @@ public class EnvironmentPort {
 	 * @return The current state of the environment.
 	 */
 	public EnvironmentState getEnvironmentState() {
-		return environmentState;
+		return this.environmentState;
 	}
 
 	/**
@@ -470,7 +478,7 @@ public class EnvironmentPort {
 	 * @return The MessageBoxId.
 	 */
 	public MessageBoxId getMessageBoxId() {
-		return environmentMessageBoxId;
+		return this.environmentMessageBoxId;
 	}
 
 	/**********************************************/
@@ -484,7 +492,7 @@ public class EnvironmentPort {
 	 *            The event to notify.
 	 */
 	public void notifyObservers(EnvironmentEvent e) {
-		for (EnvironmentPortObserver obs : observers) {
+		for (EnvironmentPortObserver obs : this.observers) {
 			try {
 				obs.EnvironmentPortEventOccured(this, e);
 			} catch (Exception e1) {
@@ -502,7 +510,7 @@ public class EnvironmentPort {
 	 *            The observer to add.
 	 */
 	public void addObserver(EnvironmentPortObserver o) {
-		observers.add(o);
+		this.observers.add(o);
 	}
 
 	/**
@@ -513,6 +521,6 @@ public class EnvironmentPort {
 	 *            The observer to delete.
 	 */
 	public void deleteObserver(EnvironmentPortObserver o) {
-		observers.remove(o);
+		this.observers.remove(o);
 	}
 }

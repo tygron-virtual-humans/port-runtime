@@ -21,7 +21,6 @@ package goal.tools.codeanalysis;
 import java.io.File;
 import java.util.Hashtable;
 
-import krTools.language.Expression;
 import languageTools.program.agent.AgentProgram;
 
 /**
@@ -62,43 +61,42 @@ public class PredicateAnalysis {
 
 	/**
 	 * Counts occurrences of predicates by creating an expression graph and
-	 * expression hash table.
-	 * TODO: disabled (AgentProgramGraphGenerator and ExpressionGraph are removed)
+	 * expression hash table. TODO: disabled (AgentProgramGraphGenerator and
+	 * ExpressionGraph are removed)
 	 */
 	private void performAnalysis() {
-		/*AgentProgramGraphGenerator programGraphGenerator = new AgentProgramGraphGenerator();
-		programGraphGenerator.setKRInterface(program.getKRInterface());
-		programGraphGenerator.createGraph(program, null);
-		ExpressionGraph expressionGraph = programGraphGenerator.getGraph();
-
-		numDefinitions = 0;
-		for (Expression exp : expressionGraph.getAllDefinitions()) {
-			numDefinitions++;
-			String op = exp.getSignature();
-			if (expressioncounts.containsKey(op)) {
-				expressioncounts.put(op, expressioncounts.get(op) + 1);
-			} else {
-				expressioncounts.put(op, 1);
-			}
-		}*/
+		/*
+		 * AgentProgramGraphGenerator programGraphGenerator = new
+		 * AgentProgramGraphGenerator();
+		 * programGraphGenerator.setKRInterface(program.getKRInterface());
+		 * programGraphGenerator.createGraph(program, null); ExpressionGraph
+		 * expressionGraph = programGraphGenerator.getGraph();
+		 * 
+		 * numDefinitions = 0; for (Expression exp :
+		 * expressionGraph.getAllDefinitions()) { numDefinitions++; String op =
+		 * exp.getSignature(); if (expressioncounts.containsKey(op)) {
+		 * expressioncounts.put(op, expressioncounts.get(op) + 1); } else {
+		 * expressioncounts.put(op, 1); } }
+		 */
 	}
 
 	/**
 	 * Creates a report for the program.
 	 */
 	public void createPredicateUseReport() {
-		overview.add("Overview of use of predicates in the agent program",
-				file.toString());
+		this.overview.add("Overview of use of predicates in the agent program",
+				this.file.toString());
 
-		overview.add("Total number of predicates used", numDefinitions);
+		this.overview.add("Total number of predicates used",
+				this.numDefinitions);
 
-		for (String predicate : expressioncounts.keySet()) {
-			overview.add("#Occurences of " + predicate,
-					expressioncounts.get(predicate));
+		for (String predicate : this.expressioncounts.keySet()) {
+			this.overview.add("#Occurences of " + predicate,
+					this.expressioncounts.get(predicate));
 		}
 	}
 
 	public CodeAnalysisOverview getPredicateUseReport() {
-		return overview;
+		return this.overview;
 	}
 }

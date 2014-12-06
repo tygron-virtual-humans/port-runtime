@@ -17,24 +17,24 @@ public class NOPDebugger implements Debugger {
 	@Override
 	public void breakpoint(Channel channel, Object associate, String message,
 			Object... args) {
-		if (killed) {
+		if (this.killed) {
 			throw new DebuggerKilledException();
 		}
 	}
 
 	@Override
 	public String getName() {
-		return id;
+		return this.id;
 	}
 
 	@Override
 	public void kill() {
-		killed = true;
+		this.killed = true;
 	}
 
 	@Override
 	public void reset() {
-		killed = false;
+		this.killed = false;
 	}
 
 	@Override

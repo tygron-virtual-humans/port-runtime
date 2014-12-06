@@ -11,17 +11,14 @@ import goal.tools.errorhandling.exceptions.GOALUserError;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import krTools.errors.exceptions.KRInitFailedException;
 import krTools.errors.exceptions.ParserException;
 import krTools.language.Substitution;
-import krTools.language.Var;
 import languageTools.analyzer.agent.AgentValidator;
 import languageTools.errors.Message;
-import languageTools.errors.ValidatorError;
 import languageTools.parser.GOAL;
 import languageTools.parser.GOALLexer;
 import languageTools.program.agent.ActionSpecification;
@@ -34,8 +31,6 @@ import languageTools.program.agent.msc.MentalStateCondition;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-
-import antlr.NameSpace;
 
 public class QueryTool {
 	private final Agent<IDEGOALInterpreter> agent;
@@ -57,8 +52,9 @@ public class QueryTool {
 				.getMentalState();
 		try {
 			// use a dummy debugger
-			Set<Substitution> substitutions = new MentalStateConditionExecutor(mentalStateCondition).
-					evaluate(mentalState, new SteppingDebugger("query", null));
+			Set<Substitution> substitutions = new MentalStateConditionExecutor(
+					mentalStateCondition).evaluate(mentalState,
+					new SteppingDebugger("query", null));
 			String resulttext = "";
 			if (substitutions.isEmpty()) {
 				resulttext = "No solutions";
@@ -70,8 +66,8 @@ public class QueryTool {
 			return resulttext;
 		} catch (Exception e) {
 			throw new GOALUserError("Query entered in query area in "
-					+ "introspector of agent " + agent.getId() + " failed: "
-					+ e.getMessage(), e);
+					+ "introspector of agent " + this.agent.getId()
+					+ " failed: " + e.getMessage(), e);
 		}
 	}
 
@@ -94,8 +90,8 @@ public class QueryTool {
 
 		} catch (Exception e) {
 			throw new GOALUserError("Action entered in query area in "
-					+ "introspector of agent " + agent.getId() + " failed: "
-					+ e.getMessage(), e);
+					+ "introspector of agent " + this.agent.getId()
+					+ " failed: " + e.getMessage(), e);
 		}
 	}
 
@@ -113,8 +109,8 @@ public class QueryTool {
 			GOALLexer lexer = new GOALLexer(charstream);
 			CommonTokenStream stream = new CommonTokenStream(lexer);
 			GOAL parser = new GOAL(stream);
-			return new GOALWalker(null, parser, lexer, agent.getController()
-					.getProgram().getKRInterface());
+			return new GOALWalker(null, parser, lexer, this.agent
+					.getController().getProgram().getKRInterface());
 		} catch (IOException e) {
 			throw new GOALBug("internal error while handling the query", e);
 		}
@@ -170,8 +166,8 @@ public class QueryTool {
 	 *             if error occured..
 	 * @throws ParserException
 	 */
-	private void checkParserErrors(AgentValidator walker, String query, String desc)
-			throws GOALUserError, ParserException {
+	private void checkParserErrors(AgentValidator walker, String query,
+			String desc) throws GOALUserError, ParserException {
 		List<Message> errors = walker.getErrors();
 		String errMessage = "";
 		if (!errors.isEmpty()) {
@@ -197,7 +193,7 @@ public class QueryTool {
 	 * @modified K.Hindriks if UserOrFocusAction action must be UserSpecAction.
 	 */
 	private Action<?> parseAction(String action) throws GOALException,
-	ParserException {
+			ParserException {
 		Action<?> act;
 
 		// try and parse the MSC. It should not throw a RecognitionException.
@@ -227,15 +223,20 @@ public class QueryTool {
 			// TODO: now sets by default that action is EXTERNAL and should be
 			// sent to environment.
 			act = new UserSpecAction(act.getName(),
-					((UserSpecOrModuleCall) act).getParameters(), true, null,null,null);
+					((UserSpecOrModuleCall) act).getParameters(), true, null,
+					null, null);
 			// Search for all corresponding action specifications.
-			for( Module module : agent.getController().getProgram().getModules()){
-				for (ActionSpecification specification : module.getActionSpecifications() ) {
-					if (act.getName().equals(specification.getAction().getName())
+			for (Module module : this.agent.getController().getProgram()
+					.getModules()) {
+				for (ActionSpecification specification : module
+						.getActionSpecifications()) {
+					if (act.getName().equals(
+							specification.getAction().getName())
 							&& (((UserSpecAction) act).getParameters().size() == specification
-							.getAction().getParameters().size())) {
+									.getAction().getParameters().size())) {
 						try {
-							((UserSpecAction) act).addSpecification(specification);
+							((UserSpecAction) act)
+									.addSpecification(specification);
 						} catch (KRInitFailedException e) {
 							throw new GOALUserError(
 									"Failed to associate specification with action: "

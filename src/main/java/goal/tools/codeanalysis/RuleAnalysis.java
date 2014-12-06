@@ -29,7 +29,6 @@ import languageTools.program.agent.msc.BelLiteral;
 import languageTools.program.agent.msc.GoalALiteral;
 import languageTools.program.agent.msc.GoalLiteral;
 import languageTools.program.agent.msc.MentalFormula;
-import languageTools.program.agent.msc.MentalLiteral;
 import languageTools.program.agent.msc.MentalStateCondition;
 import languageTools.program.agent.rules.Rule;
 
@@ -75,8 +74,8 @@ public class RuleAnalysis {
 	 * @return The number of action rules.
 	 */
 	public Integer getNrActionRules() {
-		if (anonymousModuleAnalysis != null) {
-			return anonymousModuleAnalysis.getNrActionRules() + 1;
+		if (this.anonymousModuleAnalysis != null) {
+			return this.anonymousModuleAnalysis.getNrActionRules() + 1;
 		}
 		return 1;
 	}
@@ -91,19 +90,20 @@ public class RuleAnalysis {
 			if (module.getType() == TYPE.ANONYMOUS) {
 				RuleSetAnalysis moduleAnalysis = new RuleSetAnalysis(
 						module.getRules());
-				if (anonymousModuleAnalysis == null) {
-					anonymousModuleAnalysis = moduleAnalysis;
+				if (this.anonymousModuleAnalysis == null) {
+					this.anonymousModuleAnalysis = moduleAnalysis;
 				} else {
-					anonymousModuleAnalysis.Merge(moduleAnalysis);
+					this.anonymousModuleAnalysis.Merge(moduleAnalysis);
 				}
 			}
 		} else {
 			String actionName = action.getName();
-			if (actionsCount.containsKey(actionName)) {
+			if (this.actionsCount.containsKey(actionName)) {
 				// increment
-				actionsCount.put(actionName, actionsCount.get(actionName) + 1);
+				this.actionsCount.put(actionName,
+						this.actionsCount.get(actionName) + 1);
 			} else {
-				actionsCount.put(actionName, 1);
+				this.actionsCount.put(actionName, 1);
 			}
 		}
 	}
@@ -117,13 +117,13 @@ public class RuleAnalysis {
 	private void analyzeCondition(MentalStateCondition condition) {
 		for (MentalFormula mentalLiteral : condition.getSubFormulas()) {
 			if (mentalLiteral instanceof BelLiteral) {
-				belAtomCount++;
+				this.belAtomCount++;
 			} else if (mentalLiteral instanceof GoalLiteral) {
-				goalAtomCount++;
+				this.goalAtomCount++;
 			} else if (mentalLiteral instanceof AGoalLiteral) {
-				agoalAtomCount++;
+				this.agoalAtomCount++;
 			} else if (mentalLiteral instanceof GoalALiteral) {
-				goalaAtomCount++;
+				this.goalaAtomCount++;
 			}
 		}
 	}
@@ -134,35 +134,35 @@ public class RuleAnalysis {
 	 * @return
 	 */
 	public Hashtable<String, Integer> getActions() {
-		return actionsCount;
+		return this.actionsCount;
 	}
 
 	/**
 	 * @return The number of belief atoms that occur in the rule.
 	 */
 	public Integer getNrBelAtoms() {
-		return belAtomCount;
+		return this.belAtomCount;
 	}
 
 	/**
 	 * @return The number of agoal atoms that occur in the rule.
 	 */
 	public Integer getNrAGoalAtoms() {
-		return agoalAtomCount;
+		return this.agoalAtomCount;
 	}
 
 	/**
 	 * @return The number of goala atoms that occur in the rule.
 	 */
 	public Integer getNrGoalaAtoms() {
-		return goalaAtomCount;
+		return this.goalaAtomCount;
 	}
 
 	/**
 	 * @return The number of goal atoms that occur in the rule.
 	 */
 	public Integer getNrGoalAtoms() {
-		return goalAtomCount;
+		return this.goalAtomCount;
 	}
 
 	/**
@@ -173,6 +173,6 @@ public class RuleAnalysis {
 	 *         are no submodules.
 	 */
 	public RuleSetAnalysis getAnonymousModuleStatistics() {
-		return anonymousModuleAnalysis;
+		return this.anonymousModuleAnalysis;
 	}
 }

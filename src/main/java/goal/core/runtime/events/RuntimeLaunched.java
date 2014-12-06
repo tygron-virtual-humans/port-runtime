@@ -15,10 +15,10 @@ public class RuntimeLaunched implements RemoteRuntimeEvent {
 	private final MessageBoxId newId;
 
 	public RuntimeLaunched(MessageBoxId newRuntimeBox) {
-		newId = newRuntimeBox;
+		this.newId = newRuntimeBox;
 	}
 
 	public MessageBoxId getMessageBoxId() {
-		return newId;
+		return this.newId;
 	}
 }

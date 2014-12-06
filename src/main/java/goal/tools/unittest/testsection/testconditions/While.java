@@ -34,7 +34,7 @@ public class While extends TestCondition {
 
 	@Override
 	public String toString() {
-		return "While [query=" + query + "]";
+		return "While [query=" + this.query + "]";
 	}
 
 	@Override
@@ -59,8 +59,8 @@ public class While extends TestCondition {
 
 			@Override
 			public void notifyBreakpointHit(DebugEvent event) {
-				if (!first) {
-					first = true;
+				if (!While.this.first) {
+					While.this.first = true;
 				} else if (evaluate(runState, substitution, getQuery())
 						.isEmpty()) {
 					setPassed(true);

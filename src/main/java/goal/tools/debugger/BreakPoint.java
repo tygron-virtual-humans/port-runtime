@@ -82,7 +82,7 @@ public class BreakPoint {
 	 * @return The breakpoint type
 	 */
 	public Type getType() {
-		return type;
+		return this.type;
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class BreakPoint {
 	 * @return line holding this breakpoint. 0 is first line.
 	 */
 	public int getLine() {
-		return linenumber;
+		return this.linenumber;
 	}
 
 	/**
@@ -100,12 +100,12 @@ public class BreakPoint {
 	 * @return the file that this breakpoint is in
 	 */
 	public File getFile() {
-		return file;
+		return this.file;
 	}
 
 	@Override
 	public String toString() {
-		return "Breakpoint[" + file.getName() + "," + linenumber + "," + type
-				+ "]";
+		return "Breakpoint[" + this.file.getName() + "," + this.linenumber
+				+ "," + this.type + "]";
 	}
 }

@@ -15,10 +15,10 @@ public class NewAgent implements RemoteRuntimeEvent {
 	private final AgentId agentId;
 
 	public NewAgent(AgentId id) {
-		agentId = id;
+		this.agentId = id;
 	}
 
 	public AgentId getAgentId() {
-		return agentId;
+		return this.agentId;
 	}
 }

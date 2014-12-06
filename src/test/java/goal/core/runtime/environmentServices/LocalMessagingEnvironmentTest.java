@@ -94,33 +94,33 @@ public class LocalMessagingEnvironmentTest {
 
 	@Before
 	public void setUp() throws Exception {
-		messaging = new MessagingService("localhost", new LocalMessaging());
-		environment = new LocalMessagingEnvironment(eis, environmentName,
-				initialization, messaging);
+		this.messaging = new MessagingService("localhost", new LocalMessaging());
+		this.environment = new LocalMessagingEnvironment(this.eis,
+				this.environmentName, this.initialization, this.messaging);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		messaging.shutDown();
+		this.messaging.shutDown();
 	}
 
 	@Test(timeout = 5000)
 	public void testShutDown() throws ManagementException,
-	InterruptedException, MessagingException {
-		environment.shutDown();
+			InterruptedException, MessagingException {
+		this.environment.shutDown();
 	}
 
 	@Test(timeout = 5000)
 	public void testDelayedShutDown() throws ManagementException,
-	InterruptedException, MessagingException {
+			InterruptedException, MessagingException {
 
 		TimeUnit.SECONDS.sleep(1);
-		environment.shutDown();
+		this.environment.shutDown();
 	}
 
 	@Test
 	public void testGetMessageBoxId() {
-		assertNotNull(environment.getMessageBoxId());
+		assertNotNull(this.environment.getMessageBoxId());
 	}
 
 }

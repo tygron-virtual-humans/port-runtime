@@ -44,7 +44,7 @@ import languageTools.program.agent.msc.MentalLiteral;
 
 public class ModuleCallActionExecutor extends ActionExecutor {
 
-	private ModuleCallAction action;
+	private final ModuleCallAction action;
 	private Substitution substitutionToPassOnToModule;
 
 	public ModuleCallActionExecutor(ModuleCallAction act) {
@@ -55,7 +55,7 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	public ModuleCallActionExecutor evaluatePrecondition(MentalState runState,
 			Debugger debugger, boolean last) {
 		debugger.breakpoint(Channel.CALL_MODULE, this,
-				"Going to enter module: %s.", action.getTarget().getName());
+				"Going to enter module: %s.", this.action.getTarget().getName());
 		return this;
 	}
 
@@ -83,8 +83,8 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 		runState.setFocusGoal(null);
 
 		// Run target module.
-		Result result = new ModuleExecutor(action.getTarget())
-			.executeFully(runState, moduleSubstitution);
+		Result result = new ModuleExecutor(this.action.getTarget())
+				.executeFully(runState, moduleSubstitution);
 		// TODO: the module is run entirely here, bypassing the default
 		// task-based scheduling; I'm not sure that is the desired effect here
 		// -Vincent
@@ -106,16 +106,14 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	 */
 	private GoalBase getNewFocus(MentalState mentalstate, Debugger debugger,
 			Substitution subst, SingleGoal goal) {
-		switch (action.getTarget().getFocusMethod()) {
+		switch (this.action.getTarget().getFocusMethod()) {
 		case NEW:
 			// Create new empty goal base to construct a new attention set.
-			return new GoalBase(
-					mentalstate.getAgentId(), mentalstate.getOwner(), 
-					action.getTarget().getName());
+			return new GoalBase(mentalstate.getAgentId(),
+					mentalstate.getOwner(), this.action.getTarget().getName());
 		case SELECT:
-			GoalBase newAttentionSet = new GoalBase(
-					mentalstate.getAgentId(), mentalstate.getOwner(), 
-					action.getTarget().getName());
+			GoalBase newAttentionSet = new GoalBase(mentalstate.getAgentId(),
+					mentalstate.getOwner(), this.action.getTarget().getName());
 			newAttentionSet.addGoal(goal, debugger);
 			return newAttentionSet;
 		case FILTER:
@@ -141,7 +139,7 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	 */
 	private Substitution getModuleSubsti(Substitution subst) {
 		Substitution modulesubst;
-		Module target = action.getTarget();
+		Module target = this.action.getTarget();
 		if (target.getType() == TYPE.ANONYMOUS) {
 			// anonymous modules are completely transparent
 			modulesubst = subst;
@@ -152,8 +150,8 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 
 			for (int i = 0; i < moduleparams.size(); i++) {
 				// Assumes that module parameters are variables.
-				modulesubst.addBinding((Var) moduleparams.get(i), action.getParameters()
-						.get(i).applySubst(subst));
+				modulesubst.addBinding((Var) moduleparams.get(i), this.action
+						.getParameters().get(i).applySubst(subst));
 			}
 			// CHECK should we check for non-closed arguments?
 		}
@@ -173,16 +171,15 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	 */
 	private GoalBase getNewFilterGoals(MentalState mentalstate,
 			Debugger debugger, Substitution subst)
-			throws GOALActionFailedException {
+					throws GOALActionFailedException {
 		MentalModel agentModel = mentalstate.getOwnModel();
 
-		GoalBase newAttentionSet = new GoalBase(
-				mentalstate.getAgentId(), mentalstate.getOwner(), 
-				action.getTarget().getName());
+		GoalBase newAttentionSet = new GoalBase(mentalstate.getAgentId(),
+				mentalstate.getOwner(), this.action.getTarget().getName());
 
 		// get the goals as obtained from the context, and add them to
 		// the goalbase
-		for (MentalLiteral literal : action.getCondition().getLiterals()) {
+		for (MentalLiteral literal : this.action.getCondition().getLiterals()) {
 			// only positive literals can result in new goals
 			if (!literal.isPositive()) {
 				continue;
@@ -220,11 +217,12 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	@Override
 	protected ActionExecutor applySubst(Substitution subst) {
 		this.substitutionToPassOnToModule = subst;
-		return new ModuleCallActionExecutor((ModuleCallAction)action.applySubst(subst));
+		return new ModuleCallActionExecutor(
+				(ModuleCallAction) this.action.applySubst(subst));
 	}
-	
+
 	@Override
 	public Action<?> getAction() {
-		return action;
+		return this.action;
 	}
 }

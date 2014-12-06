@@ -14,7 +14,7 @@ public class ActionResult implements TestSectionResult {
 
 	@Override
 	public String toString() {
-		return "ActionResult [result=" + result + "]";
+		return "ActionResult [result=" + this.result + "]";
 	}
 
 	private final Result result;
@@ -24,14 +24,14 @@ public class ActionResult implements TestSectionResult {
 	 * @return the result of the {@link ActionCombo}
 	 */
 	public Result getResult() {
-		return result;
+		return this.result;
 	}
 
 	/**
 	 * @return the evaluated action rule
 	 */
 	public DoActionSection getAction() {
-		return action;
+		return this.action;
 	}
 
 	/**

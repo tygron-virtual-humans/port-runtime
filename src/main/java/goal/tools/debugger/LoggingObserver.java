@@ -44,7 +44,7 @@ public class LoggingObserver implements DebugObserver {
 	 *            Channel which is to be viewed.
 	 */
 	private void addViewChannel(Channel channel) {
-		debugger.subscribe(this, channel);
+		this.debugger.subscribe(this, channel);
 		if (!Channel.getConditionalChannel(channel).equals(channel)) {
 			this.debugger.subscribe(this,
 					Channel.getConditionalChannel(channel));

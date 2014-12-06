@@ -67,7 +67,7 @@ public abstract class Controller {
 	 * @return any uncaught throwable caught during the execution of the agent.
 	 */
 	public final Throwable getUncaughtThrowable() {
-		return throwable;
+		return this.throwable;
 	}
 
 	/**
@@ -86,7 +86,7 @@ public abstract class Controller {
 	 * @return true when the agent is running.
 	 */
 	public final boolean isRunning() {
-		return running;
+		return this.running;
 	}
 
 	/**
@@ -94,16 +94,16 @@ public abstract class Controller {
 	 *         all its resources and such).
 	 */
 	public final boolean isTerminated() {
-		return terminated;
+		return this.terminated;
 	}
 
 	/**
 	 * Starts the agent. Only external classes should call this.
 	 */
 	public final void run() {
-		if (!running) {
-			running = true;
-			terminated = false;
+		if (!this.running) {
+			this.running = true;
+			this.terminated = false;
 			pool.execute(getRunnable(pool, null));
 		}
 	}
@@ -115,8 +115,8 @@ public abstract class Controller {
 	 * awaitTermination to ensure the agent has really terminated itself.
 	 */
 	public final void terminate() {
-		if (running) {
-			running = false;
+		if (this.running) {
+			this.running = false;
 			onTerminate();
 		}
 	}
@@ -135,10 +135,10 @@ public abstract class Controller {
 	 * and then calls this function afterwards.
 	 */
 	protected final void setTerminated() {
-		if (!terminated) {
+		if (!this.terminated) {
 			terminate(); // just to be sure
-			terminated = true;
-			if (disposeOnTermination) {
+			this.terminated = true;
+			if (this.disposeOnTermination) {
 				try {
 					dispose();
 				} catch (InterruptedException ignore) {
@@ -160,8 +160,9 @@ public abstract class Controller {
 	 * @throws KRQueryFailedException
 	 * @throws UnknownObjectException
 	 */
-	public final void reset() 
-			throws InterruptedException, KRInitFailedException, KRDatabaseException, KRQueryFailedException, UnknownObjectException {
+	public final void reset() throws InterruptedException,
+			KRInitFailedException, KRDatabaseException, KRQueryFailedException,
+			UnknownObjectException {
 		terminate();
 		awaitTermination();
 		onReset();
@@ -182,8 +183,9 @@ public abstract class Controller {
 	 * @throws KRQueryFailedException
 	 * @throws UnknownObjectException
 	 */
-	protected void onReset()
-			throws InterruptedException, KRInitFailedException, KRDatabaseException, KRQueryFailedException, UnknownObjectException {
+	protected void onReset() throws InterruptedException,
+			KRInitFailedException, KRDatabaseException, KRQueryFailedException,
+			UnknownObjectException {
 	}
 
 	/**
@@ -194,7 +196,7 @@ public abstract class Controller {
 	 *             when interrupted while waiting for the agent to stop
 	 */
 	public final void awaitTermination() throws InterruptedException {
-		while (!terminated) {
+		while (!this.terminated) {
 			Thread.sleep(1);
 		}
 	}

@@ -54,7 +54,7 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 		this.messaging = messaging;
 		this.messageBox = messageBox;
 
-		this.messageBox.addListener(listener);
+		this.messageBox.addListener(this.listener);
 	}
 
 	private final MessageBoxListener listener = new MessageBoxListener() {
@@ -64,7 +64,8 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 			switch (message.getSender().getType()) {
 			case GOALAGENT:
 				// another agent has sent us a message.
-				messageInQueue.add((Message) message.getContent());
+				DefaultMessagingCapabilities.this.messageInQueue
+						.add((Message) message.getContent());
 				return true;
 			default:
 				// If we get here, we don't know how to handle the
@@ -78,36 +79,36 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see goal.core.agent.Capabilities#clear()
 	 */
 	@Override
 	public void reset() {
-		messageInQueue.clear();
+		this.messageInQueue.clear();
 
 	}
 
 	private String getId() {
-		return messageBox.getId().getName();
+		return this.messageBox.getId().getName();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see goal.core.agent.Capabilities#getAllMessages()
 	 */
 	@Override
 	public Set<Message> getAllMessages() {
 		LinkedHashSet<Message> messages = new LinkedHashSet<>();
-		while (!messageInQueue.isEmpty()) {
-			messages.add(messageInQueue.remove());
+		while (!this.messageInQueue.isEmpty()) {
+			messages.add(this.messageInQueue.remove());
 		}
 		return messages;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see goal.core.agent.Capabilities#postMessage(goal.core.agent.Message)
 	 */
 	@Override
@@ -115,7 +116,7 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 		// Send mails to each of the receivers of the message.
 		for (AgentId receiver : message.getReceivers()) {
 			try {
-				List<MessageBoxId> recvBoxes = messaging.getClient()
+				List<MessageBoxId> recvBoxes = this.messaging.getClient()
 						.getMessageBoxes(null, receiver.getName());
 				if (recvBoxes.isEmpty()) {
 					new Warning("unknown receiver " + receiver);
@@ -125,8 +126,8 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 					throw new GOALBug("The messagebox name " + receiver
 							+ " is not unique!");
 				}
-				messageBox.send(messageBox.createMessage(recvBoxes.get(0),
-						message, null));
+				this.messageBox.send(this.messageBox.createMessage(
+						recvBoxes.get(0), message, null));
 			} catch (MessagingException e) {
 				throw new GOALMessagingException(e.getMessage(), e);
 			}
@@ -136,13 +137,13 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 	@Override
 	public void dispose() {
 		try {
-			messageBox.removeListener(listener);
+			this.messageBox.removeListener(this.listener);
 		} catch (MessagingException e) {
 			// FIXME: This should never throw an exception.
 		}
 
 		try {
-			messaging.deleteMessageBox(messageBox);
+			this.messaging.deleteMessageBox(this.messageBox);
 		} catch (GOALRuntimeErrorException e) {
 			// FIXME: Messaging should provide better information here.
 			// This can fail because the server was shut down, in which case we

@@ -45,7 +45,7 @@ import nl.tudelft.goal.messaging.messagebox.MessageBoxId.Type;
  *            class of the GOALInterpreter to provide.
  */
 public abstract class AbstractAgentFactory<D extends Debugger, C extends GOALInterpreter<D>>
-implements AgentFactory<D, C> {
+		implements AgentFactory<D, C> {
 
 	private final MessagingService messaging;
 
@@ -106,7 +106,7 @@ implements AgentFactory<D, C> {
 	@Override
 	public synchronized Agent<C> build(AgentProgram program, File programFile,
 			String agentBaseName, EnvironmentPort environment)
-					throws MessagingException, KRInitFailedException {
+			throws MessagingException, KRInitFailedException {
 
 		/*
 		 * Initialize variables used in agent construction.
@@ -116,12 +116,12 @@ implements AgentFactory<D, C> {
 		this.environment = environment;
 		this.agentBaseName = agentBaseName;
 
-		if (messaging != null) {
+		if (this.messaging != null) {
 			this.messageBoxId = provideMessageBoxId(agentBaseName);
-			this.messageBox = provideMessageBox(messageBoxId);
+			this.messageBox = provideMessageBox(this.messageBoxId);
 		}
 
-		this.agentId = provideAgentId(messageBoxId);
+		this.agentId = provideAgentId(this.messageBoxId);
 
 		/*
 		 * Construct agent components.
@@ -137,10 +137,10 @@ implements AgentFactory<D, C> {
 		 * Construct agent.
 		 */
 		try {
-			return new Agent<>(agentId, environmentCapabilities,
+			return new Agent<>(this.agentId, environmentCapabilities,
 					messagingCapabilities, loggingCapabilities, controller);
 		} catch (KRInitFailedException e) {
-			messaging.deleteMessageBox(messageBox);
+			this.messaging.deleteMessageBox(this.messageBox);
 			throw e;
 		} finally {
 			/*
@@ -159,19 +159,19 @@ implements AgentFactory<D, C> {
 
 	private MessageBoxId provideMessageBoxId(String agentBaseName)
 			throws CommunicationFailureException {
-		return messaging.getNewUniqueID(agentBaseName, Type.GOALAGENT);
+		return this.messaging.getNewUniqueID(agentBaseName, Type.GOALAGENT);
 	}
 
 	private MessageBox provideMessageBox(MessageBoxId messageBoxId)
 			throws MessagingException {
-		return messaging.getNewMessageBox(messageBoxId);
+		return this.messaging.getNewMessageBox(messageBoxId);
 	}
 
 	private AgentId provideAgentId(MessageBoxId messageBoxId) {
 		if (messageBoxId != null) {
 			return new AgentId(messageBoxId.getName());
 		} else {
-			return new AgentId(agentBaseName);
+			return new AgentId(this.agentBaseName);
 		}
 	}
 
@@ -182,7 +182,7 @@ implements AgentFactory<D, C> {
 	 * @return messaging capabilities used by the agent.
 	 */
 	protected MessagingCapabilities provideMessagingCapabilities() {
-		return new DefaultMessagingCapabilities(messaging, messageBox);
+		return new DefaultMessagingCapabilities(this.messaging, this.messageBox);
 	}
 
 	/**
@@ -192,8 +192,9 @@ implements AgentFactory<D, C> {
 	 * @return environment capabilities used by the agent.
 	 */
 	protected EnvironmentCapabilities provideEnvironmentCapabilities() {
-		if (environment != null) {
-			return new DefaultEnvironmentCapabilities(agentId, environment);
+		if (this.environment != null) {
+			return new DefaultEnvironmentCapabilities(this.agentId,
+					this.environment);
 		} else {
 			return new NoEnvironmentCapabilities();
 		}
@@ -207,8 +208,8 @@ implements AgentFactory<D, C> {
 	 */
 	protected LoggingCapabilities provideLoggingCapabilities() {
 		DateFormat format = new SimpleDateFormat("MM-dd-HH.mm.ss");
-		String fname = agentBaseName + "_" + format.format(factoryCreationTime)
-				+ ".txt";
+		String fname = this.agentBaseName + "_"
+				+ format.format(this.factoryCreationTime) + ".txt";
 		GOALLoggerDelayed logActionsLogger = new GOALLoggerDelayed(fname, true);
 		return new DefaultLoggingCapabilities(logActionsLogger);
 	}
@@ -227,7 +228,7 @@ implements AgentFactory<D, C> {
 	 * @return the learner used by the agent
 	 */
 	protected Learner provideLearner() {
-		return new FileLearner(agentId.getName(), program);
+		return new FileLearner(this.agentId.getName(), this.program);
 	}
 
 	/**

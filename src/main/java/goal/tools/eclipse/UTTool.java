@@ -1,9 +1,5 @@
 package goal.tools.eclipse;
 
-import eis.iilang.Identifier;
-import eis.iilang.Numeral;
-import eis.iilang.Parameter;
-import eis.iilang.ParameterList;
 import goal.tools.PlatformManager;
 import goal.tools.SingleRun;
 import goal.tools.logging.Loggers;
@@ -26,8 +22,9 @@ public class UTTool {
 					.getMASProgram(mas2g);
 			program.setEnvironmentfile(new File(args[1]));
 			program.resetInitParameters();
-			Map<String, Object> init = parseInit(program.getInitParameters(), args[2], args[3]);
-			for( final String key : init.keySet() ) {
+			Map<String, Object> init = parseInit(program.getInitParameters(),
+					args[2], args[3]);
+			for (final String key : init.keySet()) {
 				program.addInitParameter(key, init.get(key));
 			}
 			run.run();
@@ -43,8 +40,8 @@ public class UTTool {
 			final String team) {
 		final Map<String, Object> newInit = new HashMap<>(oldInit.size());
 		for (final String key : oldInit.keySet()) {
-			final Object newParam = parseParameter(key, oldInit.get(key),
-					IP, team);
+			final Object newParam = parseParameter(key, oldInit.get(key), IP,
+					team);
 			if (newParam != null) {
 				newInit.put(key, newParam);
 			}
@@ -55,8 +52,8 @@ public class UTTool {
 	private static String last = "";
 
 	@SuppressWarnings("unchecked")
-	private static Object parseParameter(final String key,
-			final Object value, final String IP, final String team) {
+	private static Object parseParameter(final String key, final Object value,
+			final String IP, final String team) {
 		Object newValue = value;
 		String stringValue = "";
 		if (value instanceof String) {

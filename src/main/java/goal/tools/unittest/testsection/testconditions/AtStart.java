@@ -40,7 +40,7 @@ public class AtStart extends TestCondition {
 	 *         operator (empty string if none)
 	 */
 	public String getModuleName() {
-		return (this.module == null) ? "" : ("[" + module.getName() + "]");
+		return (this.module == null) ? "" : ("[" + this.module.getName() + "]");
 	}
 
 	@Override
@@ -50,7 +50,8 @@ public class AtStart extends TestCondition {
 
 	@Override
 	public String toString() {
-		return "AtStart [query=" + query + ", module=" + getModuleName() + "]";
+		return "AtStart [query=" + this.query + ", module=" + getModuleName()
+				+ "]";
 	}
 
 	@Override
@@ -65,7 +66,7 @@ public class AtStart extends TestCondition {
 
 			@Override
 			public void firstEvaluation() {
-				if (module == null) {
+				if (AtStart.this.module == null) {
 					evaluation();
 				}
 			}
@@ -105,13 +106,14 @@ public class AtStart extends TestCondition {
 
 			@Override
 			public void notifyBreakpointHit(DebugEvent event) {
-				if (module != null && event != null && !isPassed()) {
+				if (AtStart.this.module != null && event != null && !isPassed()) {
 					switch (event.getChannel()) {
 					case EVENT_MODULE_ENTRY:
 					case MAIN_MODULE_ENTRY:
 					case INIT_MODULE_ENTRY:
 					case USER_MODULE_ENTRY:
-						if (module.equals(event.getAssociatedObject())) {
+						if (AtStart.this.module.equals(event
+								.getAssociatedObject())) {
 							break;
 						} else {
 							return;

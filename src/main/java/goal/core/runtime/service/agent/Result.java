@@ -71,8 +71,8 @@ public class Result {
 	 *            result, or, {@code null} if no action was performed.
 	 */
 	public Result(Action action) {
-		justPerformedAction = (action != null);
-		if (justPerformedAction) {
+		this.justPerformedAction = (action != null);
+		if (this.justPerformedAction) {
 			if (!(action instanceof ExitModuleAction)
 					&& !(action instanceof ModuleCallAction)
 					&& !(action instanceof LogAction)) {
@@ -90,7 +90,7 @@ public class Result {
 	 * @return List of actions that were executed.
 	 */
 	public List<Action> getActions() {
-		return executedActions;
+		return this.executedActions;
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class Result {
 	 *            The value for the module terminated flag.
 	 */
 	public void setModuleTerminated(boolean terminated) {
-		moduleIsTerminated = terminated;
+		this.moduleIsTerminated = terminated;
 	}
 
 	/**
@@ -139,7 +139,7 @@ public class Result {
 	 * @return true if module was terminated.
 	 */
 	public boolean isModuleTerminated() {
-		return moduleIsTerminated;
+		return this.moduleIsTerminated;
 	}
 
 	/**

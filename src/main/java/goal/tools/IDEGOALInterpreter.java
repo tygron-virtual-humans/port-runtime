@@ -34,19 +34,20 @@ public class IDEGOALInterpreter extends GOALInterpreter<IDEDebugger> {
 	 *            The action to be executed in the environment.
 	 * @throws GOALActionFailedException
 	 */
-	public void doPerformAction(Action<?> action) throws GOALActionFailedException {
+	public void doPerformAction(Action<?> action)
+			throws GOALActionFailedException {
 		// Perform mental action.
 		if (action instanceof MentalAction) {
-			runState.getDebugger().setKeepRunning(true);
-			ActionExecutor.getActionExecutor(action).run(runState,
-					program.getKRInterface().getSubstitution(null),
-					runState.getDebugger(), false);
-			runState.getDebugger().setKeepRunning(false);
+			this.runState.getDebugger().setKeepRunning(true);
+			ActionExecutor.getActionExecutor(action).run(this.runState,
+					this.program.getKRInterface().getSubstitution(null),
+					this.runState.getDebugger(), false);
+			this.runState.getDebugger().setKeepRunning(false);
 		}
 		// Perform user-specified action.
 		else if (action instanceof UserSpecAction) {
 			UserSpecAction userspec = (UserSpecAction) action;
-			runState.doPerformAction(userspec);
+			this.runState.doPerformAction(userspec);
 		}
 	}
 
@@ -58,8 +59,8 @@ public class IDEGOALInterpreter extends GOALInterpreter<IDEDebugger> {
 	 * @return The of the action.
 	 */
 	public Result doPerformAction(ActionCombo action) {
-		return new ActionComboExecutor(action).run(runState, 
-				program.getKRInterface().getSubstitution(null), false);
+		return new ActionComboExecutor(action).run(this.runState, this.program
+				.getKRInterface().getSubstitution(null), false);
 	}
 
 	/**
@@ -78,7 +79,7 @@ public class IDEGOALInterpreter extends GOALInterpreter<IDEDebugger> {
 	 */
 	public void processPercepts(Set<Percept> newPercepts,
 			Set<Percept> previousPercepts) {
-		runState.processPercepts(newPercepts, previousPercepts);
+		this.runState.processPercepts(newPercepts, previousPercepts);
 	}
 
 }

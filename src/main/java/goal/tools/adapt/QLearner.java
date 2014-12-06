@@ -74,8 +74,8 @@ public class QLearner implements LearnerAlgorithm {
 	 * {@inheritDoc}
 	 */
 	public void start() {
-		newstate = null;
-		newaction = null;
+		this.newstate = null;
+		this.newaction = null;
 	}
 
 	@Override
@@ -88,9 +88,9 @@ public class QLearner implements LearnerAlgorithm {
 		 * action and observation. Update the valueFunction entry for the last
 		 * state,action pair.
 		 */
-		newstate = state;
-		newaction = egreedy(newstate, actions);
-		return newaction;
+		this.newstate = state;
+		this.newaction = egreedy(this.newstate, actions);
+		return this.newaction;
 	}
 
 	@Override
@@ -98,13 +98,14 @@ public class QLearner implements LearnerAlgorithm {
 	 * {@inheritDoc}
 	 */
 	public void update(double reward, Integer resultingstate) {
-		if (newstate != null && newaction != null && resultingstate != null) {
-			double Q_sa = getValue(newstate, newaction).doubleValue();
+		if (this.newstate != null && this.newaction != null
+				&& resultingstate != null) {
+			double Q_sa = getValue(this.newstate, this.newaction).doubleValue();
 			double Q_sprime_aprime = getMaxValue(resultingstate).doubleValue(); // Q
 			// Learning
-			double new_Q_sa = Q_sa + alpha
-					* (reward + (gamma * Q_sprime_aprime) - Q_sa);
-			setValue(newstate, newaction, new_Q_sa);
+			double new_Q_sa = Q_sa + this.alpha
+					* (reward + (this.gamma * Q_sprime_aprime) - Q_sa);
+			setValue(this.newstate, this.newaction, new_Q_sa);
 		}
 	}
 
@@ -113,11 +114,11 @@ public class QLearner implements LearnerAlgorithm {
 	 * {@inheritDoc}
 	 */
 	public void finish(double reward) {
-		if (newstate != null && newaction != null) {
-			double Q_sa = getValue(newstate, newaction).doubleValue();
-			double new_Q_sa = Q_sa + alpha * (reward - Q_sa);
-			setValue(newstate, newaction, new_Q_sa);
-			epsilon -= epsilon * epsilon_decay;
+		if (this.newstate != null && this.newaction != null) {
+			double Q_sa = getValue(this.newstate, this.newaction).doubleValue();
+			double new_Q_sa = Q_sa + this.alpha * (reward - Q_sa);
+			setValue(this.newstate, this.newaction, new_Q_sa);
+			this.epsilon -= this.epsilon * this.epsilon_decay;
 		}
 	}
 
@@ -132,14 +133,14 @@ public class QLearner implements LearnerAlgorithm {
 	 */
 	private Double getValue(Integer s, Integer a) {
 		Double v = null;
-		if (valueFunction.containsKey(s)) {
-			Hashtable<Integer, Double> actions = valueFunction.get(s);
+		if (this.valueFunction.containsKey(s)) {
+			Hashtable<Integer, Double> actions = this.valueFunction.get(s);
 			if (actions.containsKey(a)) {
 				v = actions.get(a);
 			}
 		}
 		if (v == null) {
-			v = new Double(DEFAULT_VALUE);
+			v = new Double(this.DEFAULT_VALUE);
 			setValue(s, a, v);
 		}
 		return v;
@@ -154,17 +155,17 @@ public class QLearner implements LearnerAlgorithm {
 	 */
 	private Double getMaxValue(Integer s) {
 		Double max = null;
-		if (valueFunction.containsKey(s)) {
-			Double[] values = valueFunction.get(s).values()
+		if (this.valueFunction.containsKey(s)) {
+			Double[] values = this.valueFunction.get(s).values()
 					.toArray(new Double[0]);
-			max = values[randGenerator.nextInt(values.length)];
+			max = values[this.randGenerator.nextInt(values.length)];
 			for (Double value : values) {
 				if (value.doubleValue() > max.doubleValue()) {
 					max = value;
 				}
 			}
 		} else {
-			max = new Double(DEFAULT_VALUE); // Return this when s does not
+			max = new Double(this.DEFAULT_VALUE); // Return this when s does not
 			// exist
 		}
 		return max;
@@ -181,10 +182,10 @@ public class QLearner implements LearnerAlgorithm {
 	 *            is the new value associated with
 	 */
 	private void setValue(Integer s, Integer a, Double v) {
-		Hashtable<Integer, Double> actions = (valueFunction.containsKey(s)) ? valueFunction
+		Hashtable<Integer, Double> actions = (this.valueFunction.containsKey(s)) ? this.valueFunction
 				.get(s) : new Hashtable<Integer, Double>();
-				actions.put(a, v);
-				valueFunction.put(s, actions);
+		actions.put(a, v);
+		this.valueFunction.put(s, actions);
 	}
 
 	/**
@@ -208,10 +209,10 @@ public class QLearner implements LearnerAlgorithm {
 		}
 
 		/* Choose an action randomly */
-		Integer max = options[randGenerator.nextInt(options.length)];
+		Integer max = options[this.randGenerator.nextInt(options.length)];
 
 		/* Return the random choice with probability epsilon */
-		if (randGenerator.nextDouble() <= epsilon) {
+		if (this.randGenerator.nextDouble() <= this.epsilon) {
 			return max;
 		}
 
@@ -234,7 +235,7 @@ public class QLearner implements LearnerAlgorithm {
 
 	@Override
 	public Hashtable<Integer, Double> actionValues(Integer state) {
-		return valueFunction.containsKey(state) ? valueFunction.get(state)
-				: new Hashtable<Integer, Double>();
+		return this.valueFunction.containsKey(state) ? this.valueFunction
+				.get(state) : new Hashtable<Integer, Double>();
 	}
 }

@@ -22,11 +22,11 @@ import java.io.File;
 
 /**
  * Extensions of files recognized by GOAL.
- * 
+ *
  * TODO: use these instead of string constants in code, rethink and relate with
  * file node enum type. All constants should now have been replaced by this
  * enum.
- * 
+ *
  * @author K.Hindriks
  */
 public enum Extension {
@@ -45,7 +45,7 @@ public enum Extension {
 
 	/**
 	 * Determines the {@link Extension} of a certain file.
-	 * 
+	 *
 	 * @param filename
 	 *            The name or path to a file to get the extension of
 	 * @return The {@link Extension} of the given file, or <code>null</code> if
@@ -63,7 +63,7 @@ public enum Extension {
 
 	/**
 	 * Determines the {@link Extension} of a certain file.
-	 * 
+	 *
 	 * @param file
 	 *            The file to get the extension of.
 	 * @return The {@link Extension} of the given file, or <code>null</code> if

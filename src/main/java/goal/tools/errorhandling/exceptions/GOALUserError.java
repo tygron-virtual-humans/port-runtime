@@ -25,8 +25,8 @@ import languageTools.parser.InputStreamPosition;
  * not handle something that the user did.
  * <p>
  * This exception should <b>never be thrown</b> at runtime. The exception should
- * only be used within {@link languageTools.program.agent} for parser and validation
- * related issues and within GUI/User interaction components.
+ * only be used within {@link languageTools.program.agent} for parser and
+ * validation related issues and within GUI/User interaction components.
  * </p>
  * <p>
  * This is <i>not</i> a warning that can simply always be ignored; by throwing

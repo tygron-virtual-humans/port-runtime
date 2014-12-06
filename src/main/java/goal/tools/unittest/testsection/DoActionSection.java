@@ -21,12 +21,12 @@ public class DoActionSection implements TestSection {
 	 * @return the action combo to execute
 	 */
 	public ActionCombo getAction() {
-		return action;
+		return this.action;
 	}
 
 	@Override
 	public String toString() {
-		return "Action [action=" + action + "]";
+		return "Action [action=" + this.action + "]";
 	}
 
 	private final ActionCombo action;
@@ -45,8 +45,9 @@ public class DoActionSection implements TestSection {
 	public TestSectionResult run(RunState<? extends ObservableDebugger> runState)
 			throws TestSectionFailed {
 		runState.startCycle(false);
-		Result result = new ActionComboExecutor(action).run(runState, 
-				runState.getMentalState().getOwner().getKRInterface().getSubstitution(null), false);
+		Result result = new ActionComboExecutor(this.action).run(runState,
+				runState.getMentalState().getOwner().getKRInterface()
+						.getSubstitution(null), false);
 		return new ActionResult(this, result);
 
 	}

@@ -79,7 +79,7 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	 * @return the messaging host
 	 */
 	public String getMessagingHost() {
-		return messagingHost;
+		return this.messagingHost;
 	}
 
 	/**
@@ -131,7 +131,7 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	 *         the end of a run.
 	 */
 	public ResultInspector<C> getResultInspector() {
-		return resultInspector;
+		return this.resultInspector;
 	}
 
 	/**
@@ -164,11 +164,11 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	// FIXME: This amount of exceptions is ridiculous. Clean this up.
 	@SuppressWarnings("unchecked")
 	public void run() throws MessagingException, GOALCommandCancelledException,
-	ParserException, GOALLaunchFailureException,
-	InterruptedException, EnvironmentInterfaceException {
+			ParserException, GOALLaunchFailureException, InterruptedException,
+			EnvironmentInterfaceException {
 		RuntimeManager<? extends D, ? extends C> runtimeManager = null;
 		try {
-			runtimeManager = buildRuntime(program);
+			runtimeManager = buildRuntime(this.program);
 
 			// Start the environment.
 			// This will also start the multi-agent system
@@ -194,8 +194,9 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 				 * Show the results inspector what we did. Agent can still be
 				 * running.
 				 */
-				if (resultInspector != null) {
-					resultInspector.handleResult((Collection<Agent<C>>) agents);
+				if (this.resultInspector != null) {
+					this.resultInspector
+							.handleResult((Collection<Agent<C>>) agents);
 				}
 			}
 		} finally {
@@ -217,7 +218,7 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	 */
 	protected void awaitTermination(
 			RuntimeManager<? extends D, ? extends C> runtimeManager)
-			throws InterruptedException {
+					throws InterruptedException {
 		runtimeManager.awaitTermination();
 	}
 
@@ -254,8 +255,8 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 
 		// init MessagingFactory and get our messaging system
 
-		MessagingService messagingService = new MessagingService(messagingHost,
-				messaging);
+		MessagingService messagingService = new MessagingService(
+				this.messagingHost, this.messaging);
 
 		EnvironmentService environmentService = new EnvironmentService(program,
 				messagingService);

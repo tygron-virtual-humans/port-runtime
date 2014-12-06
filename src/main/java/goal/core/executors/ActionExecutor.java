@@ -30,13 +30,13 @@ import languageTools.program.agent.selector.Selector;
 
 /**
  * Abstract base class for part of the ActionExecutors
- * 
+ *
  * @author W.Pasman 4dec14
  */
 public abstract class ActionExecutor {
 	/**
 	 * Get the parsed {@link Action}.
-	 * 
+	 *
 	 * @return {@link Action}
 	 */
 	abstract public Action<?> getAction();
@@ -67,7 +67,7 @@ public abstract class ActionExecutor {
 	/**
 	 * create new ActionExecutor with the given substitution applied to the
 	 * action
-	 * 
+	 *
 	 * @param subst
 	 *            the substitution to be applied
 	 */
@@ -96,8 +96,8 @@ public abstract class ActionExecutor {
 	 *             If the action is not closed, action is internal but this is
 	 *             not indicated in the program, or other exeptions occurred.
 	 */
-	public final Result run(RunState<?> runState,
-			Substitution substitution, Debugger debugger, boolean last) {
+	public final Result run(RunState<?> runState, Substitution substitution,
+			Debugger debugger, boolean last) {
 		Result result = new Result();
 
 		// Apply the substitution provided by the (module and rule condition)
@@ -118,7 +118,8 @@ public abstract class ActionExecutor {
 				result.merge(action.executeAction(runState, debugger));
 			} else {
 				throw new GOALActionFailedException(
-						"Attempt to execute action " + action + " with free variables.");
+						"Attempt to execute action " + action
+								+ " with free variables.");
 			}
 		} else {
 			debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, this,
@@ -153,7 +154,7 @@ public abstract class ActionExecutor {
 		debugger.breakpoint(builtin ? Channel.ACTION_EXECUTED_BUILTIN
 				: Channel.ACTION_EXECUTED_USERSPEC, this, "Performed %s.", this);
 	}
-	
+
 	/**
 	 * Resolves the selector to agent names by expanding quantors. If a fixed
 	 * list of agent names has been set, returns that instead.
@@ -180,54 +181,55 @@ public abstract class ActionExecutor {
 		// Resolve the selector expressions.
 		HashSet<AgentId> agentNames = new HashSet<>();
 		switch (selector.getType()) {
-			case ALL:
-			case SOME:
-				agentNames.addAll(mentalState.getKnownAgents());
-				break;
-			case ALLOTHER:
-			case SOMEOTHER:
-				agentNames.addAll(mentalState.getKnownAgents());
-				agentNames.remove(mentalState.getAgentId());
-				break;
-			case PARAMETERLIST:
-				// TODO: implement
-				break;
-			default:
-			case THIS:
-			case SELF:
-				agentNames.add(mentalState.getAgentId());
-				break;
+		case ALL:
+		case SOME:
+			agentNames.addAll(mentalState.getKnownAgents());
+			break;
+		case ALLOTHER:
+		case SOMEOTHER:
+			agentNames.addAll(mentalState.getKnownAgents());
+			agentNames.remove(mentalState.getAgentId());
+			break;
+		case PARAMETERLIST:
+			// TODO: implement
+			break;
+		default:
+		case THIS:
+		case SELF:
+			agentNames.add(mentalState.getAgentId());
+			break;
 		}
 		return agentNames;
 	}
 
+	@Override
 	public String toString() {
 		return "execute(" + getAction().toString() + ")";
 	}
-	
-	public static ActionExecutor getActionExecutor(Action<?> action){
-		if(action instanceof AdoptAction){
-			return new AdoptActionExecutor((AdoptAction)action);
-		} else if(action instanceof DeleteAction){
-			return new DeleteActionExecutor((DeleteAction)action);
-		} else if(action instanceof DropAction){
-			return new DropActionExecutor((DropAction)action);
-		} else if(action instanceof ExitModuleAction){
-			return new ExitModuleActionExecutor((ExitModuleAction)action);
-		} else if(action instanceof InsertAction){
-			return new InsertActionExecutor((InsertAction)action);
-		} else if(action instanceof LogAction){
-			return new LogActionExecutor((LogAction)action);
-		} else if(action instanceof ModuleCallAction){
-			return new ModuleCallActionExecutor((ModuleCallAction)action);
-		} else if(action instanceof PrintAction){
-			return new PrintActionExecutor((PrintAction)action);
-		} else if(action instanceof SendAction){
-			return new SendActionExecutor((SendAction)action);
-		} else if(action instanceof SendOnceAction){
-			return new SendOnceActionExecutor((SendOnceAction)action);
-		} else if(action instanceof UserSpecAction){
-			return new UserSpecActionExecutor((UserSpecAction)action);
+
+	public static ActionExecutor getActionExecutor(Action<?> action) {
+		if (action instanceof AdoptAction) {
+			return new AdoptActionExecutor((AdoptAction) action);
+		} else if (action instanceof DeleteAction) {
+			return new DeleteActionExecutor((DeleteAction) action);
+		} else if (action instanceof DropAction) {
+			return new DropActionExecutor((DropAction) action);
+		} else if (action instanceof ExitModuleAction) {
+			return new ExitModuleActionExecutor((ExitModuleAction) action);
+		} else if (action instanceof InsertAction) {
+			return new InsertActionExecutor((InsertAction) action);
+		} else if (action instanceof LogAction) {
+			return new LogActionExecutor((LogAction) action);
+		} else if (action instanceof ModuleCallAction) {
+			return new ModuleCallActionExecutor((ModuleCallAction) action);
+		} else if (action instanceof PrintAction) {
+			return new PrintActionExecutor((PrintAction) action);
+		} else if (action instanceof SendAction) {
+			return new SendActionExecutor((SendAction) action);
+		} else if (action instanceof SendOnceAction) {
+			return new SendOnceActionExecutor((SendOnceAction) action);
+		} else if (action instanceof UserSpecAction) {
+			return new UserSpecActionExecutor((UserSpecAction) action);
 		} else {
 			return null;
 		}

@@ -51,21 +51,22 @@ public class BreakpointManager {
 	 *         set. They are sorted. The ID of the objects will be the index in
 	 *         the returned list.
 	 */
-	public static List<InputStreamPosition> getBreakpointObjects(AgentProgram program) {
+	public static List<InputStreamPosition> getBreakpointObjects(
+			AgentProgram program) {
 		// Collect all objects for which a breakpoint can be set.
 		List<InputStreamPosition> objects = new LinkedList<>();
 
 		// All action specifications can be breakpoints.
 		// #2117: All condition and action parts of rules can be breakpoints.
 		for (Module module : program.getModules()) {
-			for( Rule rule : module.getRules()) {
+			for (Rule rule : module.getRules()) {
 				// FIXME: no sourceinfo for these elements?!
-				//objects.add(rule.getCondition());
-				//objects.add(rule.getAction());
+				// objects.add(rule.getCondition());
+				// objects.add(rule.getAction());
 			}
-			for( ActionSpecification spec :  module.getActionSpecifications() ) {
+			for (ActionSpecification spec : module.getActionSpecifications()) {
 				// FIXME: no sourceinfo for these elements?!
-				//objects.add(spec);
+				// objects.add(spec);
 			}
 		}
 
@@ -74,7 +75,7 @@ public class BreakpointManager {
 			if (module.getType() == TYPE.ANONYMOUS) {
 				continue;
 			}
-			objects.add((InputStreamPosition)module.getSourceInfo());
+			objects.add((InputStreamPosition) module.getSourceInfo());
 		}
 
 		Collections.sort(objects);
@@ -98,28 +99,31 @@ public class BreakpointManager {
 		// make sure to also update the breakpoints for all child files.
 		List<File> affectedFiles = new LinkedList<>();
 		affectedFiles.add(agentFile);
-		//affectedFiles.addAll(platform.getAgentProgram(agentFile).getImports());
+		// affectedFiles.addAll(platform.getAgentProgram(agentFile).getImports());
 
 		for (File file : affectedFiles) {
 			// remove and re-add all breakpoints of all affected files
-			Set<SourceInfo> originalBPs = breakpoints.remove(file);
+			Set<SourceInfo> originalBPs = this.breakpoints.remove(file);
 			if (originalBPs == null) {
 				continue;
 			}
 			for (SourceInfo bp : originalBPs) {
 				// HACK. we should respect breakpoint types.
-				addBreakpoint(bp.getSource(), new BreakPoint(
-						agentFile, bp.getLineNumber() - 1,
-						bp instanceof Action ? BreakPoint.Type.CONDITIONAL
-								: BreakPoint.Type.ALWAYS));
+				addBreakpoint(
+						bp.getSource(),
+						new BreakPoint(
+								agentFile,
+								bp.getLineNumber() - 1,
+								bp instanceof Action ? BreakPoint.Type.CONDITIONAL
+										: BreakPoint.Type.ALWAYS));
 			}
 		}
 
 		// Update the set of breakpoint objects.
 		// FIXME: where and when do we need to do this??
-		for (SourceInfo bpObj : getBreakpointObjects(platform
+		for (SourceInfo bpObj : getBreakpointObjects(this.platform
 				.getAgentProgram(agentFile))) {
-			breakpoints.get(agentFile).add(bpObj);
+			this.breakpoints.get(agentFile).add(bpObj);
 		}
 	}
 
@@ -152,8 +156,8 @@ public class BreakpointManager {
 		// since the breakpoints are not stored on an agent-basis but a
 		// file-basis, we only need to check the breakpoints of one of the
 		// agents that reference the given file.
-		AgentProgram program = platform.getAgentProgram(referencingAgentFiles
-				.get(0));
+		AgentProgram program = this.platform
+				.getAgentProgram(referencingAgentFiles.get(0));
 		for (InputStreamPosition bp : getBreakpointObjects(program)) {
 			// breakpointLocations.get(referencingAgentFiles.get(0))) {
 			/*
@@ -162,7 +166,10 @@ public class BreakpointManager {
 			 * breakpoint is conditional, search for the first action
 			 */
 			if (bp.definedAfter(sourceFile, bpt.getLine())
-					&& (bpt.getType() == Type.ALWAYS /*|| (bp instanceof ActionCombo)*/)) {
+					&& (bpt.getType() == Type.ALWAYS /*
+													 * || (bp instanceof
+													 * ActionCombo)
+													 */)) {
 				line = bp.getLineNumber();
 				addBreakpoint(bp);
 				break;
@@ -180,11 +187,11 @@ public class BreakpointManager {
 	 */
 	private void addBreakpoint(SourceInfo breakpos) {
 		assert breakpos != null;
-		if (!breakpoints.containsKey(breakpos.getSource())) {
-			breakpoints.put(breakpos.getSource(),
+		if (!this.breakpoints.containsKey(breakpos.getSource())) {
+			this.breakpoints.put(breakpos.getSource(),
 					new HashSet<SourceInfo>());
 		}
-		Set<SourceInfo> bps = breakpoints.get(breakpos.getSource());
+		Set<SourceInfo> bps = this.breakpoints.get(breakpos.getSource());
 		bps.add(breakpos);
 	}
 
@@ -205,7 +212,7 @@ public class BreakpointManager {
 			return;
 		}
 		// remove all old breakpoints for the file
-		breakpoints.remove(file);
+		this.breakpoints.remove(file);
 		// add all the given lines as new breakpoints
 		for (BreakPoint bpt : bpts) {
 			addBreakpoint(file, bpt);
@@ -231,8 +238,8 @@ public class BreakpointManager {
 		// return the breakpoints iff one of the referencing agent files is
 		// correctly parsed.
 		for (File agentFile : referencingAgentFiles) {
-			if (platform.getAgentProgram(agentFile) != null) {
-				return breakpoints.get(file);
+			if (this.platform.getAgentProgram(agentFile) != null) {
+				return this.breakpoints.get(file);
 			}
 		}
 		return null;
@@ -250,14 +257,12 @@ public class BreakpointManager {
 	 */
 	private List<File> getReferencingAgentFiles(File file) {
 		List<File> referencingAgentFiles = new LinkedList<>();
-		for (File agentFile : platform.getAllGOALFiles()) {
-			/*for (File importedFile : platform.getAgentProgram(agentFile)
-					.getImports()) {
-				if (importedFile.equals(file)) {
-					referencingAgentFiles.add(agentFile);
-					break;
-				}
-			}*/
+		for (File agentFile : this.platform.getAllGOALFiles()) {
+			/*
+			 * for (File importedFile : platform.getAgentProgram(agentFile)
+			 * .getImports()) { if (importedFile.equals(file)) {
+			 * referencingAgentFiles.add(agentFile); break; } }
+			 */
 			if (agentFile.getName().equals(file.getName())) {
 				referencingAgentFiles.add(agentFile);
 			}
@@ -278,10 +283,10 @@ public class BreakpointManager {
 	public Set<SourceInfo> getAllBreakpoints(File goalProgramFile) {
 		HashSet1<SourceInfo> breakpts = new HashSet1<>();
 		breakpts.addAll(getBreakpoints(goalProgramFile));
-		/*for (File importedFile : platform.getAgentProgram(goalProgramFile)
-				.getImports()) {
-			breakpts.addAll(getBreakpoints(importedFile));
-		}*/
+		/*
+		 * for (File importedFile : platform.getAgentProgram(goalProgramFile)
+		 * .getImports()) { breakpts.addAll(getBreakpoints(importedFile)); }
+		 */
 		return breakpts;
 	}
 

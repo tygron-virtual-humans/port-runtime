@@ -28,7 +28,7 @@ public class GetPercepts extends Action {
 	 * @return the agentName
 	 */
 	public String getAgentName() {
-		return agentName;
+		return this.agentName;
 	}
 
 	@Override

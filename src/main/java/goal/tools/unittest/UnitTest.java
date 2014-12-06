@@ -85,11 +85,11 @@ public class UnitTest {
 	}
 
 	public Collection<AgentTest> getTests() {
-		return tests.values();
+		return this.tests.values();
 	}
 
 	public MASProgram getMasProgram() {
-		return masProgram;
+		return this.masProgram;
 	}
 
 	/**
@@ -101,14 +101,14 @@ public class UnitTest {
 	 * @return a test or null
 	 */
 	public AgentTest getTest(String agentBaseName) {
-		return tests.get(agentBaseName);
+		return this.tests.get(agentBaseName);
 	}
 
 	public File getFile() {
-		return unitTestFile;
+		return this.unitTestFile;
 	}
 
 	public long getTimeout() {
-		return timeout;
+		return this.timeout;
 	}
 }

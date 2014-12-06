@@ -8,7 +8,6 @@ import goal.core.agent.GOALInterpreter;
 import goal.tools.ResultInspector;
 import goal.tools.SingleRun;
 import goal.tools.debugger.Debugger;
-import goal.tools.errorhandling.exceptions.GOALParseException;
 import goal.tools.logging.Loggers;
 
 import java.io.File;
@@ -36,7 +35,7 @@ public class CoffeeTest {
 
 	@Test
 	public void testCoffee() throws GOALParseException, FileNotFoundException,
-	ParseException, Exception {
+			ParseException, Exception {
 
 		SingleRun run = new SingleRun(new File(
 				"GOALagents/CoffeeAgents/coffee.mas2g"));

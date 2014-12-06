@@ -132,8 +132,8 @@ import nl.tudelft.goal.messaging.messagebox.MessageBoxId.Type;
  * @modified M.P. Korstanje sep2013
  */
 public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
-implements
-Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
+		implements
+		Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	// wrapper pattern for implementing Observable.
 	private final DefaultObservable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> myObservable = new DefaultObservable<>();
 
@@ -145,13 +145,14 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	 *
 	 */
 	private final class EnvironmentPort2Observers implements
-	EnvironmentPortObserver {
+			EnvironmentPortObserver {
 		@Override
 		public void EnvironmentPortEventOccured(
 				EnvironmentPort environmentPort, EnvironmentEvent event) {
 			if (event instanceof StateChangeEvent) {
-				myObservable.notifyObservers(RuntimeManager.this,
-						new RuntimeEvent(EventType.ENVIRONMENT_RUNMODE_CHANGED,
+				RuntimeManager.this.myObservable.notifyObservers(
+						RuntimeManager.this, new RuntimeEvent(
+								EventType.ENVIRONMENT_RUNMODE_CHANGED,
 								environmentPort));
 			}
 		}
@@ -162,14 +163,15 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	 * {@link AgentService}.
 	 */
 	private final class EnvironmentPort2Runtime implements
-	EnvironmentPortObserver {
+			EnvironmentPortObserver {
 		@Override
 		public void EnvironmentPortEventOccured(
 				EnvironmentPort environmentPort, EnvironmentEvent event) {
 			// FIXME: Handling the event should be done here. RuntimeService
 			// should just apply the launch rules for what it is given.
 			// RuntimeService may ofcourse provide convenient methods for this.
-			agentService.handleEnvironmentEvent(event, environmentPort);
+			RuntimeManager.this.agentService.handleEnvironmentEvent(event,
+					environmentPort);
 		}
 	}
 
@@ -178,7 +180,7 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	 * or remove a connection from that EnvironmentPort to external Observers.
 	 */
 	private final class EnvironmentService2Observers implements
-	EnvironmentServiceObserver {
+			EnvironmentServiceObserver {
 		private final HashMap<EnvironmentPort, EnvironmentPortObserver> observers = new HashMap<>();
 
 		private void handle(EnvironmentPortAddedEvent event) {
@@ -187,8 +189,9 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 			this.observers.put(environmentPort, observer);
 			environmentPort.addObserver(observer);
 
-			myObservable.notifyObservers(RuntimeManager.this, new RuntimeEvent(
-					EventType.ENVIRONMENT_LAUNCHED, event.getPort()));
+			RuntimeManager.this.myObservable.notifyObservers(
+					RuntimeManager.this, new RuntimeEvent(
+							EventType.ENVIRONMENT_LAUNCHED, event.getPort()));
 		}
 
 		private void handle(EnvironmentPortRemovedEvent event) {
@@ -196,8 +199,9 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 			EnvironmentPortObserver observer = this.observers
 					.remove(environmentPort);
 			environmentPort.deleteObserver(observer);
-			myObservable.notifyObservers(RuntimeManager.this, new RuntimeEvent(
-					EventType.ENVIRONMENT_KILLED, event.getPort()));
+			RuntimeManager.this.myObservable.notifyObservers(
+					RuntimeManager.this, new RuntimeEvent(
+							EventType.ENVIRONMENT_KILLED, event.getPort()));
 		}
 
 		@Override
@@ -218,7 +222,7 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	 * {@link AgentService}.
 	 */
 	private final class EnvironmentService2Runtime implements
-	EnvironmentServiceObserver {
+			EnvironmentServiceObserver {
 		private final HashMap<EnvironmentPort, EnvironmentPortObserver> observers = new HashMap<>();
 
 		private void handle(EnvironmentPortAddedEvent event) {
@@ -252,44 +256,44 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	 * external Observers.
 	 */
 	private final class Runtime2Observers implements
-	goal.core.runtime.service.agent.AgentServiceEventObserver {
+			goal.core.runtime.service.agent.AgentServiceEventObserver {
 		@Override
 		public void agentServiceEvent(AgentService runtimeService,
 				AgentServiceEvent evt) {
 			if (evt instanceof goal.core.runtime.service.agent.events.AddedLocalAgent) {
-				myObservable
-				.notifyObservers(
-						RuntimeManager.this,
-						new RuntimeEvent(
-								EventType.AGENT_IS_LOCAL_AND_READY,
-								((goal.core.runtime.service.agent.events.AddedLocalAgent) evt)
-								.getAgent()));
+				RuntimeManager.this.myObservable
+						.notifyObservers(
+								RuntimeManager.this,
+								new RuntimeEvent(
+										EventType.AGENT_IS_LOCAL_AND_READY,
+										((goal.core.runtime.service.agent.events.AddedLocalAgent) evt)
+												.getAgent()));
 			} else if (evt instanceof goal.core.runtime.service.agent.events.RemovedLocalAgent) {
-				myObservable
-				.notifyObservers(
-						RuntimeManager.this,
-						new RuntimeEvent(
-								// removed, AGENT_DIED events go through
-								// the debugger
-								EventType.AGENT_REMOVED,
-								((goal.core.runtime.service.agent.events.RemovedLocalAgent) evt)
-								.getAgent().getId().getName()));
+				RuntimeManager.this.myObservable
+						.notifyObservers(
+								RuntimeManager.this,
+								new RuntimeEvent(
+										// removed, AGENT_DIED events go through
+										// the debugger
+										EventType.AGENT_REMOVED,
+										((goal.core.runtime.service.agent.events.RemovedLocalAgent) evt)
+												.getAgent().getId().getName()));
 			} else if (evt instanceof goal.core.runtime.service.agent.events.AddedRemoteAgent) {
-				myObservable
-				.notifyObservers(
-						RuntimeManager.this,
-						new RuntimeEvent(
-								EventType.AGENT_BORN,
-								((goal.core.runtime.service.agent.events.AddedRemoteAgent) evt)
-								.getAgentId().getName()));
+				RuntimeManager.this.myObservable
+						.notifyObservers(
+								RuntimeManager.this,
+								new RuntimeEvent(
+										EventType.AGENT_BORN,
+										((goal.core.runtime.service.agent.events.AddedRemoteAgent) evt)
+												.getAgentId().getName()));
 			} else if (evt instanceof goal.core.runtime.service.agent.events.RemovedRemoteAgent) {
-				myObservable
-				.notifyObservers(
-						RuntimeManager.this,
-						new RuntimeEvent(
-								EventType.AGENT_REMOVED,
-								((goal.core.runtime.service.agent.events.RemovedRemoteAgent) evt)
-								.getAgentId().getName()));
+				RuntimeManager.this.myObservable
+						.notifyObservers(
+								RuntimeManager.this,
+								new RuntimeEvent(
+										EventType.AGENT_REMOVED,
+										((goal.core.runtime.service.agent.events.RemovedRemoteAgent) evt)
+												.getAgentId().getName()));
 			} else {
 				throw new IllegalArgumentException("unknown event " + evt);
 			}
@@ -301,16 +305,18 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	 * other {@link RuntimeManager}s.
 	 */
 	private final class AgentService2RemoteRuntime implements
-	AgentServiceEventObserver {
+			AgentServiceEventObserver {
 		@Override
 		public void agentServiceEvent(AgentService runtimeService,
 				AgentServiceEvent evt) {
 			if (evt instanceof AddedLocalAgent) {
 				AddedLocalAgent added = (AddedLocalAgent) evt;
-				remoteRuntimeService.broadCastNewAgent(added.getAgent());
+				RuntimeManager.this.remoteRuntimeService
+						.broadCastNewAgent(added.getAgent());
 			} else if (evt instanceof RemovedLocalAgent) {
 				RemovedLocalAgent removed = (RemovedLocalAgent) evt;
-				remoteRuntimeService.broadCastDeadAgent(removed.getAgent());
+				RuntimeManager.this.remoteRuntimeService
+						.broadCastDeadAgent(removed.getAgent());
 			} else if (evt instanceof RemoteAgentServiceEvent) {
 				// Remote runtimes don't need to be notified of remote agent
 				// events. These are broadcasted by the runtime that removed
@@ -323,7 +329,7 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	}
 
 	private final class RemoteRuntime2AgentService implements
-	RemoteRuntimeListener {
+			RemoteRuntimeListener {
 		/**
 		 * Generated serialVersionUID
 		 */
@@ -333,10 +339,12 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 		public void remoteRuntimeEventOccured(RemoteRuntimeEvent event) {
 			if (event instanceof NewAgent) {
 				NewAgent newAgent = (NewAgent) event;
-				agentService.handleAgentCreated(newAgent.getAgentId());
+				RuntimeManager.this.agentService.handleAgentCreated(newAgent
+						.getAgentId());
 			} else if (event instanceof DeadAgent) {
 				DeadAgent deadAgent = (DeadAgent) event;
-				agentService.handleAgentRemoved(deadAgent.getAgentId());
+				RuntimeManager.this.agentService.handleAgentRemoved(deadAgent
+						.getAgentId());
 			} else if (event instanceof RuntimeLaunched) {
 				handleRuntimeLaunched();
 			} else {
@@ -345,8 +353,9 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 		}
 
 		private void handleRuntimeLaunched() {
-			for (Agent<C> agent : agentService.getAgents()) {
-				remoteRuntimeService.broadCastNewAgent(agent);
+			for (Agent<C> agent : RuntimeManager.this.agentService.getAgents()) {
+				RuntimeManager.this.remoteRuntimeService
+						.broadCastNewAgent(agent);
 			}
 		}
 	}
@@ -378,7 +387,7 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 			AgentService<D, C> agentService,
 			EnvironmentService environmentService,
 			RemoteRuntimeService<D, C> remoteRuntimeService)
-					throws GOALLaunchFailureException {
+			throws GOALLaunchFailureException {
 		this.messagingService = messagingService;
 		this.agentService = agentService;
 		this.environmentService = environmentService;
@@ -438,8 +447,8 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 				+ " milliseconds to load MAS.");
 
 		// RuntimeServiceManager -- MASBorn --> Observers
-		myObservable.notifyObservers(this, new RuntimeEvent(EventType.MAS_BORN,
-				agentService));
+		this.myObservable.notifyObservers(this, new RuntimeEvent(
+				EventType.MAS_BORN, agentService));
 	}
 
 	/**
@@ -490,7 +499,7 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	 */
 	public boolean awaitFirstAgent(long timeout, TimeUnit timeUnit)
 			throws InterruptedException {
-		return agentService.awaitFirstAgent(timeout, timeUnit);
+		return this.agentService.awaitFirstAgent(timeout, timeUnit);
 
 	}
 
@@ -501,7 +510,7 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	 *             DOC
 	 */
 	public void awaitTermination() throws InterruptedException {
-		agentService.awaitTermination();
+		this.agentService.awaitTermination();
 	}
 
 	/**
@@ -513,7 +522,7 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	 *         when no such agent is available
 	 */
 	public Agent<C> getAgent(AgentId id) {
-		return agentService.getAgent(id);
+		return this.agentService.getAgent(id);
 	}
 
 	/**
@@ -523,7 +532,7 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	 *         Some agents might be dead but not yet removed.
 	 */
 	public Collection<Agent<C>> getAgents() {
-		return agentService.getAgents();
+		return this.agentService.getAgents();
 	}
 
 	/**
@@ -533,14 +542,14 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	 * @return all local agents that are running.
 	 */
 	public Collection<Agent<C>> getAliveAgents() {
-		return agentService.getAliveAgents();
+		return this.agentService.getAliveAgents();
 	}
 
 	/**
 	 * @return True if there is any local agent running.
 	 */
 	public synchronized boolean hasAliveLocalAgents() {
-		return agentService.hasAliveLocalAgents();
+		return this.agentService.hasAliveLocalAgents();
 	}
 
 	/**
@@ -549,7 +558,7 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	 * @return all local agents that are dead.
 	 */
 	public Collection<Agent<C>> getDeadAgents() {
-		return agentService.getDeadAgents();
+		return this.agentService.getDeadAgents();
 	}
 
 	/**
@@ -558,7 +567,7 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	 * @return a list of available environments.
 	 */
 	public Collection<EnvironmentPort> getEnvironmentPorts() {
-		return environmentService.getEnvironmentPorts();
+		return this.environmentService.getEnvironmentPorts();
 	}
 
 	/**
@@ -571,8 +580,9 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	@Deprecated
 	public void resetAgent(AgentId id) {
 		try {
-			agentService.getAgent(id).reset();
-		} catch (KRInitFailedException | KRDatabaseException | KRQueryFailedException | UnknownObjectException e) {
+			this.agentService.getAgent(id).reset();
+		} catch (KRInitFailedException | KRDatabaseException
+				| KRQueryFailedException | UnknownObjectException e) {
 			new Warning(Resources.get(WarningStrings.FAILED_RESET_AGENT), e);
 		} catch (InterruptedException e) {
 			new Warning(Resources.get(WarningStrings.INTERRUPT_RESET_AGENT), e);
@@ -599,33 +609,33 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 		new InfoLog("Shutting down MAS.");
 
 		// shut down our message box handler
-		remoteRuntimeService.shutDown();
+		this.remoteRuntimeService.shutDown();
 		try {
-			remoteRuntimeService.awaitTermination();
+			this.remoteRuntimeService.awaitTermination();
 		} catch (InterruptedException e) {
 			// Some one wants us to hurry up. Okay...
 			new Warning(Resources.get(WarningStrings.INTERRUPT_STOP_RUNTIME), e);
 		}
 
 		// Shut down MAS.
-		agentService.shutDown();
+		this.agentService.shutDown();
 
 		// FIXME Shut down KR languages.
 
 		// Wait for agents to finish
 		try {
-			agentService.awaitTermination(); // FIXME: timeout?!
+			this.agentService.awaitTermination(); // FIXME: timeout?!
 		} catch (InterruptedException e) {
 			// Some one wants us to hurry up. Okay...
 			new Warning(Resources.get(WarningStrings.INTERRUPT_STOP_RUNTIME), e);
 		}
 
 		// Cleanup mental states of any remaining agents.
-		agentService.dispose();
+		this.agentService.dispose();
 
 		// Shut down environment.
 		try {
-			environmentService.shutDown();
+			this.environmentService.shutDown();
 		} catch (MessagingException e) {
 			new Warning(Resources.get(WarningStrings.FAILED_STOP_ENV_SERV), e);
 		} catch (EnvironmentInterfaceException e) {
@@ -635,15 +645,15 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 		}
 
 		// Shut down messaging infrastructure.
-		messagingService.shutDown();
+		this.messagingService.shutDown();
 
-		new InfoLog("The multi-agent system " + agentService.toString()
+		new InfoLog("The multi-agent system " + this.agentService.toString()
 				+ " has been terminated.");
 
 		// TODO: providing runtime service after MAS died looks like a silly
 		// thing to do...
-		myObservable.notifyObservers(this, new RuntimeEvent(EventType.MAS_DIED,
-				this));
+		this.myObservable.notifyObservers(this, new RuntimeEvent(
+				EventType.MAS_DIED, this));
 	}
 
 	/**
@@ -655,8 +665,9 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	 *             when the environment could not be started.
 	 */
 	public void startEnvironment() throws MessagingException,
-			EnvironmentInterfaceException {
-		for (EnvironmentPort port : environmentService.getEnvironmentPorts()) {
+	EnvironmentInterfaceException {
+		for (EnvironmentPort port : this.environmentService
+				.getEnvironmentPorts()) {
 			port.start();
 		}
 
@@ -671,7 +682,7 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	 *            of the agent to stop
 	 */
 	public void stopAgent(AgentId id) {
-		agentService.stopAgent(id);
+		this.agentService.stopAgent(id);
 	}
 
 	/**
@@ -702,27 +713,28 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	 */
 	@Override
 	public void addObserver(RuntimeEventObserver observer) {
-		myObservable.addObserver(observer);
+		this.myObservable.addObserver(observer);
 
 		// implement late-listening pattern #1444
 		observer.eventOccured(this, new RuntimeEvent(EventType.MAS_BORN,
-				agentService));
+				this.agentService));
 
-		for (EnvironmentPort envport : environmentService.getEnvironmentPorts()) {
+		for (EnvironmentPort envport : this.environmentService
+				.getEnvironmentPorts()) {
 			observer.eventOccured(this, new RuntimeEvent(
 					EventType.ENVIRONMENT_LAUNCHED, envport));
 		}
 
 		// also forward the remote agents. FIXME AGENT_BORN is not exactly the
 		// right event but that's what the process panel needs now.
-		for (AgentId agentId : agentService.getAll()) {
-			if (!agentService.isLocal(agentId)) {
+		for (AgentId agentId : this.agentService.getAll()) {
+			if (!this.agentService.isLocal(agentId)) {
 				observer.eventOccured(this, new RuntimeEvent(
 						EventType.AGENT_BORN, agentId.getName()));
 			}
 		}
 
-		for (Agent<?> agent : agentService.getAgents()) {
+		for (Agent<?> agent : this.agentService.getAgents()) {
 			observer.eventOccured(this, new RuntimeEvent(
 					EventType.AGENT_IS_LOCAL_AND_READY, agent));
 		}
@@ -730,6 +742,6 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 
 	@Override
 	public void removeObserver(RuntimeEventObserver observer) {
-		myObservable.removeObserver(observer);
+		this.myObservable.removeObserver(observer);
 	}
 }

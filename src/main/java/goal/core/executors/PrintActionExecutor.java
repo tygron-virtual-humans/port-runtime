@@ -27,7 +27,7 @@ import languageTools.program.agent.actions.PrintAction;
 
 public class PrintActionExecutor extends ActionExecutor {
 
-	private PrintAction action;
+	private final PrintAction action;
 
 	public PrintActionExecutor(PrintAction action) {
 		this.action = action;
@@ -35,7 +35,7 @@ public class PrintActionExecutor extends ActionExecutor {
 
 	@Override
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
-		String output = action.getParameters().toString();
+		String output = this.action.getParameters().toString();
 		boolean beginQuote = output.startsWith("\"") || output.startsWith("'");
 		boolean endQuote = output.endsWith("\"") || output.endsWith("'");
 		System.out.println(output.substring(beginQuote ? 1 : 0,
@@ -43,16 +43,16 @@ public class PrintActionExecutor extends ActionExecutor {
 
 		report(debugger);
 
-		return new Result(action);
+		return new Result(this.action);
 	}
 
 	@Override
 	protected ActionExecutor applySubst(Substitution subst) {
-		return new PrintActionExecutor(action.applySubst(subst));
+		return new PrintActionExecutor(this.action.applySubst(subst));
 	}
-	
+
 	@Override
 	public Action<?> getAction() {
-		return action;
+		return this.action;
 	}
 }

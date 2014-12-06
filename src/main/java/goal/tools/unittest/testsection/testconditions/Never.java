@@ -37,7 +37,7 @@ public class Never extends TestCondition {
 
 	@Override
 	public String toString() {
-		return "Never [query=" + query + "]";
+		return "Never [query=" + this.query + "]";
 	}
 
 	@Override

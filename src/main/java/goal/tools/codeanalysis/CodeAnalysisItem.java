@@ -50,7 +50,7 @@ public class CodeAnalysisItem {
 	 * @return label of the item.
 	 */
 	public String getLabel() {
-		return label;
+		return this.label;
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class CodeAnalysisItem {
 	 *         integer (e.g. occurrence count).
 	 */
 	public String getValue() {
-		return value;
+		return this.value;
 	}
 
 	/**
@@ -69,6 +69,6 @@ public class CodeAnalysisItem {
 	 * @return type of the item.
 	 */
 	public ItemType getType() {
-		return type;
+		return this.type;
 	}
 }

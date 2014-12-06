@@ -10,7 +10,6 @@ import java.util.concurrent.Callable;
 import krTools.language.DatabaseFormula;
 import krTools.language.Query;
 import krTools.language.Substitution;
-import krTools.language.Update;
 import languageTools.program.agent.Module;
 import languageTools.program.agent.Module.TYPE;
 import languageTools.program.agent.actions.AdoptAction;
@@ -18,7 +17,7 @@ import languageTools.program.agent.selector.Selector.SelectorType;
 import mentalState.BASETYPE;
 
 public class ModuleExecutor {
-	private Module module;
+	private final Module module;
 	/**
 	 * Channel to report the entry of this {@link Module} on. Should be
 	 * {@code null} for anonymous modules (and no reports should be generated).
@@ -33,7 +32,7 @@ public class ModuleExecutor {
 	 * The last result of an execute-call
 	 */
 	private Result result;
-	
+
 	public ModuleExecutor(Module mod) {
 		this.module = mod;
 		switch (mod.getType()) {
@@ -57,7 +56,7 @@ public class ModuleExecutor {
 			break;
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public Result executeFully(final RunState<?> runState,
 			final Substitution substitution) {
@@ -69,7 +68,7 @@ public class ModuleExecutor {
 				break;
 			}
 		}
-		return result;
+		return this.result;
 	}
 
 	/**
@@ -96,50 +95,52 @@ public class ModuleExecutor {
 			// Push (non-anonymous) modules that were just entered onto stack
 			// that keeps track of modules that have been entered but not yet
 			// exited again.
-			runState.enteredModule(module);
+			runState.enteredModule(this.module);
 
 			// Add all initial beliefs defined in the beliefs section of this
 			// module
 			// to the agent's belief base.
-			for (DatabaseFormula belief : module.getBeliefs()) {
+			for (DatabaseFormula belief : this.module.getBeliefs()) {
 				runState.getMentalState().insert(belief, BASETYPE.BELIEFBASE,
 						runState.getDebugger(), runState.getId());
 			}
 
 			// Add all goals defined in the goals section of this module to the
 			// current attention set.
-			for (Query goal : module.getGoals()) {
-				ActionExecutor adopt = new AdoptActionExecutor(
-						new AdoptAction(new Selector(SelectorType.THIS, null),
-								goal.applySubst(substitution), null));
+			for (Query goal : this.module.getGoals()) {
+				ActionExecutor adopt = new AdoptActionExecutor(new AdoptAction(
+						new Selector(SelectorType.THIS, null),
+						goal.applySubst(substitution), null));
 				adopt = adopt.evaluatePrecondition(runState.getMentalState(),
 						runState.getDebugger(), false);
 				if (adopt != null) {
-					adopt.run(runState, substitution, runState.getDebugger(), false);
+					adopt.run(runState, substitution, runState.getDebugger(),
+							false);
 				}
 			}
 
 			// Report entry of non-anonymous module on debug channel.
-			if (module.getType() != TYPE.ANONYMOUS) {
+			if (this.module.getType() != TYPE.ANONYMOUS) {
 				runState.getDebugger().breakpoint(this.entrychannel, this,
-						"Entering " + module.getNamePhrase());
+						"Entering " + this.module.getNamePhrase());
 			}
 		}
 
 		// Evaluate and apply the rules of this module
-		result = new RulesExecutor(module.getRules(), module.getRuleEvaluationOrder())
-			.run(runState, substitution);
+		this.result = new RulesExecutor(this.module.getRules(),
+				this.module.getRuleEvaluationOrder()).run(runState,
+				substitution);
 
 		// exit module if {@link ExitModuleAction} has been performed.
-		boolean exit = result.isModuleTerminated();
+		boolean exit = this.result.isModuleTerminated();
 
 		// Evaluate module's exit condition.
-		switch (module.getExitCondition()) {
+		switch (this.module.getExitCondition()) {
 		case NOGOALS:
 			exit |= runState.getMentalState().getAttentionSet().isEmpty();
 			break;
 		case NOACTION:
-			exit |= !result.hasPerformedAction();
+			exit |= !this.result.hasPerformedAction();
 			break;
 		case ALWAYS:
 			exit = true;
@@ -156,24 +157,24 @@ public class ModuleExecutor {
 		// initiated), and we're currently running within the main module's
 		// context (never start a new cycle when running the init/event or a
 		// module called from either of these two modules).
-		if (!exit && !result.hasPerformedAction()
+		if (!exit && !this.result.hasPerformedAction()
 				&& runState.isMainModuleRunning()) {
-			runState.startCycle(result.hasPerformedAction());
+			runState.startCycle(this.result.hasPerformedAction());
 		}
 		if (exit) {
 			// If module termination flag has been set, reset it except when
 			// this is an anonymous module. In that case, module termination
 			// needs to be propagated to enclosing module(s).
 			// Also report the module exit on the module's debug channel.
-			if (module.getType() != TYPE.ANONYMOUS) {
-				result.setModuleTerminated(false);
+			if (this.module.getType() != TYPE.ANONYMOUS) {
+				this.result.setModuleTerminated(false);
 				runState.getDebugger().breakpoint(this.exitchannel, this,
-						"Exiting " + module.getNamePhrase());
+						"Exiting " + this.module.getNamePhrase());
 			}
 
 			// Remove module again from stack of modules that have been entered
 			// and possibly update top level context in which we run
-			runState.exitModule(module);
+			runState.exitModule(this.module);
 
 			return null;
 		} else {

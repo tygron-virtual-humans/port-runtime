@@ -27,7 +27,6 @@ import java.io.IOException;
 import languageTools.program.agent.AgentProgram;
 import languageTools.program.agent.Module;
 import languageTools.program.agent.Module.TYPE;
-import languageTools.program.agent.msc.Macro;
 
 /**
  * Create an analysis of the contents of a GOAL program (#1186).
@@ -58,11 +57,11 @@ public class ProgramAnalysis {
 		// file. Get the associated KR language used in the program file from
 		// the MAS registry.
 
-		program = PlatformManager.getCurrent().getAgentProgram(file);
+		this.program = PlatformManager.getCurrent().getAgentProgram(file);
 
 		makeProgramCodeAnalysis();
 
-		programOverview.addSeparator();
+		this.programOverview.addSeparator();
 
 		makePredicateCodeAnalysis();
 	}
@@ -71,33 +70,34 @@ public class ProgramAnalysis {
 	 * Creates the code analysis overview for the program.
 	 */
 	public void makeProgramCodeAnalysis() {
-		programOverview.add("Code analysis overview for the GOAL agent file ",
+		this.programOverview.add(
+				"Code analysis overview for the GOAL agent file ",
 				getFileName());
-		programOverview.add("#Knowledge clauses in all modules ", program
-				.getAllKnowledge().size());
-		programOverview.add("#Belief base clauses in the init module ", program
-				.getAllBeliefs().size());
-		programOverview.add("#Goals in agent program ", program.getAllGoals()
-				.size());
-		programOverview.add("#Modules in agent program ", program
+		this.programOverview.add("#Knowledge clauses in all modules ",
+				this.program.getAllKnowledge().size());
+		this.programOverview.add("#Belief base clauses in the init module ",
+				this.program.getAllBeliefs().size());
+		this.programOverview.add("#Goals in agent program ", this.program
+				.getAllGoals().size());
+		this.programOverview.add("#Modules in agent program ", this.program
 				.getModules().size());
 		int ruleCount = 0;
-		for (Module module : program.getModules()) {
+		for (Module module : this.program.getModules()) {
 			ruleCount += module.getRules().size();
 		}
-		programOverview.add("#Action rules in agent program ", ruleCount);
-		programOverview
-				.add("#Macros in agent program ", program.getAllMacros().size());
-		programOverview.add("#Action specifications in agent program ", program
-				.getAllActionSpecs().size());
+		this.programOverview.add("#Action rules in agent program ", ruleCount);
+		this.programOverview.add("#Macros in agent program ", this.program
+				.getAllMacros().size());
+		this.programOverview.add("#Action specifications in agent program ",
+				this.program.getAllActionSpecs().size());
 
-		for (Module module : program.getModules()) {
+		for (Module module : this.program.getModules()) {
 			if (module.getType() != TYPE.ANONYMOUS) {
 				// add a separator between foregoing and new module code
 				// analysis.
-				programOverview.addSeparator();
-				programOverview.add(new ModuleAnalysis(module)
-						.getModuleCodeAnalysisOverview());
+				this.programOverview.addSeparator();
+				this.programOverview.add(new ModuleAnalysis(module)
+				.getModuleCodeAnalysisOverview());
 			}
 		}
 	}
@@ -106,8 +106,8 @@ public class ProgramAnalysis {
 	 * DOC
 	 */
 	public void makePredicateCodeAnalysis() {
-		predicateOverview = new PredicateAnalysis(this.file, this.program)
-				.getPredicateUseReport();
+		this.predicateOverview = new PredicateAnalysis(this.file, this.program)
+		.getPredicateUseReport();
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class ProgramAnalysis {
 	 * @return overview of the code analysis for the program.
 	 */
 	public CodeAnalysisOverview getProgramCodeAnalysis() {
-		return programOverview;
+		return this.programOverview;
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class ProgramAnalysis {
 	 * @return overview of predicate use.
 	 */
 	public CodeAnalysisOverview getPredicateCodeAnalysis() {
-		return predicateOverview;
+		return this.predicateOverview;
 	}
 
 	/**
@@ -134,6 +134,6 @@ public class ProgramAnalysis {
 	 * @return name of the GOAL agent file.
 	 */
 	public String getFileName() {
-		return file.toString();
+		return this.file.toString();
 	}
 }

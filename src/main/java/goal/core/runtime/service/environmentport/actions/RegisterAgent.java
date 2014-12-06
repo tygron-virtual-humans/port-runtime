@@ -26,7 +26,7 @@ public class RegisterAgent extends Action {
 	 * @return the agentName
 	 */
 	public String getAgentName() {
-		return agentName;
+		return this.agentName;
 	}
 
 	@Override

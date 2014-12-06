@@ -38,7 +38,7 @@ public class Eventually extends TestCondition {
 
 	@Override
 	public String toString() {
-		return "Eventually [query=" + query + "]";
+		return "Eventually [query=" + this.query + "]";
 	}
 
 	@Override
@@ -73,12 +73,12 @@ public class Eventually extends TestCondition {
 							setPassed(true);
 						}
 					} else if (hasNestedCondition()) {
-						if (!nestedOnce) {
+						if (!Eventually.this.nestedOnce) {
 							final Set<Substitution> evaluation = evaluate(
 									runstate, substitution, getQuery());
 							if (!evaluation.isEmpty()) {
 								getNestedCondition().setNested(evaluation);
-								nestedOnce = true;
+								Eventually.this.nestedOnce = true;
 							}
 						}
 					} else {

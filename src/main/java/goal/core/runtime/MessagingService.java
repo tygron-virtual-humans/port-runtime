@@ -68,7 +68,7 @@ public class MessagingService {
 		// Only ask for a messaging client after a server has been started.
 		new InfoLog("Connecting to messaging server...");
 		try {
-			messagingClient = messaging.getClient(new URI(host));
+			this.messagingClient = messaging.getClient(new URI(host));
 		} catch (MessagingException e) {
 			throw new GOALLaunchFailureException(
 					"Failed to connect to messaging server", e);
@@ -86,7 +86,7 @@ public class MessagingService {
 	 * @return The messaging client.
 	 */
 	public MessagingClient getClient() {
-		return messagingClient;
+		return this.messagingClient;
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class MessagingService {
 	 * @return {@code true} if the ID is locally managed.
 	 */
 	public boolean isLocal(MessageBoxId id) {
-		return localIDs.contains(id);
+		return this.localIDs.contains(id);
 	}
 
 	/**
@@ -114,8 +114,8 @@ public class MessagingService {
 	 */
 	public MessageBoxId getNewUniqueID(String name, Type type)
 			throws CommunicationFailureException {
-		MessageBoxId id = messagingClient.getNewUniqueID(name, type);
-		localIDs.add(id);
+		MessageBoxId id = this.messagingClient.getNewUniqueID(name, type);
+		this.localIDs.add(id);
 		return id;
 	}
 
@@ -132,7 +132,7 @@ public class MessagingService {
 	 */
 	public MessageBox getNewMessageBox(MessageBoxId id)
 			throws MessagingException {
-		return messagingClient.createMessageBox(id);
+		return this.messagingClient.createMessageBox(id);
 	}
 
 	/**
@@ -145,14 +145,14 @@ public class MessagingService {
 	 *             If message box could not be removed.
 	 */
 	public void deleteMessageBox(MessageBox messageBox) {
-		if (localIDs.contains(messageBox.getId())) {
+		if (this.localIDs.contains(messageBox.getId())) {
 			try {
-				messagingClient.deleteMessageBox(messageBox);
-				localIDs.remove(messageBox.getId());
+				this.messagingClient.deleteMessageBox(messageBox);
+				this.localIDs.remove(messageBox.getId());
 			} catch (MessagingException e) {
 				throw new GOALRuntimeErrorException(
 						"Failed to disconnect " + messageBox.getId()
-						+ " from messaging infrastructure", e);
+								+ " from messaging infrastructure", e);
 			}
 		}
 	}
@@ -162,15 +162,15 @@ public class MessagingService {
 	 * server.
 	 */
 	public void shutDown() {
-		localIDs.clear();
-		if (messaging != null) {
+		this.localIDs.clear();
+		if (this.messaging != null) {
 			try {
-				messagingClient.dispose();
-				messaging.stopServer();
+				this.messagingClient.dispose();
+				this.messaging.stopServer();
 			} catch (MessagingException e) {
 				new Warning(
 						Resources
-						.get(WarningStrings.FAILED_SHUTDOWN_MSG_SERVER),
+								.get(WarningStrings.FAILED_SHUTDOWN_MSG_SERVER),
 						e);
 			}
 		}

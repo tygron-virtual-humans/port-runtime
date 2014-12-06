@@ -113,7 +113,7 @@ public class LocalMessagingEnvironment {
 				return false;
 			}
 
-			if (!running) {
+			if (!LocalMessagingEnvironment.this.running) {
 				// Message is for us but we don't currently accept messages...
 				new Warning(String.format(
 						Resources.get(WarningStrings.FAILED_LISTENER_OFFLINE),
@@ -129,15 +129,15 @@ public class LocalMessagingEnvironment {
 			 * was thread-safe. EIS specifications make no such guarantees. So
 			 * we threat all operations as if they are not thread safe and queue
 			 * them up.
-			 *
+			 * 
 			 * On Thread-Safe implementations of EIS this creates somewhat of a
 			 * bottleneck because all agents are now waiting for the
 			 * environment.
-			 *
+			 * 
 			 * handleAction(request);
 			 */
 
-			requests.add(request);
+			this.requests.add(request);
 			return true;
 		}
 
@@ -146,8 +146,8 @@ public class LocalMessagingEnvironment {
 			new InfoLog("Messages->Environment started."); //$NON-NLS-1$
 
 			try {
-				while (running) {
-					Action action = requests.take();
+				while (LocalMessagingEnvironment.this.running) {
+					Action action = this.requests.take();
 					handleAction(action);
 				}
 			} catch (InterruptedException e1) {
@@ -169,9 +169,10 @@ public class LocalMessagingEnvironment {
 			}
 
 			try {
-				Message replyMsg = messageBox.createMessage(action.getSender(),
-						result, action.getMessage());
-				messageBox.send(replyMsg);
+				Message replyMsg = LocalMessagingEnvironment.this.messageBox
+						.createMessage(action.getSender(), result,
+								action.getMessage());
+				LocalMessagingEnvironment.this.messageBox.send(replyMsg);
 			} catch (Exception e) {
 				new Warning(
 						String.format(Resources
@@ -195,7 +196,8 @@ public class LocalMessagingEnvironment {
 		 */
 		public Serializable getReward(String agentName) throws QueryException {
 			try {
-				String value = eis.queryProperty("REWARD " + agentName); //$NON-NLS-1$
+				String value = LocalMessagingEnvironment.this.eis
+						.queryProperty("REWARD " + agentName); //$NON-NLS-1$
 				if (value == null) {
 					return null;
 				}
@@ -209,7 +211,8 @@ public class LocalMessagingEnvironment {
 
 		public Serializable invoke(FreeAgent freeAgent)
 				throws RelationException {
-			eis.freeAgent(freeAgent.getAgentName());
+			LocalMessagingEnvironment.this.eis.freeAgent(freeAgent
+					.getAgentName());
 			return null;
 		}
 
@@ -226,7 +229,8 @@ public class LocalMessagingEnvironment {
 			// In case collecting percepts from the environment fails, we return
 			// an empty map.
 			Map<String, Collection<Percept>> eispercepts = new HashMap<>();
-			eispercepts = eis.getAllPercepts(eisAgentName);
+			eispercepts = LocalMessagingEnvironment.this.eis
+					.getAllPercepts(eisAgentName);
 
 			// Collect percepts obtained for each entity that the agent is
 			// connected to.
@@ -238,45 +242,49 @@ public class LocalMessagingEnvironment {
 		}
 
 		public Serializable invoke(Kill kill) throws ManagementException {
-			eis.kill();
+			LocalMessagingEnvironment.this.eis.kill();
 			return null;
 		}
 
 		public Serializable invoke(Pause pause) throws ManagementException {
-			eis.pause();
+			LocalMessagingEnvironment.this.eis.pause();
 			return null;
 		}
 
 		public Serializable invoke(ExecuteAction executeAction)
 				throws ActException {
-			Map<String, Percept> map = eis.performAction(
-					executeAction.getAgentName(), executeAction.getAction());
+			Map<String, Percept> map = LocalMessagingEnvironment.this.eis
+					.performAction(executeAction.getAgentName(),
+							executeAction.getAction());
 			return new ArrayList<>(map.values());
 		}
 
 		public Serializable invoke(AssociateEntity associateEntity)
 				throws RelationException {
-			eis.associateEntity(associateEntity.getAgentName(),
-					associateEntity.getEntity());
+			LocalMessagingEnvironment.this.eis
+					.associateEntity(associateEntity.getAgentName(),
+							associateEntity.getEntity());
 			return null;
 		}
 
 		public Serializable invoke(RegisterAgent registerAgent)
 				throws AgentException {
-			eis.registerAgent(registerAgent.getAgentName());
+			LocalMessagingEnvironment.this.eis.registerAgent(registerAgent
+					.getAgentName());
 			return null;
 		}
 
 		public Serializable invoke(Reset reset) throws ManagementException {
-			eis.reset(initialization);
+			LocalMessagingEnvironment.this.eis
+					.reset(LocalMessagingEnvironment.this.initialization);
 			return null;
 		}
 
 		public Serializable invoke(Start start) throws ManagementException {
 			// FIXME: Eis should not complain about transitions from start to
 			// start.
-			if (eis.getState() != EnvironmentState.RUNNING) {
-				eis.start();
+			if (LocalMessagingEnvironment.this.eis.getState() != EnvironmentState.RUNNING) {
+				LocalMessagingEnvironment.this.eis.start();
 			}
 			return null;
 		}
@@ -285,22 +293,26 @@ public class LocalMessagingEnvironment {
 			LinkedList<EnvironmentEvent> events = new LinkedList<>();
 
 			// Already subscribed, quietly ignore.
-			if (subscribedEnvironmentPorts.contains(subscribe.getSender())) {
+			if (LocalMessagingEnvironment.this.subscribedEnvironmentPorts
+					.contains(subscribe.getSender())) {
 				return events;
 			}
 
 			// Add environment port as listener.
-			subscribedEnvironmentPorts.add(subscribe.getSender());
+			LocalMessagingEnvironment.this.subscribedEnvironmentPorts
+					.add(subscribe.getSender());
 
 			try {
-				for (String entity : eis.getFreeEntities()) {
+				for (String entity : LocalMessagingEnvironment.this.eis
+						.getFreeEntities()) {
 					String type = null;
 					try {
-						type = eis.getType(entity);
+						type = LocalMessagingEnvironment.this.eis
+								.getType(entity);
 					} catch (EntityException e) {
 						new Warning(
 								Resources
-								.get(WarningStrings.FAILED_EIS_GETTYPE),
+										.get(WarningStrings.FAILED_EIS_GETTYPE),
 								e);
 					}
 					events.add(new NewEntityEvent(entity, type));
@@ -309,7 +321,8 @@ public class LocalMessagingEnvironment {
 				// Inform listener about current state of environment by
 				// requesting
 				// EIS for state information.
-				events.add(new StateChangeEvent(eis.getState()));
+				events.add(new StateChangeEvent(
+						LocalMessagingEnvironment.this.eis.getState()));
 
 			} catch (NullPointerException e) {
 				// FIXME: BW4T can throw nullpointers when getFreeEntities() or
@@ -319,7 +332,8 @@ public class LocalMessagingEnvironment {
 		}
 
 		public Serializable invoke(UnSubscribe unSubscribe) {
-			subscribedEnvironmentPorts.remove(unSubscribe.getSender());
+			LocalMessagingEnvironment.this.subscribedEnvironmentPorts
+					.remove(unSubscribe.getSender());
 			return null;
 		}
 	}
@@ -329,7 +343,7 @@ public class LocalMessagingEnvironment {
 	private final Environment2Messages environment2Messages = new Environment2Messages();
 
 	private class Environment2Messages implements Runnable, AgentListener,
-	EnvironmentListener {
+			EnvironmentListener {
 		private final BlockingQueue<EnvironmentEvent> events = new LinkedBlockingQueue<>();
 
 		/**
@@ -339,20 +353,21 @@ public class LocalMessagingEnvironment {
 		 *            The event the listeners are being notified of.
 		 */
 		private void notifyAll(EnvironmentEvent event) {
-			for (MessageBoxId listener : subscribedEnvironmentPorts) {
+			for (MessageBoxId listener : LocalMessagingEnvironment.this.subscribedEnvironmentPorts) {
 				Message msg;
 				try {
-					msg = messageBox.createMessage(listener, event, null);
+					msg = LocalMessagingEnvironment.this.messageBox
+							.createMessage(listener, event, null);
 				} catch (MessagingException e) {
 					new Warning(
 							String.format(
 									Resources
-									.get(WarningStrings.FAILED_CREATE_MSG_TO_INFORM_ENVPORT),
+											.get(WarningStrings.FAILED_CREATE_MSG_TO_INFORM_ENVPORT),
 									event.toString(), listener.toString()), e);
 					return;
 				}
 				try {
-					messageBox.send(msg);
+					LocalMessagingEnvironment.this.messageBox.send(msg);
 				} catch (MessagingException e) {
 					new Warning(String.format(Resources
 							.get(WarningStrings.FAILED_MSG_DELIVER_TO_ENVPORT),
@@ -363,12 +378,12 @@ public class LocalMessagingEnvironment {
 
 		@Override
 		public void handlePercept(String agent, Percept percept) {
-			events.add(new NewPerceptEvent(agent, percept));
+			this.events.add(new NewPerceptEvent(agent, percept));
 		}
 
 		@Override
 		public void handleStateChange(EnvironmentState newState) {
-			events.add(new StateChangeEvent(newState));
+			this.events.add(new StateChangeEvent(newState));
 		}
 
 		@Override
@@ -380,18 +395,18 @@ public class LocalMessagingEnvironment {
 			// entity is present.
 			String type = null;
 			try {
-				type = eis.getType(entity);
+				type = LocalMessagingEnvironment.this.eis.getType(entity);
 			} catch (EntityException e) {
 				new Warning(String.format(
 						Resources.get(WarningStrings.FAILED_EIS_GETTYPE1),
 						entity), e);
 			}
-			events.add(new FreeEntityEvent(entity, agents, type));
+			this.events.add(new FreeEntityEvent(entity, agents, type));
 		}
 
 		@Override
 		public void handleDeletedEntity(String entity, Collection<String> agents) {
-			events.add(new DeletedEntityEvent(entity, agents));
+			this.events.add(new DeletedEntityEvent(entity, agents));
 		}
 
 		@Override
@@ -400,13 +415,13 @@ public class LocalMessagingEnvironment {
 			// Now we have to catch exceptions here which we cannot handle...
 			String type = null;
 			try {
-				type = eis.getType(entity);
+				type = LocalMessagingEnvironment.this.eis.getType(entity);
 			} catch (EntityException e) {
 				new Warning(String.format(
 						Resources.get(WarningStrings.FAILED_EIS_GETTYPE1),
 						entity), e);
 			}
-			events.add(new NewEntityEvent(entity, type));
+			this.events.add(new NewEntityEvent(entity, type));
 		}
 
 		@Override
@@ -414,9 +429,9 @@ public class LocalMessagingEnvironment {
 			try {
 				new InfoLog("Environment->Messages started."); //$NON-NLS-1$
 
-				while (running) {
+				while (LocalMessagingEnvironment.this.running) {
 
-					EnvironmentEvent event = events.take();
+					EnvironmentEvent event = this.events.take();
 					notifyAll(event);
 
 				}
@@ -477,7 +492,7 @@ public class LocalMessagingEnvironment {
 	public LocalMessagingEnvironment(EnvironmentInterfaceStandard eis,
 			String environmentName, Map<String, Parameter> initialization,
 			MessagingService messagingService)
-					throws GOALLaunchFailureException {
+			throws GOALLaunchFailureException {
 		this.initialization = initialization;
 
 		this.messagingService = messagingService;
@@ -489,7 +504,7 @@ public class LocalMessagingEnvironment {
 		try {
 			MessageBoxId id = messagingService.getNewUniqueID(environmentName,
 					Type.ENVIRONMENT);
-			messageBox = messagingService.getNewMessageBox(id);
+			this.messageBox = messagingService.getNewMessageBox(id);
 		} catch (CommunicationFailureException e1) {
 			throw new GOALLaunchFailureException(
 					"can't get new message box id", e1); //$NON-NLS-1$
@@ -502,17 +517,17 @@ public class LocalMessagingEnvironment {
 		// able to respond to requests from clients).
 		// TODO: should not register listener in constructor -
 		// http://www.ibm.com/developerworks/library/j-jtp07265/
-		messageBox.addListener(messages2Environment);
+		this.messageBox.addListener(this.messages2Environment);
 		// Attach this environment connector as listener to environment
 		// interface.
-		eis.attachEnvironmentListener(environment2Messages);
+		eis.attachEnvironmentListener(this.environment2Messages);
 
-		messages2EnvironmentThread = new Thread(messages2Environment,
+		this.messages2EnvironmentThread = new Thread(this.messages2Environment,
 				"Messages->Environment"); //$NON-NLS-1$
-		messages2EnvironmentThread.start();
-		environment2MessagesThread = new Thread(environment2Messages,
+		this.messages2EnvironmentThread.start();
+		this.environment2MessagesThread = new Thread(this.environment2Messages,
 				"Environment->Messages"); //$NON-NLS-1$
-		environment2MessagesThread.start();
+		this.environment2MessagesThread.start();
 	}
 
 	/**
@@ -531,19 +546,19 @@ public class LocalMessagingEnvironment {
 	 * @throws ManagementException
 	 */
 	public synchronized void shutDown() throws InterruptedException,
-	MessagingException, ManagementException {
-		running = false;
-		messages2EnvironmentThread.interrupt();
-		environment2MessagesThread.interrupt();
+			MessagingException, ManagementException {
+		this.running = false;
+		this.messages2EnvironmentThread.interrupt();
+		this.environment2MessagesThread.interrupt();
 
-		messages2EnvironmentThread.join();
-		environment2MessagesThread.join();
+		this.messages2EnvironmentThread.join();
+		this.environment2MessagesThread.join();
 
-		eis.detachEnvironmentListener(environment2Messages);
-		messageBox.removeListener(messages2Environment);
+		this.eis.detachEnvironmentListener(this.environment2Messages);
+		this.messageBox.removeListener(this.messages2Environment);
 
-		if (!eis.getState().equals(EnvironmentState.KILLED)) {
-			eis.kill();
+		if (!this.eis.getState().equals(EnvironmentState.KILLED)) {
+			this.eis.kill();
 		}
 
 		// FIXME: Should block here (instead of looping) until signal from
@@ -575,7 +590,7 @@ public class LocalMessagingEnvironment {
 
 		if (!SwingUtilities.isEventDispatchThread()) {
 
-			while (eis.getState() != EnvironmentState.KILLED) {
+			while (this.eis.getState() != EnvironmentState.KILLED) {
 				try {
 					TimeUnit.MILLISECONDS.sleep(1);
 				} catch (InterruptedException e) {
@@ -586,11 +601,11 @@ public class LocalMessagingEnvironment {
 			}
 
 		}
-		if (eis.getState() == EnvironmentState.KILLED) {
+		if (this.eis.getState() == EnvironmentState.KILLED) {
 			new InfoLog("done."); //$NON-NLS-1$
 		}
 
-		messagingService.deleteMessageBox(messageBox);
+		this.messagingService.deleteMessageBox(this.messageBox);
 	}
 
 	/**
@@ -599,7 +614,7 @@ public class LocalMessagingEnvironment {
 	 * @return the message box for the environment
 	 */
 	public MessageBoxId getMessageBoxId() {
-		return messageBox.getId();
+		return this.messageBox.getId();
 	}
 
 	/**
@@ -615,7 +630,7 @@ public class LocalMessagingEnvironment {
 	 */
 	public synchronized void initialize() throws ManagementException {
 		try {
-			this.eis.init(initialization);
+			this.eis.init(this.initialization);
 		} catch (RuntimeException e) {
 			// FIXME: BW4T throws RuntimeExceptions.
 			// This messes up clean up in failure cases.

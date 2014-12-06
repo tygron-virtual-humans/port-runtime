@@ -18,7 +18,7 @@ public class RemovedLocalEnvironment extends EnvironmentServiceEvent {
 	 *            {@link LocalMessagingEnvironment} that was removed.
 	 */
 	public RemovedLocalEnvironment(MessageBoxId messageBoxId) {
-		boxId = messageBoxId;
+		this.boxId = messageBoxId;
 	}
 
 	/**
@@ -26,6 +26,6 @@ public class RemovedLocalEnvironment extends EnvironmentServiceEvent {
 	 *         that was removed.
 	 */
 	public MessageBoxId getMessageBoxId() {
-		return boxId;
+		return this.boxId;
 	}
 }

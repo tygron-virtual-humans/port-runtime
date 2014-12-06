@@ -74,28 +74,32 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 	 * @return the current run state of the interpreter
 	 */
 	public RunState<DEBUGGER> getRunState() {
-		return runState;
+		return this.runState;
 	}
 
 	@Override
 	protected void initalizeController(Agent<? extends Controller> agent)
 			throws KRInitFailedException {
 		super.initalizeController(agent);
-		program.getKRInterface().initialize(/*program, agent.getId().getName()*/);
+		this.program.getKRInterface().initialize(/*
+												 * program,
+												 * agent.getId().getName()
+												 */);
 		this.runState = new RunState<>(agent.getId(), agent.getEnvironment(),
-				agent.getMessaging(), agent.getLogging(), program, debugger,
-				learner);
+				agent.getMessaging(), agent.getLogging(), this.program,
+				this.debugger, this.learner);
 	}
 
 	@Override
-	public void onReset() throws InterruptedException, KRInitFailedException, KRDatabaseException, KRQueryFailedException, UnknownObjectException {
-		runState.reset();
-		debugger.reset();
+	public void onReset() throws InterruptedException, KRInitFailedException,
+			KRDatabaseException, KRQueryFailedException, UnknownObjectException {
+		this.runState.reset();
+		this.debugger.reset();
 	}
 
 	@Override
 	public void onTerminate() {
-		debugger.kill();
+		this.debugger.kill();
 	}
 
 	@Override
@@ -109,11 +113,17 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 					Callable<Callable<?>> call = in;
 					if (call == null) {
 						// Create the initial call (run the main module)
-						debugger.breakpoint(Channel.REASONING_CYCLE_SEPARATOR,
-								0, "%s has been started", agent.getId());
-						runState.startCycle(false);
-						call = new ModuleExecutor(runState.getMainModule()).execute(runState,
-								program.getKRInterface().getSubstitution(null));
+						GOALInterpreter.this.debugger.breakpoint(
+								Channel.REASONING_CYCLE_SEPARATOR, 0,
+								"%s has been started",
+								GOALInterpreter.this.agent.getId());
+						GOALInterpreter.this.runState.startCycle(false);
+						call = new ModuleExecutor(
+								GOALInterpreter.this.runState.getMainModule())
+								.execute(GOALInterpreter.this.runState,
+										GOALInterpreter.this.program
+												.getKRInterface()
+												.getSubstitution(null));
 					}
 					Callable<Callable<?>> out = null;
 					if (call != null) {
@@ -125,13 +135,15 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 						pool.execute(getRunnable(pool, out));
 					} else {
 						// Clean-up (terminate/dispose)
-						learner.terminate(runState.getMentalState(),
-								runState.getReward());
+						GOALInterpreter.this.learner.terminate(
+								GOALInterpreter.this.runState.getMentalState(),
+								GOALInterpreter.this.runState.getReward());
 						setTerminated();
-						new InfoLog(agent.getId() + " terminated successfully.");
+						new InfoLog(GOALInterpreter.this.agent.getId()
+								+ " terminated successfully.");
 					}
 				} catch (final Exception e) {
-					throwable = e;
+					GOALInterpreter.this.throwable = e;
 					setTerminated();
 				}
 			}
@@ -144,7 +156,7 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 	 * @return the program ran by the interpreter
 	 */
 	public AgentProgram getProgram() {
-		return program;
+		return this.program;
 	}
 
 	/**
@@ -153,7 +165,7 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 	 * @return the debugger used while running the interpreter
 	 */
 	public DEBUGGER getDebugger() {
-		return debugger;
+		return this.debugger;
 	}
 
 	/**
@@ -171,17 +183,17 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 		// Another to remove it. Both should be placed in the run state.
 
 		// if it's me don't worry; I'll take care of myself.
-		if (id.equals(agent.getId())) {
+		if (id.equals(this.agent.getId())) {
 			return;
 		} else if (available) {
 			try {
-				runState.getMentalState().addAgentModel(id, debugger);
+				this.runState.getMentalState().addAgentModel(id, this.debugger);
 			} catch (Exception e) {
 				new Warning(e.getMessage(), e.getCause());
 			}
 		} else {
 			try {
-				runState.getMentalState().removeAgentModel(id);
+				this.runState.getMentalState().removeAgentModel(id);
 			} catch (Exception e) {
 				new Warning(e.getMessage(), e.getCause());
 			}
@@ -191,8 +203,8 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 	@Override
 	public void dispose() throws InterruptedException {
 		super.dispose();
-		debugger.dispose();
-		runState.dispose();
+		this.debugger.dispose();
+		this.runState.dispose();
 		// agent is disposed by the AgentService, which is in turn disposed by
 		// the RuntimeManager, so we don't need to do that here
 	}

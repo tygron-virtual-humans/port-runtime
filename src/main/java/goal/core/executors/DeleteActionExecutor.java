@@ -18,14 +18,14 @@
 
 package goal.core.executors;
 
-import java.rmi.activation.UnknownObjectException;
-
-import krTools.errors.exceptions.KRInitFailedException;
 import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
+
+import java.rmi.activation.UnknownObjectException;
+
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.DeleteAction;
 import mentalState.BASETYPE;
@@ -33,7 +33,7 @@ import mentalstatefactory.MentalStateFactory;
 
 public class DeleteActionExecutor extends ActionExecutor {
 
-	private DeleteAction action;
+	private final DeleteAction action;
 
 	public DeleteActionExecutor(DeleteAction act) {
 		this.action = act;
@@ -42,33 +42,36 @@ public class DeleteActionExecutor extends ActionExecutor {
 	@Override
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
 		try {
-			mentalState.MentalState state = MentalStateFactory.getInterface(
-					action.getKRInterface().getClass());
+			mentalState.MentalState state = MentalStateFactory
+					.getInterface(this.action.getKRInterface().getClass());
 			MentalState mentalState = runState.getMentalState();
-			mentalState.delete(state.filterMailUpdates(action.getUpdate(), false),
+			mentalState.delete(
+					state.filterMailUpdates(this.action.getUpdate(), false),
 					BASETYPE.BELIEFBASE, debugger);
-			mentalState.delete(state.filterMailUpdates(action.getUpdate(), true), 
+			mentalState.delete(
+					state.filterMailUpdates(this.action.getUpdate(), true),
 					BASETYPE.MAILBOX, debugger);
 			mentalState.updateGoalState(debugger);
 		} catch (UnknownObjectException e) {
 			throw new GOALRuntimeErrorException(
-					"Separating beliefs from mails for deletion failed: " + e.getMessage(), e);
+					"Separating beliefs from mails for deletion failed: "
+							+ e.getMessage(), e);
 		}
 
 		// Report action was performed.
 		report(debugger);
 
-		return new Result(action);
+		return new Result(this.action);
 	}
-	
+
 	@Override
 	public DeleteActionExecutor applySubst(
 			krTools.language.Substitution substitution) {
-		return new DeleteActionExecutor(action.applySubst(substitution));
+		return new DeleteActionExecutor(this.action.applySubst(substitution));
 	}
 
 	@Override
 	public Action<?> getAction() {
-		return action;
+		return this.action;
 	}
 }

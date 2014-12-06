@@ -53,7 +53,7 @@ public class RemoteRuntimeService<D extends Debugger, C extends GOALInterpreter<
 		 * @param action
 		 */
 		private void handleEvent(RemoteRuntimeEvent event) {
-			for (RemoteRuntimeListener l : listeners) {
+			for (RemoteRuntimeListener l : RemoteRuntimeService.this.listeners) {
 				l.remoteRuntimeEventOccured(event);
 			}
 		}
@@ -65,7 +65,7 @@ public class RemoteRuntimeService<D extends Debugger, C extends GOALInterpreter<
 				return false;
 			}
 
-			messages.add((RemoteRuntimeEvent) message.getContent());
+			this.messages.add((RemoteRuntimeEvent) message.getContent());
 			return true;
 
 		}
@@ -76,7 +76,7 @@ public class RemoteRuntimeService<D extends Debugger, C extends GOALInterpreter<
 
 			try {
 				while (true) { // interrupt this thread to stop.
-					RemoteRuntimeEvent evt = messages.take();
+					RemoteRuntimeEvent evt = this.messages.take();
 					handleEvent(evt);
 				}
 			} catch (InterruptedException e) {
@@ -94,7 +94,7 @@ public class RemoteRuntimeService<D extends Debugger, C extends GOALInterpreter<
 		private final BlockingQueue<RemoteRuntimeEvent> events = new LinkedBlockingQueue<>();
 
 		public void add(RemoteRuntimeEvent event) {
-			events.add(event);
+			this.events.add(event);
 		}
 
 		/**
@@ -106,20 +106,21 @@ public class RemoteRuntimeService<D extends Debugger, C extends GOALInterpreter<
 		private void broadcast(RemoteRuntimeEvent event) {
 			List<MessageBoxId> rsmboxes;
 			try {
-				rsmboxes = messagingService.getClient().getMessageBoxes(
-						MessageBoxId.Type.RUNTIMESERVICE, null);
+				rsmboxes = RemoteRuntimeService.this.messagingService
+						.getClient().getMessageBoxes(
+								MessageBoxId.Type.RUNTIMESERVICE, null);
 			} catch (MessagingException e1) {
 				new Warning(
 						Resources.get(WarningStrings.FAILED_UPDATE_INTERNAL),
 						e1);
 				return; // FIXME this is fatal. Should throw up.
 			}
-			rsmboxes.remove(messageBox.getId());
+			rsmboxes.remove(RemoteRuntimeService.this.messageBox.getId());
 			for (MessageBoxId receiver : rsmboxes) {
 				try {
-					Message msg = messageBox.createMessage(receiver, event,
-							null);
-					messageBox.send(msg);
+					Message msg = RemoteRuntimeService.this.messageBox
+							.createMessage(receiver, event, null);
+					RemoteRuntimeService.this.messageBox.send(msg);
 				} catch (MessagingException e) {
 					new Warning(String.format(
 							Resources.get(WarningStrings.FAILED_BROADCAST),
@@ -134,7 +135,7 @@ public class RemoteRuntimeService<D extends Debugger, C extends GOALInterpreter<
 
 			try {
 				while (true) { // interrupt this thread to stop.
-					RemoteRuntimeEvent event = events.take();
+					RemoteRuntimeEvent event = this.events.take();
 					broadcast(event);
 				}
 			} catch (InterruptedException e) {
@@ -181,8 +182,8 @@ public class RemoteRuntimeService<D extends Debugger, C extends GOALInterpreter<
 	 *            to add
 	 */
 	public void addListener(RemoteRuntimeListener listener) {
-		if (!listeners.contains(listener)) {
-			listeners.add(listener);
+		if (!this.listeners.contains(listener)) {
+			this.listeners.add(listener);
 		}
 	}
 
@@ -193,8 +194,8 @@ public class RemoteRuntimeService<D extends Debugger, C extends GOALInterpreter<
 	 *             when interupted while waiting
 	 */
 	public void awaitTermination() throws InterruptedException {
-		messages2RuntimeThread.join();
-		runtime2MessagesThread.join();
+		this.messages2RuntimeThread.join();
+		this.runtime2MessagesThread.join();
 	}
 
 	/**
@@ -204,7 +205,7 @@ public class RemoteRuntimeService<D extends Debugger, C extends GOALInterpreter<
 	 *            that has been removed
 	 */
 	public void broadCastDeadAgent(Agent<?> agent) {
-		runtime2Messages.add(new DeadAgent(agent.getId()));
+		this.runtime2Messages.add(new DeadAgent(agent.getId()));
 	}
 
 	/**
@@ -214,14 +215,14 @@ public class RemoteRuntimeService<D extends Debugger, C extends GOALInterpreter<
 	 *            that has been added
 	 */
 	public void broadCastNewAgent(Agent<?> agent) {
-		runtime2Messages.add(new NewAgent(agent.getId()));
+		this.runtime2Messages.add(new NewAgent(agent.getId()));
 	}
 
 	/**
 	 * Notify all remote runtime services that a new runtime has launched.
 	 */
 	public void broadcastRuntimeLaunched() {
-		runtime2Messages.add(new RuntimeLaunched(messageBox.getId()));
+		this.runtime2Messages.add(new RuntimeLaunched(this.messageBox.getId()));
 	}
 
 	/**
@@ -231,8 +232,8 @@ public class RemoteRuntimeService<D extends Debugger, C extends GOALInterpreter<
 	 *            to remove
 	 */
 	public void removeListener(RemoteRuntimeListener listener) {
-		if (listeners.contains(listener)) {
-			listeners.remove(listener);
+		if (this.listeners.contains(listener)) {
+			this.listeners.remove(listener);
 		}
 	}
 
@@ -240,8 +241,8 @@ public class RemoteRuntimeService<D extends Debugger, C extends GOALInterpreter<
 	 * Shuts down the service.
 	 */
 	public void shutDown() {
-		messages2RuntimeThread.interrupt();
-		runtime2MessagesThread.interrupt();
+		this.messages2RuntimeThread.interrupt();
+		this.runtime2MessagesThread.interrupt();
 	}
 
 	/**
@@ -253,18 +254,19 @@ public class RemoteRuntimeService<D extends Debugger, C extends GOALInterpreter<
 
 	public void start() throws MessagingException {
 
-		MessageBoxId id = messagingService.getClient().getNewUniqueID(
+		MessageBoxId id = this.messagingService.getClient().getNewUniqueID(
 				"Runtime Manager", MessageBoxId.Type.RUNTIMESERVICE);
-		this.messageBox = messagingService.getClient().createMessageBox(id);
-		messageBox.addListener(messages2Runtime);
+		this.messageBox = this.messagingService.getClient()
+				.createMessageBox(id);
+		this.messageBox.addListener(this.messages2Runtime);
 
-		messages2RuntimeThread = new Thread(messages2Runtime,
+		this.messages2RuntimeThread = new Thread(this.messages2Runtime,
 				"Messages -> Runtime");
-		messages2RuntimeThread.start();
+		this.messages2RuntimeThread.start();
 
-		runtime2MessagesThread = new Thread(runtime2Messages,
+		this.runtime2MessagesThread = new Thread(this.runtime2Messages,
 				"Runtime -> Messages");
-		runtime2MessagesThread.start();
+		this.runtime2MessagesThread.start();
 	}
 
 }

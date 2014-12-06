@@ -11,10 +11,10 @@ public class RemoteAgentServiceEvent extends AgentServiceEvent {
 	private final AgentId agentId;
 
 	public RemoteAgentServiceEvent(AgentId id) {
-		agentId = id;
+		this.agentId = id;
 	}
 
 	public AgentId getAgentId() {
-		return agentId;
+		return this.agentId;
 	}
 }

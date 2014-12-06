@@ -52,8 +52,8 @@ public class EvaluateIn implements TestSection {
 
 	@Override
 	public String toString() {
-		return "EvaluateIn [conditions= " + conditions + ", action=" + action
-				+ ", boundary=" + boundary + "]";
+		return "EvaluateIn [conditions= " + this.conditions + ", action="
+				+ this.action + ", boundary=" + this.boundary + "]";
 	}
 
 	private final List<TestCondition> conditions;
@@ -87,7 +87,7 @@ public class EvaluateIn implements TestSection {
 	 * @return the test conditions evaluated in this section.
 	 */
 	public List<TestCondition> getQueries() {
-		return conditions;
+		return this.conditions;
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class EvaluateIn implements TestSection {
 	 * @return the action or module on which queries are evaluated
 	 */
 	public TestSection getAction() {
-		return action;
+		return this.action;
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class EvaluateIn implements TestSection {
 	 * @return the boundary condition on which queries are evaluated
 	 */
 	public TestCondition getBoundary() {
-		return boundary;
+		return this.boundary;
 	}
 
 	@Override
@@ -118,7 +118,7 @@ public class EvaluateIn implements TestSection {
 		ObservableDebugger debugger = runState.getDebugger();
 		final int add = (this.boundary == null) ? 0 : 1;
 		TestCondition[] conditions = new TestCondition[this.conditions.size()
-				+ add];
+		                                               + add];
 		if (this.boundary != null) {
 			conditions[0] = this.boundary;
 		}
@@ -126,7 +126,7 @@ public class EvaluateIn implements TestSection {
 			conditions[i] = this.conditions.get(i - add);
 		}
 		List<TestConditionEvaluator> evaluators = installEvaluators(runState,
-				substitution, debugger, conditions);
+				this.substitution, debugger, conditions);
 
 		/*
 		 * Initial evaluation of conditions before action is executed.
@@ -146,7 +146,7 @@ public class EvaluateIn implements TestSection {
 		 * on the debugger may throw a failed test condition exception.
 		 */
 		try {
-			action.run(runState);
+			this.action.run(runState);
 		} catch (TestConditionFailedException e) {
 			uninstallEvaluators(debugger, evaluators);
 			throw new EvaluateInFailed(this, evaluators, e);

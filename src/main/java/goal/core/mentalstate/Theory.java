@@ -128,7 +128,7 @@ public class Theory {
 	@Override
 	public synchronized String toString() {
 		String text = "";
-		for (DatabaseFormula formula : content) {
+		for (DatabaseFormula formula : this.content) {
 			text += formula.toString() + ".\n";
 		}
 		return text;

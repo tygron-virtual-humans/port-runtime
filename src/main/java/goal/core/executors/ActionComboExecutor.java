@@ -37,7 +37,7 @@ import languageTools.program.agent.actions.UserSpecAction;
 
 public class ActionComboExecutor {
 
-	private ActionCombo actions;
+	private final ActionCombo actions;
 
 	public ActionComboExecutor(ActionCombo act) {
 		this.actions = act;
@@ -75,7 +75,8 @@ public class ActionComboExecutor {
 		if (firstaction instanceof UserSpecAction) {
 			// USER-SPECIFIED ACTION MAY HAVE MULTIPLE ACTION SPECS
 			// (PRECONDITIONS).
-			UserSpecActionExecutor userspec = new UserSpecActionExecutor((UserSpecAction) firstaction);
+			UserSpecActionExecutor userspec = new UserSpecActionExecutor(
+					(UserSpecAction) firstaction);
 
 			// Find the first action specification whose precondition holds.
 			solutions = userspec.getOptions(mentalState, debugger);
@@ -88,7 +89,8 @@ public class ActionComboExecutor {
 				// Create new action which only has the action specification
 				// found
 				// by calling #getOptions(runState).
-				UserSpecAction singleActionSpec = userspec.getSelectedActionSpec();
+				UserSpecAction singleActionSpec = userspec
+						.getSelectedActionSpec();
 				// Create action combo using new user specified action.
 				ActionCombo option = new ActionCombo();
 				option.addAction(singleActionSpec);
@@ -118,15 +120,15 @@ public class ActionComboExecutor {
 			// the action combo).
 
 			// Evaluate the precondition of first action in combo.
-			if (ActionExecutor.getActionExecutor(firstaction).
-					evaluatePrecondition(mentalState, debugger, false) != null) {
+			if (ActionExecutor.getActionExecutor(firstaction)
+					.evaluatePrecondition(mentalState, debugger, false) != null) {
 				// If action is not closed throw exception.
 				if (firstaction.isClosed()) {
 					// Action is an option, add the combo as option.
-					options.add(actions);
+					options.add(this.actions);
 				} else {
 					throw new GOALActionFailedException("Attempt to execute "
-							+ actions + " with free variables.");
+							+ this.actions + " with free variables.");
 				}
 			}
 		}
@@ -151,10 +153,10 @@ public class ActionComboExecutor {
 			boolean last) {
 		Result comboResult = new Result();
 
-		for (Action<?> action : actions) {
+		for (Action<?> action : this.actions) {
 			// FIXME is this ok if action is a ModuleCallAction??
-			Result result = ActionExecutor.getActionExecutor(action)
-					.run(runState, substitution,runState.getDebugger(), last);
+			Result result = ActionExecutor.getActionExecutor(action).run(
+					runState, substitution, runState.getDebugger(), last);
 			comboResult.merge(result);
 			// If module needs to be terminated, i.e., {@link ExitModuleAction}
 			// has been performed, then exit execution of combo action.

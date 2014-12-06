@@ -27,13 +27,13 @@ public class RulesExecutor {
 	/**
 	 * Determines how the next action to be executed is selected.
 	 */
-	private RuleEvaluationOrder ruleOrder;
-	
-	public RulesExecutor(List<Rule> rules, RuleEvaluationOrder ruleOrder){
+	private final RuleEvaluationOrder ruleOrder;
+
+	public RulesExecutor(List<Rule> rules, RuleEvaluationOrder ruleOrder) {
 		this.rules = rules;
 		this.ruleOrder = ruleOrder;
 	}
-	
+
 	/**
 	 * Executes this {@link RuleSet}.
 	 *
@@ -53,7 +53,7 @@ public class RulesExecutor {
 		// Make a copy of the rules so we don't shuffle the original below.
 		List<Rule> rules = new ArrayList<>(this.rules);
 
-		switch (ruleOrder) {
+		switch (this.ruleOrder) {
 		case ADAPTIVE:
 		case LINEARADAPTIVE:
 			/*
@@ -68,13 +68,14 @@ public class RulesExecutor {
 					Channel.REASONING_CYCLE_SEPARATOR,
 					null,
 					"+++++++ Adaptive Cycle " + runState.getRoundCounter()
-					+ " +++++++ ");
+							+ " +++++++ ");
 
 			/*
 			 * Get the learner to choose one action option, from the input list
 			 * of action options.
 			 */
-			List<ActionCombo> options = getActionOptions(ms, runState.getDebugger());
+			List<ActionCombo> options = getActionOptions(ms,
+					runState.getDebugger());
 
 			// There are no possible options for actions to execute.
 			if (options.isEmpty()) {
@@ -86,7 +87,8 @@ public class RulesExecutor {
 					runState.getActiveModule().getName(), ms, options);
 
 			/* Now execute the action option */
-			result = new ActionComboExecutor(chosen).run(runState, substitution, true);
+			result = new ActionComboExecutor(chosen).run(runState,
+					substitution, true);
 
 			/*
 			 * Obtain the reward from the environment. Or, if the environment
@@ -139,7 +141,7 @@ public class RulesExecutor {
 
 		return result;
 	}
-	
+
 	/**
 	 * Returns the actions that can be performed in the agent's current mental
 	 * state (extracted from the run state).
@@ -168,7 +170,7 @@ public class RulesExecutor {
 		boolean finished = false;
 
 		// Does not support linearall and randomall orders.
-		switch (ruleOrder) {
+		switch (this.ruleOrder) {
 		case LINEARALL:
 		case RANDOMALL:
 			throw new UnsupportedOperationException(
@@ -185,10 +187,11 @@ public class RulesExecutor {
 		for (Rule rule : this.rules) {
 			// Evaluate the rule's condition.
 			solutions = new MentalStateConditionExecutor(rule.getCondition())
-				.evaluate(mentalState, debugger);
+					.evaluate(mentalState, debugger);
 			// Listall rules need to be processed further.
 			if (rule instanceof ListallDoRule) {
-				solutions = ((ListallDoRule) rule).getVarSubstitution(solutions);
+				solutions = ((ListallDoRule) rule)
+						.getVarSubstitution(solutions);
 			}
 
 			// If condition holds, then check for action options;
@@ -210,7 +213,7 @@ public class RulesExecutor {
 				// other rules
 				// if we have already found some action options.
 				if (actionOptions.size() > 0) {
-					switch (ruleOrder) {
+					switch (this.ruleOrder) {
 					case LINEAR:
 					case LINEARADAPTIVE:
 						finished = true;

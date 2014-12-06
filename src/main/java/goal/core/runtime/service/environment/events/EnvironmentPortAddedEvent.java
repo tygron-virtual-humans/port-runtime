@@ -13,6 +13,6 @@ public class EnvironmentPortAddedEvent extends EnvironmentServiceEvent {
 	 * @return the port
 	 */
 	public EnvironmentPort getPort() {
-		return port;
+		return this.port;
 	}
 }

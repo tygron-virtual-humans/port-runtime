@@ -39,14 +39,14 @@ import mentalState.BASETYPE;
 
 public class UserSpecActionExecutor extends ActionExecutor {
 
-	private UserSpecAction action;
+	private final UserSpecAction action;
 	private Substitution solution = null;
 	private int indexIntoSpecifications;
 
 	public UserSpecActionExecutor(UserSpecAction act) {
 		this.action = act;
 	}
-	
+
 	/**
 	 * @return The latest substitution from calling evaluatePrecondition
 	 */
@@ -61,15 +61,15 @@ public class UserSpecActionExecutor extends ActionExecutor {
 		final Set<Substitution> solutions = getOptions(mentalState, debugger);
 
 		// Return null if no precondition was found that holds; otherwise return
-		// an  instantiated action with the action specification that was found
-		// first for which the precondition holds and use a randomly selected 
+		// an instantiated action with the action specification that was found
+		// first for which the precondition holds and use a randomly selected
 		// substitution to instantiate the action.
 		if (solutions.isEmpty()) {
 			// None of the preconditions holds.
 			if (last) {
 				debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION_USERSPEC,
 						this, "Preconditions of action %s failed.",
-						action.getName());
+						this.action.getName());
 			}
 			return null;
 		} else {
@@ -102,7 +102,7 @@ public class UserSpecActionExecutor extends ActionExecutor {
 			Debugger debugger) {
 		Query precondition = null;
 		// Reset index into specifications.
-		indexIntoSpecifications = -1;
+		this.indexIntoSpecifications = -1;
 
 		// Search for first precondition in list of action specifications that
 		// holds.
@@ -119,7 +119,7 @@ public class UserSpecActionExecutor extends ActionExecutor {
 				// We found a precondition that holds; stop searching.
 				// Remember which action specification is satisfied by setting
 				// index into action specifications.
-				indexIntoSpecifications = i;
+				this.indexIntoSpecifications = i;
 				break;
 			}
 		}
@@ -142,7 +142,7 @@ public class UserSpecActionExecutor extends ActionExecutor {
 	 */
 	protected UserSpecAction getSelectedActionSpec() {
 		// Check if call to #getOptions(RunState) has been made first.
-		if (indexIntoSpecifications == -1) {
+		if (this.indexIntoSpecifications == -1) {
 			throw new UnsupportedOperationException(
 					"Calling #getSelectedActionSpec "
 							+ "is only supported after first calling #getOptions(RunState).");
@@ -151,10 +151,10 @@ public class UserSpecActionExecutor extends ActionExecutor {
 		// Create new action that only has specification found by
 		// #getOptions(RunState).
 		UserSpecAction action = new UserSpecAction(action.getName(),
-				action.getParameters(), action.getExernal(), null, null, 
+				action.getParameters(), action.getExernal(), null, null,
 				action.getSourceInfo());
 		// Get first action specification found for which precondition holds.
-		PrePost actionspec = specifications.get(indexIntoSpecifications);
+		PrePost actionspec = specifications.get(this.indexIntoSpecifications);
 		// Do NOT use addSpecification as this renames variables.
 		action.specifications.add(actionspec);
 
@@ -170,8 +170,8 @@ public class UserSpecActionExecutor extends ActionExecutor {
 	@Override
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
 		// Send the action to the environment if it should be sent.
-		if (action.getExernal()) {
-			runState.doPerformAction(action);
+		if (this.action.getExernal()) {
+			runState.doPerformAction(this.action);
 		}
 
 		// Apply the action's postcondition.
@@ -185,17 +185,17 @@ public class UserSpecActionExecutor extends ActionExecutor {
 		// Report action was performed.
 		report(debugger);
 
-		return new Result(action);
+		return new Result(this.action);
 	}
 
 	@Override
 	protected ActionExecutor applySubst(Substitution subst) {
 		this.solution = subst;
-		return new UserSpecActionExecutor(action.applySubst(subst));
+		return new UserSpecActionExecutor(this.action.applySubst(subst));
 	}
-	
+
 	@Override
 	public Action<?> getAction() {
-		return action;
+		return this.action;
 	}
 }

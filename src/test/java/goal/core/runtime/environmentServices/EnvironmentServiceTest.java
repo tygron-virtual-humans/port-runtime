@@ -9,7 +9,6 @@ import eis.EnvironmentInterfaceStandard;
 import eis.exceptions.EnvironmentInterfaceException;
 import eis.exceptions.ManagementException;
 import eis.iilang.Parameter;
-import languageTools.program.mas.MASProgram;
 import goal.core.runtime.MessagingService;
 import goal.core.runtime.service.environment.EnvironmentService;
 import goal.core.runtime.service.environment.EnvironmentServiceObserver;
@@ -25,6 +24,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import languageTools.program.mas.MASProgram;
 import localmessaging.LocalMessaging;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 import nl.tudelft.goal.messaging.messagebox.MessageBoxId;
@@ -60,27 +60,28 @@ public class EnvironmentServiceTest {
 
 	@Before
 	public void setUp() throws Exception {
-		event = null;
-		messaging = new MessagingService("localhost", new LocalMessaging());
-		environment = new LocalMessagingEnvironment(eis, environmentName,
-				initialization, messaging);
+		this.event = null;
+		this.messaging = new MessagingService("localhost", new LocalMessaging());
+		this.environment = new LocalMessagingEnvironment(this.eis,
+				this.environmentName, this.initialization, this.messaging);
 
 		File file = new File(
 				"src/test/resources/goal/core/runtime/environmentServices/dummy.mas2g");
-		program = PlatformManager.createNew().parseMASFile(file);
+		this.program = PlatformManager.createNew().parseMASFile(file);
 
-		environmentService = new EnvironmentService(program, messaging);
+		this.environmentService = new EnvironmentService(this.program,
+				this.messaging);
 
-		environmentService.start();
+		this.environmentService.start();
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		environmentService.shutDown();
-		environment.shutDown();
-		messaging.shutDown();
+		this.environmentService.shutDown();
+		this.environment.shutDown();
+		this.messaging.shutDown();
 
-		event = null;
+		this.event = null;
 	}
 
 	private Object event;
@@ -90,7 +91,7 @@ public class EnvironmentServiceTest {
 		public void environmentServiceEventOccured(
 				EnvironmentService environmentService,
 				EnvironmentServiceEvent evt) {
-			event = evt;
+			EnvironmentServiceTest.this.event = evt;
 		}
 	}
 
@@ -118,12 +119,13 @@ public class EnvironmentServiceTest {
 			throws GOALLaunchFailureException, ManagementException,
 			InterruptedException, MessagingException {
 		TestObserver observer = new TestObserver();
-		environmentService.addObserver(new TestObserver());
+		this.environmentService.addObserver(new TestObserver());
 
-		environmentService.removeEnvironmentPort(environment.getMessageBoxId());
+		this.environmentService.removeEnvironmentPort(this.environment
+				.getMessageBoxId());
 
-		assertTrue(event instanceof EnvironmentPortRemovedEvent);
-		assertNotNull(((EnvironmentPortRemovedEvent) event).getPort());
+		assertTrue(this.event instanceof EnvironmentPortRemovedEvent);
+		assertNotNull(((EnvironmentPortRemovedEvent) this.event).getPort());
 	}
 
 	@Test
@@ -131,35 +133,35 @@ public class EnvironmentServiceTest {
 			throws ManagementException, InterruptedException,
 			MessagingException, GOALLaunchFailureException {
 		TestObserver observer = new TestObserver();
-		environmentService.addObserver(observer);
-		environment.shutDown();
+		this.environmentService.addObserver(observer);
+		this.environment.shutDown();
 
-		assertTrue(event instanceof EnvironmentPortRemovedEvent);
-		assertNotNull(((EnvironmentPortRemovedEvent) event).getPort());
+		assertTrue(this.event instanceof EnvironmentPortRemovedEvent);
+		assertNotNull(((EnvironmentPortRemovedEvent) this.event).getPort());
 	}
 
 	@Test
 	public void testGetEnvironmentConnector() {
 		// Null because we started a remote Environment.
-		assertNull(environmentService.getLocalEnvironment());
+		assertNull(this.environmentService.getLocalEnvironment());
 	}
 
 	@Test
 	public void testGetEnvironmentPort() throws GOALLaunchFailureException,
-	MessagingException, InterruptedException,
-	EnvironmentInterfaceException {
-		MessageBoxId id = environment.getMessageBoxId();
-		assertNotNull(environmentService.getEnvironmentPort(id));
+			MessagingException, InterruptedException,
+			EnvironmentInterfaceException {
+		MessageBoxId id = this.environment.getMessageBoxId();
+		assertNotNull(this.environmentService.getEnvironmentPort(id));
 	}
 
 	@Test
 	public void testGetEnvironmentPorts() throws GOALLaunchFailureException,
-	MessagingException, InterruptedException,
-	EnvironmentInterfaceException {
-		environmentService.start();
+			MessagingException, InterruptedException,
+			EnvironmentInterfaceException {
+		this.environmentService.start();
 
-		assertFalse(environmentService.getEnvironmentPorts().isEmpty());
-		assertEquals(1, environmentService.getEnvironmentPorts().size());
+		assertFalse(this.environmentService.getEnvironmentPorts().isEmpty());
+		assertEquals(1, this.environmentService.getEnvironmentPorts().size());
 	}
 
 }

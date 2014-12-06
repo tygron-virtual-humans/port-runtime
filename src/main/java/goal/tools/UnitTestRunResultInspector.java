@@ -20,7 +20,7 @@ import languageTools.program.agent.AgentId;
  * @author M.P. Korstanje
  */
 public class UnitTestRunResultInspector implements
-ResultInspector<UnitTestInterpreter<ObservableDebugger>> {
+		ResultInspector<UnitTestInterpreter<ObservableDebugger>> {
 	private final HashMap<AgentId, UnitTestInterpreterResult> results = new HashMap<>();
 	private final UnitTest unitTest;
 
@@ -35,13 +35,13 @@ ResultInspector<UnitTestInterpreter<ObservableDebugger>> {
 	 * @return the unit test results.
 	 */
 	public UnitTestResult getResults() {
-		return new UnitTestResult(unitTest, new HashMap<>(results));
+		return new UnitTestResult(this.unitTest, new HashMap<>(this.results));
 	}
 
 	@Override
 	public void handleResult(
 			Collection<Agent<UnitTestInterpreter<ObservableDebugger>>> agents) {
-		results.clear();
+		this.results.clear();
 
 		// Stop agents. Agents are either stopped or half way in a test. When in
 		// a test the test will show the rule currently being executed as
@@ -60,7 +60,7 @@ ResultInspector<UnitTestInterpreter<ObservableDebugger>> {
 			for (Agent<UnitTestInterpreter<ObservableDebugger>> a : agents) {
 				UnitTestInterpreterResult result = a.getController()
 						.getTestResults();
-				results.put(a.getId(), result);
+				this.results.put(a.getId(), result);
 			}
 		} catch (InterruptedException e) {
 			// Formatter should conclude from absence of results that the test

@@ -41,7 +41,7 @@ public class CodeAnalysisOverview {
 	 * @return the items.
 	 */
 	public List<CodeAnalysisItem> getItems() {
-		return items;
+		return this.items;
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class CodeAnalysisOverview {
 	 *            is the summary to be added.
 	 */
 	public void add(CodeAnalysisOverview overview) {
-		items.addAll(overview.getItems());
+		this.items.addAll(overview.getItems());
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class CodeAnalysisOverview {
 	public String getText(boolean brief, boolean verbose) {
 		String overviewText = "";
 
-		for (CodeAnalysisItem item : items) {
+		for (CodeAnalysisItem item : this.items) {
 			// only display statistics results if brief overview is set to false
 			if (!brief || item.getType() != ItemType.STATISTICS) {
 				if (verbose) {
@@ -91,7 +91,7 @@ public class CodeAnalysisOverview {
 	 *
 	 */
 	public void add(String label, String value, ItemType type) {
-		items.add(new CodeAnalysisItem(label, value, type));
+		this.items.add(new CodeAnalysisItem(label, value, type));
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class CodeAnalysisOverview {
 	 *            a string.
 	 */
 	public void add(String label, String value) {
-		items.add(new CodeAnalysisItem(label, value, ItemType.LABEL));
+		this.items.add(new CodeAnalysisItem(label, value, ItemType.LABEL));
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class CodeAnalysisOverview {
 	 *            a label to be added to the overview.
 	 */
 	public void add(String label) {
-		items.add(new CodeAnalysisItem(label, "", ItemType.LABEL));
+		this.items.add(new CodeAnalysisItem(label, "", ItemType.LABEL));
 	}
 
 	/**
@@ -125,7 +125,8 @@ public class CodeAnalysisOverview {
 	 *            a double that represents e.g. a statistical average.
 	 */
 	public void add(String label, Double value) {
-		items.add(new CodeAnalysisItem(label, "" + value, ItemType.STATISTICS));
+		this.items.add(new CodeAnalysisItem(label, "" + value,
+				ItemType.STATISTICS));
 	}
 
 	/**
@@ -137,7 +138,7 @@ public class CodeAnalysisOverview {
 	 *            an integer that represents an occurrence count.
 	 */
 	public void add(String label, int value) {
-		items.add(new CodeAnalysisItem(label, "" + value,
+		this.items.add(new CodeAnalysisItem(label, "" + value,
 				ItemType.OCCURRENCECOUNT));
 	}
 

@@ -1,20 +1,19 @@
 package goal.core.performance;
 
-import languageTools.program.agent.AgentId;
-import mentalState.BASETYPE;
-import krTools.language.DatabaseFormula;
 import goal.core.mentalstate.BeliefBase;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
-import krTools.errors.exceptions.KRInitFailedException;
 
 import java.lang.management.ManagementFactory;
 import java.util.HashSet;
 
-import swiprolog3.engines.SWIPrologLanguage;
-import swiprolog3.language.JPLUtils;
-import swiprolog3.language.PrologDBFormula;
+import krTools.errors.exceptions.KRInitFailedException;
+import krTools.language.DatabaseFormula;
+import languageTools.program.agent.AgentId;
+import mentalState.BASETYPE;
+import swiprolog.language.JPLUtils;
+import swiprolog.language.PrologDBFormula;
 
 public class TestMentalState {
 

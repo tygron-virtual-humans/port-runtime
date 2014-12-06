@@ -1,10 +1,11 @@
 package goal.core.agent;
 
-import java.rmi.activation.UnknownObjectException;
-
 import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
+
+import java.rmi.activation.UnknownObjectException;
+
 import krTools.KRInterface;
 import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
@@ -74,7 +75,7 @@ public class Agent<CONTROLLER extends Controller> {
 	 *             when interrupted while waiting for the agent to terminate
 	 */
 	public void awaitTermination() throws InterruptedException {
-		controller.awaitTermination();
+		this.controller.awaitTermination();
 	}
 
 	/**
@@ -82,17 +83,17 @@ public class Agent<CONTROLLER extends Controller> {
 	 */
 	public void dispose() {
 		try {
-			controller.dispose();
+			this.controller.dispose();
 		} catch (Exception e) {
 			new Warning(Resources.get(WarningStrings.FAILED_FREE_AGENT), e);
 		}
-		messaging.dispose();
+		this.messaging.dispose();
 		try {
-			environment.dispose();
+			this.environment.dispose();
 		} catch (Exception e) {
 			new Warning(Resources.get(WarningStrings.FAILED_FREE_AGENT), e);
 		}
-		logging.dispose();
+		this.logging.dispose();
 	}
 
 	/**
@@ -100,14 +101,14 @@ public class Agent<CONTROLLER extends Controller> {
 	 * @return the agents controller
 	 */
 	public CONTROLLER getController() {
-		return controller;
+		return this.controller;
 	}
 
 	/**
 	 * @return the environment capabilities of the agent.
 	 */
 	public EnvironmentCapabilities getEnvironment() {
-		return environment;
+		return this.environment;
 	}
 
 	/**
@@ -116,7 +117,7 @@ public class Agent<CONTROLLER extends Controller> {
 	 * @return The name of the agent.
 	 */
 	public AgentId getId() {
-		return id;
+		return this.id;
 	}
 
 	/**
@@ -124,14 +125,14 @@ public class Agent<CONTROLLER extends Controller> {
 	 */
 
 	public MessagingCapabilities getMessaging() {
-		return messaging;
+		return this.messaging;
 	}
 
 	/**
 	 * @return the agent's {@link LoggingCapabilities}.
 	 */
 	public LoggingCapabilities getLogging() {
-		return logging;
+		return this.logging;
 	}
 
 	/**
@@ -143,7 +144,7 @@ public class Agent<CONTROLLER extends Controller> {
 	 */
 
 	public boolean isRunning() {
-		return controller.isRunning();
+		return this.controller.isRunning();
 	}
 
 	/**
@@ -154,27 +155,27 @@ public class Agent<CONTROLLER extends Controller> {
 	 *             when interrupted while waiting for the agent to stop
 	 * @throws KRInitFailedException
 	 *             when failing to reset the {@link KRInterface}.
-	 * @throws KRQueryFailedException 
-	 * @throws KRDatabaseException 
-	 * @throws UnknownObjectException 
+	 * @throws KRQueryFailedException
+	 * @throws KRDatabaseException
+	 * @throws UnknownObjectException
 	 */
-	public void reset() 
-			throws InterruptedException, KRInitFailedException, KRDatabaseException, KRQueryFailedException, UnknownObjectException {
-		controller.reset();
+	public void reset() throws InterruptedException, KRInitFailedException,
+			KRDatabaseException, KRQueryFailedException, UnknownObjectException {
+		this.controller.reset();
 	}
 
 	/**
 	 * Starts the agents process.
 	 */
 	public void start() {
-		controller.run();
+		this.controller.run();
 	}
 
 	/**
 	 * Stops the agents process.
 	 */
 	public void stop() {
-		controller.terminate();
+		this.controller.terminate();
 	}
 
 	/**

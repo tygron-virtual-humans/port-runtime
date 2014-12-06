@@ -17,9 +17,9 @@ import java.util.List;
 public class TestResult {
 	@Override
 	public String toString() {
-		return "TestResult [Test= " + test + ", results=" + results
-				+ ", ruleFailed=" + testSectionFailed + ", passed=" + passed
-				+ "]";
+		return "TestResult [Test= " + this.test + ", results=" + this.results
+				+ ", ruleFailed=" + this.testSectionFailed + ", passed="
+				+ this.passed + "]";
 	}
 
 	public static final TestResult EMPTY = new TestResult(Test.EMPTY);
@@ -43,14 +43,14 @@ public class TestResult {
 	}
 
 	private boolean checkPassed() {
-		return testSectionFailed == null;
+		return this.testSectionFailed == null;
 	}
 
 	/**
 	 * @return
 	 */
 	public boolean isInterupted() {
-		return testSectionFailed instanceof TestSectionInterupted;
+		return this.testSectionFailed instanceof TestSectionInterupted;
 	}
 
 	/**
@@ -79,21 +79,21 @@ public class TestResult {
 	 * @return
 	 */
 	public boolean isPassed() {
-		return passed;
+		return this.passed;
 	}
 
 	/**
 	 * @return
 	 */
 	public TestSectionFailed getRuleFailed() {
-		return testSectionFailed;
+		return this.testSectionFailed;
 	}
 
 	/**
 	 * @return
 	 */
 	public List<TestSectionResult> getRuleResults() {
-		return results;
+		return this.results;
 	}
 
 	/**

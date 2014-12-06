@@ -20,9 +20,9 @@ import languageTools.program.test.AgentTest;
 public class UnitTestInterpreterResult {
 	@Override
 	public String toString() {
-		return "Result of Unit Test Run [test=" + test + ", id=" + id
-				+ ", testResult=" + testResult + ", uncaughtThrowable="
-				+ uncaughtThrowable + ", passed=" + passed + "]";
+		return "Result of Unit Test Run [test=" + this.test + ", id=" + this.id
+				+ ", testResult=" + this.testResult + ", uncaughtThrowable="
+				+ this.uncaughtThrowable + ", passed=" + this.passed + "]";
 	}
 
 	private final AgentTest test;
@@ -57,17 +57,17 @@ public class UnitTestInterpreterResult {
 	 */
 	private boolean checkTestPassed() {
 		// Agent did not crash
-		if (uncaughtThrowable != null) {
+		if (this.uncaughtThrowable != null) {
 			return false;
 		}
 
 		// If we had no test. Test passes by default.
-		if (test == null) {
+		if (this.test == null) {
 			return true;
 		}
 
 		// If a test was ran, it should produce a result and be successful
-		return testResult != null && testResult.isPassed();
+		return this.testResult != null && this.testResult.isPassed();
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class UnitTestInterpreterResult {
 	 *         terminated as expected
 	 */
 	public Throwable getUncaughtThrowable() {
-		return uncaughtThrowable;
+		return this.uncaughtThrowable;
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class UnitTestInterpreterResult {
 	 * @return true if the test passed
 	 */
 	public boolean isPassed() {
-		return passed;
+		return this.passed;
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class UnitTestInterpreterResult {
 	 */
 
 	public AgentTest getTest() {
-		return test;
+		return this.test;
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class UnitTestInterpreterResult {
 	 * @return the AgentId of the agent that produced this result
 	 */
 	public AgentId getId() {
-		return id;
+		return this.id;
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class UnitTestInterpreterResult {
 	 *         <code>null</code>,
 	 */
 	public AgentTestResult getResult() {
-		return testResult;
+		return this.testResult;
 	}
 
 	public <T> T accept(ResultFormatter<T> formatter) {

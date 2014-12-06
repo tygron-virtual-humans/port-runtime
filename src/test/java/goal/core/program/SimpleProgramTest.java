@@ -9,10 +9,11 @@ import goal.tools.adapt.Learner;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.NOPDebugger;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
-import krTools.errors.exceptions.KRInitFailedException;
 
 import java.io.File;
 
+import krTools.errors.exceptions.KRInitFailedException;
+import languageTools.program.agent.AgentProgram;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 
 /**
@@ -40,7 +41,7 @@ public class SimpleProgramTest extends ProgramTest {
 	 *            class of the GOALInterpreter to provide.
 	 */
 	private abstract class SimpleAgentFactory<D extends Debugger, C extends GOALInterpreter<D>>
-	extends AbstractAgentFactory<D, C> {
+			extends AbstractAgentFactory<D, C> {
 
 		/**
 		 * Constructs a factory for agents withouth messaging.
@@ -58,20 +59,21 @@ public class SimpleProgramTest extends ProgramTest {
 	@Override
 	protected Agent<GOALInterpreter<Debugger>> buildAgent(String id,
 			File programFile, AgentProgram program)
-					throws GOALLaunchFailureException, MessagingException,
-					KRInitFailedException {
+			throws GOALLaunchFailureException, MessagingException,
+			KRInitFailedException {
 
 		SimpleAgentFactory<Debugger, GOALInterpreter<Debugger>> factory = new SimpleAgentFactory<Debugger, GOALInterpreter<Debugger>>() {
 
 			@Override
 			protected Debugger provideDebugger() {
-				return new NOPDebugger(agentId);
+				return new NOPDebugger(this.agentId);
 			}
 
 			@Override
 			protected GOALInterpreter<Debugger> provideController(
 					Debugger debugger, Learner learner) {
-				return new GOALInterpreter<Debugger>(program, debugger, learner);
+				return new GOALInterpreter<Debugger>(this.program, debugger,
+						learner);
 			}
 		};
 

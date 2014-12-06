@@ -3,13 +3,10 @@ package goal.parser.unittest;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import goal.parser.antlr.UnitTestLexer;
-import goal.parser.antlr.UnitTestParser;
 import goal.tools.UnitTestRun;
 import goal.tools.UnitTestRunResultInspector;
 import goal.tools.errorhandling.exceptions.GOALCommandCancelledException;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
-import goal.tools.errorhandling.exceptions.GOALParseException;
 import goal.tools.logging.Loggers;
 import goal.tools.unittest.UnitTest;
 import goal.tools.unittest.result.UnitTestResult;
@@ -65,15 +62,15 @@ public class AbstractUnitTestTest {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 
 		UnitTestParser parser = new UnitTestParser(tokens);
-		visitor = new UnitTestWalker(file);
+		this.visitor = new UnitTestWalker(file);
 		parser.removeErrorListeners();
-		parser.addErrorListener(visitor);
+		parser.addErrorListener(this.visitor);
 
-		UnitTest program = visitor.visitUnitTest(parser.unitTest());
+		UnitTest program = this.visitor.visitUnitTest(parser.unitTest());
 
-		if (!visitor.getErrors().isEmpty()) {
-			System.out.println(visitor.getErrors());
-			System.out.println(visitor.getWarnings());
+		if (!this.visitor.getErrors().isEmpty()) {
+			System.out.println(this.visitor.getErrors());
+			System.out.println(this.visitor.getWarnings());
 			return null;
 		}
 
@@ -82,9 +79,9 @@ public class AbstractUnitTestTest {
 	}
 
 	protected UnitTestResult runTest(String testFileName) throws IOException,
-	GOALCommandCancelledException, GOALParseException,
-	GOALLaunchFailureException, MessagingException,
-	InterruptedException, Exception {
+			GOALCommandCancelledException, GOALParseException,
+			GOALLaunchFailureException, MessagingException,
+			InterruptedException, Exception {
 		UnitTest unitTest = setup(testFileName);
 
 		assertNotNull(unitTest);
@@ -102,7 +99,7 @@ public class AbstractUnitTestTest {
 
 	@After
 	public void tearDown() {
-		visitor = null;
+		this.visitor = null;
 	}
 
 }

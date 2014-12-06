@@ -118,7 +118,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 * @param language
 	 *            The KR language used for representing goals.
 	 * @param owner
-	 * 			  The agent that owns this goal base.
+	 *            The agent that owns this goal base.
 	 * @param me
 	 *            The name of the agent that owns this goal base.
 	 * @param name
@@ -144,7 +144,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 * @param singleGoal
 	 *            The goal to be inserted as only goal in the new goal base.
 	 * @param owner
-	 * 			  The agent that owns this goal base.
+	 *            The agent that owns this goal base.
 	 * @param me
 	 *            The name of the agent that owns this goal base.
 	 * @param name
@@ -176,7 +176,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 *         a set of {@link SingleGoal}s.
 	 */
 	public Set<SingleGoal> getGoals() {
-		return goals;
+		return this.goals;
 	}
 
 	/**
@@ -189,18 +189,16 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 *            The current debugger.
 	 */
 	protected void setGoals(List<Update> content, Debugger debugger) {
-		try
-		{
-			mentalState.MentalState state = MentalStateFactory.getInterface(
-					owner.getKRInterface().getClass());
+		try {
+			mentalState.MentalState state = MentalStateFactory
+					.getInterface(this.owner.getKRInterface().getClass());
 			for (Update goal : content) {
-				count++;
+				this.count++;
 				getTime();
-				addGoal(new SingleGoal(goal, owner, state), debugger);
+				addGoal(new SingleGoal(goal, this.owner, state), debugger);
 				updateTimeUsed();
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			new Warning(debugger, String.format(
 					Resources.get(WarningStrings.FAILED_ADD_GOAL),
 					content.toString(), this.owner.toString()), e);
@@ -211,12 +209,12 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 * @return <code>true</code> iff no goals are present in this goal base.
 	 */
 	public boolean isEmpty() {
-		return goals.isEmpty();
+		return this.goals.isEmpty();
 	}
 
 	@Override
 	public Iterator<SingleGoal> iterator() {
-		return goals.iterator();
+		return this.goals.iterator();
 	}
 
 	// *********** query methods ****************/
@@ -242,7 +240,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 		for (SingleGoal goal : this.goals) {
 			try {
 				// Get current time used in this thread.
-				count++;
+				this.count++;
 				getTime();
 				substitutions.addAll(goal.getGoalDatabase().query(query));
 				// Update time used.
@@ -272,9 +270,9 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 */
 	public boolean insert(Update goal, Debugger debugger) {
 		try {
-			mentalState.MentalState state = MentalStateFactory.getInterface(
-					owner.getKRInterface().getClass());
-			count++;
+			mentalState.MentalState state = MentalStateFactory
+					.getInterface(this.owner.getKRInterface().getClass());
+			this.count++;
 			getTime();
 			addGoal(new SingleGoal(goal, this.owner, state), debugger);
 			updateTimeUsed();
@@ -305,7 +303,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 				"%s has been adopted into the "
 						+ (this.owner.equals(this.agentName) ? ""
 								: this.agentName + "'s ") + "goal base: %s.",
-				goal, this.name);
+								goal, this.name);
 	}
 
 	/**
@@ -313,7 +311,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 * initialization.
 	 */
 	private void addGoalPrivate(SingleGoal goal) {
-		goals.add(goal);
+		this.goals.add(goal);
 		goal.markOccurrence();
 	}
 
@@ -330,10 +328,10 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 */
 	public List<SingleGoal> drop(Update dropgoal, Debugger debugger) {
 		List<SingleGoal> goalsToBeDropped = new LinkedList<>();
-		for (SingleGoal goal : goals) {
+		for (SingleGoal goal : this.goals) {
 			try {
 				// Get current time used in this thread.
-				count++;
+				this.count++;
 				getTime();
 				if (!goal.getGoalDatabase().query(dropgoal.toQuery()).isEmpty()) {
 					goalsToBeDropped.add(goal);
@@ -346,7 +344,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 						.toQuery().toString(), this.owner.toString()), e);
 			}
 		}
-		goals.removeAll(goalsToBeDropped);
+		this.goals.removeAll(goalsToBeDropped);
 		for (SingleGoal goal : goalsToBeDropped) {
 			debugger.breakpoint(
 					Channel.GB_UPDATES,
@@ -355,9 +353,9 @@ public final class GoalBase implements Iterable<SingleGoal> {
 							+ " has been dropped from the "
 							+ (this.owner.equals(this.agentName) ? ""
 									: this.agentName + "'s ")
-							+ "goal base: %s.", goal.toString(), this.name);
+									+ "goal base: %s.", goal.toString(), this.name);
 
-			count++;
+			this.count++;
 			getTime();
 			goal.unmarkOccurrence();
 			updateTimeUsed();
@@ -384,7 +382,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 					"Goal %s has been achieved and removed from the "
 							+ (this.owner.equals(this.agentName) ? ""
 									: this.agentName + "'s ")
-							+ "goal base: %s.", goal, getName());
+									+ "goal base: %s.", goal, getName());
 			// #2968 goal is to be disposed. Don't use with delay..
 			goal.unmarkOccurrence();
 		}
@@ -416,7 +414,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 * methods of the kr technology. Should be called when goal base is deleted. <br>
 	 */
 	public void cleanUp() {
-		for (SingleGoal goal : goals) {
+		for (SingleGoal goal : this.goals) {
 			goal.unmarkOccurrence();
 		}
 	}
@@ -430,7 +428,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	public String toString() {
 		StringBuffer text = new StringBuffer("GoalBase[");
 		boolean first = true;
-		for (SingleGoal goal : goals) {
+		for (SingleGoal goal : this.goals) {
 			if (first) {
 				text.append(goal.toString());
 				first = false;
@@ -455,7 +453,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 */
 	public String showContents() {
 		StringBuilder sbuild = new StringBuilder();
-		for (SingleGoal goal : goals) {
+		for (SingleGoal goal : this.goals) {
 			sbuild.append(goal.toString());
 			sbuild.append(".\n");
 		}
@@ -470,7 +468,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 *         base by the KR language.
 	 */
 	public long getTimeUsedByKR() {
-		return timeUsedByKR;
+		return this.timeUsedByKR;
 	}
 
 	/**
@@ -478,7 +476,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 */
 	private void getTime() {
 		ThreadMXBean bean = ManagementFactory.getThreadMXBean();
-		time = bean.getCurrentThreadCpuTime();
+		this.time = bean.getCurrentThreadCpuTime();
 	}
 
 	/**
@@ -488,7 +486,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 */
 	private void updateTimeUsed() {
 		ThreadMXBean bean = ManagementFactory.getThreadMXBean();
-		timeUsedByKR += (bean.getCurrentThreadCpuTime() - time);
+		this.timeUsedByKR += (bean.getCurrentThreadCpuTime() - this.time);
 	}
 
 	/**
@@ -498,7 +496,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 * @return The total number of queries performed on this belief base.
 	 */
 	public long getCount() {
-		return count;
+		return this.count;
 	}
 
 }

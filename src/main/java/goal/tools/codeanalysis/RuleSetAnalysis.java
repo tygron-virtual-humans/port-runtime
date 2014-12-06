@@ -67,20 +67,24 @@ public class RuleSetAnalysis {
 	 * Analyzes the rule set.
 	 */
 	private void analyse() {
-		actionRuleCount = 0;
+		this.actionRuleCount = 0;
 
-		for (Rule actionRule : ruleSet) {
+		for (Rule actionRule : this.ruleSet) {
 			RuleAnalysis ruleAnalysis = new RuleAnalysis(actionRule);
 
 			// action rule may invoke nested set of action rules which also need
 			// to be counted
-			actionRuleCount += ruleAnalysis.getNrActionRules();
+			this.actionRuleCount += ruleAnalysis.getNrActionRules();
 
 			// analyze mental state conditions
-			belAtomStatistics.add(new Double(ruleAnalysis.getNrBelAtoms()));
-			agoalAtomStatistics.add(new Double(ruleAnalysis.getNrAGoalAtoms()));
-			goalAtomStatistics.add(new Double(ruleAnalysis.getNrGoalAtoms()));
-			goalaAtomStatistics.add(new Double(ruleAnalysis.getNrGoalaAtoms()));
+			this.belAtomStatistics
+					.add(new Double(ruleAnalysis.getNrBelAtoms()));
+			this.agoalAtomStatistics.add(new Double(ruleAnalysis
+					.getNrAGoalAtoms()));
+			this.goalAtomStatistics.add(new Double(ruleAnalysis
+					.getNrGoalAtoms()));
+			this.goalaAtomStatistics.add(new Double(ruleAnalysis
+					.getNrGoalaAtoms()));
 
 			// analyze action part
 			updateStats(ruleAnalysis.getActions());
@@ -98,57 +102,57 @@ public class RuleSetAnalysis {
 	public CodeAnalysisOverview getRuleSetCodeAnalysis() {
 		CodeAnalysisOverview overview = new CodeAnalysisOverview();
 
-		overview.add("#Action rules", actionRuleCount);
+		overview.add("#Action rules", this.actionRuleCount);
 
-		for (String name : actionStatistics.keySet()) {
-			overview.add("#Occurrences of action " + name, actionStatistics
-					.get(name).getSum());
+		for (String name : this.actionStatistics.keySet()) {
+			overview.add("#Occurrences of action " + name,
+					this.actionStatistics.get(name).getSum());
 			// no need to check for emptiness, action must be present
-			overview.add("Avg #occurrences in a rule",
-					actionStatistics.get(name).getMean());
-			overview.add("Min #occurrences in a single rule", actionStatistics
-					.get(name).getMinimum());
-			overview.add("Max #occurrences in a single rule", actionStatistics
-					.get(name).getMaximum());
+			overview.add("Avg #occurrences in a rule", this.actionStatistics
+					.get(name).getMean());
+			overview.add("Min #occurrences in a single rule",
+					this.actionStatistics.get(name).getMinimum());
+			overview.add("Max #occurrences in a single rule",
+					this.actionStatistics.get(name).getMaximum());
 		}
 
 		overview.add("Mental state conditions statistics", "",
 				ItemType.STATISTICS);
-		overview.add("#bel atoms", belAtomStatistics.getSum());
-		if (!belAtomStatistics.isEmpty()) {
+		overview.add("#bel atoms", this.belAtomStatistics.getSum());
+		if (!this.belAtomStatistics.isEmpty()) {
 			overview.add("Avg #bel atoms in a rule",
-					belAtomStatistics.getMean());
+					this.belAtomStatistics.getMean());
 			overview.add("Min #bel atoms in single rule",
-					belAtomStatistics.getMinimum());
+					this.belAtomStatistics.getMinimum());
 			overview.add("Max #bel atoms in single rule",
-					belAtomStatistics.getMaximum());
+					this.belAtomStatistics.getMaximum());
 		}
-		overview.add("#a-goal atoms", agoalAtomStatistics.getSum());
-		if (!agoalAtomStatistics.isEmpty()) {
+		overview.add("#a-goal atoms", this.agoalAtomStatistics.getSum());
+		if (!this.agoalAtomStatistics.isEmpty()) {
 			overview.add("Avg #a-goal atoms in a rule",
-					agoalAtomStatistics.getMean());
+					this.agoalAtomStatistics.getMean());
 			overview.add("Min #a-goal atoms in single rule",
-					agoalAtomStatistics.getMinimum());
+					this.agoalAtomStatistics.getMinimum());
 			overview.add("Max #a-goal atoms in single rule",
-					agoalAtomStatistics.getMaximum());
+					this.agoalAtomStatistics.getMaximum());
 		}
-		overview.add("#goal atoms", goalAtomStatistics.getSum());
-		if (!goalAtomStatistics.isEmpty()) {
+		overview.add("#goal atoms", this.goalAtomStatistics.getSum());
+		if (!this.goalAtomStatistics.isEmpty()) {
 			overview.add("Avg #goal atoms in a rule",
-					goalAtomStatistics.getMean());
+					this.goalAtomStatistics.getMean());
 			overview.add("Min #goal atoms in single rule",
-					goalAtomStatistics.getMinimum());
+					this.goalAtomStatistics.getMinimum());
 			overview.add("Max #goal atoms in single rule",
-					goalAtomStatistics.getMaximum());
+					this.goalAtomStatistics.getMaximum());
 		}
-		overview.add("#goal-a atoms", goalaAtomStatistics.getSum());
-		if (!goalaAtomStatistics.isEmpty()) {
+		overview.add("#goal-a atoms", this.goalaAtomStatistics.getSum());
+		if (!this.goalaAtomStatistics.isEmpty()) {
 			overview.add("Avg #goal-a atoms in a rule",
-					goalaAtomStatistics.getMean());
+					this.goalaAtomStatistics.getMean());
 			overview.add("Min #goal-a atoms in single rule",
-					goalaAtomStatistics.getMinimum());
+					this.goalaAtomStatistics.getMinimum());
 			overview.add("Max #goal-a atoms in single rule",
-					goalaAtomStatistics.getMaximum());
+					this.goalaAtomStatistics.getMaximum());
 		}
 
 		return overview;
@@ -161,7 +165,7 @@ public class RuleSetAnalysis {
 	 * @return The total number of action rules.
 	 */
 	public Integer getNrActionRules() {
-		return actionRuleCount;
+		return this.actionRuleCount;
 	}
 
 	/**
@@ -171,7 +175,7 @@ public class RuleSetAnalysis {
 	 *         action and Statistics provides the statistics for that action.
 	 */
 	private Hashtable<String, Statistics> getActionStatistics() {
-		return actionStatistics;
+		return this.actionStatistics;
 	}
 
 	/**
@@ -206,7 +210,7 @@ public class RuleSetAnalysis {
 
 		// determine the NEW actions that we did not see yet.
 		List<String> newactions = new ArrayList<>(otherstats.keySet());
-		newactions.removeAll(actionStatistics.keySet());
+		newactions.removeAll(this.actionStatistics.keySet());
 
 		// insert the new actions in the statistics.
 		for (String newaction : newactions) {
@@ -214,9 +218,9 @@ public class RuleSetAnalysis {
 		}
 
 		// finally, update all statistics.
-		for (String action : actionStatistics.keySet()) {
+		for (String action : this.actionStatistics.keySet()) {
 			// update statistics for action
-			Statistics s = actionStatistics.get(action);
+			Statistics s = this.actionStatistics.get(action);
 			if (otherstats.containsKey(action)) {
 				// for done actions, add the new number to the stats
 				s.merge(otherstats.get(action));
@@ -240,7 +244,7 @@ public class RuleSetAnalysis {
 	private void updateStats(Hashtable<String, Integer> newstats) {
 		// determine the NEW actions that we did not see yet.
 		List<String> newactions = new ArrayList<>(newstats.keySet());
-		newactions.removeAll(actionStatistics.keySet());
+		newactions.removeAll(this.actionStatistics.keySet());
 
 		// insert the new actions in the statistics.
 		for (String newaction : newactions) {
@@ -248,9 +252,9 @@ public class RuleSetAnalysis {
 		}
 
 		// finally, update all statistics.
-		for (String action : actionStatistics.keySet()) {
+		for (String action : this.actionStatistics.keySet()) {
 			// update statistics for action
-			Statistics s = actionStatistics.get(action);
+			Statistics s = this.actionStatistics.get(action);
 			if (newstats.containsKey(action)) {
 				// for done actions, add the new number to the stats
 				s.add(new Double(newstats.get(action)));
@@ -272,9 +276,10 @@ public class RuleSetAnalysis {
 	 */
 	private void addEmptyStatistic(String newname) {
 		Integer numberofcycles = 0;
-		if (!actionStatistics.isEmpty()) {
+		if (!this.actionStatistics.isEmpty()) {
 			// try to get number of cycles. If fails, we have no cycles yet.
-			Statistics firststat = actionStatistics.elements().nextElement();
+			Statistics firststat = this.actionStatistics.elements()
+					.nextElement();
 			numberofcycles = firststat.getSize();
 		}
 		// create array of zeros to instantiate new actions.
@@ -283,7 +288,7 @@ public class RuleSetAnalysis {
 			emptyActions.add(0.);
 		}
 		Statistics emptystat = new Statistics(emptyActions);
-		actionStatistics.put(newname, emptystat);
+		this.actionStatistics.put(newname, emptystat);
 	}
 
 	/**
@@ -292,7 +297,7 @@ public class RuleSetAnalysis {
 	 * @return The statistics about belief mental atoms.
 	 */
 	public Statistics getBelAtomStatistics() {
-		return belAtomStatistics;
+		return this.belAtomStatistics;
 	}
 
 	/**
@@ -301,7 +306,7 @@ public class RuleSetAnalysis {
 	 * @return The statistics about a-goal mental atoms.
 	 */
 	private Statistics getAGoalAtomStatistics() {
-		return agoalAtomStatistics;
+		return this.agoalAtomStatistics;
 	}
 
 	/**
@@ -310,7 +315,7 @@ public class RuleSetAnalysis {
 	 * @return The statistics about goal mental atoms.
 	 */
 	private Statistics getGoalAtomStatistics() {
-		return goalAtomStatistics;
+		return this.goalAtomStatistics;
 	}
 
 	/**
@@ -319,7 +324,7 @@ public class RuleSetAnalysis {
 	 * @return The statistics about goala mental atoms.
 	 */
 	private Statistics getGoalaAtomStatistics() {
-		return goalaAtomStatistics;
+		return this.goalaAtomStatistics;
 	}
 
 	/**
@@ -330,10 +335,12 @@ public class RuleSetAnalysis {
 	 *            is another RuleSetAnalysis
 	 */
 	public void Merge(RuleSetAnalysis ruleSetAnalysis) {
-		belAtomStatistics.merge(ruleSetAnalysis.getBelAtomStatistics());
-		agoalAtomStatistics.merge(ruleSetAnalysis.getAGoalAtomStatistics());
-		goalaAtomStatistics.merge(ruleSetAnalysis.getGoalaAtomStatistics());
-		goalAtomStatistics.merge(ruleSetAnalysis.getGoalAtomStatistics());
+		this.belAtomStatistics.merge(ruleSetAnalysis.getBelAtomStatistics());
+		this.agoalAtomStatistics
+				.merge(ruleSetAnalysis.getAGoalAtomStatistics());
+		this.goalaAtomStatistics
+				.merge(ruleSetAnalysis.getGoalaAtomStatistics());
+		this.goalAtomStatistics.merge(ruleSetAnalysis.getGoalAtomStatistics());
 		mergeStats(ruleSetAnalysis.getActionStatistics());
 	}
 }

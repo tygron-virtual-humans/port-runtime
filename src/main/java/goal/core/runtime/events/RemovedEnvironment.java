@@ -21,13 +21,13 @@ public class RemovedEnvironment implements RemoteRuntimeEvent {
 	 *            The MessageBoxId
 	 */
 	public RemovedEnvironment(MessageBoxId id) {
-		messageBoxId = id;
+		this.messageBoxId = id;
 	}
 
 	/**
 	 * @return The associated MessageBoxId
 	 */
 	public MessageBoxId getMessageBoxId() {
-		return messageBoxId;
+		return this.messageBoxId;
 	}
 }

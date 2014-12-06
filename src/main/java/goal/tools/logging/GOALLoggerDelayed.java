@@ -17,7 +17,7 @@ public class GOALLoggerDelayed extends GOALLogger {
 	}
 
 	private void checkAttachLogFile() {
-		if (eligibleForLogToFile && fileHandler == null
+		if (this.eligibleForLogToFile && this.fileHandler == null
 				&& LoggingPreferences.getLogToFile()) {
 			addLogToFileHandler();
 		}

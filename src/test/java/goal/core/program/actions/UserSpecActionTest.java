@@ -1,19 +1,18 @@
 package languageTools.program.agent.actions;
 
 import static org.junit.Assert.assertEquals;
-import eis.iilang.ParameterList;
-import krTools.KRFactory;
-import krTools.KRlanguage;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import krTools.errors.exceptions.KRInitFailedException;
 import krTools.language.Query;
 import krTools.language.Substitution;
 import krTools.language.Term;
 import krTools.language.Update;
 import krTools.language.Var;
 import languageTools.program.agent.ActionSpecification;
-import krTools.errors.exceptions.KRInitFailedException;
-
-import java.util.ArrayList;
-import java.util.List;
+import languageTools.program.agent.actions.UserSpecAction;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
@@ -21,11 +20,11 @@ import org.antlr.runtime.CommonTokenStream;
 import org.junit.Before;
 import org.junit.Test;
 
-import swiprolog3.engines.SWIPrologLanguage;
-import swiprolog3.language.PrologTerm;
-import swiprolog3.language.VariableTerm;
-import swiprolog3.parser.PrologLexer;
-import swiprolog3.parser.PrologParser;
+import swiprolog.language.PrologTerm;
+import swiprolog.parser.PrologLexer;
+import swiprolog.parser.PrologParser;
+import eis.iilang.ParameterList;
+import goalhub.krTools.KRFactory;
 
 /**
  *
@@ -63,7 +62,7 @@ public class UserSpecActionTest {
 	 * @return
 	 */
 	public Substitution getUnifier(Var var, Term term) {
-		Substitution unifier = language.getSubstitution(null);
+		Substitution unifier = this.language.getSubstitution(null);
 		unifier.addBinding(var, term);
 		return unifier;
 	}
@@ -74,11 +73,11 @@ public class UserSpecActionTest {
 		// Setup defaults.
 
 		// No parameters, i.e., empty list.
-		parameters = new ArrayList<Term>();
+		this.parameters = new ArrayList<Term>();
 		// Precondition "true".
-		precondition = getParser("true").ParseQuery();
+		this.precondition = getParser("true").ParseQuery();
 		// Empty postcondition.
-		postcondition = getParser("").ParseBeliefUpdateOrEmpty();
+		this.postcondition = getParser("").ParseBeliefUpdateOrEmpty();
 	}
 
 	/**
@@ -88,10 +87,10 @@ public class UserSpecActionTest {
 	 */
 	@Test
 	public void test1AddSpecification() throws KRInitFailedException {
-		UserSpecAction action = new UserSpecAction("action", parameters, false,
-				null);
+		UserSpecAction action = new UserSpecAction("action", this.parameters,
+				false, null);
 		ActionSpecification actionspec = new ActionSpecification(action,
-				precondition, postcondition, null);
+				this.precondition, this.postcondition, null);
 
 		assertEquals(true, action.addSpecification(actionspec));
 	}
@@ -103,21 +102,22 @@ public class UserSpecActionTest {
 	 */
 	@Test
 	public void test2AddSpecification() throws KRInitFailedException {
-		parameters = getParser("X").ParsePrologTerms();
-		UserSpecAction action = new UserSpecAction("action", parameters, false,
-				null);
-		parameters = getParser("constant").ParsePrologTerms();
-		UserSpecAction action4spec = new UserSpecAction("action", parameters,
+		this.parameters = getParser("X").ParsePrologTerms();
+		UserSpecAction action = new UserSpecAction("action", this.parameters,
 				false, null);
+		this.parameters = getParser("constant").ParsePrologTerms();
+		UserSpecAction action4spec = new UserSpecAction("action",
+				this.parameters, false, null);
 		ActionSpecification actionspec = new ActionSpecification(action4spec,
-				precondition, postcondition, null);
+				this.precondition, this.postcondition, null);
 
 		jpl.Variable var = new jpl.Variable("X");
 		jpl.Atom constant = new jpl.Atom("constant");
 
 		assertEquals(
 				getUnifier(new VariableTerm(var, null), new PrologTerm(
-						constant, null)), action.mgu(action4spec, language));
+						constant, null)),
+				action.mgu(action4spec, this.language));
 		assertEquals(true, action.addSpecification(actionspec));
 	}
 
@@ -129,21 +129,22 @@ public class UserSpecActionTest {
 	 */
 	@Test
 	public void test3AddSpecification() throws KRInitFailedException {
-		parameters = getParser("constant").ParsePrologTerms();
-		UserSpecAction action = new UserSpecAction("action", parameters, false,
-				null);
-		parameters = getParser("X").ParsePrologTerms();
-		UserSpecAction action4spec = new UserSpecAction("action", parameters,
+		this.parameters = getParser("constant").ParsePrologTerms();
+		UserSpecAction action = new UserSpecAction("action", this.parameters,
 				false, null);
+		this.parameters = getParser("X").ParsePrologTerms();
+		UserSpecAction action4spec = new UserSpecAction("action",
+				this.parameters, false, null);
 		ActionSpecification actionspec = new ActionSpecification(action4spec,
-				precondition, postcondition, null);
+				this.precondition, this.postcondition, null);
 
 		jpl.Variable var = new jpl.Variable("X");
 		jpl.Atom constant = new jpl.Atom("constant");
 
 		assertEquals(
 				getUnifier(new VariableTerm(var, null), new PrologTerm(
-						constant, null)), action.mgu(action4spec, language));
+						constant, null)),
+				action.mgu(action4spec, this.language));
 		assertEquals(true, action.addSpecification(actionspec));
 	}
 
@@ -155,14 +156,14 @@ public class UserSpecActionTest {
 	 */
 	@Test
 	public void test4AddSpecification() throws KRInitFailedException {
-		parameters = getParser("a, X").ParsePrologTerms();
-		UserSpecAction action = new UserSpecAction("action", parameters, false,
-				null);
-		parameters = getParser("Y, Y").ParsePrologTerms();
-		UserSpecAction action4spec = new UserSpecAction("action", parameters,
+		this.parameters = getParser("a, X").ParsePrologTerms();
+		UserSpecAction action = new UserSpecAction("action", this.parameters,
 				false, null);
+		this.parameters = getParser("Y, Y").ParsePrologTerms();
+		UserSpecAction action4spec = new UserSpecAction("action",
+				this.parameters, false, null);
 		ActionSpecification actionspec = new ActionSpecification(action4spec,
-				precondition, postcondition, null);
+				this.precondition, this.postcondition, null);
 
 		jpl.Variable varX = new jpl.Variable("X");
 		jpl.Variable varY = new jpl.Variable("Y");
@@ -172,7 +173,7 @@ public class UserSpecActionTest {
 				new PrologTerm(constant, null));
 		unifier.addBinding(new VariableTerm(varX, null), new PrologTerm(
 				constant, null));
-		assertEquals(unifier, action.mgu(action4spec, language));
+		assertEquals(unifier, action.mgu(action4spec, this.language));
 
 		assertEquals(true, action.addSpecification(actionspec));
 	}
@@ -185,14 +186,14 @@ public class UserSpecActionTest {
 	 */
 	@Test
 	public void test5AddSpecification() throws KRInitFailedException {
-		parameters = getParser("f(a,X)").ParsePrologTerms();
-		UserSpecAction action = new UserSpecAction("action", parameters, false,
-				null);
-		parameters = getParser("f(Y,Z)").ParsePrologTerms();
-		UserSpecAction action4spec = new UserSpecAction("action", parameters,
+		this.parameters = getParser("f(a,X)").ParsePrologTerms();
+		UserSpecAction action = new UserSpecAction("action", this.parameters,
 				false, null);
+		this.parameters = getParser("f(Y,Z)").ParsePrologTerms();
+		UserSpecAction action4spec = new UserSpecAction("action",
+				this.parameters, false, null);
 		ActionSpecification actionspec = new ActionSpecification(action4spec,
-				precondition, postcondition, null);
+				this.precondition, this.postcondition, null);
 
 		jpl.Variable varX = new jpl.Variable("X");
 		jpl.Variable varY = new jpl.Variable("Y");
@@ -204,7 +205,7 @@ public class UserSpecActionTest {
 		unifier.addBinding(new VariableTerm(varX, null), new VariableTerm(varZ,
 				null));
 		// action(f(a,X)) and action(f(Y,Z)) -> Y=a, X=Z
-		assertEquals(unifier, action.mgu(action4spec, language));
+		assertEquals(unifier, action.mgu(action4spec, this.language));
 
 		assertEquals(true, action.addSpecification(actionspec));
 	}

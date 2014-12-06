@@ -10,4 +10,9 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public abstract class EnvironmentEvent implements Serializable {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -5224647899024453852L;
+
 }

@@ -159,7 +159,7 @@ public class FileLearner implements Serializable, Learner {
 		}
 
 		if (!loaded) {
-			runCount = new Integer(0);
+			this.runCount = new Integer(0);
 		}
 
 		/*
@@ -212,9 +212,9 @@ public class FileLearner implements Serializable, Learner {
 					new InfoLog(properties.toString());
 				} catch (Exception e) {
 					System.err
-							.println("WARNING: Could not load learner properties from `"
-									+ file.getName()
-									+ "`. Will proceed with defaults.");
+					.println("WARNING: Could not load learner properties from `"
+							+ file.getName()
+							+ "`. Will proceed with defaults.");
 				}
 			}
 			sarsa_alpha = Double.parseDouble(properties
@@ -228,8 +228,8 @@ public class FileLearner implements Serializable, Learner {
 
 		} catch (Exception e) {
 			System.err
-					.println("WARNING: While loading learner properties got: "
-							+ e.getMessage());
+			.println("WARNING: While loading learner properties got: "
+					+ e.getMessage());
 		}
 
 		// Associate belief filter with corresponding rule set.
@@ -262,13 +262,13 @@ public class FileLearner implements Serializable, Learner {
 			signatures.add(query.getSignature());
 		}
 
-		filters.put(module.getName(), signatures);
+		this.filters.put(module.getName(), signatures);
 
 		new InfoLog("Filter = " + signatures);
 	}
 
 	private Set<String> getBeliefFilters(String module) {
-		return filters.get(module);
+		return this.filters.get(module);
 	}
 
 	/**
@@ -277,10 +277,10 @@ public class FileLearner implements Serializable, Learner {
 	 * @param module
 	 */
 	private void startEpisode(String module) {
-		learners.get(module).instance.start();
-		learners.get(module).totalreward = 0;
-		learners.get(module).totalactions = 0;
-		finishedEpisode = false;
+		this.learners.get(module).instance.start();
+		this.learners.get(module).totalreward = 0;
+		this.learners.get(module).totalactions = 0;
+		this.finishedEpisode = false;
 	}
 
 	/**
@@ -293,24 +293,24 @@ public class FileLearner implements Serializable, Learner {
 	 *            is an instance of {@link LearnerAlgorithm}
 	 */
 	private void setAlgorithm(String module, LearnerAlgorithm algorithm) {
-		learners.put(module, new LearnerInstance(algorithm));
+		this.learners.put(module, new LearnerInstance(algorithm));
 	}
 
 	private LearnerAlgorithm getAlgorithm(String module) {
-		return learners.containsKey(module) ? learners.get(module).instance
+		return this.learners.containsKey(module) ? this.learners.get(module).instance
 				: null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see goal.tools.adapt.Learner#act(java.lang.String,
 	 * goal.core.mentalstate.MentalState, java.util.List, java.util.Set)
 	 */
 	@Override
 	public ActionCombo act(String module, MentalState ms,
 			List<ActionCombo> actionOptions) {
-		updateCalled = false;
+		this.updateCalled = false;
 		ActionCombo chosen = null;
 		// Stores the list of input action options */
 		Vector<ActionCombo> options = new Vector<>();
@@ -323,7 +323,7 @@ public class FileLearner implements Serializable, Learner {
 				options.add(option);
 				// Observe and save the new option if we haven't seen it before
 				processOption(option);
-				optionids.add(actionid.get(option.toString()));
+				optionids.add(this.actionid.get(option.toString()));
 			}
 		}
 
@@ -331,33 +331,34 @@ public class FileLearner implements Serializable, Learner {
 		String newstate = processState(ms, getBeliefFilters(module));
 
 		// Ask the module specific learner to pick the next action
-		Integer newaction = learners.get(module).instance.nextAction(
-				stateid.get(newstate), optionids.toArray(new Integer[0]));
+		Integer newaction = this.learners.get(module).instance.nextAction(
+				this.stateid.get(newstate), optionids.toArray(new Integer[0]));
 
 		// Get the ActionCombo mapped to this action id
 		chosen = options.elementAt(optionids.indexOf(newaction));
 
 		// Increment the number of actions taken so far, for reporting
-		learners.get(module).totalactions++;
+		this.learners.get(module).totalactions++;
 
 		return chosen;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see goal.tools.adapt.Learner#update(java.lang.String,
 	 * goal.core.mentalstate.MentalState, double, java.util.Set)
 	 */
 	@Override
 	public void update(String module, MentalState ms, double reward) {
-		updateCalled = true;
+		this.updateCalled = true;
 		// Observe and save the new state if we haven't seen it before
 		String newstate = processState(ms, getBeliefFilters(module));
 		// Call update on the module specific instance
-		learners.get(module).instance.update(reward, stateid.get(newstate));
+		this.learners.get(module).instance.update(reward,
+				this.stateid.get(newstate));
 		// Accumulate the reward
-		learners.get(module).totalreward += reward;
+		this.learners.get(module).totalreward += reward;
 	}
 
 	/**
@@ -391,13 +392,13 @@ public class FileLearner implements Serializable, Learner {
 	 * @param module
 	 */
 	private void finishEpisode(String module, MentalState ms, double reward) {
-		finishedEpisode = true;
+		this.finishedEpisode = true;
 		// Observe and save the new state if we haven't seen it before
 		processState(ms, getBeliefFilters(module));
 		// Call finish on the module specific instance
-		learners.get(module).instance.finish(reward);
+		this.learners.get(module).instance.finish(reward);
 		// Accumulate the reward
-		learners.get(module).totalreward += reward;
+		this.learners.get(module).totalreward += reward;
 	}
 
 	/**
@@ -414,8 +415,8 @@ public class FileLearner implements Serializable, Learner {
 		try (BufferedWriter out = new BufferedWriter(new FileWriter(outfile,
 				true))) {
 			out.write(String.format("%s: %.2f %.2f %07d\n", agentName,
-					learners.get(module).totalactions,
-					learners.get(module).totalreward, stateid.size()));
+					this.learners.get(module).totalactions,
+					this.learners.get(module).totalreward, this.stateid.size()));
 		} catch (Exception e) {
 			System.err.println("WARNING: Could not write " + outfile + ": "
 					+ e.getMessage());
@@ -426,17 +427,18 @@ public class FileLearner implements Serializable, Learner {
 				false))) {
 			String summary = "";
 			summary += "-----------------------------------------\n";
-			summary += String.format("%-30s: %d\n", "Number of runs", runCount);
+			summary += String.format("%-30s: %d\n", "Number of runs",
+					this.runCount);
 			summary += String.format("%-30s: %d\n",
-					"Situations encountered (below)", stateid.size());
+					"Situations encountered (below)", this.stateid.size());
 			summary += "-----------------------------------------\n";
 			out.write(summary);
 			int index = 0;
-			for (String state : stateid.keySet()) {
+			for (String state : this.stateid.keySet()) {
 				out.write(String.format("s%07d %s\n", index,
-						statestr.get(state)));
-				Hashtable<Integer, Double> avpairs = learners.get(module).instance
-						.actionValues(stateid.get(state));
+						this.statestr.get(state)));
+				Hashtable<Integer, Double> avpairs = this.learners.get(module).instance
+						.actionValues(this.stateid.get(state));
 				List<Integer> sortedByValue = new ArrayList<>(avpairs.keySet()
 						.size());
 				for (Integer i : avpairs.keySet()) {
@@ -454,8 +456,8 @@ public class FileLearner implements Serializable, Learner {
 				}
 				String s = "";
 				for (Integer i : sortedByValue) {
-					s += String.format("%20s : %+06.3f\n", actionstr.get(i),
-							avpairs.get(i));
+					s += String.format("%20s : %+06.3f\n",
+							this.actionstr.get(i), avpairs.get(i));
 				}
 				out.write(s);
 				index++;
@@ -477,13 +479,13 @@ public class FileLearner implements Serializable, Learner {
 	 * @return
 	 */
 	private String processState(MentalState ms, Set<String> filter) {
-		String state = converter.translate(filteredBeliefs(ms, filter),
+		String state = this.converter.translate(filteredBeliefs(ms, filter),
 				ms.getAttentionStack()).toString();
-		if (!stateid.containsKey(state)) {
-			stateid.put(state, new Integer(stateid.size() + 1));
+		if (!this.stateid.containsKey(state)) {
+			this.stateid.put(state, new Integer(this.stateid.size() + 1));
 		}
 
-		if (!statestr.containsKey(state)) {
+		if (!this.statestr.containsKey(state)) {
 			String s = "";
 			Set<DatabaseFormula> beliefs = filteredBeliefs(ms, filter);
 			List<String> strset = new ArrayList<>(beliefs.size());
@@ -493,7 +495,7 @@ public class FileLearner implements Serializable, Learner {
 			Collections.sort(strset);
 			s += strset.toString() + " ";
 			s += ms.getAttentionStack().toString();
-			statestr.put(state, s);
+			this.statestr.put(state, s);
 		}
 
 		return state;
@@ -505,11 +507,13 @@ public class FileLearner implements Serializable, Learner {
 	 * @param option
 	 */
 	private void processOption(ActionCombo option) {
-		if (!actionid.containsKey(option.toString())) {
-			actionid.put(option.toString(), new Integer(actionid.size() + 1));
+		if (!this.actionid.containsKey(option.toString())) {
+			this.actionid.put(option.toString(),
+					new Integer(this.actionid.size() + 1));
 		}
-		if (!actionstr.containsKey(actionid.get(option.toString()))) {
-			actionstr.put(actionid.get(option.toString()), option.toString());
+		if (!this.actionstr.containsKey(this.actionid.get(option.toString()))) {
+			this.actionstr.put(this.actionid.get(option.toString()),
+					option.toString());
 		}
 	}
 
@@ -536,41 +540,41 @@ public class FileLearner implements Serializable, Learner {
 
 		LearnerInstance(LearnerAlgorithm instance) {
 			this.instance = instance;
-			totalreward = 0;
-			totalactions = 0;
+			this.totalreward = 0;
+			this.totalactions = 0;
 		}
 	}
 
 	private void writeObject(ObjectOutputStream oos) throws IOException {
 		// oos.defaultWriteObject();
-		oos.writeObject(runCount);
-		oos.writeObject(learners);
-		oos.writeObject(actionid);
-		oos.writeObject(stateid);
-		oos.writeObject(actionstr);
-		oos.writeObject(statestr);
-		universe = converter.getUniverse().toStringArray();
-		oos.writeObject(universe);
+		oos.writeObject(this.runCount);
+		oos.writeObject(this.learners);
+		oos.writeObject(this.actionid);
+		oos.writeObject(this.stateid);
+		oos.writeObject(this.actionstr);
+		oos.writeObject(this.statestr);
+		this.universe = this.converter.getUniverse().toStringArray();
+		oos.writeObject(this.universe);
 	}
 
 	@SuppressWarnings("unchecked")
 	private void readObject(ObjectInputStream ois)
 			throws ClassNotFoundException, IOException {
 		// is.defaultReadObject();
-		runCount = (Integer) ois.readObject();
-		learners = (Map<String, LearnerInstance>) ois.readObject();
-		actionid = (Map<String, Integer>) ois.readObject();
-		stateid = (Map<String, Integer>) ois.readObject();
-		actionstr = (Map<Integer, String>) ois.readObject();
-		statestr = (Map<String, String>) ois.readObject();
-		universe = (List<String>) ois.readObject();
-		converter = new GOALMentalStateConverter(null);
-		converter.getUniverse().setPreassignedIndices(universe);
+		this.runCount = (Integer) ois.readObject();
+		this.learners = (Map<String, LearnerInstance>) ois.readObject();
+		this.actionid = (Map<String, Integer>) ois.readObject();
+		this.stateid = (Map<String, Integer>) ois.readObject();
+		this.actionstr = (Map<Integer, String>) ois.readObject();
+		this.statestr = (Map<String, String>) ois.readObject();
+		this.universe = (List<String>) ois.readObject();
+		this.converter = new GOALMentalStateConverter(null);
+		this.converter.getUniverse().setPreassignedIndices(this.universe);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * goal.tools.adapt.Learner#terminateLearner(goal.core.mentalstate.MentalState
 	 * , java.lang.Double)
@@ -583,7 +587,7 @@ public class FileLearner implements Serializable, Learner {
 		 * Learning episodes are always terminated here. We do this once for all
 		 * ADAPTIVE modules going from RUNNING->KILLED.
 		 */
-		for (Module module : program.getAllModules()) {
+		for (Module module : this.program.getAllModules()) {
 			if (module.getRuleSet().getRuleOrder() == RuleEvaluationOrder.ADAPTIVE) {
 				/*
 				 * Learning was performed in this program so we will save the
@@ -592,9 +596,9 @@ public class FileLearner implements Serializable, Learner {
 				writeLearnerToFile = true;
 
 				// Increment the runCount;
-				runCount++;
+				this.runCount++;
 
-				if (!finishedEpisode || !updateCalled) {
+				if (!this.finishedEpisode || !this.updateCalled) {
 					/*
 					 * Obtain the reward from the environment. Or, if the
 					 * environment does not support rewards, then create an
@@ -606,10 +610,10 @@ public class FileLearner implements Serializable, Learner {
 							.isEmpty();
 					double reward = (envReward != null) ? envReward
 							: goalsEmpty ? 1.0 : -1.0;
-					if (!updateCalled) {
+					if (!this.updateCalled) {
 						update(module.getName(), ms, reward);
 					}
-					if (!finishedEpisode) {
+					if (!this.finishedEpisode) {
 						finishEpisode(module.getName(), ms, reward);
 					}
 
@@ -632,7 +636,7 @@ public class FileLearner implements Serializable, Learner {
 			 * else save to agentname.lrn
 			 */
 			else {
-				saveLearner(lrnPrefix + ".lrn");
+				saveLearner(this.lrnPrefix + ".lrn");
 			}
 		}
 
@@ -665,14 +669,14 @@ public class FileLearner implements Serializable, Learner {
 				new BufferedInputStream(new FileInputStream(file)))) {
 			Object obj = input.readObject();
 			FileLearner l = (FileLearner) obj;
-			runCount = l.runCount;
-			learners = l.learners;
-			actionid = l.actionid;
-			stateid = l.stateid;
-			actionstr = l.actionstr;
-			statestr = l.statestr;
-			universe = l.universe;
-			converter = l.converter;
+			this.runCount = l.runCount;
+			this.learners = l.learners;
+			this.actionid = l.actionid;
+			this.stateid = l.stateid;
+			this.actionstr = l.actionstr;
+			this.statestr = l.statestr;
+			this.universe = l.universe;
+			this.converter = l.converter;
 			new InfoLog("\nLoading learned model from file " + file);
 			return true;
 		} catch (Exception e) {

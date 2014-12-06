@@ -17,20 +17,21 @@ public class EvaluateInFailed extends TestSectionFailed {
 
 	@Override
 	public String toString() {
-		return "EvaluateInFailed [evaluateIn=" + evaluateIn + ", evaluators="
-				+ evaluators + ", exception=" + exception + "]";
+		return "EvaluateInFailed [evaluateIn=" + this.evaluateIn
+				+ ", evaluators=" + this.evaluators + ", exception="
+				+ this.exception + "]";
 	}
 
 	public EvaluateIn getEvaluateIn() {
-		return evaluateIn;
+		return this.evaluateIn;
 	}
 
 	public List<TestConditionEvaluator> getEvaluators() {
-		return evaluators;
+		return this.evaluators;
 	}
 
 	public TestConditionEvaluator getFirstFailureCause() {
-		return exception != null ? exception.getEvaluator() : null;
+		return this.exception != null ? this.exception.getEvaluator() : null;
 	}
 
 	private final List<TestConditionEvaluator> evaluators;

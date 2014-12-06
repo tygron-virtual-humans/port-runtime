@@ -17,8 +17,8 @@ public class AgentTestResult {
 
 	@Override
 	public String toString() {
-		return "AgentTestResult [passed=" + passed + ", agentTest=" + agentTest
-				+ ", test=" + test + "]";
+		return "AgentTestResult [passed=" + this.passed + ", agentTest="
+				+ this.agentTest + ", test=" + this.test + "]";
 	}
 
 	private final boolean passed;
@@ -43,7 +43,7 @@ public class AgentTestResult {
 	 * @return true if before, test and after passed.
 	 */
 	private boolean checkTestPassed() {
-		return test.isPassed();
+		return this.test.isPassed();
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class AgentTestResult {
 	 * @return the test associated with this results.
 	 */
 	public AgentTest getTest() {
-		return agentTest;
+		return this.agentTest;
 	}
 
 	/**
@@ -62,14 +62,14 @@ public class AgentTestResult {
 	 * @return true if the test passed.
 	 */
 	public boolean isPassed() {
-		return passed;
+		return this.passed;
 	}
 
 	/**
 	 * @return The test result
 	 */
 	public TestResult getTestResult() {
-		return test;
+		return this.test;
 	}
 
 	/**

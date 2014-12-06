@@ -6,7 +6,7 @@ import goal.preferences.PMPreferences;
 import goal.tools.adapt.Learner;
 
 public class IDEAgentFactory extends
-AbstractAgentFactory<IDEDebugger, IDEGOALInterpreter> {
+		AbstractAgentFactory<IDEDebugger, IDEGOALInterpreter> {
 
 	public IDEAgentFactory(MessagingService messaging) {
 		super(messaging);
@@ -14,13 +14,14 @@ AbstractAgentFactory<IDEDebugger, IDEGOALInterpreter> {
 
 	@Override
 	protected IDEDebugger provideDebugger() {
-		return new IDEDebugger(agentId, program, programFile, environment);
+		return new IDEDebugger(this.agentId, this.program, this.programFile,
+				this.environment);
 	}
 
 	@Override
 	protected IDEGOALInterpreter provideController(IDEDebugger debugger,
 			Learner learner) {
-		IDEGOALInterpreter controller = new IDEGOALInterpreter(program,
+		IDEGOALInterpreter controller = new IDEGOALInterpreter(this.program,
 				debugger, learner);
 		if (PMPreferences.getRemoveKilledAgent()) {
 			controller.setDisposeOnTermination();

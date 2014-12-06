@@ -34,7 +34,7 @@ public class Until extends TestCondition {
 
 	@Override
 	public String toString() {
-		return "Until [query=" + query + "]";
+		return "Until [query=" + this.query + "]";
 	}
 
 	@Override
@@ -59,8 +59,8 @@ public class Until extends TestCondition {
 
 			@Override
 			public void notifyBreakpointHit(DebugEvent event) {
-				if (!first) {
-					first = true;
+				if (!Until.this.first) {
+					Until.this.first = true;
 				} else if (!evaluate(runState, substitution, getQuery())
 						.isEmpty()) {
 					setPassed(true);

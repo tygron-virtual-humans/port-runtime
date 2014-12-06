@@ -67,22 +67,22 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 
 	@Override
 	public String toString() {
-		return getObserverName() + " [TestCondition= " + condition
-				+ ", passed=" + passed + "]";
+		return getObserverName() + " [TestCondition= " + this.condition
+				+ ", passed=" + this.passed + "]";
 	}
 
 	/**
 	 * @return query used by the {@link TestCondition}.
 	 */
 	public MentalStateCondition getQuery() {
-		return condition.getQuery();
+		return this.condition.getQuery();
 	}
 
 	/**
 	 * @return {@link TestCondition} being evaluated.
 	 */
 	public TestCondition getCondition() {
-		return condition;
+		return this.condition;
 	}
 
 	/**
@@ -104,7 +104,7 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 		// reset that variable so we can set it again, but store it
 		// so we can put it back when the evaluation below failed
 		final Map<Var, Term> removed = new HashMap<>();
-		for (final Var pre : condition.getBoundByMe()) {
+		for (final Var pre : this.condition.getBoundByMe()) {
 			Term term = substitution.get(pre);
 			removed.put(pre, term);
 			substitution.remove(pre);
@@ -112,11 +112,12 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 		// Run the query
 		Set<Substitution> result = new HashSet<>(0);
 		try {
-			result = new MentalStateConditionExecutor(query.applySubst(substitution))
-				.evaluate(runState.getMentalState(), debugger);
+			result = new MentalStateConditionExecutor(
+					query.applySubst(substitution)).evaluate(
+					runState.getMentalState(), debugger);
 		} catch (Exception e) {
-			result = new MentalStateConditionExecutor(query)
-				.evaluate(runState.getMentalState(), debugger);
+			result = new MentalStateConditionExecutor(query).evaluate(
+					runState.getMentalState(), debugger);
 		}
 		// Update the substitution when needed,
 		// registering any new variables this condition has bounded,
@@ -129,7 +130,7 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 			Substitution apply = result.iterator().next();
 			for (final Var var : apply.getVariables()) {
 				final Term term = apply.get(var);
-				if (term.isClosed() && condition.addBoundVar(var)) {
+				if (term.isClosed() && this.condition.addBoundVar(var)) {
 					substitution.addBinding(var, term);
 				}
 			}

@@ -20,33 +20,30 @@ package languageTools.program.agent;
 import static org.junit.Assert.assertTrue;
 import goal.core.agent.Agent;
 import goal.core.agent.GOALInterpreter;
-import krTools.KRlanguage;
-import krTools.language.Query;
-import krTools.language.Substitution;
-import krTools.language.Term;
-import krTools.language.Var;
 import goal.core.mentalstate.MentalState;
-import languageTools.program.agent.SelectExpression.SelectorType;
-import mentalState.BASETYPE;
 import goal.tools.PlatformManager;
 import goal.tools.SingleRun;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
-import goal.tools.errorhandling.exceptions.GOALParseException;
-import krTools.errors.exceptions.KRInitFailedException;
 import goal.tools.logging.Loggers;
 
 import java.io.File;
 import java.util.Set;
 
+import krTools.errors.exceptions.KRInitFailedException;
+import krTools.language.Query;
+import krTools.language.Substitution;
+import krTools.language.Term;
+import krTools.language.Var;
+import languageTools.program.agent.AgentProgram;
+import languageTools.program.agent.selector.Selector.SelectorType;
+import mentalState.BASETYPE;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-
-import swiprolog3.engines.SWIPrologLanguage;
 
 /**
  * General utility functions for running tests using {@link SingleRun}
@@ -133,8 +130,8 @@ public abstract class ProgramTest {
 
 	protected abstract Agent<GOALInterpreter<Debugger>> buildAgent(String id,
 			File programFile, AgentProgram program)
-			throws GOALLaunchFailureException, MessagingException,
-			KRInitFailedException;
+					throws GOALLaunchFailureException, MessagingException,
+					KRInitFailedException;
 
 	protected RunResult inspectResult(GOALInterpreter<Debugger> goalInterpreter) {
 		MentalState mentalState = goalInterpreter.getRunState()

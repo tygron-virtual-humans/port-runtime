@@ -76,33 +76,33 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 		private final Set<AgentId> all = new HashSet<>();
 
 		public Set<AgentId> allId() {
-			return all;
+			return this.all;
 		}
 
 		public void addLocal(Agent<C> agent) {
-			local.put(agent.getId(), agent);
-			all.add(agent.getId());
+			this.local.put(agent.getId(), agent);
+			this.all.add(agent.getId());
 		}
 
 		public void add(AgentId id) {
-			all.add(id);
+			this.all.add(id);
 		}
 
 		public Collection<Agent<C>> local() {
-			return local.values();
+			return this.local.values();
 		}
 
 		public Agent<C> getLocal(AgentId id) {
-			return local.get(id);
+			return this.local.get(id);
 		}
 
 		public boolean containsLocal(AgentId id) {
-			return local.containsKey(id);
+			return this.local.containsKey(id);
 		}
 
 		public void remove(AgentId id) {
-			all.remove(id);
-			local.remove(id);
+			this.all.remove(id);
+			this.local.remove(id);
 		}
 	}
 
@@ -125,7 +125,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 *             DOC
 	 */
 	public synchronized void start() throws GOALLaunchFailureException {
-		for (LaunchRule multilaunch : masProgram.getLaunchRules()) {
+		for (LaunchRule multilaunch : this.masProgram.getLaunchRules()) {
 			for (Launch launch : multilaunch.getInstructions()) {
 				for (int i = 0; i < launch.getNumberOfAgentsToLaunch(); i++) {
 					launchAgent(launch);
@@ -166,7 +166,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 * @return a list of the agents
 	 */
 	public synchronized Collection<Agent<C>> getAgents() {
-		return new ArrayList<>(agents.local());
+		return new ArrayList<>(this.agents.local());
 	}
 
 	/**
@@ -175,7 +175,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 * @return a set of all agents
 	 */
 	public Set<AgentId> getAll() {
-		return new HashSet<>(agents.all);
+		return new HashSet<>(this.agents.all);
 	}
 
 	/**
@@ -187,7 +187,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 *         name does not exist locally on THIS JVM.
 	 */
 	public synchronized Agent<C> getAgent(AgentId id) {
-		return agents.getLocal(id);
+		return this.agents.getLocal(id);
 	}
 
 	/**
@@ -198,7 +198,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 */
 	public synchronized List<Agent<C>> getAliveAgents() {
 		List<Agent<C>> aliveAgents = new LinkedList<>();
-		for (Agent<C> agent : agents.local()) {
+		for (Agent<C> agent : this.agents.local()) {
 			if (agent.isRunning()) {
 				aliveAgents.add(agent);
 			}
@@ -213,7 +213,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 */
 	public synchronized List<Agent<C>> getDeadAgents() {
 		List<Agent<C>> deadAgents = new LinkedList<>();
-		for (Agent<C> agent : agents.local()) {
+		for (Agent<C> agent : this.agents.local()) {
 			if (!agent.isRunning()) {
 				deadAgents.add(agent);
 			}
@@ -225,7 +225,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 * @return True if there are any running local agents.
 	 */
 	public synchronized boolean hasAliveLocalAgents() {
-		for (Agent<C> agent : agents.local()) {
+		for (Agent<C> agent : this.agents.local()) {
 			if (agent.isRunning()) {
 				return true;
 			}
@@ -237,7 +237,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 * @return True if there are any local agents (running or not).
 	 */
 	public synchronized boolean hasLocalAgents() {
-		return !agents.local().isEmpty();
+		return !this.agents.local().isEmpty();
 	}
 
 	/**
@@ -247,8 +247,8 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 *            The agent to stop.
 	 */
 	public synchronized void stopAgent(AgentId id) {
-		if (agents.containsLocal(id)) {
-			agents.getLocal(id).stop();
+		if (this.agents.containsLocal(id)) {
+			this.agents.getLocal(id).stop();
 		}
 	}
 
@@ -262,11 +262,11 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 */
 	public void handleAgentCreated(AgentId id) {
 		synchronized (this) {
-			agents.add(id);
+			this.agents.add(id);
 
 			// We don't know if the id is remote ore local.
 			// We just pass the message onto the agent.
-			for (Agent<C> agent : agents.local()) {
+			for (Agent<C> agent : this.agents.local()) {
 				agent.getController().updateAgentAvailability(id, true);
 			}
 		}
@@ -288,11 +288,11 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 		Agent<C> agent;
 		synchronized (this) {
 			// Fetch agent and remove
-			agent = agents.getLocal(id);
-			agents.remove(id);
+			agent = this.agents.getLocal(id);
+			this.agents.remove(id);
 
 			// Pass the message onto the other agent.
-			for (Agent<C> a : agents.local()) {
+			for (Agent<C> a : this.agents.local()) {
 				a.getController().updateAgentAvailability(id, true);
 			}
 		}
@@ -374,7 +374,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 
 		// Get base name for the agent. Either provided by the Launch or the
 		// Environment. FIXME: application count?!
-		String agentBaseName = launch.getGivenName(newEntity,0);
+		String agentBaseName = launch.getGivenName(newEntity, 0);
 
 		// Check whether agent name should be prefixed with name of MAS (file).
 		// Useful when running multiple MAS files using the batch runner.
@@ -392,7 +392,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 		File goalProgramFile = launch.getAgentFile();
 		Agent<C> agent;
 		try {
-			agent = factory.build(program, goalProgramFile, agentBaseName,
+			agent = this.factory.build(program, goalProgramFile, agentBaseName,
 					environment);
 		} catch (KRInitFailedException e) {
 			throw new GOALLaunchFailureException("Could not create Agent", e);
@@ -418,16 +418,16 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 		// We've created a new agent; inform that agent of the existence of all
 		// other agents that we know of.
 		synchronized (this) {
-			for (AgentId otherId : agents.allId()) {
+			for (AgentId otherId : this.agents.allId()) {
 				agent.getController().updateAgentAvailability(otherId, true);
 			}
 
-			for (Agent<C> otherAgent : agents.local()) {
+			for (Agent<C> otherAgent : this.agents.local()) {
 				otherAgent.getController().updateAgentAvailability(
 						agent.getId(), true);
 			}
 
-			agents.addLocal(agent);
+			this.agents.addLocal(agent);
 		}
 
 		// Start agent. Agent now runs in its own thread. Be careful with
@@ -453,7 +453,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 			EnvironmentPort port) {
 		// Find the first applicable launch rule, launch rules are applied in
 		// order.
-		List<LaunchRule> launchrules = masProgram.getLaunchRules();
+		List<LaunchRule> launchrules = this.masProgram.getLaunchRules();
 
 		// Initial hypothesis about what has gone wrong if no rule applies.
 		String warning = Resources
@@ -556,7 +556,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 
 	@Override
 	public String toString() {
-		return masProgram.toString();
+		return this.masProgram.toString();
 	}
 
 	/**
@@ -564,13 +564,14 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 *
 	 * @throws InterruptedException
 	 * @throws KRInitFailedException
-	 * @throws KRQueryFailedException 
-	 * @throws KRDatabaseException 
-	 * @throws UnknownObjectException 
+	 * @throws KRQueryFailedException
+	 * @throws KRDatabaseException
+	 * @throws UnknownObjectException
 	 */
-	public synchronized void reset() 
-			throws InterruptedException, KRInitFailedException, KRDatabaseException, KRQueryFailedException, UnknownObjectException {
-		for (Agent<C> a : agents.local()) {
+	public synchronized void reset() throws InterruptedException,
+			KRInitFailedException, KRDatabaseException, KRQueryFailedException,
+			UnknownObjectException {
+		for (Agent<C> a : this.agents.local()) {
 			a.reset();
 		}
 	}
@@ -584,7 +585,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 * @return true if the agent id belongs to a local agent
 	 */
 	public synchronized boolean isLocal(AgentId id) {
-		return agents.getLocal(id) != null;
+		return this.agents.getLocal(id) != null;
 	}
 
 	/**
@@ -657,11 +658,11 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	/******** observer handling **************/
 	/******************************************/
 	public synchronized void addObserver(AgentServiceEventObserver o) {
-		observers.add(o);
+		this.observers.add(o);
 	}
 
 	public synchronized void notifyObservers(AgentServiceEvent evt) {
-		for (AgentServiceEventObserver obs : observers) {
+		for (AgentServiceEventObserver obs : this.observers) {
 			try {
 				obs.agentServiceEvent(this, evt);
 			} catch (Exception e) {

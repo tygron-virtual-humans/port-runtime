@@ -19,8 +19,8 @@ public abstract class RuntimeMessageBox implements MessageBoxListener {
 
 	public RuntimeMessageBox(MessageBox mbox)
 			throws CommunicationFailureException, MessagingException {
-		messageBox = mbox;
-		messageBox.addListener(this);
+		this.messageBox = mbox;
+		this.messageBox.addListener(this);
 
 	}
 

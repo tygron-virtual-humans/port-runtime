@@ -23,7 +23,8 @@ public class ObservableDebugger extends SteppingDebugger {
 		super(id, env);
 		// Initialize channel to observer mapping.
 		for (Channel channel : Channel.values()) {
-			channelObservers.put(channel, new LinkedHashSet<DebugObserver>());
+			this.channelObservers.put(channel,
+					new LinkedHashSet<DebugObserver>());
 		}
 	}
 
@@ -31,7 +32,7 @@ public class ObservableDebugger extends SteppingDebugger {
 	public void breakpoint(Channel channel, Object associate, String message,
 			Object... args) {
 		// Only if there are observers for the channel, events need to be send.
-		if (!channelObservers.get(channel).isEmpty()) {
+		if (!this.channelObservers.get(channel).isEmpty()) {
 			// Create event and notify observers.
 			DebugEvent event = new DebugEvent(getRunMode(), getName(),
 					String.format(message, args), channel, associate);
@@ -51,7 +52,7 @@ public class ObservableDebugger extends SteppingDebugger {
 	 *            Debug event provided to observers subscribed to the channel.
 	 */
 	protected void notifyObservers(Channel channel, DebugEvent event) {
-		for (DebugObserver observer : channelObservers.get(channel)) {
+		for (DebugObserver observer : this.channelObservers.get(channel)) {
 			observer.notifyBreakpointHit(event);
 		}
 	}
@@ -79,7 +80,7 @@ public class ObservableDebugger extends SteppingDebugger {
 	 *             {@link BreakpointObserver}).
 	 */
 	public void subscribe(DebugObserver observer, Channel channel) {
-		channelObservers.get(channel).add(observer);
+		this.channelObservers.get(channel).add(observer);
 	}
 
 	/**
@@ -91,8 +92,8 @@ public class ObservableDebugger extends SteppingDebugger {
 	 *            observer to be removed from registered observer list.
 	 */
 	public void unsubscribe(DebugObserver observer) {
-		for (Channel channel : channelObservers.keySet()) {
-			channelObservers.get(channel).remove(observer);
+		for (Channel channel : this.channelObservers.keySet()) {
+			this.channelObservers.get(channel).remove(observer);
 		}
 	}
 
@@ -111,7 +112,7 @@ public class ObservableDebugger extends SteppingDebugger {
 	 *             {@link BreakpointObserver}).
 	 */
 	public void unsubscribe(DebugObserver observer, Channel channel) {
-		channelObservers.get(channel).remove(observer);
+		this.channelObservers.get(channel).remove(observer);
 	}
 
 	/**
@@ -129,7 +130,7 @@ public class ObservableDebugger extends SteppingDebugger {
 	 *             {@link BreakpointObserver}).
 	 */
 	public boolean isViewing(DebugObserver observer, Channel channel) {
-		return channelObservers.get(channel).contains(observer);
+		return this.channelObservers.get(channel).contains(observer);
 	}
 
 	@Override
@@ -141,8 +142,8 @@ public class ObservableDebugger extends SteppingDebugger {
 			SourceInfo parsedObject = (SourceInfo) associatedObject;
 			DebugEvent event = new DebugEvent(getRunMode(), getName(),
 					"Hit user defined breakpoint on " + parsedObject + "("
-							+ parsedObject + ")",
-							Channel.BREAKPOINTS, associatedObject);
+							+ parsedObject + ")", Channel.BREAKPOINTS,
+					associatedObject);
 			notifyObservers(Channel.BREAKPOINTS, event);
 		}
 		return hit;
@@ -151,6 +152,6 @@ public class ObservableDebugger extends SteppingDebugger {
 	@Override
 	public String toString() {
 		return super.toString() + "\nObservers per channel:\n"
-				+ channelObservers.toString();
+				+ this.channelObservers.toString();
 	}
 }

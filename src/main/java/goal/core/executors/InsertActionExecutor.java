@@ -18,14 +18,14 @@
 
 package goal.core.executors;
 
-import java.rmi.activation.UnknownObjectException;
-
 import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
-import krTools.errors.exceptions.KRInitFailedException;
+
+import java.rmi.activation.UnknownObjectException;
+
 import krTools.language.Substitution;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.InsertAction;
@@ -34,7 +34,7 @@ import mentalstatefactory.MentalStateFactory;
 
 public class InsertActionExecutor extends ActionExecutor {
 
-	private InsertAction action;
+	private final InsertAction action;
 
 	public InsertActionExecutor(InsertAction act) {
 		this.action = act;
@@ -43,31 +43,34 @@ public class InsertActionExecutor extends ActionExecutor {
 	@Override
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
 		try {
-			mentalState.MentalState state = MentalStateFactory.getInterface(
-					action.getKRInterface().getClass());
+			mentalState.MentalState state = MentalStateFactory
+					.getInterface(this.action.getKRInterface().getClass());
 			MentalState mentalState = runState.getMentalState();
-			mentalState.insert(state.filterMailUpdates(action.getUpdate(), false),
+			mentalState.insert(
+					state.filterMailUpdates(this.action.getUpdate(), false),
 					BASETYPE.BELIEFBASE, debugger);
-			mentalState.insert(state.filterMailUpdates(action.getUpdate(), true), 
+			mentalState.insert(
+					state.filterMailUpdates(this.action.getUpdate(), true),
 					BASETYPE.MAILBOX, debugger);
 			mentalState.updateGoalState(debugger);
 		} catch (UnknownObjectException e) {
 			throw new GOALRuntimeErrorException(
-					"Separating beliefs from mails for insertion failed: " + e.getMessage(), e);
+					"Separating beliefs from mails for insertion failed: "
+							+ e.getMessage(), e);
 		}
 
 		report(debugger);
 
-		return new Result(action);
+		return new Result(this.action);
 	}
 
 	@Override
 	protected ActionExecutor applySubst(Substitution subst) {
-		return new InsertActionExecutor(action.applySubst(subst));
+		return new InsertActionExecutor(this.action.applySubst(subst));
 	}
-	
+
 	@Override
 	public Action<?> getAction() {
-		return action;
+		return this.action;
 	}
 }

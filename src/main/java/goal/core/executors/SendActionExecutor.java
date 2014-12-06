@@ -36,10 +36,10 @@ import mentalState.BASETYPE;
 
 public class SendActionExecutor extends ActionExecutor {
 
-	private SendAction action;
+	private final SendAction action;
 
 	public SendActionExecutor(SendAction act) {
-		action = act;
+		this.action = act;
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class SendActionExecutor extends ActionExecutor {
 		MentalState mentalState = runState.getMentalState();
 
 		Set<AgentId> receivers = determineReceivers(mentalState);
-		Message message = action.getMessage();
+		Message message = this.action.getMessage();
 
 		message.setReceivers(receivers);
 		message.setSender(mentalState.getAgentId());
@@ -56,7 +56,7 @@ public class SendActionExecutor extends ActionExecutor {
 
 		mentalState.getOwnBase(BASETYPE.MAILBOX).insert(message, false,
 				debugger);
-		
+
 		// TODO: implement functionality below but then efficiently!!
 		// Identifier eisname = new Identifier(receiver.getName());
 		// try{
@@ -82,9 +82,9 @@ public class SendActionExecutor extends ActionExecutor {
 
 		report(debugger);
 
-		return new Result(action);
+		return new Result(this.action);
 	}
-	
+
 	/**
 	 * Returns the list of agent names that should receive the message.
 	 *
@@ -94,20 +94,20 @@ public class SendActionExecutor extends ActionExecutor {
 	 */
 	private Set<AgentId> determineReceivers(MentalState mentalState) {
 		try {
-			return resolve(action.getSelector(),mentalState);
+			return resolve(this.action.getSelector(), mentalState);
 		} catch (KRInitFailedException e) {
 			throw new GOALActionFailedException(
 					"Could not determine receivers: " + e.getMessage(), e);
 		}
 	}
-	
+
 	@Override
 	protected ActionExecutor applySubst(Substitution subst) {
-		return new SendActionExecutor(action.applySubst(subst));
+		return new SendActionExecutor(this.action.applySubst(subst));
 	}
-	
+
 	@Override
 	public Action<?> getAction() {
-		return action;
+		return this.action;
 	}
 }

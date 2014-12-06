@@ -25,7 +25,7 @@ import languageTools.program.test.AgentTest;
  *
  */
 public class UnitTestInterpreter<D extends ObservableDebugger> extends
-GOALInterpreter<ObservableDebugger> {
+		GOALInterpreter<ObservableDebugger> {
 	private final AgentTest test;
 	private AgentTestResult agentTestResult;
 
@@ -41,8 +41,8 @@ GOALInterpreter<ObservableDebugger> {
 	 * @param learner
 	 *            used evaluate adaptive rules
 	 */
-	public UnitTestInterpreter(AgentProgram program, AgentTest test, D debugger,
-			Learner learner) {
+	public UnitTestInterpreter(AgentProgram program, AgentTest test,
+			D debugger, Learner learner) {
 		super(program, debugger, learner);
 		this.test = test;
 	}
@@ -51,7 +51,7 @@ GOALInterpreter<ObservableDebugger> {
 	 * @return the test
 	 */
 	public AgentTest getTest() {
-		return test;
+		return this.test;
 	}
 
 	/**
@@ -61,14 +61,14 @@ GOALInterpreter<ObservableDebugger> {
 	 * @return the testResults.
 	 */
 	public UnitTestInterpreterResult getTestResults() {
-		return new UnitTestInterpreterResult(test, agent.getId(),
-				agentTestResult, getUncaughtThrowable());
+		return new UnitTestInterpreterResult(this.test, this.agent.getId(),
+				this.agentTestResult, getUncaughtThrowable());
 	}
 
 	@Override
 	protected Runnable getRunnable(final Executor pool,
 			final Callable<Callable<?>> in) {
-		if (test == null) {
+		if (this.test == null) {
 			// Just run the agent itself when no test for it is present;
 			// it might just be there for another agent in the MAS.
 			return super.getRunnable(pool, in);
@@ -79,15 +79,17 @@ GOALInterpreter<ObservableDebugger> {
 				public void run() {
 					try {
 						// Run the whole test
-						debugger.breakpoint(Channel.REASONING_CYCLE_SEPARATOR,
-								0, "%s test has been started", agent.getId());
-						agentTestResult = test
-								.run((Agent<UnitTestInterpreter<ObservableDebugger>>) agent);
+						UnitTestInterpreter.this.debugger.breakpoint(
+								Channel.REASONING_CYCLE_SEPARATOR, 0,
+								"%s test has been started",
+								UnitTestInterpreter.this.agent.getId());
+						UnitTestInterpreter.this.agentTestResult = UnitTestInterpreter.this.test
+								.run((Agent<UnitTestInterpreter<ObservableDebugger>>) UnitTestInterpreter.this.agent);
 					} catch (final Exception e) {
-						throwable = e;
+						UnitTestInterpreter.this.throwable = e;
 					} finally {
 						// Clean-up
-						debugger.kill();
+						UnitTestInterpreter.this.debugger.kill();
 						setTerminated();
 					}
 				}
