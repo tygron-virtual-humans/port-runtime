@@ -9,7 +9,9 @@ import goal.tools.SingleRun;
 import goal.tools.logging.Loggers;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import languageTools.program.mas.MASProgram;
@@ -23,8 +25,11 @@ public class UTTool {
 			final MASProgram program = PlatformManager.getCurrent()
 					.getMASProgram(mas2g);
 			program.setEnvironmentfile(new File(args[1]));
-			program.setInitParameters(parseInit(program.getInitParameters(), args[2],
-					args[3]));
+			program.resetInitParameters();
+			Map<String, Object> init = parseInit(program.getInitParameters(), args[2], args[3]);
+			for( final String key : init.keySet() ) {
+				program.addInitParameter(key, init.get(key));
+			}
 			run.run();
 			System.exit(0);
 		} catch (final Exception e) {
@@ -33,12 +38,12 @@ public class UTTool {
 		}
 	}
 
-	private static Map<String, Parameter> parseInit(
-			final Map<String, Parameter> oldInit, final String IP,
+	private static Map<String, Object> parseInit(
+			final Map<String, Object> oldInit, final String IP,
 			final String team) {
-		final Map<String, Parameter> newInit = new HashMap<>(oldInit.size());
+		final Map<String, Object> newInit = new HashMap<>(oldInit.size());
 		for (final String key : oldInit.keySet()) {
-			final Parameter newParam = parseParameter(key, oldInit.get(key),
+			final Object newParam = parseParameter(key, oldInit.get(key),
 					IP, team);
 			if (newParam != null) {
 				newInit.put(key, newParam);
@@ -49,19 +54,20 @@ public class UTTool {
 
 	private static String last = "";
 
-	private static Parameter parseParameter(final String key,
-			final Parameter value, final String IP, final String team) {
-		Parameter newValue = value;
+	@SuppressWarnings("unchecked")
+	private static Object parseParameter(final String key,
+			final Object value, final String IP, final String team) {
+		Object newValue = value;
 		String stringValue = "";
-		if (value instanceof Identifier) {
-			stringValue = ((Identifier) value).getValue();
-		} else if (value instanceof Numeral) {
-			stringValue = ((Numeral) value).getValue().toString();
-		} else if (value instanceof ParameterList) {
-			final ParameterList list = (ParameterList) value;
-			final ParameterList newList = new ParameterList();
-			for (final Parameter p : list) {
-				final Parameter newParam = parseParameter("", p, IP, team);
+		if (value instanceof String) {
+			stringValue = (String) value;
+		} else if (value instanceof Number) {
+			stringValue = ((Number) value).toString();
+		} else if (value instanceof List) {
+			final List<Object> list = (List<Object>) value;
+			final List<Object> newList = new ArrayList<>(list.size());
+			for (final Object p : list) {
+				final Object newParam = parseParameter("", p, IP, team);
 				if (newParam != null) {
 					newList.add(newParam);
 				}
@@ -69,19 +75,19 @@ public class UTTool {
 			return newList;
 		}
 		if (key.equalsIgnoreCase("visualizer")) {
-			newValue = new Identifier("rmi://" + IP + ":1099");
+			newValue = "rmi://" + IP + ":1099";
 		} else if (key.equalsIgnoreCase("botserver")) {
-			newValue = new Identifier("ut://" + IP + ":3000");
+			newValue = "ut://" + IP + ":3000";
 		} else if (key.equalsIgnoreCase("controlserver")) {
-			newValue = new Identifier("ut://" + IP + ":3001");
+			newValue = "ut://" + IP + ":3001";
 		} else if (key.equalsIgnoreCase("loglevel")) {
-			newValue = new Identifier("SEVERE");
+			newValue = "SEVERE";
 		} else if (last.equalsIgnoreCase("skill")) {
-			newValue = new Numeral(5);
+			newValue = 5;
 		} else if (last.equalsIgnoreCase("team")) {
-			newValue = new Identifier(team);
+			newValue = team;
 		} else if (last.equalsIgnoreCase("loglevel")) {
-			newValue = new Identifier("SEVERE");
+			newValue = "SEVERE";
 		} else if (last.equalsIgnoreCase("startlocation")) {
 			newValue = null;
 		}

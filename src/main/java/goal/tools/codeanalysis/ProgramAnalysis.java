@@ -87,7 +87,7 @@ public class ProgramAnalysis {
 		}
 		programOverview.add("#Action rules in agent program ", ruleCount);
 		programOverview
-				.add("#Macros in agent program ", getMacroCount(program));
+				.add("#Macros in agent program ", program.getAllMacros().size());
 		programOverview.add("#Action specifications in agent program ", program
 				.getAllActionSpecs().size());
 
@@ -136,20 +136,4 @@ public class ProgramAnalysis {
 	public String getFileName() {
 		return file.toString();
 	}
-
-	/**
-	 * Returns the number of {@link Macro}s defined in the {@link AgentProgram}.
-	 *
-	 * @param program
-	 *            The program to be analyzed.
-	 * @return The number of macros defined in the program.
-	 */
-	private static int getMacroCount(AgentProgram program) {
-		int count = 0;
-		for (Module module : program.getModules()) {
-			count += module.getAllMacros().getItems().size();
-		}
-		return count;
-	}
-
 }

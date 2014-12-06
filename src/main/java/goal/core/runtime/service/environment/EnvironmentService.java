@@ -3,7 +3,11 @@ package goal.core.runtime.service.environment;
 import eis.EILoader;
 import eis.EnvironmentInterfaceStandard;
 import eis.exceptions.EnvironmentInterfaceException;
+import eis.iilang.Function;
+import eis.iilang.Identifier;
+import eis.iilang.Numeral;
 import eis.iilang.Parameter;
+import eis.iilang.ParameterList;
 import goal.core.runtime.MessagingService;
 import goal.core.runtime.service.environment.events.EnvironmentPortAddedEvent;
 import goal.core.runtime.service.environment.events.EnvironmentPortRemovedEvent;
@@ -18,8 +22,10 @@ import goal.tools.logging.InfoLog;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -206,9 +212,9 @@ public class EnvironmentService {
 		// by specifying a name ending on ".jar" or not in the MAS file.
 		if (environmentName.endsWith(".jar")) { //$NON-NLS-1$
 			File environmentFile = masProgram.getEnvironmentfile();
-			Map<String, Parameter> initialization = masProgram.getInitParameters();
 			// Launch local environment.
 			if (environmentFile != null) {
+				Map<String, Parameter> initialization = convertMapToEIS(masProgram.getInitParameters());
 				// Reference to environment file provided in MAS file; load it.
 				environmentName = environmentName.substring(0,
 						environmentName.lastIndexOf(".jar")); //$NON-NLS-1$
@@ -260,6 +266,39 @@ public class EnvironmentService {
 		}
 
 		messagingService.getClient().addListener(messagingListener);
+	}
+	
+	private static Map<String, Parameter> convertMapToEIS(Map<String, Object> init) {
+		Map<String, Parameter> result = new HashMap<>(init.size());
+		for( final String key : init.keySet() ) {
+			final Object value = init.get(key);
+			result.put(key,convertValueToEIS(value));
+		}
+		return result;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static Parameter convertValueToEIS(Object value) {
+		if( value instanceof Number ) {
+			return new Numeral((Number)value);
+		} else if( value instanceof AbstractMap.SimpleEntry ) {
+			AbstractMap.SimpleEntry<String,Object[]> map = 
+					(AbstractMap.SimpleEntry<String,Object[]>)value;
+			Parameter[] params = new Parameter[map.getValue().length];
+			for( int i = 0; i < params.length; ++i ) {
+				params[i] = convertValueToEIS(map.getValue()[i]);
+			}
+			return new Function(map.getKey(),params);
+		} else if( value instanceof List ) {
+			List<Object> oldlist = (List<Object>)value;
+			Parameter[] newlist = new Parameter[oldlist.size()];
+			for( int i = 0; i < newlist.length; ++i ) {
+				newlist[i] = convertValueToEIS(oldlist.get(i));
+			}
+			return new ParameterList(newlist);
+		} else {
+			return new Identifier(value.toString());
+		}
 	}
 
 	/**
