@@ -1,5 +1,6 @@
 package goal.tools.unittest.testsection;
 
+import goal.core.executors.ActionComboExecutor;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.ObservableDebugger;
@@ -44,8 +45,8 @@ public class DoActionSection implements TestSection {
 	public TestSectionResult run(RunState<? extends ObservableDebugger> runState)
 			throws TestSectionFailed {
 		runState.startCycle(false);
-		Result result = action.run(runState, runState.getMentalState()
-				.getKRInterface().getSubstitution(null), false);
+		Result result = new ActionComboExecutor(action).run(runState, 
+				runState.getMentalState().getOwner().getKRInterface().getSubstitution(null), false);
 		return new ActionResult(this, result);
 
 	}

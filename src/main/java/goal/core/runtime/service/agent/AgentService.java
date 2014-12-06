@@ -497,7 +497,6 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 			new Warning(String.format(
 					Resources.get(WarningStrings.NO_APPLICABLE_LAUNCH_RULE),
 					newEntity.toString(), type.toString(), warning));
-
 		}
 	}
 

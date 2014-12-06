@@ -1,5 +1,7 @@
 package goal.core.executors;
 
+import java.util.Set;
+
 import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
@@ -28,24 +30,20 @@ public class AdoptActionExecutor extends ActionExecutor {
 	@Override
 	public ActionExecutor evaluatePrecondition(MentalState mentalState,
 			Debugger debugger, boolean last) {
-		try {
-			if (!action.getPrecondition().evaluate(mentalState, debugger)
-					.isEmpty()) {
-				// precondition holds for at least one instance.
-				Selector selector = action.getSelector();
-				if (selector.getType() == SelectorType.SELF
-						|| selector.getType() == SelectorType.THIS) {
-					debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION,
-							this, "Precondition of action %s holds.", this);
-					return this;
-				} else {
-					throw new UnsupportedOperationException(
-							"Only 'SELF' and 'THIS' are allowed right now.");
-				}
+		Set<Substitution> evaluation = new MentalStateConditionExecutor(action.getPrecondition())
+			.evaluate(mentalState,debugger);
+		if (!evaluation.isEmpty()) {
+			// precondition holds for at least one instance.
+			Selector selector = action.getSelector();
+			if (selector.getType() == SelectorType.SELF
+					|| selector.getType() == SelectorType.THIS) {
+				debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION,
+						this, "Precondition of action %s holds.", this);
+				return this;
+			} else {
+				throw new UnsupportedOperationException(
+						"Only 'SELF' and 'THIS' are allowed right now.");
 			}
-		} catch (KRQueryFailedException e) {
-			throw new KRQueryFailedException("precondition check of " + this
-					+ " failed", e);
 		}
 
 		debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, this,

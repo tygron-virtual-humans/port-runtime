@@ -184,7 +184,8 @@ public class RulesExecutor {
 		// return the options for every rule that is applicable.
 		for (Rule rule : this.rules) {
 			// Evaluate the rule's condition.
-			solutions = rule.getCondition().evaluate(mentalState, debugger);
+			solutions = new MentalStateConditionExecutor(rule.getCondition())
+				.evaluate(mentalState, debugger);
 			// Listall rules need to be processed further.
 			if (rule instanceof ListallDoRule) {
 				solutions = ((ListallDoRule) rule).getVarSubstitution(solutions);

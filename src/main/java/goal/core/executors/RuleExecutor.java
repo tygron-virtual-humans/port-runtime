@@ -78,7 +78,8 @@ public class RuleExecutor {
 					debugger);
 		} else {
 			// rule is evaluated using all goals in current attention set.
-			substset = rule.getCondition().evaluate(substitution, mentalState, debugger);
+			substset = new MentalStateConditionExecutor(rule.getCondition())
+				.evaluate(substitution, mentalState, debugger);
 		}
 
 		// If condition does not hold (no solutions), then report and return.

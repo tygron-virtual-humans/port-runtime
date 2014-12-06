@@ -63,9 +63,10 @@ public class PredicateAnalysis {
 	/**
 	 * Counts occurrences of predicates by creating an expression graph and
 	 * expression hash table.
+	 * TODO: disabled (AgentProgramGraphGenerator and ExpressionGraph are removed)
 	 */
 	private void performAnalysis() {
-		AgentProgramGraphGenerator programGraphGenerator = new AgentProgramGraphGenerator();
+		/*AgentProgramGraphGenerator programGraphGenerator = new AgentProgramGraphGenerator();
 		programGraphGenerator.setKRInterface(program.getKRInterface());
 		programGraphGenerator.createGraph(program, null);
 		ExpressionGraph expressionGraph = programGraphGenerator.getGraph();
@@ -79,7 +80,7 @@ public class PredicateAnalysis {
 			} else {
 				expressioncounts.put(op, 1);
 			}
-		}
+		}*/
 	}
 
 	/**

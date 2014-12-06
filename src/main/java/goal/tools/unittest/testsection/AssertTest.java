@@ -1,5 +1,6 @@
 package goal.tools.unittest.testsection;
 
+import goal.core.executors.MentalStateConditionExecutor;
 import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
@@ -77,7 +78,8 @@ public class AssertTest implements TestSection {
 			throws AssertTestFailed {
 		MentalState ms = runState.getMentalState();
 		Debugger debugger = runState.getDebugger();
-		Set<Substitution> subs = condition.evaluate(ms, debugger);
+		Set<Substitution> subs = new MentalStateConditionExecutor(condition)
+			.evaluate(ms, debugger);
 		if (subs.isEmpty()) {
 			throw new AssertTestFailed(this);
 		}

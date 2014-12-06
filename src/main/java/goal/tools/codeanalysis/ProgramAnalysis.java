@@ -26,6 +26,7 @@ import java.io.IOException;
 
 import languageTools.program.agent.AgentProgram;
 import languageTools.program.agent.Module;
+import languageTools.program.agent.Module.TYPE;
 import languageTools.program.agent.msc.Macro;
 
 /**
@@ -75,14 +76,14 @@ public class ProgramAnalysis {
 		programOverview.add("#Knowledge clauses in all modules ", program
 				.getAllKnowledge().size());
 		programOverview.add("#Belief base clauses in the init module ", program
-				.getBeliefs().size());
+				.getAllBeliefs().size());
 		programOverview.add("#Goals in agent program ", program.getAllGoals()
 				.size());
 		programOverview.add("#Modules in agent program ", program
-				.getAllModules().size());
+				.getModules().size());
 		int ruleCount = 0;
-		for (Module module : program.getAllModules()) {
-			ruleCount += module.getRuleSet().getRuleCount();
+		for (Module module : program.getModules()) {
+			ruleCount += module.getRules().size();
 		}
 		programOverview.add("#Action rules in agent program ", ruleCount);
 		programOverview
@@ -90,8 +91,8 @@ public class ProgramAnalysis {
 		programOverview.add("#Action specifications in agent program ", program
 				.getAllActionSpecs().size());
 
-		for (Module module : program.getAllModules()) {
-			if (!module.isAnonymous()) {
+		for (Module module : program.getModules()) {
+			if (module.getType() != TYPE.ANONYMOUS) {
 				// add a separator between foregoing and new module code
 				// analysis.
 				programOverview.addSeparator();
@@ -145,8 +146,8 @@ public class ProgramAnalysis {
 	 */
 	private static int getMacroCount(AgentProgram program) {
 		int count = 0;
-		for (Module module : program.getAllModules()) {
-			count += module.getNameSpace().getMacros().getItems().size();
+		for (Module module : program.getModules()) {
+			count += module.getAllMacros().getItems().size();
 		}
 		return count;
 	}

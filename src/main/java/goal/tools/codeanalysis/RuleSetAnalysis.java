@@ -30,7 +30,7 @@ import languageTools.program.agent.rules.Rule;
  * Analyzes a set of rules.
  */
 public class RuleSetAnalysis {
-	private final RuleSet ruleSet;
+	private final List<Rule> ruleSet;
 	/**
 	 * Total number of action rules that appear in the rule set and,
 	 * recursively, in (anonymous) modules.
@@ -58,7 +58,7 @@ public class RuleSetAnalysis {
 	 *            The rule set to be analyzed. The rule set may be empty but the
 	 *            ruleSet must be non-null.
 	 */
-	public RuleSetAnalysis(RuleSet ruleSet) {
+	public RuleSetAnalysis(List<Rule> ruleSet) {
 		this.ruleSet = ruleSet;
 		analyse();
 	}

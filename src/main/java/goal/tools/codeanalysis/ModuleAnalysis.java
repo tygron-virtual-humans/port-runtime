@@ -52,10 +52,9 @@ public class ModuleAnalysis {
 				module.getName());
 		moduleOverview.add("#Knowledge clauses", module.getKnowledge().size());
 		moduleOverview.add("#Goals", module.getGoals().size());
-		actionRulesAnalysis = new RuleSetAnalysis(module.getRuleSet());
+		actionRulesAnalysis = new RuleSetAnalysis(module.getRules());
 		moduleOverview.add(actionRulesAnalysis.getRuleSetCodeAnalysis());
-		moduleOverview.add("#Action specifications", module
-				.getActionSpecificationMap().size());
+		moduleOverview.add("#Action specifications", module.getActionSpecifications().size());
 	}
 
 	/**

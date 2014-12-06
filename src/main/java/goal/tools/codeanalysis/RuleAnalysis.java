@@ -21,12 +21,14 @@ package goal.tools.codeanalysis;
 import java.util.Hashtable;
 
 import languageTools.program.agent.Module;
+import languageTools.program.agent.Module.TYPE;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.ModuleCallAction;
 import languageTools.program.agent.msc.AGoalLiteral;
 import languageTools.program.agent.msc.BelLiteral;
 import languageTools.program.agent.msc.GoalALiteral;
 import languageTools.program.agent.msc.GoalLiteral;
+import languageTools.program.agent.msc.MentalFormula;
 import languageTools.program.agent.msc.MentalLiteral;
 import languageTools.program.agent.msc.MentalStateCondition;
 import languageTools.program.agent.rules.Rule;
@@ -86,10 +88,9 @@ public class RuleAnalysis {
 	private void analyzeAction(Action action) {
 		if (action instanceof ModuleCallAction) {
 			Module module = ((ModuleCallAction) action).getTarget();
-			if (module.isAnonymous()) {
+			if (module.getType() == TYPE.ANONYMOUS) {
 				RuleSetAnalysis moduleAnalysis = new RuleSetAnalysis(
-						module.getRuleSet());
-
+						module.getRules());
 				if (anonymousModuleAnalysis == null) {
 					anonymousModuleAnalysis = moduleAnalysis;
 				} else {
@@ -114,7 +115,7 @@ public class RuleAnalysis {
 	 *            The mental state condition of the rule.
 	 */
 	private void analyzeCondition(MentalStateCondition condition) {
-		for (MentalLiteral mentalLiteral : condition.getLiterals()) {
+		for (MentalFormula mentalLiteral : condition.getSubFormulas()) {
 			if (mentalLiteral instanceof BelLiteral) {
 				belAtomCount++;
 			} else if (mentalLiteral instanceof GoalLiteral) {

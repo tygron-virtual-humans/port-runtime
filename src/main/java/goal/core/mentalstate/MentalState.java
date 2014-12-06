@@ -21,6 +21,7 @@ package goal.core.mentalstate;
 import goal.core.agent.Agent;
 import goal.core.executors.ActionExecutor;
 import goal.core.executors.ExitModuleActionExecutor;
+import goal.core.executors.MentalStateConditionExecutor;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
 import goal.tools.errorhandling.exceptions.GOALBug;
@@ -645,7 +646,8 @@ public class MentalState {
 			// the current single goal. Add these to the total set of
 			// substitutions.
 			try {
-				partSubsts = context.evaluate(this, debugger);
+				partSubsts = new MentalStateConditionExecutor(context)
+					.evaluate(this, debugger);
 				if (!partSubsts.isEmpty()) {
 					substitutions.addAll(partSubsts);
 					// make sure we do not have to re-query everything in order

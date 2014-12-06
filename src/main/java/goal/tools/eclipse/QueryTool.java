@@ -1,6 +1,7 @@
 package goal.tools.eclipse;
 
 import goal.core.agent.Agent;
+import goal.core.executors.MentalStateConditionExecutor;
 import goal.core.mentalstate.MentalState;
 import goal.tools.IDEGOALInterpreter;
 import goal.tools.debugger.SteppingDebugger;
@@ -56,8 +57,8 @@ public class QueryTool {
 				.getMentalState();
 		try {
 			// use a dummy debugger
-			Set<Substitution> substitutions = mentalStateCondition.evaluate(
-					mentalState, new SteppingDebugger("query", null));
+			Set<Substitution> substitutions = new MentalStateConditionExecutor(mentalStateCondition).
+					evaluate(mentalState, new SteppingDebugger("query", null));
 			String resulttext = "";
 			if (substitutions.isEmpty()) {
 				resulttext = "No solutions";

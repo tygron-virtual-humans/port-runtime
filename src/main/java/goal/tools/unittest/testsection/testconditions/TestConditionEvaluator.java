@@ -1,5 +1,6 @@
 package goal.tools.unittest.testsection.testconditions;
 
+import goal.core.executors.MentalStateConditionExecutor;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.DebugObserver;
 import goal.tools.debugger.Debugger;
@@ -111,11 +112,11 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 		// Run the query
 		Set<Substitution> result = new HashSet<>(0);
 		try {
-			result = query.applySubst(substitution).evaluate(
-					runState.getMentalState(), debugger);
+			result = new MentalStateConditionExecutor(query.applySubst(substitution))
+				.evaluate(runState.getMentalState(), debugger);
 		} catch (Exception e) {
-			result = query.evaluate(runState.getMentalState(), debugger);
-
+			result = new MentalStateConditionExecutor(query)
+				.evaluate(runState.getMentalState(), debugger);
 		}
 		// Update the substitution when needed,
 		// registering any new variables this condition has bounded,
