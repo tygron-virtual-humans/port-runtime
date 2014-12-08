@@ -1,5 +1,7 @@
 package goal.core.executors;
 
+import goal.tools.errorhandling.exceptions.GOALBug;
+
 import java.rmi.activation.UnknownObjectException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -29,10 +31,16 @@ public class ExecuteTools {
 	 * @throws UnknownObjectException
 	 */
 	public static Term substitutionsToTerm(Set<Substitution> substitutions,
-			KRInterface language, Rule rule) throws KRInitFailedException,
-			UnknownObjectException {
-		mentalState.MentalState state = MentalStateFactory
-				.getInterface(language.getClass());
+			KRInterface language, Rule rule) {
+
+		mentalState.MentalState state;
+		try {
+			state = MentalStateFactory.getInterface(language.getClass());
+		} catch (UnknownObjectException e) {
+			throw new GOALBug(
+					"Runtime can't get interface to running language "
+							+ language.getName());
+		}
 		// First make single terms from each substitution.
 		List<Term> substsAsTerms = new ArrayList<>(substitutions.size());
 		// Get the variables from the condition of the rule; bindings for those

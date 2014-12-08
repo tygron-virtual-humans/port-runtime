@@ -55,8 +55,7 @@ public class RulesExecutor {
 	 *             FIXME: enable learner to deal with Rule#isSingleGoal
 	 */
 	@SuppressWarnings("fallthrough")
-	public Result run(RunState<?> runState, Substitution substitution)
-			throws UnknownObjectException, KRInitFailedException {
+	public Result run(RunState<?> runState, Substitution substitution) {
 		KRInterface krInterface = runState.getActiveModule().getKRInterface();
 		Result result = new Result();
 		// Make a copy of the rules so we don't shuffle the original below.
@@ -175,8 +174,7 @@ public class RulesExecutor {
 	 */
 	@SuppressWarnings("fallthrough")
 	private final List<ActionCombo> getActionOptions(MentalState mentalState,
-			Debugger debugger, KRInterface krInterface)
-			throws UnknownObjectException, KRInitFailedException {
+			Debugger debugger, KRInterface krInterface) {
 		List<ActionCombo> actionOptions = new LinkedList<>();
 		Set<Substitution> solutions;
 		boolean finished = false;
@@ -260,8 +258,7 @@ public class RulesExecutor {
 	 * @throws KRInitFailedException
 	 */
 	protected Set<Substitution> getVarSubstitution(ListallDoRule rule,
-			Set<Substitution> solutions, KRInterface krInterface)
-			throws UnknownObjectException, KRInitFailedException {
+			Set<Substitution> solutions, KRInterface krInterface) {
 		// If the solution set is empty, then the variable of this rule should
 		// not be instantiated and we simply return the empty set.
 		if (solutions.isEmpty()) {

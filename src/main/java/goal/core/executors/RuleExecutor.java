@@ -6,9 +6,7 @@ import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
-import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 
-import java.rmi.activation.UnknownObjectException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,7 +15,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import krTools.errors.exceptions.KRInitFailedException;
 import krTools.language.Substitution;
 import krTools.language.Term;
 import languageTools.program.agent.rules.ForallDoRule;
@@ -191,17 +188,10 @@ public class RuleExecutor {
 
 			// Create new substitution, replacing our #variable.
 			Substitution fullSubst = globalsubst.clone();
-			try {
-				Term newTerm = ExecuteTools.substitutionsToTerm(
-						applicableSubst, runState.getActiveModule()
-								.getKRInterface(), rule);
-				fullSubst.addBinding(((ListallDoRule) this.rule).getVariable(),
-						newTerm);
-			} catch (KRInitFailedException | UnknownObjectException e) {
-				throw new GOALRuntimeErrorException(
-						"Converting substitutions to a term failed: "
-								+ e.getMessage(), e);
-			}
+			Term newTerm = ExecuteTools.substitutionsToTerm(applicableSubst,
+					runState.getActiveModule().getKRInterface(), rule);
+			fullSubst.addBinding(((ListallDoRule) this.rule).getVariable(),
+					newTerm);
 
 			result = executor.run(runState, fullSubst, true);
 		}
