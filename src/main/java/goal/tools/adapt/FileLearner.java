@@ -48,7 +48,6 @@ import java.util.TreeMap;
 import java.util.Vector;
 
 import krTools.language.DatabaseFormula;
-import krTools.language.Expression;
 import languageTools.program.agent.AgentProgram;
 import languageTools.program.agent.Module;
 import languageTools.program.agent.Module.RuleEvaluationOrder;
@@ -107,16 +106,14 @@ public class FileLearner implements Serializable, Learner {
 
 	/**
 	 *
-	 */
-	private GOALMentalStateConverter converter;
-
-	/**
-	 * Used to save the converter universe
-	 */
-	private List<String> universe;
-
-	/*
-	 * The program that this learner is associated with
+	 *
+	 private GOALMentalStateConverter converter;
+	 * 
+	 * /** Used to save the converter universe
+	 *
+	 * private List<String> universe;
+	 * 
+	 * /* The program that this learner is associated with
 	 */
 	private final AgentProgram program;
 
@@ -139,7 +136,7 @@ public class FileLearner implements Serializable, Learner {
 	 * @param program
 	 */
 	public FileLearner(String name, AgentProgram program) {
-		this.converter = new GOALMentalStateConverter(null);
+		// this.converter = new GOALMentalStateConverter(null);
 
 		String filename = null;
 		boolean loaded = false;
@@ -166,8 +163,8 @@ public class FileLearner implements Serializable, Learner {
 		 * Now for each adaptive module in the program initialise a new learning
 		 * instance and start a new learning episode
 		 */
-		for (Module module : program.getAllModules()) {
-			if (module.getRuleSet().getRuleOrder() == RuleEvaluationOrder.ADAPTIVE) {
+		for (Module module : program.getModules()) {
+			if (module.getRuleEvaluationOrder() == RuleEvaluationOrder.ADAPTIVE) {
 				init(module, getAlgorithm(module.getName()));
 				startEpisode(module.getName());
 			}
@@ -252,19 +249,20 @@ public class FileLearner implements Serializable, Learner {
 	private void setBeliefFilter(Module module) {
 		new InfoLog("Computing filter for module " + module.getName() + ".");
 
-		ModuleGraphGenerator moduleGraphGenerator = new ModuleGraphGenerator();
-		moduleGraphGenerator.setKRlanguage(module.getKRInterface());
-		moduleGraphGenerator.createGraph(module, null);
-		DependencyGraph<?> filter = moduleGraphGenerator.getGraph();
-		List<? extends Expression> queried = filter.getQueries();
-		Set<String> signatures = new HashSet<>(queried.size());
-		for (Expression query : queried) {
-			signatures.add(query.getSignature());
-		}
+		/*
+		 * ModuleGraphGenerator moduleGraphGenerator = new
+		 * ModuleGraphGenerator();
+		 * moduleGraphGenerator.setKRlanguage(module.getKRInterface());
+		 * moduleGraphGenerator.createGraph(module, null); DependencyGraph<?>
+		 * filter = moduleGraphGenerator.getGraph(); List<? extends Expression>
+		 * queried = filter.getQueries(); Set<String> signatures = new
+		 * HashSet<>(queried.size()); for (Expression query : queried) {
+		 * signatures.add(query.getSignature()); }
+		 * this.filters.put(module.getName(), signatures);
+		 */
+		this.filters.put(module.getName(), new HashSet<String>(0));
 
-		this.filters.put(module.getName(), signatures);
-
-		new InfoLog("Filter = " + signatures);
+		// new InfoLog("Filter = " + signatures);
 	}
 
 	private Set<String> getBeliefFilters(String module) {
@@ -479,8 +477,9 @@ public class FileLearner implements Serializable, Learner {
 	 * @return
 	 */
 	private String processState(MentalState ms, Set<String> filter) {
-		String state = this.converter.translate(filteredBeliefs(ms, filter),
-				ms.getAttentionStack()).toString();
+		String state = "";
+		// this.converter.translate(filteredBeliefs(ms,
+		// filter),ms.getAttentionStack()).toString();
 		if (!this.stateid.containsKey(state)) {
 			this.stateid.put(state, new Integer(this.stateid.size() + 1));
 		}
@@ -553,8 +552,8 @@ public class FileLearner implements Serializable, Learner {
 		oos.writeObject(this.stateid);
 		oos.writeObject(this.actionstr);
 		oos.writeObject(this.statestr);
-		this.universe = this.converter.getUniverse().toStringArray();
-		oos.writeObject(this.universe);
+		// this.universe = this.converter.getUniverse().toStringArray();
+		// oos.writeObject(this.universe);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -567,9 +566,9 @@ public class FileLearner implements Serializable, Learner {
 		this.stateid = (Map<String, Integer>) ois.readObject();
 		this.actionstr = (Map<Integer, String>) ois.readObject();
 		this.statestr = (Map<String, String>) ois.readObject();
-		this.universe = (List<String>) ois.readObject();
-		this.converter = new GOALMentalStateConverter(null);
-		this.converter.getUniverse().setPreassignedIndices(this.universe);
+		// this.universe = (List<String>) ois.readObject();
+		// this.converter = new GOALMentalStateConverter(null);
+		// this.converter.getUniverse().setPreassignedIndices(this.universe);
 	}
 
 	/*
@@ -587,8 +586,8 @@ public class FileLearner implements Serializable, Learner {
 		 * Learning episodes are always terminated here. We do this once for all
 		 * ADAPTIVE modules going from RUNNING->KILLED.
 		 */
-		for (Module module : this.program.getAllModules()) {
-			if (module.getRuleSet().getRuleOrder() == RuleEvaluationOrder.ADAPTIVE) {
+		for (Module module : this.program.getModules()) {
+			if (module.getRuleEvaluationOrder() == RuleEvaluationOrder.ADAPTIVE) {
 				/*
 				 * Learning was performed in this program so we will save the
 				 * learner before we finish.
@@ -675,8 +674,8 @@ public class FileLearner implements Serializable, Learner {
 			this.stateid = l.stateid;
 			this.actionstr = l.actionstr;
 			this.statestr = l.statestr;
-			this.universe = l.universe;
-			this.converter = l.converter;
+			// this.universe = l.universe;
+			// this.converter = l.converter;
 			new InfoLog("\nLoading learned model from file " + file);
 			return true;
 		} catch (Exception e) {
