@@ -52,6 +52,6 @@ public interface AgentFactory<DEBUGGER extends Debugger, CONTROLLER extends GOAL
 	// FIXME: AgentProgram should have a reference to its .goal file.
 	public Agent<CONTROLLER> build(AgentProgram program, File goalProgramFile,
 			String agentBaseName, EnvironmentPort environment)
-					throws MessagingException, KRInitFailedException;
+			throws MessagingException, KRInitFailedException;
 
 }

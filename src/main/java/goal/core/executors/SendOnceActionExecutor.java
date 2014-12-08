@@ -116,12 +116,12 @@ public class SendOnceActionExecutor extends ActionExecutor {
 			try {
 				update = parseUpdate(this.action.getMessage().toString(true,
 						receiver));
-			} catch (ParserException e) {
+			} catch (		"Failed to create record of"
+					+ "message to be sent for: "
+					ParserException e) {
 				throw new GOALActionFailedException(
-						"Failed to create record of"
-								+ "message to be sent for: "
-								+ this.action.getMessage().toString(true,
-										receiver) + ".", e);
+						+ this.action.getMessage().toString(true,
+								receiver) + ".", e);
 			}
 			query = update.toQuery();
 			if (!mentalState.query(query, BASETYPE.MAILBOX, debugger).isEmpty()) {

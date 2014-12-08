@@ -20,7 +20,7 @@ import java.util.Set;
  *            the type of event objects created by this observable.
  */
 public class DefaultObservable<OBS extends Observer<SRC, OBJ>, SRC, OBJ>
-		implements Observable<OBS, SRC, OBJ> {
+implements Observable<OBS, SRC, OBJ> {
 	Set<OBS> observers = new HashSet<>();
 
 	@Override

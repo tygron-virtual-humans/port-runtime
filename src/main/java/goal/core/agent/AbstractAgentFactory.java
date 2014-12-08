@@ -45,7 +45,7 @@ import nl.tudelft.goal.messaging.messagebox.MessageBoxId.Type;
  *            class of the GOALInterpreter to provide.
  */
 public abstract class AbstractAgentFactory<D extends Debugger, C extends GOALInterpreter<D>>
-		implements AgentFactory<D, C> {
+implements AgentFactory<D, C> {
 
 	private final MessagingService messaging;
 
@@ -106,7 +106,7 @@ public abstract class AbstractAgentFactory<D extends Debugger, C extends GOALInt
 	@Override
 	public synchronized Agent<C> build(AgentProgram program, File programFile,
 			String agentBaseName, EnvironmentPort environment)
-			throws MessagingException, KRInitFailedException {
+					throws MessagingException, KRInitFailedException {
 
 		/*
 		 * Initialize variables used in agent construction.

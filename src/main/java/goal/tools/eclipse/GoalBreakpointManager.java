@@ -55,11 +55,11 @@ public final class GoalBreakpointManager {
 	public String toString() {
 		final StringBuffer buffer = new StringBuffer();
 		buffer.append(this.file.getPath()).append(DELIMITER)
-				.append(this.breakpoints.size());
+		.append(this.breakpoints.size());
 		for (final int i : this.breakpoints.keySet()) {
 			final BreakPoint point = this.breakpoints.get(i);
 			buffer.append(DELIMITER).append(point.getLine()).append(DELIMITER)
-					.append(point.getType().name());
+			.append(point.getType().name());
 		}
 		return buffer.toString();
 	}
@@ -80,7 +80,7 @@ public final class GoalBreakpointManager {
 		final StringBuffer buffer = new StringBuffer();
 		for (final GoalBreakpointManager manager : breakManagers.values()) {
 			buffer.append(DELIMITER).append(DELIMITER)
-					.append(manager.toString());
+			.append(manager.toString());
 		}
 		return buffer.toString();
 	}

@@ -138,7 +138,7 @@ public class Preferences {
 				.getSimpleName()));
 		PMPreferences.initPrefs(prefs.get(PMPreferences.class.getSimpleName()));
 		RunPreferences
-		.initPrefs(prefs.get(RunPreferences.class.getSimpleName()));
+				.initPrefs(prefs.get(RunPreferences.class.getSimpleName()));
 
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override

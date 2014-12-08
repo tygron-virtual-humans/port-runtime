@@ -57,7 +57,7 @@ class StackHelper {
 		cause = error.getCause();
 		if (cause != null) {
 			stackTrace
-			.append(Resources.get(WarningStrings.BY_DEEPER_EXCEPTION));
+					.append(Resources.get(WarningStrings.BY_DEEPER_EXCEPTION));
 			stackTrace.append(cause);
 			stackTrace.append("\n"); //$NON-NLS-1$
 			stackTrace.append(getFullStackTraceInfo(cause));

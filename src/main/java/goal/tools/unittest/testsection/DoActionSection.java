@@ -47,7 +47,7 @@ public class DoActionSection implements TestSection {
 		runState.startCycle(false);
 		Result result = new ActionComboExecutor(this.action).run(runState,
 				runState.getMentalState().getOwner().getKRInterface()
-						.getSubstitution(null), false);
+				.getSubstitution(null), false);
 		return new ActionResult(this, result);
 
 	}

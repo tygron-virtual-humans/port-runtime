@@ -25,7 +25,7 @@ import languageTools.program.test.AgentTest;
  *
  */
 public class UnitTestInterpreter<D extends ObservableDebugger> extends
-		GOALInterpreter<ObservableDebugger> {
+GOALInterpreter<ObservableDebugger> {
 	private final AgentTest test;
 	private AgentTestResult agentTestResult;
 

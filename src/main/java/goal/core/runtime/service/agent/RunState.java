@@ -188,7 +188,7 @@ public class RunState<D extends Debugger> {
 	public RunState(AgentId agentName, EnvironmentCapabilities environment,
 			MessagingCapabilities messaging, LoggingCapabilities logger,
 			AgentProgram program, D debugger, Learner learner)
-			throws KRInitFailedException {
+					throws KRInitFailedException {
 
 		this.environment = environment;
 		this.messaging = messaging;
@@ -300,7 +300,7 @@ public class RunState<D extends Debugger> {
 	 * @throws UnknownObjectException
 	 */
 	public void reset() throws KRInitFailedException, KRDatabaseException,
-			KRQueryFailedException, UnknownObjectException {
+	KRQueryFailedException, UnknownObjectException {
 		this.roundCounter = 0;
 		// Clean up old and create new initial mental state.
 		this.mentalState.cleanUp();
@@ -430,7 +430,7 @@ public class RunState<D extends Debugger> {
 				default:
 					throw new GOALBug(
 							"Received a message with unexpected mood: " //$NON-NLS-1$
-									+ message.getMood());
+							+ message.getMood());
 				}
 				this.getMentalState().updateGoalState(this.debugger, sender);
 			} catch (Exception e) {
@@ -599,7 +599,7 @@ public class RunState<D extends Debugger> {
 		this.incrementRoundCounter();
 		this.debugger.breakpoint(Channel.REASONING_CYCLE_SEPARATOR,
 				getRoundCounter(), " +++++++ Cycle " + getRoundCounter() //$NON-NLS-1$
-						+ " +++++++ "); //$NON-NLS-1$
+				+ " +++++++ "); //$NON-NLS-1$
 
 		// Get and process percepts.
 		this.processPercepts(newPercepts, this.previousPercepts);
@@ -788,7 +788,7 @@ public class RunState<D extends Debugger> {
 	 * @return A module with the parameter type, if any; null otherwise.
 	 */
 	private Module getModuleOfType(Module.TYPE type) {
-		for (Module module : program.getModules()) {
+		for (Module module : this.program.getModules()) {
 			if (module.getType().equals(type)) {
 				return module;
 			}
@@ -798,13 +798,13 @@ public class RunState<D extends Debugger> {
 
 	/**
 	 * Get module with given name
-	 * 
+	 *
 	 * @param name
 	 *            name of module
 	 * @return {@link Module} or null if no such module in program.
 	 */
 	private Module getModule(String name) {
-		for (Module module : program.getModules()) {
+		for (Module module : this.program.getModules()) {
 			if (module.getName().equals(name)) {
 				return module;
 			}
@@ -814,7 +814,7 @@ public class RunState<D extends Debugger> {
 
 	/**
 	 * Check if we have module with given name
-	 * 
+	 *
 	 * @param name
 	 *            module name that is needed
 	 * @return true if we have such a module, false if not.

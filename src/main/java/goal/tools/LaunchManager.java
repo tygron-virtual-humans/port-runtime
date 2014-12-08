@@ -17,7 +17,6 @@ import java.awt.Component;
 import javax.swing.JOptionPane;
 
 import krTools.errors.exceptions.ParserException;
-import languageTools.program.mas.LaunchRule;
 import languageTools.program.mas.MASProgram;
 import localmessaging.LocalMessaging;
 import nl.tudelft.goal.messaging.Messaging;

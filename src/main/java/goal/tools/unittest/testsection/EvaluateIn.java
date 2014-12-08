@@ -118,7 +118,7 @@ public class EvaluateIn implements TestSection {
 		ObservableDebugger debugger = runState.getDebugger();
 		final int add = (this.boundary == null) ? 0 : 1;
 		TestCondition[] conditions = new TestCondition[this.conditions.size()
-		                                               + add];
+				+ add];
 		if (this.boundary != null) {
 			conditions[0] = this.boundary;
 		}

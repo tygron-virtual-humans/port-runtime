@@ -4,7 +4,6 @@ import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 
-import java.nio.channels.Selector;
 import java.util.concurrent.Callable;
 
 import krTools.language.DatabaseFormula;
@@ -13,6 +12,7 @@ import krTools.language.Substitution;
 import languageTools.program.agent.Module;
 import languageTools.program.agent.Module.TYPE;
 import languageTools.program.agent.actions.AdoptAction;
+import languageTools.program.agent.selector.Selector;
 import languageTools.program.agent.selector.Selector.SelectorType;
 import mentalState.BASETYPE;
 
@@ -109,8 +109,8 @@ public class ModuleExecutor {
 			// current attention set.
 			for (Query goal : this.module.getGoals()) {
 				ActionExecutor adopt = new AdoptActionExecutor(new AdoptAction(
-						new Selector(SelectorType.THIS, null),
-						goal.applySubst(substitution), null));
+						new Selector(SelectorType.THIS), goal.applySubst(
+								substitution).toUpdate(), goal.getSourceInfo()));
 				adopt = adopt.evaluatePrecondition(runState.getMentalState(),
 						runState.getDebugger(), false);
 				if (adopt != null) {

@@ -68,7 +68,7 @@ public class RulesExecutor {
 					Channel.REASONING_CYCLE_SEPARATOR,
 					null,
 					"+++++++ Adaptive Cycle " + runState.getRoundCounter()
-							+ " +++++++ ");
+					+ " +++++++ ");
 
 			/*
 			 * Get the learner to choose one action option, from the input list
@@ -187,7 +187,7 @@ public class RulesExecutor {
 		for (Rule rule : this.rules) {
 			// Evaluate the rule's condition.
 			solutions = new MentalStateConditionExecutor(rule.getCondition())
-					.evaluate(mentalState, debugger);
+			.evaluate(mentalState, debugger);
 			// Listall rules need to be processed further.
 			if (rule instanceof ListallDoRule) {
 				solutions = ((ListallDoRule) rule)

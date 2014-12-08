@@ -181,8 +181,8 @@ public class EnvironmentPort {
 	 */
 	private Serializable callRemoteAction(String agentName,
 			goal.core.runtime.service.environmentport.actions.Action action)
-					throws NoEnvironmentException, EnvironmentInterfaceException,
-					MessagingException {
+			throws NoEnvironmentException, EnvironmentInterfaceException,
+			MessagingException {
 		/*
 		 * FIXME To handle the call, this function is using a temporary
 		 * messagebox. not clear why this is done. Older comments here indicate
@@ -226,7 +226,7 @@ public class EnvironmentPort {
 	 * @throws EnvironmentInterfaceException
 	 */
 	public synchronized void shutDown() throws MessagingException,
-	EnvironmentInterfaceException {
+			EnvironmentInterfaceException {
 		try {
 			reset();
 		} catch (Exception ignore) {
@@ -248,7 +248,7 @@ public class EnvironmentPort {
 
 		@SuppressWarnings("unchecked")
 		List<EnvironmentEvent> events = (List<EnvironmentEvent>) result
-		.getContent();
+				.getContent();
 
 		for (EnvironmentEvent event : events) {
 			notifyObservers(event);
@@ -263,7 +263,7 @@ public class EnvironmentPort {
 	 * @throws EnvironmentInterfaceException
 	 */
 	public synchronized void start() throws MessagingException,
-	EnvironmentInterfaceException {
+			EnvironmentInterfaceException {
 		if (this.environmentState != EnvironmentState.RUNNING) {
 			Message result = this.messagebox.blockingSend(this.messagebox
 					.createMessage(this.environmentMessageBoxId, new Start(),
@@ -280,7 +280,7 @@ public class EnvironmentPort {
 	 * @throws EnvironmentInterfaceException
 	 */
 	public synchronized void pause() throws MessagingException,
-	EnvironmentInterfaceException {
+			EnvironmentInterfaceException {
 		if (this.environmentState != EnvironmentState.PAUSED) {
 			Message result = this.messagebox.blockingSend(this.messagebox
 					.createMessage(this.environmentMessageBoxId, new Pause(),
@@ -297,7 +297,7 @@ public class EnvironmentPort {
 	 * @throws EnvironmentInterfaceException
 	 */
 	public synchronized void kill() throws MessagingException,
-	EnvironmentInterfaceException {
+			EnvironmentInterfaceException {
 		if (this.environmentState != EnvironmentState.KILLED) {
 			Message result = this.messagebox.blockingSend(this.messagebox
 					.createMessage(this.environmentMessageBoxId, new Kill(),
@@ -316,7 +316,7 @@ public class EnvironmentPort {
 	 * @throws EnvironmentInterfaceException
 	 */
 	public synchronized void reset() throws MessagingException,
-	EnvironmentInterfaceException {
+			EnvironmentInterfaceException {
 		Message result = this.messagebox
 				.blockingSend(this.messagebox.createMessage(
 						this.environmentMessageBoxId, new Reset(), null));
@@ -349,7 +349,7 @@ public class EnvironmentPort {
 	 * @throws EnvironmentInterfaceException
 	 */
 	public void freeAgent(String agentName) throws MessagingException,
-	EnvironmentInterfaceException {
+			EnvironmentInterfaceException {
 		try {
 			callRemoteAction(agentName, new FreeAgent(agentName));
 			// Clean up after agent frees itself.

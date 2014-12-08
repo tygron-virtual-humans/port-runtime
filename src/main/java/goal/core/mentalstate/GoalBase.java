@@ -303,7 +303,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 				"%s has been adopted into the "
 						+ (this.owner.equals(this.agentName) ? ""
 								: this.agentName + "'s ") + "goal base: %s.",
-								goal, this.name);
+				goal, this.name);
 	}
 
 	/**
@@ -353,7 +353,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 							+ " has been dropped from the "
 							+ (this.owner.equals(this.agentName) ? ""
 									: this.agentName + "'s ")
-									+ "goal base: %s.", goal.toString(), this.name);
+							+ "goal base: %s.", goal.toString(), this.name);
 
 			this.count++;
 			getTime();
@@ -382,7 +382,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 					"Goal %s has been achieved and removed from the "
 							+ (this.owner.equals(this.agentName) ? ""
 									: this.agentName + "'s ")
-									+ "goal base: %s.", goal, getName());
+							+ "goal base: %s.", goal, getName());
 			// #2968 goal is to be disposed. Don't use with delay..
 			goal.unmarkOccurrence();
 		}

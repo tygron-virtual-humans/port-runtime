@@ -71,7 +71,7 @@ public class PredicateAnalysis {
 		 * programGraphGenerator.setKRInterface(program.getKRInterface());
 		 * programGraphGenerator.createGraph(program, null); ExpressionGraph
 		 * expressionGraph = programGraphGenerator.getGraph();
-		 * 
+		 *
 		 * numDefinitions = 0; for (Expression exp :
 		 * expressionGraph.getAllDefinitions()) { numDefinitions++; String op =
 		 * exp.getSignature(); if (expressioncounts.containsKey(op)) {

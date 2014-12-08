@@ -32,7 +32,7 @@ public interface EnvironmentCapabilities {
 	 * @throws EnvironmentInterfaceException
 	 */
 	public abstract Double getReward() throws MessagingException,
-	EnvironmentInterfaceException;
+			EnvironmentInterfaceException;
 
 	/**
 	 * Sends a user-specified action to the environment in which it should be
@@ -55,7 +55,7 @@ public interface EnvironmentCapabilities {
 	 * @throws EnvironmentInterfaceException
 	 */
 	public abstract Set<Percept> getPercepts() throws MessagingException,
-	EnvironmentInterfaceException;
+			EnvironmentInterfaceException;
 
 	/**
 	 * Releases any resources held.
@@ -64,6 +64,6 @@ public interface EnvironmentCapabilities {
 	 * @throws EnvironmentInterfaceException
 	 */
 	public abstract void dispose() throws MessagingException,
-	EnvironmentInterfaceException;
+			EnvironmentInterfaceException;
 
 }

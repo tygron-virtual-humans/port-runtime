@@ -84,7 +84,7 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 
 		// Run target module.
 		Result result = new ModuleExecutor(this.action.getTarget())
-				.executeFully(runState, moduleSubstitution);
+		.executeFully(runState, moduleSubstitution);
 		// TODO: the module is run entirely here, bypassing the default
 		// task-based scheduling; I'm not sure that is the desired effect here
 		// -Vincent
@@ -171,7 +171,7 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	 */
 	private GoalBase getNewFilterGoals(MentalState mentalstate,
 			Debugger debugger, Substitution subst)
-					throws GOALActionFailedException {
+			throws GOALActionFailedException {
 		MentalModel agentModel = mentalstate.getOwnModel();
 
 		GoalBase newAttentionSet = new GoalBase(mentalstate.getAgentId(),
