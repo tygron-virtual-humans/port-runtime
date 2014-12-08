@@ -68,16 +68,9 @@ public class LaunchManager {
 		// Determine where to host middleware; ask user if needed.
 		String host = getMiddlewareHostName();
 
-		// FIXME: find a better way to prevent launching a MAS with errors...
 		if (!masProgram.isValid()) {
 			throw new GOALLaunchFailureException("Cannot launch MAS "
 					+ masProgram + " because it (or a child) has errors.");
-		}
-
-		// FIXME: we are still using "parsed" objects; therefore we need to
-		// reset 'runtime' objects such as the launchrule objects here...
-		for (LaunchRule launchRule : masProgram.getLaunchRules()) {
-			launchRule.resetApplicationCount();
 		}
 
 		// Launch the multi-agent system. and start the runtime environment.

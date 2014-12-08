@@ -236,18 +236,9 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	 */
 	protected RuntimeManager<D, C> buildRuntime(MASProgram program)
 			throws GOALLaunchFailureException {
-
-		// FIXME: find a better way to prevent launching a MASFile with
-		// errors...
-		if (!program.canRun()) {
+		if (!program.isValid()) {
 			throw new GOALLaunchFailureException("Cannot launch MAS " + program
 					+ " because it (or a child) has errors.");
-		}
-
-		// FIXME: we are still using "parsed" objects; therefore we need to
-		// reset 'runtime' objects such as the launchrule objects here...
-		for (LaunchRule launchRule : program.getLaunchRules()) {
-			launchRule.resetApplicationCount();
 		}
 
 		// Launch the multi-agent system. and start the runtime environment.

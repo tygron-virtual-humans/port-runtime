@@ -58,11 +58,10 @@ import nl.tudelft.goal.messaging.exceptions.MessagingException;
  */
 public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	private final MASProgram masProgram;
-
 	private final Agents agents = new Agents();
 	private final AgentFactory<D, C> factory;
-
 	private final List<AgentServiceEventObserver> observers = new LinkedList<>();
+	private final Map<LaunchRule, Integer> applicationCount = new HashMap<>();
 
 	private class Agents {
 		/**
@@ -135,7 +134,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	}
 
 	/**
-	 *
+	 * DOC
 	 */
 	public synchronized void shutDown() {
 		// Kill any remaining agents (not connected to an entity).
@@ -480,7 +479,14 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 
 			// check if the maximum number of times this rule should be fired
 			// has been reached.
-			if (launchRule.incrementApplicationCount()) {
+			int appCount = 0;
+			if (this.applicationCount.containsKey(launchRule)) {
+				appCount = this.applicationCount.get(launchRule);
+			} else {
+				this.applicationCount.put(launchRule, appCount);
+			}
+			if (appCount < launchRule.getMaxNumberOfApplications()) {
+				this.applicationCount.put(launchRule, ++appCount);
 				for (Launch launch : launchRule.getInstructions()) {
 					try {
 						launchAgent(launch, newEntity, port);
@@ -569,8 +575,8 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 * @throws UnknownObjectException
 	 */
 	public synchronized void reset() throws InterruptedException,
-			KRInitFailedException, KRDatabaseException, KRQueryFailedException,
-			UnknownObjectException {
+	KRInitFailedException, KRDatabaseException, KRQueryFailedException,
+	UnknownObjectException {
 		for (Agent<C> a : this.agents.local()) {
 			a.reset();
 		}
