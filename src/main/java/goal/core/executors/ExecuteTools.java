@@ -1,9 +1,12 @@
 package goal.core.executors;
 
+import goal.core.mentalstate.MentalState;
 import goal.tools.errorhandling.exceptions.GOALBug;
+import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 
 import java.rmi.activation.UnknownObjectException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -13,7 +16,9 @@ import krTools.errors.exceptions.KRInitFailedException;
 import krTools.language.Substitution;
 import krTools.language.Term;
 import krTools.language.Var;
+import languageTools.program.agent.AgentId;
 import languageTools.program.agent.rules.Rule;
+import languageTools.program.agent.selector.Selector;
 import mentalstatefactory.MentalStateFactory;
 
 public class ExecuteTools {
@@ -38,7 +43,6 @@ public class ExecuteTools {
 	 */
 	public static Term substitutionsToTerm(Set<Substitution> substitutions,
 			KRInterface language, Rule rule) {
-
 		mentalState.MentalState state;
 		try {
 			state = MentalStateFactory.getInterface(language.getClass());
@@ -78,4 +82,51 @@ public class ExecuteTools {
 		return state.makeList(substsAsTerms);
 	}
 
+	/**
+	 * Resolves the selector to agent names by expanding quantors. If a fixed
+	 * list of agent names has been set, returns that instead.
+	 *
+	 * Notice that we are handling Strings as agent names. This means the EIS
+	 * strings that can contain upper case characters etc. Because the
+	 * selectExpressions that we have are language dependent Terms, they will
+	 * have to be converted with language dependent translator. This
+	 * particularly happens when the eis entities have name starting with upper
+	 * case character, and the PrologTerm in that case has quotes around it.
+	 *
+	 * @param mentalState
+	 *            The mental state of the agent who runs the code containing
+	 *            this selector.
+	 * @return The set of agent names that this selector refers to.
+	 * @throws IllegalArgumentException
+	 * @throws KRInitFailedException
+	 * @throws GOALRuntimeErrorException
+	 *             If a SelectExpression is found that is not closed.
+	 */
+	@SuppressWarnings("fallthrough")
+	public static Set<AgentId> resolve(Selector selector,
+			MentalState mentalState) throws IllegalArgumentException,
+			KRInitFailedException {
+		// Resolve the selector expressions.
+		HashSet<AgentId> agentNames = new HashSet<>();
+		switch (selector.getType()) {
+		case ALL:
+		case SOME:
+			agentNames.addAll(mentalState.getKnownAgents());
+			break;
+		case ALLOTHER:
+		case SOMEOTHER:
+			agentNames.addAll(mentalState.getKnownAgents());
+			agentNames.remove(mentalState.getAgentId());
+			break;
+		case PARAMETERLIST:
+			// TODO: implement
+			break;
+		default:
+		case THIS:
+		case SELF:
+			agentNames.add(mentalState.getAgentId());
+			break;
+		}
+		return agentNames;
+	}
 }

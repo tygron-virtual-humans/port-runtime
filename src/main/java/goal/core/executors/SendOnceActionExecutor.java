@@ -103,7 +103,8 @@ public class SendOnceActionExecutor extends ActionExecutor {
 			Debugger debugger) {
 		Set<AgentId> receivers;
 		try {
-			receivers = resolve(this.action.getSelector(), mentalState);
+			receivers = ExecuteTools.resolve(this.action.getSelector(),
+					mentalState);
 		} catch (KRInitFailedException e) {
 			throw new GOALActionFailedException(
 					"Could not determine receivers: " + e.getMessage(), e);

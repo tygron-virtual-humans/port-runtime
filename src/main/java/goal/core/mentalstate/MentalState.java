@@ -19,7 +19,7 @@
 package goal.core.mentalstate;
 
 import goal.core.agent.Agent;
-import goal.core.executors.ExitModuleActionExecutor;
+import goal.core.executors.ExecuteTools;
 import goal.core.executors.MentalStateConditionExecutor;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
@@ -128,7 +128,7 @@ public class MentalState {
 		this.usesMentalModeling = program.usesMentalModels();
 		this.agentId = id;
 		this.agentProgram = program;
-		this.addAgentModel(id, debugger);
+		addAgentModel(id, debugger);
 	}
 
 	/**
@@ -336,8 +336,8 @@ public class MentalState {
 		// Process selector.
 		Iterator<AgentId> agents;
 		try {
-			agents = new ExitModuleActionExecutor(null).resolve(
-					literal.getSelector(), this).iterator();
+			agents = ExecuteTools.resolve(literal.getSelector(), this)
+					.iterator();
 		} catch (KRInitFailedException e) {
 			throw new GOALRuntimeErrorException(
 					"Processing of selector failed: " + e.getMessage(), e);
@@ -366,7 +366,7 @@ public class MentalState {
 				for (Substitution subst : result) {
 					Set<Substitution> tempResult = this.models.get(
 							agents.next()).query(literal.applySubst(subst),
-									focus, debugger);
+							focus, debugger);
 					for (Substitution tempSubst : tempResult) {
 						currentResults.add(subst.combine(tempSubst));
 					}
@@ -402,7 +402,7 @@ public class MentalState {
 	 * @return
 	 */
 	public Set<Substitution> query(Query query, BASETYPE type, Debugger debugger) {
-		return this.getOwnBase(type).query(query, debugger);
+		return getOwnBase(type).query(query, debugger);
 	}
 
 	/**
@@ -463,7 +463,7 @@ public class MentalState {
 	 */
 	public boolean delete(Update update, BASETYPE type, Debugger debugger,
 			AgentId... agent) {
-		AgentId name = ((agent.length == 0) ? this.getAgentId() : agent[0]);
+		AgentId name = ((agent.length == 0) ? getAgentId() : agent[0]);
 		return this.models.get(name).getBase(type).delete(update, debugger);
 	}
 
@@ -484,7 +484,7 @@ public class MentalState {
 	 */
 	public boolean delete(DatabaseFormula formula, BASETYPE type,
 			Debugger debugger, AgentId... agent) {
-		AgentId name = ((agent.length == 0) ? this.getAgentId() : agent[0]);
+		AgentId name = ((agent.length == 0) ? getAgentId() : agent[0]);
 		return this.models.get(name).getBase(type).delete(formula, debugger);
 	}
 
@@ -505,7 +505,7 @@ public class MentalState {
 	 */
 	public boolean adopt(Update update, boolean focus, Debugger debugger,
 			AgentId... agent) {
-		AgentId name = ((agent.length == 0) ? this.getAgentId() : agent[0]);
+		AgentId name = ((agent.length == 0) ? getAgentId() : agent[0]);
 
 		// Do not add goal if it already is implicated by an existing goal.
 		// TODO: this is a precondition of adopt action; probably duplicating
@@ -531,7 +531,7 @@ public class MentalState {
 	 *            used otherwise
 	 */
 	public void drop(Update update, Debugger debugger, AgentId... agent) {
-		AgentId name = ((agent.length == 0) ? this.getAgentId() : agent[0]);
+		AgentId name = ((agent.length == 0) ? getAgentId() : agent[0]);
 		this.models.get(name).drop(update, debugger);
 	}
 
@@ -544,7 +544,7 @@ public class MentalState {
 	 *            Debugger monitoring focus.
 	 */
 	public void focus(GoalBase attentionSet, Debugger debugger) {
-		this.models.get(this.getAgentId()).focus(attentionSet, debugger);
+		this.models.get(getAgentId()).focus(attentionSet, debugger);
 	}
 
 	/**
@@ -558,7 +558,7 @@ public class MentalState {
 	 *            used otherwise
 	 */
 	public void updateGoalState(Debugger debugger, AgentId... agent) {
-		AgentId name = ((agent.length == 0) ? this.getAgentId() : agent[0]);
+		AgentId name = ((agent.length == 0) ? getAgentId() : agent[0]);
 		this.models.get(name).updateGoalState(debugger);
 	}
 
@@ -577,7 +577,7 @@ public class MentalState {
 	 */
 	public double getReward(Double envReward) {
 		if (envReward == null) {
-			return this.getAttentionSet().getGoals().isEmpty() ? 1.0 : 0.0;
+			return getAttentionSet().getGoals().isEmpty() ? 1.0 : 0.0;
 		}
 		return envReward;
 	}
@@ -636,20 +636,20 @@ public class MentalState {
 
 		// iterate over the goals in the current goal base; we need to get
 		// substitutions that validate the context using only one goal.
-		for (SingleGoal goal : this.getAttentionSet()) {
+		for (SingleGoal goal : getAttentionSet()) {
 			// temporarily only have one of the goals
 			this.models
-			.get(this.agentId)
-			.getAttentionStack()
-			.push(new GoalBase(goal, this.agentId, this.agentProgram,
-					getAgentId().getName(), debugger, this.agentId));
+					.get(this.agentId)
+					.getAttentionStack()
+					.push(new GoalBase(goal, this.agentId, this.agentProgram,
+							getAgentId().getName(), debugger, this.agentId));
 
 			// get the substitutions that make the given context true, given
 			// the current single goal. Add these to the total set of
 			// substitutions.
 			try {
 				partSubsts = new MentalStateConditionExecutor(context)
-				.evaluate(this, debugger);
+						.evaluate(this, debugger);
 				if (!partSubsts.isEmpty()) {
 					substitutions.addAll(partSubsts);
 					// make sure we do not have to re-query everything in order
@@ -730,22 +730,22 @@ public class MentalState {
 		if (addknowledge) {
 			// first convert the KB to string.
 			text += "% ----- Knowledge -----\n";
-			text += this.getOwnBase(BASETYPE.KNOWLEDGEBASE).getTheory();
+			text += getOwnBase(BASETYPE.KNOWLEDGEBASE).getTheory();
 		}
 
 		if (addbeliefs) {
 			text += "% ----- beliefs -----\n";
-			text += this.getOwnBase(BASETYPE.BELIEFBASE).getTheory();
+			text += getOwnBase(BASETYPE.BELIEFBASE).getTheory();
 		}
 
 		if (addpercepts) {
 			text += "% ----- percepts -----\n";
-			text += this.getOwnBase(BASETYPE.PERCEPTBASE).getTheory();
+			text += getOwnBase(BASETYPE.PERCEPTBASE).getTheory();
 		}
 
 		if (addmailbox) {
 			text += "% ----- mails -----\n";
-			text += this.getOwnBase(BASETYPE.MAILBOX).getTheory();
+			text += getOwnBase(BASETYPE.MAILBOX).getTheory();
 		}
 
 		if (addgoals) {

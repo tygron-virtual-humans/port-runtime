@@ -6,14 +6,7 @@ import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
-import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import krTools.errors.exceptions.KRInitFailedException;
 import krTools.language.Substitution;
-import languageTools.program.agent.AgentId;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.AdoptAction;
 import languageTools.program.agent.actions.DeleteAction;
@@ -26,7 +19,6 @@ import languageTools.program.agent.actions.PrintAction;
 import languageTools.program.agent.actions.SendAction;
 import languageTools.program.agent.actions.SendOnceAction;
 import languageTools.program.agent.actions.UserSpecAction;
-import languageTools.program.agent.selector.Selector;
 
 /**
  * Abstract base class for part of the ActionExecutors
@@ -119,7 +111,7 @@ public abstract class ActionExecutor {
 			} else {
 				throw new GOALActionFailedException(
 						"Attempt to execute action " + action
-						+ " with free variables.");
+								+ " with free variables.");
 			}
 		} else {
 			debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, this,
@@ -153,53 +145,6 @@ public abstract class ActionExecutor {
 		boolean builtin = !(this instanceof UserSpecActionExecutor);
 		debugger.breakpoint(builtin ? Channel.ACTION_EXECUTED_BUILTIN
 				: Channel.ACTION_EXECUTED_USERSPEC, this, "Performed %s.", this);
-	}
-
-	/**
-	 * Resolves the selector to agent names by expanding quantors. If a fixed
-	 * list of agent names has been set, returns that instead.
-	 *
-	 * Notice that we are handling Strings as agent names. This means the EIS
-	 * strings that can contain upper case characters etc. Because the
-	 * selectExpressions that we have are language dependent Terms, they will
-	 * have to be converted with language dependent translator. This
-	 * particularly happens when the eis entities have name starting with upper
-	 * case character, and the PrologTerm in that case has quotes around it.
-	 *
-	 * @param mentalState
-	 *            The mental state of the agent who runs the code containing
-	 *            this selector.
-	 * @return The set of agent names that this selector refers to.
-	 * @throws IllegalArgumentException
-	 * @throws KRInitFailedException
-	 * @throws GOALRuntimeErrorException
-	 *             If a SelectExpression is found that is not closed.
-	 */
-	@SuppressWarnings("fallthrough")
-	public final Set<AgentId> resolve(Selector selector, MentalState mentalState)
-			throws IllegalArgumentException, KRInitFailedException {
-		// Resolve the selector expressions.
-		HashSet<AgentId> agentNames = new HashSet<>();
-		switch (selector.getType()) {
-		case ALL:
-		case SOME:
-			agentNames.addAll(mentalState.getKnownAgents());
-			break;
-		case ALLOTHER:
-		case SOMEOTHER:
-			agentNames.addAll(mentalState.getKnownAgents());
-			agentNames.remove(mentalState.getAgentId());
-			break;
-		case PARAMETERLIST:
-			// TODO: implement
-			break;
-		default:
-		case THIS:
-		case SELF:
-			agentNames.add(mentalState.getAgentId());
-			break;
-		}
-		return agentNames;
 	}
 
 	@Override

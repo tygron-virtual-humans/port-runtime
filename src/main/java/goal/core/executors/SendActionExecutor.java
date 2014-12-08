@@ -94,7 +94,7 @@ public class SendActionExecutor extends ActionExecutor {
 	 */
 	private Set<AgentId> determineReceivers(MentalState mentalState) {
 		try {
-			return resolve(this.action.getSelector(), mentalState);
+			return ExecuteTools.resolve(this.action.getSelector(), mentalState);
 		} catch (KRInitFailedException e) {
 			throw new GOALActionFailedException(
 					"Could not determine receivers: " + e.getMessage(), e);
