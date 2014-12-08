@@ -20,6 +20,8 @@ import krTools.language.Substitution;
 import languageTools.analyzer.agent.AgentValidator;
 import languageTools.errors.Message;
 import languageTools.parser.GOAL;
+import languageTools.parser.GOAL.ActionContext;
+import languageTools.parser.GOAL.MentalStateConditionContext;
 import languageTools.parser.GOALLexer;
 import languageTools.program.agent.ActionSpecification;
 import languageTools.program.agent.Module;
@@ -102,17 +104,15 @@ public class QueryTool {
 	 *            is the string to be parsed.
 	 * @return a GOALWAlker that can parse text at the GOAL level.
 	 */
-	private AgentValidator prepareGOALWalker(String pString) {
+	private GOAL prepareGOALParser(String pString) {
 		try {
 			ANTLRInputStream charstream = new ANTLRInputStream(
 					new StringReader(pString));
 			GOALLexer lexer = new GOALLexer(charstream);
 			CommonTokenStream stream = new CommonTokenStream(lexer);
-			GOAL parser = new GOAL(stream);
-			return new GOALWalker(null, parser, lexer, this.agent
-					.getController().getProgram().getKRInterface());
+			return new GOAL(stream);
 		} catch (IOException e) {
-			throw new GOALBug("internal error while handling the query", e);
+			throw new GOALBug("internal error while setting up GOAL parser", e);
 		}
 	}
 
@@ -131,21 +131,13 @@ public class QueryTool {
 	 */
 	private MentalStateCondition parseMSC(String mentalStateCondition)
 			throws GOALException, ParserException {
-		MentalStateCondition msc;
 
 		// Try to parse the MSC.
-		AgentValidator walker = this.prepareGOALWalker(mentalStateCondition);
-		try {
-			msc = walker.visitConditions(walker.getParser().conditions());
-		} catch (Exception ex) {
-			// It should not throw a RecognitionException.
-			throw new GOALBug("Recognition exceptions should be handled by "
-					+ "the parser, and not thrown out.", ex);
-		}
-
-		checkParserErrors(walker, mentalStateCondition,
-				"mental state condition ");
-
+		GOAL parser = prepareGOALParser(mentalStateCondition);
+		MentalStateConditionContext mscContext = parser.mentalStateCondition();
+		AgentValidator test = new AgentValidator("inline");
+		MentalStateCondition msc = test.visitMentalStateCondition(mscContext);
+		checkParserErrors(test, mentalStateCondition, "mental state condition ");
 		// TODO? macros are not resolved, not clear how to do that anyways.
 		return msc;
 	}
@@ -194,18 +186,11 @@ public class QueryTool {
 	 */
 	private Action<?> parseAction(String action) throws GOALException,
 			ParserException {
-		Action<?> act;
-
-		// try and parse the MSC. It should not throw a RecognitionException.
-		AgentValidator walker = this.prepareGOALWalker(action);
-		try {
-			act = walker.visitAction(walker.getParser().action());
-		} catch (Exception ex) {
-			throw new GOALBug("Recognition exceptions should be handled by "
-					+ "the parser, and not thrown out.", ex);
-		}
-
-		checkParserErrors(walker, action, "action");
+		GOAL parser = prepareGOALParser(action);
+		ActionContext actionContext = parser.action();
+		AgentValidator test = new AgentValidator("inline");
+		Action<?> act = test.visitAction(actionContext);
+		checkParserErrors(test, action, "action");
 
 		// TODO: this code implements a rather naive approach to getting the
 		// action specification(s)

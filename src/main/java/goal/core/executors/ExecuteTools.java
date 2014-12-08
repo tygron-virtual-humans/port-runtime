@@ -18,6 +18,12 @@ import mentalstatefactory.MentalStateFactory;
 
 public class ExecuteTools {
 	/**
+	 * utility class
+	 */
+	private ExecuteTools() {
+	}
+
+	/**
 	 * Combines all given substitutions into a single {@link Term}.
 	 *
 	 * @param substitutions
