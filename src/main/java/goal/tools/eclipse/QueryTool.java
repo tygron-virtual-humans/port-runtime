@@ -54,7 +54,7 @@ public class QueryTool {
 			// use a dummy debugger
 			Set<Substitution> substitutions = new MentalStateConditionExecutor(
 					mentalStateCondition).evaluate(mentalState,
-							new SteppingDebugger("query", null));
+					new SteppingDebugger("query", null));
 			String resulttext = "";
 			if (substitutions.isEmpty()) {
 				resulttext = "No solutions";
@@ -193,7 +193,7 @@ public class QueryTool {
 	 * @modified K.Hindriks if UserOrFocusAction action must be UserSpecAction.
 	 */
 	private Action<?> parseAction(String action) throws GOALException,
-	ParserException {
+			ParserException {
 		Action<?> act;
 
 		// try and parse the MSC. It should not throw a RecognitionException.
@@ -233,10 +233,10 @@ public class QueryTool {
 					if (act.getName().equals(
 							specification.getAction().getName())
 							&& (((UserSpecAction) act).getParameters().size() == specification
-							.getAction().getParameters().size())) {
+									.getAction().getParameters().size())) {
 						try {
 							((UserSpecAction) act)
-							.addSpecification(specification);
+									.addSpecification(specification);
 						} catch (KRInitFailedException e) {
 							throw new GOALUserError(
 									"Failed to associate specification with action: "

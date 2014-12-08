@@ -24,11 +24,11 @@ import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 
+import java.rmi.activation.UnknownObjectException;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 import krTools.errors.exceptions.KRInitFailedException;
-import krTools.errors.exceptions.ParserException;
 import krTools.language.Query;
 import krTools.language.Substitution;
 import krTools.language.Update;
@@ -37,6 +37,7 @@ import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.SendOnceAction;
 import languageTools.program.agent.msg.Message;
 import mentalState.BASETYPE;
+import mentalstatefactory.MentalStateFactory;
 
 public class SendOnceActionExecutor extends ActionExecutor {
 
@@ -114,14 +115,15 @@ public class SendOnceActionExecutor extends ActionExecutor {
 		Query query;
 		for (AgentId receiver : receivers) {
 			try {
-				update = parseUpdate(this.action.getMessage().toString(true,
-						receiver));
-			} catch (		"Failed to create record of"
-					+ "message to be sent for: "
-					ParserException e) {
+				mentalState.MentalState state = MentalStateFactory
+						.getInterface(this.action.getKRInterface().getClass());
+				update = state
+						.convert(this.action.getMessage(), true, receiver);
+			} catch (UnknownObjectException e) {
 				throw new GOALActionFailedException(
-						+ this.action.getMessage().toString(true,
-								receiver) + ".", e);
+						"Failed to convert message to be sent for: "
+								+ this.action.getMessage().toString(true,
+										receiver) + ".", e);
 			}
 			query = update.toQuery();
 			if (!mentalState.query(query, BASETYPE.MAILBOX, debugger).isEmpty()) {

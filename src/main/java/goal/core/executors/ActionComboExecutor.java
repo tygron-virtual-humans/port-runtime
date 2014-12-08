@@ -27,7 +27,6 @@ import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import krTools.language.Substitution;
 import languageTools.program.agent.actions.Action;
@@ -66,7 +65,6 @@ public class ActionComboExecutor {
 	public List<ActionCombo> getOptions(MentalState mentalState,
 			Debugger debugger) {
 		List<ActionCombo> options = new LinkedList<>();
-		Set<Substitution> solutions;
 
 		// Get the first action from the list of actions of this combo.
 		Action<?> firstaction = this.actions.getActions().get(0);
@@ -75,40 +73,27 @@ public class ActionComboExecutor {
 		if (firstaction instanceof UserSpecAction) {
 			// USER-SPECIFIED ACTION MAY HAVE MULTIPLE ACTION SPECS
 			// (PRECONDITIONS).
-			UserSpecActionExecutor userspec = new UserSpecActionExecutor(
+			UserSpecActionExecutor userspec1 = new UserSpecActionExecutor(
 					(UserSpecAction) firstaction);
 
 			// Find the first action specification whose precondition holds.
-			solutions = userspec.getOptions(mentalState, debugger);
+			ActionExecutor userspec = userspec1.evaluatePrecondition(
+					mentalState, debugger, false);
 
 			// If solutions were found, return list of instantiated action
 			// combos where
 			// all action specifications other than the one found have been
 			// removed.
-			if (!solutions.isEmpty()) {
+			if (userspec != null) {
 				// Create new action which only has the action specification
-				// found
-				// by calling #getOptions(runState).
-				UserSpecAction singleActionSpec = userspec
-						.getSelectedActionSpec();
+				// found by calling #getOptions(runState).
+				Action<?> singleActionSpec = userspec.getAction();
 				// Create action combo using new user specified action.
 				ActionCombo option = new ActionCombo();
 				option.addAction(singleActionSpec);
 				// Add other actions that follow first action.
 				for (int i = 1; i < this.actions.size(); i++) {
 					option.addAction(this.actions.getActions().get(i));
-				}
-				// Create instantiations and add to options.
-				for (Substitution substitution : solutions) {
-					// Check if first action is closed.
-					if (singleActionSpec.applySubst(substitution).isClosed()) {
-						options.add(option.applySubst(substitution));
-					} else {
-						throw new GOALActionFailedException(
-								"Attempt to execute "
-										+ option.applySubst(substitution)
-										+ " with free variables.");
-					}
 				}
 			}
 		} else {

@@ -26,6 +26,7 @@ import goal.tools.debugger.Debugger;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -47,8 +48,17 @@ public class UserSpecActionExecutor extends ActionExecutor {
 			Debugger debugger, boolean last) {
 		MentalStateConditionExecutor check = new MentalStateConditionExecutor(
 				this.action.getPrecondition());
-		final Set<Substitution> solutions = check.evaluate(mentalState,
+		final Set<Substitution> solutions1 = check.evaluate(mentalState,
 				debugger);
+
+		// Create instantiations and add to options.
+		final Set<Substitution> solutions = new HashSet<>(solutions1.size());
+		for (Substitution substitution : solutions) {
+			// Check if first action is closed.
+			if (action.applySubst(substitution).isClosed()) {
+				solutions.add(substitution);
+			}
+		}
 
 		// Return null if the precondition did not hold; otherwise return
 		// an instantiated action with the action specification that was found

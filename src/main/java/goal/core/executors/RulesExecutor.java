@@ -6,14 +6,19 @@ import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 
+import java.rmi.activation.UnknownObjectException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import krTools.KRInterface;
+import krTools.errors.exceptions.KRInitFailedException;
 import krTools.errors.exceptions.KRQueryFailedException;
 import krTools.language.Substitution;
+import krTools.language.Term;
 import languageTools.program.agent.Module.RuleEvaluationOrder;
 import languageTools.program.agent.actions.ActionCombo;
 import languageTools.program.agent.rules.ListallDoRule;
@@ -43,12 +48,16 @@ public class RulesExecutor {
 	 *            The substitution provided by the module context that is passed
 	 *            on to this rule set.
 	 * @return The {@link Result} of executing this rule set.
+	 * @throws KRInitFailedException
+	 * @throws UnknownObjectException
 	 * @throws KRQueryFailedException
 	 *
 	 *             FIXME: enable learner to deal with Rule#isSingleGoal
 	 */
 	@SuppressWarnings("fallthrough")
-	public Result run(RunState<?> runState, Substitution substitution) {
+	public Result run(RunState<?> runState, Substitution substitution)
+			throws UnknownObjectException, KRInitFailedException {
+		KRInterface krInterface = runState.getActiveModule().getKRInterface();
 		Result result = new Result();
 		// Make a copy of the rules so we don't shuffle the original below.
 		List<Rule> rules = new ArrayList<>(this.rules);
@@ -68,14 +77,14 @@ public class RulesExecutor {
 					Channel.REASONING_CYCLE_SEPARATOR,
 					null,
 					"+++++++ Adaptive Cycle " + runState.getRoundCounter()
-					+ " +++++++ ");
+							+ " +++++++ ");
 
 			/*
 			 * Get the learner to choose one action option, from the input list
 			 * of action options.
 			 */
 			List<ActionCombo> options = getActionOptions(ms,
-					runState.getDebugger());
+					runState.getDebugger(), krInterface);
 
 			// There are no possible options for actions to execute.
 			if (options.isEmpty()) {
@@ -161,10 +170,13 @@ public class RulesExecutor {
 	 *            The current debugger.
 	 * @return A list of actions that may be performed in the given mental
 	 *         state, possibly empty.
+	 * @throws KRInitFailedException
+	 * @throws UnknownObjectException
 	 */
 	@SuppressWarnings("fallthrough")
 	private final List<ActionCombo> getActionOptions(MentalState mentalState,
-			Debugger debugger) {
+			Debugger debugger, KRInterface krInterface)
+			throws UnknownObjectException, KRInitFailedException {
 		List<ActionCombo> actionOptions = new LinkedList<>();
 		Set<Substitution> solutions;
 		boolean finished = false;
@@ -180,18 +192,19 @@ public class RulesExecutor {
 			// continue.
 		}
 
-		// In case of 'linear' style evaluation find the first applicable rule
-		// and
-		// return the options of that rule only; otherwise check all rules and
-		// return the options for every rule that is applicable.
+		/*
+		 * In case of 'linear' style evaluation find the first applicable rule
+		 * and return the options of that rule only; otherwise check all rules
+		 * and return the options for every rule that is applicable.
+		 */
 		for (Rule rule : this.rules) {
 			// Evaluate the rule's condition.
 			solutions = new MentalStateConditionExecutor(rule.getCondition())
-			.evaluate(mentalState, debugger);
+					.evaluate(mentalState, debugger);
 			// Listall rules need to be processed further.
 			if (rule instanceof ListallDoRule) {
-				solutions = ((ListallDoRule) rule)
-						.getVarSubstitution(solutions);
+				solutions = getVarSubstitution((ListallDoRule) rule, solutions,
+						krInterface);
 			}
 
 			// If condition holds, then check for action options;
@@ -230,5 +243,38 @@ public class RulesExecutor {
 		}
 
 		return actionOptions;
+	}
+
+	/**
+	 * Create a set with a single substitution that assigns the (parameter)
+	 * solutions to the variable of this rule.
+	 *
+	 * @param solutions
+	 *            The set of solutions to process.
+	 * @param language
+	 *            The KR language.
+	 *
+	 * @return A singleton set with a substitution that binds the variable of
+	 *         this rule with all solution substitutions provided as parameter.
+	 * @throws UnknownObjectException
+	 * @throws KRInitFailedException
+	 */
+	protected Set<Substitution> getVarSubstitution(ListallDoRule rule,
+			Set<Substitution> solutions, KRInterface krInterface)
+			throws UnknownObjectException, KRInitFailedException {
+		// If the solution set is empty, then the variable of this rule should
+		// not be instantiated and we simply return the empty set.
+		if (solutions.isEmpty()) {
+			return solutions;
+		}
+		// Create the substitution for the variable of this listall rule.
+		Term term = ExecuteTools.substitutionsToTerm(solutions, krInterface,
+				rule);
+		Substitution varSubst = krInterface.getSubstitution(null);
+		varSubst.addBinding(rule.getVariable(), term);
+		// Add that substitution to a set and return it.
+		Set<Substitution> result = new LinkedHashSet<>(1);
+		result.add(varSubst);
+		return result;
 	}
 }
