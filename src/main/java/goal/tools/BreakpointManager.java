@@ -19,6 +19,7 @@ import languageTools.program.agent.AgentProgram;
 import languageTools.program.agent.Module;
 import languageTools.program.agent.Module.TYPE;
 import languageTools.program.agent.actions.Action;
+import languageTools.program.agent.msc.MentalFormula;
 import languageTools.program.agent.rules.Rule;
 
 /**
@@ -60,31 +61,31 @@ public class BreakpointManager {
 		// #2117: All condition and action parts of rules can be breakpoints.
 		for (Module module : program.getModules()) {
 			for (Rule rule : module.getRules()) {
-				// FIXME: no sourceinfo for these elements?!
-				// objects.add(rule.getCondition());
-				// objects.add(rule.getAction());
+				// FIXME: used to be just 2 objects; now all literals/actions
+				// are added
+				for (MentalFormula literal : rule.getCondition()
+						.getSubFormulas()) {
+					objects.add((InputStreamPosition) literal.getSourceInfo());
+				}
+				for (Action<?> action : rule.getAction()) {
+					objects.add((InputStreamPosition) action.getSourceInfo());
+				}
 			}
 			for (ActionSpecification spec : module.getActionSpecifications()) {
-				// FIXME: no sourceinfo for these elements?!
-				// objects.add(spec);
+				// FIXME: is getAction the correct point?!
+				objects.add((InputStreamPosition) spec.getAction()
+						.getSourceInfo());
 			}
 		}
 
 		// All non-anonymous modules may also be breakpoints.
 		for (Module module : program.getModules()) {
-			if (module.getType() == TYPE.ANONYMOUS) {
-				continue;
+			if (module.getType() != TYPE.ANONYMOUS) {
+				objects.add((InputStreamPosition) module.getSourceInfo());
 			}
-			objects.add((InputStreamPosition) module.getSourceInfo());
 		}
 
 		Collections.sort(objects);
-
-		// See to it that all objects have a unique identifier.
-		for (int i = 0; i < objects.size(); i++) {
-			objects.get(i).setID(i);
-		}
-
 		return objects;
 	}
 
@@ -167,9 +168,9 @@ public class BreakpointManager {
 			 */
 			if (bp.definedAfter(sourceFile, bpt.getLine())
 					&& (bpt.getType() == Type.ALWAYS /*
-													 * || (bp instanceof
-													 * ActionCombo)
-													 */)) {
+					 * || (bp instanceof
+					 * ActionCombo)
+					 */)) {
 				line = bp.getLineNumber();
 				addBreakpoint(bp);
 				break;

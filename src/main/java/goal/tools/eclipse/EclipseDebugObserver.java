@@ -19,7 +19,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import krTools.language.DatabaseFormula;
-import krTools.language.Substitution;
 import krTools.parser.SourceInfo;
 import languageTools.parser.InputStreamPosition;
 import languageTools.program.agent.AgentId;
@@ -49,21 +48,20 @@ public class EclipseDebugObserver implements DebugObserver {
 			final InputReaderWriter writer) {
 		this.agent = agent;
 		this.writer = writer;
-		this.source = agent.getController().getProgram().getSourceInfo();
+		source = agent.getController().getProgram().getSourceInfo();
 	}
 
 	/**
 	 * Subscribe to everything we want to listen to
 	 */
 	public void subscribe() {
-		final IDEDebugger debugger = this.agent.getController().getDebugger();
+		final IDEDebugger debugger = agent.getController().getDebugger();
 		for (Channel channel : Channel.values()) {
 			// Listen to all channels to update the agent's source position
 			debugger.subscribe(this, channel);
 		}
 		// Let the world know we're here
-		this.writer
-		.write(new DebugCommand(Command.LAUNCHED, this.agent.getId()));
+		writer.write(new DebugCommand(Command.LAUNCHED, agent.getId()));
 	}
 
 	@Override
@@ -76,17 +74,17 @@ public class EclipseDebugObserver implements DebugObserver {
 		final Object object = event.getAssociatedObject();
 		// Update the last known source position
 		if (object instanceof SourceInfo) {
-			this.source = (SourceInfo) object;
+			source = (SourceInfo) object;
 		}
-		final AgentId agentId = this.agent.getId();
+		final AgentId agentId = agent.getId();
 		if (DebugPreferences.getChannelState(event.getChannel()).canView()
 				&& LoggingPreferences.getEclipseAgentConsoles()) {
-			this.writer.write(new DebugCommand(Command.LOG, agentId, event
+			writer.write(new DebugCommand(Command.LOG, agentId, event
 					.getMessage()));
 		}
 		switch (event.getChannel()) {
 		case RUNMODE:
-			this.writer.write(new DebugCommand(Command.RUNMODE, agentId, event
+			writer.write(new DebugCommand(Command.RUNMODE, agentId, event
 					.getRunMode().toString()));
 			if (event.getRunMode().equals(RunMode.PAUSED)
 					|| event.getRunMode().equals(RunMode.KILLED)) {
@@ -98,7 +96,7 @@ public class EclipseDebugObserver implements DebugObserver {
 		case MAIN_MODULE_ENTRY:
 		case USER_MODULE_ENTRY:
 			final Module module1 = (Module) event.getAssociatedObject();
-			this.writer.write(new DebugCommand(Command.MODULE_ENTRY, agentId,
+			writer.write(new DebugCommand(Command.MODULE_ENTRY, agentId,
 					module1.getName()));
 			break;
 		case INIT_MODULE_EXIT:
@@ -106,37 +104,37 @@ public class EclipseDebugObserver implements DebugObserver {
 		case MAIN_MODULE_EXIT:
 		case USER_MODULE_EXIT:
 			final Module module2 = (Module) event.getAssociatedObject();
-			this.writer.write(new DebugCommand(Command.MODULE_EXIT, agentId,
-					module2.getName()));
+			writer.write(new DebugCommand(Command.MODULE_EXIT, agentId, module2
+					.getName()));
 			break;
 		case BB_UPDATES:
 			final DatabaseFormula belief = (DatabaseFormula) object;
 			if (event.getMessage().contains("has been inserted")) {
-				this.writer.write(new DebugCommand(Command.INSERTED_BEL,
-						agentId, belief.toString()));
+				writer.write(new DebugCommand(Command.INSERTED_BEL, agentId,
+						belief.toString()));
 			} else {
-				this.writer.write(new DebugCommand(Command.DELETED_BEL,
-						agentId, belief.toString()));
+				writer.write(new DebugCommand(Command.DELETED_BEL, agentId,
+						belief.toString()));
 			}
 			break;
 		case PERCEPTS_CONDITIONAL_VIEW:
 			final DatabaseFormula percept = (DatabaseFormula) object;
 			if (event.getMessage().contains("has been inserted")) {
-				this.writer.write(new DebugCommand(Command.INSERTED_PERCEPT,
+				writer.write(new DebugCommand(Command.INSERTED_PERCEPT,
 						agentId, percept.toString()));
 			} else {
-				this.writer.write(new DebugCommand(Command.DELETED_PERCEPT,
-						agentId, percept.toString()));
+				writer.write(new DebugCommand(Command.DELETED_PERCEPT, agentId,
+						percept.toString()));
 			}
 			break;
 		case MAILS_CONDITIONAL_VIEW:
 			final DatabaseFormula mail = (DatabaseFormula) object;
 			if (event.getMessage().contains("has been inserted")) {
-				this.writer.write(new DebugCommand(Command.INSERTED_MAIL,
-						agentId, mail.toString()));
+				writer.write(new DebugCommand(Command.INSERTED_MAIL, agentId,
+						mail.toString()));
 			} else {
-				this.writer.write(new DebugCommand(Command.DELETED_MAIL,
-						agentId, mail.toString()));
+				writer.write(new DebugCommand(Command.DELETED_MAIL, agentId,
+						mail.toString()));
 			}
 			break;
 		case GB_UPDATES:
@@ -152,60 +150,60 @@ public class EclipseDebugObserver implements DebugObserver {
 			}
 			name = goal + " [" + name + "]";
 			if (event.getMessage().contains("has been adopted")) {
-				this.writer.write(new DebugCommand(Command.ADOPTED, agentId,
-						name));
+				writer.write(new DebugCommand(Command.ADOPTED, agentId, name));
 			} else {
-				this.writer.write(new DebugCommand(Command.DROPPED, agentId,
-						name));
+				writer.write(new DebugCommand(Command.DROPPED, agentId, name));
 			}
 			break;
 		case GB_CHANGES:
 			final GoalBase base = (GoalBase) object;
 			if (event.getMessage().contains("focused to")) {
-				this.writer.write(new DebugCommand(Command.FOCUS, agentId, base
+				writer.write(new DebugCommand(Command.FOCUS, agentId, base
 						.getName()));
 			} else {
-				this.writer.write(new DebugCommand(Command.DEFOCUS, agentId,
-						base.getName()));
+				writer.write(new DebugCommand(Command.DEFOCUS, agentId, base
+						.getName()));
 			}
 			break;
 		case RULE_CONDITION_EVALUATION:
 			final MentalStateCondition cond = (MentalStateCondition) object;
 			final List<String> rAsList = new LinkedList<>();
 			if (event.getMessage().contains("holds for")) {
-				for (final Substitution sub : cond.getLatestSubstitutions()) {
-					if (sub != null) {
-						rAsList.add(sub.toString());
-					}
-				}
+				// FIXME
+				/*
+				 * for (final Substitution sub : cond.getLatestSubstitutions())
+				 * { if (sub != null) { rAsList.add(sub.toString()); } }
+				 */
 				if (rAsList.isEmpty()) {
 					rAsList.add("[]");
 				}
 			} else {
 				rAsList.add("no solutions");
 			}
-			this.writer.write(new DebugCommand(Command.RULE_EVALUATION,
-					agentId, rAsList));
+			writer.write(new DebugCommand(Command.RULE_EVALUATION, agentId,
+					rAsList));
 			break;
 		case ACTION_PRECOND_EVALUATION_USERSPEC:
 			final UserSpecAction action = (UserSpecAction) event
-			.getAssociatedObject();
+					.getAssociatedObject();
 			final List<String> aAsList = new LinkedList<>();
 			if (event.getMessage().contains("holds for")) {
 				aAsList.add("selected: " + action);
-				if (action.getLatestSubstitution() != null) {
-					aAsList.add("precondition: "
-							+ action.getLatestSubstitution().toString());
-				}
+				// FIXME
+				/*
+				 * if (action.getLatestSubstitution() != null) {
+				 * aAsList.add("precondition: " +
+				 * action.getLatestSubstitution().toString()); }
+				 */
 			} else {
 				aAsList.add("precondition does not hold");
 			}
-			this.writer.write(new DebugCommand(Command.PRECOND_EVALUATION,
-					agentId, aAsList));
+			writer.write(new DebugCommand(Command.PRECOND_EVALUATION, agentId,
+					aAsList));
 			break;
 		case CALL_MODULE:
 			final ModuleCallAction call = (ModuleCallAction) event
-			.getAssociatedObject();
+					.getAssociatedObject();
 			final List<String> cAsList = new LinkedList<>();
 			if (call.getParameters() != null) {
 				cAsList.add(call.getParameters().toString());
@@ -213,13 +211,13 @@ public class EclipseDebugObserver implements DebugObserver {
 			if (cAsList.isEmpty()) {
 				cAsList.add("[]");
 			}
-			this.writer.write(new DebugCommand(Command.PRECOND_EVALUATION,
-					agentId, cAsList));
+			writer.write(new DebugCommand(Command.PRECOND_EVALUATION, agentId,
+					cAsList));
 			break;
 		case ACTION_EXECUTED_USERSPEC:
 			if (LoggingPreferences.getEclipseActionHistory()) {
 				final Action executed = (Action) event.getAssociatedObject();
-				this.writer.write(new DebugCommand(Command.EXECUTED, agentId,
+				writer.write(new DebugCommand(Command.EXECUTED, agentId,
 						executed.toString()));
 			}
 			break;
@@ -233,16 +231,16 @@ public class EclipseDebugObserver implements DebugObserver {
 	 * source position (code that has been run)
 	 */
 	public void suspendAtSource() {
-		if (!this.initialized) {
-			final SourceInfo saved = this.source;
-			final MentalState init = this.agent.getController().getRunState()
+		if (!initialized) {
+			final SourceInfo saved = source;
+			final MentalState init = agent.getController().getRunState()
 					.getMentalState();
 			final SingleGoal[] goals = init
 					.getAttentionSet()
 					.getGoals()
 					.toArray(
 							new SingleGoal[init.getAttentionSet().getGoals()
-							               .size()]);
+									.size()]);
 			for (final SingleGoal goal : goals) {
 				notifyBreakpointHit(new DebugEvent(null, "",
 						"has been adopted", Channel.GB_UPDATES, goal));
@@ -253,26 +251,25 @@ public class EclipseDebugObserver implements DebugObserver {
 					.getFormulas()
 					.toArray(
 							new DatabaseFormula[init
-							                    .getOwnBase(BASETYPE.BELIEFBASE)
-							                    .getTheory().getFormulas().size()]);
+									.getOwnBase(BASETYPE.BELIEFBASE)
+									.getTheory().getFormulas().size()]);
 			for (final DatabaseFormula belief : beliefs) {
 				notifyBreakpointHit(new DebugEvent(null, "",
 						"has been inserted", Channel.BB_UPDATES, belief));
 			}
-			this.source = saved;
-			this.initialized = true;
+			source = saved;
+			initialized = true;
 		}
 		int diff = 0;
-		if (this.source instanceof InputStreamPosition) {
-			final InputStreamPosition isource = (InputStreamPosition) this.source;
+		if (source instanceof InputStreamPosition) {
+			final InputStreamPosition isource = (InputStreamPosition) source;
 			diff = isource.getStopIndex() - isource.getStartIndex();
 		}
-		final String[] params = new String[] {
-				this.source.getSource().getPath(),
-				Integer.toString(this.source.getLineNumber()),
-				Integer.toString(this.source.getCharacterPosition()),
-				Integer.toString(this.source.getCharacterPosition() + diff) };
-		this.writer.write(new DebugCommand(Command.SUSPEND, this.agent.getId(),
-				Arrays.asList(params)));
+		final String[] params = new String[] { source.getSource().getPath(),
+				Integer.toString(source.getLineNumber()),
+				Integer.toString(source.getCharacterPosition()),
+				Integer.toString(source.getCharacterPosition() + diff) };
+		writer.write(new DebugCommand(Command.SUSPEND, agent.getId(), Arrays
+				.asList(params)));
 	}
 }

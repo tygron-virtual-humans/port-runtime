@@ -145,7 +145,7 @@ public class SteppingDebugger implements Debugger {
 		private int priority;
 
 		RunMode(int p) {
-			this.priority = p;
+			priority = p;
 		}
 
 		/**
@@ -155,7 +155,7 @@ public class SteppingDebugger implements Debugger {
 		 *         mode.
 		 */
 		public RunMode merge(RunMode othermode) {
-			if (this.priority > othermode.getPriority()) {
+			if (priority > othermode.getPriority()) {
 				return this;
 			}
 			return othermode;
@@ -165,7 +165,7 @@ public class SteppingDebugger implements Debugger {
 		 * @return the prio of this run mode.
 		 */
 		public int getPriority() {
-			return this.priority;
+			return priority;
 		}
 	}
 
@@ -206,14 +206,14 @@ public class SteppingDebugger implements Debugger {
 	 */
 	public SteppingDebugger(String name, EnvironmentPort env) {
 		this.name = name;
-		this.runMode = getInitialRunMode();
+		runMode = getInitialRunMode();
 		if (PMPreferences.getAgentCopyEnvRunState()) {
 			final EnvironmentState state = (env == null) ? null : env
 					.getEnvironmentState();
 			if (state == null || state.equals(EnvironmentState.RUNNING)) {
-				this.runMode = RunMode.RUNNING;
+				runMode = RunMode.RUNNING;
 			} else if (state.equals(EnvironmentState.PAUSED)) {
-				this.runMode = RunMode.STEPPING;
+				runMode = RunMode.STEPPING;
 			} // killed or initializing? leave the default...
 		}
 	}
@@ -243,12 +243,12 @@ public class SteppingDebugger implements Debugger {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see goal.tools.debugger.IDebugger#getName()
 	 */
 	@Override
 	public String getName() {
-		return this.name;
+		return name;
 	}
 
 	/**
@@ -257,7 +257,7 @@ public class SteppingDebugger implements Debugger {
 	 * @return overall run mode of debugger.
 	 */
 	public synchronized RunMode getRunMode() {
-		return this.runMode;
+		return runMode;
 	}
 
 	/**
@@ -271,8 +271,8 @@ public class SteppingDebugger implements Debugger {
 	 *            The run mode for the debugger.
 	 */
 	public synchronized void setRunMode(RunMode mode) {
-		if (this.runMode != mode) {
-			this.runMode = mode;
+		if (runMode != mode) {
+			runMode = mode;
 			// wake up any processes that have been paused.
 			synchronized (this) {
 				notifyAll();
@@ -281,7 +281,7 @@ public class SteppingDebugger implements Debugger {
 	}
 
 	public synchronized void setKeepRunning(boolean bool) {
-		this.keepRunning = bool;
+		keepRunning = bool;
 	}
 
 	/***************************************************************/
@@ -292,7 +292,7 @@ public class SteppingDebugger implements Debugger {
 	@SuppressWarnings("fallthrough")
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * goal.tools.debugger.IDebugger#breakpoint(goal.tools.debugger.Channel,
 	 * java.lang.Object, java.lang.String, java.lang.Object)
@@ -300,7 +300,7 @@ public class SteppingDebugger implements Debugger {
 	@Override
 	public void breakpoint(Channel channel, Object associate, String message,
 			Object... args) {
-		if (this.keepRunning) {
+		if (keepRunning) {
 			return;
 		}
 		if (checkUserBreakpointHit(associate, message, args)) {
@@ -314,7 +314,7 @@ public class SteppingDebugger implements Debugger {
 		case RUNNING:
 			break; // just continue.
 		case STEPPING:
-			if (!this.pausingChannels.contains(channel)) {
+			if (!pausingChannels.contains(channel)) {
 				break;
 			}
 			// we need to pause on this channel, fall through;
@@ -446,7 +446,7 @@ public class SteppingDebugger implements Debugger {
 	 *            is channel that causes agent to pause.
 	 */
 	public void addPause(Channel channel) {
-		this.pausingChannels.add(channel);
+		pausingChannels.add(channel);
 	}
 
 	/**
@@ -457,7 +457,7 @@ public class SteppingDebugger implements Debugger {
 	 *            is channel that causes agent to pause.
 	 */
 	public void removePause(Channel channel) {
-		this.pausingChannels.remove(channel);
+		pausingChannels.remove(channel);
 	}
 
 	/**
@@ -469,11 +469,11 @@ public class SteppingDebugger implements Debugger {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder("Debugger name = ");
-		builder.append(this.name);
+		builder.append(name);
 		builder.append("\nPausing channels:\n");
-		builder.append(this.pausingChannels.toString());
+		builder.append(pausingChannels.toString());
 		builder.append("\nRunmode = ");
-		builder.append(this.runMode);
+		builder.append(runMode);
 		return builder.toString();
 	}
 
@@ -484,7 +484,6 @@ public class SteppingDebugger implements Debugger {
 	 * Check if we hit a user set breakpoint. Notify observers if that is the
 	 * case
 	 */
-	@SuppressWarnings("deprecation")
 	protected boolean checkUserBreakpointHit(Object associatedObject,
 			String message, Object... args) {
 		// make sure there is a source attached to the object.
@@ -493,17 +492,17 @@ public class SteppingDebugger implements Debugger {
 		if (associatedObject instanceof SourceInfo) {
 			source = ((SourceInfo) associatedObject);
 		}
-		if (source != null && this.breakpointIds.contains(source.getID())) {
+		if (source != null && breakpointIds.contains(source.hashCode())) {
 			final Agent<IDEGOALInterpreter> agent = LaunchManager.getCurrent()
-					.getRuntimeManager().getAgent(new AgentId(this.name));
+					.getRuntimeManager().getAgent(new AgentId(name));
 			if (agent != null) {
 				final int round = agent.getController().getRunState()
 						.getRoundCounter();
-				final Integer get = this.had.get(round);
-				if (get != null && get.intValue() == source.getID()) {
+				final Integer get = had.get(round);
+				if (get != null && get.intValue() == source.hashCode()) {
 					return false;
 				}
-				this.had.put(round, source.getID());
+				had.put(round, source.hashCode());
 			}
 			return true;
 		} else {
@@ -519,32 +518,32 @@ public class SteppingDebugger implements Debugger {
 	 *            The set of breakpoints.
 	 */
 	public void setBreakpoints(Set<SourceInfo> breakpoints) {
-		this.breakpointIds.clear();
+		breakpointIds.clear();
 		if (breakpoints != null) {
 			for (SourceInfo breakpoint : breakpoints) {
-				this.setBreakpoint(breakpoint.getID());
+				setBreakpoint(breakpoint);
 			}
 		}
 	}
 
 	/**
-	 * Sets a breakpoint on the breakpoint-object with the given ID.
+	 * Sets a breakpoint on the breakpoint-object.
 	 *
-	 * @param id
-	 *            The ID.
+	 * @param point
+	 *            The breakpoint's SourceInfo.
 	 */
-	public void setBreakpoint(int id) {
-		this.breakpointIds.add(id);
+	public void setBreakpoint(SourceInfo point) {
+		breakpointIds.add(point.hashCode());
 	}
 
 	/**
-	 * Unsets a breakpoint from the breakpoint-object with the given ID.
+	 * Unsets a breakpoint from the breakpoint-object .
 	 *
 	 * @param id
-	 *            The ID.
+	 *            The breakpoint's SourceInfo.
 	 */
-	public void unsetBreakpoint(int id) {
-		this.breakpointIds.remove(id);
+	public void unsetBreakpoint(SourceInfo point) {
+		breakpointIds.remove(point.hashCode());
 	}
 
 	@Override
