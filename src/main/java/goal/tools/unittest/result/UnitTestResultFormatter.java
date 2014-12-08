@@ -79,7 +79,8 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 			if (test == null) {
 				ret += indent(1, formatGroup("extras", resultList)) + "\n";
 			} else {
-				ret += indent(1, formatGroup(test.getAgentName(), resultList))
+				ret += indent(1,
+						formatGroup(test.getSourceFile().getName(), resultList))
 						+ "\n";
 			}
 		}

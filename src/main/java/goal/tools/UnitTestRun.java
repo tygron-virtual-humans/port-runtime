@@ -21,8 +21,8 @@ import languageTools.program.test.AgentTest;
  * @author M.P. Korstanje
  */
 public class UnitTestRun
-extends
-AbstractRun<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> {
+		extends
+		AbstractRun<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> {
 	/**
 	 * Creates the agents used when running the test program. The agents are
 	 * created with a {@link UnitTestInterpreter} controller. The agents base
@@ -32,8 +32,8 @@ AbstractRun<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> {
 	 * @author M.P. Korstanje
 	 */
 	private class TestRunAgentFactory
-	extends
-	AbstractAgentFactory<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> {
+			extends
+			AbstractAgentFactory<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> {
 
 		public TestRunAgentFactory(MessagingService messaging) {
 			super(messaging);
@@ -42,7 +42,7 @@ AbstractRun<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> {
 		@Override
 		protected ObservableDebugger provideDebugger() {
 			ObservableDebugger observableDebugger = new ObservableDebugger(
-					this.agentId, this.environment);
+					agentId, environment);
 			if (UnitTestRun.this.debuggerOutput) {
 				new LoggingObserver(observableDebugger);
 			}
@@ -52,10 +52,8 @@ AbstractRun<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> {
 		@Override
 		protected UnitTestInterpreter<ObservableDebugger> provideController(
 				ObservableDebugger debugger, Learner learner) {
-			AgentTest test = UnitTestRun.this.unitTest
-					.getTest(this.agentBaseName);
-			return new UnitTestInterpreter<>(this.program, test, debugger,
-					learner);
+			AgentTest test = unitTest.getTest(programFile);
+			return new UnitTestInterpreter<>(program, test, debugger, learner);
 		}
 	}
 
@@ -66,7 +64,7 @@ AbstractRun<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> {
 
 	public UnitTestRun(UnitTest program) {
 		super(program.getMasProgram());
-		this.unitTest = program;
+		unitTest = program;
 	}
 
 	/**
@@ -78,7 +76,7 @@ AbstractRun<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> {
 	@Override
 	protected void awaitTermination(
 			RuntimeManager<? extends ObservableDebugger, ? extends UnitTestInterpreter<ObservableDebugger>> runtimeManager)
-					throws InterruptedException {
+			throws InterruptedException {
 		// Wait while agents are running
 		while (runtimeManager.hasAliveLocalAgents()) {
 			// Check if any dead agents failed their test.

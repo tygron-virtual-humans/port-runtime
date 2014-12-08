@@ -25,7 +25,7 @@ import languageTools.program.test.AgentTest;
  *
  */
 public class UnitTestInterpreter<D extends ObservableDebugger> extends
-GOALInterpreter<ObservableDebugger> {
+		GOALInterpreter<ObservableDebugger> {
 	private final AgentTest test;
 	private AgentTestResult agentTestResult;
 
@@ -61,7 +61,7 @@ GOALInterpreter<ObservableDebugger> {
 	 * @return the testResults.
 	 */
 	public UnitTestInterpreterResult getTestResults() {
-		return new UnitTestInterpreterResult(this.test, this.agent.getId(),
+		return new UnitTestInterpreterResult(this.test, agent.getId(),
 				this.agentTestResult, getUncaughtThrowable());
 	}
 
@@ -83,6 +83,7 @@ GOALInterpreter<ObservableDebugger> {
 								Channel.REASONING_CYCLE_SEPARATOR, 0,
 								"%s test has been started",
 								UnitTestInterpreter.this.agent.getId());
+						// TODO: create executor
 						UnitTestInterpreter.this.agentTestResult = UnitTestInterpreter.this.test
 								.run((Agent<UnitTestInterpreter<ObservableDebugger>>) UnitTestInterpreter.this.agent);
 					} catch (final Exception e) {

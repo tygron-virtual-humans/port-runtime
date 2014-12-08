@@ -16,7 +16,7 @@ import languageTools.program.test.AgentTest;
  * @author mpkorstanje
  */
 public class UnitTest {
-	private final Map<String, AgentTest> tests = new HashMap<>();
+	private final Map<File, AgentTest> tests = new HashMap<>();
 	private final MASProgram masProgram;
 	private final File unitTestFile;
 	private final long timeout;
@@ -65,7 +65,7 @@ public class UnitTest {
 		this.unitTestFile = unitTestFile;
 		this.masProgram = masProgram;
 		for (AgentTest t : tests) {
-			this.tests.put(t.getAgentName(), t);
+			this.tests.put(t.getSourceFile(), t);
 		}
 		this.timeout = timeout;
 	}
@@ -85,30 +85,30 @@ public class UnitTest {
 	}
 
 	public Collection<AgentTest> getTests() {
-		return this.tests.values();
+		return tests.values();
 	}
 
 	public MASProgram getMasProgram() {
-		return this.masProgram;
+		return masProgram;
 	}
 
 	/**
 	 * Returns a test for the agent with the given base name or null when the
 	 * agent has no test associated with it.
 	 *
-	 * @param agentBaseName
+	 * @param agentFile
 	 *            to find test for
 	 * @return a test or null
 	 */
-	public AgentTest getTest(String agentBaseName) {
-		return this.tests.get(agentBaseName);
+	public AgentTest getTest(File agentFile) {
+		return tests.get(agentFile);
 	}
 
 	public File getFile() {
-		return this.unitTestFile;
+		return unitTestFile;
 	}
 
 	public long getTimeout() {
-		return this.timeout;
+		return timeout;
 	}
 }

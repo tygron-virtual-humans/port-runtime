@@ -15,6 +15,7 @@ import goal.core.runtime.service.environmentport.environmentport.events.FreeEnti
 import goal.core.runtime.service.environmentport.environmentport.events.NewEntityEvent;
 import goal.preferences.EnvironmentPreferences;
 import goal.preferences.PMPreferences;
+import goal.tools.PlatformManager;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
@@ -386,9 +387,10 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 			agentBaseName = prefix + "_" + agentBaseName;
 		}
 
-		AgentProgram program = launch.getAgentProgram();
 		// FIXME: AgentProgram should have reference to its file.
 		File goalProgramFile = launch.getAgentFile();
+		AgentProgram program = PlatformManager.getCurrent().getAgentProgram(
+				goalProgramFile);
 		Agent<C> agent;
 		try {
 			agent = this.factory.build(program, goalProgramFile, agentBaseName,
@@ -575,8 +577,8 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 * @throws UnknownObjectException
 	 */
 	public synchronized void reset() throws InterruptedException,
-			KRInitFailedException, KRDatabaseException, KRQueryFailedException,
-			UnknownObjectException {
+	KRInitFailedException, KRDatabaseException, KRQueryFailedException,
+	UnknownObjectException {
 		for (Agent<C> a : this.agents.local()) {
 			a.reset();
 		}
