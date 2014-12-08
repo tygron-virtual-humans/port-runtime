@@ -188,16 +188,16 @@ public class RunState<D extends Debugger> {
 	public RunState(AgentId agentName, EnvironmentCapabilities environment,
 			MessagingCapabilities messaging, LoggingCapabilities logger,
 			AgentProgram program, D debugger, Learner learner)
-					throws KRInitFailedException {
+			throws KRInitFailedException {
 
 		this.environment = environment;
 		this.messaging = messaging;
 		this.logActionsLogger = logger;
 
 		// Get the built-in modules from the agent's program, if available.
-		this.initModule = program.getModuleOfType(TYPE.INIT);
-		this.eventModule = program.getModuleOfType(TYPE.EVENT);
-		this.mainModule = program.getModuleOfType(TYPE.MAIN);
+		this.initModule = getModuleOfType(TYPE.INIT);
+		this.eventModule = getModuleOfType(TYPE.EVENT);
+		this.mainModule = getModuleOfType(TYPE.MAIN);
 
 		// Check there is a main module; create a "dummy" one if main is absent.
 		if (this.mainModule == null) {
@@ -222,7 +222,14 @@ public class RunState<D extends Debugger> {
 		// before agent is actually started so we do not get racing conditions.
 
 		// Create a new mental state for the agent.
-		this.mentalState = new MentalState(this.getId(), program, debugger);
+		try {
+			this.mentalState = new MentalState(this.getId(), program, debugger);
+		} catch (KRDatabaseException | KRQueryFailedException
+				| UnknownObjectException e) {
+			throw new KRInitFailedException(
+					"Failed to create initial mental state for agent "
+							+ agentName, e);
+		}
 		this.usesMentalModels = program.usesMentalModels();
 
 		// Configure learner.
@@ -423,7 +430,7 @@ public class RunState<D extends Debugger> {
 				default:
 					throw new GOALBug(
 							"Received a message with unexpected mood: " //$NON-NLS-1$
-							+ message.getMood());
+									+ message.getMood());
 				}
 				this.getMentalState().updateGoalState(this.debugger, sender);
 			} catch (Exception e) {
@@ -592,7 +599,7 @@ public class RunState<D extends Debugger> {
 		this.incrementRoundCounter();
 		this.debugger.breakpoint(Channel.REASONING_CYCLE_SEPARATOR,
 				getRoundCounter(), " +++++++ Cycle " + getRoundCounter() //$NON-NLS-1$
-				+ " +++++++ "); //$NON-NLS-1$
+						+ " +++++++ "); //$NON-NLS-1$
 
 		// Get and process percepts.
 		this.processPercepts(newPercepts, this.previousPercepts);
@@ -723,8 +730,8 @@ public class RunState<D extends Debugger> {
 	public boolean setMainModule(String id) {
 		if (id == null) {
 			return true;
-		} else if (this.program.hasModule(id)) {
-			this.mainModule = this.program.getModule(id);
+		} else if (hasModule(id)) {
+			this.mainModule = getModule(id);
 			return true;
 		}
 		return false;
@@ -767,5 +774,52 @@ public class RunState<D extends Debugger> {
 	 */
 	public void doLog(String message) {
 		this.logActionsLogger.log(message);
+	}
+
+	/****************************************************************/
+	/*
+	 * CHECK Stuff that was in AgentProgram. Should this be here now?
+	 */
+	/**
+	 * Searches for and, if found, returns a module of a given (parameter) type.
+	 *
+	 * @param type
+	 *            The type the module to be returned should have.
+	 * @return A module with the parameter type, if any; null otherwise.
+	 */
+	private Module getModuleOfType(Module.TYPE type) {
+		for (Module module : program.getModules()) {
+			if (module.getType().equals(type)) {
+				return module;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Get module with given name
+	 * 
+	 * @param name
+	 *            name of module
+	 * @return {@link Module} or null if no such module in program.
+	 */
+	private Module getModule(String name) {
+		for (Module module : program.getModules()) {
+			if (module.getName().equals(name)) {
+				return module;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Check if we have module with given name
+	 * 
+	 * @param name
+	 *            module name that is needed
+	 * @return true if we have such a module, false if not.
+	 */
+	private boolean hasModule(String name) {
+		return null != getModule(name);
 	}
 }
