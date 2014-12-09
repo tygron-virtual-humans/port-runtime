@@ -125,9 +125,8 @@ public class QueryTool {
 	 * @throws ParserException
 	 *             DOC
 	 */
-	private MentalStateCondition parseMSC(String mentalStateCondition)
+	public MentalStateCondition parseMSC(String mentalStateCondition)
 			throws GOALException, ParserException {
-
 		// Try to parse the MSC.
 		GOAL parser = prepareGOALParser(mentalStateCondition);
 		MentalStateConditionContext mscContext = parser.mentalStateCondition();

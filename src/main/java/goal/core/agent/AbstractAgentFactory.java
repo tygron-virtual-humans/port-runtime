@@ -7,7 +7,6 @@ import goal.tools.adapt.Learner;
 import goal.tools.debugger.Debugger;
 import goal.tools.logging.GOALLoggerDelayed;
 
-import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,7 +44,7 @@ import nl.tudelft.goal.messaging.messagebox.MessageBoxId.Type;
  *            class of the GOALInterpreter to provide.
  */
 public abstract class AbstractAgentFactory<D extends Debugger, C extends GOALInterpreter<D>>
-implements AgentFactory<D, C> {
+		implements AgentFactory<D, C> {
 
 	private final MessagingService messaging;
 
@@ -53,11 +52,6 @@ implements AgentFactory<D, C> {
 	 * AgentProgram for the agent.
 	 */
 	protected AgentProgram program;
-	/**
-	 * File containing the goal program.
-	 */
-	protected File programFile;
-
 	/**
 	 * Environment in which the agent will be placed.
 	 */
@@ -104,15 +98,13 @@ implements AgentFactory<D, C> {
 	}
 
 	@Override
-	public synchronized Agent<C> build(AgentProgram program, File programFile,
+	public synchronized Agent<C> build(AgentProgram program,
 			String agentBaseName, EnvironmentPort environment)
-					throws MessagingException, KRInitFailedException {
-
+			throws MessagingException, KRInitFailedException {
 		/*
 		 * Initialize variables used in agent construction.
 		 */
 		this.program = program;
-		this.programFile = programFile;
 		this.environment = environment;
 		this.agentBaseName = agentBaseName;
 
@@ -147,7 +139,6 @@ implements AgentFactory<D, C> {
 			 * Clean up variables used in construction.
 			 */
 			this.program = null;
-			this.programFile = null;
 			this.environment = null;
 			this.agentBaseName = null;
 

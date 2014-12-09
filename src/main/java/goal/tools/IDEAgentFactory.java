@@ -6,7 +6,7 @@ import goal.preferences.PMPreferences;
 import goal.tools.adapt.Learner;
 
 public class IDEAgentFactory extends
-AbstractAgentFactory<IDEDebugger, IDEGOALInterpreter> {
+		AbstractAgentFactory<IDEDebugger, IDEGOALInterpreter> {
 
 	public IDEAgentFactory(MessagingService messaging) {
 		super(messaging);
@@ -14,8 +14,7 @@ AbstractAgentFactory<IDEDebugger, IDEGOALInterpreter> {
 
 	@Override
 	protected IDEDebugger provideDebugger() {
-		return new IDEDebugger(this.agentId, this.program, this.programFile,
-				this.environment);
+		return new IDEDebugger(this.agentId, this.program, this.environment);
 	}
 
 	@Override

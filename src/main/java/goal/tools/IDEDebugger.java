@@ -7,9 +7,6 @@ import goal.tools.debugger.DebugObserver;
 import goal.tools.debugger.DebugSettingSynchronizer;
 import goal.tools.debugger.ObservableDebugger;
 import goal.tools.logging.InfoLog;
-
-import java.io.File;
-
 import languageTools.program.agent.AgentId;
 import languageTools.program.agent.AgentProgram;
 
@@ -23,18 +20,15 @@ public class IDEDebugger extends ObservableDebugger {
 	 * @param program
 	 *            the {@link AgentProgram} that we are running (used for
 	 *            breakpoints).
-	 * @param goalProgramFile
-	 *            file behind program.
 	 * @param env
 	 *            The current environment (if any), used when the 'new agents
 	 *            copy environment run state' option is enabled.
 	 */
-	public IDEDebugger(AgentId id, AgentProgram program, File goalProgramFile,
-			EnvironmentPort env) {
+	public IDEDebugger(AgentId id, AgentProgram program, EnvironmentPort env) {
 		super(id, env);
 		this.observer = new DebugSettingSynchronizer(this);
 		setBreakpoints(PlatformManager.getCurrent().getBreakpointManager()
-				.getAllBreakpoints(goalProgramFile));
+				.getAllBreakpoints(program.getSourceFile()));
 	}
 
 	@Override

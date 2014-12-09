@@ -3,9 +3,6 @@ package goal.core.agent;
 import goal.core.runtime.service.agent.AgentService;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
 import goal.tools.debugger.Debugger;
-
-import java.io.File;
-
 import krTools.KRInterface;
 import krTools.errors.exceptions.KRInitFailedException;
 import languageTools.program.agent.AgentProgram;
@@ -35,8 +32,6 @@ public interface AgentFactory<DEBUGGER extends Debugger, CONTROLLER extends GOAL
 	 *
 	 * @param program
 	 *            the agent executes
-	 * @param goalProgramFile
-	 *            containing the agents program ()
 	 * @param agentBaseName
 	 *            base name for the agent. This name does not need to be unique.
 	 * @param environment
@@ -50,8 +45,8 @@ public interface AgentFactory<DEBUGGER extends Debugger, CONTROLLER extends GOAL
 	 *             {@link KRInterface}.
 	 */
 	// FIXME: AgentProgram should have a reference to its .goal file.
-	public Agent<CONTROLLER> build(AgentProgram program, File goalProgramFile,
-			String agentBaseName, EnvironmentPort environment)
-			throws MessagingException, KRInitFailedException;
+	public Agent<CONTROLLER> build(AgentProgram program, String agentBaseName,
+			EnvironmentPort environment) throws MessagingException,
+			KRInitFailedException;
 
 }

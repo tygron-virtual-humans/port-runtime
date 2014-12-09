@@ -23,7 +23,6 @@ import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 import goal.tools.logging.InfoLog;
 
-import java.io.File;
 import java.rmi.activation.UnknownObjectException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -388,13 +387,11 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 		}
 
 		// FIXME: AgentProgram should have reference to its file.
-		File goalProgramFile = launch.getAgentFile();
 		AgentProgram program = PlatformManager.getCurrent().getAgentProgram(
-				goalProgramFile);
+				launch.getAgentFile());
 		Agent<C> agent;
 		try {
-			agent = this.factory.build(program, goalProgramFile, agentBaseName,
-					environment);
+			agent = this.factory.build(program, agentBaseName, environment);
 		} catch (KRInitFailedException e) {
 			throw new GOALLaunchFailureException("Could not create Agent", e);
 		} catch (MessagingException e) {
@@ -577,8 +574,8 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 * @throws UnknownObjectException
 	 */
 	public synchronized void reset() throws InterruptedException,
-	KRInitFailedException, KRDatabaseException, KRQueryFailedException,
-	UnknownObjectException {
+			KRInitFailedException, KRDatabaseException, KRQueryFailedException,
+			UnknownObjectException {
 		for (Agent<C> a : this.agents.local()) {
 			a.reset();
 		}
