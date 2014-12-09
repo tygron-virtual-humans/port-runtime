@@ -503,6 +503,7 @@ public class PlatformManager {
 				+ goalFile.getPath()));
 
 		AgentValidator validator = new AgentValidator(goalFile.getPath());
+		validator.setKRInterface(language);
 		validator.validate();
 		AgentProgram program = validator.getProgram();
 		if (program == null) {

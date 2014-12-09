@@ -14,6 +14,7 @@ import java.io.StringReader;
 import java.util.List;
 import java.util.Set;
 
+import krTools.KRInterface;
 import krTools.errors.exceptions.ParserException;
 import krTools.language.Substitution;
 import languageTools.analyzer.agent.AgentValidator;
@@ -32,9 +33,11 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 public class QueryTool {
 	private final Agent<IDEGOALInterpreter> agent;
+	private final KRInterface kr;
 
 	public QueryTool(final Agent<IDEGOALInterpreter> agent) {
 		this.agent = agent;
+		this.kr = agent.getController().getProgram().getKRInterface();
 	}
 
 	public String doquery(String userEnteredQuery) throws GOALUserError {
@@ -131,6 +134,7 @@ public class QueryTool {
 		GOAL parser = prepareGOALParser(mentalStateCondition);
 		MentalStateConditionContext mscContext = parser.mentalStateCondition();
 		AgentValidator test = new AgentValidator("inline");
+		test.setKRInterface(this.kr);
 		MentalStateCondition msc = test.visitMentalStateCondition(mscContext);
 		checkParserErrors(test, mentalStateCondition, "mental state condition ");
 		// TODO? macros are not resolved, not clear how to do that anyways.
@@ -185,6 +189,7 @@ public class QueryTool {
 		GOAL parser = prepareGOALParser(action);
 		ActionContext actionContext = parser.action();
 		AgentValidator test = new AgentValidator("inline");
+		test.setKRInterface(this.kr);
 		Action<?> act = test.visitAction(actionContext);
 		checkParserErrors(test, action, "action");
 
