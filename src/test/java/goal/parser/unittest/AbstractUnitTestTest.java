@@ -56,9 +56,10 @@ public class AbstractUnitTestTest {
 		this.visitor = new TestValidator(path);
 		this.visitor.validate();
 		UnitTest program = this.visitor.getProgram();
-		if (this.visitor.getErrors().isEmpty()) {
+		if (program != null && program.isValid()) {
 			return program;
 		} else {
+			System.out.println(this.visitor.getSyntaxErrors());
 			System.out.println(this.visitor.getErrors());
 			System.out.println(this.visitor.getWarnings());
 			return null;
