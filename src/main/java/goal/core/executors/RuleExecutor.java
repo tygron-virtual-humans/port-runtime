@@ -113,7 +113,7 @@ public class RuleExecutor {
 			HashMap<Substitution, List<SingleGoal>> substGoalLinks,
 			Substitution globalsubst) {
 		final ActionComboExecutor executor = new ActionComboExecutor(
-				this.rule.getAction());
+				this.rule.getAction(), this.rule.getCondition());
 		Result result = new Result();
 		// TODO: does not yet take collecting of goals for FILTER and SELECT
 		// options of modules into account...
@@ -189,7 +189,7 @@ public class RuleExecutor {
 			// Create new substitution, replacing our #variable.
 			Substitution fullSubst = globalsubst.clone();
 			Term newTerm = ExecuteTools.substitutionsToTerm(applicableSubst,
-					runState.getActiveModule().getKRInterface(), rule);
+					runState.getActiveModule().getKRInterface(), this.rule);
 			fullSubst.addBinding(((ListallDoRule) this.rule).getVariable(),
 					newTerm);
 

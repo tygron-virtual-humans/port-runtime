@@ -40,15 +40,19 @@ import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.ModuleCallAction;
 import languageTools.program.agent.msc.AGoalLiteral;
 import languageTools.program.agent.msc.GoalLiteral;
+import languageTools.program.agent.msc.MentalFormula;
 import languageTools.program.agent.msc.MentalLiteral;
+import languageTools.program.agent.msc.MentalStateCondition;
 
 public class ModuleCallActionExecutor extends ActionExecutor {
-
 	private final ModuleCallAction action;
+	private final MentalStateCondition context;
 	private Substitution substitutionToPassOnToModule;
 
-	public ModuleCallActionExecutor(ModuleCallAction act) {
+	public ModuleCallActionExecutor(ModuleCallAction act,
+			MentalStateCondition ctx) {
 		this.action = act;
+		this.context = ctx;
 	}
 
 	@Override
@@ -84,7 +88,7 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 
 		// Run target module.
 		Result result = new ModuleExecutor(this.action.getTarget())
-		.executeFully(runState, moduleSubstitution);
+				.executeFully(runState, moduleSubstitution);
 		// TODO: the module is run entirely here, bypassing the default
 		// task-based scheduling; I'm not sure that is the desired effect here
 		// -Vincent
@@ -171,7 +175,7 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	 */
 	private GoalBase getNewFilterGoals(MentalState mentalstate,
 			Debugger debugger, Substitution subst)
-			throws GOALActionFailedException {
+					throws GOALActionFailedException {
 		MentalModel agentModel = mentalstate.getOwnModel();
 
 		GoalBase newAttentionSet = new GoalBase(mentalstate.getAgentId(),
@@ -179,7 +183,8 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 
 		// get the goals as obtained from the context, and add them to
 		// the goalbase
-		for (MentalLiteral literal : this.action.getCondition().getLiterals()) {
+		for (MentalFormula formula : this.context.getSubFormulas()) {
+			MentalLiteral literal = (MentalLiteral) formula;
 			// only positive literals can result in new goals
 			if (!literal.isPositive()) {
 				continue;
@@ -189,13 +194,13 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 			// new goals
 			if (literal instanceof AGoalLiteral
 					|| literal instanceof GoalLiteral) {
-				Query formula = literal.applySubst(subst).getFormula();
+				Query query = literal.applySubst(subst).getFormula();
 				// do not insert if the goal has already been achieved
-				if (agentModel.beliefQuery(formula, debugger).isEmpty()) {
+				if (agentModel.beliefQuery(query, debugger).isEmpty()) {
 					// by using the substitution obtained from the
 					// action rule, we should have forced the literals
 					// to be closed.
-					if (!formula.isClosed()) {
+					if (!query.isClosed()) {
 						throw new GOALActionFailedException("A goal-literal "
 								+ "in the condition of rule " + this
 								+ " is not "
@@ -203,11 +208,9 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 								+ "focus action", null);
 					}
 					// FIXME seems better to just fail application instead of
-					// throwing.
-					// But how to best do that since we don't return Result
-					// here.
-
-					newAttentionSet.insert(formula.toUpdate(), debugger);
+					// throwing, but how to best do that since we don't return
+					// Result here?
+					newAttentionSet.insert(query.toUpdate(), debugger);
 				}
 			}
 		}
@@ -218,7 +221,7 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	protected ActionExecutor applySubst(Substitution subst) {
 		this.substitutionToPassOnToModule = subst;
 		return new ModuleCallActionExecutor(
-				(ModuleCallAction) this.action.applySubst(subst));
+				(ModuleCallAction) this.action.applySubst(subst), this.context);
 	}
 
 	@Override

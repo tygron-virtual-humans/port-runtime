@@ -19,6 +19,7 @@ import languageTools.program.agent.actions.PrintAction;
 import languageTools.program.agent.actions.SendAction;
 import languageTools.program.agent.actions.SendOnceAction;
 import languageTools.program.agent.actions.UserSpecAction;
+import languageTools.program.agent.msc.MentalStateCondition;
 
 /**
  * Abstract base class for part of the ActionExecutors
@@ -111,7 +112,7 @@ public abstract class ActionExecutor {
 			} else {
 				throw new GOALActionFailedException(
 						"Attempt to execute action " + action
-								+ " with free variables.");
+						+ " with free variables.");
 			}
 		} else {
 			debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, this,
@@ -152,7 +153,8 @@ public abstract class ActionExecutor {
 		return "execute(" + getAction().toString() + ")";
 	}
 
-	public static ActionExecutor getActionExecutor(Action<?> action) {
+	public static ActionExecutor getActionExecutor(Action<?> action,
+			MentalStateCondition context) {
 		if (action instanceof AdoptAction) {
 			return new AdoptActionExecutor((AdoptAction) action);
 		} else if (action instanceof DeleteAction) {
@@ -166,7 +168,8 @@ public abstract class ActionExecutor {
 		} else if (action instanceof LogAction) {
 			return new LogActionExecutor((LogAction) action);
 		} else if (action instanceof ModuleCallAction) {
-			return new ModuleCallActionExecutor((ModuleCallAction) action);
+			return new ModuleCallActionExecutor((ModuleCallAction) action,
+					context);
 		} else if (action instanceof PrintAction) {
 			return new PrintActionExecutor((PrintAction) action);
 		} else if (action instanceof SendAction) {

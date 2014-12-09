@@ -76,7 +76,7 @@ public class RulesExecutor {
 					Channel.REASONING_CYCLE_SEPARATOR,
 					null,
 					"+++++++ Adaptive Cycle " + runState.getRoundCounter()
-							+ " +++++++ ");
+					+ " +++++++ ");
 
 			/*
 			 * Get the learner to choose one action option, from the input list
@@ -94,8 +94,10 @@ public class RulesExecutor {
 			ActionCombo chosen = runState.getLearner().act(
 					runState.getActiveModule().getName(), ms, options);
 
-			/* Now execute the action option */
-			result = new ActionComboExecutor(chosen).run(runState,
+			/*
+			 * Now execute the action option TODO: context?!
+			 */
+			result = new ActionComboExecutor(chosen, null).run(runState,
 					substitution, true);
 
 			/*
@@ -198,7 +200,7 @@ public class RulesExecutor {
 		for (Rule rule : this.rules) {
 			// Evaluate the rule's condition.
 			solutions = new MentalStateConditionExecutor(rule.getCondition())
-					.evaluate(mentalState, debugger);
+			.evaluate(mentalState, debugger);
 			// Listall rules need to be processed further.
 			if (rule instanceof ListallDoRule) {
 				solutions = getVarSubstitution((ListallDoRule) rule, solutions,
@@ -213,7 +215,8 @@ public class RulesExecutor {
 					// First, instantiate the rule's action by applying the
 					// substitution found.
 					ActionComboExecutor instantiatedAction = new ActionComboExecutor(
-							rule.getAction().applySubst(substitution));
+							rule.getAction().applySubst(substitution), rule
+							.getCondition().applySubst(substitution));
 					// Second, check precondition and add all options for this
 					// instantiation.
 					actionOptions.addAll(instantiatedAction.getOptions(

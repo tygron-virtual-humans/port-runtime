@@ -33,13 +33,15 @@ import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.ActionCombo;
 import languageTools.program.agent.actions.ModuleCallAction;
 import languageTools.program.agent.actions.UserSpecAction;
+import languageTools.program.agent.msc.MentalStateCondition;
 
 public class ActionComboExecutor {
-
 	private final ActionCombo actions;
+	private final MentalStateCondition context;
 
-	public ActionComboExecutor(ActionCombo act) {
+	public ActionComboExecutor(ActionCombo act, MentalStateCondition ctx) {
 		this.actions = act;
+		this.context = ctx;
 	}
 
 	/**
@@ -105,7 +107,7 @@ public class ActionComboExecutor {
 			// the action combo).
 
 			// Evaluate the precondition of first action in combo.
-			if (ActionExecutor.getActionExecutor(firstaction)
+			if (ActionExecutor.getActionExecutor(firstaction, this.context)
 					.evaluatePrecondition(mentalState, debugger, false) != null) {
 				// If action is not closed throw exception.
 				if (firstaction.isClosed()) {
@@ -140,8 +142,9 @@ public class ActionComboExecutor {
 
 		for (Action<?> action : this.actions) {
 			// FIXME is this ok if action is a ModuleCallAction??
-			Result result = ActionExecutor.getActionExecutor(action).run(
-					runState, substitution, runState.getDebugger(), last);
+			Result result = ActionExecutor.getActionExecutor(action,
+					this.context).run(runState, substitution,
+					runState.getDebugger(), last);
 			comboResult.merge(result);
 			// If module needs to be terminated, i.e., {@link ExitModuleAction}
 			// has been performed, then exit execution of combo action.
