@@ -7,10 +7,8 @@ import java.util.List;
 
 import krTools.KRInterface;
 import krTools.errors.exceptions.KRInitFailedException;
-import krTools.language.Query;
 import krTools.language.Substitution;
 import krTools.language.Term;
-import krTools.language.Update;
 import krTools.language.Var;
 import languageTools.program.agent.actions.UserSpecAction;
 
@@ -32,9 +30,10 @@ import eis.iilang.ParameterList;
  */
 public class UserSpecActionTest {
 	private KRInterface language;
-	private List<Term> parameters;
-	private Query precondition;
-	private Update postcondition;
+
+	// private List<Term> parameters;
+	// private Query precondition;
+	// private Update postcondition;
 
 	public UserSpecActionTest() {
 		try {
@@ -77,11 +76,11 @@ public class UserSpecActionTest {
 	@Before
 	public void setUp() {
 		// No parameters, i.e., empty list.
-		this.parameters = new ArrayList<Term>();
+		// this.parameters = new ArrayList<Term>();
 		// Precondition "true".
-		this.precondition = getParser("true").ParseQuery(null);
+		// this.precondition = getParser("true").ParseQuery(null);
 		// Empty postcondition.
-		this.postcondition = getParser("").ParseUpdateOrEmpty(null);
+		// this.postcondition = getParser("").ParseUpdateOrEmpty(null);
 	}
 
 	/**
@@ -98,7 +97,7 @@ public class UserSpecActionTest {
 		 * false, null); ActionSpecification actionspec = new
 		 * ActionSpecification(action, this.precondition, this.postcondition,
 		 * null);
-		 *
+		 * 
 		 * assertEquals(true, action.addSpecification(actionspec));
 		 */
 	}
@@ -121,10 +120,10 @@ public class UserSpecActionTest {
 		 * null); ActionSpecification actionspec = new
 		 * ActionSpecification(action4spec, this.precondition,
 		 * this.postcondition, null);
-		 *
+		 * 
 		 * jpl.Variable var = new jpl.Variable("X"); jpl.Atom constant = new
 		 * jpl.Atom("constant");
-		 *
+		 * 
 		 * assertEquals( getUnifier(new VariableTerm(var, null), new PrologTerm(
 		 * constant, null)), action.mgu(action4spec, this.language));
 		 * assertEquals(true, action.addSpecification(actionspec));
@@ -149,10 +148,10 @@ public class UserSpecActionTest {
 		 * new UserSpecAction("action", this.parameters, false, null);
 		 * ActionSpecification actionspec = new ActionSpecification(action4spec,
 		 * this.precondition, this.postcondition, null);
-		 * 
+		 *
 		 * jpl.Variable var = new jpl.Variable("X"); jpl.Atom constant = new
 		 * jpl.Atom("constant");
-		 * 
+		 *
 		 * assertEquals( getUnifier(new VariableTerm(var, null), new PrologTerm(
 		 * constant, null)), action.mgu(action4spec, this.language));
 		 * assertEquals(true, action.addSpecification(actionspec));
@@ -177,15 +176,15 @@ public class UserSpecActionTest {
 		 * = new UserSpecAction("action", this.parameters, false, null);
 		 * ActionSpecification actionspec = new ActionSpecification(action4spec,
 		 * this.precondition, this.postcondition, null);
-		 * 
+		 *
 		 * jpl.Variable varX = new jpl.Variable("X"); jpl.Variable varY = new
 		 * jpl.Variable("Y"); jpl.Atom constant = new jpl.Atom("a");
-		 * 
+		 *
 		 * Substitution unifier = getUnifier(new VariableTerm(varY, null), new
 		 * PrologTerm(constant, null)); unifier.addBinding(new
 		 * VariableTerm(varX, null), new PrologTerm( constant, null));
 		 * assertEquals(unifier, action.mgu(action4spec, this.language));
-		 * 
+		 *
 		 * assertEquals(true, action.addSpecification(actionspec));
 		 */
 	}
@@ -209,17 +208,17 @@ public class UserSpecActionTest {
 		 * null); ActionSpecification actionspec = new
 		 * ActionSpecification(action4spec, this.precondition,
 		 * this.postcondition, null);
-		 * 
+		 *
 		 * jpl.Variable varX = new jpl.Variable("X"); jpl.Variable varY = new
 		 * jpl.Variable("Y"); jpl.Variable varZ = new jpl.Variable("Z");
 		 * jpl.Atom constant = new jpl.Atom("a");
-		 * 
+		 *
 		 * Substitution unifier = getUnifier(new VariableTerm(varY, null), new
 		 * PrologTerm(constant, null)); unifier.addBinding(new
 		 * VariableTerm(varX, null), new VariableTerm(varZ, null)); //
 		 * action(f(a,X)) and action(f(Y,Z)) -> Y=a, X=Z assertEquals(unifier,
 		 * action.mgu(action4spec, this.language));
-		 * 
+		 *
 		 * assertEquals(true, action.addSpecification(actionspec));
 		 */
 	}

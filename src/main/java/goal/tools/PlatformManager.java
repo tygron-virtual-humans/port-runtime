@@ -41,11 +41,11 @@ import java.util.logging.Level;
 
 import krTools.KRInterface;
 import krTools.errors.exceptions.ParserException;
-import krTools.parser.SourceInfo;
 import languageTools.analyzer.agent.AgentValidator;
 import languageTools.analyzer.mas.MASValidator;
 import languageTools.analyzer.test.TestValidator;
 import languageTools.errors.Message;
+import languageTools.program.Program;
 import languageTools.program.agent.AgentProgram;
 import languageTools.program.mas.MASProgram;
 import languageTools.program.test.UnitTest;
@@ -96,7 +96,7 @@ public class PlatformManager {
 	/**
 	 * All files with associated parsed objects.
 	 */
-	private final Map<File, SourceInfo> parsedFiles;
+	private final Map<File, Program> parsedFiles;
 
 	public static PlatformManager getCurrent() {
 		if (current == null) {
@@ -135,10 +135,10 @@ public class PlatformManager {
 	 * objects maintained by the {@link PlatformManager}.
 	 *
 	 * @param file
-	 * @param object
+	 * @param program
 	 */
-	public void addIParsedObject(File file, SourceInfo object) {
-		this.parsedFiles.put(file, object);
+	public void addIParsedObject(File file, Program program) {
+		this.parsedFiles.put(file, program);
 	}
 
 	/**
@@ -337,7 +337,7 @@ public class PlatformManager {
 		if (test == null) {
 			throw new ParserException("Invalid Test file"); //$NON-NLS-1$
 		}
-		addIParsedObject(file, test.getSourceInfo());
+		addIParsedObject(file, test);
 
 		// Report any errors encountered during parsing.
 		boolean hasErrors = false, hasWarnings = false;
@@ -402,11 +402,10 @@ public class PlatformManager {
 		if (masProgram == null) {
 			throw new ParserException("Invalid MAS file"); //$NON-NLS-1$
 		}
-		addIParsedObject(masFile, masProgram.getSourceInfo());
+		addIParsedObject(masFile, masProgram);
 
 		// Log messages.
 		boolean hasErrors = false, hasWarnings = false;
-		;
 		for (Message error : validator.getErrors()) {
 			hasErrors = true;
 			parserLogger.log(new StringsLogRecord(Level.SEVERE, error
@@ -499,7 +498,7 @@ public class PlatformManager {
 		if (program == null) {
 			throw new ParserException("Invalid GOAL file"); //$NON-NLS-1$
 		}
-		addIParsedObject(goalFile, program.getSourceInfo());
+		addIParsedObject(goalFile, program);
 
 		// Report any errors encountered during parsing.
 		boolean hasErrors = false, hasWarnings = false;
