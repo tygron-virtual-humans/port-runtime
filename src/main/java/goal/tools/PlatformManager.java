@@ -341,6 +341,11 @@ public class PlatformManager {
 
 		// Report any errors encountered during parsing.
 		boolean hasErrors = false, hasWarnings = false;
+		for (Message error : validator.getSyntaxErrors()) {
+			hasErrors = true;
+			parserLogger.log(new StringsLogRecord(Level.SEVERE, error
+					.toString()));
+		}
 		for (Message error : validator.getErrors()) {
 			hasErrors = true;
 			parserLogger.log(new StringsLogRecord(Level.SEVERE, error
@@ -406,6 +411,11 @@ public class PlatformManager {
 
 		// Log messages.
 		boolean hasErrors = false, hasWarnings = false;
+		for (Message error : validator.getSyntaxErrors()) {
+			hasErrors = true;
+			parserLogger.log(new StringsLogRecord(Level.SEVERE, error
+					.toString()));
+		}
 		for (Message error : validator.getErrors()) {
 			hasErrors = true;
 			parserLogger.log(new StringsLogRecord(Level.SEVERE, error
@@ -502,6 +512,11 @@ public class PlatformManager {
 
 		// Report any errors encountered during parsing.
 		boolean hasErrors = false, hasWarnings = false;
+		for (Message error : validator.getSyntaxErrors()) {
+			hasErrors = true;
+			parserLogger.log(new StringsLogRecord(Level.SEVERE, error
+					.toString()));
+		}
 		for (Message error : validator.getErrors()) {
 			hasErrors = true;
 			parserLogger.log(new StringsLogRecord(Level.SEVERE, error
