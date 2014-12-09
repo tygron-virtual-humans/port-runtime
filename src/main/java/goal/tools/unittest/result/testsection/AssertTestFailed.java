@@ -1,11 +1,9 @@
 package goal.tools.unittest.result.testsection;
 
 import goal.tools.unittest.result.ResultFormatter;
-import goal.tools.unittest.testsection.AssertTest;
-import languageTools.program.agent.msc.MentalStateCondition;
+import goal.tools.unittest.testsection.executors.AssertExecutor;
 
 public class AssertTestFailed extends TestSectionFailed {
-
 	/**
 	 *
 	 */
@@ -16,13 +14,13 @@ public class AssertTestFailed extends TestSectionFailed {
 		return "AssertTestFailed [test=" + this.test + "]";
 	}
 
-	private final AssertTest test;
+	private final AssertExecutor test;
 
-	public AssertTest getTest() {
+	public AssertExecutor getTest() {
 		return this.test;
 	}
 
-	public AssertTestFailed(AssertTest test) {
+	public AssertTestFailed(AssertExecutor test) {
 		this.test = test;
 	}
 
@@ -30,9 +28,4 @@ public class AssertTestFailed extends TestSectionFailed {
 	public <T> T accept(ResultFormatter<T> formatter) {
 		return formatter.visit(this);
 	}
-
-	public MentalStateCondition getMentalStateTest() {
-		return this.test.getMentalStateTest();
-	}
-
 }

@@ -9,23 +9,23 @@ import goal.tools.unittest.result.testsection.EvaluateInResult;
 import goal.tools.unittest.result.testsection.TestSectionFailed;
 import goal.tools.unittest.result.testsection.TestSectionInterupted;
 import goal.tools.unittest.result.testsection.TestSectionResult;
-import goal.tools.unittest.testsection.AssertTest;
-import goal.tools.unittest.testsection.DoActionSection;
-import goal.tools.unittest.testsection.EvaluateIn;
-import goal.tools.unittest.testsection.testconditions.Always;
-import goal.tools.unittest.testsection.testconditions.AtEnd;
-import goal.tools.unittest.testsection.testconditions.AtStart;
-import goal.tools.unittest.testsection.testconditions.Eventually;
-import goal.tools.unittest.testsection.testconditions.Never;
-import goal.tools.unittest.testsection.testconditions.TestCondition;
-import goal.tools.unittest.testsection.testconditions.TestConditionEvaluator;
-import goal.tools.unittest.testsection.testconditions.Until;
-import goal.tools.unittest.testsection.testconditions.While;
+import goal.tools.unittest.testcondition.executors.TestConditionEvaluator;
 
 import java.util.List;
 import java.util.Map.Entry;
 
 import languageTools.program.test.AgentTest;
+import languageTools.program.test.testcondition.Always;
+import languageTools.program.test.testcondition.AtEnd;
+import languageTools.program.test.testcondition.AtStart;
+import languageTools.program.test.testcondition.Eventually;
+import languageTools.program.test.testcondition.Never;
+import languageTools.program.test.testcondition.TestCondition;
+import languageTools.program.test.testcondition.Until;
+import languageTools.program.test.testcondition.While;
+import languageTools.program.test.testsection.AssertTest;
+import languageTools.program.test.testsection.DoActionSection;
+import languageTools.program.test.testsection.EvaluateIn;
 
 /**
  * Formats a {@link UnitTestResult} in a concise and readable fashion.
@@ -79,8 +79,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 			if (test == null) {
 				ret += indent(1, formatGroup("extras", resultList)) + "\n";
 			} else {
-				ret += indent(1,
-						formatGroup(test.getSourceFile().getName(), resultList))
+				ret += indent(1, formatGroup(test.getAgentName(), resultList))
 						+ "\n";
 			}
 		}
@@ -186,13 +185,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 
 	@Override
 	public String visit(AssertTestFailed result) {
-		String ret = "failed: " + result.getTest().accept(this);
-		if (result.getTest().getMessage() != null
-				&& result.getTest().getMessage().length() > 1) {
-			String message = result.getTest().getMessage();
-			ret += ": " + message.substring(1, message.length() - 1);
-		}
-		return ret;
+		return "failed: " + result.getTest().accept(this);
 	}
 
 	@Override
@@ -201,7 +194,9 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 		for (TestConditionEvaluator evaluator : result.getEvaluators()) {
 			ret += indent(evaluator.accept(this)) + "\n";
 		}
-		ret += "} in " + result.getEvaluateIn().getAction().accept(this) + ".";
+		ret += "} in " // + result.getEvaluateIn().getAction().accept(this)
+						// FIXME
+				+ ".";
 		return ret;
 	}
 
@@ -215,7 +210,9 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 			}
 			ret += indent(evalRet) + "\n";
 		}
-		ret += "} in " + result.getEvaluateIn().getAction().accept(this) + ".";
+		ret += "} in " // + result.getEvaluateIn().getAction().accept(this)
+						// FIXME
+				+ ".";
 		return ret;
 	}
 
@@ -227,15 +224,16 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 		}
 		// Must be interrupted EvaluateIn section
 		ret += "} in "
-				+ ((EvaluateIn) result.getTestSection()).getAction().accept(
-						this) + ".";
+				// + ((EvaluateIn) result.getTestSection()).getAction().accept(this)
+				// FIXME
+				+ ".";
 		return ret;
 	}
 
 	@Override
 	public String visit(TestConditionEvaluator result) {
-		return result.getSummaryReport() + ": "
-				+ result.getCondition().accept(this);
+		return result.getSummaryReport();
+		// + ": " + result.getCondition().accept(this); FIXME
 	}
 
 	@Override
@@ -245,8 +243,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 
 	@Override
 	public String visit(AtStart atStart) {
-		return "atstart" + atStart.getModuleName() + " " + atStart.getQuery()
-				+ getNested(atStart);
+		return "atstart " + atStart.getQuery() + getNested(atStart);
 	}
 
 	@Override
@@ -261,8 +258,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 
 	@Override
 	public String visit(AtEnd atEnd) {
-		return "atend" + atEnd.getModuleName() + " " + atEnd.getQuery()
-				+ getNested(atEnd);
+		return "atend " + atEnd.getQuery() + getNested(atEnd);
 	}
 
 	@Override
@@ -271,8 +267,10 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	}
 
 	private String getNested(TestCondition condition) {
-		return condition.hasNestedCondition() ? (" -> " + condition
-				.getNestedCondition().accept(this)) : ".";
+		return /*
+				 * FIXME condition.hasNestedCondition() ? (" -> " + condition
+				 * .getNestedCondition().accept(this)) :
+				 */".";
 	}
 
 	@Override
@@ -289,11 +287,11 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	public String visit(EvaluateIn evaluateIn) {
 		String ret = "evaluate {\n";
 		for (TestCondition query : evaluateIn.getQueries()) {
-			ret += indent(query.accept(this)) + "\n";
+			// ret += indent(query.accept(this)) + "\n"; FIXME
 		}
-		ret += "} in " + evaluateIn.getAction().accept(this);
+		ret += "} in ";// + evaluateIn.getAction().accept(this); FIXME
 		if (evaluateIn.getBoundary() != null) {
-			evaluateIn.getBoundary().accept(this);
+			// evaluateIn.getBoundary().accept(this); FIXME
 		}
 		return ret;
 	}

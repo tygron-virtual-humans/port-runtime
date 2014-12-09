@@ -39,7 +39,7 @@ public class IDEGOALInterpreter extends GOALInterpreter<IDEDebugger> {
 		// Perform mental action.
 		if (action instanceof MentalAction) {
 			this.runState.getDebugger().setKeepRunning(true);
-			ActionExecutor.getActionExecutor(action).run(this.runState,
+			ActionExecutor.getActionExecutor(action, null).run(this.runState,
 					this.program.getKRInterface().getSubstitution(null),
 					this.runState.getDebugger(), false);
 			this.runState.getDebugger().setKeepRunning(false);
@@ -59,8 +59,8 @@ public class IDEGOALInterpreter extends GOALInterpreter<IDEDebugger> {
 	 * @return The of the action.
 	 */
 	public Result doPerformAction(ActionCombo action) {
-		return new ActionComboExecutor(action).run(this.runState, this.program
-				.getKRInterface().getSubstitution(null), false);
+		return new ActionComboExecutor(action, null).run(this.runState,
+				this.program.getKRInterface().getSubstitution(null), false);
 	}
 
 	/**

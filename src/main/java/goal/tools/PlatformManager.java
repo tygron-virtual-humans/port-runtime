@@ -24,7 +24,6 @@ import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.logging.GOALLogger;
 import goal.tools.logging.Loggers;
 import goal.tools.logging.StringsLogRecord;
-import goal.tools.unittest.UnitTest;
 import goal.util.Extension;
 
 import java.io.File;
@@ -49,7 +48,7 @@ import languageTools.analyzer.test.TestValidator;
 import languageTools.errors.Message;
 import languageTools.program.agent.AgentProgram;
 import languageTools.program.mas.MASProgram;
-import languageTools.program.test.AgentTest;
+import languageTools.program.test.UnitTest;
 
 import org.apache.commons.io.IOUtils;
 
@@ -326,7 +325,7 @@ public class PlatformManager {
 		return files;
 	}
 
-	public AgentTest parseUnitTestFile(File file) throws ParserException {
+	public UnitTest parseUnitTestFile(File file) throws ParserException {
 		// Logger to report issues found during parsing and validation.
 		GOALLogger parserLogger = Loggers.getParserLogger();
 		parserLogger.log(new StringsLogRecord(Level.INFO, "Parsing test file " //$NON-NLS-1$
@@ -334,7 +333,7 @@ public class PlatformManager {
 
 		TestValidator validator = new TestValidator(file.getPath());
 		validator.validate();
-		AgentTest test = validator.getProgram();
+		UnitTest test = validator.getProgram();
 		if (test == null) {
 			throw new ParserException("Invalid Test file"); //$NON-NLS-1$
 		}
@@ -558,43 +557,6 @@ public class PlatformManager {
 		} else {
 			return new ArrayList<>(0);
 		}
-	}
-
-	/**
-	 * Tries to resolve a reference to a file.
-	 * <p>
-	 * Checks whether the reference refers to an existing file (is an absolute
-	 * path), or else searches for the referenced file relative to the directory
-	 * that is provided.
-	 * </p>
-	 *
-	 * @param directory
-	 *            Reference to the directory where the MAS file can be found
-	 *            that contains the environment reference that needs to be
-	 *            resolved.
-	 * @param fileReference
-	 *            A reference to an environment file contained in the MAS file.
-	 * @return A file if the environment reference was resolved; {@code null}
-	 *         otherwise.
-	 */
-	public static File resolveFileReference(String directory,
-			String fileReference) {
-		// Check whether reference refers to existing file.
-		File file = new File(fileReference);
-		if (file.exists()) {
-			return file;
-		}
-
-		// Check whether reference refers to file that can be
-		// located relative to the directory.
-		File path = new File(directory);
-		file = new File(path, fileReference);
-		if (file.exists()) {
-			return file;
-		}
-
-		// Reference could not be resolved.
-		return null;
 	}
 
 	/**

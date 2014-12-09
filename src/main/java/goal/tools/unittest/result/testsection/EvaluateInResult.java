@@ -1,14 +1,15 @@
 package goal.tools.unittest.result.testsection;
 
 import goal.tools.unittest.result.ResultFormatter;
-import goal.tools.unittest.testsection.EvaluateIn;
-import goal.tools.unittest.testsection.testconditions.TestCondition;
-import goal.tools.unittest.testsection.testconditions.TestConditionEvaluator;
+import goal.tools.unittest.testcondition.executors.TestConditionEvaluator;
+import goal.tools.unittest.testcondition.executors.TestConditionExecutor;
 
 import java.util.List;
 
+import languageTools.program.test.testsection.EvaluateIn;
+
 /**
- * Stores the result of the {@link TestCondition}s evaluated while executing an
+ * Stores the result of the {@link TestConditionExecutor}s evaluated while executing an
  * action.
  *
  * The test is considered passed if all evaluators passed.

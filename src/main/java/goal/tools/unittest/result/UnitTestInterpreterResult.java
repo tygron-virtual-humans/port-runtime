@@ -1,11 +1,11 @@
 package goal.tools.unittest.result;
 
 import goal.tools.debugger.DebuggerKilledException;
-import goal.tools.unittest.UnitTest;
 import goal.tools.unittest.UnitTestInterpreter;
 import goal.tools.unittest.result.testsection.AssertTestResult;
 import languageTools.program.agent.AgentId;
 import languageTools.program.test.AgentTest;
+import languageTools.program.test.UnitTest;
 
 /**
  * Result of running the {@link UnitTestInterpreter} for a single agent.

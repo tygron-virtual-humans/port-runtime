@@ -1,23 +1,21 @@
 package goal.tools.unittest.result.testsection;
 
 import goal.tools.debugger.DebuggerKilledException;
-import goal.tools.unittest.Test;
 import goal.tools.unittest.result.ResultFormatter;
 import goal.tools.unittest.result.TestResult;
-import goal.tools.unittest.testsection.TestSection;
+import goal.tools.unittest.testsection.executors.TestSectionExecutor;
 
 /**
  * Exception used in a {@link TestResult} to show that while running a test
  * section the debugger was killed.
  *
- * @see Test
  * @author mpkorstanje
  */
 public class TestSectionInterupted extends TestSectionFailed {
 	/** Date of last modification */
 	private static final long serialVersionUID = 201401252118L;
 
-	private final TestSection testSection;
+	private final TestSectionExecutor testSection;
 
 	@Override
 	public String toString() {
@@ -33,7 +31,7 @@ public class TestSectionInterupted extends TestSectionFailed {
 	 * @param exception
 	 *            that killed the debugger.
 	 */
-	public TestSectionInterupted(TestSection testSection,
+	public TestSectionInterupted(TestSectionExecutor testSection,
 			DebuggerKilledException exception) {
 		super(exception);
 		this.testSection = testSection;
@@ -42,7 +40,7 @@ public class TestSectionInterupted extends TestSectionFailed {
 	/**
 	 * @return the test section that was running when the debugger was killed.
 	 */
-	public TestSection getTestSection() {
+	public TestSectionExecutor getTestSection() {
 		return this.testSection;
 	}
 

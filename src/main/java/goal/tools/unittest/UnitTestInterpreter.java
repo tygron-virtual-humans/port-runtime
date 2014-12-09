@@ -7,6 +7,7 @@ import goal.tools.debugger.Channel;
 import goal.tools.debugger.ObservableDebugger;
 import goal.tools.unittest.result.AgentTestResult;
 import goal.tools.unittest.result.UnitTestInterpreterResult;
+import goal.tools.unittest.testsection.executors.TestExecutor;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
@@ -25,7 +26,7 @@ import languageTools.program.test.AgentTest;
  *
  */
 public class UnitTestInterpreter<D extends ObservableDebugger> extends
-		GOALInterpreter<ObservableDebugger> {
+GOALInterpreter<ObservableDebugger> {
 	private final AgentTest test;
 	private AgentTestResult agentTestResult;
 
@@ -61,7 +62,7 @@ public class UnitTestInterpreter<D extends ObservableDebugger> extends
 	 * @return the testResults.
 	 */
 	public UnitTestInterpreterResult getTestResults() {
-		return new UnitTestInterpreterResult(this.test, agent.getId(),
+		return new UnitTestInterpreterResult(this.test, this.agent.getId(),
 				this.agentTestResult, getUncaughtThrowable());
 	}
 
@@ -84,7 +85,8 @@ public class UnitTestInterpreter<D extends ObservableDebugger> extends
 								"%s test has been started",
 								UnitTestInterpreter.this.agent.getId());
 						// TODO: create executor
-						UnitTestInterpreter.this.agentTestResult = UnitTestInterpreter.this.test
+						UnitTestInterpreter.this.agentTestResult = new TestExecutor(
+								UnitTestInterpreter.this.test)
 								.run((Agent<UnitTestInterpreter<ObservableDebugger>>) UnitTestInterpreter.this.agent);
 					} catch (final Exception e) {
 						UnitTestInterpreter.this.throwable = e;

@@ -2,8 +2,9 @@ package goal.tools.unittest.result.testsection;
 
 import goal.core.runtime.service.agent.Result;
 import goal.tools.unittest.result.ResultFormatter;
-import goal.tools.unittest.testsection.DoActionSection;
+import goal.tools.unittest.testsection.executors.DoActionExecutor;
 import languageTools.program.agent.actions.ActionCombo;
+import languageTools.program.test.testsection.DoActionSection;
 
 /**
  * Result of evaluating the {@link DoActionSection} rule.
@@ -18,7 +19,7 @@ public class ActionResult implements TestSectionResult {
 	}
 
 	private final Result result;
-	private final DoActionSection action;
+	private final DoActionExecutor action;
 
 	/**
 	 * @return the result of the {@link ActionCombo}
@@ -30,7 +31,7 @@ public class ActionResult implements TestSectionResult {
 	/**
 	 * @return the evaluated action rule
 	 */
-	public DoActionSection getAction() {
+	public DoActionExecutor getAction() {
 		return this.action;
 	}
 
@@ -42,7 +43,7 @@ public class ActionResult implements TestSectionResult {
 	 * @param result
 	 *            produced
 	 */
-	public ActionResult(DoActionSection action, Result result) {
+	public ActionResult(DoActionExecutor action, Result result) {
 		this.result = result;
 		this.action = action;
 	}

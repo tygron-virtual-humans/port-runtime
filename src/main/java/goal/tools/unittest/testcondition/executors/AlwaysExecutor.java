@@ -1,49 +1,35 @@
-package goal.tools.unittest.testsection.testconditions;
+package goal.tools.unittest.testcondition.executors;
 
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.DebugEvent;
 import goal.tools.debugger.ObservableDebugger;
 import goal.tools.unittest.result.ResultFormatter;
-import goal.tools.unittest.testsection.EvaluateIn;
+import goal.tools.unittest.result.testcondition.TestConditionFailedException;
 
 import java.util.Set;
 
 import krTools.language.Substitution;
-import languageTools.program.agent.msc.MentalStateCondition;
+import languageTools.program.test.testcondition.Always;
+import languageTools.program.test.testcondition.TestCondition;
+import languageTools.program.test.testsection.EvaluateIn;
 
 /**
- * Never operator for LTL queries in {@link EvaluateIn}. The mental state
- * condition evaluated by this operator should never hold during the execution
+ * Always operator for LTL queries in {@link EvaluateIn}. The mental state
+ * condition evaluated by this operator should always hold during the execution
  * of the actions in the EvaluateIn rule.
  *
- * @author V.Koeman
+ * @author mpkorstanje
  */
-public class Never extends TestCondition {
+public class AlwaysExecutor extends TestConditionExecutor {
+	private final Always always;
 
-	/**
-	 * Constructs a new never operator for the mental state condition.
-	 *
-	 * @param query
-	 *            mental state condition to test
-	 */
-	public Never(MentalStateCondition query) {
-		super(query);
+	public AlwaysExecutor(Always always) {
+		this.always = always;
 	}
 
 	@Override
 	public <T> T accept(ResultFormatter<T> formatter) {
-		return formatter.visit(this);
-	}
-
-	@Override
-	public String toString() {
-		return "Never [query=" + this.query + "]";
-	}
-
-	@Override
-	public void setNestedCondition(TestCondition nested) {
-		throw new IllegalArgumentException(
-				"Never-condition cannot have a nested condition");
+		return formatter.visit(this.always);
 	}
 
 	@Override
@@ -53,7 +39,7 @@ public class Never extends TestCondition {
 		return new TestConditionEvaluator(this) {
 			@Override
 			public String getObserverName() {
-				return Never.class.getSimpleName() + "Evaluator";
+				return AlwaysExecutor.class.getSimpleName() + "Evaluator";
 			}
 
 			@Override
@@ -67,20 +53,26 @@ public class Never extends TestCondition {
 					for (final Substitution substitution : getNested()) {
 						final Set<Substitution> evaluation = evaluate(runstate,
 								substitution, getQuery());
-						if (!evaluation.isEmpty()) {
+						if (evaluation.isEmpty()) {
 							setPassed(false);
 							throw new TestConditionFailedException(
-									"Never condition did not hold for "
+									"Always condition did not hold for "
 											+ substitution, this);
 						}
+					}
+				} else if (hasNestedExecutor()) {
+					final Set<Substitution> evaluation = evaluate(runstate,
+							substitution, getQuery());
+					if (!evaluation.isEmpty()) {
+						getNestedExecutor().setNested(evaluation);
 					}
 				} else {
 					final Set<Substitution> evaluation = evaluate(runstate,
 							substitution, getQuery());
-					if (!evaluation.isEmpty()) {
+					if (evaluation.isEmpty()) {
 						setPassed(false);
 						throw new TestConditionFailedException(
-								"Never condition did not hold", this);
+								"Always condition did not hold", this);
 					}
 				}
 			}
@@ -93,6 +85,12 @@ public class Never extends TestCondition {
 				} catch (TestConditionFailedException e) {
 					// setPassed(false)
 				}
+				if (hasNestedExecutor()) {
+					final TestConditionEvaluator nested = getNestedExecutor()
+							.provideEvaluator(runstate, substitution);
+					nested.lastEvaluation();
+					setPassed(nested.isPassed());
+				}
 			}
 
 			@Override
@@ -100,5 +98,10 @@ public class Never extends TestCondition {
 				return formatter.visit(this);
 			}
 		};
+	}
+
+	@Override
+	public TestCondition getCondition() {
+		return this.always;
 	}
 }

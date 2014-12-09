@@ -2,7 +2,6 @@ package goal.tools;
 
 import goal.core.agent.Agent;
 import goal.tools.debugger.ObservableDebugger;
-import goal.tools.unittest.UnitTest;
 import goal.tools.unittest.UnitTestInterpreter;
 import goal.tools.unittest.result.UnitTestInterpreterResult;
 import goal.tools.unittest.result.UnitTestResult;
@@ -11,6 +10,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import languageTools.program.agent.AgentId;
+import languageTools.program.test.UnitTest;
 
 /**
  * Inspects the results of a {@link RunTest}. The results are provided as a
@@ -20,7 +20,7 @@ import languageTools.program.agent.AgentId;
  * @author M.P. Korstanje
  */
 public class UnitTestRunResultInspector implements
-ResultInspector<UnitTestInterpreter<ObservableDebugger>> {
+		ResultInspector<UnitTestInterpreter<ObservableDebugger>> {
 	private final HashMap<AgentId, UnitTestInterpreterResult> results = new HashMap<>();
 	private final UnitTest unitTest;
 

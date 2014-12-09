@@ -1,4 +1,4 @@
-package goal.tools.unittest.testsection.testconditions;
+package goal.tools.unittest.result.testcondition;
 
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 

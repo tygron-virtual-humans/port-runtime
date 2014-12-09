@@ -1,9 +1,9 @@
 package goal.tools.unittest.result.testsection;
 
 import goal.tools.unittest.result.ResultFormatter;
-import goal.tools.unittest.testsection.EvaluateIn;
-import goal.tools.unittest.testsection.testconditions.TestConditionEvaluator;
-import goal.tools.unittest.testsection.testconditions.TestConditionFailedException;
+import goal.tools.unittest.result.testcondition.TestConditionFailedException;
+import goal.tools.unittest.testcondition.executors.TestConditionEvaluator;
+import goal.tools.unittest.testsection.executors.EvaluateInExecutor;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
 public class EvaluateInFailed extends TestSectionFailed {
 	/** Generated serialVersionUID */
 	private static final long serialVersionUID = 2119184965021739086L;
-	private final EvaluateIn evaluateIn;
+	private final EvaluateInExecutor evaluateIn;
 
 	@Override
 	public String toString() {
@@ -22,7 +22,7 @@ public class EvaluateInFailed extends TestSectionFailed {
 				+ this.exception + "]";
 	}
 
-	public EvaluateIn getEvaluateIn() {
+	public EvaluateInExecutor getEvaluateIn() {
 		return this.evaluateIn;
 	}
 
@@ -41,7 +41,7 @@ public class EvaluateInFailed extends TestSectionFailed {
 	 * @param evaluateIn
 	 * @param evaluators
 	 */
-	public EvaluateInFailed(EvaluateIn evaluateIn,
+	public EvaluateInFailed(EvaluateInExecutor evaluateIn,
 			List<TestConditionEvaluator> evaluators) {
 		this(evaluateIn, evaluators, null);
 	}
@@ -51,7 +51,7 @@ public class EvaluateInFailed extends TestSectionFailed {
 	 * @param evaluators
 	 * @param exception
 	 */
-	public EvaluateInFailed(EvaluateIn evaluateIn,
+	public EvaluateInFailed(EvaluateInExecutor evaluateIn,
 			List<TestConditionEvaluator> evaluators,
 			TestConditionFailedException exception) {
 		this.evaluateIn = evaluateIn;

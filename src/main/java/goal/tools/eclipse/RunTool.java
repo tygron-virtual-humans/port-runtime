@@ -8,10 +8,11 @@ import goal.tools.UnitTestRun;
 import goal.tools.UnitTestRunResultInspector;
 import goal.tools.logging.InfoLog;
 import goal.tools.logging.Loggers;
-import goal.tools.unittest.UnitTest;
 import goal.tools.unittest.result.UnitTestResultFormatter;
 
 import java.io.File;
+
+import languageTools.program.test.UnitTest;
 
 public class RunTool {
 	public static void main(final String[] args) {

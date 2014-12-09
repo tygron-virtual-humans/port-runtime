@@ -1,11 +1,13 @@
-package goal.tools.unittest.testsection.testconditions;
+package goal.tools.unittest.testcondition.executors;
 
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.DebugEvent;
 import goal.tools.debugger.ObservableDebugger;
 import goal.tools.unittest.result.ResultFormatter;
+import goal.tools.unittest.result.testcondition.TestBoundaryException;
 import krTools.language.Substitution;
-import languageTools.program.agent.msc.MentalStateCondition;
+import languageTools.program.test.testcondition.TestCondition;
+import languageTools.program.test.testcondition.While;
 
 /**
  * While operator. When the mental state condition evaluated by this operator
@@ -14,33 +16,17 @@ import languageTools.program.agent.msc.MentalStateCondition;
  *
  * @author V.Koeman
  */
-public class While extends TestCondition {
+public class WhileExecutor extends TestConditionExecutor {
+	private final While _while;
 	private boolean first = false;
 
-	/**
-	 * Constructs a new StopWhen operator
-	 *
-	 * @param query
-	 *            to evaluate
-	 */
-	public While(MentalStateCondition query) {
-		super(query);
+	public WhileExecutor(While _while) {
+		this._while = _while;
 	}
 
 	@Override
 	public <T> T accept(ResultFormatter<T> formatter) {
-		return formatter.visit(this);
-	}
-
-	@Override
-	public String toString() {
-		return "While [query=" + this.query + "]";
-	}
-
-	@Override
-	public void setNestedCondition(TestCondition nested) {
-		throw new IllegalArgumentException(
-				"Boundaries cannot have a nested condition");
+		return formatter.visit(this._while);
 	}
 
 	@Override
@@ -50,7 +36,7 @@ public class While extends TestCondition {
 		return new TestConditionEvaluator(this) {
 			@Override
 			public String getObserverName() {
-				return While.class.getSimpleName() + "Evaluator";
+				return WhileExecutor.class.getSimpleName() + "Evaluator";
 			}
 
 			@Override
@@ -59,8 +45,8 @@ public class While extends TestCondition {
 
 			@Override
 			public void notifyBreakpointHit(DebugEvent event) {
-				if (!While.this.first) {
-					While.this.first = true;
+				if (!WhileExecutor.this.first) {
+					WhileExecutor.this.first = true;
 				} else if (evaluate(runState, substitution, getQuery())
 						.isEmpty()) {
 					setPassed(true);
@@ -80,5 +66,10 @@ public class While extends TestCondition {
 				return formatter.visit(this);
 			}
 		};
+	}
+
+	@Override
+	public TestCondition getCondition() {
+		return this._while;
 	}
 }

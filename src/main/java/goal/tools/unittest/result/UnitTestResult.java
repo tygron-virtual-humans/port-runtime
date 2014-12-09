@@ -1,7 +1,6 @@
 package goal.tools.unittest.result;
 
 import goal.tools.RunTest;
-import goal.tools.unittest.UnitTest;
 
 import java.io.File;
 import java.util.Collection;
@@ -13,6 +12,7 @@ import java.util.Map;
 import languageTools.program.agent.AgentId;
 import languageTools.program.mas.MASProgram;
 import languageTools.program.test.AgentTest;
+import languageTools.program.test.UnitTest;
 
 /**
  * The results of executing a {@link UnitTest}. A UnitTest can be ran using
@@ -51,7 +51,6 @@ public class UnitTestResult {
 		this.passed = checkPassed();
 	}
 
-	@SuppressWarnings("hiding")
 	private Map<AgentTest, List<UnitTestInterpreterResult>> setResults(
 			Collection<UnitTestInterpreterResult> collection) {
 		Map<AgentTest, List<UnitTestInterpreterResult>> results = new HashMap<>();
@@ -104,7 +103,7 @@ public class UnitTestResult {
 	 * @return the file containing the {@link UnitTest}
 	 */
 	public File getUnitTestFile() {
-		return this.unitTest.getFile();
+		return this.unitTest.getSourceFile();
 	}
 
 	/**

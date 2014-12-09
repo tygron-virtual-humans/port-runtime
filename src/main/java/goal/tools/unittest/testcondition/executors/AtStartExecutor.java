@@ -1,57 +1,35 @@
-package goal.tools.unittest.testsection.testconditions;
+package goal.tools.unittest.testcondition.executors;
 
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.DebugEvent;
 import goal.tools.debugger.ObservableDebugger;
 import goal.tools.unittest.result.ResultFormatter;
-import goal.tools.unittest.testsection.EvaluateIn;
+import goal.tools.unittest.result.testcondition.TestConditionFailedException;
 
 import java.util.Set;
 
 import krTools.language.Substitution;
-import languageTools.program.agent.Module;
-import languageTools.program.agent.msc.MentalStateCondition;
+import languageTools.program.test.testcondition.AtStart;
+import languageTools.program.test.testcondition.TestCondition;
+import languageTools.program.test.testsection.EvaluateIn;
 
 /**
- * AtEnd operator for LTL queries in {@link EvaluateIn}. The mental state
+ * AtStart operator for LTL queries in {@link EvaluateIn}. The mental state
  * condition evaluated by this operator should hold after the execution of the
- * actions in the EvaluateIn rule.
+ * specified module in the EvaluateIn rule.
  *
- * @author mpkorstanje
+ * @author K.Hindriks
  */
-public class AtEnd extends TestCondition {
-	private final Module module;
+public class AtStartExecutor extends TestConditionExecutor {
+	private final AtStart atstart;
 
-	/**
-	 * Constructs a new AtEnd operator
-	 *
-	 * @param query
-	 *            to evaluate at the end of a module
-	 * @param module
-	 *            the module (optionally null)
-	 */
-	public AtEnd(MentalStateCondition query, Module module) {
-		super(query);
-		this.module = module;
-	}
-
-	/**
-	 * @return A textual representation of the module associated with this
-	 *         operator (empty string if none)
-	 */
-	public String getModuleName() {
-		return (this.module == null) ? "" : ("[" + this.module.getName() + "]");
+	public AtStartExecutor(AtStart atstart) {
+		this.atstart = atstart;
 	}
 
 	@Override
 	public <T> T accept(ResultFormatter<T> formatter) {
-		return formatter.visit(this);
-	}
-
-	@Override
-	public String toString() {
-		return "AtEnd [query=" + this.query + ", module=" + getModuleName()
-				+ "]";
+		return formatter.visit(this.atstart);
 	}
 
 	@Override
@@ -61,12 +39,14 @@ public class AtEnd extends TestCondition {
 		return new TestConditionEvaluator(this) {
 			@Override
 			public String getObserverName() {
-				return AtEnd.class.getSimpleName() + "Evaluator";
+				return AtStartExecutor.class.getSimpleName() + "Evaluator";
 			}
 
 			@Override
 			public void firstEvaluation() {
-				// Does nothing
+				if (AtStartExecutor.this.atstart.getModule() == null) {
+					evaluation();
+				}
 			}
 
 			private void evaluation() throws TestConditionFailedException {
@@ -76,26 +56,24 @@ public class AtEnd extends TestCondition {
 								substitution, getQuery());
 						if (evaluation.isEmpty()) {
 							setPassed(false);
-							throw new TestConditionFailedException("AtEnd"
-									+ getModuleName()
-									+ " condition did not hold", this);
+							throw new TestConditionFailedException(
+									"AtStart condition did not hold", this);
 						}
 					}
 					setPassed(true);
-				} else if (hasNestedCondition()) {
+				} else if (hasNestedExecutor()) {
 					final Set<Substitution> evaluation = evaluate(runstate,
 							substitution, getQuery());
 					if (!evaluation.isEmpty()) {
-						getNestedCondition().setNested(evaluation);
+						getNestedExecutor().setNested(evaluation);
 					}
 				} else {
 					final Set<Substitution> evaluation = evaluate(runstate,
 							substitution, getQuery());
 					if (evaluation.isEmpty()) {
 						setPassed(false);
-						throw new TestConditionFailedException("AtEnd"
-								+ getModuleName() + " condition did not hold",
-								this);
+						throw new TestConditionFailedException(
+								"AtStart condition did not hold", this);
 					} else {
 						setPassed(true);
 					}
@@ -104,14 +82,15 @@ public class AtEnd extends TestCondition {
 
 			@Override
 			public void notifyBreakpointHit(DebugEvent event) {
-				if (AtEnd.this.module != null && event != null && !isPassed()) {
+				if (AtStartExecutor.this.atstart.getModule() != null
+						&& event != null && !isPassed()) {
 					switch (event.getChannel()) {
-					case EVENT_MODULE_EXIT:
-					case MAIN_MODULE_EXIT:
-					case INIT_MODULE_EXIT:
-					case USER_MODULE_EXIT:
-						if (AtEnd.this.module.equals(event
-								.getAssociatedObject())) {
+					case EVENT_MODULE_ENTRY:
+					case MAIN_MODULE_ENTRY:
+					case INIT_MODULE_ENTRY:
+					case USER_MODULE_ENTRY:
+						if (AtStartExecutor.this.atstart.getModule().equals(
+								event.getAssociatedObject())) {
 							break;
 						} else {
 							return;
@@ -125,11 +104,8 @@ public class AtEnd extends TestCondition {
 
 			@Override
 			public void lastEvaluation() {
-				if (AtEnd.this.module == null) {
-					evaluation();
-				}
-				if (hasNestedCondition()) {
-					final TestConditionEvaluator nested = getNestedCondition()
+				if (hasNestedExecutor()) {
+					final TestConditionEvaluator nested = getNestedExecutor()
 							.provideEvaluator(runstate, substitution);
 					nested.lastEvaluation();
 					setPassed(nested.isPassed());
@@ -141,5 +117,10 @@ public class AtEnd extends TestCondition {
 				return formatter.visit(this);
 			}
 		};
+	}
+
+	@Override
+	public TestCondition getCondition() {
+		return this.atstart;
 	}
 }

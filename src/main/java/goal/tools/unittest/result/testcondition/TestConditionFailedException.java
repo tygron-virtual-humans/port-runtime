@@ -1,9 +1,11 @@
-package goal.tools.unittest.testsection.testconditions;
+package goal.tools.unittest.result.testcondition;
 
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
+import goal.tools.unittest.testcondition.executors.TestConditionEvaluator;
+import goal.tools.unittest.testcondition.executors.TestConditionExecutor;
 
 /**
- * Exception thrown when the {@link TestCondition} fails. This is an unchecked
+ * Exception thrown when the {@link TestConditionExecutor} fails. This is an unchecked
  * exception to allow evaluation to end immediately.
  *
  * @author mpkorstanje

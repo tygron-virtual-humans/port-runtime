@@ -8,9 +8,9 @@ import goal.core.runtime.RuntimeManager;
 import goal.tools.adapt.Learner;
 import goal.tools.debugger.LoggingObserver;
 import goal.tools.debugger.ObservableDebugger;
-import goal.tools.unittest.UnitTest;
 import goal.tools.unittest.UnitTestInterpreter;
 import languageTools.program.test.AgentTest;
+import languageTools.program.test.UnitTest;
 
 /**
  * Runs a {@link UnitTest} program. During the test agent are created with a
@@ -42,7 +42,7 @@ public class UnitTestRun
 		@Override
 		protected ObservableDebugger provideDebugger() {
 			ObservableDebugger observableDebugger = new ObservableDebugger(
-					agentId, environment);
+					this.agentId, this.environment);
 			if (UnitTestRun.this.debuggerOutput) {
 				new LoggingObserver(observableDebugger);
 			}
@@ -52,8 +52,10 @@ public class UnitTestRun
 		@Override
 		protected UnitTestInterpreter<ObservableDebugger> provideController(
 				ObservableDebugger debugger, Learner learner) {
-			AgentTest test = unitTest.getTest(programFile);
-			return new UnitTestInterpreter<>(program, test, debugger, learner);
+			AgentTest test = UnitTestRun.this.unitTest
+					.getTest(this.agentBaseName);
+			return new UnitTestInterpreter<>(this.program, test, debugger,
+					learner);
 		}
 	}
 
@@ -64,7 +66,7 @@ public class UnitTestRun
 
 	public UnitTestRun(UnitTest program) {
 		super(program.getMasProgram());
-		unitTest = program;
+		this.unitTest = program;
 	}
 
 	/**

@@ -7,17 +7,17 @@ import goal.tools.unittest.result.testsection.EvaluateInFailed;
 import goal.tools.unittest.result.testsection.EvaluateInInterrupted;
 import goal.tools.unittest.result.testsection.EvaluateInResult;
 import goal.tools.unittest.result.testsection.TestSectionInterupted;
-import goal.tools.unittest.testsection.AssertTest;
-import goal.tools.unittest.testsection.DoActionSection;
-import goal.tools.unittest.testsection.EvaluateIn;
-import goal.tools.unittest.testsection.testconditions.Always;
-import goal.tools.unittest.testsection.testconditions.AtEnd;
-import goal.tools.unittest.testsection.testconditions.AtStart;
-import goal.tools.unittest.testsection.testconditions.Eventually;
-import goal.tools.unittest.testsection.testconditions.Never;
-import goal.tools.unittest.testsection.testconditions.TestConditionEvaluator;
-import goal.tools.unittest.testsection.testconditions.Until;
-import goal.tools.unittest.testsection.testconditions.While;
+import goal.tools.unittest.testcondition.executors.TestConditionEvaluator;
+import languageTools.program.test.testcondition.Always;
+import languageTools.program.test.testcondition.AtEnd;
+import languageTools.program.test.testcondition.AtStart;
+import languageTools.program.test.testcondition.Eventually;
+import languageTools.program.test.testcondition.Never;
+import languageTools.program.test.testcondition.Until;
+import languageTools.program.test.testcondition.While;
+import languageTools.program.test.testsection.AssertTest;
+import languageTools.program.test.testsection.DoActionSection;
+import languageTools.program.test.testsection.EvaluateIn;
 
 /**
  * Walks the unit test result tree.

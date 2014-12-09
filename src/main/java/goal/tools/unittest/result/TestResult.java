@@ -1,12 +1,13 @@
 package goal.tools.unittest.result;
 
-import goal.tools.unittest.Test;
 import goal.tools.unittest.result.testsection.TestSectionFailed;
 import goal.tools.unittest.result.testsection.TestSectionInterupted;
 import goal.tools.unittest.result.testsection.TestSectionResult;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import languageTools.program.test.TestCollection;
 
 /**
  * Stores the results of evaluating a test. A test is considered passed if none
@@ -17,26 +18,26 @@ import java.util.List;
 public class TestResult {
 	@Override
 	public String toString() {
-		return "TestResult [Test= " + this.test + ", results=" + this.results
+		return "TestResult [Tests= " + this.tests + ", results=" + this.results
 				+ ", ruleFailed=" + this.testSectionFailed + ", passed="
 				+ this.passed + "]";
 	}
 
-	public static final TestResult EMPTY = new TestResult(Test.EMPTY);
+	public static final TestResult EMPTY = new TestResult(TestCollection.EMPTY);
 
-	private final Test test;
+	private final TestCollection tests;
 	private final List<TestSectionResult> results;
 	private final TestSectionFailed testSectionFailed;
 	private final boolean passed;
 
 	/**
-	 * @param test
+	 * @param tests
 	 * @param results
 	 * @param testSectionFailed
 	 */
-	public TestResult(Test test, List<TestSectionResult> results,
+	public TestResult(TestCollection tests, List<TestSectionResult> results,
 			TestSectionFailed testSectionFailed) {
-		this.test = test;
+		this.tests = tests;
 		this.results = results;
 		this.testSectionFailed = testSectionFailed;
 		this.passed = checkPassed();
@@ -54,25 +55,25 @@ public class TestResult {
 	}
 
 	/**
-	 * @param program
+	 * @param tests
 	 * @param results
 	 */
-	public TestResult(Test program, List<TestSectionResult> results) {
-		this(program, results, null);
+	public TestResult(TestCollection tests, List<TestSectionResult> results) {
+		this(tests, results, null);
 	}
 
 	/**
-	 * @param program
+	 * @param tests
 	 */
-	public TestResult(Test program) {
-		this(program, new ArrayList<TestSectionResult>(0));
+	public TestResult(TestCollection tests) {
+		this(tests, new ArrayList<TestSectionResult>(0));
 	}
 
 	/**
-	 * @return @see {@link Test#getTestID()}.
+	 * @return @see {@link TestCollection#getTestID()}.
 	 */
 	protected String getTestProgramID() {
-		return this.test.getTestID();
+		return this.tests.getTestID();
 	}
 
 	/**

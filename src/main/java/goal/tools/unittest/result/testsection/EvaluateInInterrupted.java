@@ -2,8 +2,8 @@ package goal.tools.unittest.result.testsection;
 
 import goal.tools.debugger.DebuggerKilledException;
 import goal.tools.unittest.result.ResultFormatter;
-import goal.tools.unittest.testsection.EvaluateIn;
-import goal.tools.unittest.testsection.testconditions.TestConditionEvaluator;
+import goal.tools.unittest.testcondition.executors.TestConditionEvaluator;
+import goal.tools.unittest.testsection.executors.EvaluateInExecutor;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class EvaluateInInterrupted extends TestSectionInterupted {
 	 * @param evaluators
 	 * @param exception
 	 */
-	public EvaluateInInterrupted(EvaluateIn evaluateIn,
+	public EvaluateInInterrupted(EvaluateInExecutor evaluateIn,
 			List<TestConditionEvaluator> evaluators,
 			DebuggerKilledException exception) {
 		super(evaluateIn, exception);

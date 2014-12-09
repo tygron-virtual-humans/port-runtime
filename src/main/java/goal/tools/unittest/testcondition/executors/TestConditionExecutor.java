@@ -1,8 +1,9 @@
-package goal.tools.unittest.testsection.testconditions;
+package goal.tools.unittest.testcondition.executors;
 
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.ObservableDebugger;
 import goal.tools.unittest.result.ResultFormatter;
+import goal.tools.unittest.result.testcondition.TestConditionFailedException;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -10,7 +11,14 @@ import java.util.Set;
 
 import krTools.language.Substitution;
 import krTools.language.Var;
-import languageTools.program.agent.msc.MentalStateCondition;
+import languageTools.program.test.testcondition.Always;
+import languageTools.program.test.testcondition.AtEnd;
+import languageTools.program.test.testcondition.AtStart;
+import languageTools.program.test.testcondition.Eventually;
+import languageTools.program.test.testcondition.Never;
+import languageTools.program.test.testcondition.TestCondition;
+import languageTools.program.test.testcondition.Until;
+import languageTools.program.test.testcondition.While;
 
 /**
  * Abstract base for any test condition. Test conditions are evaluated in the
@@ -18,52 +26,26 @@ import languageTools.program.agent.msc.MentalStateCondition;
  *
  * @author mpkorstanje
  */
-public abstract class TestCondition {
-	/**
-	 * The mental state condition of the query
-	 */
-	protected final MentalStateCondition query;
-	/**
-	 * An optional nested condition (... -> ...)
-	 */
-	protected TestCondition nested;
+public abstract class TestConditionExecutor {
 	/**
 	 * Null when a condition is not nested; Empty set when a condition is nested
 	 * but not active (e.g. condition not met); Filled set when a condition is
 	 * nested and active (condition met) > all substitutions in the set need to
 	 * be evaluated.
 	 */
-	protected Set<Substitution> isNested;
+	private Set<Substitution> isNested;
 	/**
 	 * The (unbound) variables that were bound whilst evaluating this condition
 	 */
-	protected final Set<Var> boundByMe;
+	private final Set<Var> boundByMe = new HashSet<>();
 	/**
 	 * The actual evaluator for the conditions
 	 */
-	protected TestConditionEvaluator evaluator;
-
+	private TestConditionEvaluator evaluator;
 	/**
-	 * @return the mental state condition of the query
+	 * DOC
 	 */
-	public MentalStateCondition getQuery() {
-		return this.query;
-	}
-
-	/**
-	 * @return the nested condition (... -> ...) if it is present (null
-	 *         otherwise)
-	 */
-	public TestCondition getNestedCondition() {
-		return this.nested;
-	}
-
-	/**
-	 * @return true when a nested condition is present
-	 */
-	public boolean hasNestedCondition() {
-		return this.nested != null;
-	}
+	private TestConditionExecutor nested;
 
 	/**
 	 * @return true when this condition is a nested condition
@@ -80,29 +62,24 @@ public abstract class TestCondition {
 		return this.isNested;
 	}
 
-	/**
-	 * Creates a {@link TestCondition} using the mental state condition.
-	 *
-	 * @param query
-	 *            A mental state condition.
-	 */
-	public TestCondition(MentalStateCondition query) {
-		this.query = query;
-		this.boundByMe = new HashSet<>();
+	public boolean hasNestedExecutor() {
+		return getNestedExecutor() != null;
+	}
+
+	public TestConditionExecutor getNestedExecutor() {
+		if (this.nested == null && getCondition().hasNestedCondition()) {
+			this.nested = getTestConditionExecutor(getCondition()
+					.getNestedCondition());
+		}
+		return this.nested;
 	}
 
 	/**
-	 * Defines a nested condition (when ... -> ...)
+	 * Get the parsed {@link TestCondition}.
 	 *
-	 * @param nested
-	 *            The nested TestCondition.
+	 * @return {@link TestCondition}
 	 */
-	public void setNestedCondition(TestCondition nested) {
-		if (this.isNested == null) {
-			nested.setNested(new HashSet<Substitution>(0));
-			this.nested = nested;
-		}
-	}
+	abstract public TestCondition getCondition();
 
 	/**
 	 * Update the state of a nested condition (which we are)
@@ -198,4 +175,24 @@ public abstract class TestCondition {
 	 */
 	public abstract <T> T accept(ResultFormatter<T> formatter);
 
+	public static TestConditionExecutor getTestConditionExecutor(
+			TestCondition condition) {
+		if (condition instanceof Always) {
+			return new AlwaysExecutor((Always) condition);
+		} else if (condition instanceof AtEnd) {
+			return new AtEndExecutor((AtEnd) condition);
+		} else if (condition instanceof AtStart) {
+			return new AtStartExecutor((AtStart) condition);
+		} else if (condition instanceof Eventually) {
+			return new EventuallyExecutor((Eventually) condition);
+		} else if (condition instanceof Never) {
+			return new NeverExecutor((Never) condition);
+		} else if (condition instanceof Until) {
+			return new UntilExecutor((Until) condition);
+		} else if (condition instanceof While) {
+			return new WhileExecutor((While) condition);
+		} else {
+			return null;
+		}
+	}
 }

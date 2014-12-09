@@ -1,4 +1,4 @@
-package goal.tools.unittest.testsection.testconditions;
+package goal.tools.unittest.testcondition.executors;
 
 import goal.core.executors.MentalStateConditionExecutor;
 import goal.core.runtime.service.agent.RunState;
@@ -6,7 +6,6 @@ import goal.tools.debugger.DebugObserver;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.NOPDebugger;
 import goal.tools.unittest.result.ResultFormatter;
-import goal.tools.unittest.testsection.EvaluateIn;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,11 +16,12 @@ import krTools.language.Substitution;
 import krTools.language.Term;
 import krTools.language.Var;
 import languageTools.program.agent.msc.MentalStateCondition;
+import languageTools.program.test.testsection.EvaluateIn;
 
 /**
- * Base to evaluate {@link TestCondition}s in the context of a running agent.
- * The Evaluator is installed on the debugger and receives a call back whenever
- * an action has been executed.
+ * Base to evaluate {@link TestConditionExecutor}s in the context of a running
+ * agent. The Evaluator is installed on the debugger and receives a call back
+ * whenever an action has been executed.
  *
  * @author mpkorstanje
  */
@@ -52,37 +52,37 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 		UNKNOWN;
 	}
 
-	private final TestCondition condition;
+	private final TestConditionExecutor executor;
 	private TestConditionEvaluation passed = TestConditionEvaluation.UNKNOWN;
 
 	/**
 	 * Creates an evaluator.
 	 *
-	 * @param condition
+	 * @param executor
 	 *            to evaluate
 	 */
-	public TestConditionEvaluator(TestCondition condition) {
-		this.condition = condition;
+	public TestConditionEvaluator(TestConditionExecutor executor) {
+		this.executor = executor;
 	}
 
 	@Override
 	public String toString() {
-		return getObserverName() + " [TestCondition= " + this.condition
+		return getObserverName() + " [TestConditionExecutor= " + this.executor
 				+ ", passed=" + this.passed + "]";
 	}
 
 	/**
-	 * @return query used by the {@link TestCondition}.
+	 * @return query used by the {@link TestConditionExecutor}.
 	 */
 	public MentalStateCondition getQuery() {
-		return this.condition.getQuery();
+		return this.executor.getCondition().getQuery();
 	}
 
 	/**
-	 * @return {@link TestCondition} being evaluated.
+	 * @return {@link TestConditionExecutor} being evaluated.
 	 */
-	public TestCondition getCondition() {
-		return this.condition;
+	public TestConditionExecutor getConditionExecutor() {
+		return this.executor;
 	}
 
 	/**
@@ -104,7 +104,7 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 		// reset that variable so we can set it again, but store it
 		// so we can put it back when the evaluation below failed
 		final Map<Var, Term> removed = new HashMap<>();
-		for (final Var pre : this.condition.getBoundByMe()) {
+		for (final Var pre : this.executor.getBoundByMe()) {
 			Term term = substitution.get(pre);
 			removed.put(pre, term);
 			substitution.remove(pre);
@@ -130,7 +130,7 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 			Substitution apply = result.iterator().next();
 			for (final Var var : apply.getVariables()) {
 				final Term term = apply.get(var);
-				if (term.isClosed() && this.condition.addBoundVar(var)) {
+				if (term.isClosed() && this.executor.addBoundVar(var)) {
 					substitution.addBinding(var, term);
 				}
 			}

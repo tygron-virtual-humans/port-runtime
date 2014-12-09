@@ -18,12 +18,7 @@
 
 package goal.tools.errorhandling.exceptions;
 
-import goal.tools.unittest.testsection.DoActionSection;
-
 /**
- * Represents an exception that occurred while executing an
- * {@link DoActionSection}.
- *
  * @author W.Pasman 21jul11
  * @modified K.Hindriks now extends GOALRuntimeErrorException.
  *
