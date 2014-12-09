@@ -82,6 +82,10 @@ public class MentalState {
 	 */
 	private final AgentId agentId;
 	/**
+	 * DOC
+	 */
+	private final mentalState.MentalState state;
+	/**
 	 * The program associated with agent that owns this {@link MentalState}.
 	 */
 	private final AgentProgram agentProgram;
@@ -128,7 +132,16 @@ public class MentalState {
 		this.usesMentalModeling = program.usesMentalModels();
 		this.agentId = id;
 		this.agentProgram = program;
+		this.state = MentalStateFactory.getInterface(this.agentProgram
+				.getKRInterface().getClass());
 		addAgentModel(id, debugger);
+	}
+
+	/**
+	 * DOC
+	 */
+	public mentalState.MentalState getState() {
+		return this.state;
 	}
 
 	/**
@@ -255,26 +268,24 @@ public class MentalState {
 			// that there is an(other) agent because we have a(n empty) mental
 			// state.
 			MentalModel model = new MentalModel();
-			mentalState.MentalState state = MentalStateFactory
-					.getInterface(this.agentProgram.getKRInterface().getClass());
 
 			// Get content for the initial belief and goal base.
 			if (me) {
 				// Create the bases from the parsed GOAL agent program.
-				model.addBase(this.agentProgram, this.agentId, state,
+				model.addBase(this.agentProgram, this.agentId, this.state,
 						this.agentProgram.getAllKnowledge(),
 						BASETYPE.KNOWLEDGEBASE);
-				model.addBase(this.agentProgram, this.agentId, state,
+				model.addBase(this.agentProgram, this.agentId, this.state,
 						new LinkedList<DatabaseFormula>(), BASETYPE.MAILBOX);
-				model.addBase(this.agentProgram, this.agentId, state,
+				model.addBase(this.agentProgram, this.agentId, this.state,
 						new LinkedList<DatabaseFormula>(), BASETYPE.PERCEPTBASE);
 			}
 			// Create the belief base.
-			model.addBase(this.agentProgram, id, state,
+			model.addBase(this.agentProgram, id, this.state,
 					new LinkedList<DatabaseFormula>(), BASETYPE.BELIEFBASE);
 			// Create the goal base.
-			model.addGoalBase(new LinkedList<Update>(), this.agentProgram,
-					this.agentId, "main", id, debugger);
+			model.addGoalBase(new LinkedList<Update>(), this.state,
+					this.agentProgram, this.agentId, "main", id, debugger);
 
 			// Add the mental model to the map of mental models maintained by
 			// this
@@ -641,8 +652,9 @@ public class MentalState {
 			this.models
 					.get(this.agentId)
 					.getAttentionStack()
-					.push(new GoalBase(goal, this.agentId, this.agentProgram,
-							getAgentId().getName(), debugger, this.agentId));
+					.push(new GoalBase(goal, this.state, this.agentId,
+					this.agentProgram, getAgentId().getName(),
+					debugger, this.agentId));
 
 			// get the substitutions that make the given context true, given
 			// the current single goal. Add these to the total set of
@@ -685,9 +697,7 @@ public class MentalState {
 	 */
 	public Collection<String> getReceiversOfMessage(Message msg)
 			throws KRQueryFailedException, KRInitFailedException {
-		mentalState.MentalState state = MentalStateFactory
-				.getDefaultInterface();
-		return state.getReceiversOfMessage(
+		return this.state.getReceiversOfMessage(
 				getOwnModel().getBase(BASETYPE.MAILBOX).getDatabase(), msg);
 	}
 

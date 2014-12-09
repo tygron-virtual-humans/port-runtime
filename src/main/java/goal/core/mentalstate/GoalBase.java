@@ -40,7 +40,6 @@ import krTools.language.Substitution;
 import krTools.language.Update;
 import languageTools.program.agent.AgentId;
 import languageTools.program.agent.AgentProgram;
-import mentalstatefactory.MentalStateFactory;
 
 /**
  * <p>
@@ -87,6 +86,10 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 */
 	private final Set<SingleGoal> goals = new LinkedHashSet<>();
 	/**
+	 * DOC
+	 */
+	private final mentalState.MentalState state;
+	/**
 	 * The name of the {@link AgentProgram} that owns this {@link GoalBase}.
 	 */
 	private final AgentProgram owner;
@@ -127,8 +130,9 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 *            The name of the agent whose goals are modeled in this goal
 	 *            base.
 	 */
-	public GoalBase(AgentId me, AgentProgram owner, String name,
-			AgentId... agentName) {
+	public GoalBase(mentalState.MentalState state, AgentId me,
+			AgentProgram owner, String name, AgentId... agentName) {
+		this.state = state;
 		this.owner = owner;
 		this.name = name;
 		if (agentName.length == 0) {
@@ -155,10 +159,11 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 *            The name of the agent whose goals are modeled in this goal
 	 *            base.
 	 */
-	public GoalBase(SingleGoal singleGoal, AgentId me, AgentProgram owner,
-			String name, Debugger debugger, AgentId... agentName) {
-		this(me, owner, name, agentName);
-		this.addGoal(singleGoal, debugger);
+	public GoalBase(SingleGoal singleGoal, mentalState.MentalState state,
+			AgentId me, AgentProgram owner, String name, Debugger debugger,
+			AgentId... agentName) {
+		this(state, me, owner, name, agentName);
+		addGoal(singleGoal, debugger);
 	}
 
 	/**
@@ -190,12 +195,10 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 */
 	protected void setGoals(List<Update> content, Debugger debugger) {
 		try {
-			mentalState.MentalState state = MentalStateFactory
-					.getInterface(this.owner.getKRInterface().getClass());
 			for (Update goal : content) {
 				this.count++;
 				getTime();
-				addGoal(new SingleGoal(goal, this.owner, state), debugger);
+				addGoal(new SingleGoal(goal, this.owner, this.state), debugger);
 				updateTimeUsed();
 			}
 		} catch (Exception e) {
@@ -270,11 +273,9 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 */
 	public boolean insert(Update goal, Debugger debugger) {
 		try {
-			mentalState.MentalState state = MentalStateFactory
-					.getInterface(this.owner.getKRInterface().getClass());
 			this.count++;
 			getTime();
-			addGoal(new SingleGoal(goal, this.owner, state), debugger);
+			addGoal(new SingleGoal(goal, this.owner, this.state), debugger);
 			updateTimeUsed();
 		} catch (Exception e) {
 			new Warning(debugger, String.format(

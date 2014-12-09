@@ -22,14 +22,9 @@ import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
-import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
-
-import java.rmi.activation.UnknownObjectException;
-
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.DeleteAction;
 import mentalState.BASETYPE;
-import mentalstatefactory.MentalStateFactory;
 
 public class DeleteActionExecutor extends ActionExecutor {
 
@@ -41,22 +36,15 @@ public class DeleteActionExecutor extends ActionExecutor {
 
 	@Override
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
-		try {
-			mentalState.MentalState state = MentalStateFactory
-					.getInterface(this.action.getKRInterface().getClass());
-			MentalState mentalState = runState.getMentalState();
-			mentalState.delete(
-					state.filterMailUpdates(this.action.getUpdate(), false),
-					BASETYPE.BELIEFBASE, debugger);
-			mentalState.delete(
-					state.filterMailUpdates(this.action.getUpdate(), true),
-					BASETYPE.MAILBOX, debugger);
-			mentalState.updateGoalState(debugger);
-		} catch (UnknownObjectException e) {
-			throw new GOALRuntimeErrorException(
-					"Separating beliefs from mails for deletion failed: "
-							+ e.getMessage(), e);
-		}
+		mentalState.MentalState state = runState.getMentalState().getState();
+		MentalState mentalState = runState.getMentalState();
+		mentalState.delete(
+				state.filterMailUpdates(this.action.getUpdate(), false),
+				BASETYPE.BELIEFBASE, debugger);
+		mentalState.delete(
+				state.filterMailUpdates(this.action.getUpdate(), true),
+				BASETYPE.MAILBOX, debugger);
+		mentalState.updateGoalState(debugger);
 
 		// Report action was performed.
 		report(debugger);

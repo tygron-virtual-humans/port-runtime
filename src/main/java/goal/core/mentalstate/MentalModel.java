@@ -205,10 +205,11 @@ public class MentalModel {
 	 * @param agentName
 	 * @param debugger
 	 */
-	public void addGoalBase(List<Update> content, AgentProgram agent,
-			AgentId owner, String name, AgentId agentName, Debugger debugger) {
+	public void addGoalBase(List<Update> content,
+			mentalState.MentalState state, AgentProgram agent, AgentId owner,
+			String name, AgentId agentName, Debugger debugger) {
 		// Create new goal base and add content.
-		GoalBase goalBase = new GoalBase(owner, agent, name, agentName);
+		GoalBase goalBase = new GoalBase(state, owner, agent, name, agentName);
 		goalBase.setGoals(content, debugger);
 		// Push the goal base on the stack of goal bases.
 		this.goalBases.push(goalBase);
@@ -292,13 +293,13 @@ public class MentalModel {
 		Query formula = literal.getFormula();
 		Set<Substitution> substitutions = new HashSet<>();
 		if (literal instanceof BelLiteral) {
-			substitutions = this.beliefQuery(formula, debugger);
+			substitutions = beliefQuery(formula, debugger);
 		} else if (literal instanceof GoalLiteral) {
-			substitutions = this.goalQuery(formula, focus, debugger);
+			substitutions = goalQuery(formula, focus, debugger);
 		} else if (literal instanceof AGoalLiteral) {
-			substitutions = this.agoalQuery(formula, focus, debugger);
+			substitutions = agoalQuery(formula, focus, debugger);
 		} else if (literal instanceof GoalALiteral) {
-			substitutions = this.goalaQuery(formula, focus, debugger);
+			substitutions = goalaQuery(formula, focus, debugger);
 		}
 
 		if (substitutions.isEmpty()) {
@@ -342,7 +343,7 @@ public class MentalModel {
 	 */
 	public final Set<Substitution> goalQuery(Query query, boolean focus,
 			Debugger debugger) {
-		return this.getAttentionSet(focus).query(query, debugger);
+		return getAttentionSet(focus).query(query, debugger);
 	}
 
 	/**
@@ -364,7 +365,7 @@ public class MentalModel {
 		Set<Substitution> substitutions = new LinkedHashSet<>();
 
 		// First, check whether query follows from goal base.
-		substitutions.addAll(this.goalQuery(query, focus, debugger));
+		substitutions.addAll(goalQuery(query, focus, debugger));
 
 		// Second, remove all substitutions for which query after applying
 		// that substitution to it also follows from the belief base.
@@ -380,7 +381,7 @@ public class MentalModel {
 								+ " did not result in closed formula but returned "
 								+ instantiatedQuery.toString() + " instead.");
 			}
-			if (!this.beliefQuery(instantiatedQuery, debugger).isEmpty()) {
+			if (!beliefQuery(instantiatedQuery, debugger).isEmpty()) {
 				removeSet.add(substitution);
 			}
 		}
@@ -411,7 +412,7 @@ public class MentalModel {
 		Query instantiatedQuery;
 
 		// First, check whether pForm follows from goal base.
-		lSubstSet.addAll(this.goalQuery(query, focus, debugger));
+		lSubstSet.addAll(goalQuery(query, focus, debugger));
 
 		// Second, check which substitutions such that when applied to pForm
 		// pForm also follows from the belief base.
@@ -424,7 +425,7 @@ public class MentalModel {
 								+ " did not result in closed formula but returned "
 								+ instantiatedQuery.toString() + " instead.");
 			}
-			if (!this.beliefQuery(instantiatedQuery, debugger).isEmpty()) {
+			if (!beliefQuery(instantiatedQuery, debugger).isEmpty()) {
 				retainSubstSet.add(lSubst);
 			}
 		}
@@ -467,7 +468,7 @@ public class MentalModel {
 			return;
 		}
 
-		Set<SingleGoal> goals = this.getAttentionSet(true).getGoals();
+		Set<SingleGoal> goals = getAttentionSet(true).getGoals();
 		List<SingleGoal> goalsToBeRemoved = new LinkedList<>();
 		for (SingleGoal goal : goals) {
 			if (!this.beliefBases.get(BASETYPE.BELIEFBASE)
@@ -478,7 +479,7 @@ public class MentalModel {
 
 		for (SingleGoal goal : goalsToBeRemoved) {
 			try {
-				this.getAttentionSet(true).remove(goal, debugger);
+				getAttentionSet(true).remove(goal, debugger);
 			} catch (Exception e) {
 				new Warning(debugger, String.format(Resources
 						.get(WarningStrings.FAILED_REMOVING_GOAL_FROM_GB), goal
@@ -547,7 +548,7 @@ public class MentalModel {
 		oldAttentionSet.cleanUp();
 		// remove any goals from new current attention set that have been
 		// achieved.
-		this.updateGoalState(debugger);
+		updateGoalState(debugger);
 		debugger.breakpoint(Channel.GB_CHANGES, oldAttentionSet,
 				"dropped goalbase  %s", oldAttentionSet.getName());
 
@@ -567,7 +568,7 @@ public class MentalModel {
 			builder.append(this.beliefBases.get(type)).toString();
 			builder.append(",\n");
 		}
-		builder.append(this.getAttentionSet(true).toString());
+		builder.append(getAttentionSet(true).toString());
 		builder.append("\n]");
 		return builder.toString();
 	}
