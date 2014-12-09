@@ -1,17 +1,15 @@
-package languageTools.program.agent;
+package goal.core.program;
 
 import goal.core.agent.AbstractAgentFactory;
 import goal.core.agent.Agent;
 import goal.core.agent.GOALInterpreter;
 import goal.core.agent.MessagingCapabilities;
 import goal.core.agent.NoMessagingCapabilities;
+import goal.tools.IDEDebugger;
+import goal.tools.IDEGOALInterpreter;
 import goal.tools.adapt.Learner;
 import goal.tools.debugger.Debugger;
-import goal.tools.debugger.NOPDebugger;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
-
-import java.io.File;
-
 import krTools.errors.exceptions.KRInitFailedException;
 import languageTools.program.agent.AgentProgram;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
@@ -20,7 +18,6 @@ import nl.tudelft.goal.messaging.exceptions.MessagingException;
  * Base for simple tests that don't need an environment or messaging.
  *
  * @author mpkorstanje
- *
  */
 public class SimpleProgramTest extends ProgramTest {
 
@@ -42,7 +39,6 @@ public class SimpleProgramTest extends ProgramTest {
 	 */
 	private abstract class SimpleAgentFactory<D extends Debugger, C extends GOALInterpreter<D>>
 			extends AbstractAgentFactory<D, C> {
-
 		/**
 		 * Constructs a factory for agents withouth messaging.
 		 */
@@ -57,27 +53,21 @@ public class SimpleProgramTest extends ProgramTest {
 	}
 
 	@Override
-	protected Agent<GOALInterpreter<Debugger>> buildAgent(String id,
-			File programFile, AgentProgram program)
-			throws GOALLaunchFailureException, MessagingException,
-			KRInitFailedException {
-
-		SimpleAgentFactory<Debugger, GOALInterpreter<Debugger>> factory = new SimpleAgentFactory<Debugger, GOALInterpreter<Debugger>>() {
-
+	protected Agent<IDEGOALInterpreter> buildAgent(String id,
+			AgentProgram program) throws GOALLaunchFailureException,
+			MessagingException, KRInitFailedException {
+		SimpleAgentFactory<IDEDebugger, IDEGOALInterpreter> factory = new SimpleAgentFactory<IDEDebugger, IDEGOALInterpreter>() {
 			@Override
-			protected Debugger provideDebugger() {
-				return new NOPDebugger(this.agentId);
+			protected IDEDebugger provideDebugger() {
+				return new IDEDebugger(this.agentId, this.program, null);
 			}
 
 			@Override
-			protected GOALInterpreter<Debugger> provideController(
-					Debugger debugger, Learner learner) {
-				return new GOALInterpreter<Debugger>(this.program, debugger,
-						learner);
+			protected IDEGOALInterpreter provideController(
+					IDEDebugger debugger, Learner learner) {
+				return new IDEGOALInterpreter(this.program, debugger, learner);
 			}
 		};
-
-		return factory.build(program, programFile, id, null);
+		return factory.build(program, id, null);
 	}
-
 }

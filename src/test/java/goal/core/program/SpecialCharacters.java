@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package languageTools.program.agent;
+package goal.core.program;
 
 import static org.junit.Assert.assertSame;
 
@@ -25,15 +25,12 @@ import org.junit.Test;
  * Various test cases for special characters in GOAL.
  *
  * @author W.Pasman 28aug13
- *
  */
 public class SpecialCharacters extends SimpleProgramTest {
-
 	@Test
 	public void testQuotedAtoms() throws Exception {
 		assertSame(
 				RunResult.OK,
 				runAgent("src/test/resources/goal/core/program/quotedatom.goal"));
 	}
-
 }

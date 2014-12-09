@@ -8,25 +8,23 @@ import goal.tools.UnitTestRunResultInspector;
 import goal.tools.errorhandling.exceptions.GOALCommandCancelledException;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 import goal.tools.logging.Loggers;
-import goal.tools.unittest.UnitTest;
 import goal.tools.unittest.result.UnitTestResult;
 import goal.tools.unittest.result.UnitTestResultFormatter;
 
-import java.io.File;
 import java.io.IOException;
 
+import krTools.errors.exceptions.ParserException;
+import languageTools.analyzer.test.TestValidator;
+import languageTools.program.test.UnitTest;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 
-import org.antlr.v4.runtime.ANTLRFileStream;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
 @SuppressWarnings("javadoc")
 public class AbstractUnitTestTest {
-
-	protected UnitTestWalker visitor;
+	protected TestValidator visitor;
 
 	@BeforeClass
 	public static void setupBeforeClass() {
@@ -55,31 +53,20 @@ public class AbstractUnitTestTest {
 	}
 
 	public UnitTest setup(String path) throws IOException {
-
-		File file = new File(path);
-		ANTLRFileStream stream = new ANTLRFileStream(path);
-		UnitTestLexer lexer = new UnitTestLexer(stream);
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-		UnitTestParser parser = new UnitTestParser(tokens);
-		this.visitor = new UnitTestWalker(file);
-		parser.removeErrorListeners();
-		parser.addErrorListener(this.visitor);
-
-		UnitTest program = this.visitor.visitUnitTest(parser.unitTest());
-
-		if (!this.visitor.getErrors().isEmpty()) {
+		this.visitor = new TestValidator(path);
+		this.visitor.validate();
+		UnitTest program = this.visitor.getProgram();
+		if (this.visitor.getErrors().isEmpty()) {
+			return program;
+		} else {
 			System.out.println(this.visitor.getErrors());
 			System.out.println(this.visitor.getWarnings());
 			return null;
 		}
-
-		return program;
-
 	}
 
 	protected UnitTestResult runTest(String testFileName) throws IOException,
-			GOALCommandCancelledException, GOALParseException,
+			GOALCommandCancelledException, ParserException,
 			GOALLaunchFailureException, MessagingException,
 			InterruptedException, Exception {
 		UnitTest unitTest = setup(testFileName);
@@ -101,5 +88,4 @@ public class AbstractUnitTestTest {
 	public void tearDown() {
 		this.visitor = null;
 	}
-
 }

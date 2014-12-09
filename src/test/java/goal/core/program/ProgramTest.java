@@ -15,35 +15,37 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package languageTools.program.agent;
+package goal.core.program;
 
 import static org.junit.Assert.assertTrue;
 import goal.core.agent.Agent;
-import goal.core.agent.GOALInterpreter;
+import goal.core.executors.MentalStateConditionExecutor;
 import goal.core.mentalstate.MentalState;
+import goal.tools.IDEGOALInterpreter;
 import goal.tools.PlatformManager;
 import goal.tools.SingleRun;
-import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
+import goal.tools.eclipse.QueryTool;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 import goal.tools.logging.Loggers;
 
 import java.io.File;
 import java.util.Set;
 
+import krTools.KRInterface;
 import krTools.errors.exceptions.KRInitFailedException;
-import krTools.language.Query;
 import krTools.language.Substitution;
 import krTools.language.Term;
 import krTools.language.Var;
 import languageTools.program.agent.AgentProgram;
-import languageTools.program.agent.selector.Selector.SelectorType;
-import mentalState.BASETYPE;
+import languageTools.program.agent.msc.MentalStateCondition;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+
+import swiprolog.SWIPrologInterface;
 
 /**
  * General utility functions for running tests using {@link SingleRun}
@@ -65,10 +67,8 @@ import org.junit.BeforeClass;
  * </p>
  *
  * @author W.Pasman
- *
  */
 public abstract class ProgramTest {
-
 	public enum RunResult {
 		OK, FAILURE, UNKNOWN;
 
@@ -81,12 +81,12 @@ public abstract class ProgramTest {
 		}
 	}
 
-	private static KRlanguage language;
+	private static KRInterface language;
 
 	@BeforeClass
 	public static void setupBeforeClass() throws KRInitFailedException {
 		Loggers.addConsoleLogger();
-		language = SWIPrologLanguage.getInstance();
+		language = SWIPrologInterface.getInstance();
 
 	}
 
@@ -97,7 +97,7 @@ public abstract class ProgramTest {
 
 	@After
 	public void cleanUp() throws KRInitFailedException {
-		language.reset();
+		// language.reset();
 	}
 
 	/**
@@ -111,46 +111,41 @@ public abstract class ProgramTest {
 	 */
 	protected RunResult runAgent(String goalFile) throws Exception {
 		String id = "TestAgent";
-		File programFile = new File(goalFile);
 		AgentProgram program = PlatformManager.createNew().parseGOALFile(
-				programFile, language);
+				new File(goalFile), language);
 
-		assertTrue(program.isValidated());
+		assertTrue(program.isValid());
 
-		Agent<GOALInterpreter<Debugger>> agent = buildAgent(id, programFile,
-				program);
+		Agent<IDEGOALInterpreter> agent = buildAgent(id, program);
 
 		agent.start();
 		agent.awaitTermination();
 
-		RunResult result = inspectResult(agent.getController());
+		RunResult result = inspectResult(agent);
 
 		return result;
 	}
 
-	protected abstract Agent<GOALInterpreter<Debugger>> buildAgent(String id,
-			File programFile, AgentProgram program)
-					throws GOALLaunchFailureException, MessagingException,
-					KRInitFailedException;
+	protected abstract Agent<IDEGOALInterpreter> buildAgent(String id,
+			AgentProgram program) throws GOALLaunchFailureException,
+			MessagingException, KRInitFailedException;
 
-	protected RunResult inspectResult(GOALInterpreter<Debugger> goalInterpreter) {
-		MentalState mentalState = goalInterpreter.getRunState()
-				.getMentalState();
-		Selector as = new Selector(null);
-		as.add(new SelectExpression(SelectorType.THIS));
-		// SWI Prolog dependency. No other way available right now...
-		Query query;
+	protected RunResult inspectResult(Agent<IDEGOALInterpreter> agent) {
+		QueryTool buildQuery = new QueryTool(agent);
+		MentalStateCondition mentalStateCondition;
 		try {
-			query = mentalState.getKRLanguage().parseUpdate("result(X)")
-					.toQuery();
-		} catch (GOALParseException e) {
+			mentalStateCondition = buildQuery.parseMSC("result(X)");
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return RunResult.FAILURE;
 		}
 
-		Set<Substitution> res = mentalState.query(query, BASETYPE.BELIEFBASE,
-				new SteppingDebugger("determine_final_result", null));
+		MentalState mentalState = agent.getController().getRunState()
+				.getMentalState();
+		Set<Substitution> res = new MentalStateConditionExecutor(
+				mentalStateCondition).evaluate(mentalState,
+						new SteppingDebugger("query", null));
 
 		// there should be exactly 1 substi.
 		if (res.size() == 0) {
@@ -175,5 +170,4 @@ public abstract class ProgramTest {
 		System.out.println("result:" + value);
 		return RunResult.get(value.toString());
 	}
-
 }

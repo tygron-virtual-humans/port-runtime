@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package languageTools.program.agent;
+package goal.core.program;
 
 import static org.junit.Assert.assertSame;
 
@@ -28,7 +28,6 @@ import org.junit.Test;
  *
  */
 public class VarSubstitution extends SimpleProgramTest {
-
 	@Test(expected = IllegalStateException.class)
 	public void TestAdoptFreeVar() throws Exception {
 		runAgent("src/test/resources/goal/core/program/adoptfreevar.goal");
@@ -70,5 +69,4 @@ public class VarSubstitution extends SimpleProgramTest {
 				runAgent("src/test/resources/goal/core/program/beliefinmodulevar.goal"));
 
 	}
-
 }

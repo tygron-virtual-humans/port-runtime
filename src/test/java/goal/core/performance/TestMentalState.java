@@ -6,12 +6,16 @@ import goal.tools.debugger.SteppingDebugger;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 
 import java.lang.management.ManagementFactory;
-import java.util.HashSet;
+import java.util.LinkedList;
 
+import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRQueryFailedException;
 import krTools.language.DatabaseFormula;
 import languageTools.program.agent.AgentId;
+import languageTools.program.agent.AgentProgram;
 import mentalState.BASETYPE;
+import swiPrologMentalState.SwiPrologMentalState;
 import swiprolog.language.JPLUtils;
 import swiprolog.language.PrologDBFormula;
 
@@ -19,15 +23,16 @@ public class TestMentalState {
 
 	// @Test
 	public void testInsert_SWIProlog3_performance()
-			throws GOALLaunchFailureException, KRInitFailedException {
-		SWIPrologLanguage language = SWIPrologLanguage.getInstance();
-		BeliefBase kb = new BeliefBase(BASETYPE.KNOWLEDGEBASE, language,
-				new HashSet<DatabaseFormula>(), new AgentId(""),
+			throws GOALLaunchFailureException, KRInitFailedException,
+			KRDatabaseException, KRQueryFailedException {
+		mentalState.MentalState state = new SwiPrologMentalState();
+		BeliefBase kb = new BeliefBase(BASETYPE.KNOWLEDGEBASE, state,
+				new LinkedList<DatabaseFormula>(), new AgentProgram(null),
 				new AgentId(""));
 
 		for (int j = 0; j < 1; j++) {
-			BeliefBase bb = new BeliefBase(BASETYPE.BELIEFBASE, language,
-					new HashSet<DatabaseFormula>(), new AgentId("agent" + j),
+			BeliefBase bb = new BeliefBase(BASETYPE.BELIEFBASE, state,
+					new LinkedList<DatabaseFormula>(), new AgentProgram(null),
 					new AgentId("agent" + j));
 
 			int nrOfInserts = 250000;

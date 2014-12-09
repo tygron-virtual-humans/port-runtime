@@ -15,20 +15,16 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package languageTools.program.agent;
+package goal.core.program;
 
 import static org.junit.Assert.assertSame;
 import goal.core.agent.AbstractAgentFactory;
 import goal.core.agent.Agent;
-import goal.core.agent.GOALInterpreter;
 import goal.core.runtime.MessagingService;
+import goal.tools.IDEDebugger;
+import goal.tools.IDEGOALInterpreter;
 import goal.tools.adapt.Learner;
-import goal.tools.debugger.Debugger;
-import goal.tools.debugger.NOPDebugger;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
-
-import java.io.File;
-
 import krTools.errors.exceptions.KRInitFailedException;
 import languageTools.program.agent.AgentProgram;
 import localmessaging.LocalMessaging;
@@ -46,30 +42,25 @@ public class SendToVar extends ProgramTest {
 	}
 
 	@Override
-	protected Agent<GOALInterpreter<Debugger>> buildAgent(String id,
-			File programFile, AgentProgram program)
-			throws GOALLaunchFailureException, MessagingException,
-			KRInitFailedException {
-
+	protected Agent<IDEGOALInterpreter> buildAgent(String id,
+			AgentProgram program) throws GOALLaunchFailureException,
+			MessagingException, KRInitFailedException {
 		Messaging messaging = new LocalMessaging();
 		MessagingService messagingService = new MessagingService("localhost",
 				messaging);
-		AbstractAgentFactory<Debugger, GOALInterpreter<Debugger>> factory = new AbstractAgentFactory<Debugger, GOALInterpreter<Debugger>>(
+		AbstractAgentFactory<IDEDebugger, IDEGOALInterpreter> factory = new AbstractAgentFactory<IDEDebugger, IDEGOALInterpreter>(
 				messagingService) {
-
 			@Override
-			protected Debugger provideDebugger() {
-				return new NOPDebugger(this.agentId);
+			protected IDEDebugger provideDebugger() {
+				return new IDEDebugger(this.agentId, this.program, null);
 			}
 
 			@Override
-			protected GOALInterpreter<Debugger> provideController(
-					Debugger debugger, Learner learner) {
-				return new GOALInterpreter<Debugger>(this.program, debugger,
-						learner);
+			protected IDEGOALInterpreter provideController(
+					IDEDebugger debugger, Learner learner) {
+				return new IDEGOALInterpreter(this.program, debugger, learner);
 			}
 		};
-
-		return factory.build(program, programFile, id, null);
+		return factory.build(program, id, null);
 	}
 }

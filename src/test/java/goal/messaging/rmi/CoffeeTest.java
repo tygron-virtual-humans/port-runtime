@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Collection;
 
+import krTools.errors.exceptions.ParserException;
+
 import org.apache.commons.cli.ParseException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -22,7 +24,6 @@ import org.junit.Test;
 import rmimessaging.RmiMessaging;
 
 public class CoffeeTest {
-
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		Loggers.addConsoleLogger();
@@ -34,13 +35,11 @@ public class CoffeeTest {
 	}
 
 	@Test
-	public void testCoffee() throws GOALParseException, FileNotFoundException,
-			ParseException, Exception {
-
+	public void testCoffee() throws ParserException, FileNotFoundException,
+	ParseException, Exception {
 		SingleRun run = new SingleRun(new File(
 				"GOALagents/CoffeeAgents/coffee.mas2g"));
 		run.setResultInspector(new ResultInspector<GOALInterpreter<Debugger>>() {
-
 			@Override
 			public void handleResult(
 					Collection<Agent<GOALInterpreter<Debugger>>> agents) {
@@ -53,7 +52,6 @@ public class CoffeeTest {
 						fail("unexpected agent" + agent);
 					}
 				}
-
 			}
 
 			/**

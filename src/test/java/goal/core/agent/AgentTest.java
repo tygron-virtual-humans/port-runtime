@@ -9,8 +9,12 @@ import goal.tools.debugger.NOPDebugger;
 import goal.tools.logging.Loggers;
 
 import java.io.File;
+import java.rmi.activation.UnknownObjectException;
 
+import krTools.KRInterface;
+import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRQueryFailedException;
 import languageTools.program.agent.AgentId;
 import languageTools.program.agent.AgentProgram;
 
@@ -19,6 +23,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import swiprolog.SWIPrologInterface;
 
 public class AgentTest {
 
@@ -34,12 +40,12 @@ public class AgentTest {
 
 	Agent<GOALInterpreter<NOPDebugger>> agent;
 	GOALInterpreter<NOPDebugger> controller;
-	KRlanguage language;
+	KRInterface language;
 
 	@Before
 	public void setUp() throws Exception {
 		AgentId id = new AgentId("TestAgent");
-		this.language = SWIPrologLanguage.getInstance();
+		this.language = SWIPrologInterface.getInstance();
 		File file = new File("src/test/resources/goal/core/agent/fibonaci.goal");
 		AgentProgram program = PlatformManager.createNew().parseGOALFile(file,
 				this.language);
@@ -58,7 +64,7 @@ public class AgentTest {
 
 	@After
 	public void tearDown() throws Exception {
-		this.language.reset();
+		// this.language.reset();
 	}
 
 	@Test
@@ -99,7 +105,8 @@ public class AgentTest {
 	}
 
 	@Test
-	public void testReset() throws InterruptedException, KRInitFailedException {
+	public void testReset() throws InterruptedException, KRInitFailedException,
+			KRDatabaseException, KRQueryFailedException, UnknownObjectException {
 		assertFalse(this.controller.isRunning());
 		assertTrue(this.controller.isTerminated());
 		this.controller.run();

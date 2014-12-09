@@ -2,6 +2,7 @@ package goal.tools.adapt;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import eis.iilang.Action;
 import eis.iilang.Percept;
 import goal.core.agent.Agent;
 import goal.core.agent.EnvironmentCapabilities;
@@ -18,15 +19,17 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
+import krTools.KRInterface;
 import languageTools.program.agent.AgentId;
 import languageTools.program.agent.AgentProgram;
-import languageTools.program.agent.actions.UserSpecAction;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import swiprolog.SWIPrologInterface;
 
 public class FileLearnerTest {
 
@@ -37,7 +40,7 @@ public class FileLearnerTest {
 		}
 
 		@Override
-		public void performAction(UserSpecAction action) {
+		public void performAction(Action action) {
 			System.out.println(action);
 		}
 
@@ -63,12 +66,12 @@ public class FileLearnerTest {
 
 	Agent<GOALInterpreter<NOPDebugger>> agent;
 	GOALInterpreter<NOPDebugger> controller;
-	KRlanguage language;
+	KRInterface language;
 
 	@Before
 	public void setUp() throws Exception {
 		AgentId id = new AgentId("TestAgent");
-		this.language = SWIPrologLanguage.getInstance();
+		this.language = SWIPrologInterface.getInstance();
 		File file = new File("src/test/resources/goal/tools/adapt/adapt.goal");
 		AgentProgram program = PlatformManager.createNew().parseGOALFile(file,
 				this.language);
@@ -95,7 +98,7 @@ public class FileLearnerTest {
 
 	@After
 	public void tearDown() throws Exception {
-		this.language.reset();
+		// this.language.reset();
 	}
 
 }

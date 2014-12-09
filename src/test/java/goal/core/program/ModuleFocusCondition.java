@@ -15,14 +15,13 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package languageTools.program.agent;
+package goal.core.program;
 
 import static org.junit.Assert.assertSame;
 
 import org.junit.Test;
 
 public class ModuleFocusCondition extends SimpleProgramTest {
-
 	@Test
 	public void test1() throws Exception {
 		assertSame(
