@@ -194,12 +194,21 @@ public class RunState<D extends Debugger> {
 		this.messaging = messaging;
 		this.logActionsLogger = logger;
 
+		// Store reference to program for possible reset.
+		this.program = program;
+		this.agentName = agentName;
+
+		this.debugger = debugger;
+		// TODO: notify all GUI components that want to (should) subscribe to
+		// debugger here? Would fix issue in {@link Agent#run}? Maybe create
+		// an observable LaunchManager that informs about construction steps
+		// before agent is actually started so we do not get racing conditions.
+
 		// Get the built-in modules from the agent's program, if available.
 		this.initModule = getModuleOfType(TYPE.INIT);
 		this.eventModule = getModuleOfType(TYPE.EVENT);
 		this.mainModule = getModuleOfType(TYPE.MAIN);
-
-		// Check there is a main module; create a "dummy" one if main is absent.
+		// Check there is a main module; create a "dummy" one if there is not.
 		if (this.mainModule == null) {
 			// program did not specify a main module; insert a fake one to make
 			// sure event module is continually run.
@@ -209,17 +218,6 @@ public class RunState<D extends Debugger> {
 			this.mainModule.setRuleEvaluationOrder(RuleEvaluationOrder.LINEAR);
 			this.mainModule.setRules(new ArrayList<Rule>(0));
 		}
-
-		// Store reference to program for possible reset.
-		this.program = program;
-
-		this.agentName = agentName;
-
-		this.debugger = debugger;
-		// TODO: notify all GUI components that want to (should) subscribe to
-		// debugger here? Would fix issue in {@link Agent#run}? Maybe create
-		// an observable LaunchManager that informs about construction steps
-		// before agent is actually started so we do not get racing conditions.
 
 		// Create a new mental state for the agent.
 		try {
