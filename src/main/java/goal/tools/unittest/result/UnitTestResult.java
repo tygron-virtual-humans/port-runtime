@@ -1,7 +1,5 @@
 package goal.tools.unittest.result;
 
-import goal.tools.RunTest;
-
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,8 +13,7 @@ import languageTools.program.test.AgentTest;
 import languageTools.program.test.UnitTest;
 
 /**
- * The results of executing a {@link UnitTest}. A UnitTest can be ran using
- * {@link RunTest}.
+ * The results of executing a {@link UnitTest}.
  *
  * Because the UnitTest starts a MAS and binds {@link AgentTest}s to agents
  * using their base name there may be multiple {@link AgentTestResult}s for a

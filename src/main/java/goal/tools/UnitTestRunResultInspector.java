@@ -13,14 +13,14 @@ import languageTools.program.agent.AgentId;
 import languageTools.program.test.UnitTest;
 
 /**
- * Inspects the results of a {@link RunTest}. The results are provided as a
+ * Inspects the results of a test. The results are provided as a
  * {@link UnitTestResult}. This inspector can be reused between tests with the
  * same {@link UnitTest}.
  *
  * @author M.P. Korstanje
  */
 public class UnitTestRunResultInspector implements
-		ResultInspector<UnitTestInterpreter<ObservableDebugger>> {
+ResultInspector<UnitTestInterpreter<ObservableDebugger>> {
 	private final HashMap<AgentId, UnitTestInterpreterResult> results = new HashMap<>();
 	private final UnitTest unitTest;
 
