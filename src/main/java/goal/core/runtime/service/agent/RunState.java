@@ -18,6 +18,7 @@
 package goal.core.runtime.service.agent;
 
 import eis.exceptions.EnvironmentInterfaceException;
+import eis.iilang.Action;
 import eis.iilang.Percept;
 import goal.core.agent.Agent;
 import goal.core.agent.EnvironmentCapabilities;
@@ -187,7 +188,7 @@ public class RunState<D extends Debugger> {
 	public RunState(AgentId agentName, EnvironmentCapabilities environment,
 			MessagingCapabilities messaging, LoggingCapabilities logger,
 			AgentProgram program, D debugger, Learner learner)
-			throws KRInitFailedException {
+					throws KRInitFailedException {
 
 		this.environment = environment;
 		this.messaging = messaging;
@@ -297,7 +298,7 @@ public class RunState<D extends Debugger> {
 	 * @throws UnknownObjectException
 	 */
 	public void reset() throws KRInitFailedException, KRDatabaseException,
-			KRQueryFailedException, UnknownObjectException {
+	KRQueryFailedException, UnknownObjectException {
 		this.roundCounter = 0;
 		// Clean up old and create new initial mental state.
 		this.mentalState.cleanUp();
@@ -427,7 +428,7 @@ public class RunState<D extends Debugger> {
 				default:
 					throw new GOALBug(
 							"Received a message with unexpected mood: " //$NON-NLS-1$
-									+ message.getMood());
+							+ message.getMood());
 				}
 				this.getMentalState().updateGoalState(this.debugger, sender);
 			} catch (Exception e) {
@@ -596,7 +597,7 @@ public class RunState<D extends Debugger> {
 		this.incrementRoundCounter();
 		this.debugger.breakpoint(Channel.REASONING_CYCLE_SEPARATOR,
 				getRoundCounter(), " +++++++ Cycle " + getRoundCounter() //$NON-NLS-1$
-						+ " +++++++ "); //$NON-NLS-1$
+				+ " +++++++ "); //$NON-NLS-1$
 
 		// Get and process percepts.
 		this.processPercepts(newPercepts, this.previousPercepts);
@@ -749,8 +750,8 @@ public class RunState<D extends Debugger> {
 
 	public void doPerformAction(UserSpecAction action) {
 		try {
-			this.environment.performAction(this.mentalState.getState().convert(
-					action));
+			Action eis = this.mentalState.getState().convert(action);
+			this.environment.performAction(eis);
 		} catch (EnvironmentInterfaceException e) {
 			new Warning(String.format(
 					Resources.get(WarningStrings.FAILED_ACTION_EXECUTE),

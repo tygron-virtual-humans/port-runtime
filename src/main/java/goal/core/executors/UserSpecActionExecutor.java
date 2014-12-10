@@ -53,7 +53,7 @@ public class UserSpecActionExecutor extends ActionExecutor {
 
 		// Create instantiations and add to options.
 		final Set<Substitution> solutions = new HashSet<>(solutions1.size());
-		for (Substitution substitution : solutions) {
+		for (Substitution substitution : solutions1) {
 			// Check if first action is closed.
 			if (this.action.applySubst(substitution).isClosed()) {
 				solutions.add(substitution);
@@ -95,6 +95,7 @@ public class UserSpecActionExecutor extends ActionExecutor {
 	@Override
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
 		// Send the action to the environment if it should be sent.
+		System.out.println(this.action);
 		if (this.action.getExernal()) {
 			runState.doPerformAction(this.action);
 		}
