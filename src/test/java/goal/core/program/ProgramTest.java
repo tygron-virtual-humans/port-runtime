@@ -131,7 +131,7 @@ public abstract class ProgramTest {
 		QueryTool buildQuery = new QueryTool(agent);
 		MentalStateCondition mentalStateCondition;
 		try {
-			mentalStateCondition = buildQuery.parseMSC("result(X)");
+			mentalStateCondition = buildQuery.parseMSC("bel(result(X))");
 		} catch (Exception e) {
 			throw new IllegalStateException(
 					"Unexpected exception whilst building MSC", e);
@@ -167,7 +167,6 @@ public abstract class ProgramTest {
 		Var var = (Var) variables.toArray()[0];
 		Term value = substitution.get(var);
 
-		System.out.println("result:" + value);
 		return RunResult.get(value.toString());
 	}
 }
