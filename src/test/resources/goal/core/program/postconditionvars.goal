@@ -23,7 +23,7 @@ main module [exit=nogoals] {
 	}
 	
 	actionspec {
-		testaction {
+		testaction@int {
 		pre {aap(X)}
 		post { not(aap(X)), beer(X) }
 		}
