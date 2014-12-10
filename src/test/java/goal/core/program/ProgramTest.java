@@ -114,17 +114,13 @@ public abstract class ProgramTest {
 		String id = "TestAgent";
 		AgentProgram program = PlatformManager.createNew().parseGOALFile(
 				new File(goalFile), language);
-
 		assertTrue(program.isValid());
 
 		Agent<GOALInterpreter<Debugger>> agent = buildAgent(id, program);
-
 		agent.start();
 		agent.awaitTermination();
 
-		RunResult result = inspectResult(agent);
-
-		return result;
+		return inspectResult(agent);
 	}
 
 	protected abstract Agent<GOALInterpreter<Debugger>> buildAgent(String id,
@@ -137,19 +133,18 @@ public abstract class ProgramTest {
 		try {
 			mentalStateCondition = buildQuery.parseMSC("result(X)");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return RunResult.FAILURE;
+			throw new IllegalStateException(
+					"Unexpected exception whilst building MSC", e);
 		}
 
 		MentalState mentalState = agent.getController().getRunState()
 				.getMentalState();
 		Set<Substitution> res = new MentalStateConditionExecutor(
 				mentalStateCondition).evaluate(mentalState, new NOPDebugger(
-						agent.getId()));
+				agent.getId()));
 
 		// there should be exactly 1 substi.
-		if (res.size() == 0) {
+		if (res.size() < 1) {
 			throw new IllegalStateException(
 					"Program failed: it did not set a result");
 		}
@@ -161,9 +156,13 @@ public abstract class ProgramTest {
 		// value
 		Substitution substitution = ((Substitution) res.toArray()[0]);
 		Set<Var> variables = substitution.getVariables();
-		if (variables.size() != 1) {
+		if (variables.size() < 1) {
 			throw new IllegalStateException(
-					"Query failed: expected exactly 1 variable for query but got multiple");
+					"Query failed: it dod not set a result");
+		}
+		if (variables.size() > 1) {
+			throw new IllegalStateException(
+					"Query failed: it set multiple results (ony 1 allowed)");
 		}
 		Var var = (Var) variables.toArray()[0];
 		Term value = substitution.get(var);
