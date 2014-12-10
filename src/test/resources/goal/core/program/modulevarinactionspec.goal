@@ -18,7 +18,7 @@ module test(X) [focus=new, exit=always] {
 	}
 	
 	actionspec {
-		action {
+		action@int {
 		   pre{ true }
 		   post{ aap(X) }
 		}
