@@ -1,0 +1,16 @@
+environment{
+ env = "bw4t-client-3.7.1-SNAPSHOT-jar-with-dependencies.jar" .
+	% insert proper initialization parameters and values on the next line, or remove it.
+ init = [ clientip ="localhost", clientport="2000", serverip = "localhost", serverport = "8000", agentcount = "0", humancount = "3", launchgui = "true", goal = "true", goalhuman="true" ] .
+}
+
+agentfiles{
+	% insert (list of) agent file references below.
+	"humanbot.goal" [name = robot] .
+}
+
+launchpolicy{
+	% insert appropriate launch rules for your environment and agents below.
+	when [type=human, max=3]@env do launch * : robot .
+}
+

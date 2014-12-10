@@ -1,0 +1,8 @@
+agentfiles{
+   "helloWorldAgent.goal" .
+}
+
+launchpolicy{
+   launch helloWorldAgent : helloWorldAgent .
+}
+

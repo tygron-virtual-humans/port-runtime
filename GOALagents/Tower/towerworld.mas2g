@@ -1,0 +1,11 @@
+environment  {
+	env = "tower-1.1.0-r2014-10-30.jar".
+}
+	
+agentfiles {
+	"towerbuilder.goal".
+}
+
+launchpolicy {
+    when entity@env do launch gripper:towerbuilder.
+}

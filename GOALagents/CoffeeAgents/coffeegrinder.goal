@@ -1,0 +1,38 @@
+% The coffee grinder is a machine that is capable of grinding coffee beans into grounds.
+% For making grounds it needs coffee beans (see imported coffee.pl). Whenever it needs
+% beans it will request another machine it knows that can provide beans to provide those
+% (see imported event.mod2g). It will learn this by asking all other agents what they can
+% provide. The coffee grinder is very cooperative and will always provide what other
+% machines need if it has what is requested for, or, alternatively, adopt a goal to make
+% what is requested.
+
+init module {
+    knowledge {
+		#import "coffee.pl".
+    }
+    beliefs {
+        canMake(grinder, [grounds]).
+    }
+	program{
+		if true then event .
+	}
+    % Initially, the coffee grinder machine has no goals.
+    actionspec {
+		% A Product can be made if we have all the required Ingredients and this machine has the ability to make it.
+        make(Product)@int {
+            pre { me(Me), canMakeIt(Me, Product), forall(requiredFor(Product, Ingredient), have(Ingredient)) }
+            post { have(Product) }
+        }
+    }
+}
+    
+main module {
+	program {
+		% If we want to have a Product, then make it.
+		% Note that the action's precondition checks if we have what it takes.
+		if a-goal( have(Product) ) then make(Product).
+	}
+}
+
+% The coffeegrinder and coffeemaker agents both share the same event module.
+#import "event.mod2g".

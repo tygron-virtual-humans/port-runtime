@@ -1,0 +1,17 @@
+masTest{
+	
+	mas = "HelloWorld10x.mas2g".
+	timeout = 0. % seconds
+	
+	helloWorldAgent {
+		testPrinted10x {
+			do print("Test that agent prints Hello, world! 10 times:").
+			
+			assert bel(nrOfPrintedLines(0)) : "counter should be initially 0".
+
+			evaluate {
+				atend bel(nrOfPrintedLines(10)).
+			} in do main.
+		}
+	}
+}

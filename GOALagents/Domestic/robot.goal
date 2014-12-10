@@ -1,0 +1,102 @@
+init module {
+	beliefs{
+		% The amount of beer in stock.
+		beerstock(unknown).
+		
+		% Holds if the fridge is closed; otherwise fridge is open.
+		fridgeclosed.
+		
+		% holdingbeer. set when robot is holding a beer. 
+		% Note that there is no percept informing the agent that a beer
+		% is being hold and the agent needs to keep track of this itself.
+
+		% ownerhasbeer. Holds if the owner has his beer.
+	}
+	goals{
+		% The following goals may be adopted:
+		% - holdingbeer: have beer in hands.
+		% - servebeer : bring beer to owner.
+	}
+	actionspec{
+		% Opens the fridge if robot is at fridge and not holding a beer.
+		open(F) {
+			pre { F==fridge, not(holdingbeer), at(fridge), fridgeclosed }
+			post { not(fridgeclosed) }
+		}
+		% Grabs a beer from fridge if robot is not holding a beer already
+		% and the fridge is open.
+		get(B) {
+			pre { B==beer, not(holdingbeer), at(fridge), not(fridgeclosed) }
+			post { holdingbeer }
+		}
+		% Closes the fridge. MUST HOLD BEER!?!?
+		close(F) {
+			pre { F==fridge, holdingbeer, at(fridge), not(fridgeclosed) }
+			post { fridgeclosed }
+		}
+		% Hands over beer to owner if robot is holding beer and close to (at) owner.
+		hand_in(B) {
+			pre { B==beer, holdingbeer, at(owner) }
+			post { not(holdingbeer) }
+		}
+		% Moves towards a place. FRIDGE MUST BE CLOSED!?!?
+		move_towards(Place) {
+		   pre{ fridgeclosed }
+		   post{ true }
+		}
+	}
+}
+
+main module {
+	program[order=random] {
+		% always prepare to serve beer.
+		if bel( not(holdingbeer) ) then adopt( holdingbeer ).		
+		if bel( not(servebeer), not(ownerhasbeer) ) then adopt( servebeer ).
+		
+		if a-goal( holdingbeer ) then getbeer.
+		if bel( holdingbeer ), a-goal( servebeer ) then servebeer.
+	}
+}
+
+% Get a beer from the fridge.
+module getbeer [exit=noaction] {
+	program {
+		if bel( not(at(fridge)) ) then move_towards(fridge).
+		% we reached fridge.
+		if bel( fridgeclosed ) then open(fridge).
+		% fridge is open
+		if bel( not(holdingbeer) ) then get(beer).
+		% got the beer.
+		if bel( not(fridgeclosed) ) then close(fridge).
+		% done.
+	}
+}
+
+% Serve beer to owner.
+module servebeer [exit=noaction]{
+	program {
+		if bel( not(at(owner)) ) then move_towards(owner).
+		% reached the owner
+		if bel( not(ownerhasbeer) ) then hand_in(beer).
+		% done.
+	}
+}
+
+event module {
+	program {
+		% Update at percept.
+		forall bel( at(X) ) do insert( not(at(X)) ).
+		forall bel( percept( at(robot,X) ) ) do insert( at(X) ).
+		
+		% Update stock percept. Only update when we receive an update,
+		% so this always stores the last percept.
+		% Because we're the only one accessing the fridge, this should
+		% match the actual stock.
+		if bel( beerstock(OldN), percept(stock(beer(N))) )
+			then insert( not(beerstock(OldN)), beerstock(N) ).
+		
+		% Update ownerhasbeer. Assumes full observability.
+		if bel( ownerhasbeer ) then delete( ownerhasbeer ).
+		if bel( percept(has(owner,beer)) ) then insert( ownerhasbeer ).
+	}
+}

@@ -1,0 +1,9 @@
+agentfiles {
+    "coffeemaker.goal".
+	"coffeegrinder.goal".
+}
+
+launchpolicy {
+    launch maker:coffeemaker.
+    launch grinder:coffeegrinder.
+}

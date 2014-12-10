@@ -1,0 +1,23 @@
+init module {
+	actionspec {
+		push {
+			pre { true } post { true }
+		}
+		wait {
+			pre { true } post { true }
+		}
+	}
+}
+
+main module {
+	program [order=random] {
+		if true then push.
+		if true then wait.
+	}
+}
+
+event module {
+	program {
+		forall bel(percept(carriagePos(X))) do insert(carriagePos(X)).
+	}
+}

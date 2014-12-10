@@ -1,0 +1,18 @@
+% MAS that launches a simple script agent that prints a script to the standard output.
+% The HelloWorldEnvironment.jar file is used to enable the agent to print text. This
+% environment returns information via percepts about the last text printed and the number
+% of times the printText action has been performed.
+
+environment{
+	env = "HelloWorldEnvironment.jar".
+}
+
+agentfiles{
+	% Simple Hello World Agent that prints 'Hello world' message. 
+	"ScriptAgent.goal" .
+}
+
+launchpolicy{
+	when entity@env do launch scriptAgent : ScriptAgent.
+}
+

@@ -1,0 +1,14 @@
+environment {
+	env  = "wumpusworld-1.1.1-r2014-11-25.jar".
+	
+	init = [file = "WumpusWorlds/wumpus1.wld"].
+}
+
+agentfiles {
+	"wumpus.goal" [name=wumpus].
+}
+
+launchpolicy {
+    when entity@env do launch *:wumpus.
+}
+

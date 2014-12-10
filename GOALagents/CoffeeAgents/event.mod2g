@@ -1,0 +1,48 @@
+%%%%% Event module shared by agents that are part of the coffee.mas2g multi-agent system. %%%%%
+
+event module {
+    program {
+		%%%%% Process received messages %%%%%
+		
+		% Believe what other machines say they can make (if multiple answers are provided we store all of them).
+		forall bel( received(Sender, canProvide(Sender, Products)) ) do insert( canProvide(Sender, Products) ) .
+		% Believe what other machines say they have and can provide (telling and providing is taken to be the same here).
+		forall bel( received(Sender, have(Product)) ) do insert( have(Product) ) .
+
+
+		%%%%% Goal management %%%%%
+		
+		% If a machine told us it needs an ingredient and we can make it, then adopt a goal to make it.
+		forall bel( received(Sender, imp(have(Ingredient))), me(Me), canProvideIt(Me, Ingredient) )
+			do adopt( have(Ingredient) ) .
+		% If we need an ingredient for making a product, adopt a goal to have it (only if we do not have it yet).
+		forall goal( have(Product) ), bel( requiredFor(Product, Ingredient) ) do adopt( have(Ingredient) ) .
+
+
+		%%%%% Send messages to other machines %%%%%
+		
+		% Ask all other machines what they can provide.
+		if true then allother.sendonce( ?canProvide(_, _) ) .
+		% Answer questions about what we can make.
+		forall bel( received(Sender, int(canProvide(_, _))), me(Me), canProvide(Me, Products) )
+			do Sender.sendonce( :canProvide(Me, Products) ) .
+		% If a machine told us it needs an ingredient and we have it, tell it so
+		% (and delete the request because we served it as telling is taken to be the same as providing here).
+		forall bel( received(Sender, imp(have(Ingredient))), have(Ingredient) ) 
+			do Sender.sendonce( :have(Ingredient) ) + delete( received(Sender, imp(have(Ingredient))) ).
+		% If we want to have a product we cannot make ourselves, then ask for it.
+		forall goal( have(Product) ) do {
+			% If it's a raw product and we know a machine that can provide it, ask that machine.
+			if bel( rawProduct(Product), canProvideIt(Machine, Product) ) then Machine.sendonce( !have(Product) ) .
+			% Also ask for help of another machine that can provide an ingredient that we cannot provide ourselves.
+			if bel( requiredFor(Product, Ingredient), me(Me), not(canProvideIt(Me, Ingredient)),
+					canProvideIt(Machine, Ingredient) )
+				then Machine.sendonce( !have(Ingredient)) .
+		}
+			
+		% Delete all indicative messages we received from the mail box (we've already used these to update our beliefs).
+		% Because questions and requests cannot always be handled immediately, as we may need time to collect information
+		% to answer questions and to process requests, we do not delete these types of messages.
+		forall bel( received(Sender, Message), indicative(Message) ) do delete( received(Sender, Message) ) .
+	}
+}

@@ -1,0 +1,10 @@
+environment{
+	env = "carriage-0.5.2-r2014-10-30.jar".
+}
+agentfiles{
+	"Carriage.goal".
+}
+
+launchpolicy{
+	when entity@env do launch Carriage.
+}

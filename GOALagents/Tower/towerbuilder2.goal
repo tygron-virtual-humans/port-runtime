@@ -1,0 +1,127 @@
+init module{
+	knowledge{
+		% Assume there is enough room to put all blocks on the table.
+		% This is actually only true for up to 13 blocks in the Tower Environment.
+		clear(table) .
+       	clear(X) :- block(X), not( on(_, X) ), not( holding(X) ).
+		
+		above(X, Y) :- on(X, Y).
+		above(X, Y) :- on(X, Z), above(Z, Y).
+		
+		tower([X]) :- on(X, table).
+		tower([X, Y | T]) :- on(X, Y), tower([Y | T]).
+	}
+	
+	% The agent has no initial beliefs. Beliefs about the initial configuration must be derived
+	% from the percepts which the agent will receive.
+	
+	goals{
+		% The use of the 'maintain' predicate ensures that the goal will never be dropped.
+		on(a,b), on(b,c), on(c,table), on(d,e), on(e,f), on(f,table), maintain .
+		% on(a,b), on(b,c), on(c,table) .
+		% on(a,b), on(b,c), on(c,d), on(d,table) .
+		% on(d,c), on(c,b), on(b,a), on(a,table) .
+		% on(a,b), on(b,table) .
+		% on(a,b), on(b,c), on(c,table), on(d,e), on(e,f), on(f,table) .
+		% on(a,b), on(b,c), on(c,d), on(d,table), on(e,f), on(f,g), on(g,table), on(h,i), on(i,j), on(j,table) .
+	}
+	program{
+		% moving X on top of Y is a constructive move if that move results in X being in position.
+		#define constructiveMove(X, Y) a-goal( tower([X, Y | T]) ), bel( tower([Y | T]), clear(Y), (clear(X) ; holding(X)) ) .
+	}
+	actionspec{
+		% A block X can be pickep up if it is clear and the gripper is not holding a block already.
+		% Picking up a block takes time because the gripper must be moved to the block first (pickup
+		% is a durative action). For this reason, the postcondition is empty (true) instead of holding(X).
+		% That the gripper is holding a block will be derived from the percepts which the agent receives.
+		pickup(X) {
+		   pre{ clear(X), not( holding(_) ) } 
+		   post{ true }
+		}
+		
+		% A block X can be put down on a block Y if the gripper is holding X and block Y is clear.
+		% Putting down a block takes time because the gripper must be moved to block Y.
+		putdown(X, Y) {
+		pre { holding(X), clear(Y) }
+			post { true }
+		}
+		
+		% The 'nil' action can always be performed. It moves the gripper back to its 'home position', i.e.
+		% to the left upper corner. Moving the gripper to its home position takes time. The postcondition
+		% is empty for this reason but also because we do not (and cannot) keep track of the gripper's position.
+		nil {
+			pre { true }
+			post { true }
+		}
+	}
+}
+	
+main module{
+	program{
+		% pick up a block if you can and want to.
+		if a-goal( holding(X) ) then pickup(X).
+		
+		% put a block you're holding down, ideally where you want it, but otherwise put it on the table.
+		if bel( holding(X) ) then {
+			if constructiveMove(X,Y) then putdown(X, Y).
+			if true then putdown(X, table).
+		}
+
+		% otherwise, there is nothing to do, so we can move the gripper to the top left corner.
+		% no need to check whether we're holding a block because of linear order.
+		if true then nil.
+	}
+}
+
+event module{
+	program{
+		% a block is *in position* if it achieves a goal.
+		#define inPosition(X) goal-a( tower([X| T]) ).
+		
+		% first, process percepts from Tower World environment.
+		% rules below assume full observability.
+		forall bel( block(X), not( percept( block(X) ) ) ) do delete( block(X) ).
+		forall bel( percept( block(X) ), not( block(X) ) ) do insert( block(X) ).
+		
+		forall bel( holding(X), not( percept( holding(X) ) ) ) do delete( holding(X) ).
+		forall bel( percept( holding(X) ), not( holding(X) ) ) do insert( holding(X) ).
+		
+		forall bel( on(X, Y), not( percept( on(X,Y))) ) do delete( on(X, Y) ).
+		forall bel( percept( on(X, Y) ), not( on(X, Y) ) ) do insert( on(X, Y) ).
+		
+		% check for reasons to drop or adopt a goal (goal management).
+		if goal( holding(X) ) then {
+			% first reason: cannot pick up block X because it's not clear.
+			if bel( not( clear(X) ) ) then drop( holding(X) ).
+			% second reason: cannot pick up block X because now holding other block!
+			if bel( holding(_) ) then drop( holding(X) ).
+			% third reason: block X is already in position, don't touch it.
+			if inPosition( X ) then drop( holding(X) ).
+			% fourth reason: we can do better by moving another block constructively.
+			listall L <- constructiveMove(Y,Z) do {
+			  if bel( not( L=[] ), not( member([X,_],L) ) ) then drop( holding(X) ).
+			}
+		}
+		
+		% adopt new goal only after cleaning up.
+		% rules for adopting the goal to hold a block in module with linear order.
+		% holding(X) is a *single instance goal* to maintain focus.
+		if not(goal( holding(X) )), not(bel( holding(Y) )) then adoptgoal.
+	}
+}
+
+module adoptgoal{
+	% order=linear: adopt at most one goal to hold a block at any one time.
+	% the gripper is limited and cannot hold more than one block.
+	program{
+		% a block X is an obstructing block if it prevents moving a block Y in position
+		% either because there is a block above the target block,
+		% or because a block above Y prevents moving it.
+		#define obstructingBlock(X) a-goal( on(Y, Z) ), bel( above(X, Z); above(X, Y) ).
+		
+		% prefer making constructive moves.
+		if constructiveMove(X, Y) then adopt( holding(X) ).
+		% if no constructive move can be made aim for moving obstructing block.
+		if obstructingBlock(X) then adopt( holding(X) ).
+	}
+}

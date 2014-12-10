@@ -1,0 +1,12 @@
+environment{
+	env = "tower-1.1.0-r2014-10-30.jar" .
+}
+
+agentfiles{
+	"towerbuilder2.goal" [name = builder] .
+}
+
+launchpolicy{
+	when entity@env do launch towerBuilder : builder .
+}
+

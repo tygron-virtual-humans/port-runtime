@@ -1,0 +1,71 @@
+init module {
+	
+    knowledge {
+        ordered(C,P) :- order(C,Y), member(P,Y).
+        loaded_order(C) :- order(C,O), loaded(O).
+		loaded([P]) :- in(P, truck).
+		loaded([P|L]) :- in(P,truck), loaded(L).
+		empty :- not(in(P,truck)).
+		%packed :- in(P, truck), in(P1, truck), not(P=P1).
+		packed :- setof(P,in(P,truck),L), length(L,X), X>=2.
+		%delivered_order(C) :- order(C,O),loc(C,X),orderloc(O,X),loc(truck,a).
+		delivered_order(C) :- order(C,O),loc(C,X),orderloc(O,X).
+		orderloc([H|T], X) :- loc(H,X), orderloc(T,X).     
+		orderloc([], X). 
+	}
+	beliefs { 
+		% a is home
+		home(a).
+		% location of packages
+		loc(p1,a). loc(p2,a). loc(p3,a). loc(p4,a). 
+		% location of truck
+		loc(truck,a).  
+		% orders
+		order(c1,[p1,p2]). order(c2,[p3,p4]).
+		% location of customers
+		loc(c1,b). loc(c2,c).
+    }
+	goals {
+		delivered_order(c1).
+		delivered_order(c2).
+	}
+	actionspec{
+		load(P){
+			pre{ not(packed), loc(truck,X), loc(P,X) }
+			post{ in(P,truck), not(loc(P,X)) }
+		}
+		goto(Y){
+			pre{ loc(truck,X), not(X=Y) }
+			post{ loc(truck,Y), not(loc(truck,X))}
+		}
+		unload(P){
+			pre{ in(P,truck), loc(truck,X) }
+			post{ loc(P,X), not(in(P,truck)) } 
+		}
+
+	}
+}
+
+main module {
+	program {
+		% you can always go home
+		if bel(home(X)) then goto(X).
+		
+		if  goal(delivered_order(C)) then deliverOrder.
+
+	}
+}
+
+module deliverOrder[focus = filter, exit = nogoals] {
+	% deliver packages for one customer at a time (focusmethod option is just an example; 'select' is the default value)
+	program {
+		% only load packages for the current customer, and do not re-load packages just unloaded to the customer
+		if goal(delivered_order(C)), bel(ordered(C, P), loc(C, X)), not(bel(in(P, truck))), not(bel(loc(truck, X))) then load(P).
+		% go to the customer iff the truck is full 
+		if goal(delivered_order(C)), bel(loc(truck, X), loaded_order(C), loc(C, Y)) then goto(Y).
+		% deliver packages when the truck has arrived
+		if goal(delivered_order(C)), bel(loc(truck, X), loc(C, X), in(P, truck), ordered(C, P)) then unload(P).
+		% go back home if the truck is empty
+		if bel(empty, home(Y)) then goto(Y).
+	}
+}

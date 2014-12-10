@@ -1,0 +1,41 @@
+% The coffee machine's main function is to supply a user with nice steaming fresh cups of
+% coffee. It knows how to make coffee and espresso. For making coffee it needs grounds
+% (see imported coffee.pl). Whenever it needs grounds it will request another machine it
+% knows that can provide grounds to provide those (see imported event.mod2g). It will
+% learn this by asking all other agents what they can provide. The coffee machine is very
+% cooperative and will always provide what other machines need if it has what is requested
+% for, or, alternatively, adopt a goal to make what is requested.
+
+init module {
+    knowledge {
+		#import "coffee.pl".
+    }
+    beliefs {
+        have(water). have(beans).
+        canMake(maker, [coffee, espresso]).
+    }
+    goals {
+        have(coffee).
+    }
+	program{
+		if true then event .
+	}
+    actionspec {
+		% A Product can be made if we have all the required Ingredients and this machine has the ability to make it.
+        make(Product)@int {
+            pre { me(Me), canMakeIt(Me, Product), forall(requiredFor(Product, Ingredient), have(Ingredient)) }
+            post { have(Product) }
+        }
+    }
+}
+
+main module[exit=nogoals] {
+	program {
+		% If we want to have a Product, then make it.
+		% Note that the action's precondition checks if we have what it takes.
+		if a-goal( have(Product) ) then make(Product).
+	}
+}
+
+% The coffeegrinder and coffeemaker agents both share the same event module.
+#import "event.mod2g".

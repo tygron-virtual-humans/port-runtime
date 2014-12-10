@@ -1,0 +1,14 @@
+environment{
+	env = "bw4t-client-3.7.1-SNAPSHOT-jar-with-dependencies.jar".
+
+	init = [ clientip ="localhost", clientport="2000", serverip = "localhost", serverport = "8000", agentcount = "3", humancount = "0", launchgui = "false", goal = "true"].
+}
+
+agentfiles{
+	"robot.goal" [name = robot].
+}
+
+launchpolicy{
+	when [max=3]@env do launch * : robot.
+}
+

@@ -1,0 +1,118 @@
+init module {
+	knowledge{
+		% Assume there is enough room to put all blocks on the table.
+		% This is actually only true for up to 13 blocks in the Tower Environment.
+		clear(table).
+       	clear(X) :- block(X), not( on(Y, X) ), not( holding(X) ).
+		clear([X|_]) :- clear(X).
+		
+		above(X, Y) :- on(X, Y).
+		above(X, Y) :- on(X, Z), above(Z, Y).
+		
+		tower([X]) :- on(X, table).
+		tower([X, Y| T]) :- on(X, Y), tower([Y| T]).
+	}
+	
+	% The agent has no initial beliefs. Beliefs about the initial configuration must be derived
+	% from the percepts which the agent will receive.
+	
+	goals{
+		% The use of the 'maintain' predicate ensures that the goal will never be dropped.
+		on(a,b), on(b,c), on(c,table), on(d,e), on(e,f), on(f,table), maintain.
+		% on(a,b) on(b,c), on(c,table).
+		% on(a,b), on(b,c), on(c,d), on(d,table).
+		% on(d,c), on(c,b), on(b,a), on(a,table).
+		% on(a,b), on(b,table).
+		% on(a,b), on(b,c), on(c,table), on(d,e), on(e,f), on(f,table).
+		% on(a,b), on(b,c), on(c,d), on(d,table), on(e,f), on(f,g), on(g,table), on(h,i), on(i,j), on(j,table).
+	}
+	
+	actionspec {
+		% A block X can be pickep up if it is clear and the gripper is not holding a block already.
+		% Picking up a block takes time because the gripper must be moved to the block first (pickup
+		% is a durative action). For this reason, the postcondition is empty (true) instead of holding(X).
+		% That the gripper is holding a block will be derived from the percepts which the agent receives.
+		pickup(X) {
+		   pre{ clear(X), not( holding(_) ) } 
+		   post{ true }
+		}
+		
+		% A block X can be put down on a block Y if the gripper is holding X and block Y is clear.
+		% Putting down a block takes time because the gripper must be moved to block Y.
+		putdown(X, Y) {
+			pre { holding(X), clear(Y) }
+			post { true }
+		}
+		
+		% The 'nil' action can always be performed. It moves the gripper back to its 'home position', i.e.
+		% to the left upper corner. Moving the gripper to its home position takes time. The postcondition
+		% is empty for this reason but also because we do not (and cannot) keep track of the gripper's position.
+		nil {
+			pre { true }
+			post { true }
+		}
+	}
+}
+
+main module {
+	program {
+		% a block is misplaced if it is not in position.
+		% #define misplaced(X) a-goal( tower([X|T]) ).
+		% a block X is an obstructing block if it prevents moving a block Y in position
+		% either because there is a block above the target block,
+		% or because a block above Y prevents moving it.
+		#define obstructingBlock(X) a-goal( on(Y,Z) ), bel( above(X,Z); above(X,Y) ).
+		% moving X on top of Y is a constructive move if that move results in X being in position.
+		#define constructiveMove(X,Y) a-goal( tower([X,Y|T]) ), bel( tower([Y|T]), clear(Y), (clear(X) ; holding(X)) ).
+		% a block is *in position* if it achieves a goal.
+		#define inPosition(X) goal-a( tower([X|T]) ). 
+		
+		% PART 1: Think before you act...
+		
+		% if holding block without any target, the agent should put it on the table.
+		if not(goal( target(Z1, Z2) )), bel( holding(X) ) then adopt( target(X, table) ).
+		
+		% set target, perform constructive moves first.
+		if not(goal( target(Z1, Z2) )), constructiveMove(X, Y) then adopt( target(X, Y) ).
+		% move obstructing (including misplaced) blocks to the table.
+		if not(goal( target(Z1, Z2) )), obstructingBlock(X), bel( clear(X) ) then adopt( target(X, table) ).
+		
+		% if goal has been achieved, then drop it.
+		if goal( target(X, Y) ), bel( on(X, Y) ) then drop( target(X, Y) ).
+		
+		% configuration has changed, check whether there is a reason to drop the target.
+		% first reason: if block now is in position, then drop any targets for block.
+		if goal( target(X,Y) ), inPosition(X) then drop( target(X,Y) ).
+		% second reason: target block to be moved can no longer be moved (block cannot be picked up).
+		if goal( target(X,Y) ), bel( (not(clear(X)), not(holding(X))) ; (holding(Z), not(Z=X))  ) then drop( target(X,Y) ).
+		% third reason: target tower no longer exists, and planned move is no longer constructive.
+		if goal( target(X,Y), not(Y = table) ), a-goal( tower([X,Y|T]) ), not(bel( tower([Y|T]) )) then drop( target(X,Y) ).
+		% fourth reason: target location is no longer clear.
+		if goal( target(X,Y) ), bel( not(clear(Y)) ) then drop( target(X,Y) ).
+		% fifth reason: constructive move has become available for targeted block.
+		if goal( target(X,table) ), constructiveMove(X,Y) then drop( target(X,table) ) + adopt( target(X,Y) ).
+		
+		% PART 2: ...and then act.
+		
+		% perform action in environment.
+		if goal( target(X,Y) ) then pickup(X).
+		if goal( target(X,Y)) then putdown(X,Y).
+
+		% otherwise, there is nothing to do, so we can move the gripper to the top left corner.
+		if true then nil.
+	}
+}
+
+event module {
+	program {
+		% assumes full observability
+		forall bel( block(X), not(percept(block(X))) ) do delete( block(X) ).
+		forall bel( percept(block(X)), not(block(X)) ) do insert( block(X) ).
+		
+		forall bel( holding(X), not(percept(holding(X))) ) do delete( holding(X) ).
+		forall bel( percept(holding(X)), not(holding(X)) ) do insert( holding(X) ).
+		
+		forall bel( on(X,Y), not(percept(on(X,Y))) ) do delete( on(X,Y) ).
+		forall bel( percept(on(X,Y)), not(on(X,Y)) ) do insert( on(X,Y) ).
+	}
+}

@@ -1,0 +1,20 @@
+init module {
+	beliefs{
+	}
+	goals{
+	}
+	actionspec{
+		% not(on(X,Y)) in precondition to prevent moving a block on the table to another place on the table.
+		deliver(B, N) {
+		   pre{ B=beer  }
+		   post{ true }
+		}
+	}
+}
+
+main module {
+	program[order=random] {
+		if bel(true) then deliver(beer, 1).
+	}
+}
+

@@ -1,0 +1,96 @@
+init module{
+    knowledge{       
+        % basic predicates.
+        % pos/1: pos(Pos) is true if Pos is in the range 1 to 9 where these numbers
+        % denote the corresponding square in Table \ref{table:nrtictactoe}.
+        pos(Pos) :- between(1, 9, Pos).
+		
+        free(Pos) :- pos(Pos, empty).
+        free(List, Pos) :- member(Pos, List), pos(Pos,empty).
+		
+		% it's my turn if I perceive it's my turn.
+		turn(Player) :- percept(turn(Player)).
+
+        % definitions for 'corner', 'center', 'edge', and 'line'.
+        % A line is a diagonal, row, or column.
+        corner(1). corner(3). corner(7). corner(9). center(5).
+        % edge(2). edge(4). edge(6). edge(8).
+        line(A, B, C) :- pos(A), pos(B), pos(C), B is A+1, C is B+1, 0 is C mod 3.
+        line(A, B, C) :- pos(A), pos(B), pos(C), B is A+3, C is B+3.
+        line(1, 5, 9). line(3, 5, 7).
+        % a line is winning if all squares are occupied by me (player/1)
+        winning_line(Player,A,B,C) :- me(P), line(A, B, C), pos(A, P), pos(B, P), pos(C, P).
+        % a winning move can be made if there are already two squares occupied by me
+        % and the third one in line is still free.
+        winning_move(Player, Pos) :- line(A, B, C), pos(A, Pa), pos(B, Pb), pos(C, Pc),
+            count([Pa,Pb,Pc], Player, 2), free([A, B, C], Pos).
+		% a possible winning combination consists of a line where only one position has been occupied by player
+		possible_winning_move(Player, [A, B, C], Pos) :- line(A, B, C), pos(A, Pa), pos(B, Pb), pos(C, Pc),
+            count([Pa,Pb,Pc], Player, 1), count([Pa,Pb,Pc], empty, 2), free([A, B, C], Pos).
+		% a fork consists of two *different* lines which both have possible winning moves
+		fork(Player, Pos) :- possible_winning_move(Player, [A, B, C], Pos),
+			possible_winning_move(Player, [D, E, F], Pos), intersection([A, B, C], [D, E, F], L), not(length(L, 3)).
+
+		% helper functions
+        count([], A, 0).
+        count([A|T], A, C) :- count(T, A, TC), C is TC+1.
+        count([B|T], A, C) :- not(A=B), count(T, A, C).
+        % my opponent is the player that I am not
+		% (i.e. if I am playing O's, then my opponent is playing X's, and vice versa.)
+        opponent(Opponent) :- agent(Opponent), not(me(Opponent)).
+    }
+
+    program{
+		% set a goal to win.
+        if bel( me(Player) ) then adopt( winner(Player) ).
+		% if I am X player, then make a first random move.
+		if true then occupy(Pos).
+    }
+    
+    actionspec{
+		% Pre-condition: A position on the board can be occupied if it is free and it's my turn.
+		% Effect: The position on the board is occupied by me.
+		% Post-condition: true because the effect is fully observable.
+        occupy(Pos) {
+          pre{ free(Pos), me(Player), turn(Player) }
+          post{ true }
+        }
+    }
+}
+
+main module{
+    program{
+		% if game has ended, exit.
+		if bel( draw; winner(_) ) then exit-module.
+		
+        % if I can make a winning move, do it.
+        if bel( me(Player), winning_move(Player, Pos) ) then occupy(Pos).
+        % if my opponent can make a winning move, block that move.
+        if bel( opponent(Opponent), winning_move(Opponent, Pos) ) then occupy(Pos).
+        % If I can make a move that will set up a fork for myself, do it.
+		% if bel( me(Player), fork(Player, Pos) ) then occupy(Pos).
+        % If I can make a move that will set up a winning combination for myself, do it.
+        % But ensure that this move does not force the opponent into establishing a fork.
+		% if bel( me(Player), possible_winning_move(Player, Line, Pos), free(Line, Pos2), not(Pos=Pos2),
+		%	opponent(Opponent), not(fork(Opponent, Pos2)) ) then occupy(Pos).
+        % if either the center or a corner is still free, occupy one of these squares.
+        if bel( center(Pos) ) then occupy(Pos).
+        if bel( corner(Pos) ) then occupy(Pos).
+        % otherwise, occupy a random free square.
+        if true then occupy(Pos).
+    }
+}
+
+event module{
+    program{
+		% pos/2: pos(Pos, Player) means that square Pos is occupied and marked by Player (either 'x' or 'o').
+        % pos(Pos, empty) means square Pos is empty and the square is still free.
+		% pos/2 is fully observable and continuously so.
+		forall bel( pos(Pos, Player), not(percept(pos(Pos, Player))) ) do delete( pos(Pos, Player) ).
+		forall bel( percept(pos(Pos, Player)) ) do insert( pos(Pos, Player) ).
+		
+		% End of game update: did we win, loose, or draw?
+        forall bel( percept(winner(Player)) ) do insert( winner(Player) ).
+        forall bel( percept(draw) ) do insert( draw ).
+    }
+}

@@ -1,0 +1,17 @@
+module message[exit=always] {
+	program {		
+		% we still need to translate these messages.
+		forall bel(received(Agt,Mess), translate(Agt,Mess,Transl), strjoin([Agt, ' says'],WhoSays)) 
+		do sendToGUI(WhoSays,Transl)+delete(received(Agt,Mess)).
+
+		% handle user's request to send message.
+		forall bel(percept(sendMessage(Receiver,Mess)), me(Me), translate(Me,Mess,Transl))
+		do Receiver.send(Mess) + sendToGUI('I say',Transl).
+	}
+	actionspec {
+		sendToGUI(Sender,Message) {
+			pre { true }
+			post { }
+		}	
+	} 
+}
