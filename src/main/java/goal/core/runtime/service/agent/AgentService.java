@@ -484,7 +484,11 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 			} else {
 				this.applicationCount.put(launchRule, appCount);
 			}
-			if (appCount < launchRule.getMaxNumberOfApplications()) {
+			int max = launchRule.getMaxNumberOfApplications();
+			if (max < 1) {
+				max = Integer.MAX_VALUE;
+			}
+			if (appCount < max) {
 				this.applicationCount.put(launchRule, ++appCount);
 				for (Launch launch : launchRule.getInstructions()) {
 					try {
@@ -574,8 +578,8 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 * @throws UnknownObjectException
 	 */
 	public synchronized void reset() throws InterruptedException,
-			KRInitFailedException, KRDatabaseException, KRQueryFailedException,
-			UnknownObjectException {
+	KRInitFailedException, KRDatabaseException, KRQueryFailedException,
+	UnknownObjectException {
 		for (Agent<C> a : this.agents.local()) {
 			a.reset();
 		}
