@@ -42,7 +42,7 @@ public class SingleRun extends AbstractRun<Debugger, GOALInterpreter<Debugger>> 
 	}
 
 	private class SingleRunAgentFactory extends
-	AbstractAgentFactory<Debugger, GOALInterpreter<Debugger>> {
+			AbstractAgentFactory<Debugger, GOALInterpreter<Debugger>> {
 
 		public SingleRunAgentFactory(MessagingService messaging) {
 			super(messaging);

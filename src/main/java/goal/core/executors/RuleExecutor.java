@@ -74,7 +74,7 @@ public class RuleExecutor {
 			// rule is evaluated using all goals in current attention set.
 			substset = new MentalStateConditionExecutor(
 					this.rule.getCondition()).evaluate(substitution,
-					mentalState, debugger);
+							mentalState, debugger);
 		}
 
 		// If condition does not hold (no solutions), then report and return.
@@ -136,7 +136,7 @@ public class RuleExecutor {
 					List<SingleGoal> validatingGoals = substGoalLinks
 							.get(subst);
 					runState.setFocusGoal(validatingGoals.get(new Random()
-							.nextInt(validatingGoals.size())));
+					.nextInt(validatingGoals.size())));
 				}
 
 				result.merge(executor.run(runState, subst, i == max));

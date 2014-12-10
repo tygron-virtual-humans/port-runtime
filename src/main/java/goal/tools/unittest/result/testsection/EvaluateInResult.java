@@ -9,8 +9,8 @@ import java.util.List;
 import languageTools.program.test.testsection.EvaluateIn;
 
 /**
- * Stores the result of the {@link TestConditionExecutor}s evaluated while executing an
- * action.
+ * Stores the result of the {@link TestConditionExecutor}s evaluated while
+ * executing an action.
  *
  * The test is considered passed if all evaluators passed.
  *

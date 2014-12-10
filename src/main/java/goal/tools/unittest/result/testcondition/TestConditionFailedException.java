@@ -5,8 +5,8 @@ import goal.tools.unittest.testcondition.executors.TestConditionEvaluator;
 import goal.tools.unittest.testcondition.executors.TestConditionExecutor;
 
 /**
- * Exception thrown when the {@link TestConditionExecutor} fails. This is an unchecked
- * exception to allow evaluation to end immediately.
+ * Exception thrown when the {@link TestConditionExecutor} fails. This is an
+ * unchecked exception to allow evaluation to end immediately.
  *
  * @author mpkorstanje
  */

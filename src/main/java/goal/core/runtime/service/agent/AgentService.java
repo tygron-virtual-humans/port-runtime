@@ -123,11 +123,12 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 * @throws GOALLaunchFailureException
 	 *             DOC
 	 */
-	public synchronized void start() throws GOALLaunchFailureException {
+	public synchronized void startWithoutEnv()
+			throws GOALLaunchFailureException {
 		for (LaunchRule multilaunch : this.masProgram.getLaunchRules()) {
 			for (Launch launch : multilaunch.getInstructions()) {
 				for (int i = 0; i < launch.getNumberOfAgentsToLaunch(); i++) {
-					launchAgent(launch);
+					launchAgent(launch, null, null);
 				}
 			}
 		}
@@ -329,10 +330,6 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 			return false; // not handled.
 		}
 		return true;
-	}
-
-	private void launchAgent(Launch launch) throws GOALLaunchFailureException {
-		launchAgent(launch, null, null);
 	}
 
 	/**

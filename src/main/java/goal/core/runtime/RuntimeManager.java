@@ -419,7 +419,7 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 		// RuntimeService -- (AgentBornAndReady|LocalAgentRemoved) --> Observers
 		agentService.addObserver(new Runtime2Observers());
 
-		agentService.start();
+		// agentService.start();
 
 		try {
 			remoteRuntimeService.start();

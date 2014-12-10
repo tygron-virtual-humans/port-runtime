@@ -40,7 +40,7 @@ public class MyMASRunner {
 	}
 
 	private static class MyRun extends
-			AbstractRun<MyDebugger, GOALInterpreter<MyDebugger>> {
+	AbstractRun<MyDebugger, GOALInterpreter<MyDebugger>> {
 
 		public MyRun(MASProgram program) {
 			super(program);
@@ -58,7 +58,7 @@ public class MyMASRunner {
 	}
 
 	private static class MyAgentFactory extends
-			AbstractAgentFactory<MyDebugger, GOALInterpreter<MyDebugger>> {
+	AbstractAgentFactory<MyDebugger, GOALInterpreter<MyDebugger>> {
 
 		public MyAgentFactory(MessagingService messaging) {
 			super(messaging);
@@ -121,7 +121,7 @@ public class MyMASRunner {
 	}
 
 	private static class MyInspector implements
-			ResultInspector<GOALInterpreter<MyDebugger>> {
+	ResultInspector<GOALInterpreter<MyDebugger>> {
 
 		public MyInspector() {
 		}

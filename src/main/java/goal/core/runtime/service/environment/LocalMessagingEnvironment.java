@@ -129,11 +129,11 @@ public class LocalMessagingEnvironment {
 			 * was thread-safe. EIS specifications make no such guarantees. So
 			 * we threat all operations as if they are not thread safe and queue
 			 * them up.
-			 *
+			 * 
 			 * On Thread-Safe implementations of EIS this creates somewhat of a
 			 * bottleneck because all agents are now waiting for the
 			 * environment.
-			 *
+			 * 
 			 * handleAction(request);
 			 */
 
@@ -262,8 +262,8 @@ public class LocalMessagingEnvironment {
 		public Serializable invoke(AssociateEntity associateEntity)
 				throws RelationException {
 			LocalMessagingEnvironment.this.eis
-			.associateEntity(associateEntity.getAgentName(),
-					associateEntity.getEntity());
+					.associateEntity(associateEntity.getAgentName(),
+							associateEntity.getEntity());
 			return null;
 		}
 
@@ -276,7 +276,7 @@ public class LocalMessagingEnvironment {
 
 		public Serializable invoke(Reset reset) throws ManagementException {
 			LocalMessagingEnvironment.this.eis
-			.reset(LocalMessagingEnvironment.this.initialization);
+					.reset(LocalMessagingEnvironment.this.initialization);
 			return null;
 		}
 
@@ -300,7 +300,7 @@ public class LocalMessagingEnvironment {
 
 			// Add environment port as listener.
 			LocalMessagingEnvironment.this.subscribedEnvironmentPorts
-			.add(subscribe.getSender());
+					.add(subscribe.getSender());
 
 			try {
 				for (String entity : LocalMessagingEnvironment.this.eis
@@ -312,7 +312,7 @@ public class LocalMessagingEnvironment {
 					} catch (EntityException e) {
 						new Warning(
 								Resources
-								.get(WarningStrings.FAILED_EIS_GETTYPE),
+										.get(WarningStrings.FAILED_EIS_GETTYPE),
 								e);
 					}
 					events.add(new NewEntityEvent(entity, type));
@@ -333,7 +333,7 @@ public class LocalMessagingEnvironment {
 
 		public Serializable invoke(UnSubscribe unSubscribe) {
 			LocalMessagingEnvironment.this.subscribedEnvironmentPorts
-			.remove(unSubscribe.getSender());
+					.remove(unSubscribe.getSender());
 			return null;
 		}
 	}
@@ -343,7 +343,7 @@ public class LocalMessagingEnvironment {
 	private final Environment2Messages environment2Messages = new Environment2Messages();
 
 	private class Environment2Messages implements Runnable, AgentListener,
-	EnvironmentListener {
+			EnvironmentListener {
 		private final BlockingQueue<EnvironmentEvent> events = new LinkedBlockingQueue<>();
 
 		/**
@@ -362,7 +362,7 @@ public class LocalMessagingEnvironment {
 					new Warning(
 							String.format(
 									Resources
-									.get(WarningStrings.FAILED_CREATE_MSG_TO_INFORM_ENVPORT),
+											.get(WarningStrings.FAILED_CREATE_MSG_TO_INFORM_ENVPORT),
 									event.toString(), listener.toString()), e);
 					return;
 				}
@@ -492,7 +492,7 @@ public class LocalMessagingEnvironment {
 	public LocalMessagingEnvironment(EnvironmentInterfaceStandard eis,
 			String environmentName, Map<String, Parameter> initialization,
 			MessagingService messagingService)
-					throws GOALLaunchFailureException {
+			throws GOALLaunchFailureException {
 		this.initialization = initialization;
 
 		this.messagingService = messagingService;
@@ -546,7 +546,7 @@ public class LocalMessagingEnvironment {
 	 * @throws ManagementException
 	 */
 	public synchronized void shutDown() throws InterruptedException,
-	MessagingException, ManagementException {
+			MessagingException, ManagementException {
 		this.running = false;
 		this.messages2EnvironmentThread.interrupt();
 		this.environment2MessagesThread.interrupt();

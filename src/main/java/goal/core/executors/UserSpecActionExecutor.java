@@ -55,7 +55,7 @@ public class UserSpecActionExecutor extends ActionExecutor {
 		final Set<Substitution> solutions = new HashSet<>(solutions1.size());
 		for (Substitution substitution : solutions) {
 			// Check if first action is closed.
-			if (action.applySubst(substitution).isClosed()) {
+			if (this.action.applySubst(substitution).isClosed()) {
 				solutions.add(substitution);
 			}
 		}

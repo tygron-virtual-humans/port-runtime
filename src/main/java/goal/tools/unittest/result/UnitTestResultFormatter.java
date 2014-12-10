@@ -195,7 +195,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 			ret += indent(evaluator.accept(this)) + "\n";
 		}
 		ret += "} in " // + result.getEvaluateIn().getAction().accept(this)
-						// FIXME
+				// FIXME
 				+ ".";
 		return ret;
 	}
@@ -211,7 +211,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 			ret += indent(evalRet) + "\n";
 		}
 		ret += "} in " // + result.getEvaluateIn().getAction().accept(this)
-						// FIXME
+				// FIXME
 				+ ".";
 		return ret;
 	}
@@ -224,8 +224,8 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 		}
 		// Must be interrupted EvaluateIn section
 		ret += "} in "
-				// + ((EvaluateIn) result.getTestSection()).getAction().accept(this)
-				// FIXME
+		// + ((EvaluateIn) result.getTestSection()).getAction().accept(this)
+		// FIXME
 				+ ".";
 		return ret;
 	}
@@ -268,9 +268,9 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 
 	private String getNested(TestCondition condition) {
 		return /*
-				 * FIXME condition.hasNestedCondition() ? (" -> " + condition
-				 * .getNestedCondition().accept(this)) :
-				 */".";
+		 * FIXME condition.hasNestedCondition() ? (" -> " + condition
+		 * .getNestedCondition().accept(this)) :
+		 */".";
 	}
 
 	@Override

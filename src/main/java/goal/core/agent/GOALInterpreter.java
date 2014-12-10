@@ -156,6 +156,8 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 					}
 				} catch (final Exception e) {
 					GOALInterpreter.this.throwable = e;
+					new Warning(GOALInterpreter.this.agent.getId()
+							+ " terminated forcefully.", e);
 					setTerminated();
 				}
 			}
