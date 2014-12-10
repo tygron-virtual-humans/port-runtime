@@ -20,10 +20,11 @@ package goal.core.program;
 import static org.junit.Assert.assertSame;
 import goal.core.agent.AbstractAgentFactory;
 import goal.core.agent.Agent;
+import goal.core.agent.GOALInterpreter;
 import goal.core.runtime.MessagingService;
-import goal.tools.IDEDebugger;
-import goal.tools.IDEGOALInterpreter;
 import goal.tools.adapt.Learner;
+import goal.tools.debugger.Debugger;
+import goal.tools.debugger.NOPDebugger;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 import krTools.errors.exceptions.KRInitFailedException;
 import languageTools.program.agent.AgentProgram;
@@ -42,23 +43,24 @@ public class SendToVar extends ProgramTest {
 	}
 
 	@Override
-	protected Agent<IDEGOALInterpreter> buildAgent(String id,
+	protected Agent<GOALInterpreter<Debugger>> buildAgent(String id,
 			AgentProgram program) throws GOALLaunchFailureException,
 			MessagingException, KRInitFailedException {
 		Messaging messaging = new LocalMessaging();
 		MessagingService messagingService = new MessagingService("localhost",
 				messaging);
-		AbstractAgentFactory<IDEDebugger, IDEGOALInterpreter> factory = new AbstractAgentFactory<IDEDebugger, IDEGOALInterpreter>(
+		AbstractAgentFactory<Debugger, GOALInterpreter<Debugger>> factory = new AbstractAgentFactory<Debugger, GOALInterpreter<Debugger>>(
 				messagingService) {
 			@Override
-			protected IDEDebugger provideDebugger() {
-				return new IDEDebugger(this.agentId, this.program, null);
+			protected Debugger provideDebugger() {
+				return new NOPDebugger(this.agentId);
 			}
 
 			@Override
-			protected IDEGOALInterpreter provideController(
-					IDEDebugger debugger, Learner learner) {
-				return new IDEGOALInterpreter(this.program, debugger, learner);
+			protected GOALInterpreter<Debugger> provideController(
+					Debugger debugger, Learner learner) {
+				return new GOALInterpreter<Debugger>(this.program, debugger,
+						learner);
 			}
 		};
 		return factory.build(program, id, null);

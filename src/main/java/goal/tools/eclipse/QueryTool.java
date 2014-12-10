@@ -1,9 +1,9 @@
 package goal.tools.eclipse;
 
 import goal.core.agent.Agent;
+import goal.core.agent.GOALInterpreter;
 import goal.core.executors.MentalStateConditionExecutor;
 import goal.core.mentalstate.MentalState;
-import goal.tools.IDEGOALInterpreter;
 import goal.tools.debugger.SteppingDebugger;
 import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALException;
@@ -32,10 +32,10 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 public class QueryTool {
-	private final Agent<IDEGOALInterpreter> agent;
+	private final Agent<? extends GOALInterpreter<?>> agent;
 	private final KRInterface kr;
 
-	public QueryTool(final Agent<IDEGOALInterpreter> agent) {
+	public QueryTool(final Agent<? extends GOALInterpreter<?>> agent) {
 		this.agent = agent;
 		this.kr = agent.getController().getProgram().getKRInterface();
 	}
@@ -55,7 +55,7 @@ public class QueryTool {
 			// use a dummy debugger
 			Set<Substitution> substitutions = new MentalStateConditionExecutor(
 					mentalStateCondition).evaluate(mentalState,
-							new SteppingDebugger("query", null));
+					new SteppingDebugger("query", null));
 			String resulttext = "";
 			if (substitutions.isEmpty()) {
 				resulttext = "No solutions";
@@ -185,7 +185,7 @@ public class QueryTool {
 	 * @modified K.Hindriks if UserOrFocusAction action must be UserSpecAction.
 	 */
 	private Action<?> parseAction(String action) throws GOALException,
-	ParserException {
+			ParserException {
 		GOAL parser = prepareGOALParser(action);
 		ActionContext actionContext = parser.action();
 		AgentValidator test = new AgentValidator("inline");

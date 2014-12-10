@@ -1,85 +1,12 @@
 package goal.tools;
 
-import eis.iilang.Percept;
 import goal.core.agent.GOALInterpreter;
-import goal.core.executors.ActionComboExecutor;
-import goal.core.executors.ActionExecutor;
-import goal.core.runtime.service.agent.Result;
 import goal.tools.adapt.Learner;
-import goal.tools.errorhandling.exceptions.GOALActionFailedException;
-
-import java.util.Set;
-
-import krTools.language.DatabaseFormula;
 import languageTools.program.agent.AgentProgram;
-import languageTools.program.agent.actions.Action;
-import languageTools.program.agent.actions.ActionCombo;
-import languageTools.program.agent.actions.MentalAction;
-import languageTools.program.agent.actions.UserSpecAction;
 
 public class IDEGOALInterpreter extends GOALInterpreter<IDEDebugger> {
-
 	public IDEGOALInterpreter(AgentProgram program, IDEDebugger debugger,
 			Learner learner) {
 		super(program, debugger, learner);
 	}
-
-	/**
-	 * Executes an action.
-	 *
-	 * Sends a user-specified action through the given middleware/messaging
-	 * system to be executed in the Environment.
-	 *
-	 * @param action
-	 *            The action to be executed in the environment.
-	 * @throws GOALActionFailedException
-	 */
-	public void doPerformAction(Action<?> action)
-			throws GOALActionFailedException {
-		// Perform mental action.
-		if (action instanceof MentalAction) {
-			this.runState.getDebugger().setKeepRunning(true);
-			ActionExecutor.getActionExecutor(action, null).run(this.runState,
-					this.program.getKRInterface().getSubstitution(null),
-					this.runState.getDebugger(), false);
-			this.runState.getDebugger().setKeepRunning(false);
-		}
-		// Perform user-specified action.
-		else if (action instanceof UserSpecAction) {
-			UserSpecAction userspec = (UserSpecAction) action;
-			this.runState.doPerformAction(userspec);
-		}
-	}
-
-	/**
-	 * Executes a combo action.
-	 *
-	 * @param action
-	 *
-	 * @return The of the action.
-	 */
-	public Result doPerformAction(ActionCombo action) {
-		return new ActionComboExecutor(action, null).run(this.runState,
-				this.program.getKRInterface().getSubstitution(null), false);
-	}
-
-	/**
-	 * Processes {@link Percept}s received from the agent's environment.
-	 * Converts EIS {@link Percept}s to {@link DatabaseFormula}s and inserts new
-	 * and removes old percepts from the percept base.
-	 * <p>
-	 * Note that the agent's percept buffer is not used for this.
-	 * </p>
-	 *
-	 * @param newPercepts
-	 *            The percepts received from the agent's environment that need
-	 *            to be processed.
-	 * @param previousPercepts
-	 *            the received percepts from last cycle.
-	 */
-	public void processPercepts(Set<Percept> newPercepts,
-			Set<Percept> previousPercepts) {
-		this.runState.processPercepts(newPercepts, previousPercepts);
-	}
-
 }

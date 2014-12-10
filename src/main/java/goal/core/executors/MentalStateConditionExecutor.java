@@ -5,6 +5,7 @@ import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
 
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -43,7 +44,7 @@ public class MentalStateConditionExecutor {
 			MentalState mentalState, Debugger debugger) {
 		Set<Substitution> result = new MentalStateConditionExecutor(
 				this.condition.applySubst(substitution)).evaluate(mentalState,
-						debugger);
+				debugger);
 		Set<Substitution> combinedResult = new LinkedHashSet<>(result.size());
 		for (Substitution resultSubst : result) {
 			combinedResult.add(resultSubst.combine(substitution));
@@ -65,7 +66,12 @@ public class MentalStateConditionExecutor {
 	public Set<Substitution> evaluate(MentalState mentalState, Debugger debugger) {
 		Set<Substitution> result, newResults, subResults;
 		MentalLiteral currentFormula;
-		List<MentalFormula> formulas = this.condition.getSubFormulas();
+		List<MentalLiteral> formulas = new LinkedList<>();
+		for (final MentalFormula formula : this.condition.getSubFormulas()) {
+			if (formula instanceof MentalLiteral) {
+				formulas.add((MentalLiteral) formula);
+			}
+		}
 		if (formulas.isEmpty()) {
 			// The mental state condition 'empty' represents 'true'.
 			// Return an empty substitution, as no variables need to be bound.
@@ -74,12 +80,11 @@ public class MentalStateConditionExecutor {
 					.getSubstitution(null));
 		} else {
 			// There is at least one mental literal, so evaluate it.
-			result = mentalState.query((MentalLiteral) formulas.get(0),
-					debugger);
+			result = mentalState.query(formulas.get(0), debugger);
 			// evaluate the other formulas in order
 			for (int i = 1; i < formulas.size(); i++) {
 				newResults = new LinkedHashSet<>();
-				currentFormula = (MentalLiteral) formulas.get(i);
+				currentFormula = formulas.get(i);
 
 				// for each partial result that we already have, evaluate
 				// the new mental formula

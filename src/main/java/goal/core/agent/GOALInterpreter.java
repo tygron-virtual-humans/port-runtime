@@ -1,22 +1,34 @@
 package goal.core.agent;
 
+import eis.iilang.Percept;
+import goal.core.executors.ActionComboExecutor;
+import goal.core.executors.ActionExecutor;
 import goal.core.executors.ModuleExecutor;
+import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.adapt.Learner;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
+import goal.tools.debugger.SteppingDebugger;
 import goal.tools.errorhandling.Warning;
+import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 import goal.tools.logging.InfoLog;
 
 import java.rmi.activation.UnknownObjectException;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 
 import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
 import krTools.errors.exceptions.KRQueryFailedException;
+import krTools.language.DatabaseFormula;
 import languageTools.program.agent.AgentId;
 import languageTools.program.agent.AgentProgram;
+import languageTools.program.agent.actions.Action;
+import languageTools.program.agent.actions.ActionCombo;
+import languageTools.program.agent.actions.MentalAction;
+import languageTools.program.agent.actions.UserSpecAction;
 
 /**
  * Interpreter for {@link AgentProgram}.
@@ -82,9 +94,9 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 			throws KRInitFailedException {
 		super.initalizeController(agent);
 		this.program.getKRInterface().initialize(/*
-		 * program,
-		 * agent.getId().getName()
-		 */);
+												 * program,
+												 * agent.getId().getName()
+												 */);
 		this.runState = new RunState<>(agent.getId(), agent.getEnvironment(),
 				agent.getMessaging(), agent.getLogging(), this.program,
 				this.debugger, this.learner);
@@ -92,7 +104,7 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 
 	@Override
 	public void onReset() throws InterruptedException, KRInitFailedException,
-	KRDatabaseException, KRQueryFailedException, UnknownObjectException {
+			KRDatabaseException, KRQueryFailedException, UnknownObjectException {
 		this.runState.reset();
 		this.debugger.reset();
 	}
@@ -120,10 +132,10 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 						GOALInterpreter.this.runState.startCycle(false);
 						call = new ModuleExecutor(
 								GOALInterpreter.this.runState.getMainModule())
-						.execute(GOALInterpreter.this.runState,
-								GOALInterpreter.this.program
-								.getKRInterface()
-								.getSubstitution(null));
+								.execute(GOALInterpreter.this.runState,
+										GOALInterpreter.this.program
+												.getKRInterface()
+												.getSubstitution(null));
 					}
 					Callable<Callable<?>> out = null;
 					if (call != null) {
@@ -198,6 +210,66 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 				new Warning(e.getMessage(), e.getCause());
 			}
 		}
+	}
+
+	/**
+	 * Executes an action.
+	 *
+	 * Sends a user-specified action through the given middleware/messaging
+	 * system to be executed in the Environment.
+	 *
+	 * @param action
+	 *            The action to be executed in the environment.
+	 * @throws GOALActionFailedException
+	 */
+	public void doPerformAction(Action<?> action)
+			throws GOALActionFailedException {
+		if (action instanceof MentalAction) {
+			DEBUGGER debugger = this.runState.getDebugger();
+			if (debugger instanceof SteppingDebugger) {
+				((SteppingDebugger) debugger).setKeepRunning(true);
+			}
+			ActionExecutor.getActionExecutor(action, null).run(this.runState,
+					this.program.getKRInterface().getSubstitution(null),
+					debugger, false);
+			if (debugger instanceof SteppingDebugger) {
+				((SteppingDebugger) debugger).setKeepRunning(false);
+			}
+		} else if (action instanceof UserSpecAction) {
+			UserSpecAction userspec = (UserSpecAction) action;
+			this.runState.doPerformAction(userspec);
+		}
+	}
+
+	/**
+	 * Executes a combo action.
+	 *
+	 * @param action
+	 *
+	 * @return The of the action.
+	 */
+	public Result doPerformAction(ActionCombo action) {
+		return new ActionComboExecutor(action, null).run(this.runState,
+				this.program.getKRInterface().getSubstitution(null), false);
+	}
+
+	/**
+	 * Processes {@link Percept}s received from the agent's environment.
+	 * Converts EIS {@link Percept}s to {@link DatabaseFormula}s and inserts new
+	 * and removes old percepts from the percept base.
+	 * <p>
+	 * Note that the agent's percept buffer is not used for this.
+	 * </p>
+	 *
+	 * @param newPercepts
+	 *            The percepts received from the agent's environment that need
+	 *            to be processed.
+	 * @param previousPercepts
+	 *            the received percepts from last cycle.
+	 */
+	public void processPercepts(Set<Percept> newPercepts,
+			Set<Percept> previousPercepts) {
+		this.runState.processPercepts(newPercepts, previousPercepts);
 	}
 
 	@Override

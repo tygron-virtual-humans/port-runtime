@@ -88,7 +88,7 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 
 		// Run target module.
 		Result result = new ModuleExecutor(this.action.getTarget())
-				.executeFully(runState, moduleSubstitution);
+		.executeFully(runState, moduleSubstitution);
 		// TODO: the module is run entirely here, bypassing the default
 		// task-based scheduling; I'm not sure that is the desired effect here
 		// -Vincent
@@ -182,17 +182,17 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 
 		GoalBase newAttentionSet = new GoalBase(mentalstate.getState(),
 				mentalstate.getAgentId(), mentalstate.getOwner(), this.action
-						.getTarget().getName());
+				.getTarget().getName());
 
 		// get the goals as obtained from the context, and add them to
 		// the goalbase
 		for (MentalFormula formula : this.context.getSubFormulas()) {
-			MentalLiteral literal = (MentalLiteral) formula;
+			MentalLiteral literal = (formula instanceof MentalLiteral) ? ((MentalLiteral) formula)
+					: null;
 			// only positive literals can result in new goals
-			if (!literal.isPositive()) {
+			if (literal == null || !literal.isPositive()) {
 				continue;
 			}
-
 			// only (positive) goal and a-goal literals can result in
 			// new goals
 			if (literal instanceof AGoalLiteral

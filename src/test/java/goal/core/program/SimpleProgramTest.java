@@ -5,10 +5,9 @@ import goal.core.agent.Agent;
 import goal.core.agent.GOALInterpreter;
 import goal.core.agent.MessagingCapabilities;
 import goal.core.agent.NoMessagingCapabilities;
-import goal.tools.IDEDebugger;
-import goal.tools.IDEGOALInterpreter;
 import goal.tools.adapt.Learner;
 import goal.tools.debugger.Debugger;
+import goal.tools.debugger.NOPDebugger;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 import krTools.errors.exceptions.KRInitFailedException;
 import languageTools.program.agent.AgentProgram;
@@ -38,7 +37,7 @@ public class SimpleProgramTest extends ProgramTest {
 	 *            class of the GOALInterpreter to provide.
 	 */
 	private abstract class SimpleAgentFactory<D extends Debugger, C extends GOALInterpreter<D>>
-			extends AbstractAgentFactory<D, C> {
+	extends AbstractAgentFactory<D, C> {
 		/**
 		 * Constructs a factory for agents withouth messaging.
 		 */
@@ -53,19 +52,20 @@ public class SimpleProgramTest extends ProgramTest {
 	}
 
 	@Override
-	protected Agent<IDEGOALInterpreter> buildAgent(String id,
+	protected Agent<GOALInterpreter<Debugger>> buildAgent(String id,
 			AgentProgram program) throws GOALLaunchFailureException,
 			MessagingException, KRInitFailedException {
-		SimpleAgentFactory<IDEDebugger, IDEGOALInterpreter> factory = new SimpleAgentFactory<IDEDebugger, IDEGOALInterpreter>() {
+		SimpleAgentFactory<Debugger, GOALInterpreter<Debugger>> factory = new SimpleAgentFactory<Debugger, GOALInterpreter<Debugger>>() {
 			@Override
-			protected IDEDebugger provideDebugger() {
-				return new IDEDebugger(this.agentId, this.program, null);
+			protected Debugger provideDebugger() {
+				return new NOPDebugger(this.agentId);
 			}
 
 			@Override
-			protected IDEGOALInterpreter provideController(
-					IDEDebugger debugger, Learner learner) {
-				return new IDEGOALInterpreter(this.program, debugger, learner);
+			protected GOALInterpreter<Debugger> provideController(
+					Debugger debugger, Learner learner) {
+				return new GOALInterpreter<Debugger>(this.program, debugger,
+						learner);
 			}
 		};
 		return factory.build(program, id, null);

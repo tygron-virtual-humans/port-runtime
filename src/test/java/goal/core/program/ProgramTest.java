@@ -19,11 +19,12 @@ package goal.core.program;
 
 import static org.junit.Assert.assertTrue;
 import goal.core.agent.Agent;
+import goal.core.agent.GOALInterpreter;
 import goal.core.executors.MentalStateConditionExecutor;
 import goal.core.mentalstate.MentalState;
-import goal.tools.IDEGOALInterpreter;
 import goal.tools.PlatformManager;
 import goal.tools.SingleRun;
+import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
 import goal.tools.eclipse.QueryTool;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
@@ -116,7 +117,7 @@ public abstract class ProgramTest {
 
 		assertTrue(program.isValid());
 
-		Agent<IDEGOALInterpreter> agent = buildAgent(id, program);
+		Agent<GOALInterpreter<Debugger>> agent = buildAgent(id, program);
 
 		agent.start();
 		agent.awaitTermination();
@@ -126,11 +127,11 @@ public abstract class ProgramTest {
 		return result;
 	}
 
-	protected abstract Agent<IDEGOALInterpreter> buildAgent(String id,
+	protected abstract Agent<GOALInterpreter<Debugger>> buildAgent(String id,
 			AgentProgram program) throws GOALLaunchFailureException,
 			MessagingException, KRInitFailedException;
 
-	protected RunResult inspectResult(Agent<IDEGOALInterpreter> agent) {
+	protected RunResult inspectResult(Agent<GOALInterpreter<Debugger>> agent) {
 		QueryTool buildQuery = new QueryTool(agent);
 		MentalStateCondition mentalStateCondition;
 		try {
@@ -145,7 +146,7 @@ public abstract class ProgramTest {
 				.getMentalState();
 		Set<Substitution> res = new MentalStateConditionExecutor(
 				mentalStateCondition).evaluate(mentalState,
-						new SteppingDebugger("query", null));
+				new SteppingDebugger("query", null));
 
 		// there should be exactly 1 substi.
 		if (res.size() == 0) {
