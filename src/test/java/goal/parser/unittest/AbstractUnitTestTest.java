@@ -12,9 +12,11 @@ import goal.tools.unittest.result.UnitTestResult;
 import goal.tools.unittest.result.UnitTestResultFormatter;
 
 import java.io.IOException;
+import java.util.List;
 
 import krTools.errors.exceptions.ParserException;
 import languageTools.analyzer.test.TestValidator;
+import languageTools.errors.Message;
 import languageTools.program.test.UnitTest;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 
@@ -59,17 +61,17 @@ public class AbstractUnitTestTest {
 		if (program != null && program.isValid()) {
 			return program;
 		} else {
-			System.out.println(this.visitor.getSyntaxErrors());
-			System.out.println(this.visitor.getErrors());
-			System.out.println(this.visitor.getWarnings());
+			List<Message> errors = this.visitor.getErrors();
+			errors.addAll(this.visitor.getSyntaxErrors());
+			System.out.println(errors);
 			return null;
 		}
 	}
 
 	protected UnitTestResult runTest(String testFileName) throws IOException,
-			GOALCommandCancelledException, ParserException,
-			GOALLaunchFailureException, MessagingException,
-			InterruptedException, Exception {
+	GOALCommandCancelledException, ParserException,
+	GOALLaunchFailureException, MessagingException,
+	InterruptedException, Exception {
 		UnitTest unitTest = setup(testFileName);
 
 		assertNotNull(unitTest);
