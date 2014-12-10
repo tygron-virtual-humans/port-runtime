@@ -25,7 +25,7 @@ import goal.core.mentalstate.MentalState;
 import goal.tools.PlatformManager;
 import goal.tools.SingleRun;
 import goal.tools.debugger.Debugger;
-import goal.tools.debugger.SteppingDebugger;
+import goal.tools.debugger.NOPDebugger;
 import goal.tools.eclipse.QueryTool;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 import goal.tools.logging.Loggers;
@@ -145,8 +145,8 @@ public abstract class ProgramTest {
 		MentalState mentalState = agent.getController().getRunState()
 				.getMentalState();
 		Set<Substitution> res = new MentalStateConditionExecutor(
-				mentalStateCondition).evaluate(mentalState,
-				new SteppingDebugger("query", null));
+				mentalStateCondition).evaluate(mentalState, new NOPDebugger(
+						agent.getId()));
 
 		// there should be exactly 1 substi.
 		if (res.size() == 0) {

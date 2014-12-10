@@ -2,7 +2,7 @@ package goal.core.performance;
 
 import goal.core.mentalstate.BeliefBase;
 import goal.tools.debugger.Debugger;
-import goal.tools.debugger.SteppingDebugger;
+import goal.tools.debugger.NOPDebugger;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 
 import java.lang.management.ManagementFactory;
@@ -50,7 +50,7 @@ public class TestMentalState {
 	}
 
 	private void insertFactsSWIProlog3(BeliefBase bb, int nrOfInserts) {
-		Debugger debugger = new SteppingDebugger("insertFactsSWIProlog3", null);
+		Debugger debugger = new NOPDebugger("insertFactsSWIProlog3");
 		for (int i = 0; i < nrOfInserts; i++) {
 			// SWIPrologLanguage3
 			jpl.Integer nr = new jpl.Integer(i);
