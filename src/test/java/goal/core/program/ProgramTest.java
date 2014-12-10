@@ -141,7 +141,7 @@ public abstract class ProgramTest {
 				.getMentalState();
 		Set<Substitution> res = new MentalStateConditionExecutor(
 				mentalStateCondition).evaluate(mentalState, new NOPDebugger(
-				agent.getId()));
+						agent.getId()));
 
 		// there should be exactly 1 substi.
 		if (res.size() < 1) {
@@ -158,7 +158,7 @@ public abstract class ProgramTest {
 		Set<Var> variables = substitution.getVariables();
 		if (variables.size() < 1) {
 			throw new IllegalStateException(
-					"Query failed: it dod not set a result");
+					"Query failed: it did not set a result");
 		}
 		if (variables.size() > 1) {
 			throw new IllegalStateException(

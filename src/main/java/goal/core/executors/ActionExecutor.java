@@ -87,7 +87,7 @@ public abstract class ActionExecutor {
 	 * @return The result of the action that was performed.
 	 * @throws GOALActionFailedException
 	 *             If the action is not closed, action is internal but this is
-	 *             not indicated in the program, or other exeptions occurred.
+	 *             not indicated in the program, or other exceptions occurred.
 	 */
 	public final Result run(RunState<?> runState, Substitution substitution,
 			Debugger debugger, boolean last) {
@@ -112,7 +112,7 @@ public abstract class ActionExecutor {
 			} else {
 				throw new GOALActionFailedException(
 						"Attempt to execute action " + action
-								+ " with free variables.");
+						+ " with free variables.");
 			}
 		} else {
 			debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, this,
