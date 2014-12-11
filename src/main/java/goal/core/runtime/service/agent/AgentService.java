@@ -15,7 +15,6 @@ import goal.core.runtime.service.environmentport.environmentport.events.FreeEnti
 import goal.core.runtime.service.environmentport.environmentport.events.NewEntityEvent;
 import goal.preferences.EnvironmentPreferences;
 import goal.preferences.PMPreferences;
-import goal.tools.PlatformManager;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
@@ -23,6 +22,7 @@ import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 import goal.tools.logging.InfoLog;
 
+import java.io.File;
 import java.rmi.activation.UnknownObjectException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,6 +58,7 @@ import nl.tudelft.goal.messaging.exceptions.MessagingException;
  */
 public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	private final MASProgram masProgram;
+	private final Map<File, AgentProgram> agentPrograms;
 	private final Agents agents = new Agents();
 	private final AgentFactory<D, C> factory;
 	private final List<AgentServiceEventObserver> observers = new LinkedList<>();
@@ -112,8 +113,10 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 * @param factory
 	 * @throws GOALLaunchFailureException
 	 */
-	public AgentService(MASProgram program, AgentFactory<D, C> factory) {
+	public AgentService(MASProgram program, Map<File, AgentProgram> agents,
+			AgentFactory<D, C> factory) {
 		this.masProgram = program;
+		this.agentPrograms = agents;
 		this.factory = factory;
 	}
 
@@ -384,8 +387,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 		}
 
 		// FIXME: AgentProgram should have reference to its file.
-		AgentProgram program = PlatformManager.getCurrent().getAgentProgram(
-				launch.getAgentFile());
+		AgentProgram program = this.agentPrograms.get(launch.getAgentFile());
 		Agent<C> agent;
 		try {
 			agent = this.factory.build(program, agentBaseName, environment);

@@ -43,15 +43,13 @@ public class AgentServiceTest {
 
 	@Before
 	public void setUp() throws Exception {
-		MASProgram program = PlatformManager
-				.createNew()
-				.parseMASFile(
-						new File(
-								"src/test/resources/goal/core/runtime/runtimeServices/fibonaci.mas2g"));
+		final PlatformManager platform = PlatformManager.createNew();
+		final MASProgram program = platform
+				.parseMASFile(new File(
+						"src/test/resources/goal/core/runtime/runtimeServices/fibonaci.mas2g"));
 		this.messaging = new MessagingService("localhost", new LocalMessaging());
 		AgentFactory<NOPDebugger, GOALInterpreter<NOPDebugger>> factory = new AbstractAgentFactory<NOPDebugger, GOALInterpreter<NOPDebugger>>(
 				this.messaging) {
-
 			@Override
 			protected NOPDebugger provideDebugger() {
 				return new NOPDebugger(this.agentId);
@@ -66,7 +64,7 @@ public class AgentServiceTest {
 		};
 
 		this.runtimeService = new AgentService<NOPDebugger, GOALInterpreter<NOPDebugger>>(
-				program, factory);
+				program, platform.getParsedAgentPrograms(), factory);
 	}
 
 	@After

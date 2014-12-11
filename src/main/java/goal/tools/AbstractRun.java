@@ -14,10 +14,13 @@ import goal.tools.errorhandling.exceptions.GOALCommandCancelledException;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 import goal.tools.logging.InfoLog;
 
+import java.io.File;
 import java.util.Collection;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import krTools.errors.exceptions.ParserException;
+import languageTools.program.agent.AgentProgram;
 import languageTools.program.mas.MASProgram;
 import localmessaging.LocalMessaging;
 import nl.tudelft.goal.messaging.Messaging;
@@ -44,7 +47,6 @@ import nl.tudelft.goal.messaging.exceptions.MessagingException;
  *            class of the GOALInterpreter
  */
 public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<D>> {
-
 	/**
 	 * Time to wait for the first agent to be created. Depending on the
 	 * environment used agents may not appear directly after initializing the
@@ -58,7 +60,8 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	protected boolean debuggerOutput;
 
 	private ResultInspector<C> resultInspector = null;
-	private final MASProgram program;
+	private final MASProgram masProgram;
+	private final Map<File, AgentProgram> agentPrograms;
 	private Messaging messaging = new LocalMessaging();
 	private String messagingHost = "localhost";
 
@@ -68,8 +71,9 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	 * @param program
 	 *            to run
 	 */
-	public AbstractRun(MASProgram program) {
-		this.program = program;
+	public AbstractRun(MASProgram program, Map<File, AgentProgram> agents) {
+		this.masProgram = program;
+		this.agentPrograms = agents;
 	}
 
 	/**
@@ -163,11 +167,11 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	// FIXME: This amount of exceptions is ridiculous. Clean this up.
 	@SuppressWarnings("unchecked")
 	public void run() throws MessagingException, GOALCommandCancelledException,
-			ParserException, GOALLaunchFailureException, InterruptedException,
-			EnvironmentInterfaceException {
+	ParserException, GOALLaunchFailureException, InterruptedException,
+	EnvironmentInterfaceException {
 		RuntimeManager<? extends D, ? extends C> runtimeManager = null;
 		try {
-			runtimeManager = buildRuntime(this.program);
+			runtimeManager = buildRuntime();
 
 			// Start the environment.
 			// This will also start the multi-agent system
@@ -195,7 +199,7 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 				 */
 				if (this.resultInspector != null) {
 					this.resultInspector
-							.handleResult((Collection<Agent<C>>) agents);
+					.handleResult((Collection<Agent<C>>) agents);
 				}
 			}
 		} finally {
@@ -217,7 +221,7 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	 */
 	protected void awaitTermination(
 			RuntimeManager<? extends D, ? extends C> runtimeManager)
-					throws InterruptedException {
+			throws InterruptedException {
 		runtimeManager.awaitTermination();
 	}
 
@@ -225,35 +229,31 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	 * Builds the {@link RuntimeManager} that will be used to run the
 	 * MASProgram.
 	 *
-	 * @param program
-	 *            to run
-	 * @param messagingHost
-	 *            used by messaging
 	 * @return a new run time service manager.
 	 * @throws GOALLaunchFailureException
 	 *             when the program could not be validated
 	 */
-	protected RuntimeManager<D, C> buildRuntime(MASProgram program)
+	protected RuntimeManager<D, C> buildRuntime()
 			throws GOALLaunchFailureException {
-		if (!program.isValid()) {
-			throw new GOALLaunchFailureException("Cannot launch MAS " + program
-					+ " because it (or a child) has errors.");
+		if (!this.masProgram.isValid()) {
+			throw new GOALLaunchFailureException("Cannot launch MAS "
+					+ this.masProgram + " because it (or a child) has errors.");
 		}
 
 		// Launch the multi-agent system. and start the runtime environment.
-		new InfoLog("Launching MAS " + program.getSourceFile() + ".");
+		new InfoLog("Launching MAS " + this.masProgram.getSourceFile() + ".");
 
 		// init MessagingFactory and get our messaging system
 
 		MessagingService messagingService = new MessagingService(
 				this.messagingHost, this.messaging);
 
-		EnvironmentService environmentService = new EnvironmentService(program,
-				messagingService);
+		EnvironmentService environmentService = new EnvironmentService(
+				this.masProgram, messagingService);
 
 		AgentFactory<D, C> agentFactory = buildAgentFactory(messagingService);
-		AgentService<D, C> runtimeService = new AgentService<>(program,
-				agentFactory);
+		AgentService<D, C> runtimeService = new AgentService<>(this.masProgram,
+				this.agentPrograms, agentFactory);
 
 		RemoteRuntimeService<D, C> remoteRuntimeService = new RemoteRuntimeService<>(
 				messagingService);

@@ -137,7 +137,7 @@ public class PlatformManager {
 	 * @param file
 	 * @param program
 	 */
-	public void addIParsedObject(File file, Program program) {
+	public void addParsedProgram(File file, Program program) {
 		this.parsedFiles.put(file, program);
 	}
 
@@ -146,8 +146,19 @@ public class PlatformManager {
 	 *
 	 * @param file
 	 */
-	public void removeIParsedObject(File file) {
+	public void removeParsedProgram(File file) {
 		this.parsedFiles.remove(file);
+	}
+
+	public Map<File, AgentProgram> getParsedAgentPrograms() {
+		Map<File, AgentProgram> returned = new HashMap<>();
+		for (File file : this.parsedFiles.keySet()) {
+			Program program = this.parsedFiles.get(file);
+			if (program instanceof AgentProgram) {
+				returned.put(file, (AgentProgram) program);
+			}
+		}
+		return returned;
 	}
 
 	/**
@@ -235,6 +246,7 @@ public class PlatformManager {
 	 */
 	public AgentProgram getAgentProgram(File file) {
 		if (isGOALFile(file)) {
+			System.out.println(this.parsedFiles);
 			return (AgentProgram) this.parsedFiles.get(file);
 		} else {
 			return null;
@@ -337,7 +349,7 @@ public class PlatformManager {
 		if (test == null) {
 			throw new ParserException("Invalid Test file"); //$NON-NLS-1$
 		}
-		addIParsedObject(file, test);
+		addParsedProgram(file, test);
 
 		// Report any errors encountered during parsing.
 		boolean hasErrors = false, hasWarnings = false;
@@ -407,7 +419,7 @@ public class PlatformManager {
 		if (masProgram == null) {
 			throw new ParserException("Invalid MAS file"); //$NON-NLS-1$
 		}
-		addIParsedObject(masFile, masProgram);
+		addParsedProgram(masFile, masProgram);
 
 		// Log messages.
 		boolean hasErrors = false, hasWarnings = false;
@@ -509,7 +521,7 @@ public class PlatformManager {
 		if (program == null) {
 			throw new ParserException("Invalid GOAL file"); //$NON-NLS-1$
 		}
-		addIParsedObject(goalFile, program);
+		addParsedProgram(goalFile, program);
 
 		// Report any errors encountered during parsing.
 		boolean hasErrors = false, hasWarnings = false;

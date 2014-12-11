@@ -65,7 +65,7 @@ AbstractRun<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> {
 	private final UnitTest unitTest;
 
 	public UnitTestRun(UnitTest program) {
-		super(program.getMasProgram());
+		super(program.getMasProgram(), program.getAgents());
 		this.unitTest = program;
 	}
 

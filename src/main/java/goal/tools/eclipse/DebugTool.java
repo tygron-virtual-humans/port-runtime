@@ -38,7 +38,8 @@ public class DebugTool {
 			}
 
 			final RuntimeManager<IDEDebugger, IDEGOALInterpreter> runtime = LaunchManager
-					.createNew().launchMAS(program);
+					.createNew().launchMAS(program,
+							platform.getParsedAgentPrograms());
 			final EclipseEventObserver observer = new EclipseEventObserver();
 			final InputReaderWriter readerwriter = new InputReaderWriter(
 					System.in, System.out, runtime, observer);

@@ -13,10 +13,13 @@ import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 import goal.tools.logging.InfoLog;
 
 import java.awt.Component;
+import java.io.File;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
 import krTools.errors.exceptions.ParserException;
+import languageTools.program.agent.AgentProgram;
 import languageTools.program.mas.MASProgram;
 import localmessaging.LocalMessaging;
 import nl.tudelft.goal.messaging.Messaging;
@@ -62,8 +65,9 @@ public class LaunchManager {
 	 * @throws GOALLaunchFailureException
 	 */
 	public RuntimeManager<IDEDebugger, IDEGOALInterpreter> launchMAS(
-			MASProgram masProgram) throws ParserException,
-			GOALCommandCancelledException, GOALLaunchFailureException {
+			MASProgram masProgram, Map<File, AgentProgram> agents)
+			throws ParserException, GOALCommandCancelledException,
+			GOALLaunchFailureException {
 		// Determine where to host middleware; ask user if needed.
 		String host = getMiddlewareHostName();
 
@@ -87,7 +91,7 @@ public class LaunchManager {
 		AgentFactory<IDEDebugger, IDEGOALInterpreter> agentFactory = new IDEAgentFactory(
 				messagingService);
 		AgentService<IDEDebugger, IDEGOALInterpreter> runtimeService = new AgentService<>(
-				masProgram, agentFactory);
+				masProgram, agents, agentFactory);
 		EnvironmentService environmentService = new EnvironmentService(
 				masProgram, messagingService);
 

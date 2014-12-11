@@ -38,11 +38,12 @@ public class SingleRun extends AbstractRun<Debugger, GOALInterpreter<Debugger>> 
 	 *             when the mas file could not be parsed.
 	 */
 	public SingleRun(File masFile) throws ParserException {
-		super(PlatformManager.createNew().parseMASFile(masFile));
+		super(PlatformManager.createNew().parseMASFile(masFile),
+				PlatformManager.getCurrent().getParsedAgentPrograms());
 	}
 
 	private class SingleRunAgentFactory extends
-			AbstractAgentFactory<Debugger, GOALInterpreter<Debugger>> {
+	AbstractAgentFactory<Debugger, GOALInterpreter<Debugger>> {
 
 		public SingleRunAgentFactory(MessagingService messaging) {
 			super(messaging);
