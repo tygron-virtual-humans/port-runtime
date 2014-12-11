@@ -1,5 +1,7 @@
 package goal.core.executors;
 
+import eis.iilang.Identifier;
+import eis.iilang.Parameter;
 import goal.core.mentalstate.MentalState;
 import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
@@ -106,6 +108,15 @@ public class ExecuteTools {
 	public static Set<AgentId> resolve(Selector selector,
 			MentalState mentalState) throws IllegalArgumentException,
 			KRInitFailedException {
+		KRInterface kr = mentalState.getOwner().getKRInterface();
+		mentalState.MentalState state;
+		try {
+			state = MentalStateFactory.getInterface(kr.getClass());
+		} catch (UnknownObjectException e) {
+			throw new GOALBug(
+					"Runtime can't get interface to running language "
+							+ kr.getName());
+		}
 		// Resolve the selector expressions.
 		HashSet<AgentId> agentNames = new HashSet<>();
 		switch (selector.getType()) {
@@ -119,7 +130,16 @@ public class ExecuteTools {
 			agentNames.remove(mentalState.getAgentId());
 			break;
 		case PARAMETERLIST:
-			// TODO: implement
+			for (Term term : selector.getParameters()) {
+				Parameter param = state.convert(term);
+				if (param instanceof Identifier) {
+					agentNames
+							.add(new AgentId(((Identifier) param).getValue()));
+				} else {
+					throw new KRInitFailedException(
+							"Trying to send to non-agent: " + term);
+				}
+			}
 			break;
 		default:
 		case THIS:
