@@ -10,6 +10,7 @@ import goal.tools.unittest.result.testsection.TestSectionFailed;
 import goal.tools.unittest.result.testsection.TestSectionInterupted;
 import goal.tools.unittest.result.testsection.TestSectionResult;
 import goal.tools.unittest.testcondition.executors.TestConditionEvaluator;
+import goal.tools.unittest.testsection.executors.EvaluateInExecutor;
 
 import java.util.List;
 import java.util.Map.Entry;
@@ -194,9 +195,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 		for (TestConditionEvaluator evaluator : result.getEvaluators()) {
 			ret += indent(evaluator.accept(this)) + "\n";
 		}
-		ret += "} in " // + result.getEvaluateIn().getAction().accept(this)
-				// FIXME
-				+ ".";
+		ret += "} in " + result.getEvaluateIn().getAction() + ".";
 		return ret;
 	}
 
@@ -210,9 +209,8 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 			}
 			ret += indent(evalRet) + "\n";
 		}
-		ret += "} in " // + result.getEvaluateIn().getAction().accept(this)
-				// FIXME
-				+ ".";
+		EvaluateIn section = (EvaluateIn) result.getEvaluateIn().getSection();
+		ret += "} in " + section.getAction() + ".";
 		return ret;
 	}
 
@@ -223,17 +221,16 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 			ret += indent(evaluator.accept(this)) + "\n";
 		}
 		// Must be interrupted EvaluateIn section
-		ret += "} in "
-		// + ((EvaluateIn) result.getTestSection()).getAction().accept(this)
-		// FIXME
-				+ ".";
+		EvaluateIn section = (EvaluateIn) ((EvaluateInExecutor) result
+				.getTestSection()).getSection();
+		ret += "} in " + section.getAction() + ".";
 		return ret;
 	}
 
 	@Override
 	public String visit(TestConditionEvaluator result) {
-		return result.getSummaryReport();
-		// + ": " + result.getCondition().accept(this); FIXME
+		return result.getSummaryReport() + ": "
+				+ result.getConditionExecutor().getCondition();
 	}
 
 	@Override
@@ -243,34 +240,27 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 
 	@Override
 	public String visit(AtStart atStart) {
-		return "atstart " + atStart.getQuery() + getNested(atStart);
+		return "atstart " + atStart.getQuery();
 	}
 
 	@Override
 	public String visit(Always always) {
-		return "always " + always.getQuery() + getNested(always);
+		return "always " + always.getQuery();
 	}
 
 	@Override
 	public String visit(Never never) {
-		return "never " + never.getQuery() + getNested(never);
+		return "never " + never.getQuery();
 	}
 
 	@Override
 	public String visit(AtEnd atEnd) {
-		return "atend " + atEnd.getQuery() + getNested(atEnd);
+		return "atend " + atEnd.getQuery();
 	}
 
 	@Override
 	public String visit(Eventually eventually) {
-		return "eventually " + eventually.getQuery() + getNested(eventually);
-	}
-
-	private String getNested(TestCondition condition) {
-		return /*
-		 * FIXME condition.hasNestedCondition() ? (" -> " + condition
-		 * .getNestedCondition().accept(this)) :
-		 */".";
+		return "eventually " + eventually.getQuery();
 	}
 
 	@Override
@@ -287,11 +277,11 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	public String visit(EvaluateIn evaluateIn) {
 		String ret = "evaluate {\n";
 		for (TestCondition query : evaluateIn.getQueries()) {
-			// ret += indent(query.accept(this)) + "\n"; FIXME
+			ret += indent(query.toString()) + "\n";
 		}
-		ret += "} in ";// + evaluateIn.getAction().accept(this); FIXME
+		ret += "} in " + evaluateIn.getAction();
 		if (evaluateIn.getBoundary() != null) {
-			// evaluateIn.getBoundary().accept(this); FIXME
+			ret += evaluateIn.getBoundary();
 		}
 		return ret;
 	}
