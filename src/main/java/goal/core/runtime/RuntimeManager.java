@@ -663,15 +663,19 @@ Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	 *             when it was not possible to connect to the environment.
 	 * @throws EnvironmentInterfaceException
 	 *             when the environment could not be started.
+	 * @throws GOALLaunchFailureException
 	 */
 	public void startEnvironment() throws MessagingException,
-			EnvironmentInterfaceException {
-		for (EnvironmentPort port : this.environmentService
-				.getEnvironmentPorts()) {
-			port.start();
+			EnvironmentInterfaceException, GOALLaunchFailureException {
+		Collection<EnvironmentPort> ports = this.environmentService
+				.getEnvironmentPorts();
+		if (ports.isEmpty()) {
+			this.agentService.startWithoutEnv();
+		} else {
+			for (EnvironmentPort port : ports) {
+				port.start();
+			}
 		}
-
-		// Report that environment is running.
 		new InfoLog("running.");
 	}
 
