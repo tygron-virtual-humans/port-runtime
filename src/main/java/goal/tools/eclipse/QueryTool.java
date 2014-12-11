@@ -26,6 +26,7 @@ import languageTools.parser.GOALLexer;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.MentalAction;
 import languageTools.program.agent.actions.UserSpecAction;
+import languageTools.program.agent.actions.UserSpecOrModuleCall;
 import languageTools.program.agent.msc.MentalStateCondition;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -55,7 +56,7 @@ public class QueryTool {
 			// use a dummy debugger
 			Set<Substitution> substitutions = new MentalStateConditionExecutor(
 					mentalStateCondition).evaluate(mentalState,
-							new SteppingDebugger("query", null));
+					new SteppingDebugger("query", null));
 			String resulttext = "";
 			if (substitutions.isEmpty()) {
 				resulttext = "No solutions";
@@ -191,64 +192,22 @@ public class QueryTool {
 		AgentValidator test = new AgentValidator("inline");
 		test.setKRInterface(this.kr);
 		Action<?> act = test.visitAction(actionContext);
+
 		checkParserErrors(test, action, "action");
+		if (act instanceof UserSpecOrModuleCall) {
+			act = AgentValidator.resolve((UserSpecOrModuleCall) act, this.agent
+					.getController().getProgram());
+		}
 
-		// TODO: this code implements a rather naive approach to getting the
-		// action specification(s)
-		// of the action. In particular, it does not take scope into account. If
-		// an action is specified
-		// e.g. at top level and again within a module, then this approach is
-		// not able to determine
-		// which action specification should be associated with the action.
-		// If the user intends to execute the action in the module, we should
-		// allow for expressions of
-		// the form: module.action(parameters) so that the user is able to refer
-		// to the right scope.
-
-		// Store the actionspecification matching the given action in the
-		// action.
-		// Since there is no such reference in Action anymore, this seems not
-		// necessary anymore.
-		// if (act instanceof UserSpecOrModuleCall) {
-		// // Must be user-specified action.
-		// // TODO: now sets by default that action is EXTERNAL and should be
-		// // sent to environment.
-		// act = new UserSpecAction(act.getName(),
-		// ((UserSpecOrModuleCall) act).getParameters(), true, null,
-		// null, null);
-		// // Search for all corresponding action specifications.
-		// for (Module module : this.agent.getController().getProgram()
-		// .getModules()) {
-		// for (ActionSpecification specification : module
-		// .getActionSpecifications()) {
-		// if (act.getName().equals(
-		// specification.getAction().getName())
-		// && (((UserSpecAction) act).getParameters().size() == specification
-		// .getAction().getParameters().size())) {
-		// try {
-		//
-		// ((UserSpecAction) act).
-		// .addSpecification(specification);
-		// } catch (KRInitFailedException e) {
-		// throw new GOALUserError(
-		// "Failed to associate specification with action: "
-		// + e.getMessage(), e);
-		// }
-		// }
-		// }
-		// }
-		// }
-
-		// module calls would be dangerous.
-		if (!(act instanceof MentalAction)
-				&& (!(act instanceof UserSpecAction))) {
+		if (act instanceof MentalAction || act instanceof UserSpecAction) {
+			return act;
+		} else {
+			// module calls would be dangerous.
 			throw new GOALUserError(
 					"Action "
 							+ action
 							+ " must be either a built-in mental action or a user-specified action (found "
-							+ act.getClass() + " instead).");
+							+ act + " instead).");
 		}
-
-		return act;
 	}
 }
