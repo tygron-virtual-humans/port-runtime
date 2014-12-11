@@ -31,7 +31,7 @@ final class MockEnvironment extends EIDefaultImpl {
 		setState(EnvironmentState.RUNNING);
 
 		try {
-			this.addEntity("ExistingEntity");
+			this.addEntity("existingEntity");
 		} catch (EntityException e) {
 			// FIXME: add entity is internal to the EIS.
 			// Should not throw exceptions.
@@ -68,7 +68,7 @@ final class MockEnvironment extends EIDefaultImpl {
 	protected Percept performEntityAction(String entity, Action arg1)
 			throws ActException {
 
-		if (!entity.equals("ExistingEntity")) {
+		if (!entity.equals("existingEntity")) {
 			throw new ActException("No such entity");
 		}
 

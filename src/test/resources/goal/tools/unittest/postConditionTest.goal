@@ -3,7 +3,7 @@ init module{
 		test2.
 	}
 	actionspec{
-		update{
+		update@int{
 			pre{ true }
 			post{ test1, not(test2) }
 		}
