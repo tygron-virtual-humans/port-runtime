@@ -28,7 +28,7 @@ public class DoActionExecutor extends TestSectionExecutor {
 			throws TestSectionFailed {
 		runState.startCycle(false);
 		ActionComboExecutor action = new ActionComboExecutor(
-				this.doaction.getAction(), null);
+				this.doaction.getAction());
 		Result result = action.run(runState, runState.getMentalState()
 				.getOwner().getKRInterface().getSubstitution(null), false);
 		return new ActionResult(this, result);

@@ -62,7 +62,7 @@ public class EclipseDebugObserver implements DebugObserver {
 		}
 		// Let the world know we're here
 		this.writer
-		.write(new DebugCommand(Command.LAUNCHED, this.agent.getId()));
+				.write(new DebugCommand(Command.LAUNCHED, this.agent.getId()));
 	}
 
 	@Override
@@ -188,7 +188,7 @@ public class EclipseDebugObserver implements DebugObserver {
 			break;
 		case ACTION_PRECOND_EVALUATION_USERSPEC:
 			final UserSpecAction action = (UserSpecAction) event
-					.getAssociatedObject();
+			.getAssociatedObject();
 			final List<String> aAsList = new LinkedList<>();
 			if (event.getMessage().contains("holds for")) {
 				aAsList.add("selected: " + action);
@@ -206,7 +206,7 @@ public class EclipseDebugObserver implements DebugObserver {
 			break;
 		case CALL_MODULE:
 			final ModuleCallAction call = (ModuleCallAction) event
-					.getAssociatedObject();
+			.getAssociatedObject();
 			final List<String> cAsList = new LinkedList<>();
 			if (call.getParameters() != null) {
 				cAsList.add(call.getParameters().toString());
@@ -243,7 +243,7 @@ public class EclipseDebugObserver implements DebugObserver {
 					.getGoals()
 					.toArray(
 							new SingleGoal[init.getAttentionSet().getGoals()
-									.size()]);
+							               .size()]);
 			for (final SingleGoal goal : goals) {
 				notifyBreakpointHit(new DebugEvent(null, "",
 						"has been adopted", Channel.GB_UPDATES, goal));
@@ -254,8 +254,8 @@ public class EclipseDebugObserver implements DebugObserver {
 					.getFormulas()
 					.toArray(
 							new DatabaseFormula[init
-									.getOwnBase(BASETYPE.BELIEFBASE)
-									.getTheory().getFormulas().size()]);
+							                    .getOwnBase(BASETYPE.BELIEFBASE)
+							                    .getTheory().getFormulas().size()]);
 			for (final DatabaseFormula belief : beliefs) {
 				notifyBreakpointHit(new DebugEvent(null, "",
 						"has been inserted", Channel.BB_UPDATES, belief));

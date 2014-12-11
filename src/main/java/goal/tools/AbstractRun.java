@@ -167,8 +167,8 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	// FIXME: This amount of exceptions is ridiculous. Clean this up.
 	@SuppressWarnings("unchecked")
 	public void run() throws MessagingException, GOALCommandCancelledException,
-	ParserException, GOALLaunchFailureException, InterruptedException,
-	EnvironmentInterfaceException {
+			ParserException, GOALLaunchFailureException, InterruptedException,
+			EnvironmentInterfaceException {
 		RuntimeManager<? extends D, ? extends C> runtimeManager = null;
 		try {
 			runtimeManager = buildRuntime();
@@ -199,7 +199,7 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 				 */
 				if (this.resultInspector != null) {
 					this.resultInspector
-					.handleResult((Collection<Agent<C>>) agents);
+							.handleResult((Collection<Agent<C>>) agents);
 				}
 			}
 		} finally {
@@ -221,7 +221,7 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	 */
 	protected void awaitTermination(
 			RuntimeManager<? extends D, ? extends C> runtimeManager)
-			throws InterruptedException {
+					throws InterruptedException {
 		runtimeManager.awaitTermination();
 	}
 

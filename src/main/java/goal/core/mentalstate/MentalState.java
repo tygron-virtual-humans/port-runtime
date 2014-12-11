@@ -377,7 +377,7 @@ public class MentalState {
 				for (Substitution subst : result) {
 					Set<Substitution> tempResult = this.models.get(
 							agents.next()).query(literal.applySubst(subst),
-									focus, debugger);
+							focus, debugger);
 					for (Substitution tempSubst : tempResult) {
 						currentResults.add(subst.combine(tempSubst));
 					}
@@ -650,18 +650,18 @@ public class MentalState {
 		for (SingleGoal goal : getAttentionSet()) {
 			// temporarily only have one of the goals
 			this.models
-			.get(this.agentId)
-			.getAttentionStack()
-			.push(new GoalBase(goal, this.state, this.agentId,
-							this.agentProgram, getAgentId().getName(),
-							debugger, this.agentId));
+					.get(this.agentId)
+					.getAttentionStack()
+					.push(new GoalBase(goal, this.state, this.agentId,
+					this.agentProgram, getAgentId().getName(),
+					debugger, this.agentId));
 
 			// get the substitutions that make the given context true, given
 			// the current single goal. Add these to the total set of
 			// substitutions.
 			try {
 				partSubsts = new MentalStateConditionExecutor(context)
-				.evaluate(this, debugger);
+						.evaluate(this, debugger);
 				if (!partSubsts.isEmpty()) {
 					substitutions.addAll(partSubsts);
 					// make sure we do not have to re-query everything in order

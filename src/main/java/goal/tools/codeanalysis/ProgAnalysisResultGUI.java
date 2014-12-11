@@ -85,7 +85,7 @@ public class ProgAnalysisResultGUI implements ChangeListener {
 
 		JScrollPane scrolltext = new JScrollPane(this.textArea);
 		scrolltext
-				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
 		JPanel settingspanel = new JPanel();
 		settingspanel.setLayout(new FlowLayout());

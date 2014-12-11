@@ -86,7 +86,7 @@ public class EnvironmentPortTest {
 
 	@Test
 	public void testStartPortShutDown() throws MessagingException,
-			InterruptedException {
+	InterruptedException {
 		// FIXME: Executing this will hang tear down. Message boxes that have
 		// been deleted can still send messages but not recieve them.
 		// environmentPort.startPort();
@@ -96,7 +96,7 @@ public class EnvironmentPortTest {
 
 	@Test
 	public void testStart() throws MessagingException, InterruptedException,
-			EnvironmentInterfaceException {
+	EnvironmentInterfaceException {
 		this.environmentPort.pause();
 		waitForEnvState(EnvironmentState.PAUSED);
 		this.environmentPort.start();
@@ -105,7 +105,7 @@ public class EnvironmentPortTest {
 
 	@Test
 	public void testPause() throws MessagingException, InterruptedException,
-			EnvironmentInterfaceException {
+	EnvironmentInterfaceException {
 		assertNotEquals(EnvironmentState.PAUSED, this.eis.getState());
 		this.environmentPort.pause();
 		waitForEnvState(EnvironmentState.PAUSED);
@@ -113,7 +113,7 @@ public class EnvironmentPortTest {
 
 	@Test
 	public void testKill() throws MessagingException, InterruptedException,
-			EnvironmentInterfaceException {
+	EnvironmentInterfaceException {
 		assertNotEquals(EnvironmentState.KILLED, this.eis.getState());
 		this.environmentPort.kill();
 		waitForEnvState(EnvironmentState.KILLED);
@@ -121,7 +121,7 @@ public class EnvironmentPortTest {
 
 	@Test
 	public void testReset() throws MessagingException, InterruptedException,
-			EnvironmentInterfaceException {
+	EnvironmentInterfaceException {
 		this.environmentPort.kill();
 		assertNotEquals(EnvironmentState.RUNNING, this.eis.getState());
 		this.environmentPort.reset();
@@ -130,13 +130,13 @@ public class EnvironmentPortTest {
 
 	@Test(expected = PerceiveException.class)
 	public void testGetPerceptsNonExistingAgent() throws MessagingException,
-			EnvironmentInterfaceException {
+	EnvironmentInterfaceException {
 		this.environmentPort.getPercepts("NonExistingAgent");
 	}
 
 	@Test
 	public void testGetPercepts() throws MessagingException,
-			EnvironmentInterfaceException {
+	EnvironmentInterfaceException {
 		this.environmentPort.registerAgent("ExistingAgent");
 		this.environmentPort.associateEntity("ExistingAgent", "ExistingEntity");
 		assertFalse(this.environmentPort.getPercepts("ExistingAgent").isEmpty());
@@ -144,20 +144,20 @@ public class EnvironmentPortTest {
 
 	@Test
 	public void testGetReward() throws MessagingException,
-			EnvironmentInterfaceException {
+	EnvironmentInterfaceException {
 		assertNotNull(this.environmentPort.getReward("NonExistingAgent"));
 	}
 
 	@Test
 	public void testRegisterAgent() throws MessagingException,
-			EnvironmentInterfaceException {
+	EnvironmentInterfaceException {
 		this.environmentPort.registerAgent("ExistingAgent");
 		assertTrue(this.eis.getAgents().contains("ExistingAgent"));
 	}
 
 	@Test
 	public void testAssociateEntity() throws MessagingException,
-			EnvironmentInterfaceException {
+	EnvironmentInterfaceException {
 		assertFalse(this.eis.getFreeEntities().isEmpty());
 		this.environmentPort.registerAgent("ExistingAgent");
 		this.environmentPort.associateEntity("ExistingAgent", "ExistingEntity");
@@ -166,7 +166,7 @@ public class EnvironmentPortTest {
 
 	@Test
 	public void testPerformAction() throws MessagingException,
-			EnvironmentInterfaceException {
+	EnvironmentInterfaceException {
 		this.environmentPort.registerAgent("ExistingAgent");
 		this.environmentPort.associateEntity("ExistingAgent", "ExistingEntity");
 		assertNotNull(this.environmentPort.performAction("ExistingAgent",

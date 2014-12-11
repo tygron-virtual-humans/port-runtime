@@ -26,12 +26,7 @@ import krTools.language.Substitution;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.DropAction;
 
-/**
- *
- * @author W.Pasman 4dec14
- */
 public class DropActionExecutor extends ActionExecutor {
-
 	private final DropAction action;
 
 	public DropActionExecutor(DropAction act) {

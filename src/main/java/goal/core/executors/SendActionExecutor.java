@@ -35,7 +35,6 @@ import languageTools.program.agent.msg.Message;
 import mentalState.BASETYPE;
 
 public class SendActionExecutor extends ActionExecutor {
-
 	private final SendAction action;
 
 	public SendActionExecutor(SendAction act) {

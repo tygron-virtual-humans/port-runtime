@@ -28,7 +28,6 @@ import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.LogAction;
 
 public class LogActionExecutor extends ActionExecutor {
-
 	private final LogAction action;
 
 	public LogActionExecutor(LogAction act) {

@@ -141,7 +141,7 @@ public abstract class ProgramTest {
 				.getMentalState();
 		Set<Substitution> res = new MentalStateConditionExecutor(
 				mentalStateCondition).evaluate(mentalState, new NOPDebugger(
-						agent.getId()));
+				agent.getId()));
 
 		// there should be exactly 1 substi.
 		if (res.size() < 1) {

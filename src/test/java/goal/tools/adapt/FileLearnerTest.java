@@ -87,7 +87,7 @@ public class FileLearnerTest {
 				loggingCapabilities, this.controller);
 	}
 
-	// @Test
+	// @Test FIXME
 	public void testStart() throws InterruptedException {
 		this.controller.run();
 		assertTrue(this.controller.isRunning());

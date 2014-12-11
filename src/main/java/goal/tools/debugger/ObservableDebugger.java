@@ -143,7 +143,7 @@ public class ObservableDebugger extends SteppingDebugger {
 			DebugEvent event = new DebugEvent(getRunMode(), getName(),
 					"Hit user defined breakpoint on " + parsedObject + "("
 							+ parsedObject + ")", Channel.BREAKPOINTS,
-					associatedObject);
+							associatedObject);
 			notifyObservers(Channel.BREAKPOINTS, event);
 		}
 		return hit;

@@ -78,7 +78,7 @@ public class RuleSetAnalysis {
 
 			// analyze mental state conditions
 			this.belAtomStatistics
-					.add(new Double(ruleAnalysis.getNrBelAtoms()));
+			.add(new Double(ruleAnalysis.getNrBelAtoms()));
 			this.agoalAtomStatistics.add(new Double(ruleAnalysis
 					.getNrAGoalAtoms()));
 			this.goalAtomStatistics.add(new Double(ruleAnalysis
@@ -337,9 +337,9 @@ public class RuleSetAnalysis {
 	public void Merge(RuleSetAnalysis ruleSetAnalysis) {
 		this.belAtomStatistics.merge(ruleSetAnalysis.getBelAtomStatistics());
 		this.agoalAtomStatistics
-				.merge(ruleSetAnalysis.getAGoalAtomStatistics());
+		.merge(ruleSetAnalysis.getAGoalAtomStatistics());
 		this.goalaAtomStatistics
-				.merge(ruleSetAnalysis.getGoalaAtomStatistics());
+		.merge(ruleSetAnalysis.getGoalaAtomStatistics());
 		this.goalAtomStatistics.merge(ruleSetAnalysis.getGoalAtomStatistics());
 		mergeStats(ruleSetAnalysis.getActionStatistics());
 	}

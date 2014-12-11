@@ -36,7 +36,7 @@ public class CoffeeTest {
 
 	@Test
 	public void testCoffee() throws ParserException, FileNotFoundException,
-	ParseException, Exception {
+			ParseException, Exception {
 		SingleRun run = new SingleRun(new File(
 				"GOALagents/CoffeeAgents/coffee.mas2g"));
 		run.setResultInspector(new ResultInspector<GOALInterpreter<Debugger>>() {

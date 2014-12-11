@@ -97,7 +97,7 @@ public class ProgramAnalysis {
 				// analysis.
 				this.programOverview.addSeparator();
 				this.programOverview.add(new ModuleAnalysis(module)
-				.getModuleCodeAnalysisOverview());
+						.getModuleCodeAnalysisOverview());
 			}
 		}
 	}
@@ -107,7 +107,7 @@ public class ProgramAnalysis {
 	 */
 	public void makePredicateCodeAnalysis() {
 		this.predicateOverview = new PredicateAnalysis(this.file, this.program)
-		.getPredicateUseReport();
+				.getPredicateUseReport();
 	}
 
 	/**

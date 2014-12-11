@@ -26,7 +26,6 @@ import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.PrintAction;
 
 public class PrintActionExecutor extends ActionExecutor {
-
 	private final PrintAction action;
 
 	public PrintActionExecutor(PrintAction action) {

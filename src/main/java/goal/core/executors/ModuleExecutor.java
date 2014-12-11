@@ -57,6 +57,10 @@ public class ModuleExecutor {
 		}
 	}
 
+	public Module getModule() {
+		return this.module;
+	}
+
 	@SuppressWarnings("unchecked")
 	public Result executeFully(final RunState<?> runState,
 			final Substitution substitution) {

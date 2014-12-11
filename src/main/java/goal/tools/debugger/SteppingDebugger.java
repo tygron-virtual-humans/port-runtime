@@ -243,7 +243,7 @@ public class SteppingDebugger implements Debugger {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.tools.debugger.IDebugger#getName()
 	 */
 	@Override
@@ -292,7 +292,7 @@ public class SteppingDebugger implements Debugger {
 	@SuppressWarnings("fallthrough")
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * goal.tools.debugger.IDebugger#breakpoint(goal.tools.debugger.Channel,
 	 * java.lang.Object, java.lang.String, java.lang.Object)

@@ -1,5 +1,6 @@
 package goal.tools.unittest.testcondition.executors;
 
+import goal.core.executors.ModuleExecutor;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.DebugEvent;
 import goal.tools.debugger.ObservableDebugger;
@@ -88,7 +89,9 @@ public class AtEndExecutor extends TestConditionExecutor {
 					case MAIN_MODULE_EXIT:
 					case INIT_MODULE_EXIT:
 					case USER_MODULE_EXIT:
-						if (module.equals(event.getAssociatedObject())) {
+						Module test = ((ModuleExecutor) event
+								.getAssociatedObject()).getModule();
+						if (AtEndExecutor.this.atend.getModule().equals(test)) {
 							break;
 						} else {
 							return;

@@ -97,7 +97,7 @@ public class UserSpecActionTest {
 		 * false, null); ActionSpecification actionspec = new
 		 * ActionSpecification(action, this.precondition, this.postcondition,
 		 * null);
-		 * 
+		 *
 		 * assertEquals(true, action.addSpecification(actionspec));
 		 */
 	}
@@ -120,10 +120,10 @@ public class UserSpecActionTest {
 		 * null); ActionSpecification actionspec = new
 		 * ActionSpecification(action4spec, this.precondition,
 		 * this.postcondition, null);
-		 * 
+		 *
 		 * jpl.Variable var = new jpl.Variable("X"); jpl.Atom constant = new
 		 * jpl.Atom("constant");
-		 * 
+		 *
 		 * assertEquals( getUnifier(new VariableTerm(var, null), new PrologTerm(
 		 * constant, null)), action.mgu(action4spec, this.language));
 		 * assertEquals(true, action.addSpecification(actionspec));
@@ -148,10 +148,10 @@ public class UserSpecActionTest {
 		 * new UserSpecAction("action", this.parameters, false, null);
 		 * ActionSpecification actionspec = new ActionSpecification(action4spec,
 		 * this.precondition, this.postcondition, null);
-		 *
+		 * 
 		 * jpl.Variable var = new jpl.Variable("X"); jpl.Atom constant = new
 		 * jpl.Atom("constant");
-		 *
+		 * 
 		 * assertEquals( getUnifier(new VariableTerm(var, null), new PrologTerm(
 		 * constant, null)), action.mgu(action4spec, this.language));
 		 * assertEquals(true, action.addSpecification(actionspec));
@@ -176,15 +176,15 @@ public class UserSpecActionTest {
 		 * = new UserSpecAction("action", this.parameters, false, null);
 		 * ActionSpecification actionspec = new ActionSpecification(action4spec,
 		 * this.precondition, this.postcondition, null);
-		 *
+		 * 
 		 * jpl.Variable varX = new jpl.Variable("X"); jpl.Variable varY = new
 		 * jpl.Variable("Y"); jpl.Atom constant = new jpl.Atom("a");
-		 *
+		 * 
 		 * Substitution unifier = getUnifier(new VariableTerm(varY, null), new
 		 * PrologTerm(constant, null)); unifier.addBinding(new
 		 * VariableTerm(varX, null), new PrologTerm( constant, null));
 		 * assertEquals(unifier, action.mgu(action4spec, this.language));
-		 *
+		 * 
 		 * assertEquals(true, action.addSpecification(actionspec));
 		 */
 	}
@@ -208,17 +208,17 @@ public class UserSpecActionTest {
 		 * null); ActionSpecification actionspec = new
 		 * ActionSpecification(action4spec, this.precondition,
 		 * this.postcondition, null);
-		 *
+		 * 
 		 * jpl.Variable varX = new jpl.Variable("X"); jpl.Variable varY = new
 		 * jpl.Variable("Y"); jpl.Variable varZ = new jpl.Variable("Z");
 		 * jpl.Atom constant = new jpl.Atom("a");
-		 *
+		 * 
 		 * Substitution unifier = getUnifier(new VariableTerm(varY, null), new
 		 * PrologTerm(constant, null)); unifier.addBinding(new
 		 * VariableTerm(varX, null), new VariableTerm(varZ, null)); //
 		 * action(f(a,X)) and action(f(Y,Z)) -> Y=a, X=Z assertEquals(unifier,
 		 * action.mgu(action4spec, this.language));
-		 *
+		 * 
 		 * assertEquals(true, action.addSpecification(actionspec));
 		 */
 	}

@@ -185,7 +185,7 @@ public class Warning extends GOALLogRecord {
 		if (Warning.messageLog.containsKey(warning)) {
 			// Update number of warning occurrences in the hash table.
 			Warning.messageLog
-					.put(warning, Warning.messageLog.get(warning) + 1);
+			.put(warning, Warning.messageLog.get(warning) + 1);
 		} else {
 			Warning.messageLog.put(warning, 0);
 		}

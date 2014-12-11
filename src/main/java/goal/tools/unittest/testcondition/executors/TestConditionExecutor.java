@@ -6,7 +6,9 @@ import goal.tools.unittest.result.ResultFormatter;
 import goal.tools.unittest.result.testcondition.TestConditionFailedException;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import krTools.language.Substitution;
@@ -42,10 +44,6 @@ public abstract class TestConditionExecutor {
 	 * The actual evaluator for the conditions
 	 */
 	private TestConditionEvaluator evaluator;
-	/**
-	 * DOC
-	 */
-	private TestConditionExecutor nested;
 
 	/**
 	 * @return true when this condition is a nested condition
@@ -62,24 +60,20 @@ public abstract class TestConditionExecutor {
 		return this.isNested;
 	}
 
-	public boolean hasNestedExecutor() {
-		return getNestedExecutor() != null;
-	}
-
-	public TestConditionExecutor getNestedExecutor() {
-		if (this.nested == null && getCondition().hasNestedCondition()) {
-			this.nested = getTestConditionExecutor(getCondition()
-					.getNestedCondition());
-		}
-		return this.nested;
-	}
-
 	/**
 	 * Get the parsed {@link TestCondition}.
 	 *
 	 * @return {@link TestCondition}
 	 */
 	abstract public TestCondition getCondition();
+
+	protected boolean hasNestedExecutor() {
+		return getTestConditionExecutor(getCondition().getNestedCondition()) != null;
+	}
+
+	protected TestConditionExecutor getNestedExecutor() {
+		return getTestConditionExecutor(getCondition().getNestedCondition());
+	}
 
 	/**
 	 * Update the state of a nested condition (which we are)
@@ -175,24 +169,29 @@ public abstract class TestConditionExecutor {
 	 */
 	public abstract <T> T accept(ResultFormatter<T> formatter);
 
+	private static Map<TestCondition, TestConditionExecutor> executors = new HashMap<>();
+
 	public static TestConditionExecutor getTestConditionExecutor(
 			TestCondition condition) {
-		if (condition instanceof Always) {
-			return new AlwaysExecutor((Always) condition);
-		} else if (condition instanceof AtEnd) {
-			return new AtEndExecutor((AtEnd) condition);
-		} else if (condition instanceof AtStart) {
-			return new AtStartExecutor((AtStart) condition);
-		} else if (condition instanceof Eventually) {
-			return new EventuallyExecutor((Eventually) condition);
-		} else if (condition instanceof Never) {
-			return new NeverExecutor((Never) condition);
-		} else if (condition instanceof Until) {
-			return new UntilExecutor((Until) condition);
-		} else if (condition instanceof While) {
-			return new WhileExecutor((While) condition);
-		} else {
-			return null;
+		TestConditionExecutor returned = executors.get(condition);
+		if (returned == null) {
+			if (condition instanceof Always) {
+				returned = new AlwaysExecutor((Always) condition);
+			} else if (condition instanceof AtEnd) {
+				returned = new AtEndExecutor((AtEnd) condition);
+			} else if (condition instanceof AtStart) {
+				returned = new AtStartExecutor((AtStart) condition);
+			} else if (condition instanceof Eventually) {
+				returned = new EventuallyExecutor((Eventually) condition);
+			} else if (condition instanceof Never) {
+				returned = new NeverExecutor((Never) condition);
+			} else if (condition instanceof Until) {
+				returned = new UntilExecutor((Until) condition);
+			} else if (condition instanceof While) {
+				returned = new WhileExecutor((While) condition);
+			}
+			executors.put(condition, returned);
 		}
+		return returned;
 	}
 }

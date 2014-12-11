@@ -27,7 +27,6 @@ import languageTools.program.agent.actions.DeleteAction;
 import mentalState.BASETYPE;
 
 public class DeleteActionExecutor extends ActionExecutor {
-
 	private final DeleteAction action;
 
 	public DeleteActionExecutor(DeleteAction act) {

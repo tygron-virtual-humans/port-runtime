@@ -65,7 +65,7 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 			case GOALAGENT:
 				// another agent has sent us a message.
 				DefaultMessagingCapabilities.this.messageInQueue
-						.add((Message) message.getContent());
+				.add((Message) message.getContent());
 				return true;
 			default:
 				// If we get here, we don't know how to handle the
@@ -79,7 +79,7 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.core.agent.Capabilities#clear()
 	 */
 	@Override
@@ -94,7 +94,7 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.core.agent.Capabilities#getAllMessages()
 	 */
 	@Override
@@ -108,7 +108,7 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.core.agent.Capabilities#postMessage(goal.core.agent.Message)
 	 */
 	@Override

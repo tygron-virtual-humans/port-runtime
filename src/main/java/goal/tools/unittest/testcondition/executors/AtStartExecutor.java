@@ -1,5 +1,6 @@
 package goal.tools.unittest.testcondition.executors;
 
+import goal.core.executors.ModuleExecutor;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.DebugEvent;
 import goal.tools.debugger.ObservableDebugger;
@@ -9,6 +10,7 @@ import goal.tools.unittest.result.testcondition.TestConditionFailedException;
 import java.util.Set;
 
 import krTools.language.Substitution;
+import languageTools.program.agent.Module;
 import languageTools.program.test.testcondition.AtStart;
 import languageTools.program.test.testcondition.TestCondition;
 import languageTools.program.test.testsection.EvaluateIn;
@@ -89,8 +91,10 @@ public class AtStartExecutor extends TestConditionExecutor {
 					case MAIN_MODULE_ENTRY:
 					case INIT_MODULE_ENTRY:
 					case USER_MODULE_ENTRY:
+						Module test = ((ModuleExecutor) event
+								.getAssociatedObject()).getModule();
 						if (AtStartExecutor.this.atstart.getModule().equals(
-								event.getAssociatedObject())) {
+								test)) {
 							break;
 						} else {
 							return;

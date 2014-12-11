@@ -37,7 +37,7 @@ public class SimpleProgramTest extends ProgramTest {
 	 *            class of the GOALInterpreter to provide.
 	 */
 	private abstract class SimpleAgentFactory<D extends Debugger, C extends GOALInterpreter<D>>
-	extends AbstractAgentFactory<D, C> {
+			extends AbstractAgentFactory<D, C> {
 		/**
 		 * Constructs a factory for agents withouth messaging.
 		 */

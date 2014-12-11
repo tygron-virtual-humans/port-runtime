@@ -6,6 +6,10 @@ import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import krTools.language.Substitution;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.AdoptAction;
@@ -112,7 +116,7 @@ public abstract class ActionExecutor {
 			} else {
 				throw new GOALActionFailedException(
 						"Attempt to execute action " + action
-						+ " with free variables.");
+								+ " with free variables.");
 			}
 		} else {
 			debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, this,
@@ -153,33 +157,43 @@ public abstract class ActionExecutor {
 		return "execute(" + getAction().toString() + ")";
 	}
 
+	private static Map<Action<?>, ActionExecutor> executors = new HashMap<>();
+
 	public static ActionExecutor getActionExecutor(Action<?> action,
 			MentalStateCondition context) {
-		if (action instanceof AdoptAction) {
-			return new AdoptActionExecutor((AdoptAction) action);
-		} else if (action instanceof DeleteAction) {
-			return new DeleteActionExecutor((DeleteAction) action);
-		} else if (action instanceof DropAction) {
-			return new DropActionExecutor((DropAction) action);
-		} else if (action instanceof ExitModuleAction) {
-			return new ExitModuleActionExecutor((ExitModuleAction) action);
-		} else if (action instanceof InsertAction) {
-			return new InsertActionExecutor((InsertAction) action);
-		} else if (action instanceof LogAction) {
-			return new LogActionExecutor((LogAction) action);
-		} else if (action instanceof ModuleCallAction) {
-			return new ModuleCallActionExecutor((ModuleCallAction) action,
-					context);
-		} else if (action instanceof PrintAction) {
-			return new PrintActionExecutor((PrintAction) action);
-		} else if (action instanceof SendAction) {
-			return new SendActionExecutor((SendAction) action);
-		} else if (action instanceof SendOnceAction) {
-			return new SendOnceActionExecutor((SendOnceAction) action);
-		} else if (action instanceof UserSpecAction) {
-			return new UserSpecActionExecutor((UserSpecAction) action);
-		} else {
-			return null;
+		ActionExecutor returned = null;
+		// executors.get(action); TODO: reusing this causes issues?!
+		if (returned == null) {
+			if (action instanceof AdoptAction) {
+				returned = new AdoptActionExecutor((AdoptAction) action);
+			} else if (action instanceof DeleteAction) {
+				returned = new DeleteActionExecutor((DeleteAction) action);
+			} else if (action instanceof DropAction) {
+				returned = new DropActionExecutor((DropAction) action);
+			} else if (action instanceof ExitModuleAction) {
+				returned = new ExitModuleActionExecutor(
+						(ExitModuleAction) action);
+			} else if (action instanceof InsertAction) {
+				returned = new InsertActionExecutor((InsertAction) action);
+			} else if (action instanceof LogAction) {
+				returned = new LogActionExecutor((LogAction) action);
+			} else if (action instanceof ModuleCallAction) {
+				returned = new ModuleCallActionExecutor(
+						(ModuleCallAction) action);
+			} else if (action instanceof PrintAction) {
+				returned = new PrintActionExecutor((PrintAction) action);
+			} else if (action instanceof SendAction) {
+				returned = new SendActionExecutor((SendAction) action);
+			} else if (action instanceof SendOnceAction) {
+				return new SendOnceActionExecutor((SendOnceAction) action);
+			} else if (action instanceof UserSpecAction) {
+				returned = new UserSpecActionExecutor((UserSpecAction) action);
+			}
+			executors.put(action, returned);
 		}
+		if (returned instanceof ModuleCallActionExecutor) {
+			((ModuleCallActionExecutor) returned).setContext(context);
+		}
+		return returned;
 	}
 }

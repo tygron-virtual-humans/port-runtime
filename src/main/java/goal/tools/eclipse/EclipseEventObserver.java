@@ -52,7 +52,7 @@ public class EclipseEventObserver implements RuntimeEventObserver {
 			break;
 		case AGENT_IS_LOCAL_AND_READY:
 			final Agent<IDEGOALInterpreter> agent = (Agent<IDEGOALInterpreter>) event
-					.getSource();
+			.getSource();
 			final EclipseDebugObserver debugobserver = new EclipseDebugObserver(
 					agent, this.writer);
 			debugobserver.subscribe();

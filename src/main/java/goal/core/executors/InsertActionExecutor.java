@@ -28,7 +28,6 @@ import languageTools.program.agent.actions.InsertAction;
 import mentalState.BASETYPE;
 
 public class InsertActionExecutor extends ActionExecutor {
-
 	private final InsertAction action;
 
 	public InsertActionExecutor(InsertAction act) {

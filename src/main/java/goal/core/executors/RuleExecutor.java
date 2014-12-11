@@ -113,7 +113,8 @@ public class RuleExecutor {
 			HashMap<Substitution, List<SingleGoal>> substGoalLinks,
 			Substitution globalsubst) {
 		final ActionComboExecutor executor = new ActionComboExecutor(
-				this.rule.getAction(), this.rule.getCondition());
+				this.rule.getAction());
+		executor.setContext(this.rule.getCondition());
 		Result result = new Result();
 		// TODO: does not yet take collecting of goals for FILTER and SELECT
 		// options of modules into account...

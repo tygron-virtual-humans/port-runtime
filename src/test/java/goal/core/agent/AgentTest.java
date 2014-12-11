@@ -106,7 +106,7 @@ public class AgentTest {
 
 	@Test
 	public void testReset() throws InterruptedException, KRInitFailedException,
-			KRDatabaseException, KRQueryFailedException, UnknownObjectException {
+	KRDatabaseException, KRQueryFailedException, UnknownObjectException {
 		assertFalse(this.controller.isRunning());
 		assertTrue(this.controller.isTerminated());
 		this.controller.run();

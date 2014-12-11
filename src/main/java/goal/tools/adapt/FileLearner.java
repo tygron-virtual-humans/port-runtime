@@ -209,9 +209,9 @@ public class FileLearner implements Serializable, Learner {
 					new InfoLog(properties.toString());
 				} catch (Exception e) {
 					System.err
-					.println("WARNING: Could not load learner properties from `"
-							+ file.getName()
-							+ "`. Will proceed with defaults.");
+							.println("WARNING: Could not load learner properties from `"
+									+ file.getName()
+									+ "`. Will proceed with defaults.");
 				}
 			}
 			sarsa_alpha = Double.parseDouble(properties
@@ -225,8 +225,8 @@ public class FileLearner implements Serializable, Learner {
 
 		} catch (Exception e) {
 			System.err
-			.println("WARNING: While loading learner properties got: "
-					+ e.getMessage());
+					.println("WARNING: While loading learner properties got: "
+							+ e.getMessage());
 		}
 
 		// Associate belief filter with corresponding rule set.
@@ -301,7 +301,7 @@ public class FileLearner implements Serializable, Learner {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.tools.adapt.Learner#act(java.lang.String,
 	 * goal.core.mentalstate.MentalState, java.util.List, java.util.Set)
 	 */
@@ -343,7 +343,7 @@ public class FileLearner implements Serializable, Learner {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.tools.adapt.Learner#update(java.lang.String,
 	 * goal.core.mentalstate.MentalState, double, java.util.Set)
 	 */
@@ -573,7 +573,7 @@ public class FileLearner implements Serializable, Learner {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * goal.tools.adapt.Learner#terminateLearner(goal.core.mentalstate.MentalState
 	 * , java.lang.Double)

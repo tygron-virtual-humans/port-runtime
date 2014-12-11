@@ -26,7 +26,6 @@ import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.ExitModuleAction;
 
 public class ExitModuleActionExecutor extends ActionExecutor {
-
 	private final ExitModuleAction action;
 
 	public ExitModuleActionExecutor(ExitModuleAction act) {

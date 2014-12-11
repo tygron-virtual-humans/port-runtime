@@ -251,8 +251,8 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 	 * @return The of the action.
 	 */
 	public Result doPerformAction(ActionCombo action) {
-		return new ActionComboExecutor(action, null).run(this.runState,
-				this.program.getKRInterface().getSubstitution(null), false);
+		return new ActionComboExecutor(action).run(this.runState, this.program
+				.getKRInterface().getSubstitution(null), false);
 	}
 
 	/**

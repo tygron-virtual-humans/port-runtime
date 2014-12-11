@@ -20,7 +20,6 @@ import languageTools.program.agent.selector.Selector.SelectorType;
  *
  */
 public class AdoptActionExecutor extends ActionExecutor {
-
 	private final AdoptAction action;
 
 	public AdoptActionExecutor(AdoptAction act) {

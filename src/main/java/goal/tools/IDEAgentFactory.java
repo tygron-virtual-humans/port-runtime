@@ -6,7 +6,7 @@ import goal.preferences.PMPreferences;
 import goal.tools.adapt.Learner;
 
 public class IDEAgentFactory extends
-AbstractAgentFactory<IDEDebugger, IDEGOALInterpreter> {
+		AbstractAgentFactory<IDEDebugger, IDEGOALInterpreter> {
 
 	public IDEAgentFactory(MessagingService messaging) {
 		super(messaging);

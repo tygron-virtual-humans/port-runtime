@@ -134,7 +134,7 @@ public class ExecuteTools {
 				Parameter param = state.convert(term);
 				if (param instanceof Identifier) {
 					agentNames
-							.add(new AgentId(((Identifier) param).getValue()));
+					.add(new AgentId(((Identifier) param).getValue()));
 				} else {
 					throw new KRInitFailedException(
 							"Trying to send to non-agent: " + term);
