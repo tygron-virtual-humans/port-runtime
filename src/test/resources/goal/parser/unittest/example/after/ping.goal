@@ -39,20 +39,14 @@ module wait(Duration) [focus=new,exit=nogoals] {
 		if bel(not(start(_)), get_time(Now)) then insert(start(Now)).
 		if bel(passedSinceStart(Duration),start(Then)) then delete(start(Then)) + exit-module.
 	}
-	
-	actionspec {
-		skip@int {
-			pre{}
-			post{}
-		}
-	}
+
 }
 
 module reply [exit=noaction]{
 
 	program {
-		if bel(received(X,ping)) then delete(received(X,ping))+ X.send(pong).
-		if bel(received(X,pong)) then delete(received(X,pong)) + X.send(ping).
+		if bel(received(X,ping)) then delete(received(X,ping))+ (X).send(pong).
+		if bel(received(X,pong)) then delete(received(X,pong)) + (X).send(ping).
 	}
 }
 

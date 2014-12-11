@@ -20,8 +20,8 @@ main module [exit=nogoals] {
 module reply [exit=noaction]{
 
 	program {
-		if bel(received(X,ping)) then delete(received(X,ping))+ X.send(pong).
-		if bel(received(X,pong)) then delete(received(X,pong)) + X.send(ping).
+		if bel(received(X,ping)) then delete(received(X,ping))+ (X).send(pong).
+		if bel(received(X,pong)) then delete(received(X,pong)) + (X).send(ping).
 	}
 }
 

@@ -17,7 +17,7 @@ init module {
 	
 module test [exit=always] {
 	program [order=linear]{
-		if a-goal(verstuurd(X,Y)) then X.send(Y)+insert(verstuurd(X,Y), sentTo(X)).	
+		if a-goal(verstuurd(X,Y)) then (X).send(Y)+insert(verstuurd(X,Y), sentTo(X)).	
 		if bel(me(Me), received(Me,'I am going to Room_C1')) then insert(result(ok)).
 		if bel(true) then insert(result(failure)).
 	}

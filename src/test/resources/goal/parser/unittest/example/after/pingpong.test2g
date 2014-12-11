@@ -9,13 +9,13 @@ masTest {
 		
 			evaluate {
 				atend bel(received(pong,pong)).
-			} in do pong.send(ping) + wait(3).
+			} in do (pong).send(ping) + wait(3).
 			
 			do reply.
 		}
 	
 		after {
-			do pong.send(shutdown).
+			do (pong).send(shutdown).
 		}	
 	}
 
