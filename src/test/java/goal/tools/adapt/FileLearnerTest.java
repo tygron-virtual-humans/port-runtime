@@ -27,7 +27,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
 
 import swiprolog.SWIPrologInterface;
 
@@ -88,7 +87,7 @@ public class FileLearnerTest {
 				loggingCapabilities, this.controller);
 	}
 
-	@Test
+	// @Test
 	public void testStart() throws InterruptedException {
 		this.controller.run();
 		assertTrue(this.controller.isRunning());
