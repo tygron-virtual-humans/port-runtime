@@ -72,7 +72,7 @@ module run {
 		  delete(numChameneos(Current)) +
 		  insert(numChameneos(Ids)) +
 		  printMessage(StrColors) +
-		  broker.send(nb_meets(N)) +
+		  (broker).send(nb_meets(N)) +
 		  sendColors(Colors) +
 		  sendGoMall(Ids).
 	}
@@ -82,7 +82,7 @@ module sendColors(L){
 	program{
 		if bel(getHeadTail(L, [], T)) then exit-module.
 		if bel(getHeadTail(L, H, T), length(L, Id), string_concat('chameneo', Id, StrChameneo)) then
-		  StrChameneo.send(color(H)) +
+		  (StrChameneo).send(color(H)) +
 		  sendColors(T).
 	}
 }
@@ -91,7 +91,7 @@ module sendGoMall(Id) {
 	program {
 		if bel(Id == 0) then exit-module.
 		if bel(NewId is Id - 1, string_concat('chameneo', Id, StrChameneo)) then
-		  StrChameneo.send(go_mall) +
+		  (StrChameneo).send(go_mall) +
 		  sendGoMall(NewId).
 	}
 }
@@ -100,7 +100,7 @@ module sendNM(Id) {
 	program {
 		if bel(Id == 0) then exit-module.
 		if bel(NewId is Id - 1, string_concat('chameneo', Id, StrChameneo)) then
-		  StrChameneo.send(?nm) +
+		  (StrChameneo).send(?nm) +
 		  sendNM(NewId).
 	}
 }

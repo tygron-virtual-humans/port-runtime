@@ -9,7 +9,7 @@ masTest {
 	
 			do waitFor(pong).
 		
-			do pong.send(ping).
+			do (pong).send(ping).
 		
 			do waitForReceived(pong,pong).
 			

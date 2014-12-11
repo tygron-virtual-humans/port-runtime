@@ -11,7 +11,7 @@ main module{
 		       string_concat('Received token ', Id, Str1),
 			   string_concat(Str1, ' / ', Str2),
 			   string_concat(Str2, N, Str) )
-			then Receiver.send( Content ) + delete( received(Sender, token(Id, N)) ) + printMessage(Str).
+			then (Receiver).send( Content ) + delete( received(Sender, token(Id, N)) ) + printMessage(Str).
 
 		% If we received information about next agent in the ring, store it.
 		if bel( received(Leader, next(Agent)) ) then insert( next(Agent), leader(Leader) ) + delete( received(Leader, next(Agent)) ).

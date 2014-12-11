@@ -34,7 +34,7 @@ main module{
 		       string_concat(N, NSS, Str)) then
 		  delete(received(Sender, int(nm))) +
 		  printMessage(Str) +
-		  Sender.send(nm(N)).
+		  (Sender).send(nm(N)).
 		
 		% I need to mutate because of other chameneo
 		if bel(received(Sender, imp(mutate(A,C2))), color(C1), complement(C1,C2,C), nb_meetings(N), NewN is N + 1) then
@@ -63,7 +63,7 @@ module checkSame(A) {
 module goMall {
 	program {
 		if bel(color(C)) then 
-		  broker.send(!meet(C)).
+		  (broker).send(!meet(C)).
 	}
 }
 

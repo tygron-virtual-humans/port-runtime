@@ -38,7 +38,7 @@ module createRing(ConnectingAgent, Leader) {
 	program {
 		% Link current agent with agent that needs to be connected to.
 		if bel( nodeToConnectTo(AgentToConnectTo) )
-		  then ConnectingAgent.send( next(AgentToConnectTo) )
+		  then (ConnectingAgent).send( next(AgentToConnectTo) )
 		  		+ delete( nodeToConnectTo(AgentToConnectTo) )
 				+ insert( nodeToConnectTo(ConnectingAgent) ).
 	}
@@ -73,7 +73,7 @@ module sendTokens(L, N, Id){
 		if bel( L = [] ) then exit-module.
 		
 		if bel( L = [H| T], N = 0, times(Times), nToSend(Y), IdN is Id + 1)
-	      then H.send( token(Id, Times) ) + sendTokens(T, Y, IdN).
+	      then (H).send( token(Id, Times) ) + sendTokens(T, Y, IdN).
 
 		% N must be greater than 0; only send tokens to tail of the list.
 		if bel( L = [H| T], M is N - 1, IdN is Id) then sendTokens(T, M, IdN).
@@ -87,7 +87,7 @@ main module {
 		       string_concat('Received token ', Id, Str1),
 			   string_concat(Str1, ' / ', Str2),
 			   string_concat(Str2, N, Str) )
-		  then NextAgent.send( token(Id, Y) ) + delete( received(Sender, token(Id, N)) )
+		  then (NextAgent).send( token(Id, Y) ) + delete( received(Sender, token(Id, N)) )
 		  		+ printMessage(Str).
 
 		% Token has been forwarded specified number of times (see initial beliefs); record time we used.
