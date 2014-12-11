@@ -164,24 +164,6 @@ public class UnitTestWalkerTest extends AbstractUnitTestTest {
 	}
 
 	@Test
-	public void testIncorrectSameNameDifferentGOALFiles() throws IOException {
-		setup("src/test/resources/goal/parser/unittest/incorrectSameNameDifferentGOALFiles.test2g");
-
-		assertFalse(this.visitor.getErrors().isEmpty());
-		// assertEquals(1, visitor.getErrors().size());
-		assertTrue(this.visitor.getWarnings().isEmpty());
-	}
-
-	@Test
-	public void testIncorrectSameNameDifferentGOALFiles2() throws IOException {
-		setup("src/test/resources/goal/parser/unittest/incorrectSameNameDifferentGOALFiles2.test2g");
-
-		assertFalse(this.visitor.getErrors().isEmpty());
-		// assertEquals(1, visitor.getErrors().size());
-		assertTrue(this.visitor.getWarnings().isEmpty());
-	}
-
-	@Test
 	public void testCorrectMinimalLTL() throws IOException {
 		setup("src/test/resources/goal/parser/unittest/correctMinimalLTL.test2g");
 
@@ -220,8 +202,7 @@ public class UnitTestWalkerTest extends AbstractUnitTestTest {
 	public void testModuleTwoArguments() throws IOException {
 		setup("src/test/resources/goal/parser/unittest/moduleTwoArguments.test2g");
 
-		assertFalse(this.visitor.getErrors().isEmpty());
-		// assertEquals(1, visitor.getErrors().size());
+		assertTrue(this.visitor.getErrors().isEmpty());
 		assertTrue(this.visitor.getWarnings().isEmpty());
 	}
 
