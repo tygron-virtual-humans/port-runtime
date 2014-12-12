@@ -5,12 +5,10 @@ import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
 
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import krTools.language.Substitution;
-import languageTools.program.agent.msc.MentalFormula;
 import languageTools.program.agent.msc.MentalLiteral;
 import languageTools.program.agent.msc.MentalStateCondition;
 
@@ -44,7 +42,7 @@ public class MentalStateConditionExecutor {
 			MentalState mentalState, Debugger debugger) {
 		Set<Substitution> result = new MentalStateConditionExecutor(
 				this.condition.applySubst(substitution)).evaluate(mentalState,
-				debugger);
+						debugger);
 		Set<Substitution> combinedResult = new LinkedHashSet<>(result.size());
 		for (Substitution resultSubst : result) {
 			combinedResult.add(resultSubst.combine(substitution));
@@ -65,13 +63,7 @@ public class MentalStateConditionExecutor {
 	 */
 	public Set<Substitution> evaluate(MentalState mentalState, Debugger debugger) {
 		Set<Substitution> result, newResults, subResults;
-		MentalLiteral currentFormula;
-		List<MentalLiteral> formulas = new LinkedList<>();
-		for (final MentalFormula formula : this.condition.getSubFormulas()) {
-			if (formula instanceof MentalLiteral) {
-				formulas.add((MentalLiteral) formula);
-			}
-		}
+		List<MentalLiteral> formulas = this.condition.getAllLiterals();
 		if (formulas.isEmpty()) {
 			// The mental state condition 'empty' represents 'true'.
 			// Return an empty substitution, as no variables need to be bound.
@@ -79,6 +71,7 @@ public class MentalStateConditionExecutor {
 			result.add(mentalState.getOwner().getKRInterface()
 					.getSubstitution(null));
 		} else {
+			MentalLiteral currentFormula;
 			// There is at least one mental literal, so evaluate it.
 			result = mentalState.query(formulas.get(0), debugger);
 			// evaluate the other formulas in order

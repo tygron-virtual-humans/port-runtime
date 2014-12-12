@@ -40,7 +40,6 @@ import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.ModuleCallAction;
 import languageTools.program.agent.msc.AGoalLiteral;
 import languageTools.program.agent.msc.GoalLiteral;
-import languageTools.program.agent.msc.MentalFormula;
 import languageTools.program.agent.msc.MentalLiteral;
 import languageTools.program.agent.msc.MentalStateCondition;
 
@@ -91,7 +90,7 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 
 		// Run target module.
 		Result result = new ModuleExecutor(this.action.getTarget())
-		.executeFully(runState, moduleSubstitution);
+				.executeFully(runState, moduleSubstitution);
 		// TODO: the module is run entirely here, bypassing the default
 		// task-based scheduling; I'm not sure that is the desired effect here
 		// -Vincent
@@ -180,18 +179,16 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	 */
 	private GoalBase getNewFilterGoals(MentalState mentalstate,
 			Debugger debugger, Substitution subst)
-					throws GOALActionFailedException {
+			throws GOALActionFailedException {
 		MentalModel agentModel = mentalstate.getOwnModel();
 
 		GoalBase newAttentionSet = new GoalBase(mentalstate.getState(),
 				mentalstate.getAgentId(), mentalstate.getOwner(), this.action
-				.getTarget().getName());
+						.getTarget().getName());
 
 		// get the goals as obtained from the context, and add them to
 		// the goalbase
-		for (MentalFormula formula : this.context.getSubFormulas()) {
-			MentalLiteral literal = (formula instanceof MentalLiteral) ? ((MentalLiteral) formula)
-					: null;
+		for (MentalLiteral literal : this.context.getAllLiterals()) {
 			// only positive literals can result in new goals
 			if (literal == null || !literal.isPositive()) {
 				continue;
