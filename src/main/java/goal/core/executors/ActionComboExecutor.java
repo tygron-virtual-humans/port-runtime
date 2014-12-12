@@ -68,7 +68,7 @@ public class ActionComboExecutor {
 	 *         holds.
 	 */
 	public List<ActionCombo> getOptions(MentalState mentalState,
-			Debugger debugger) {
+			Substitution subst, Debugger debugger) {
 		List<ActionCombo> options = new LinkedList<>();
 
 		// Get the first action from the list of actions of this combo.
@@ -78,17 +78,16 @@ public class ActionComboExecutor {
 		if (firstaction instanceof UserSpecAction) {
 			// USER-SPECIFIED ACTION MAY HAVE MULTIPLE ACTION SPECS
 			// (PRECONDITIONS).
-			UserSpecActionExecutor userspec1 = new UserSpecActionExecutor(
-					(UserSpecAction) firstaction);
+			UserSpecActionExecutor userspec1 = (UserSpecActionExecutor) new UserSpecActionExecutor(
+					(UserSpecAction) firstaction).applySubst(subst);
 
 			// Find the first action specification whose precondition holds.
 			ActionExecutor userspec = userspec1.evaluatePrecondition(
 					mentalState, debugger, false);
 
 			// If solutions were found, return list of instantiated action
-			// combos where
-			// all action specifications other than the one found have been
-			// removed.
+			// combos where all action specifications other than the one found
+			// have been removed.
 			if (userspec != null) {
 				// Create new action which only has the action specification
 				// found by calling #getOptions(runState).
@@ -104,14 +103,12 @@ public class ActionComboExecutor {
 		} else {
 			// ALL ACTIONS OTHER THAN USER-SPECIFIED ACTIONS.
 			// These actions have a single precondition, and, if the
-			// precondition
-			// holds and the action is closed, the action is an option (and so
-			// is
-			// the action combo).
-
+			// precondition holds and the action is closed, the action is an
+			// option (and so is the action combo).
+			ActionExecutor nonuserspec = ActionExecutor.getActionExecutor(
+					firstaction, this.context).applySubst(subst);
 			// Evaluate the precondition of first action in combo.
-			if (ActionExecutor.getActionExecutor(firstaction, this.context)
-					.evaluatePrecondition(mentalState, debugger, false) != null) {
+			if (nonuserspec.evaluatePrecondition(mentalState, debugger, false) != null) {
 				// If action is not closed throw exception.
 				if (firstaction.isClosed()) {
 					// Action is an option, add the combo as option.

@@ -6,10 +6,6 @@ import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import krTools.language.Substitution;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.AdoptAction;
@@ -116,7 +112,7 @@ public abstract class ActionExecutor {
 			} else {
 				throw new GOALActionFailedException(
 						"Attempt to execute action " + action
-								+ " with free variables.");
+						+ " with free variables.");
 			}
 		} else {
 			debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, this,
@@ -157,7 +153,8 @@ public abstract class ActionExecutor {
 		return "execute(" + getAction().toString() + ")";
 	}
 
-	private static Map<Action<?>, ActionExecutor> executors = new HashMap<>();
+	// private static Map<Action<?>, ActionExecutor> executors = new
+	// HashMap<>();
 
 	public static ActionExecutor getActionExecutor(Action<?> action,
 			MentalStateCondition context) {
@@ -189,7 +186,7 @@ public abstract class ActionExecutor {
 			} else if (action instanceof UserSpecAction) {
 				returned = new UserSpecActionExecutor((UserSpecAction) action);
 			}
-			executors.put(action, returned);
+			// executors.put(action, returned);
 		}
 		if (returned instanceof ModuleCallActionExecutor) {
 			((ModuleCallActionExecutor) returned).setContext(context);

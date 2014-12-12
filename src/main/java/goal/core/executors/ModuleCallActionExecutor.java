@@ -150,12 +150,12 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 		Module target = this.action.getTarget();
 		if (target.getType() == TYPE.ANONYMOUS) {
 			// anonymous modules are completely transparent
-			modulesubst = subst;
+			modulesubst = (subst == null) ? target.getKRInterface()
+					.getSubstitution(null) : subst;
 		} else {
 			// non-anonymous modules let through only specific vars.
 			modulesubst = target.getKRInterface().getSubstitution(null);
 			List<Term> moduleparams = target.getParameters();
-
 			for (int i = 0; i < moduleparams.size(); i++) {
 				// Assumes that module parameters are variables.
 				modulesubst.addBinding((Var) moduleparams.get(i), this.action
@@ -179,12 +179,12 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	 */
 	private GoalBase getNewFilterGoals(MentalState mentalstate,
 			Debugger debugger, Substitution subst)
-			throws GOALActionFailedException {
+					throws GOALActionFailedException {
 		MentalModel agentModel = mentalstate.getOwnModel();
 
 		GoalBase newAttentionSet = new GoalBase(mentalstate.getState(),
 				mentalstate.getAgentId(), mentalstate.getOwner(), this.action
-						.getTarget().getName());
+				.getTarget().getName());
 
 		// get the goals as obtained from the context, and add them to
 		// the goalbase
@@ -225,7 +225,7 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 		this.substitutionToPassOnToModule = subst;
 		ModuleCallActionExecutor returned = new ModuleCallActionExecutor(
 				(ModuleCallAction) this.action.applySubst(subst));
-		returned.setContext(this.context);
+		returned.setContext(this.context.applySubst(subst));
 		return returned;
 	}
 
