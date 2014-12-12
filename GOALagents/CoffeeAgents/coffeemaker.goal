@@ -7,18 +7,15 @@
 % for, or, alternatively, adopt a goal to make what is requested.
 
 init module {
-    knowledge {
-		#import "coffee.pl".
-    }
+	#import "coffee.pl".
     beliefs {
         have(water). have(beans).
-        canMake(maker, [coffee, espresso]).
     }
     goals {
         have(coffee).
     }
-	program{
-		if true then event .
+	program {
+		if true then event.
 	}
     actionspec {
 		% A Product can be made if we have all the required Ingredients and this machine has the ability to make it.

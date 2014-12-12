@@ -5,6 +5,9 @@ requiredFor(coffee, grounds).
 requiredFor(espresso, coffee).
 requiredFor(grounds, beans).
 
+canMake(grinder, [grounds]).
+canMake(maker, [coffee, espresso]).
+
 %%%%% General knowledge about providing products. %%%%%
 
 % A Product is a raw product if there are no other products required for making it.

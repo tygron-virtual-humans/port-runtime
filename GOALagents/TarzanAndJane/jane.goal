@@ -39,10 +39,10 @@ init module {
 	beliefs{
 		% calendar
 		meeting(date(26, 01, 2010), time(12,30), duration(1,30), [jane, tarzan]).
-		meeting(date(15, 02, 2010), time(18,00), duration(4,00), [jane]).
 	}
 	
 	goals{
+		meeting(date(15, 02, 2010), time(18,00), duration(4,00), [jane]).
 	}
 		
 	actionspec{
@@ -70,11 +70,11 @@ main module {
 		
 		% send invitations
 		if not_yet_invited(Person, Date, Time, Dur, Att)
-			then Person.send(meeting(Date, Time, Dur, Att)).
+			then (Person).send(meeting(Date, Time, Dur, Att)).
 		
 		% create a meeting appointment in the calendar
 		if non_conflicting_meeting_invitation(Inviter, Date, Time, Dur, Att)
-			then createMeeting(Date, Time, Dur, Att) + insert(not(received(Inviter, meeting(Date, Time, Dur, Att)))) + Inviter.send(accept(Date, Time, Dur, Att)).
+			then createMeeting(Date, Time, Dur, Att) + insert(not(received(Inviter, meeting(Date, Time, Dur, Att)))) + (Inviter).send(accept(Date, Time, Dur, Att)).
 		if meeting_invitation_accepted_by_all(Date, Time, Dur, Att)
 			then createMeeting(Date, Time, Dur, Att).
 	}

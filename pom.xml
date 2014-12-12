@@ -6,7 +6,7 @@
 
 	<groupId>com.github.goalhub.runtime</groupId>
 	<artifactId>runtime</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>GOAL Runtime</name>
@@ -61,7 +61,7 @@
 		<dependency>
 			<groupId>com.github.goalhub.mentalstate</groupId>
 			<artifactId>mentalstatefactory</artifactId>
-			<version>1.0.7</version>
+			<version>1.1.0</version>
 		</dependency>
 
 		<dependency>

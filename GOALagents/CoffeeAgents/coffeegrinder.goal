@@ -7,14 +7,9 @@
 % what is requested.
 
 init module {
-    knowledge {
-		#import "coffee.pl".
-    }
-    beliefs {
-        canMake(grinder, [grounds]).
-    }
-	program{
-		if true then event .
+	#import "coffee.pl".
+	program {
+		if true then event.
 	}
     % Initially, the coffee grinder machine has no goals.
     actionspec {

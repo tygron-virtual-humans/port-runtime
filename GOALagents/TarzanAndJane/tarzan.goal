@@ -69,9 +69,9 @@ main module {
 			goal(meeting(Date, Time, Duration, Attendees)), bel(me(Me), del(Attendees, Me, Others), forall(member(X, Others), received(X, accept(Date, Time, Duration, Attendees)))).
 		
 		if not_yet_invited(Person, Date, Time, Dur, Att)
-			then Person.send(meeting(Date, Time, Dur, Att)).
+			then (Person).send(meeting(Date, Time, Dur, Att)).
 		if non_conflicting_meeting_invitation(Inviter, Date, Time, Dur, Att)
-			then createMeeting(Date, Time, Dur, Att) + insert(not(received(Inviter, meeting(Date, Time, Dur, Att)))) + Inviter.send(accept(Date, Time, Dur, Att)).
+			then createMeeting(Date, Time, Dur, Att) + insert(not(received(Inviter, meeting(Date, Time, Dur, Att)))) + (Inviter).send(accept(Date, Time, Dur, Att)).
 		if meeting_invitation_accepted_by_all(Date, Time, Dur, Att)
 			then createMeeting(Date, Time, Dur, Att).
 	}
