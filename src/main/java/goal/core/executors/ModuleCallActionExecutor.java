@@ -67,21 +67,16 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 
 	@Override
 	protected Result executeAction(RunState<?> runState, Debugger debugger) {
-		// Get and process substitution that should be passed on to module
-		// that is to be entered; the corresponding variable is set in
-		// #applySubst(Substitution).
-		Substitution substitution = this.substitutionToPassOnToModule;
 		// Use module parameters to filter bindings in substitution. Only
 		// values for free variables in the module's parameters are passed on
 		// in case of a non-anonymous module; an anonymous module is completely
 		// transparent and all bindings are passed on to these modules.
-		Substitution moduleSubstitution = getModuleSubsti(substitution);
-
+		Substitution moduleSubstitution = getModuleSubsti(this.substitutionToPassOnToModule);
 		// TODO: move creation of attentionset into Module class itself.
 
 		// Check whether new attention set needs to be created.
 		GoalBase newAttentionSet = getNewFocus(runState.getMentalState(),
-				debugger, substitution, runState.getFocusGoal());
+				debugger, moduleSubstitution, runState.getFocusGoal());
 		if (newAttentionSet != null) {
 			runState.getMentalState().focus(newAttentionSet, debugger);
 		}
@@ -156,6 +151,7 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 			// non-anonymous modules let through only specific vars.
 			modulesubst = target.getKRInterface().getSubstitution(null);
 			List<Term> moduleparams = target.getParameters();
+			System.out.println("APPLY: " + subst);
 			for (int i = 0; i < moduleparams.size(); i++) {
 				// Assumes that module parameters are variables.
 				modulesubst.addBinding((Var) moduleparams.get(i), this.action
@@ -204,11 +200,13 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 					// action rule, we should have forced the literals
 					// to be closed.
 					if (!query.isClosed()) {
-						throw new GOALActionFailedException("A goal-literal "
-								+ "in the condition of rule " + this
-								+ " is not "
-								+ "closed after applying the subst of the "
-								+ "focus action", null);
+						throw new GOALActionFailedException(
+								"A goal-literal "
+										+ query
+										+ " in the condition of rule "
+										+ this
+										+ " is not closed after applying the subst of the focus action",
+										null);
 					}
 					// FIXME seems better to just fail application instead of
 					// throwing, but how to best do that since we don't return
@@ -225,7 +223,9 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 		this.substitutionToPassOnToModule = subst;
 		ModuleCallActionExecutor returned = new ModuleCallActionExecutor(
 				(ModuleCallAction) this.action.applySubst(subst));
-		returned.setContext(this.context);
+		if (this.context != null) {
+			returned.setContext(this.context.applySubst(subst));
+		}
 		return returned;
 	}
 

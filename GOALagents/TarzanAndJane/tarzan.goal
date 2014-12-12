@@ -47,7 +47,7 @@ init module {
 	
 	actionspec{
 		% write meeting in calendar
-		createMeeting(Date, Time, Duration, Attendees) {
+		createMeeting(Date, Time, Duration, Attendees)@int{
 			pre{
 				not(meeting_conflict(Date, Time, Duration, Attendees))
 			}
