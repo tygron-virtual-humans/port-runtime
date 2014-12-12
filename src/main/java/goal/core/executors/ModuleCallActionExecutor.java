@@ -85,7 +85,7 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 
 		// Run target module.
 		Result result = new ModuleExecutor(this.action.getTarget())
-		.executeFully(runState, moduleSubstitution);
+				.executeFully(runState, moduleSubstitution);
 		// TODO: the module is run entirely here, bypassing the default
 		// task-based scheduling; I'm not sure that is the desired effect here
 		// -Vincent
@@ -151,7 +151,6 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 			// non-anonymous modules let through only specific vars.
 			modulesubst = target.getKRInterface().getSubstitution(null);
 			List<Term> moduleparams = target.getParameters();
-			System.out.println("APPLY: " + subst);
 			for (int i = 0; i < moduleparams.size(); i++) {
 				// Assumes that module parameters are variables.
 				modulesubst.addBinding((Var) moduleparams.get(i), this.action
@@ -175,12 +174,12 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	 */
 	private GoalBase getNewFilterGoals(MentalState mentalstate,
 			Debugger debugger, Substitution subst)
-			throws GOALActionFailedException {
+					throws GOALActionFailedException {
 		MentalModel agentModel = mentalstate.getOwnModel();
 
 		GoalBase newAttentionSet = new GoalBase(mentalstate.getState(),
 				mentalstate.getAgentId(), mentalstate.getOwner(), this.action
-						.getTarget().getName());
+				.getTarget().getName());
 
 		// get the goals as obtained from the context, and add them to
 		// the goalbase
@@ -206,7 +205,7 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 										+ " in the condition of rule "
 										+ this
 										+ " is not closed after applying the subst of the focus action",
-										null);
+								null);
 					}
 					// FIXME seems better to just fail application instead of
 					// throwing, but how to best do that since we don't return
