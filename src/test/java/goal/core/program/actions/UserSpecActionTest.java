@@ -2,6 +2,7 @@ package goal.core.program.actions;
 
 import static org.junit.Assert.assertEquals;
 
+import java.rmi.activation.UnknownObjectException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import krTools.language.Substitution;
 import krTools.language.Term;
 import krTools.language.Var;
 import languageTools.program.agent.actions.UserSpecAction;
+import mentalstatefactory.MentalStateFactory;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
@@ -18,7 +20,6 @@ import org.antlr.runtime.CommonTokenStream;
 import org.junit.Before;
 import org.junit.Test;
 
-import swiPrologMentalState.SwiPrologMentalState;
 import swiprolog.SWIPrologInterface;
 import swiprolog.language.PrologTerm;
 import swiprolog.parser.PrologLexer;
@@ -224,7 +225,8 @@ public class UserSpecActionTest {
 	}
 
 	@Test
-	public void testConvert() {
+	public void testConvert() throws KRInitFailedException,
+			UnknownObjectException {
 		// TODO: how to make this language independent?
 		jpl.Atom arg1 = new jpl.Atom("a");
 		Term term1 = new PrologTerm(arg1, null);
@@ -234,7 +236,8 @@ public class UserSpecActionTest {
 		termList.add(term1);
 		termList.add(term2);
 
-		mentalState.MentalState state = new SwiPrologMentalState();
+		mentalState.MentalState state = MentalStateFactory
+				.getInterface(this.language.getClass());
 		Term list = state.makeList(termList);
 		List<Term> listTermlist = new ArrayList<Term>();
 		listTermlist.add(list);

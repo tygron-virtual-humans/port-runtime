@@ -6,6 +6,7 @@ import goal.tools.debugger.NOPDebugger;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 
 import java.lang.management.ManagementFactory;
+import java.rmi.activation.UnknownObjectException;
 import java.util.LinkedList;
 
 import krTools.errors.exceptions.KRDatabaseException;
@@ -15,7 +16,8 @@ import krTools.language.DatabaseFormula;
 import languageTools.program.agent.AgentId;
 import languageTools.program.agent.AgentProgram;
 import mentalState.BASETYPE;
-import swiPrologMentalState.SwiPrologMentalState;
+import mentalstatefactory.MentalStateFactory;
+import swiprolog.SWIPrologInterface;
 import swiprolog.language.JPLUtils;
 import swiprolog.language.PrologDBFormula;
 
@@ -24,8 +26,9 @@ public class TestMentalState {
 	// @Test
 	public void testInsert_SWIProlog3_performance()
 			throws GOALLaunchFailureException, KRInitFailedException,
-			KRDatabaseException, KRQueryFailedException {
-		mentalState.MentalState state = new SwiPrologMentalState();
+			KRDatabaseException, KRQueryFailedException, UnknownObjectException {
+		mentalState.MentalState state = MentalStateFactory
+				.getInterface(SWIPrologInterface.class);
 		BeliefBase kb = new BeliefBase(BASETYPE.KNOWLEDGEBASE, state,
 				new LinkedList<DatabaseFormula>(), new AgentProgram(null),
 				new AgentId(""));
