@@ -29,6 +29,7 @@ import goal.tools.debugger.NOPDebugger;
 import goal.tools.eclipse.QueryTool;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 import goal.tools.logging.Loggers;
+import goalhub.krTools.KRFactory;
 
 import java.io.File;
 import java.util.Set;
@@ -45,8 +46,6 @@ import nl.tudelft.goal.messaging.exceptions.MessagingException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-
-import swiprolog.SWIPrologInterface;
 
 /**
  * General utility functions for running tests using {@link SingleRun}
@@ -87,7 +86,7 @@ public abstract class ProgramTest {
 	@BeforeClass
 	public static void setupBeforeClass() throws KRInitFailedException {
 		Loggers.addConsoleLogger();
-		language = SWIPrologInterface.getInstance();
+		language = KRFactory.getDefaultInterface();
 
 	}
 
@@ -141,7 +140,7 @@ public abstract class ProgramTest {
 				.getMentalState();
 		Set<Substitution> res = new MentalStateConditionExecutor(
 				mentalStateCondition).evaluate(mentalState, new NOPDebugger(
-				agent.getId()));
+						agent.getId()));
 
 		// there should be exactly 1 substi.
 		if (res.size() < 1) {

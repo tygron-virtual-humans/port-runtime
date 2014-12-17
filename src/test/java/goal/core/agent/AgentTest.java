@@ -7,6 +7,7 @@ import goal.tools.adapt.FileLearner;
 import goal.tools.adapt.Learner;
 import goal.tools.debugger.NOPDebugger;
 import goal.tools.logging.Loggers;
+import goalhub.krTools.KRFactory;
 
 import java.io.File;
 import java.rmi.activation.UnknownObjectException;
@@ -23,8 +24,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import swiprolog.SWIPrologInterface;
 
 public class AgentTest {
 
@@ -45,7 +44,7 @@ public class AgentTest {
 	@Before
 	public void setUp() throws Exception {
 		AgentId id = new AgentId("TestAgent");
-		this.language = SWIPrologInterface.getInstance();
+		this.language = KRFactory.getDefaultInterface();
 		File file = new File("src/test/resources/goal/core/agent/fibonaci.goal");
 		AgentProgram program = PlatformManager.createNew().parseGOALFile(file,
 				this.language);
@@ -106,7 +105,7 @@ public class AgentTest {
 
 	@Test
 	public void testReset() throws InterruptedException, KRInitFailedException,
-	KRDatabaseException, KRQueryFailedException, UnknownObjectException {
+			KRDatabaseException, KRQueryFailedException, UnknownObjectException {
 		assertFalse(this.controller.isRunning());
 		assertTrue(this.controller.isTerminated());
 		this.controller.run();

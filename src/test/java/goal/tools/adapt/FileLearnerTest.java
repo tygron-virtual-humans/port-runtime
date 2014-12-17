@@ -14,6 +14,7 @@ import goal.core.agent.NoMessagingCapabilities;
 import goal.tools.PlatformManager;
 import goal.tools.debugger.NOPDebugger;
 import goal.tools.logging.Loggers;
+import goalhub.krTools.KRFactory;
 
 import java.io.File;
 import java.util.HashSet;
@@ -27,8 +28,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-
-import swiprolog.SWIPrologInterface;
 
 public class FileLearnerTest {
 
@@ -70,7 +69,7 @@ public class FileLearnerTest {
 	@Before
 	public void setUp() throws Exception {
 		AgentId id = new AgentId("TestAgent");
-		this.language = SWIPrologInterface.getInstance();
+		this.language = KRFactory.getDefaultInterface();
 		File file = new File("src/test/resources/goal/tools/adapt/adapt.goal");
 		AgentProgram program = PlatformManager.createNew().parseGOALFile(file,
 				this.language);
