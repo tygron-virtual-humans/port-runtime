@@ -67,7 +67,7 @@ public class UserSpecActionExecutor extends ActionExecutor {
 		if (solutions.isEmpty()) {
 			if (last) {
 				debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION_USERSPEC,
-						this, "Preconditions of action %s failed.",
+						this.action, "Preconditions of action %s failed.",
 						this.action.getName());
 			}
 			return null;

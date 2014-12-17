@@ -60,7 +60,7 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	@Override
 	public ModuleCallActionExecutor evaluatePrecondition(MentalState runState,
 			Debugger debugger, boolean last) {
-		debugger.breakpoint(Channel.CALL_MODULE, this,
+		debugger.breakpoint(Channel.CALL_MODULE, this.action.getTarget(),
 				"Going to enter module: %s.", this.action.getTarget().getName());
 		return this;
 	}
@@ -85,7 +85,7 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 
 		// Run target module.
 		Result result = new ModuleExecutor(this.action.getTarget())
-				.executeFully(runState, moduleSubstitution);
+		.executeFully(runState, moduleSubstitution);
 		// TODO: the module is run entirely here, bypassing the default
 		// task-based scheduling; I'm not sure that is the desired effect here
 		// -Vincent
@@ -174,12 +174,12 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	 */
 	private GoalBase getNewFilterGoals(MentalState mentalstate,
 			Debugger debugger, Substitution subst)
-					throws GOALActionFailedException {
+			throws GOALActionFailedException {
 		MentalModel agentModel = mentalstate.getOwnModel();
 
 		GoalBase newAttentionSet = new GoalBase(mentalstate.getState(),
 				mentalstate.getAgentId(), mentalstate.getOwner(), this.action
-				.getTarget().getName());
+						.getTarget().getName());
 
 		// get the goals as obtained from the context, and add them to
 		// the goalbase
@@ -205,7 +205,7 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 										+ " in the condition of rule "
 										+ this
 										+ " is not closed after applying the subst of the focus action",
-								null);
+										null);
 					}
 					// FIXME seems better to just fail application instead of
 					// throwing, but how to best do that since we don't return

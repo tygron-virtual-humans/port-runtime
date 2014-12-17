@@ -100,9 +100,8 @@ public abstract class ActionExecutor {
 		// Evaluate the precondition of this {@link Action}.
 		ActionExecutor action = instantiatedAction.evaluatePrecondition(
 				runState.getMentalState(), debugger, last);
-		boolean canPerformAction = (action != null);
 
-		if (canPerformAction) {
+		if (action != null) {
 			// Check if action is closed.
 			if (action.getAction().isClosed()) {
 				debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, action,
@@ -115,7 +114,7 @@ public abstract class ActionExecutor {
 						+ " with free variables.");
 			}
 		} else {
-			debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, this,
+			debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, action,
 					"Precondition of %s does not hold", instantiatedAction);
 		}
 
@@ -145,7 +144,8 @@ public abstract class ActionExecutor {
 	protected final void report(Debugger debugger) {
 		boolean builtin = !(this instanceof UserSpecActionExecutor);
 		debugger.breakpoint(builtin ? Channel.ACTION_EXECUTED_BUILTIN
-				: Channel.ACTION_EXECUTED_USERSPEC, this, "Performed %s.", this);
+				: Channel.ACTION_EXECUTED_USERSPEC, getAction(),
+				"Performed %s.", getAction());
 	}
 
 	@Override

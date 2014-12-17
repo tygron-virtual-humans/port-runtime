@@ -36,8 +36,9 @@ public class AdoptActionExecutor extends ActionExecutor {
 			Selector selector = this.action.getSelector();
 			if (selector.getType() == SelectorType.SELF
 					|| selector.getType() == SelectorType.THIS) {
-				debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, this,
-						"Precondition of action %s holds.", this);
+				debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION,
+						this.action, "Precondition of action %s holds.",
+						this.action);
 				return this;
 			} else {
 				throw new UnsupportedOperationException(
@@ -45,8 +46,8 @@ public class AdoptActionExecutor extends ActionExecutor {
 			}
 		}
 
-		debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, this,
-				"Precondition of action %s does not hold.", this);
+		debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, this.action,
+				"Precondition of action %s does not hold.", this.action);
 		return null;
 	}
 
