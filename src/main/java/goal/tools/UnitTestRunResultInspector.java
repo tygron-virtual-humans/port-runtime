@@ -20,7 +20,7 @@ import languageTools.program.test.UnitTest;
  * @author M.P. Korstanje
  */
 public class UnitTestRunResultInspector implements
-ResultInspector<UnitTestInterpreter<ObservableDebugger>> {
+		ResultInspector<UnitTestInterpreter<ObservableDebugger>> {
 	private final HashMap<AgentId, UnitTestInterpreterResult> results = new HashMap<>();
 	private final UnitTest unitTest;
 

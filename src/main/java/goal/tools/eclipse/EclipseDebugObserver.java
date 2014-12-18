@@ -17,8 +17,10 @@ import goal.tools.eclipse.DebugCommand.Command;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import krTools.language.DatabaseFormula;
+import krTools.language.Substitution;
 import krTools.parser.SourceInfo;
 import languageTools.parser.InputStreamPosition;
 import languageTools.program.agent.AgentId;
@@ -26,7 +28,6 @@ import languageTools.program.agent.Module;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.ModuleCallAction;
 import languageTools.program.agent.actions.UserSpecAction;
-import languageTools.program.agent.msc.MentalStateCondition;
 import mentalState.BASETYPE;
 
 public class EclipseDebugObserver implements DebugObserver {
@@ -70,12 +71,12 @@ public class EclipseDebugObserver implements DebugObserver {
 		return "EclipseDebugObserver";
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void notifyBreakpointHit(DebugEvent event) {
 		final Object object = event.getAssociatedObject();
-		// Update the last known source position
-		if (object instanceof SourceInfo) {
-			this.source = (SourceInfo) object;
+		if (event.getAssociatedSource() != null) {
+			this.source = event.getAssociatedSource();
 		}
 		final AgentId agentId = this.agent.getId();
 		if (DebugPreferences.getChannelState(event.getChannel()).canView()
@@ -169,14 +170,16 @@ public class EclipseDebugObserver implements DebugObserver {
 			}
 			break;
 		case RULE_CONDITION_EVALUATION:
-			final MentalStateCondition cond = (MentalStateCondition) object;
+			// final MentalStateCondition cond = (MentalStateCondition) object;
 			final List<String> rAsList = new LinkedList<>();
-			if (event.getMessage().contains("holds for")) {
-				// FIXME
-				/*
-				 * for (final Substitution sub : cond.getLatestSubstitutions())
-				 * { if (sub != null) { rAsList.add(sub.toString()); } }
-				 */
+			if (event.getRawArguments().length > 1) {
+				Set<Substitution> substset = (Set<Substitution>) event
+						.getRawArguments()[1];
+				for (final Substitution sub : substset) {
+					if (sub != null) {
+						rAsList.add(sub.toString());
+					}
+				}
 				if (rAsList.isEmpty()) {
 					rAsList.add("[]");
 				}
@@ -190,14 +193,10 @@ public class EclipseDebugObserver implements DebugObserver {
 			final UserSpecAction action = (UserSpecAction) event
 			.getAssociatedObject();
 			final List<String> aAsList = new LinkedList<>();
-			if (event.getMessage().contains("holds for")) {
+			if (event.getRawArguments().length > 1) {
 				aAsList.add("selected: " + action);
-				// FIXME
-				/*
-				 * if (action.getLatestSubstitution() != null) {
-				 * aAsList.add("precondition: " +
-				 * action.getLatestSubstitution().toString()); }
-				 */
+				Substitution subst = (Substitution) event.getRawArguments()[2];
+				aAsList.add("precondition: " + subst.toString());
 			} else {
 				aAsList.add("precondition does not hold");
 			}
@@ -218,8 +217,8 @@ public class EclipseDebugObserver implements DebugObserver {
 					agentId, cAsList));
 			break;
 		case ACTION_EXECUTED_USERSPEC:
+			final Action<?> executed = (Action<?>) event.getAssociatedObject();
 			if (LoggingPreferences.getEclipseActionHistory()) {
-				final Action executed = (Action) event.getAssociatedObject();
 				this.writer.write(new DebugCommand(Command.EXECUTED, agentId,
 						executed.toString()));
 			}
@@ -238,27 +237,23 @@ public class EclipseDebugObserver implements DebugObserver {
 			final SourceInfo saved = this.source;
 			final MentalState init = this.agent.getController().getRunState()
 					.getMentalState();
-			final SingleGoal[] goals = init
-					.getAttentionSet()
-					.getGoals()
-					.toArray(
-							new SingleGoal[init.getAttentionSet().getGoals()
-							               .size()]);
+			final Set<SingleGoal> goalSet = init.getAttentionSet().getGoals();
+			final SingleGoal[] goals = goalSet.toArray(new SingleGoal[goalSet
+			                                                          .size()]);
 			for (final SingleGoal goal : goals) {
 				notifyBreakpointHit(new DebugEvent(null, "",
-						"has been adopted", Channel.GB_UPDATES, goal));
+						Channel.GB_UPDATES, goal, goal.getGoal()
+						.getSourceInfo(), "%s has been adopted",
+						goal.toString()));
 			}
-			final DatabaseFormula[] beliefs = init
-					.getOwnBase(BASETYPE.BELIEFBASE)
-					.getTheory()
-					.getFormulas()
-					.toArray(
-							new DatabaseFormula[init
-							                    .getOwnBase(BASETYPE.BELIEFBASE)
-							                    .getTheory().getFormulas().size()]);
+			final Set<DatabaseFormula> beliefSet = init
+					.getOwnBase(BASETYPE.BELIEFBASE).getTheory().getFormulas();
+			final DatabaseFormula[] beliefs = beliefSet
+					.toArray(new DatabaseFormula[beliefSet.size()]);
 			for (final DatabaseFormula belief : beliefs) {
 				notifyBreakpointHit(new DebugEvent(null, "",
-						"has been inserted", Channel.BB_UPDATES, belief));
+						Channel.BB_UPDATES, belief, belief.getSourceInfo(),
+						"%s has been inserted", belief.toString()));
 			}
 			this.source = saved;
 			this.initialized = true;

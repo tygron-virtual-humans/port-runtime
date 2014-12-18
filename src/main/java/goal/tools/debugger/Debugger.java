@@ -2,6 +2,7 @@ package goal.tools.debugger;
 
 import goal.core.agent.Controller;
 import goal.tools.debugger.SteppingDebugger.RunMode;
+import krTools.parser.SourceInfo;
 import languageTools.program.agent.AgentProgram;
 
 public interface Debugger {
@@ -57,8 +58,8 @@ public interface Debugger {
 	 *             interrupt is caused by an interrupted() call to the thread
 	 *             which happens only when this agent has to die.
 	 */
-	public abstract void breakpoint(Channel channel, Object associate,
-			String message, Object... args);
+	public abstract void breakpoint(Channel channel, Object associateObject,
+			SourceInfo associateSource, String message, Object... args);
 
 	/**
 	 * Obtains the name of this {@link Debugger}. If this {@link Debugger} is

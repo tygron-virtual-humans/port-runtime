@@ -237,7 +237,14 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 			throws GOALLaunchFailureException {
 		if (!this.masProgram.isValid()) {
 			throw new GOALLaunchFailureException("Cannot launch MAS "
-					+ this.masProgram + " because it (or a child) has errors.");
+					+ this.masProgram + " because it has errors.");
+		}
+		for (AgentProgram agent : this.agentPrograms.values()) {
+			if (!agent.isValid()) {
+				throw new GOALLaunchFailureException("Cannot launch MAS "
+						+ this.masProgram + " because its child " + agent
+						+ " has errors.");
+			}
 		}
 
 		// Launch the multi-agent system. and start the runtime environment.

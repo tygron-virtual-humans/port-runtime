@@ -160,7 +160,7 @@ public class Agent<CONTROLLER extends Controller> {
 	 * @throws UnknownObjectException
 	 */
 	public void reset() throws InterruptedException, KRInitFailedException,
-	KRDatabaseException, KRQueryFailedException, UnknownObjectException {
+			KRDatabaseException, KRQueryFailedException, UnknownObjectException {
 		this.controller.reset();
 	}
 

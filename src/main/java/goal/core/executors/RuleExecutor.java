@@ -17,6 +17,8 @@ import java.util.Set;
 
 import krTools.language.Substitution;
 import krTools.language.Term;
+import languageTools.parser.InputStreamPosition;
+import languageTools.program.agent.msc.MentalFormula;
 import languageTools.program.agent.rules.ForallDoRule;
 import languageTools.program.agent.rules.IfThenRule;
 import languageTools.program.agent.rules.ListallDoRule;
@@ -58,9 +60,21 @@ public class RuleExecutor {
 		MentalState mentalState = runState.getMentalState();
 		Debugger debugger = runState.getDebugger();
 
+		InputStreamPosition pos = null;
+		for (final MentalFormula sub : this.rule.getCondition()
+				.getSubFormulas()) {
+			if (sub.getSourceInfo() instanceof InputStreamPosition) {
+				if (pos == null) {
+					pos = (InputStreamPosition) sub.getSourceInfo();
+				} else {
+					pos.end((InputStreamPosition) sub.getSourceInfo());
+				}
+			}
+		}
+
 		// FIXME using #toRuleString to prevent adding trailing dot...
 		debugger.breakpoint(Channel.RULE_CONDITIONAL_VIEW,
-				this.rule.getCondition(), "Evaluating rule %s.",
+				this.rule.getCondition(), pos, "Evaluating rule %s.",
 				this.rule.toString());
 
 		// Get substitutions that satisfy rule condition.
@@ -74,7 +88,7 @@ public class RuleExecutor {
 			// rule is evaluated using all goals in current attention set.
 			substset = new MentalStateConditionExecutor(
 					this.rule.getCondition()).evaluate(substitution,
-							mentalState, debugger);
+					mentalState, debugger);
 		}
 
 		// If condition does not hold (no solutions), then report and return.
@@ -82,7 +96,7 @@ public class RuleExecutor {
 			// FIXME using #toRuleString to prevent adding trailing dot...
 			// #3079 this must NOT pass the action to the debugger.
 			debugger.breakpoint(Channel.RULE_CONDITION_EVALUATION,
-					this.rule.getCondition(),
+					this.rule.getCondition(), pos,
 					"Condition of rule %s does not hold.", this.rule.toString());
 			return new Result();
 		}
@@ -90,10 +104,10 @@ public class RuleExecutor {
 		// FIXME using #toRuleString to prevent adding trailing dot...
 		// #3079 this must pass the ACTION to the debugger
 		debugger.breakpoint(Channel.HIDDEN_RULE_CONDITION_EVALUATION,
-				this.rule.getAction(), "Condition of rule %s holds.",
+				this.rule.getAction(), pos, "Condition of rule %s holds.",
 				this.rule.toString());
 		debugger.breakpoint(Channel.RULE_CONDITION_EVALUATION,
-				this.rule.getCondition(),
+				this.rule.getCondition(), pos,
 				"Condition of rule %s holds for: %s.", this.rule.toString(),
 				substset);
 

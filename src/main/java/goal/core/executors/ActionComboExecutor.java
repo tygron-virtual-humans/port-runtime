@@ -157,7 +157,7 @@ public class ActionComboExecutor {
 		}
 
 		runState.getDebugger().breakpoint(Channel.ACTIONCOMBO_FINISHED,
-				this.actions, "Performed %s.", comboResult.getActions());
+				this.actions, null, "Performed %s.", comboResult.getActions());
 
 		return comboResult;
 	}

@@ -56,7 +56,7 @@ public class QueryTool {
 			// use a dummy debugger
 			Set<Substitution> substitutions = new MentalStateConditionExecutor(
 					mentalStateCondition).evaluate(mentalState,
-							new SteppingDebugger("query", null));
+					new SteppingDebugger("query", null));
 			String resulttext = "";
 			if (substitutions.isEmpty()) {
 				resulttext = "No solutions";
@@ -186,7 +186,7 @@ public class QueryTool {
 	 * @modified K.Hindriks if UserOrFocusAction action must be UserSpecAction.
 	 */
 	private Action<?> parseAction(String action) throws GOALException,
-			ParserException {
+	ParserException {
 		GOAL parser = prepareGOALParser(action);
 		ActionContext actionContext = parser.action();
 		AgentValidator test = new AgentValidator("inline");

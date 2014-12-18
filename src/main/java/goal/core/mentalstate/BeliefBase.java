@@ -134,8 +134,8 @@ public class BeliefBase {
 	 */
 	public BeliefBase(BASETYPE baseType, mentalState.MentalState state,
 			List<DatabaseFormula> content, AgentProgram owner, AgentId agentName)
-					throws KRInitFailedException, KRDatabaseException,
-					KRQueryFailedException {
+			throws KRInitFailedException, KRDatabaseException,
+			KRQueryFailedException {
 		this.agentName = agentName;
 		this.type = baseType;
 		this.state = state;
@@ -218,6 +218,7 @@ public class BeliefBase {
 				this.database.insert(formula);
 
 				debugger.breakpoint(getChannel(), formula,
+						formula.getSourceInfo(),
 						"%s has been inserted into the belief base of %s.",
 						formula, this.agentName);
 			} catch (Exception e) {
@@ -243,8 +244,7 @@ public class BeliefBase {
 	 *         otherwise.
 	 */
 	public boolean insert(Update update, Debugger debugger) {
-		return this.update(update.getAddList(), update.getDeleteList(),
-				debugger);
+		return update(update.getAddList(), update.getDeleteList(), debugger);
 	}
 
 	/**
@@ -262,6 +262,7 @@ public class BeliefBase {
 				boolean change = this.theory.add(formula);
 				if (change) {
 					debugger.breakpoint(getChannel(), formula,
+							formula.getSourceInfo(),
 							"%s has been inserted into the mailbox of %s.",
 							formula, this.agentName);
 				}
@@ -291,6 +292,7 @@ public class BeliefBase {
 				this.database.delete(formula);
 
 				debugger.breakpoint(getChannel(), formula,
+						formula.getSourceInfo(),
 						"%s has been deleted from the belief base of %s.",
 						formula, this.agentName);
 			} catch (KRDatabaseException e) {
@@ -317,8 +319,7 @@ public class BeliefBase {
 	 *         otherwise.
 	 */
 	public boolean delete(Update update, Debugger debugger) {
-		return this.update(update.getDeleteList(), update.getAddList(),
-				debugger);
+		return update(update.getDeleteList(), update.getAddList(), debugger);
 	}
 
 	/**
@@ -371,7 +372,8 @@ public class BeliefBase {
 	public void updatePercepts(Set<Percept> addList, Set<Percept> deleteList,
 			Debugger debugger) {
 		if (!addList.isEmpty() || !deleteList.isEmpty()) {
-			debugger.breakpoint(Channel.PERCEPTS, null, "Processing percepts.");
+			debugger.breakpoint(Channel.PERCEPTS, null, null,
+					"Processing percepts.");
 
 			Database perceptbase = getDatabase();
 			for (eis.iilang.Percept percept : deleteList) {
@@ -380,6 +382,7 @@ public class BeliefBase {
 							percept);
 					this.theory.remove(formula);
 					debugger.breakpoint(getChannel(), formula,
+							formula.getSourceInfo(),
 							"%s has been deleted from the percept base of %s.",
 							formula, this.agentName);
 				} catch (KRDatabaseException e) {
@@ -396,6 +399,7 @@ public class BeliefBase {
 					debugger.breakpoint(
 							getChannel(),
 							formula,
+							formula.getSourceInfo(),
 							"%s has been inserted into the percept base of %s.",
 							formula, this.agentName);
 				} catch (KRDatabaseException e) {
@@ -404,7 +408,8 @@ public class BeliefBase {
 							+ "percept base", e);
 				}
 			}
-			debugger.breakpoint(Channel.PERCEPTS, null, "Percepts processed.");
+			debugger.breakpoint(Channel.PERCEPTS, null, null,
+					"Percepts processed.");
 		}
 	}
 

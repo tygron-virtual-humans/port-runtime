@@ -42,7 +42,7 @@ public class MentalStateConditionExecutor {
 			MentalState mentalState, Debugger debugger) {
 		Set<Substitution> result = new MentalStateConditionExecutor(
 				this.condition.applySubst(substitution)).evaluate(mentalState,
-						debugger);
+				debugger);
 		Set<Substitution> combinedResult = new LinkedHashSet<>(result.size());
 		for (Substitution resultSubst : result) {
 			combinedResult.add(resultSubst.combine(substitution));

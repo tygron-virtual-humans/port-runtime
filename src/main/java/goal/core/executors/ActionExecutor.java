@@ -104,18 +104,20 @@ public abstract class ActionExecutor {
 		if (action != null) {
 			// Check if action is closed.
 			if (action.getAction().isClosed()) {
-				debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, action,
-						"Precondition of %s holds", action);
+				debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION,
+						getAction(), getAction().getSourceInfo(),
+						"Precondition of %s holds", getAction().getName());
 				// Perform the action if precondition holds.
 				result.merge(action.executeAction(runState, debugger));
 			} else {
 				throw new GOALActionFailedException(
-						"Attempt to execute action " + action
+						"Attempt to execute action " + getAction().getName()
 						+ " with free variables.");
 			}
 		} else {
-			debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, action,
-					"Precondition of %s does not hold", instantiatedAction);
+			debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, getAction(),
+					getAction().getSourceInfo(),
+					"Precondition of %s does not hold", getAction().getName());
 		}
 
 		return result;
@@ -144,8 +146,8 @@ public abstract class ActionExecutor {
 	protected final void report(Debugger debugger) {
 		boolean builtin = !(this instanceof UserSpecActionExecutor);
 		debugger.breakpoint(builtin ? Channel.ACTION_EXECUTED_BUILTIN
-				: Channel.ACTION_EXECUTED_USERSPEC, getAction(),
-				"Performed %s.", getAction());
+				: Channel.ACTION_EXECUTED_USERSPEC, getAction(), getAction()
+				.getSourceInfo(), "Performed %s.", getAction().getName());
 	}
 
 	@Override

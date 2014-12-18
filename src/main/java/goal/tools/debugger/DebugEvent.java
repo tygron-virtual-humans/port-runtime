@@ -25,6 +25,8 @@ import goal.tools.logging.SingleLineFormatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
+import krTools.parser.SourceInfo;
+
 /**
  * Stores information about a (debug) event.
  *
@@ -33,11 +35,7 @@ import java.util.logging.LogRecord;
  * @modified N.Kraayenbrink extends GOALLogRecord, so that the events can be
  *           logged and buffered
  */
-@SuppressWarnings("serial")
 public class DebugEvent extends GOALLogRecord {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -3206247375363310299L;
 	private final RunMode mode;
 	private final String source; // name of the source that generated the event
@@ -49,24 +47,9 @@ public class DebugEvent extends GOALLogRecord {
 	 * The object (or an instance of the object) referred to in the breakpoint.
 	 */
 	private final Object associatedObject;
-
-	/**
-	 * Creates a debug event for some channel, with no associated object.
-	 *
-	 * @param mode
-	 *            The run mode of the debugger that generated the event.
-	 *            (RUNNING, STEPPING, PAUSED or null; should not be KILLED)
-	 * @param source
-	 *            The source (typically a debugger) that created the event
-	 * @param message
-	 *            Some description of the event. Usually a breakpoint message.
-	 * @param channel
-	 *            The channel on which the event is published.
-	 */
-	public DebugEvent(RunMode mode, String source, String message,
-			Channel channel) {
-		this(mode, source, message, channel, null);
-	}
+	private final SourceInfo associatedSource;
+	private final String rawMsg;
+	private final Object[] rawArgs;
 
 	/**
 	 * Creates a debug event for some channel, with some associated object.
@@ -84,13 +67,17 @@ public class DebugEvent extends GOALLogRecord {
 	 *            The object to associate with this {@link DebugEvent}. May be
 	 *            null if the event is not associated with any object.
 	 */
-	public DebugEvent(RunMode mode, String source, String message,
-			Channel channel, Object association) {
-		super(Level.INFO, message, null);
+	public DebugEvent(RunMode mode, String source, Channel channel,
+			Object associatedObject, SourceInfo associatedSource,
+			String message, Object... args) {
+		super(Level.INFO, String.format(message, args), null);
 		this.mode = mode;
 		this.source = source;
 		this.channel = channel;
-		this.associatedObject = association;
+		this.associatedObject = associatedObject;
+		this.associatedSource = associatedSource;
+		this.rawMsg = message;
+		this.rawArgs = args;
 	}
 
 	/**
@@ -112,6 +99,14 @@ public class DebugEvent extends GOALLogRecord {
 		return this.source;
 	}
 
+	public String getRawMessage() {
+		return this.rawMsg;
+	}
+
+	public Object[] getRawArguments() {
+		return this.rawArgs;
+	}
+
 	/**
 	 * @return The channel on which this event was published
 	 */
@@ -124,6 +119,10 @@ public class DebugEvent extends GOALLogRecord {
 	 */
 	public Object getAssociatedObject() {
 		return this.associatedObject;
+	}
+
+	public SourceInfo getAssociatedSource() {
+		return this.associatedSource;
 	}
 
 	@Override

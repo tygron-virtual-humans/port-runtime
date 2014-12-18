@@ -304,9 +304,11 @@ public class MentalModel {
 
 		if (substitutions.isEmpty()) {
 			debugger.breakpoint(Channel.ATOM_QUERIES, literal,
-					"Condition %s has no solutions.", literal);
+					literal.getSourceInfo(), "Condition %s has no solutions.",
+					literal);
 		} else {
 			debugger.breakpoint(Channel.ATOM_QUERIES, literal,
+					literal.getSourceInfo(),
 					"Condition %s holds for %s substitution(s): %s.", literal,
 					substitutions.size(), substitutions);
 		}
@@ -525,8 +527,8 @@ public class MentalModel {
 	 */
 	protected void focus(GoalBase attentionSet, Debugger debugger) {
 		this.goalBases.push(attentionSet);
-		debugger.breakpoint(Channel.GB_CHANGES, attentionSet, "focused to %s",
-				attentionSet.getName());
+		debugger.breakpoint(Channel.GB_CHANGES, attentionSet, null,
+				"focused to %s", attentionSet.getName());
 	}
 
 	/**
@@ -549,7 +551,7 @@ public class MentalModel {
 		// remove any goals from new current attention set that have been
 		// achieved.
 		updateGoalState(debugger);
-		debugger.breakpoint(Channel.GB_CHANGES, oldAttentionSet,
+		debugger.breakpoint(Channel.GB_CHANGES, oldAttentionSet, null,
 				"dropped goalbase  %s", oldAttentionSet.getName());
 
 	}

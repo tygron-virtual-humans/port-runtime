@@ -106,13 +106,13 @@ public class LocalMessagingEnvironmentTest {
 
 	@Test(timeout = 5000)
 	public void testShutDown() throws ManagementException,
-	InterruptedException, MessagingException {
+			InterruptedException, MessagingException {
 		this.environment.shutDown();
 	}
 
 	@Test(timeout = 5000)
 	public void testDelayedShutDown() throws ManagementException,
-	InterruptedException, MessagingException {
+			InterruptedException, MessagingException {
 
 		TimeUnit.SECONDS.sleep(1);
 		this.environment.shutDown();
