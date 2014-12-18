@@ -1,7 +1,5 @@
 environment{
-    % insert a proper environment reference on the next line.
-    env = "tic-tac-toe-1.1.0-r2014-10-30.jar".
-    % insert proper initialization parameters and values on the next line, or remove it.
+    env = "Tic-Tac-Toe-1.1.1-SNAPSHOT.jar".
     init = [xplayer = "agent",  oplayer = "agent"].
 }
 

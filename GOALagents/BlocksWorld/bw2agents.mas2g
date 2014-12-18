@@ -1,5 +1,5 @@
 environment{
-  env = "blocksworld/blocksworld.jar" .
+  env = "blocksworld/blocksworld-1.0.1-SNAPSHOT-r2014-12-18.jar" .
   init= [start=[2,3,0,5,0,7,0,6,8]].
 }
 

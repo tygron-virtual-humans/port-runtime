@@ -1,5 +1,5 @@
 environment{
-	env = "tower-1.1.0-r2014-10-30.jar" .
+	env = "tower-1.1.1-SNAPSHOT.jar" .
 }
 
 agentfiles{

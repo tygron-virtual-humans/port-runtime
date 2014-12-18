@@ -1,5 +1,5 @@
 environment{
-	env = "carriage-0.5.2-r2014-10-30.jar".
+	env = "Carriage-1.0.0-SNAPSHOT.jar".
 }
 agentfiles{
 	"Carriage.goal".
