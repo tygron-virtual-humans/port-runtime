@@ -75,6 +75,7 @@ public class RulesExecutor {
 			runState.getDebugger().breakpoint(
 					Channel.REASONING_CYCLE_SEPARATOR,
 					null,
+					null,
 					"+++++++ Adaptive Cycle " + runState.getRoundCounter()
 					+ " +++++++ ");
 

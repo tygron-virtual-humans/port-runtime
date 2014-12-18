@@ -126,14 +126,15 @@ public class ModuleExecutor {
 			// Report entry of non-anonymous module on debug channel.
 			if (this.module.getType() != TYPE.ANONYMOUS) {
 				runState.getDebugger().breakpoint(this.entrychannel,
-						this.module, "Entering " + this.module.getNamePhrase());
+						this.module, this.module.getSourceInfo(),
+						"Entering " + this.module.getNamePhrase());
 			}
 		}
 
 		// Evaluate and apply the rules of this module
 		this.result = new RulesExecutor(this.module.getRules(),
 				this.module.getRuleEvaluationOrder()).run(runState,
-						substitution);
+				substitution);
 
 		// exit module if {@link ExitModuleAction} has been performed.
 		boolean exit = this.result.isModuleTerminated();
@@ -173,7 +174,8 @@ public class ModuleExecutor {
 			if (this.module.getType() != TYPE.ANONYMOUS) {
 				this.result.setModuleTerminated(false);
 				runState.getDebugger().breakpoint(this.exitchannel,
-						this.module, "Exiting " + this.module.getNamePhrase());
+						this.module, this.module.getSourceInfo(),
+						"Exiting " + this.module.getNamePhrase());
 			}
 
 			// Remove module again from stack of modules that have been entered

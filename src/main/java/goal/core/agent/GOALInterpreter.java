@@ -94,9 +94,9 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 			throws KRInitFailedException {
 		super.initalizeController(agent);
 		this.program.getKRInterface().initialize(/*
-		 * program,
-		 * agent.getId().getName()
-		 */);
+												 * program,
+												 * agent.getId().getName()
+												 */);
 		this.runState = new RunState<>(agent.getId(), agent.getEnvironment(),
 				agent.getMessaging(), agent.getLogging(), this.program,
 				this.debugger, this.learner);
@@ -104,7 +104,7 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 
 	@Override
 	public void onReset() throws InterruptedException, KRInitFailedException,
-	KRDatabaseException, KRQueryFailedException, UnknownObjectException {
+			KRDatabaseException, KRQueryFailedException, UnknownObjectException {
 		this.runState.reset();
 		this.debugger.reset();
 	}
@@ -126,16 +126,16 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 					if (call == null) {
 						// Create the initial call (run the main module)
 						GOALInterpreter.this.debugger.breakpoint(
-								Channel.REASONING_CYCLE_SEPARATOR, 0,
+								Channel.REASONING_CYCLE_SEPARATOR, 0, null,
 								"%s has been started",
 								GOALInterpreter.this.agent.getId());
 						GOALInterpreter.this.runState.startCycle(false);
 						call = new ModuleExecutor(
 								GOALInterpreter.this.runState.getMainModule())
-						.execute(GOALInterpreter.this.runState,
-								GOALInterpreter.this.program
-								.getKRInterface()
-								.getSubstitution(null));
+								.execute(GOALInterpreter.this.runState,
+										GOALInterpreter.this.program
+												.getKRInterface()
+												.getSubstitution(null));
 					}
 					Callable<Callable<?>> out = null;
 					if (call != null) {

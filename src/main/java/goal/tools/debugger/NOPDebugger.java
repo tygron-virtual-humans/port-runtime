@@ -1,5 +1,6 @@
 package goal.tools.debugger;
 
+import krTools.parser.SourceInfo;
 import languageTools.program.agent.AgentId;
 
 public class NOPDebugger implements Debugger {
@@ -15,8 +16,8 @@ public class NOPDebugger implements Debugger {
 	}
 
 	@Override
-	public void breakpoint(Channel channel, Object associate, String message,
-			Object... args) {
+	public void breakpoint(Channel channel, Object associateObject,
+			SourceInfo associateSource, String message, Object... args) {
 		if (this.killed) {
 			throw new DebuggerKilledException();
 		}

@@ -29,17 +29,18 @@ public class ObservableDebugger extends SteppingDebugger {
 	}
 
 	@Override
-	public void breakpoint(Channel channel, Object associate, String message,
-			Object... args) {
+	public void breakpoint(Channel channel, Object associateObject,
+			SourceInfo associateSource, String message, Object... args) {
 		// Only if there are observers for the channel, events need to be send.
 		if (!this.channelObservers.get(channel).isEmpty()) {
 			// Create event and notify observers.
 			DebugEvent event = new DebugEvent(getRunMode(), getName(), channel,
-					associate, message, args);
+					associateObject, associateSource, message, args);
 			notifyObservers(channel, event);
 		}
 
-		super.breakpoint(channel, associate, message, args);
+		super.breakpoint(channel, associateObject, associateSource, message,
+				args);
 	}
 
 	/**
@@ -62,7 +63,7 @@ public class ObservableDebugger extends SteppingDebugger {
 		// notify observers of run mode change.
 		if (mode != getRunMode()) {
 			notifyObservers(Channel.RUNMODE, new DebugEvent(mode, getName(),
-					Channel.RUNMODE, mode, "Run mode = %s", mode));
+					Channel.RUNMODE, mode, null, "Run mode = %s", mode));
 		}
 		super.setRunMode(mode);
 	}
@@ -134,15 +135,13 @@ public class ObservableDebugger extends SteppingDebugger {
 	}
 
 	@Override
-	protected boolean checkUserBreakpointHit(Object associatedObject,
-			String message, Object... args) {
-		boolean hit = super.checkUserBreakpointHit(associatedObject, message,
-				args);
+	protected boolean checkUserBreakpointHit(SourceInfo source, String message,
+			Object... args) {
+		boolean hit = super.checkUserBreakpointHit(source, message, args);
 		if (hit) {
-			SourceInfo parsedObject = (SourceInfo) associatedObject;
 			DebugEvent event = new DebugEvent(getRunMode(), getName(),
-					Channel.BREAKPOINTS, associatedObject,
-					"Hit user defined breakpoint on %s", parsedObject);
+					Channel.BREAKPOINTS, null, source,
+					"Hit user defined breakpoint on %s", source);
 			notifyObservers(Channel.BREAKPOINTS, event);
 		}
 		return hit;

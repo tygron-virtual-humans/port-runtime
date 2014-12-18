@@ -25,6 +25,8 @@ import goal.tools.logging.SingleLineFormatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
+import krTools.parser.SourceInfo;
+
 /**
  * Stores information about a (debug) event.
  *
@@ -45,6 +47,7 @@ public class DebugEvent extends GOALLogRecord {
 	 * The object (or an instance of the object) referred to in the breakpoint.
 	 */
 	private final Object associatedObject;
+	private final SourceInfo associatedSource;
 	private final String rawMsg;
 	private final Object[] rawArgs;
 
@@ -65,12 +68,14 @@ public class DebugEvent extends GOALLogRecord {
 	 *            null if the event is not associated with any object.
 	 */
 	public DebugEvent(RunMode mode, String source, Channel channel,
-			Object association, String message, Object... args) {
+			Object associatedObject, SourceInfo associatedSource,
+			String message, Object... args) {
 		super(Level.INFO, String.format(message, args), null);
 		this.mode = mode;
 		this.source = source;
 		this.channel = channel;
-		this.associatedObject = association;
+		this.associatedObject = associatedObject;
+		this.associatedSource = associatedSource;
 		this.rawMsg = message;
 		this.rawArgs = args;
 	}
@@ -114,6 +119,10 @@ public class DebugEvent extends GOALLogRecord {
 	 */
 	public Object getAssociatedObject() {
 		return this.associatedObject;
+	}
+
+	public SourceInfo getAssociatedSource() {
+		return this.associatedSource;
 	}
 
 	@Override
