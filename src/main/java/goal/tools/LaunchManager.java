@@ -66,14 +66,21 @@ public class LaunchManager {
 	 */
 	public RuntimeManager<IDEDebugger, IDEGOALInterpreter> launchMAS(
 			MASProgram masProgram, Map<File, AgentProgram> agents)
-			throws ParserException, GOALCommandCancelledException,
-			GOALLaunchFailureException {
+					throws ParserException, GOALCommandCancelledException,
+					GOALLaunchFailureException {
 		// Determine where to host middleware; ask user if needed.
 		String host = getMiddlewareHostName();
 
 		if (!masProgram.isValid()) {
 			throw new GOALLaunchFailureException("Cannot launch MAS "
-					+ masProgram + " because it (or a child) has errors.");
+					+ masProgram + " because it has errors.");
+		}
+		for (AgentProgram agent : agents.values()) {
+			if (!agent.isValid()) {
+				throw new GOALLaunchFailureException("Cannot launch MAS "
+						+ masProgram + " because its child " + agent
+						+ " has errors.");
+			}
 		}
 
 		// Launch the multi-agent system. and start the runtime environment.
