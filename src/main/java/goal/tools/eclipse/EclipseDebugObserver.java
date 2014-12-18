@@ -63,7 +63,7 @@ public class EclipseDebugObserver implements DebugObserver {
 		}
 		// Let the world know we're here
 		this.writer
-				.write(new DebugCommand(Command.LAUNCHED, this.agent.getId()));
+		.write(new DebugCommand(Command.LAUNCHED, this.agent.getId()));
 	}
 
 	@Override
@@ -189,7 +189,7 @@ public class EclipseDebugObserver implements DebugObserver {
 			break;
 		case ACTION_PRECOND_EVALUATION_USERSPEC:
 			final UserSpecAction action = (UserSpecAction) event
-			.getAssociatedObject();
+					.getAssociatedObject();
 			final List<String> aAsList = new LinkedList<>();
 			if (event.getRawArguments().length > 1) {
 				aAsList.add("selected: " + action);
@@ -203,7 +203,7 @@ public class EclipseDebugObserver implements DebugObserver {
 			break;
 		case CALL_MODULE:
 			final ModuleCallAction call = (ModuleCallAction) event
-			.getAssociatedObject();
+					.getAssociatedObject();
 			final List<String> cAsList = new LinkedList<>();
 			if (call.getParameters() != null) {
 				cAsList.add(call.getParameters().toString());
@@ -237,11 +237,12 @@ public class EclipseDebugObserver implements DebugObserver {
 					.getMentalState();
 			final Set<SingleGoal> goalSet = init.getAttentionSet().getGoals();
 			final SingleGoal[] goals = goalSet.toArray(new SingleGoal[goalSet
-			                                                          .size()]);
+					.size()]);
 			for (final SingleGoal goal : goals) {
 				notifyBreakpointHit(new DebugEvent(null, "",
 						Channel.GB_UPDATES, goal, goal.getGoal()
-						.getSourceInfo(), "%s has been adopted", goal));
+								.getSourceInfo(), "%s has been adopted",
+						goal.toString()));
 			}
 			final Set<DatabaseFormula> beliefSet = init
 					.getOwnBase(BASETYPE.BELIEFBASE).getTheory().getFormulas();
@@ -250,7 +251,7 @@ public class EclipseDebugObserver implements DebugObserver {
 			for (final DatabaseFormula belief : beliefs) {
 				notifyBreakpointHit(new DebugEvent(null, "",
 						Channel.BB_UPDATES, belief, belief.getSourceInfo(),
-						"%s has been inserted", belief));
+						"%s has been inserted", belief.toString()));
 			}
 			this.source = saved;
 			this.initialized = true;

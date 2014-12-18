@@ -300,12 +300,12 @@ public final class GoalBase implements Iterable<SingleGoal> {
 		addGoalPrivate(goal);
 		debugger.breakpoint(
 				Channel.GB_UPDATES,
-				goal.toString(),
+				goal,
 				goal.getGoal().getSourceInfo(),
 				"%s has been adopted into the "
 						+ (this.owner.equals(this.agentName) ? ""
 								: this.agentName + "'s ") + "goal base: %s.",
-								goal, this.name);
+				goal.toString(), this.name);
 	}
 
 	/**
@@ -350,10 +350,10 @@ public final class GoalBase implements Iterable<SingleGoal> {
 		for (SingleGoal goal : goalsToBeDropped) {
 			debugger.breakpoint(Channel.GB_UPDATES, goal, goal.getGoal()
 					.getSourceInfo(), "Goal %s"
-					+ " has been dropped from the "
-					+ (this.owner.equals(this.agentName) ? "" : this.agentName
-							+ "'s ") + "goal base: %s.", goal.toString(),
-					this.name);
+							+ " has been dropped from the "
+							+ (this.owner.equals(this.agentName) ? "" : this.agentName
+									+ "'s ") + "goal base: %s.", goal.toString(),
+									this.name);
 
 			this.count++;
 			getTime();
@@ -383,7 +383,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 					"Goal %s has been achieved and removed from the "
 							+ (this.owner.equals(this.agentName) ? ""
 									: this.agentName + "'s ")
-									+ "goal base: %s.", goal.toString(), getName());
+							+ "goal base: %s.", goal.toString(), getName());
 			// #2968 goal is to be disposed. Don't use with delay..
 			goal.unmarkOccurrence();
 		}
