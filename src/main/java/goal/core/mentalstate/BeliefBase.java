@@ -134,8 +134,8 @@ public class BeliefBase {
 	 */
 	public BeliefBase(BASETYPE baseType, mentalState.MentalState state,
 			List<DatabaseFormula> content, AgentProgram owner, AgentId agentName)
-					throws KRInitFailedException, KRDatabaseException,
-					KRQueryFailedException {
+			throws KRInitFailedException, KRDatabaseException,
+			KRQueryFailedException {
 		this.agentName = agentName;
 		this.type = baseType;
 		this.state = state;

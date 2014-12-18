@@ -16,7 +16,6 @@ import languageTools.program.agent.AgentId;
 public class EclipseEventObserver implements RuntimeEventObserver {
 	private final Map<AgentId, EclipseDebugObserver> observers;
 	private InputReaderWriter writer;
-	private EnvironmentPort environment;
 
 	public EclipseEventObserver() {
 		this.observers = new HashMap<>();

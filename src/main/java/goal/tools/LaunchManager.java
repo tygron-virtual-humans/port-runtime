@@ -66,8 +66,8 @@ public class LaunchManager {
 	 */
 	public RuntimeManager<IDEDebugger, IDEGOALInterpreter> launchMAS(
 			MASProgram masProgram, Map<File, AgentProgram> agents)
-					throws ParserException, GOALCommandCancelledException,
-					GOALLaunchFailureException {
+			throws ParserException, GOALCommandCancelledException,
+			GOALLaunchFailureException {
 		// Determine where to host middleware; ask user if needed.
 		String host = getMiddlewareHostName();
 

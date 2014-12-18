@@ -34,8 +34,8 @@ public class ObservableDebugger extends SteppingDebugger {
 		// Only if there are observers for the channel, events need to be send.
 		if (!this.channelObservers.get(channel).isEmpty()) {
 			// Create event and notify observers.
-			DebugEvent event = new DebugEvent(getRunMode(), getName(),
-					String.format(message, args), channel, associate);
+			DebugEvent event = new DebugEvent(getRunMode(), getName(), channel,
+					associate, message, args);
 			notifyObservers(channel, event);
 		}
 
@@ -62,7 +62,7 @@ public class ObservableDebugger extends SteppingDebugger {
 		// notify observers of run mode change.
 		if (mode != getRunMode()) {
 			notifyObservers(Channel.RUNMODE, new DebugEvent(mode, getName(),
-					"Run mode = " + mode, Channel.RUNMODE));
+					Channel.RUNMODE, mode, "Run mode = %s", mode));
 		}
 		super.setRunMode(mode);
 	}
@@ -141,9 +141,8 @@ public class ObservableDebugger extends SteppingDebugger {
 		if (hit) {
 			SourceInfo parsedObject = (SourceInfo) associatedObject;
 			DebugEvent event = new DebugEvent(getRunMode(), getName(),
-					"Hit user defined breakpoint on " + parsedObject + "("
-							+ parsedObject + ")", Channel.BREAKPOINTS,
-							associatedObject);
+					Channel.BREAKPOINTS, associatedObject,
+					"Hit user defined breakpoint on %s", parsedObject);
 			notifyObservers(Channel.BREAKPOINTS, event);
 		}
 		return hit;

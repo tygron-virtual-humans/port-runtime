@@ -133,7 +133,7 @@ public class ModuleExecutor {
 		// Evaluate and apply the rules of this module
 		this.result = new RulesExecutor(this.module.getRules(),
 				this.module.getRuleEvaluationOrder()).run(runState,
-				substitution);
+						substitution);
 
 		// exit module if {@link ExitModuleAction} has been performed.
 		boolean exit = this.result.isModuleTerminated();

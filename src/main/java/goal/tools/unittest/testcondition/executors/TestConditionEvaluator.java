@@ -114,7 +114,7 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 		try {
 			result = new MentalStateConditionExecutor(
 					query.applySubst(substitution)).evaluate(
-							runState.getMentalState(), debugger);
+					runState.getMentalState(), debugger);
 		} catch (Exception e) {
 			result = new MentalStateConditionExecutor(query).evaluate(
 					runState.getMentalState(), debugger);
