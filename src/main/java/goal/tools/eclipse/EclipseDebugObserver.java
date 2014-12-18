@@ -63,7 +63,7 @@ public class EclipseDebugObserver implements DebugObserver {
 		}
 		// Let the world know we're here
 		this.writer
-		.write(new DebugCommand(Command.LAUNCHED, this.agent.getId()));
+				.write(new DebugCommand(Command.LAUNCHED, this.agent.getId()));
 	}
 
 	@Override
@@ -75,13 +75,15 @@ public class EclipseDebugObserver implements DebugObserver {
 	@Override
 	public void notifyBreakpointHit(DebugEvent event) {
 		final Object object = event.getAssociatedObject();
+		if (event.getAssociatedSource() != null) {
+			this.source = event.getAssociatedSource();
+		}
 		final AgentId agentId = this.agent.getId();
 		if (DebugPreferences.getChannelState(event.getChannel()).canView()
 				&& LoggingPreferences.getEclipseAgentConsoles()) {
 			this.writer.write(new DebugCommand(Command.LOG, agentId, event
 					.getMessage()));
 		}
-		this.source = event.getAssociatedSource();
 		switch (event.getChannel()) {
 		case RUNMODE:
 			this.writer.write(new DebugCommand(Command.RUNMODE, agentId, event
@@ -189,7 +191,7 @@ public class EclipseDebugObserver implements DebugObserver {
 			break;
 		case ACTION_PRECOND_EVALUATION_USERSPEC:
 			final UserSpecAction action = (UserSpecAction) event
-					.getAssociatedObject();
+			.getAssociatedObject();
 			final List<String> aAsList = new LinkedList<>();
 			if (event.getRawArguments().length > 1) {
 				aAsList.add("selected: " + action);
@@ -203,7 +205,7 @@ public class EclipseDebugObserver implements DebugObserver {
 			break;
 		case CALL_MODULE:
 			final ModuleCallAction call = (ModuleCallAction) event
-					.getAssociatedObject();
+			.getAssociatedObject();
 			final List<String> cAsList = new LinkedList<>();
 			if (call.getParameters() != null) {
 				cAsList.add(call.getParameters().toString());
@@ -237,11 +239,11 @@ public class EclipseDebugObserver implements DebugObserver {
 					.getMentalState();
 			final Set<SingleGoal> goalSet = init.getAttentionSet().getGoals();
 			final SingleGoal[] goals = goalSet.toArray(new SingleGoal[goalSet
-					.size()]);
+			                                                          .size()]);
 			for (final SingleGoal goal : goals) {
 				notifyBreakpointHit(new DebugEvent(null, "",
 						Channel.GB_UPDATES, goal, goal.getGoal()
-								.getSourceInfo(), "%s has been adopted",
+						.getSourceInfo(), "%s has been adopted",
 						goal.toString()));
 			}
 			final Set<DatabaseFormula> beliefSet = init
