@@ -54,6 +54,8 @@ main module {
 event module {
 	program {
 		forall bel( state(State), percept(state(NewState)) ) do delete( state(State) ) + insert( state(NewState) ).
+		
+		if bel( percept(in(Place)) ) then insert( in(Place) ).
 
 		% Assignment II.1b: insert percept rules for handling percepts other than send once percepts.
 
