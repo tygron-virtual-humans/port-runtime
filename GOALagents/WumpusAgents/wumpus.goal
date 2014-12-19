@@ -16,8 +16,8 @@ init module {
 	
 	actionspec{
 			forward {
-				pre{ steps(X),Y is X+1  }
-				post{ not(steps(X), steps(Y) }
+				pre{ true  }
+				post{ true }
 			}
 			turn(X) {
 				pre{ (X==left; X==right) }
