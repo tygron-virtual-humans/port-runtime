@@ -17,6 +17,7 @@
  */
 package goal.core.runtime.service.agent;
 
+import eis.exceptions.ActException;
 import eis.exceptions.EnvironmentInterfaceException;
 import eis.iilang.Action;
 import eis.iilang.Percept;
@@ -759,6 +760,24 @@ public class RunState<D extends Debugger> {
 			new Warning(String.format(
 					Resources.get(WarningStrings.FAILED_ACTION_EXECUTE),
 					action.toString()), e);
+			if (e instanceof ActException) {
+				ActException ae = (ActException) e;
+				if (ae.getType() == ActException.NOTSPECIFIC) {
+					// Non-specific act exception, which includes
+					// trying to do an action whilst the environment is paused:
+					// pause the agent if we can (continue after user
+					// interaction).
+					if (this.debugger instanceof SteppingDebugger) {
+						((SteppingDebugger) this.debugger)
+								.setRunMode(RunMode.FINESTEPPING);
+					}
+				} else {
+					// Specific act exception, like an unrecognized action,
+					// an illegal parameter, or entity problems:
+					// kill the agent (fatal error).
+					this.debugger.kill();
+				}
+			}
 		} catch (MessagingException e) {
 			new Warning(String.format(
 					Resources.get(WarningStrings.FAILED_ACTION_SEND),
