@@ -1,13 +1,5 @@
 init module {
-	knowledge {
-		#import "messageTranslation".
-	}
-	
-	beliefs{
-	}
-
-	goals{
-	}
+	#import "messageTranslation.pl".
 
 	actionspec{	
 		goTo(X, Y) {

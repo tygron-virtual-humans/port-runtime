@@ -1,7 +1,7 @@
+
 % joining strings.
 strjoin([Str],Str).
 strjoin([Str1|Rest],Str12) :-  strjoin(Rest,Str2), atom_concat(Str1,Str2,Str12).
-
 	
 % imperative messages
 translate(Sender,imp(in(Sender,Place)),T) :- strjoin(['I am going to room ',Place],T).
