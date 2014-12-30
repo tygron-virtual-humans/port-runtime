@@ -1,7 +1,0 @@
-agentfiles {
-	"transport_modules.goal" [name=agent].
-}
-
-launchpolicy {
-	launch transporter:agent.
-}
