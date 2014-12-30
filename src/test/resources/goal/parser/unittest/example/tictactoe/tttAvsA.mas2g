@@ -1,6 +1,6 @@
 environment{
     % insert a proper environment reference on the next line.
-    env = "../../../../../../../../GOALagents/tictactoe/tictactoe.jar".
+    env = "Tic-Tac-Toe-1.2.0-jar-with-dependencies.jar".
     % insert proper initialization parameters and values on the next line, or remove it.
     init = [xplayer = "agent",  oplayer = "agent", gui = true].
 }

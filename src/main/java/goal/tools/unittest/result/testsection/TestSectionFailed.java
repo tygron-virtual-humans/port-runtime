@@ -6,7 +6,7 @@ package goal.tools.unittest.result.testsection;
  * @author mpkorstanje
  */
 public abstract class TestSectionFailed extends Exception implements
-TestSectionResult {
+		TestSectionResult {
 	/** Date of last modification */
 	private static final long serialVersionUID = 201401252120L;
 

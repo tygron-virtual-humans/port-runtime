@@ -60,8 +60,9 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	@Override
 	public ModuleCallActionExecutor evaluatePrecondition(MentalState runState,
 			Debugger debugger, boolean last) {
-		debugger.breakpoint(Channel.CALL_MODULE, this,
-				"Going to enter module: %s.", this.action.getTarget().getName());
+		debugger.breakpoint(Channel.CALL_MODULE, this.action,
+				this.action.getSourceInfo(), "Going to enter module: %s.",
+				this.action.getTarget().getName());
 		return this;
 	}
 

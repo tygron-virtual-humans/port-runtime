@@ -298,12 +298,12 @@ public class SteppingDebugger implements Debugger {
 	 * java.lang.Object, java.lang.String, java.lang.Object)
 	 */
 	@Override
-	public void breakpoint(Channel channel, Object associate, String message,
-			Object... args) {
+	public void breakpoint(Channel channel, Object associateObject,
+			SourceInfo associateSource, String message, Object... args) {
 		if (this.keepRunning) {
 			return;
 		}
-		if (checkUserBreakpointHit(associate, message, args)) {
+		if (checkUserBreakpointHit(associateSource, message, args)) {
 			setRunMode(RunMode.PAUSED);
 		}
 
@@ -484,14 +484,8 @@ public class SteppingDebugger implements Debugger {
 	 * Check if we hit a user set breakpoint. Notify observers if that is the
 	 * case
 	 */
-	protected boolean checkUserBreakpointHit(Object associatedObject,
-			String message, Object... args) {
-		// make sure there is a source attached to the object.
-		// just ignore the event if there isn't
-		SourceInfo source = null;
-		if (associatedObject instanceof SourceInfo) {
-			source = ((SourceInfo) associatedObject);
-		}
+	protected boolean checkUserBreakpointHit(SourceInfo source, String message,
+			Object... args) {
 		if (source != null && this.breakpointIds.contains(source.hashCode())) {
 			final Agent<IDEGOALInterpreter> agent = LaunchManager.getCurrent()
 					.getRuntimeManager().getAgent(new AgentId(this.name));

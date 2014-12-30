@@ -1,6 +1,5 @@
 package goal.tools.unittest.testcondition.executors;
 
-import goal.core.executors.ModuleExecutor;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.DebugEvent;
 import goal.tools.debugger.ObservableDebugger;
@@ -91,8 +90,7 @@ public class AtStartExecutor extends TestConditionExecutor {
 					case MAIN_MODULE_ENTRY:
 					case INIT_MODULE_ENTRY:
 					case USER_MODULE_ENTRY:
-						Module test = ((ModuleExecutor) event
-								.getAssociatedObject()).getModule();
+						Module test = ((Module) event.getAssociatedObject());
 						if (AtStartExecutor.this.atstart.getModule().equals(
 								test)) {
 							break;

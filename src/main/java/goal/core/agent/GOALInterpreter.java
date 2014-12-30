@@ -126,7 +126,7 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 					if (call == null) {
 						// Create the initial call (run the main module)
 						GOALInterpreter.this.debugger.breakpoint(
-								Channel.REASONING_CYCLE_SEPARATOR, 0,
+								Channel.REASONING_CYCLE_SEPARATOR, 0, null,
 								"%s has been started",
 								GOALInterpreter.this.agent.getId());
 						GOALInterpreter.this.runState.startCycle(false);

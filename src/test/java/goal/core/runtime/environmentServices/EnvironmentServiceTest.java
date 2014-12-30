@@ -148,16 +148,16 @@ public class EnvironmentServiceTest {
 
 	@Test
 	public void testGetEnvironmentPort() throws GOALLaunchFailureException,
-	MessagingException, InterruptedException,
-	EnvironmentInterfaceException {
+			MessagingException, InterruptedException,
+			EnvironmentInterfaceException {
 		MessageBoxId id = this.environment.getMessageBoxId();
 		assertNotNull(this.environmentService.getEnvironmentPort(id));
 	}
 
 	@Test
 	public void testGetEnvironmentPorts() throws GOALLaunchFailureException,
-	MessagingException, InterruptedException,
-	EnvironmentInterfaceException {
+			MessagingException, InterruptedException,
+			EnvironmentInterfaceException {
 		this.environmentService.start();
 
 		assertFalse(this.environmentService.getEnvironmentPorts().isEmpty());

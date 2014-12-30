@@ -144,7 +144,7 @@ public class ActionComboExecutor {
 			// FIXME is this ok if action is a ModuleCallAction??
 			Result result = ActionExecutor.getActionExecutor(action,
 					this.context).run(runState, substitution,
-					runState.getDebugger(), last);
+							runState.getDebugger(), last);
 			comboResult.merge(result);
 			// If module needs to be terminated, i.e., {@link ExitModuleAction}
 			// has been performed, then exit execution of combo action.
@@ -156,8 +156,8 @@ public class ActionComboExecutor {
 			}
 		}
 
-		runState.getDebugger().breakpoint(Channel.ACTIONCOMBO_FINISHED, this,
-				"Performed %s.", comboResult.getActions());
+		runState.getDebugger().breakpoint(Channel.ACTIONCOMBO_FINISHED,
+				this.actions, null, "Performed %s.", comboResult.getActions());
 
 		return comboResult;
 	}

@@ -138,13 +138,6 @@ public class UnitTestWalkerTest extends AbstractUnitTestTest {
 	}
 
 	@Test
-	public void testCorrectMASInGOALAgentFolder() throws IOException {
-		setup("src/test/resources/goal/parser/unittest/correctMASInGOALAgentFolder.test2g");
-
-		assertNoMessages();
-	}
-
-	@Test
 	public void testIncorrectKRLangIncorrect() throws IOException {
 		setup("src/test/resources/goal/parser/unittest/incorrectKRLangIncorrect.test2g");
 

@@ -7,6 +7,7 @@ import goal.tools.debugger.DebugObserver;
 import goal.tools.debugger.DebugSettingSynchronizer;
 import goal.tools.debugger.ObservableDebugger;
 import goal.tools.logging.InfoLog;
+import krTools.parser.SourceInfo;
 import languageTools.program.agent.AgentId;
 import languageTools.program.agent.AgentProgram;
 
@@ -37,8 +38,8 @@ public class IDEDebugger extends ObservableDebugger {
 	}
 
 	@Override
-	public void breakpoint(Channel channel, Object associate, String message,
-			Object... args) {
+	public void breakpoint(Channel channel, Object associateObject,
+			SourceInfo associateSource, String message, Object... args) {
 		while (!this.firstObserver) {
 			try {
 				if (LoggingPreferences.getEclipseDebug()) {
@@ -48,7 +49,8 @@ public class IDEDebugger extends ObservableDebugger {
 			} catch (final Exception ignore) {
 			}
 		}
-		super.breakpoint(channel, associate, message, args);
+		super.breakpoint(channel, associateObject, associateSource, message,
+				args);
 	}
 
 	@Override

@@ -100,23 +100,24 @@ public abstract class ActionExecutor {
 		// Evaluate the precondition of this {@link Action}.
 		ActionExecutor action = instantiatedAction.evaluatePrecondition(
 				runState.getMentalState(), debugger, last);
-		boolean canPerformAction = (action != null);
 
-		if (canPerformAction) {
+		if (action != null) {
 			// Check if action is closed.
 			if (action.getAction().isClosed()) {
-				debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, action,
-						"Precondition of %s holds", action);
+				debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION,
+						getAction(), getAction().getSourceInfo(),
+						"Precondition of %s holds", getAction().getName());
 				// Perform the action if precondition holds.
 				result.merge(action.executeAction(runState, debugger));
 			} else {
 				throw new GOALActionFailedException(
-						"Attempt to execute action " + action
+						"Attempt to execute action " + getAction().getName()
 						+ " with free variables.");
 			}
 		} else {
-			debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, this,
-					"Precondition of %s does not hold", instantiatedAction);
+			debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, getAction(),
+					getAction().getSourceInfo(),
+					"Precondition of %s does not hold", getAction().getName());
 		}
 
 		return result;
@@ -145,7 +146,8 @@ public abstract class ActionExecutor {
 	protected final void report(Debugger debugger) {
 		boolean builtin = !(this instanceof UserSpecActionExecutor);
 		debugger.breakpoint(builtin ? Channel.ACTION_EXECUTED_BUILTIN
-				: Channel.ACTION_EXECUTED_USERSPEC, this, "Performed %s.", this);
+				: Channel.ACTION_EXECUTED_USERSPEC, getAction(), getAction()
+				.getSourceInfo(), "Performed %s.", getAction().getName());
 	}
 
 	@Override

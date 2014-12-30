@@ -9,7 +9,7 @@ import goal.util.Observer;
  *
  */
 public interface RuntimeEventObserver extends
-Observer<RuntimeManager<?, ?>, RuntimeEvent> {
+		Observer<RuntimeManager<?, ?>, RuntimeEvent> {
 	/**
 	 * This function is called when a {@link RuntimeEvent} occurs. To be
 	 * implemented by the observer.

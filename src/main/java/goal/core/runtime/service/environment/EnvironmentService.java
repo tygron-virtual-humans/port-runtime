@@ -197,8 +197,8 @@ public class EnvironmentService {
 	 * @throws MessagingException
 	 */
 	public void start() throws GOALLaunchFailureException,
-	EnvironmentInterfaceException, InterruptedException,
-	MessagingException {
+			EnvironmentInterfaceException, InterruptedException,
+			MessagingException {
 		// If MAS file does not have environment section, there is nothing to do
 		if (!this.masProgram.hasEnvironment()) {
 			return;
@@ -310,7 +310,7 @@ public class EnvironmentService {
 	private LocalMessagingEnvironment launchLocalMessaginEnvironment(
 			String environmentName, File environmentFile,
 			Map<String, Parameter> initialization)
-					throws GOALLaunchFailureException {
+			throws GOALLaunchFailureException {
 		new InfoLog("Launching environment service..."); //$NON-NLS-1$
 
 		// Load environment interface.
@@ -375,7 +375,7 @@ public class EnvironmentService {
 	 * @throws InterruptedException
 	 */
 	public void shutDown() throws MessagingException,
-	EnvironmentInterfaceException, InterruptedException {
+			EnvironmentInterfaceException, InterruptedException {
 		if (this.localEnvironment != null) {
 			notifyObservers(new RemovedLocalEnvironment(
 					this.localEnvironment.getMessageBoxId()));

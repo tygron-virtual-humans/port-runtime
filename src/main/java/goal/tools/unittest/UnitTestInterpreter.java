@@ -81,7 +81,7 @@ GOALInterpreter<ObservableDebugger> {
 					try {
 						// Run the whole test
 						UnitTestInterpreter.this.debugger.breakpoint(
-								Channel.REASONING_CYCLE_SEPARATOR, 0,
+								Channel.REASONING_CYCLE_SEPARATOR, 0, null,
 								"%s test has been started",
 								UnitTestInterpreter.this.agent.getId());
 						// TODO: create executor

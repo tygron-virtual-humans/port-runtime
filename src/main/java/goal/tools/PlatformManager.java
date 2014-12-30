@@ -25,6 +25,7 @@ import goal.tools.logging.GOALLogger;
 import goal.tools.logging.Loggers;
 import goal.tools.logging.StringsLogRecord;
 import goal.util.Extension;
+import goalhub.krTools.KRFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -108,14 +109,15 @@ public class PlatformManager {
 
 	public static PlatformManager createNew() {
 		current = new PlatformManager();
-		/*
-		 * for (final String language : KRFactory.getSupportedInterfaces()) {
-		 * try { KRFactory.getInterface(language).reset(); } catch (final
-		 * KRInitFailedException e) { new Warning(String.format(
-		 * Resources.get(WarningStrings.INTERNAL_PROBLEM),
-		 * "PlatformManager::createNew()", language), e); } } FIXME: no longer
-		 * necessary?!
-		 */
+		for (final String language : KRFactory.getSupportedInterfaces()) {
+			/*
+			 * try { FIXME: no longer necessary/possible?!
+			 * KRFactory.getInterface(language).reset(); } catch (final
+			 * KRInitFailedException e) { new Warning(String.format(
+			 * Resources.get(WarningStrings.INTERNAL_PROBLEM),
+			 * "PlatformManager::createNew()", language), e); }
+			 */
+		}
 		return current;
 	}
 

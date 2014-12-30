@@ -1,5 +1,5 @@
 environment{
-	env = "../../../../../../../../../GOALagents/BlocksWorld/blocksworld/blocksworld.jar".
+	env = "../blocksworld-1.1.0-blocksworld.jar".
 	init = [start=[0,0,0], gui="true"].
 }              
 

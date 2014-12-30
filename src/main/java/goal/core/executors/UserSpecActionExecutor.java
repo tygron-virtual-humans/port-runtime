@@ -67,7 +67,8 @@ public class UserSpecActionExecutor extends ActionExecutor {
 		if (solutions.isEmpty()) {
 			if (last) {
 				debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION_USERSPEC,
-						this, "Preconditions of action %s failed.",
+						this.action, this.action.getSourceInfo(),
+						"Preconditions of action %s failed.",
 						this.action.getName());
 			}
 			return null;
@@ -78,7 +79,7 @@ public class UserSpecActionExecutor extends ActionExecutor {
 			Substitution solution = substitutions.get(0);
 			// Report success
 			debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION_USERSPEC,
-					this.action,
+					this.action, this.action.getSourceInfo(),
 					"Precondition { %s } of action %s holds for: %s.",
 					this.action.getPrecondition(), this.action.getName(),
 					solution);

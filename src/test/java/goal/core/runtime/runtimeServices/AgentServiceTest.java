@@ -76,7 +76,7 @@ public class AgentServiceTest {
 
 	@Test(timeout = 15000)
 	public void testStart() throws GOALLaunchFailureException,
-			InterruptedException {
+	InterruptedException {
 		this.runtimeService.startWithoutEnv();
 		this.runtimeService.awaitTermination();
 	}
@@ -85,7 +85,7 @@ public class AgentServiceTest {
 
 	@Test
 	public void testStartStop() throws GOALLaunchFailureException,
-			InterruptedException {
+	InterruptedException {
 		this.runtimeService.addObserver(new AgentServiceEventObserver() {
 			@Override
 			public void agentServiceEvent(AgentService rs, AgentServiceEvent evt) {

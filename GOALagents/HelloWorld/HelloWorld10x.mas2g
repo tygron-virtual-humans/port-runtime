@@ -1,9 +1,0 @@
-agentfiles{
-   % Simple Hello World agent that prints "Hello world" message 10 times.
-   "helloWorldAgent10x.goal" .
-}
-
-launchpolicy{
-   launch helloWorldAgent : helloWorldAgent10x .
-}
-

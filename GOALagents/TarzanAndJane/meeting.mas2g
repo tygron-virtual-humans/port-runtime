@@ -1,9 +1,0 @@
-agentfiles {
-	"jane.goal".
-	"tarzan.goal".
-} 
-
-launchpolicy {
-    launch jane:jane.
-	launch tarzan:tarzan.
-}

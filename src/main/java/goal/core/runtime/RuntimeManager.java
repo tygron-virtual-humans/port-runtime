@@ -132,8 +132,8 @@ import nl.tudelft.goal.messaging.messagebox.MessageBoxId.Type;
  * @modified M.P. Korstanje sep2013
  */
 public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
-		implements
-		Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
+implements
+Observable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> {
 	// wrapper pattern for implementing Observable.
 	private final DefaultObservable<RuntimeEventObserver, RuntimeManager<?, ?>, RuntimeEvent> myObservable = new DefaultObservable<>();
 
@@ -145,7 +145,7 @@ public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
 	 *
 	 */
 	private final class EnvironmentPort2Observers implements
-			EnvironmentPortObserver {
+	EnvironmentPortObserver {
 		@Override
 		public void EnvironmentPortEventOccured(
 				EnvironmentPort environmentPort, EnvironmentEvent event) {
@@ -163,7 +163,7 @@ public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
 	 * {@link AgentService}.
 	 */
 	private final class EnvironmentPort2Runtime implements
-			EnvironmentPortObserver {
+	EnvironmentPortObserver {
 		@Override
 		public void EnvironmentPortEventOccured(
 				EnvironmentPort environmentPort, EnvironmentEvent event) {
@@ -180,7 +180,7 @@ public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
 	 * or remove a connection from that EnvironmentPort to external Observers.
 	 */
 	private final class EnvironmentService2Observers implements
-			EnvironmentServiceObserver {
+	EnvironmentServiceObserver {
 		private final HashMap<EnvironmentPort, EnvironmentPortObserver> observers = new HashMap<>();
 
 		private void handle(EnvironmentPortAddedEvent event) {
@@ -222,7 +222,7 @@ public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
 	 * {@link AgentService}.
 	 */
 	private final class EnvironmentService2Runtime implements
-			EnvironmentServiceObserver {
+	EnvironmentServiceObserver {
 		private final HashMap<EnvironmentPort, EnvironmentPortObserver> observers = new HashMap<>();
 
 		private void handle(EnvironmentPortAddedEvent event) {
@@ -256,44 +256,44 @@ public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
 	 * external Observers.
 	 */
 	private final class Runtime2Observers implements
-			goal.core.runtime.service.agent.AgentServiceEventObserver {
+	goal.core.runtime.service.agent.AgentServiceEventObserver {
 		@Override
 		public void agentServiceEvent(AgentService runtimeService,
 				AgentServiceEvent evt) {
 			if (evt instanceof goal.core.runtime.service.agent.events.AddedLocalAgent) {
 				RuntimeManager.this.myObservable
-						.notifyObservers(
-								RuntimeManager.this,
-								new RuntimeEvent(
-										EventType.AGENT_IS_LOCAL_AND_READY,
-										((goal.core.runtime.service.agent.events.AddedLocalAgent) evt)
-												.getAgent()));
+				.notifyObservers(
+						RuntimeManager.this,
+						new RuntimeEvent(
+								EventType.AGENT_IS_LOCAL_AND_READY,
+								((goal.core.runtime.service.agent.events.AddedLocalAgent) evt)
+								.getAgent()));
 			} else if (evt instanceof goal.core.runtime.service.agent.events.RemovedLocalAgent) {
 				RuntimeManager.this.myObservable
-						.notifyObservers(
-								RuntimeManager.this,
-								new RuntimeEvent(
-										// removed, AGENT_DIED events go through
-										// the debugger
-										EventType.AGENT_REMOVED,
-										((goal.core.runtime.service.agent.events.RemovedLocalAgent) evt)
-												.getAgent().getId().getName()));
+				.notifyObservers(
+						RuntimeManager.this,
+						new RuntimeEvent(
+								// removed, AGENT_DIED events go through
+								// the debugger
+								EventType.AGENT_REMOVED,
+								((goal.core.runtime.service.agent.events.RemovedLocalAgent) evt)
+								.getAgent().getId().getName()));
 			} else if (evt instanceof goal.core.runtime.service.agent.events.AddedRemoteAgent) {
 				RuntimeManager.this.myObservable
-						.notifyObservers(
-								RuntimeManager.this,
-								new RuntimeEvent(
-										EventType.AGENT_BORN,
-										((goal.core.runtime.service.agent.events.AddedRemoteAgent) evt)
-												.getAgentId().getName()));
+				.notifyObservers(
+						RuntimeManager.this,
+						new RuntimeEvent(
+								EventType.AGENT_BORN,
+								((goal.core.runtime.service.agent.events.AddedRemoteAgent) evt)
+								.getAgentId().getName()));
 			} else if (evt instanceof goal.core.runtime.service.agent.events.RemovedRemoteAgent) {
 				RuntimeManager.this.myObservable
-						.notifyObservers(
-								RuntimeManager.this,
-								new RuntimeEvent(
-										EventType.AGENT_REMOVED,
-										((goal.core.runtime.service.agent.events.RemovedRemoteAgent) evt)
-												.getAgentId().getName()));
+				.notifyObservers(
+						RuntimeManager.this,
+						new RuntimeEvent(
+								EventType.AGENT_REMOVED,
+								((goal.core.runtime.service.agent.events.RemovedRemoteAgent) evt)
+								.getAgentId().getName()));
 			} else {
 				throw new IllegalArgumentException("unknown event " + evt);
 			}
@@ -305,18 +305,18 @@ public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
 	 * other {@link RuntimeManager}s.
 	 */
 	private final class AgentService2RemoteRuntime implements
-			AgentServiceEventObserver {
+	AgentServiceEventObserver {
 		@Override
 		public void agentServiceEvent(AgentService runtimeService,
 				AgentServiceEvent evt) {
 			if (evt instanceof AddedLocalAgent) {
 				AddedLocalAgent added = (AddedLocalAgent) evt;
 				RuntimeManager.this.remoteRuntimeService
-						.broadCastNewAgent(added.getAgent());
+				.broadCastNewAgent(added.getAgent());
 			} else if (evt instanceof RemovedLocalAgent) {
 				RemovedLocalAgent removed = (RemovedLocalAgent) evt;
 				RuntimeManager.this.remoteRuntimeService
-						.broadCastDeadAgent(removed.getAgent());
+				.broadCastDeadAgent(removed.getAgent());
 			} else if (evt instanceof RemoteAgentServiceEvent) {
 				// Remote runtimes don't need to be notified of remote agent
 				// events. These are broadcasted by the runtime that removed
@@ -329,7 +329,7 @@ public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
 	}
 
 	private final class RemoteRuntime2AgentService implements
-			RemoteRuntimeListener {
+	RemoteRuntimeListener {
 		/**
 		 * Generated serialVersionUID
 		 */
@@ -355,7 +355,7 @@ public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
 		private void handleRuntimeLaunched() {
 			for (Agent<C> agent : RuntimeManager.this.agentService.getAgents()) {
 				RuntimeManager.this.remoteRuntimeService
-						.broadCastNewAgent(agent);
+				.broadCastNewAgent(agent);
 			}
 		}
 	}
@@ -387,7 +387,7 @@ public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
 			AgentService<D, C> agentService,
 			EnvironmentService environmentService,
 			RemoteRuntimeService<D, C> remoteRuntimeService)
-			throws GOALLaunchFailureException {
+					throws GOALLaunchFailureException {
 		this.messagingService = messagingService;
 		this.agentService = agentService;
 		this.environmentService = environmentService;
@@ -666,7 +666,7 @@ public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
 	 * @throws GOALLaunchFailureException
 	 */
 	public void startEnvironment() throws MessagingException,
-	EnvironmentInterfaceException, GOALLaunchFailureException {
+			EnvironmentInterfaceException, GOALLaunchFailureException {
 		Collection<EnvironmentPort> ports = this.environmentService
 				.getEnvironmentPorts();
 		if (ports.isEmpty()) {

@@ -17,6 +17,7 @@
  */
 package goal.core.runtime.service.agent;
 
+import eis.exceptions.ActException;
 import eis.exceptions.EnvironmentInterfaceException;
 import eis.iilang.Action;
 import eis.iilang.Percept;
@@ -372,7 +373,8 @@ public class RunState<D extends Debugger> {
 	 */
 	private void processMessages(Set<Message> messages) {
 		if (!messages.isEmpty()) {
-			getDebugger().breakpoint(Channel.MAILS, null, "Processing mails."); //$NON-NLS-1$
+			getDebugger().breakpoint(Channel.MAILS, null, null,
+					"Processing mails."); //$NON-NLS-1$
 			for (Message message : messages) {
 				processMessageMentalModel(message);
 				processMessageToMessagebox(message);
@@ -381,7 +383,8 @@ public class RunState<D extends Debugger> {
 			// Check if goals have been achieved and, if so, update goal base.
 			getMentalState().updateGoalState(getDebugger());
 			// breakpoint AFTER change, to trigger introspector refresh #2853
-			getDebugger().breakpoint(Channel.MAILS, null, "Processed mails."); //$NON-NLS-1$
+			getDebugger().breakpoint(Channel.MAILS, null, null,
+					"Processed mails."); //$NON-NLS-1$
 		}
 	}
 
@@ -559,7 +562,7 @@ public class RunState<D extends Debugger> {
 			if (this.sleepConditionsHoldingPreviousCycle
 					&& sleepConditionsHoldingNow) {
 				// sleep condition holds also NOW. Go sleep.
-				this.debugger.breakpoint(Channel.SLEEP, null,
+				this.debugger.breakpoint(Channel.SLEEP, null, null,
 						"Going to sleep mode."); //$NON-NLS-1$
 
 				while (this.sleepConditionsHoldingPreviousCycle) {
@@ -578,7 +581,8 @@ public class RunState<D extends Debugger> {
 					// If so, we should kill the thread we're using; the
 					// debugger will
 					// take care of this.
-					this.debugger.breakpoint(Channel.RUNMODE, null, "sleeping"); //$NON-NLS-1$
+					this.debugger.breakpoint(Channel.RUNMODE, null, null,
+							"sleeping"); //$NON-NLS-1$
 					Thread.yield();
 
 					newMessages = this.messaging.getAllMessages();
@@ -588,7 +592,7 @@ public class RunState<D extends Debugger> {
 					this.sleepConditionsHoldingPreviousCycle = samePercepts
 							&& sameMessages;
 				}
-				this.debugger.breakpoint(Channel.SLEEP, null,
+				this.debugger.breakpoint(Channel.SLEEP, null, null,
 						"Woke up from sleep mode."); //$NON-NLS-1$
 			}
 		}
@@ -596,7 +600,7 @@ public class RunState<D extends Debugger> {
 		// Increment round counter and display round separator via debugger.
 		this.incrementRoundCounter();
 		this.debugger.breakpoint(Channel.REASONING_CYCLE_SEPARATOR,
-				getRoundCounter(), " +++++++ Cycle " + getRoundCounter() //$NON-NLS-1$
+				getRoundCounter(), null, " +++++++ Cycle " + getRoundCounter() //$NON-NLS-1$
 						+ " +++++++ "); //$NON-NLS-1$
 
 		// Get and process percepts.
@@ -756,6 +760,24 @@ public class RunState<D extends Debugger> {
 			new Warning(String.format(
 					Resources.get(WarningStrings.FAILED_ACTION_EXECUTE),
 					action.toString()), e);
+			if (e instanceof ActException) {
+				ActException ae = (ActException) e;
+				if (ae.getType() == ActException.NOTSPECIFIC) {
+					// Non-specific act exception, which includes
+					// trying to do an action whilst the environment is paused:
+					// pause the agent if we can (continue after user
+					// interaction).
+					if (this.debugger instanceof SteppingDebugger) {
+						((SteppingDebugger) this.debugger)
+								.setRunMode(RunMode.FINESTEPPING);
+					}
+				} else {
+					// Specific act exception, like an unrecognized action,
+					// an illegal parameter, or entity problems:
+					// kill the agent (fatal error).
+					this.debugger.kill();
+				}
+			}
 		} catch (MessagingException e) {
 			new Warning(String.format(
 					Resources.get(WarningStrings.FAILED_ACTION_SEND),

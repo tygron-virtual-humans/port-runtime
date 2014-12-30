@@ -34,26 +34,26 @@ public class Performance {
 
 	// @Test
 	public void testTokenRingLocal() throws ParserException,
-	FileNotFoundException, ParseException, Exception {
+			FileNotFoundException, ParseException, Exception {
 		Run.run("src/test/resources/goal/core/performance/tokenring/token1.mas2g");
 	}
 
 	// @Test
 	public void testTokenRingRmi() throws ParserException,
-	FileNotFoundException, ParseException, Exception {
+			FileNotFoundException, ParseException, Exception {
 		Run.run("src/test/resources/goal/core/performance/tokenring/token1.mas2g",
 				"--messagingtype", "rmi");
 	}
 
 	// @Test
 	public void testChameneos() throws ParserException, FileNotFoundException,
-			ParseException, Exception {
+	ParseException, Exception {
 		Run.run("src/test/resources/goal/core/performance/chameneos/chameneos.mas2g");
 	}
 
 	// @Test
 	public void testChameneosOnRMI() throws ParserException,
-	FileNotFoundException, ParseException, Exception {
+			FileNotFoundException, ParseException, Exception {
 		Run.run("src/test/resources/goal/core/performance/chameneos/chameneos.mas2g",
 				"--messagingtype", "rmi");
 	}

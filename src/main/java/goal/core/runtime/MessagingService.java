@@ -152,7 +152,7 @@ public class MessagingService {
 			} catch (MessagingException e) {
 				throw new GOALRuntimeErrorException(
 						"Failed to disconnect " + messageBox.getId()
-						+ " from messaging infrastructure", e);
+								+ " from messaging infrastructure", e);
 			}
 		}
 	}
@@ -170,7 +170,7 @@ public class MessagingService {
 			} catch (MessagingException e) {
 				new Warning(
 						Resources
-						.get(WarningStrings.FAILED_SHUTDOWN_MSG_SERVER),
+								.get(WarningStrings.FAILED_SHUTDOWN_MSG_SERVER),
 						e);
 			}
 		}

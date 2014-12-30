@@ -184,8 +184,8 @@ public class QLearner implements LearnerAlgorithm {
 	private void setValue(Integer s, Integer a, Double v) {
 		Hashtable<Integer, Double> actions = (this.valueFunction.containsKey(s)) ? this.valueFunction
 				.get(s) : new Hashtable<Integer, Double>();
-				actions.put(a, v);
-				this.valueFunction.put(s, actions);
+		actions.put(a, v);
+		this.valueFunction.put(s, actions);
 	}
 
 	/**
