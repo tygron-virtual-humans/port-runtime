@@ -26,7 +26,7 @@ public class RunTool {
 			}
 			final File file = new File(args[1]);
 			if (PlatformManager.isMASFile(file)) {
-				final SingleRun run = new SingleRun(file);
+				final SingleRun run = new SingleRun(file, 0);
 				run.setDebuggerOutput(true);
 				run.run();
 			} else if (PlatformManager.isTestFile(file)) {

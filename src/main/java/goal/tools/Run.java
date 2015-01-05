@@ -49,6 +49,7 @@ import rmimessaging.RmiMessaging;
  *     --rmi <host>          Use RMI messaging middleware. Host is the
  *                           location of the RMI server. Using "localhost" will
  *                           initialize a RMI server
+ *  -t,--timeout <number>	 Maximum time to run a mas (in seconds)
  *  -v,--verbose             Print all messages
  *     --version             Shows the current version
  *  -w                       Print messages from warning
@@ -83,6 +84,8 @@ public class Run {
 
 	private static final String OPTION_REPEATS = "repeats";
 	private static final char OPTION_REPEATS_SHORT = 'r';
+	private static final String OPTION_TIMEOUT = "timeout";
+	private static final char OPTION_TIMEOUT_SHORT = 't';
 
 	private static final Options options = createOptions();
 
@@ -176,6 +179,10 @@ public class Run {
 		if (cmd.hasOption(OPTION_REPEATS)) {
 			Number repeats = (Number) cmd.getParsedOptionValue(OPTION_REPEATS);
 			repeatedBatchRun.setRepeats(repeats.longValue());
+		}
+		if (cmd.hasOption(OPTION_TIMEOUT)) {
+			Number timeout = (Number) cmd.getParsedOptionValue(OPTION_TIMEOUT);
+			repeatedBatchRun.setTimeout(timeout.longValue());
 		}
 
 		repeatedBatchRun.setMessagingHost(host);
@@ -335,6 +342,14 @@ public class Run {
 		OptionBuilder.withType(Number.class);
 		options.addOption(OptionBuilder.create(OPTION_REPEATS_SHORT));
 
+		OptionBuilder.withLongOpt(OPTION_TIMEOUT);
+		OptionBuilder.withArgName("number");
+		OptionBuilder
+		.withDescription("Maximum time to run a system (in seconds)");
+		OptionBuilder.hasArg();
+		OptionBuilder.withType(Number.class);
+		options.addOption(OptionBuilder.create(OPTION_TIMEOUT_SHORT));
+
 		OptionBuilder.withLongOpt(OPTION_RECURSIVE);
 		OptionBuilder.withDescription("Recursively search for mas files");
 		options.addOption(OptionBuilder.create());
@@ -366,7 +381,7 @@ public class Run {
 	 * Prints the help for the command line options.
 	 */
 	private static void showHelp() {
-		System.out.println("GOAL Copyright (C) 2014 GPLv3");
+		System.out.println("GOAL Copyright (C) 2015 GPLv3");
 		HelpFormatter formatter = new HelpFormatter();
 		formatter.printHelp(Run.class.getCanonicalName()
 				+ " [options] [[file|directory]]", options);
@@ -378,7 +393,7 @@ public class Run {
 	private static void showLicense() {
 		System.out
 		.println("GOAL interpreter that facilitates developing and executing GOAL multi-agent programs.\n"
-				+ "Copyright (C) 2014  K.V. Hindriks\n\n"
+				+ "Copyright (C) 2015  K.V. Hindriks\n\n"
 				+ "This program is free software: you can redistribute it and/or modify\n"
 				+ "it under the terms of the GNU General Public License as published by\n"
 				+ "the Free Software Foundation, either version 3 of the License, or\n"

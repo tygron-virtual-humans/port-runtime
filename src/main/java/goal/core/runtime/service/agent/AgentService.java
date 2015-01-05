@@ -32,7 +32,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
@@ -151,14 +150,15 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	/**
 	 * Awaits the termination of all agents.
 	 *
+	 * @param timeout
 	 * @throws InterruptedException
 	 *             when interrupted while waiting
 	 */
-	public void awaitTermination() throws InterruptedException {
+	public void awaitTermination(long timeout) throws InterruptedException {
 		List<Agent<C>> agents;
 		while (!(agents = getAliveAgents()).isEmpty()) {
 			Agent<C> agent = agents.get(0);
-			agent.awaitTermination();
+			agent.awaitTermination(timeout);
 		}
 	}
 
@@ -612,30 +612,24 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 * agent has been launched.
 	 *
 	 * @param timeout
-	 * @param timeUnit
 	 * @return True when any agent has launched within the timeout.
 	 * @throws InterruptedException
 	 */
-	public boolean awaitFirstAgent(long timeout, TimeUnit timeUnit)
-			throws InterruptedException {
-		if (timeout < 0) {
-			throw new IllegalArgumentException("timeout value is negative");
-		} else if (timeout == 0) {
+	public boolean awaitFirstAgent(long timeout) throws InterruptedException {
+		if (timeout <= 0) {
 			return awaitFirstAgent();
+		} else {
+			timeout = System.currentTimeMillis() + (timeout * 1000L);
 		}
-		long wait = timeUnit.toMillis(timeout);
 
 		synchronized (this) {
 			while (!hasLocalAgents()) {
-				long start = System.currentTimeMillis();
-
 				// This will surrender the lock.
 				// Wake up call is done in launchAgent().
-				wait(wait);
+				wait(100);
 
 				// Woken up. Check if we need to sleep and how long.
-				wait -= System.currentTimeMillis() - start;
-				if (wait <= 0) {
+				if (System.currentTimeMillis() > timeout) {
 					return hasLocalAgents();
 				}
 			}

@@ -34,17 +34,19 @@ public class SingleRun extends AbstractRun<Debugger, GOALInterpreter<Debugger>> 
 	 *
 	 * @param masFile
 	 *            file to use as a MASProgram
+	 * @param timeout
+	 *            the number of seconds we should wait for the {@link SingleRun}
+	 *            to terminate; 0 for indefinite.
 	 * @throws ParserException
 	 *             when the mas file could not be parsed.
 	 */
-	public SingleRun(File masFile) throws ParserException {
+	public SingleRun(File masFile, long timeout) throws ParserException {
 		super(PlatformManager.createNew().parseMASFile(masFile),
-				PlatformManager.getCurrent().getParsedAgentPrograms());
+				PlatformManager.getCurrent().getParsedAgentPrograms(), timeout);
 	}
 
 	private class SingleRunAgentFactory extends
 	AbstractAgentFactory<Debugger, GOALInterpreter<Debugger>> {
-
 		public SingleRunAgentFactory(MessagingService messaging) {
 			super(messaging);
 		}

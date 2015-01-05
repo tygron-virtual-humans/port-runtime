@@ -117,7 +117,7 @@ public abstract class ProgramTest {
 
 		Agent<GOALInterpreter<Debugger>> agent = buildAgent(id, program);
 		agent.start();
-		agent.awaitTermination();
+		agent.awaitTermination(0); // TODO: timeout?!
 
 		return inspectResult(agent);
 	}

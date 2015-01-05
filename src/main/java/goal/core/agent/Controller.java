@@ -1,6 +1,7 @@
 package goal.core.agent;
 
 import goal.preferences.PMPreferences;
+import goal.tools.AbstractRun;
 
 import java.rmi.activation.UnknownObjectException;
 import java.util.concurrent.Callable;
@@ -164,7 +165,7 @@ public abstract class Controller {
 			KRInitFailedException, KRDatabaseException, KRQueryFailedException,
 			UnknownObjectException {
 		terminate();
-		awaitTermination();
+		awaitTermination(AbstractRun.TIMEOUT_FIRST_AGENT_SECONDS);
 		onReset();
 		run();
 	}
@@ -192,12 +193,22 @@ public abstract class Controller {
 	 * Waits for the agent to terminate. This method will only return once the
 	 * agent has stopped.
 	 *
+	 * @param timeout
 	 * @throws InterruptedException
 	 *             when interrupted while waiting for the agent to stop
 	 */
-	public final void awaitTermination() throws InterruptedException {
+	public final void awaitTermination(long timeout)
+			throws InterruptedException {
+		if (timeout <= 0) {
+			timeout = Long.MAX_VALUE;
+		} else {
+			timeout = System.currentTimeMillis() + (timeout * 1000L);
+		}
 		while (!this.terminated) {
-			Thread.sleep(1);
+			Thread.sleep(100);
+			if (System.currentTimeMillis() > timeout) {
+				break;
+			}
 		}
 	}
 
@@ -212,7 +223,7 @@ public abstract class Controller {
 	 */
 	public void dispose() throws InterruptedException {
 		terminate();
-		awaitTermination();
+		awaitTermination(AbstractRun.TIMEOUT_FIRST_AGENT_SECONDS);
 	}
 
 	/**

@@ -53,7 +53,7 @@ public class UnitTestRunResultInspector implements
 		// Wait for termination.
 		try {
 			for (Agent<?> agent : agents) {
-				agent.awaitTermination();
+				agent.awaitTermination(AbstractRun.TIMEOUT_FIRST_AGENT_SECONDS);
 			}
 
 			// Extract results.

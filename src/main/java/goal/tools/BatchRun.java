@@ -20,8 +20,8 @@ import nl.tudelft.goal.messaging.Messaging;
  * @author mpkorstanje
  */
 public class BatchRun {
-
 	private long repeats = 1;
+	private long timeout;
 
 	private final List<File> masFiles;
 
@@ -70,6 +70,17 @@ public class BatchRun {
 	}
 
 	/**
+	 * Sets a timeout for the {@link BatchRun}.
+	 *
+	 * @param timeout
+	 *            the number of seconds we should wait for the {@link BatchRun}
+	 *            to terminate; 0 for indefinite.
+	 */
+	public void setTimeout(long timeout) {
+		this.timeout = timeout;
+	}
+
+	/**
 	 * Starts the BatchRun. This will repeat running all {@link MASProgram}s for
 	 * a given number of times.
 	 *
@@ -82,7 +93,7 @@ public class BatchRun {
 		for (long i = 0; i < this.repeats; i++) {
 			for (File masFile : this.masFiles) {
 				try {
-					SingleRun singleRun = new SingleRun(masFile);
+					SingleRun singleRun = new SingleRun(masFile, this.timeout);
 					singleRun.setDebuggerOutput(this.debuggerOutput);
 					singleRun.setMessaging(this.messaging);
 					singleRun.setMessagingHost(this.messagingHost);

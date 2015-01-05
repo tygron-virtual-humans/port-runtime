@@ -21,8 +21,8 @@ import languageTools.program.test.UnitTest;
  * @author M.P. Korstanje
  */
 public class UnitTestRun
-extends
-AbstractRun<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> {
+		extends
+		AbstractRun<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> {
 	/**
 	 * Creates the agents used when running the test program. The agents are
 	 * created with a {@link UnitTestInterpreter} controller. The agents base
@@ -32,8 +32,8 @@ AbstractRun<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> {
 	 * @author M.P. Korstanje
 	 */
 	private class TestRunAgentFactory
-	extends
-	AbstractAgentFactory<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> {
+			extends
+			AbstractAgentFactory<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> {
 
 		public TestRunAgentFactory(MessagingService messaging) {
 			super(messaging);
@@ -65,7 +65,8 @@ AbstractRun<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> {
 	private final UnitTest unitTest;
 
 	public UnitTestRun(UnitTest program) {
-		super(program.getMasProgram(), program.getAgents());
+		super(program.getMasProgram(), program.getAgents(), program
+				.getTimeout());
 		this.unitTest = program;
 	}
 
@@ -78,7 +79,7 @@ AbstractRun<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> {
 	@Override
 	protected void awaitTermination(
 			RuntimeManager<? extends ObservableDebugger, ? extends UnitTestInterpreter<ObservableDebugger>> runtimeManager)
-					throws InterruptedException {
+			throws InterruptedException {
 		// Wait while agents are running
 		while (runtimeManager.hasAliveLocalAgents()) {
 			// Check if any dead agents failed their test.

@@ -71,11 +71,12 @@ public class Agent<CONTROLLER extends Controller> {
 	/**
 	 * Waits for the agents process to terminate.
 	 *
+	 * @param timeout
 	 * @throws InterruptedException
 	 *             when interrupted while waiting for the agent to terminate
 	 */
-	public void awaitTermination() throws InterruptedException {
-		this.controller.awaitTermination();
+	public void awaitTermination(long timeout) throws InterruptedException {
+		this.controller.awaitTermination(timeout);
 	}
 
 	/**
@@ -160,7 +161,7 @@ public class Agent<CONTROLLER extends Controller> {
 	 * @throws UnknownObjectException
 	 */
 	public void reset() throws InterruptedException, KRInitFailedException,
-			KRDatabaseException, KRQueryFailedException, UnknownObjectException {
+	KRDatabaseException, KRQueryFailedException, UnknownObjectException {
 		this.controller.reset();
 	}
 

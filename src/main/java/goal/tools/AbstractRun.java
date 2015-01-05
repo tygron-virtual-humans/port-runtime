@@ -17,7 +17,6 @@ import goal.tools.logging.InfoLog;
 import java.io.File;
 import java.util.Collection;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import krTools.errors.exceptions.ParserException;
 import languageTools.program.agent.AgentProgram;
@@ -61,6 +60,7 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 
 	private ResultInspector<C> resultInspector = null;
 	private final MASProgram masProgram;
+	private final long timeout;
 	private final Map<File, AgentProgram> agentPrograms;
 	private Messaging messaging = new LocalMessaging();
 	private String messagingHost = "localhost";
@@ -70,10 +70,16 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	 *
 	 * @param program
 	 *            to run
+	 * @param agents
+	 * @param timeout
+	 *            the number of seconds we should wait for the run to terminate;
+	 *            0 for indefinite.
 	 */
-	public AbstractRun(MASProgram program, Map<File, AgentProgram> agents) {
+	public AbstractRun(MASProgram program, Map<File, AgentProgram> agents,
+			long timeout) {
 		this.masProgram = program;
 		this.agentPrograms = agents;
+		this.timeout = timeout;
 	}
 
 	/**
@@ -167,8 +173,8 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	// FIXME: This amount of exceptions is ridiculous. Clean this up.
 	@SuppressWarnings("unchecked")
 	public void run() throws MessagingException, GOALCommandCancelledException,
-			ParserException, GOALLaunchFailureException, InterruptedException,
-			EnvironmentInterfaceException {
+	ParserException, GOALLaunchFailureException, InterruptedException,
+	EnvironmentInterfaceException {
 		RuntimeManager<? extends D, ? extends C> runtimeManager = null;
 		try {
 			runtimeManager = buildRuntime();
@@ -181,9 +187,7 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 			 * Wait for at least one agent to show up. Not all environments
 			 * start agents directly in response to init.
 			 */
-			if (runtimeManager.awaitFirstAgent(TIMEOUT_FIRST_AGENT_SECONDS,
-					TimeUnit.SECONDS)) {
-
+			if (runtimeManager.awaitFirstAgent(TIMEOUT_FIRST_AGENT_SECONDS)) {
 				// Wait for system to end.
 				awaitTermination(runtimeManager);
 
@@ -199,7 +203,7 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 				 */
 				if (this.resultInspector != null) {
 					this.resultInspector
-							.handleResult((Collection<Agent<C>>) agents);
+					.handleResult((Collection<Agent<C>>) agents);
 				}
 			}
 		} finally {
@@ -212,17 +216,15 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	/**
 	 * Blocks until the agent system is terminated or times out.
 	 *
-	 * Subclasses can implement their own termination criterea here.
+	 * Subclasses can implement their own termination criteria here.
 	 *
-	 * @param timeout
-	 * @param timeUnit
 	 * @param runtimeManager
 	 * @throws InterruptedException
 	 */
 	protected void awaitTermination(
 			RuntimeManager<? extends D, ? extends C> runtimeManager)
 					throws InterruptedException {
-		runtimeManager.awaitTermination();
+		runtimeManager.awaitTermination(this.timeout);
 	}
 
 	/**
