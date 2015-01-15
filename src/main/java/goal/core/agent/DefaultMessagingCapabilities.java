@@ -19,6 +19,7 @@ import languageTools.program.agent.msg.Message;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 import nl.tudelft.goal.messaging.messagebox.MessageBox;
 import nl.tudelft.goal.messaging.messagebox.MessageBoxId;
+import nl.tudelft.goal.messaging.messagebox.MessageBoxId.Type;
 import nl.tudelft.goal.messaging.messagebox.MessageBoxListener;
 
 /**
@@ -79,7 +80,7 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.core.agent.Capabilities#clear()
 	 */
 	@Override
@@ -94,7 +95,7 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.core.agent.Capabilities#getAllMessages()
 	 */
 	@Override
@@ -108,7 +109,7 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.core.agent.Capabilities#postMessage(goal.core.agent.Message)
 	 */
 	@Override
@@ -117,7 +118,7 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 		for (AgentId receiver : message.getReceivers()) {
 			try {
 				List<MessageBoxId> recvBoxes = this.messaging.getClient()
-						.getMessageBoxes(null, receiver.getName());
+						.getMessageBoxes(Type.GOALAGENT, receiver.getName());
 				if (recvBoxes.isEmpty()) {
 					new Warning("unknown receiver " + receiver);
 					continue;
