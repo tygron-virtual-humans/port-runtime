@@ -1,0 +1,7 @@
+agentfiles{
+	"adapt.goal" [name = learner] .
+}
+
+launchpolicy{
+	launch learner.
+}
