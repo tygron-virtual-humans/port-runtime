@@ -53,16 +53,22 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	}
 
 	public void setContext(MentalStateCondition ctx) {
+		setContext(ctx, null);
+	}
+
+	public void setContext(MentalStateCondition ctx, Substitution pass) {
 		this.context = ctx;
-		this.substitutionToPassOnToModule = null;
+		this.substitutionToPassOnToModule = pass;
 	}
 
 	@Override
 	public ModuleCallActionExecutor evaluatePrecondition(MentalState runState,
 			Debugger debugger, boolean last) {
-		debugger.breakpoint(Channel.CALL_MODULE, this.action,
-				this.action.getSourceInfo(), "Going to enter module: %s.",
-				this.action.getTarget().getName());
+		if (this.action.getTarget().getType() != TYPE.ANONYMOUS) {
+			debugger.breakpoint(Channel.CALL_MODULE, this.action,
+					this.action.getSourceInfo(), "Going to enter module: %s.",
+					this.action.getTarget().getName());
+		}
 		return this;
 	}
 
@@ -224,7 +230,8 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 		ModuleCallActionExecutor returned = new ModuleCallActionExecutor(
 				(ModuleCallAction) this.action.applySubst(subst));
 		if (this.context != null) {
-			returned.setContext(this.context.applySubst(subst));
+			returned.setContext(this.context.applySubst(subst),
+					this.substitutionToPassOnToModule);
 		}
 		return returned;
 	}

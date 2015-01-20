@@ -69,4 +69,11 @@ public class VarSubstitution extends SimpleProgramTest {
 				runAgent("src/test/resources/goal/core/program/beliefinmodulevar.goal"));
 
 	}
+
+	@Test
+	public void testPostBeliefInAnonymousModule() throws Exception {
+		assertSame(RunResult.OK,
+				runAgent("src/test/resources/goal/core/program/anonymous.goal"));
+
+	}
 }
