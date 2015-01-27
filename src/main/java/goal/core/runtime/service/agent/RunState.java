@@ -40,6 +40,7 @@ import goal.tools.debugger.SteppingDebugger.RunMode;
 import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
+import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 
@@ -756,28 +757,31 @@ public class RunState<D extends Debugger> {
 		try {
 			Action eis = this.mentalState.getState().convert(action);
 			this.environment.performAction(eis);
+		} catch (ActException ae) {
+			if (ae.getType() == ActException.NOTSPECIFIC) {
+				new Warning(String.format(
+						Resources.get(WarningStrings.FAILED_ACTION_EXECUTE),
+						action.toString()), ae);
+
+				// Non-specific act exception, which includes
+				// trying to do an action whilst the environment is paused:
+				// pause the agent if we can (continue after user
+				// interaction).
+				if (this.debugger instanceof SteppingDebugger) {
+					((SteppingDebugger) this.debugger)
+							.setRunMode(RunMode.FINESTEPPING);
+				}
+			} else {
+				throw new GOALActionFailedException("Action failed", ae);
+				// Specific act exception, like an unrecognized action,
+				// an illegal parameter, or entity problems:
+				// kill the agent (fatal error).
+				// this.debugger.kill();
+			}
 		} catch (EnvironmentInterfaceException e) {
 			new Warning(String.format(
 					Resources.get(WarningStrings.FAILED_ACTION_EXECUTE),
 					action.toString()), e);
-			if (e instanceof ActException) {
-				ActException ae = (ActException) e;
-				if (ae.getType() == ActException.NOTSPECIFIC) {
-					// Non-specific act exception, which includes
-					// trying to do an action whilst the environment is paused:
-					// pause the agent if we can (continue after user
-					// interaction).
-					if (this.debugger instanceof SteppingDebugger) {
-						((SteppingDebugger) this.debugger)
-								.setRunMode(RunMode.FINESTEPPING);
-					}
-				} else {
-					// Specific act exception, like an unrecognized action,
-					// an illegal parameter, or entity problems:
-					// kill the agent (fatal error).
-					this.debugger.kill();
-				}
-			}
 		} catch (MessagingException e) {
 			new Warning(String.format(
 					Resources.get(WarningStrings.FAILED_ACTION_SEND),
