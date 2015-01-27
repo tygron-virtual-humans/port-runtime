@@ -66,20 +66,22 @@ public class LaunchManager {
 	 */
 	public RuntimeManager<IDEDebugger, IDEGOALInterpreter> launchMAS(
 			MASProgram masProgram, Map<File, AgentProgram> agents)
-					throws ParserException, GOALCommandCancelledException,
-					GOALLaunchFailureException {
+			throws ParserException, GOALCommandCancelledException,
+			GOALLaunchFailureException {
 		// Determine where to host middleware; ask user if needed.
 		String host = getMiddlewareHostName();
 
 		if (!masProgram.isValid()) {
 			throw new GOALLaunchFailureException("Cannot launch MAS "
-					+ masProgram + " because it has errors.");
+					+ masProgram.getSourceFile().getName()
+					+ " because it has errors.");
 		}
 		for (AgentProgram agent : agents.values()) {
 			if (!agent.isValid()) {
 				throw new GOALLaunchFailureException("Cannot launch MAS "
-						+ masProgram + " because its child " + agent
-						+ " has errors.");
+						+ masProgram.getSourceFile().getName()
+						+ " because its child "
+						+ agent.getSourceFile().getName() + " has errors.");
 			}
 		}
 
