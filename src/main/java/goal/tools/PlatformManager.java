@@ -248,7 +248,6 @@ public class PlatformManager {
 	 */
 	public AgentProgram getAgentProgram(File file) {
 		if (isGOALFile(file)) {
-			System.out.println(this.parsedFiles);
 			return (AgentProgram) this.parsedFiles.get(file);
 		} else {
 			return null;
