@@ -59,6 +59,8 @@ public class LaunchManager {
 	 *
 	 * @param masProgram
 	 *            The registry that specifies how the MAS is to be launched.
+	 * @param agents
+	 *            the agents that are relevant for this MAS.
 	 * @return DOC
 	 * @throws ParserException
 	 * @throws GOALCommandCancelledException
