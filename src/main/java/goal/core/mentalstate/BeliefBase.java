@@ -221,7 +221,8 @@ public class BeliefBase {
 						formula.getSourceInfo(),
 						"%s has been inserted into the belief base of %s.",
 						formula, this.agentName);
-			} catch (Exception e) {
+			} catch (KRDatabaseException e) { // #3403 don't catch ? Throw as
+												// Bug?
 				new Warning(debugger, String.format(
 						Resources.get(WarningStrings.FAILED_ADD_DBFORMULA),
 						formula.toString(), this.database.getName()), e);
