@@ -772,11 +772,10 @@ public class RunState<D extends Debugger> {
 							.setRunMode(RunMode.FINESTEPPING);
 				}
 			} else {
-				throw new GOALActionFailedException("Action failed", ae);
 				// Specific act exception, like an unrecognized action,
 				// an illegal parameter, or entity problems:
 				// kill the agent (fatal error).
-				// this.debugger.kill();
+				throw new GOALActionFailedException("Action failed", ae);
 			}
 		} catch (EnvironmentInterfaceException e) {
 			new Warning(String.format(

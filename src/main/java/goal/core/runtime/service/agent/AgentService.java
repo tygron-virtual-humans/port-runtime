@@ -328,6 +328,9 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 			handleNewEntity(ne.getEntity(), ne.getType(), receiver);
 		} else if (event instanceof DeletedEntityEvent) {
 			DeletedEntityEvent de = (DeletedEntityEvent) event;
+			new Warning(String.format(Resources
+					.get(WarningStrings.ENV_DELETED_ENTITY), de.getEntity()
+					.toString(), de.getAgents().toString()));
 			handleDeletedEntity(de.getAgents());
 		} else {
 			return false; // not handled.
@@ -577,8 +580,8 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 * @throws UnknownObjectException
 	 */
 	public synchronized void reset() throws InterruptedException,
-	KRInitFailedException, KRDatabaseException, KRQueryFailedException,
-	UnknownObjectException {
+			KRInitFailedException, KRDatabaseException, KRQueryFailedException,
+			UnknownObjectException {
 		for (Agent<C> a : this.agents.local()) {
 			a.reset();
 		}
