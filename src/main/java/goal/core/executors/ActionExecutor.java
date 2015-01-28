@@ -7,6 +7,8 @@ import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 import krTools.language.Substitution;
+import languageTools.analyzer.agent.AgentValidatorSecondPass;
+import languageTools.analyzer.module.ModuleValidatorSecondPass;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.AdoptAction;
 import languageTools.program.agent.actions.DeleteAction;
@@ -20,6 +22,7 @@ import languageTools.program.agent.actions.SendAction;
 import languageTools.program.agent.actions.SendOnceAction;
 import languageTools.program.agent.actions.UserSpecAction;
 import languageTools.program.agent.msc.MentalStateCondition;
+import languageTools.program.agent.msg.SentenceMood;
 
 /**
  * Abstract base class for part of the ActionExecutors
@@ -103,7 +106,7 @@ public abstract class ActionExecutor {
 
 		if (action != null) {
 			// Check if action is closed.
-			if (action.getAction().isClosed()) {
+			if (isSufficientlyClosed(action.getAction())) {
 				debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION,
 						getAction(), getAction().getSourceInfo(),
 						"Precondition of %s holds", getAction().getName());
@@ -121,6 +124,40 @@ public abstract class ActionExecutor {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Some actions do not need to be entirely closed. #3424.
+	 * 
+	 * @param action
+	 * @return
+	 */
+	private boolean isSufficientlyClosed(Action<?> action) {
+		if (action.isClosed()) {
+			return true;
+		}
+		if (action instanceof SendAction || action instanceof SendOnceAction) {
+			// FIXME we should check that receiver is instantiated
+			return getSendMood(action) == SentenceMood.INTERROGATIVE;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get the mood of the given action. Assumes action is {@link SendAction} or
+	 * {@link SendOnceAction}. Helper function to get around #3433. Code
+	 * duplicated with {@link AgentValidatorSecondPass} and
+	 * {@link ModuleValidatorSecondPass}.
+	 * 
+	 * @param action
+	 * @return mood of the given action.
+	 */
+	private SentenceMood getSendMood(Action<?> action) {
+		if (action instanceof SendAction) {
+			return ((SendAction) action).getMood();
+		}
+		return ((SendOnceAction) action).getMood();
 	}
 
 	/**
