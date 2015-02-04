@@ -7,9 +7,6 @@ import java.rmi.activation.UnknownObjectException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
@@ -25,16 +22,9 @@ import krTools.errors.exceptions.KRQueryFailedException;
  * @author mpkorstanje
  */
 public abstract class Controller {
-	private final static Executor pool;
-	static {
-		if (PMPreferences.getThreadPoolSize() > 0) {
-			pool = Executors.newFixedThreadPool(PMPreferences
-					.getThreadPoolSize());
-		} else {
-			pool = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 0L,
-					TimeUnit.MILLISECONDS, new SynchronousQueue<Runnable>());
-		}
-	}
+	private final static Executor pool = Executors
+			.newFixedThreadPool(PMPreferences.getThreadPoolSize());
+
 	/**
 	 * The agent controlled by the controller.
 	 */
