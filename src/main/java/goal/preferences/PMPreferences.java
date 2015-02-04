@@ -91,7 +91,7 @@ public class PMPreferences {
 		init(Pref.defaultKRInterface, "swiprolog");
 		init(Pref.agentsBrowseDir, runIn + "/GOALagents");
 		init(Pref.useMASNameAsAgentPrefix, false);
-		init(Pref.threadPoolSize, 0);
+		init(Pref.threadPoolSize, 20);
 	}
 
 	public static Map<String, Object> getPrefs() {
@@ -253,7 +253,9 @@ public class PMPreferences {
 	 * everything that is available (on the current machine) by default.
 	 */
 	public static void setThreadPoolSize(int size) {
-		put(Pref.threadPoolSize, size);
+		if (size > 0) {
+			put(Pref.threadPoolSize, size);
+		}
 	}
 
 	// 3 helper functions...
