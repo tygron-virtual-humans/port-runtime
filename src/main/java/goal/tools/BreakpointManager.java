@@ -96,7 +96,7 @@ public class BreakpointManager {
 	 * @param agentFile
 	 *            the file to update.
 	 */
-	public void updateBreakpoints(File agentFile) {
+	private void updateBreakpoints(File agentFile) {
 		// make sure to also update the breakpoints for all child files.
 		List<File> affectedFiles = new LinkedList<>();
 		affectedFiles.add(agentFile);
@@ -168,9 +168,9 @@ public class BreakpointManager {
 			 */
 			if (bp.definedAfter(sourceFile, bpt.getLine())
 					&& (bpt.getType() == Type.ALWAYS /*
-					 * || (bp instanceof
-					 * ActionCombo)
-					 */)) {
+													 * || (bp instanceof
+													 * ActionCombo)
+													 */)) {
 				line = bp.getLineNumber();
 				addBreakpoint(bp);
 				break;

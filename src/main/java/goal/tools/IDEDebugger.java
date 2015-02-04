@@ -13,6 +13,9 @@ import languageTools.program.agent.AgentProgram;
 
 public class IDEDebugger extends ObservableDebugger {
 	private final DebugSettingSynchronizer observer;
+
+	// HACK the IDEDebugger locks up on first breakpoint till first Observer
+	// attaches.
 	private volatile boolean firstObserver = false;
 
 	/**
