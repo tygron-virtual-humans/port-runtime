@@ -193,7 +193,8 @@ public class Warning extends GOALLogRecord {
 			this.isLastDisplayed = true;
 		}
 
-		this.tryLog();
+		getLogger().log(this);
+
 	}
 
 	/**
@@ -227,16 +228,6 @@ public class Warning extends GOALLogRecord {
 		this(String.format("[%1$s] %2$s", debugger.getName(),
 				warning == null ? "(no explanation available)" : warning),
 				cause);
-	}
-
-	/**
-	 * Tries to log this warning. If {@link #suppressWarnings} is true, the
-	 * warning is not logged but saved. Call {@link #release} to print any
-	 * suppressed warnings.
-	 */
-	private void tryLog() {
-		Warning.getLogger().log(this);
-
 	}
 
 }
