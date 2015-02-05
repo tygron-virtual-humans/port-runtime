@@ -26,8 +26,6 @@ import goal.tools.logging.GOALLogger;
 import goal.tools.logging.Loggers;
 
 import java.util.Hashtable;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.logging.Level;
 
 /**
@@ -62,20 +60,6 @@ public class Warning extends GOALLogRecord {
 	 */
 	private static Hashtable<String, Integer> messageLog;
 	/**
-	 * A flag indicating if warnings should be suppressed (temporarily).
-	 * Intended use is not for the user, but for tidying up the output when
-	 * parsing. Use {@link #suppress()} and {@link #release()} to toggle this
-	 * value. TODO Can be opened up to the user once warnings are printed to a
-	 * different tab, and then IOManager should not need to call
-	 * {@link #suppress()} any more.
-	 */
-	private static boolean suppressWarnings;
-	/**
-	 * A list of warnings that have been suppressed. If {@link #release} is
-	 * called, these warning messages are printed immediately.
-	 */
-	private static List<Warning> suppressedWarnings;
-	/**
 	 * A formatter for warning messages
 	 */
 	private static WarningFormatter warningFormatter;
@@ -90,8 +74,6 @@ public class Warning extends GOALLogRecord {
 	 */
 	static {
 		messageLog = new Hashtable<>();
-		suppressWarnings = false;
-		suppressedWarnings = new LinkedList<>();
 		warningFormatter = new WarningFormatter();
 	}
 
@@ -253,31 +235,8 @@ public class Warning extends GOALLogRecord {
 	 * suppressed warnings.
 	 */
 	private void tryLog() {
-		if (!Warning.suppressWarnings) {
-			Warning.getLogger().log(this);
-		} else {
-			Warning.suppressedWarnings.add(this);
-		}
-	}
+		Warning.getLogger().log(this);
 
-	/**
-	 * Temporarily suppress warnings. To enable printing warnings again, call
-	 * {@link release}.
-	 */
-	public static void suppress() {
-		Warning.suppressWarnings = true;
-	}
-
-	/**
-	 * Stop suppressing warnings. Any suppressed warnings are printed
-	 * immediately.
-	 */
-	public static void release() {
-		Warning.suppressWarnings = false;
-		for (Warning w : Warning.suppressedWarnings) {
-			w.tryLog();
-		}
-		Warning.suppressedWarnings.clear();
 	}
 
 }
