@@ -649,7 +649,8 @@ public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
 		// Shut down messaging infrastructure.
 		this.messagingService.shutDown();
 
-		new InfoLog("The multi-agent system " + this.agentService.toString()
+		new InfoLog("The multi-agent system "
+				+ this.agentService.getMAS().getSourceFile().getName()
 				+ " has been terminated.");
 
 		// TODO: providing runtime service after MAS died looks like a silly
@@ -668,7 +669,7 @@ public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
 	 * @throws GOALLaunchFailureException
 	 */
 	public void startEnvironment() throws MessagingException,
-	EnvironmentInterfaceException, GOALLaunchFailureException {
+			EnvironmentInterfaceException, GOALLaunchFailureException {
 		Collection<EnvironmentPort> ports = this.environmentService
 				.getEnvironmentPorts();
 		if (ports.isEmpty()) {

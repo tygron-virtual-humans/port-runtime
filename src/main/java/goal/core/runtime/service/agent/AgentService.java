@@ -182,6 +182,15 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	}
 
 	/**
+	 * Get the MAS program
+	 * 
+	 * @return
+	 */
+	public MASProgram getMAS() {
+		return masProgram;
+	}
+
+	/**
 	 * Returns the GOAL agent with name agentName, if it runs locally.
 	 *
 	 * @param id
