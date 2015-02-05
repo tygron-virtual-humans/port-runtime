@@ -71,7 +71,7 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 			default:
 				// If we get here, we don't know how to handle the
 				// message.
-				throw new GOALMessagingException("Agent " + getId()
+				throw new GOALMessagingException("agent " + getId()
 						+ " does not know how to handle received message "
 						+ message + ".");
 			}
@@ -124,8 +124,9 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 					continue;
 				}
 				if (recvBoxes.size() != 1) {
-					throw new GOALBug("The messagebox name " + receiver
-							+ " is not unique!");
+					throw new GOALBug(
+							"there are multiple agents using the messagebox name "
+									+ receiver);
 				}
 				this.messageBox.send(this.messageBox.createMessage(
 						recvBoxes.get(0), message, null));

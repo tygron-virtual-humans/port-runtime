@@ -78,7 +78,7 @@ public class Warning extends GOALLogRecord {
 	/**
 	 * A formatter for warning messages
 	 */
-	private static Formatter warningFormatter;
+	private static WarningFormatter warningFormatter;
 	/**
 	 * A flag signaling to the formatter that this Warning is the last warning
 	 * with the same message to be displayed.
@@ -92,7 +92,7 @@ public class Warning extends GOALLogRecord {
 		messageLog = new Hashtable<>();
 		suppressWarnings = false;
 		suppressedWarnings = new LinkedList<>();
-		warningFormatter = new Formatter();
+		warningFormatter = new WarningFormatter();
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class Warning extends GOALLogRecord {
 	 * @return A formatter for warnings.
 	 */
 	@Override
-	public Formatter getFormatter() {
+	public WarningFormatter getFormatter() {
 		return Warning.warningFormatter;
 	}
 

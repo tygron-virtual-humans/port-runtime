@@ -13,7 +13,7 @@ import java.util.logging.LogRecord;
  * @author N.Kraayenbrink
  *
  */
-public class Formatter extends SingleLineFormatter {
+public class WarningFormatter extends SingleLineFormatter {
 
 	@Override
 	public String format(LogRecord record) {

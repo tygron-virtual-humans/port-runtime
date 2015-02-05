@@ -54,6 +54,7 @@ import languageTools.program.agent.msc.MentalStateCondition;
 import languageTools.program.agent.msg.Message;
 import languageTools.program.agent.selector.Selector.SelectorType;
 import mentalState.BASETYPE;
+import mentalstatefactory.InstantiationFailedException;
 import mentalstatefactory.MentalStateFactory;
 import nl.tudelft.goal.messaging.messagebox.MessageBox;
 
@@ -132,8 +133,15 @@ public class MentalState {
 		this.usesMentalModeling = program.usesMentalModels();
 		this.agentId = id;
 		this.agentProgram = program;
-		this.state = MentalStateFactory.getInterface(this.agentProgram
-				.getKRInterface().getClass());
+		Class<? extends KRInterface> krClass = this.agentProgram
+				.getKRInterface().getClass();
+		try {
+			this.state = MentalStateFactory.getInterface(krClass);
+		} catch (InstantiationFailedException e) {
+			throw new KRInitFailedException(
+					"can not make a mental state interface for "
+							+ krClass.getCanonicalName(), e);
+		}
 		addAgentModel(id, debugger);
 	}
 
@@ -377,7 +385,7 @@ public class MentalState {
 				for (Substitution subst : result) {
 					Set<Substitution> tempResult = this.models.get(
 							agents.next()).query(literal.applySubst(subst),
-									focus, debugger);
+							focus, debugger);
 					for (Substitution tempSubst : tempResult) {
 						currentResults.add(subst.combine(tempSubst));
 					}
@@ -650,9 +658,9 @@ public class MentalState {
 		for (SingleGoal goal : getAttentionSet()) {
 			// temporarily only have one of the goals
 			this.models
-			.get(this.agentId)
-			.getAttentionStack()
-			.push(new GoalBase(goal, this.state, this.agentId,
+					.get(this.agentId)
+					.getAttentionStack()
+					.push(new GoalBase(goal, this.state, this.agentId,
 							this.agentProgram, getAgentId().getName(),
 							debugger, this.agentId));
 
@@ -661,7 +669,7 @@ public class MentalState {
 			// substitutions.
 			try {
 				partSubsts = new MentalStateConditionExecutor(context)
-				.evaluate(this, debugger);
+						.evaluate(this, debugger);
 				if (!partSubsts.isEmpty()) {
 					substitutions.addAll(partSubsts);
 					// make sure we do not have to re-query everything in order

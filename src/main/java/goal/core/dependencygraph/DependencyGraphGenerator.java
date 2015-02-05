@@ -18,13 +18,13 @@
 
 package goal.core.dependencygraph;
 
-import java.rmi.activation.UnknownObjectException;
 import java.util.LinkedList;
 import java.util.List;
 
 import krTools.KRInterface;
 import krTools.errors.exceptions.KRException;
 import mentalState.DependencyGraph;
+import mentalstatefactory.InstantiationFailedException;
 import mentalstatefactory.MentalStateFactory;
 
 /**
@@ -114,7 +114,7 @@ public abstract class DependencyGraphGenerator<T> {
 						mentalState.MentalState state = MentalStateFactory
 								.getInterface(this.language.getClass());
 						this.graph = state.createDependencyGraph();
-					} catch (UnknownObjectException e) {
+					} catch (InstantiationFailedException e) {
 						throw new UnsupportedOperationException(
 								"Cannot proceed because the MentalState could not be found for: "
 										+ this.language);
