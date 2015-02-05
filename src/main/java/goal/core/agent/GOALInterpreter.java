@@ -9,6 +9,7 @@ import goal.core.runtime.service.agent.RunState;
 import goal.tools.adapt.Learner;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
+import goal.tools.debugger.DebuggerKilledException;
 import goal.tools.debugger.SteppingDebugger;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
@@ -17,6 +18,7 @@ import goal.tools.logging.InfoLog;
 import java.rmi.activation.UnknownObjectException;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 
 import krTools.errors.exceptions.KRDatabaseException;
@@ -154,10 +156,18 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 						new InfoLog(GOALInterpreter.this.agent.getId()
 								+ " terminated successfully.");
 					}
+
 				} catch (final Exception e) {
 					GOALInterpreter.this.throwable = e;
+					Exception e1 = e;
+					if (e instanceof DebuggerKilledException) {
+						// "normal" forced termination by the debugger.
+						// re-wrap to avoid bug report for this way to kill
+						e1 = new ExecutionException(
+								"Agent was killed by debugger", e);
+					}
 					new Warning(GOALInterpreter.this.agent.getId()
-							+ " was terminated", e);
+							+ " was terminated", e1);
 					setTerminated();
 				}
 			}

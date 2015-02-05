@@ -39,7 +39,8 @@ public class ExceptionLogFormatter extends SingleLineFormatter {
 
 		if (error != null) {
 			// see if we need to print the java details
-			if (LoggingPreferences.getShowJavaDetails()) {
+			if (LoggingPreferences.getShowJavaDetails()
+					|| error instanceof RuntimeException) {
 				message.append(Resources.get(WarningStrings.JAVA_DETAILS));
 				message.append(error);
 			}
