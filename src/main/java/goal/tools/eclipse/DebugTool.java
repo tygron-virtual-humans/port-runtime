@@ -45,6 +45,7 @@ public class DebugTool {
 					System.in, System.out, runtime, observer);
 			readerwriter.start();
 			runtime.addObserver(observer);
+			runtime.startAgentsWithoutEnvironment();
 			if (LoggingPreferences.getEclipseDebug()) {
 				new InfoLog("Started debugging for " + args[1] + "!");
 			}

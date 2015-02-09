@@ -258,7 +258,7 @@ public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
 	private final class Runtime2Observers implements
 			goal.core.runtime.service.agent.AgentServiceEventObserver {
 		@Override
-		public void agentServiceEvent(AgentService runtimeService,
+		public void agentServiceEvent(AgentService<?, ?> runtimeService,
 				AgentServiceEvent evt) {
 			if (evt instanceof goal.core.runtime.service.agent.events.AddedLocalAgent) {
 				RuntimeManager.this.myObservable
@@ -307,7 +307,7 @@ public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
 	private final class AgentService2RemoteRuntime implements
 			AgentServiceEventObserver {
 		@Override
-		public void agentServiceEvent(AgentService runtimeService,
+		public void agentServiceEvent(AgentService<?, ?> runtimeService,
 				AgentServiceEvent evt) {
 			if (evt instanceof AddedLocalAgent) {
 				AddedLocalAgent added = (AddedLocalAgent) evt;
@@ -660,7 +660,8 @@ public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
 	}
 
 	/**
-	 * Starts all environment that were launched paused.
+	 * Starts all environment and agents that were launched paused (through the
+	 * environment). If there is no environment, start all agents anyway.
 	 *
 	 * @throws MessagingException
 	 *             when it was not possible to connect to the environment.
@@ -668,7 +669,7 @@ public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
 	 *             when the environment could not be started.
 	 * @throws GOALLaunchFailureException
 	 */
-	public void startEnvironment() throws MessagingException,
+	public void startAgentsAndEnvironment() throws MessagingException,
 			EnvironmentInterfaceException, GOALLaunchFailureException {
 		Collection<EnvironmentPort> ports = this.environmentService
 				.getEnvironmentPorts();
@@ -678,6 +679,19 @@ public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
 			for (EnvironmentPort port : ports) {
 				port.start();
 			}
+		}
+		new InfoLog("running.");
+	}
+
+	/**
+	 * Starts all agents that were launched paused if there is no environment.
+	 *
+	 * @throws GOALLaunchFailureException
+	 */
+	public void startAgentsWithoutEnvironment()
+			throws GOALLaunchFailureException {
+		if (this.environmentService.getEnvironmentPorts().isEmpty()) {
+			this.agentService.startWithoutEnv();
 		}
 		new InfoLog("running.");
 	}

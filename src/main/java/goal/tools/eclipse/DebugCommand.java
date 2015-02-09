@@ -161,8 +161,8 @@ public class DebugCommand {
 		final String environment = envName.replace('\n', ' ').replace(
 				DELIMITER, "\\" + DELIMITER);
 		buffer.append(DELIMITER).append(this.command.name()).append(DELIMITER)
-				.append(agent).append(DELIMITER).append(environment)
-				.append(DELIMITER).append(this.data.size());
+		.append(agent).append(DELIMITER).append(environment)
+		.append(DELIMITER).append(this.data.size());
 		for (final String data : this.data) {
 			final String d = data.replace('\n', ' ').replace(DELIMITER,
 					"\\" + DELIMITER);
@@ -171,7 +171,6 @@ public class DebugCommand {
 		return buffer.toString();
 	}
 
-	@SuppressWarnings("deprecation")
 	public static DebugCommand fromString(final String string) throws Exception {
 		if (string.startsWith(PREFIX)) {
 			final String[] s = string.split("(?<!\\\\)\\" + DELIMITER);
