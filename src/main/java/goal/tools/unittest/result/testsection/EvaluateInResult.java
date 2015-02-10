@@ -17,14 +17,6 @@ import languageTools.program.test.testsection.EvaluateIn;
  * @author M.P. Korstanje
  */
 public class EvaluateInResult implements TestSectionResult {
-
-	@Override
-	public String toString() {
-		return "EvaluateInResult [evaluateIn=" + this.evaluateIn
-				+ ", evaluators=" + this.evaluators + ", passed=" + this.passed
-				+ "]";
-	}
-
 	private final EvaluateIn evaluateIn;
 	private final List<TestConditionEvaluator> evaluators;
 	private final boolean passed;

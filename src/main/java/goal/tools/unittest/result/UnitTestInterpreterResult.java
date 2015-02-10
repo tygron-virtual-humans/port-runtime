@@ -18,13 +18,6 @@ import languageTools.program.test.UnitTest;
  * @author mpkorstanje
  */
 public class UnitTestInterpreterResult {
-	@Override
-	public String toString() {
-		return "Result of Unit Test Run [test=" + this.test + ", id=" + this.id
-				+ ", testResult=" + this.testResult + ", uncaughtThrowable="
-				+ this.uncaughtThrowable + ", passed=" + this.passed + "]";
-	}
-
 	private final AgentTest test;
 	private final AgentId id;
 	private final AgentTestResult testResult;

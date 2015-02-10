@@ -39,11 +39,6 @@ public class AtStartExecutor extends TestConditionExecutor {
 			final Substitution substitution) {
 		return new TestConditionEvaluator(this) {
 			@Override
-			public String getObserverName() {
-				return AtStartExecutor.class.getSimpleName() + "Evaluator";
-			}
-
-			@Override
 			public void firstEvaluation() {
 				if (AtStartExecutor.this.atstart.getModule() == null) {
 					evaluation();
@@ -58,7 +53,9 @@ public class AtStartExecutor extends TestConditionExecutor {
 						if (evaluation.isEmpty()) {
 							setPassed(false);
 							throw new TestConditionFailedException(
-									"AtStart condition did not hold", this);
+									"The nested condition "
+											+ AtStartExecutor.this.atstart
+											+ " did not hold.", this);
 						}
 					}
 					setPassed(true);
@@ -73,8 +70,9 @@ public class AtStartExecutor extends TestConditionExecutor {
 							substitution, getQuery());
 					if (evaluation.isEmpty()) {
 						setPassed(false);
-						throw new TestConditionFailedException(
-								"AtStart condition did not hold", this);
+						throw new TestConditionFailedException("The condition "
+								+ AtStartExecutor.this.atstart
+								+ " did not hold.", this);
 					} else {
 						setPassed(true);
 					}

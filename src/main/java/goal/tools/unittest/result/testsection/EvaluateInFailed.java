@@ -15,13 +15,6 @@ public class EvaluateInFailed extends TestSectionFailed {
 	private static final long serialVersionUID = 2119184965021739086L;
 	private final EvaluateInExecutor evaluateIn;
 
-	@Override
-	public String toString() {
-		return "EvaluateInFailed [evaluateIn=" + this.evaluateIn
-				+ ", evaluators=" + this.evaluators + ", exception="
-				+ this.exception + "]";
-	}
-
 	public EvaluateInExecutor getEvaluateIn() {
 		return this.evaluateIn;
 	}

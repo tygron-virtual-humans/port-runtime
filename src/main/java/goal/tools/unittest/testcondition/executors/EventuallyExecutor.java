@@ -38,11 +38,6 @@ public class EventuallyExecutor extends TestConditionExecutor {
 			final Substitution substitution) {
 		return new TestConditionEvaluator(this) {
 			@Override
-			public String getObserverName() {
-				return EventuallyExecutor.class.getSimpleName() + "Evaluator";
-			}
-
-			@Override
 			public void firstEvaluation() {
 				notifyBreakpointHit(null);
 			}

@@ -14,14 +14,7 @@ import goal.tools.unittest.testsection.executors.TestSectionExecutor;
 public class TestSectionInterupted extends TestSectionFailed {
 	/** Date of last modification */
 	private static final long serialVersionUID = 201401252118L;
-
 	private final TestSectionExecutor testSection;
-
-	@Override
-	public String toString() {
-		return "Test Section Interupted [Test Section= " + this.testSection
-				+ "]";
-	}
 
 	/**
 	 * Creates an interrupted test section.

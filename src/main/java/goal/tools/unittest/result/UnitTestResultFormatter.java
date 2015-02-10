@@ -128,9 +128,8 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 		}
 		String retString = "failed: " + result.getId().getName() + "\n";
 		if (result.getUncaughtThrowable() != null) {
-			result.getUncaughtThrowable().printStackTrace();
-			retString += indent(1,
-					"exception: " + result.getUncaughtThrowable() + "\n");
+			retString += indent(1, "exception: "
+					+ result.getUncaughtThrowable().getMessage() + "\n");
 			return retString;
 		}
 		if (result.getResult() == null) {
@@ -235,7 +234,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 
 	@Override
 	public String visit(DoActionSection action) {
-		return "do " + action.getAction().toString();
+		return "do " + action.getAction();
 	}
 
 	@Override

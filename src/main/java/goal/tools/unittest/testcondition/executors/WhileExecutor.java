@@ -35,11 +35,6 @@ public class WhileExecutor extends TestConditionExecutor {
 			final Substitution substitution) {
 		return new TestConditionEvaluator(this) {
 			@Override
-			public String getObserverName() {
-				return WhileExecutor.class.getSimpleName() + "Evaluator";
-			}
-
-			@Override
 			public void firstEvaluation() {
 			}
 

@@ -38,11 +38,6 @@ public class AlwaysExecutor extends TestConditionExecutor {
 			final Substitution substitution) {
 		return new TestConditionEvaluator(this) {
 			@Override
-			public String getObserverName() {
-				return AlwaysExecutor.class.getSimpleName() + "Evaluator";
-			}
-
-			@Override
 			public void firstEvaluation() {
 				notifyBreakpointHit(null);
 			}
@@ -56,8 +51,9 @@ public class AlwaysExecutor extends TestConditionExecutor {
 						if (evaluation.isEmpty()) {
 							setPassed(false);
 							throw new TestConditionFailedException(
-									"Always condition did not hold for "
-											+ substitution, this);
+									"The nested condition "
+											+ AlwaysExecutor.this.always
+											+ " did not hold.", this);
 						}
 					}
 				} else if (hasNestedExecutor()) {
@@ -72,7 +68,8 @@ public class AlwaysExecutor extends TestConditionExecutor {
 					if (evaluation.isEmpty()) {
 						setPassed(false);
 						throw new TestConditionFailedException(
-								"Always condition did not hold", this);
+								"The condition " + AlwaysExecutor.this.always
+										+ " did not hold.", this);
 					}
 				}
 			}

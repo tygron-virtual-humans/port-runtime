@@ -15,13 +15,6 @@ public class EvaluateInInterrupted extends TestSectionInterupted {
 	private static final long serialVersionUID = 2119184965021739086L;
 	private final List<TestConditionEvaluator> evaluators;
 
-	@Override
-	public String toString() {
-		return "EvaluateInInterrupted [evaluateIn=" + super.getTestSection()
-				+ ", evaluators=" + this.evaluators + ", exception="
-				+ super.getCause() + "]";
-	}
-
 	/**
 	 * @param evaluateIn
 	 * @param evaluators

@@ -65,12 +65,6 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 		this.executor = executor;
 	}
 
-	@Override
-	public String toString() {
-		return getObserverName() + " [TestConditionExecutor= " + this.executor
-				+ ", passed=" + this.passed + "]";
-	}
-
 	/**
 	 * @return query used by the {@link TestConditionExecutor}.
 	 */
@@ -188,6 +182,11 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 			// should never happen...
 			return "unknown";
 		}
+	}
+
+	@Override
+	public String getObserverName() {
+		return "TestCondition";
 	}
 
 	/**

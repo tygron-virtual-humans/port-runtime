@@ -39,11 +39,6 @@ public class AtEndExecutor extends TestConditionExecutor {
 			final Substitution substitution) {
 		return new TestConditionEvaluator(this) {
 			@Override
-			public String getObserverName() {
-				return AtEndExecutor.class.getSimpleName() + "Evaluator";
-			}
-
-			@Override
 			public void firstEvaluation() {
 				// Does nothing
 			}
@@ -56,7 +51,9 @@ public class AtEndExecutor extends TestConditionExecutor {
 						if (evaluation.isEmpty()) {
 							setPassed(false);
 							throw new TestConditionFailedException(
-									"AtEnd condition did not hold", this);
+									"The nested condition "
+											+ AtEndExecutor.this.atend
+											+ " did not hold.", this);
 						}
 					}
 					setPassed(true);
@@ -71,8 +68,9 @@ public class AtEndExecutor extends TestConditionExecutor {
 							substitution, getQuery());
 					if (evaluation.isEmpty()) {
 						setPassed(false);
-						throw new TestConditionFailedException(
-								"AtEnd condition did not hold", this);
+						throw new TestConditionFailedException("The condition "
+								+ AtEndExecutor.this.atend + " did not hold.",
+								this);
 					} else {
 						setPassed(true);
 					}

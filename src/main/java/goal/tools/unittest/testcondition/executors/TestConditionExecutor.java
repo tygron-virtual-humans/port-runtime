@@ -79,7 +79,7 @@ public abstract class TestConditionExecutor {
 	 * Update the state of a nested condition (which we are)
 	 *
 	 * @param nested
-	 *            The substitution set to use in our next evaluation.
+	 *            The substitution set to use in our next evaluation .
 	 */
 	public void setNested(Set<Substitution> nested) {
 		final boolean empty = (this.isNested == null)
@@ -90,8 +90,9 @@ public abstract class TestConditionExecutor {
 			if (empty || this.evaluator.isPassed()) {
 				this.evaluator.reset();
 			} else {
-				throw new TestConditionFailedException(
-						"Nested condition did not hold before next evaluation",
+				throw new TestConditionFailedException("The nested condition "
+						+ getCondition()
+						+ " did not get evaluated before next evaluation",
 						this.evaluator);
 			}
 		}

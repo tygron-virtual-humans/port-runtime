@@ -113,7 +113,11 @@ public class EvaluateInExecutor extends TestSectionExecutor {
 		 * time.
 		 */
 		for (TestConditionEvaluator evaluator : evaluators) {
-			evaluator.lastEvaluation();
+			try {
+				evaluator.lastEvaluation();
+			} catch (TestConditionFailedException e) {
+				throw new EvaluateInFailed(this, evaluators, e);
+			}
 		}
 
 		/*
@@ -132,6 +136,9 @@ public class EvaluateInExecutor extends TestSectionExecutor {
 			}
 		}
 
+		/*
+		 * We succeeded :)
+		 */
 		return new EvaluateInResult(this.evaluatein, evaluators);
 	}
 
@@ -148,5 +155,4 @@ public class EvaluateInExecutor extends TestSectionExecutor {
 	public <T> T accept(ResultFormatter<T> formatter) {
 		return formatter.visit(this.evaluatein);
 	}
-
 }

@@ -14,13 +14,6 @@ import languageTools.program.test.AgentTest;
  * @author M.P. Korstanje
  */
 public class AgentTestResult {
-
-	@Override
-	public String toString() {
-		return "AgentTestResult [passed=" + this.passed + ", agentTest="
-				+ this.agentTest + ", test=" + this.test + "]";
-	}
-
 	private final boolean passed;
 	private final AgentTest agentTest;
 	private final TestResult test;

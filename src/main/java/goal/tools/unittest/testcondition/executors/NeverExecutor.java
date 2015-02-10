@@ -38,11 +38,6 @@ public class NeverExecutor extends TestConditionExecutor {
 			final Substitution substitution) {
 		return new TestConditionEvaluator(this) {
 			@Override
-			public String getObserverName() {
-				return NeverExecutor.class.getSimpleName() + "Evaluator";
-			}
-
-			@Override
 			public void firstEvaluation() {
 				notifyBreakpointHit(null);
 			}
@@ -56,8 +51,9 @@ public class NeverExecutor extends TestConditionExecutor {
 						if (!evaluation.isEmpty()) {
 							setPassed(false);
 							throw new TestConditionFailedException(
-									"Never condition did not hold for "
-											+ substitution, this);
+									"The nested condition "
+											+ NeverExecutor.this.never
+											+ " did not hold.", this);
 						}
 					}
 				} else {
@@ -65,8 +61,9 @@ public class NeverExecutor extends TestConditionExecutor {
 							substitution, getQuery());
 					if (!evaluation.isEmpty()) {
 						setPassed(false);
-						throw new TestConditionFailedException(
-								"Never condition did not hold", this);
+						throw new TestConditionFailedException("The condition "
+								+ NeverExecutor.this.never + " did not hold.",
+								this);
 					}
 				}
 			}

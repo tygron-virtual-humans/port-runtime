@@ -31,11 +31,6 @@ public class TestConditionFailedException extends GOALRuntimeErrorException {
 		this.evaluator = evaluator;
 	}
 
-	@Override
-	public String toString() {
-		return this.getClass() + " [Evaluator= " + this.evaluator + "]";
-	}
-
 	/**
 	 * @return the evaluator that failed to evaluate.
 	 */
