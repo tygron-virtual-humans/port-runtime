@@ -71,10 +71,11 @@ import nl.tudelft.goal.messaging.exceptions.MessagingException;
 import nl.tudelft.goal.messaging.messagebox.MessageBox;
 
 /**
- * The run state of an {@link Agent}.
+ * The run state of an {@link Agent}. Normally this is called by the Agent's
+ * thread.
  * <p>
  * Note that this has nothing to do with the {@link SteppingDebugger}'s
- * {@link RunMode} .A
+ * {@link RunMode}.
  * </p>
  *
  * @param <D>
@@ -405,41 +406,34 @@ public class RunState<D extends Debugger> {
 			if (!this.getMentalState().getKnownAgents().contains(sender)) {
 				try {
 					this.getMentalState().addAgentModel(sender, this.debugger);
-				} catch (Exception e) {
-					new Warning(this.debugger, String.format(
+				} catch (KRInitFailedException | KRDatabaseException
+						| KRQueryFailedException | UnknownObjectException e) {
+					throw new IllegalStateException(String.format(
 							Resources.get(WarningStrings.FAILED_ADD_MODEL),
-							sender.getName()));
+							sender.getName()), e);
 				}
 			}
 
-			try {
-
-				switch (message.getMood()) {
-				case INDICATIVE:
-					this.getMentalState().insert(update, BASETYPE.BELIEFBASE,
-							this.debugger, sender);
-					break;
-				case IMPERATIVE:
-					this.getMentalState().adopt(update, true, this.debugger,
-							sender);
-					this.getMentalState().delete(update, BASETYPE.BELIEFBASE,
-							this.debugger, sender);
-					break;
-				case INTERROGATIVE:
-					this.getMentalState().delete(update, BASETYPE.BELIEFBASE,
-							this.debugger, sender);
-					break;
-				default:
-					throw new GOALBug(
-							"Received a message with unexpected mood: " //$NON-NLS-1$
-									+ message.getMood());
-				}
-				this.getMentalState().updateGoalState(this.debugger, sender);
-			} catch (Exception e) {
-				throw new GOALBug("Processing of message with content: " //$NON-NLS-1$
-						+ update + " failed due to exception " + e.toString(), //$NON-NLS-1$
-						e);
+			switch (message.getMood()) {
+			case INDICATIVE:
+				this.getMentalState().insert(update, BASETYPE.BELIEFBASE,
+						this.debugger, sender);
+				break;
+			case IMPERATIVE:
+				this.getMentalState()
+						.adopt(update, true, this.debugger, sender);
+				this.getMentalState().delete(update, BASETYPE.BELIEFBASE,
+						this.debugger, sender);
+				break;
+			case INTERROGATIVE:
+				this.getMentalState().delete(update, BASETYPE.BELIEFBASE,
+						this.debugger, sender);
+				break;
+			default:
+				throw new GOALBug("Received a message with unexpected mood: " //$NON-NLS-1$
+						+ message.getMood());
 			}
+			this.getMentalState().updateGoalState(this.debugger, sender);
 		}
 
 	}
@@ -740,12 +734,20 @@ public class RunState<D extends Debugger> {
 		return false;
 	}
 
+	/**
+	 * Get the environment reward. May return null if environment does not
+	 * provide a reward.
+	 * 
+	 * @return the reward, or null if no reward available.
+	 * @throws IllegalStateException
+	 *             if failed to connect with environment.
+	 */
 	public Double getReward() {
 		try {
 			return this.environment.getReward();
-		} catch (Exception e) {
-			new Warning(Resources.get(WarningStrings.FAILED_ENV_GET_REWARD), e);
-			return null;
+		} catch (EnvironmentInterfaceException | MessagingException e) {
+			throw new IllegalStateException(
+					Resources.get(WarningStrings.FAILED_ENV_GET_REWARD), e);
 		}
 	}
 
@@ -782,7 +784,7 @@ public class RunState<D extends Debugger> {
 					Resources.get(WarningStrings.FAILED_ACTION_EXECUTE),
 					action.toString()), e);
 		} catch (MessagingException e) {
-			new Warning(String.format(
+			throw new IllegalStateException(String.format(
 					Resources.get(WarningStrings.FAILED_ACTION_SEND),
 					action.toString()), e);
 		}

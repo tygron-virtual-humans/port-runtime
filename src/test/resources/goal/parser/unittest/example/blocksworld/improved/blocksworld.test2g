@@ -9,11 +9,11 @@ masTest {
 	
 			do build(['b2','b3','b1']).
 
-			evaluate {
-				always bel(on('b1','table')).
-				eventually bel(on('b2','table')).
-				atend bel(tower(['b3','b2','b1'])).
-			} in do main.
+%			evaluate {
+%				always bel(on('b1','table')).
+%				eventually bel(on('b2','table')).
+%				atend bel(tower(['b3','b2','b1'])).
+%			} in do main.
 		}
 		
 	}

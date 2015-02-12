@@ -1,5 +1,8 @@
 main module [exit=nogoals] {
 	program{
 		if true then exit-module.
+		
+		% HACK to ensure these predicates are declared.
+		if bel(false) then insert(insertDone) + adopt(adoptDone).
 	}
 }

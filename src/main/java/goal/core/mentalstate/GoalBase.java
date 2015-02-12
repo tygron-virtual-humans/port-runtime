@@ -194,17 +194,11 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 *            The current debugger.
 	 */
 	protected void setGoals(List<Update> content, Debugger debugger) {
-		try {
-			for (Update goal : content) {
-				this.count++;
-				getTime();
-				addGoal(new SingleGoal(goal, this.owner, this.state), debugger);
-				updateTimeUsed();
-			}
-		} catch (Exception e) {
-			new Warning(debugger, String.format(
-					Resources.get(WarningStrings.FAILED_ADD_GOAL),
-					content.toString(), this.owner.toString()), e);
+		for (Update goal : content) {
+			this.count++;
+			getTime();
+			addGoal(new SingleGoal(goal, this.owner, this.state), debugger);
+			updateTimeUsed();
 		}
 	}
 
@@ -272,17 +266,10 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 * @return true if anything changed.
 	 */
 	public boolean insert(Update goal, Debugger debugger) {
-		try {
-			this.count++;
-			getTime();
-			addGoal(new SingleGoal(goal, this.owner, this.state), debugger);
-			updateTimeUsed();
-		} catch (Exception e) {
-			new Warning(debugger, String.format(
-					Resources.get(WarningStrings.FAILED_ADD_GOAL),
-					goal.toString(), this.owner.toString()), e);
-			return false;
-		}
+		this.count++;
+		getTime();
+		addGoal(new SingleGoal(goal, this.owner, this.state), debugger);
+		updateTimeUsed();
 		return true;
 	}
 
@@ -350,10 +337,10 @@ public final class GoalBase implements Iterable<SingleGoal> {
 		for (SingleGoal goal : goalsToBeDropped) {
 			debugger.breakpoint(Channel.GB_UPDATES, goal, goal.getGoal()
 					.getSourceInfo(), "Goal %s"
-							+ " has been dropped from the "
-							+ (this.owner.equals(this.agentName) ? "" : this.agentName
-									+ "'s ") + "goal base: %s.", goal.toString(),
-									this.name);
+					+ " has been dropped from the "
+					+ (this.owner.equals(this.agentName) ? "" : this.agentName
+							+ "'s ") + "goal base: %s.", goal.toString(),
+					this.name);
 
 			this.count++;
 			getTime();

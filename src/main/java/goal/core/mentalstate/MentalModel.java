@@ -21,7 +21,6 @@ package goal.core.mentalstate;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.Resources;
-import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
@@ -482,8 +481,8 @@ public class MentalModel {
 		for (SingleGoal goal : goalsToBeRemoved) {
 			try {
 				getAttentionSet(true).remove(goal, debugger);
-			} catch (Exception e) {
-				new Warning(debugger, String.format(Resources
+			} catch (KRInitFailedException e) {
+				throw new IllegalStateException(String.format(Resources
 						.get(WarningStrings.FAILED_REMOVING_GOAL_FROM_GB), goal
 						.toString()), e);
 			}

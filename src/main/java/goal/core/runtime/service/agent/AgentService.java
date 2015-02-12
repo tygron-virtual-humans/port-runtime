@@ -624,8 +624,8 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 * @throws UnknownObjectException
 	 */
 	public synchronized void reset() throws InterruptedException,
-	KRInitFailedException, KRDatabaseException, KRQueryFailedException,
-	UnknownObjectException {
+			KRInitFailedException, KRDatabaseException, KRQueryFailedException,
+			UnknownObjectException {
 		for (Agent<C> a : this.agents.local()) {
 			a.reset();
 		}
@@ -714,7 +714,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 		for (AgentServiceEventObserver obs : this.observers) {
 			try {
 				obs.agentServiceEvent(this, evt);
-			} catch (Exception e) {
+			} catch (Exception e) { // Callback protection
 				new Warning(String.format(
 						Resources.get(WarningStrings.FAILED_CALLBACK),
 						obs.toString(), evt.toString()), e);

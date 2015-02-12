@@ -23,12 +23,10 @@ import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
 import goal.tools.errorhandling.Resources;
-import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Observable;
 import java.util.Set;
@@ -186,15 +184,16 @@ public class BeliefBase {
 	 *
 	 * @return a set of substitutions each of which make the query true, or an
 	 *         empty set otherwise.
+	 * @throws IllegalArgumentException
+	 *             if query fails.
 	 */
 	public final Set<Substitution> query(Query formula, Debugger debugger) {
 		try {
 			return this.database.query(formula);
-		} catch (Exception e) {
-			new Warning(debugger, String.format(
+		} catch (KRQueryFailedException e) {
+			throw new IllegalArgumentException(String.format(
 					Resources.get(WarningStrings.FAILED_DB_QUERY),
 					formula.toString(), this.database.getName()), e);
-			return new LinkedHashSet<>(0);
 		}
 	}
 
@@ -216,20 +215,19 @@ public class BeliefBase {
 		if (change) {
 			try {
 				this.database.insert(formula);
-
-				debugger.breakpoint(getChannel(), formula,
-						formula.getSourceInfo(),
-						"%s has been inserted into the belief base of %s.",
-						formula, this.agentName);
-			} catch (KRDatabaseException e) { // #3403 don't catch ? Throw as
-												// Bug?
-				new Warning(debugger, String.format(
+			} catch (KRDatabaseException e) {
+				throw new IllegalArgumentException(String.format(
 						Resources.get(WarningStrings.FAILED_ADD_DBFORMULA),
 						formula.toString(), this.database.getName()), e);
 				// KR did not succeed, remove formula again from theory to keep
 				// KR database and theory synchronized.
-				change = !this.theory.remove(formula);
+				// change = !this.theory.remove(formula);
+
 			}
+
+			debugger.breakpoint(getChannel(), formula, formula.getSourceInfo(),
+					"%s has been inserted into the belief base of %s.",
+					formula, this.agentName);
 		}
 		return change;
 	}
@@ -256,22 +254,22 @@ public class BeliefBase {
 	 * @param debugger
 	 */
 	public void insert(Message message, boolean received, Debugger debugger) {
+		Set<DatabaseFormula> updates;
 		try {
-			Set<DatabaseFormula> updates = this.state.insert(this.database,
-					message, received);
-			for (DatabaseFormula formula : updates) {
-				boolean change = this.theory.add(formula);
-				if (change) {
-					debugger.breakpoint(getChannel(), formula,
-							formula.getSourceInfo(),
-							"%s has been inserted into the mailbox of %s.",
-							formula, this.agentName);
-				}
-			}
+			updates = this.state.insert(this.database, message, received);
 		} catch (KRDatabaseException e) {
-			new Warning(debugger, String.format(
+			throw new IllegalArgumentException(String.format(
 					"Failed to add message %s to %s (received: %s)",
 					message.toString(), this.database.getName(), received), e);
+		}
+		for (DatabaseFormula formula : updates) {
+			boolean change = this.theory.add(formula);
+			if (change) {
+				debugger.breakpoint(getChannel(), formula,
+						formula.getSourceInfo(),
+						"%s has been inserted into the mailbox of %s.",
+						formula, this.agentName);
+			}
 		}
 	}
 
@@ -291,19 +289,18 @@ public class BeliefBase {
 		if (changed) {
 			try {
 				this.database.delete(formula);
-
-				debugger.breakpoint(getChannel(), formula,
-						formula.getSourceInfo(),
-						"%s has been deleted from the belief base of %s.",
-						formula, this.agentName);
 			} catch (KRDatabaseException e) {
-				new Warning(debugger, String.format(
+				throw new IllegalArgumentException(String.format(
 						Resources.get(WarningStrings.FAILED_DEL_DBFORMULA),
 						formula.toString(), this.database.getName()), e);
 				// KR did not succeed, reinsert formula into theory again to
 				// keep KR database and theory synchronized.
-				changed = !this.theory.add(formula);
+				// changed = !this.theory.add(formula);
 			}
+
+			debugger.breakpoint(getChannel(), formula, formula.getSourceInfo(),
+					"%s has been deleted from the belief base of %s.", formula,
+					this.agentName);
 		}
 		return changed;
 	}
