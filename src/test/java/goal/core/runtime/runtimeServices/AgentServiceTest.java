@@ -79,7 +79,7 @@ public class AgentServiceTest {
 	@Test
 	public void testStart() throws GOALLaunchFailureException,
 			InterruptedException {
-		this.runtimeService.startWithoutEnv();
+		this.runtimeService.start();
 		this.runtimeService.awaitTermination(0); // TODO: timeout?!
 	}
 
@@ -96,7 +96,7 @@ public class AgentServiceTest {
 			}
 		});
 
-		this.runtimeService.startWithoutEnv();
+		this.runtimeService.start();
 		this.runtimeService.shutDown();
 		this.runtimeService.awaitTermination(1);
 
