@@ -111,8 +111,11 @@ public class EnvironmentService {
 	 *
 	 * @param id
 	 *            of the environments messagebox.
+	 * @throws
+	 * @throws GOALLaunchFailureException
 	 */
-	public void addEnvironmentPort(MessageBoxId id) {
+	public void addEnvironmentPort(MessageBoxId id)
+			throws GOALLaunchFailureException {
 		EnvironmentPort port = null;
 		synchronized (this.environmentPorts) {
 			// We already have a port for this
@@ -124,10 +127,9 @@ public class EnvironmentService {
 				port = new EnvironmentPort(id, this.messagingService);
 				this.environmentPorts.put(id, port);
 			} catch (GOALLaunchFailureException e) {
-				new Warning(String.format(
+				throw new GOALLaunchFailureException(String.format(
 						Resources.get(WarningStrings.FAILED_CREATE_ENV_PORT),
 						id.getName()), e);
-				return;
 			}
 		}
 
@@ -137,14 +139,14 @@ public class EnvironmentService {
 			// Start port after people are ready to listen for it.
 			port.startPort();
 		} catch (MessagingException e) {
-			new Warning(String.format(
+			throw new GOALLaunchFailureException(String.format(
 					Resources.get(WarningStrings.FAILED_START_ENV_PORT),
 					id.getName()), e);
 		}
 	}
 
 	/**
-	 * Removes the {@link EnvironmentPort} that is communicateing with the given
+	 * Removes the {@link EnvironmentPort} that is communicating with the given
 	 * messagebox id.
 	 *
 	 * @param id
@@ -153,9 +155,8 @@ public class EnvironmentService {
 	public void removeEnvironmentPort(MessageBoxId id) {
 		EnvironmentPort port = null;
 		synchronized (this.environmentPorts) {
-			// We dont'have a port for this
-			// environment. Quitely ignore.
 			if (!this.environmentPorts.containsKey(id)) {
+				// We dont'have a port for this environment. Quietly ignore.
 				return;
 			}
 			port = this.environmentPorts.remove(id);
@@ -233,6 +234,7 @@ public class EnvironmentService {
 				List<MessageBoxId> boxes = this.messagingService.getClient()
 						.getMessageBoxes(Type.ENVIRONMENT, environmentName);
 				if (boxes.isEmpty()) {
+					// this is not an error, but it's a bit weird. Inform user.
 					new Warning(
 							"Environment "
 									+ environmentName
@@ -403,7 +405,7 @@ public class EnvironmentService {
 		for (EnvironmentServiceObserver obs : this.observers) {
 			try {
 				obs.environmentServiceEventOccured(this, evt);
-			} catch (Exception e) {
+			} catch (Exception e) { // Callback exception handling
 				new Warning(String.format(
 						Resources.get(WarningStrings.INTERNAL_PROBLEM),
 						obs.toString(), evt.toString()), e);

@@ -24,7 +24,6 @@ import goal.tools.debugger.SteppingDebugger;
 import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
-import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
@@ -35,6 +34,7 @@ import java.util.List;
 import java.util.Set;
 
 import krTools.errors.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.KRQueryFailedException;
 import krTools.language.Query;
 import krTools.language.Substitution;
 import krTools.language.Update;
@@ -242,12 +242,10 @@ public final class GoalBase implements Iterable<SingleGoal> {
 				substitutions.addAll(goal.getGoalDatabase().query(query));
 				// Update time used.
 				updateTimeUsed();
-			} catch (Exception e) {
-				new Warning(debugger, String.format(
+			} catch (KRQueryFailedException e) {
+				throw new IllegalArgumentException(String.format(
 						Resources.get(WarningStrings.FAILED_GOAL_QUERY),
 						query.toString(), goal.getGoalDatabase().getName()), e);
-
-				throw new GOALRuntimeErrorException(e);
 			}
 		}
 		return substitutions;
