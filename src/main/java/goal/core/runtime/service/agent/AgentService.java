@@ -76,7 +76,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 
 		/**
 		 * get All known agent ids.
-		 * 
+		 *
 		 * @param id
 		 */
 		public Set<AgentId> allId() {
@@ -94,7 +94,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 
 		/**
 		 * Get the agents running in this JVM
-		 * 
+		 *
 		 * @return
 		 */
 		public Collection<Agent<C>> local() {
@@ -130,27 +130,29 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	}
 
 	/**
-	 * Launches multi-agent system.
+	 * Launches multi-agent system. This comes down to applying the
+	 * non-conditional launch rules; the conditional launch rules are handled by
+	 * an environment.
 	 *
 	 * @throws GOALLaunchFailureException
 	 *             DOC
 	 */
 	public synchronized void start() throws GOALLaunchFailureException {
 		for (LaunchRule multilaunch : this.masProgram.getLaunchRules()) {
-			for (Launch launch : multilaunch.getInstructions()) {
-				for (int i = 0; i < launch.getNumberOfAgentsToLaunch(); i++) {
-					launchAgent(launch, null, null);
+			if (!multilaunch.getConditional()) {
+				for (Launch launch : multilaunch.getInstructions()) {
+					for (int i = 0; i < launch.getNumberOfAgentsToLaunch(); i++) {
+						launchAgent(launch, null, null);
+					}
 				}
 			}
 		}
 	}
 
 	/**
-	 * DOC
+	 * Kills the entire multi-agent system (all agents).
 	 */
 	public synchronized void shutDown() {
-		// Kill any remaining agents (not connected to an entity).
-		// CHECK these are ALL agents, right?
 		for (Agent<C> agent : getAgents()) {
 			agent.stop();
 		}

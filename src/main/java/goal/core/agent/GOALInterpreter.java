@@ -1,10 +1,8 @@
 package goal.core.agent;
 
 import eis.iilang.Percept;
-import goal.core.executors.ActionComboExecutor;
 import goal.core.executors.ActionExecutor;
 import goal.core.executors.ModuleExecutor;
-import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.adapt.Learner;
 import goal.tools.debugger.Channel;
@@ -28,7 +26,6 @@ import krTools.language.DatabaseFormula;
 import languageTools.program.agent.AgentId;
 import languageTools.program.agent.AgentProgram;
 import languageTools.program.agent.actions.Action;
-import languageTools.program.agent.actions.ActionCombo;
 import languageTools.program.agent.actions.MentalAction;
 import languageTools.program.agent.actions.UserSpecAction;
 
@@ -96,9 +93,9 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 			throws KRInitFailedException {
 		super.initalizeController(agent);
 		this.program.getKRInterface().initialize(/*
-												 * program,
-												 * agent.getId().getName()
-												 */);
+		 * program,
+		 * agent.getId().getName()
+		 */);
 		this.runState = new RunState<>(agent.getId(), agent.getEnvironment(),
 				agent.getMessaging(), agent.getLogging(), this.program,
 				this.debugger, this.learner);
@@ -106,7 +103,7 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 
 	@Override
 	public void onReset() throws InterruptedException, KRInitFailedException,
-			KRDatabaseException, KRQueryFailedException, UnknownObjectException {
+	KRDatabaseException, KRQueryFailedException, UnknownObjectException {
 		this.runState.reset();
 		this.debugger.reset();
 	}
@@ -134,10 +131,10 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 						GOALInterpreter.this.runState.startCycle(false);
 						call = new ModuleExecutor(
 								GOALInterpreter.this.runState.getMainModule())
-								.execute(GOALInterpreter.this.runState,
-										GOALInterpreter.this.program
-												.getKRInterface()
-												.getSubstitution(null));
+						.execute(GOALInterpreter.this.runState,
+								GOALInterpreter.this.program
+								.getKRInterface()
+								.getSubstitution(null));
 					}
 					Callable<Callable<?>> out = null;
 					if (call != null) {
@@ -250,18 +247,6 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 			UserSpecAction userspec = (UserSpecAction) action;
 			this.runState.doPerformAction(userspec);
 		}
-	}
-
-	/**
-	 * Executes a combo action.
-	 *
-	 * @param action
-	 *
-	 * @return The of the action.
-	 */
-	public Result doPerformAction(ActionCombo action) {
-		return new ActionComboExecutor(action).run(this.runState, this.program
-				.getKRInterface().getSubstitution(null), false);
 	}
 
 	/**

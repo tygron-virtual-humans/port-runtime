@@ -30,7 +30,7 @@ public class DoActionExecutor extends TestSectionExecutor {
 		ActionComboExecutor action = new ActionComboExecutor(
 				this.doaction.getAction());
 		Result result = action.run(runState, runState.getMentalState()
-				.getOwner().getKRInterface().getSubstitution(null), false);
+				.getOwner().getKRInterface().getSubstitution(null), true);
 		return new ActionResult(this, result);
 
 	}
