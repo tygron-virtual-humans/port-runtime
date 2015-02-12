@@ -74,6 +74,11 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 
 		private final Set<AgentId> all = new HashSet<>();
 
+		/**
+		 * get All known agent ids.
+		 * 
+		 * @param id
+		 */
 		public Set<AgentId> allId() {
 			return this.all;
 		}
@@ -87,6 +92,11 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 			this.all.add(id);
 		}
 
+		/**
+		 * Get the agents running in this JVM
+		 * 
+		 * @return
+		 */
 		public Collection<Agent<C>> local() {
 			return this.local.values();
 		}
@@ -278,7 +288,13 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 			// We don't know if the id is remote ore local.
 			// We just pass the message onto the agent.
 			for (Agent<C> agent : this.agents.local()) {
-				agent.getController().updateAgentAvailability(id, true);
+				try {
+					agent.getController().updateAgentAvailability(id, true);
+				} catch (Exception e) { // callback protection
+					new Warning(String.format(
+							Resources.get(WarningStrings.FAILED_ACK_NEW_AGENT),
+							agent.getId().getName(), id.getName()), e);
+				}
 			}
 		}
 
@@ -304,7 +320,13 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 
 			// Pass the message onto the other agent.
 			for (Agent<C> a : this.agents.local()) {
-				a.getController().updateAgentAvailability(id, true);
+				try {
+					a.getController().updateAgentAvailability(id, true);
+				} catch (Exception e) { // callback protection
+					new Warning(String.format(
+							Resources.get(WarningStrings.FAILED_ACK_DEL_AGENT),
+							agent.getId().getName(), id.getName()), e);
+				}
 			}
 		}
 
@@ -402,10 +424,8 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 		Agent<C> agent;
 		try {
 			agent = this.factory.build(program, agentBaseName, environment);
-		} catch (KRInitFailedException e) {
-			throw new GOALLaunchFailureException("Could not create Agent", e);
-		} catch (MessagingException e) {
-			throw new GOALLaunchFailureException("Could not create Agent", e);
+		} catch (KRInitFailedException | MessagingException e) {
+			throw new GOALLaunchFailureException("could not create agent", e);
 		}
 
 		if (environment != null) {
@@ -427,12 +447,26 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 		// other agents that we know of.
 		synchronized (this) {
 			for (AgentId otherId : this.agents.allId()) {
-				agent.getController().updateAgentAvailability(otherId, true);
+				try {
+					agent.getController()
+							.updateAgentAvailability(otherId, true);
+				} catch (Exception e) { // Callback protection
+					new Warning(String.format(Resources
+							.get(WarningStrings.FAILED_ACK_LAUCHED_AGENT),
+							agent.getId().getName(), otherId.getName()), e);
+				}
 			}
 
+			// CHECK why is this? local agents are included in all?
 			for (Agent<C> otherAgent : this.agents.local()) {
-				otherAgent.getController().updateAgentAvailability(
-						agent.getId(), true);
+				try {
+					otherAgent.getController().updateAgentAvailability(
+							agent.getId(), true);
+				} catch (Exception e) { // Callback protection
+					new Warning(String.format(Resources
+							.get(WarningStrings.FAILED_ACK_LAUCHED_AGENT),
+							agent.getId().getName(), otherAgent.getId()), e);
+				}
 			}
 
 			this.agents.addLocal(agent);
