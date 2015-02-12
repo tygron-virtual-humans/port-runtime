@@ -603,16 +603,17 @@ public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
 		// Shut down environment.
 		try {
 			this.environmentService.shutDown();
-		} catch (MessagingException e) {
-			new Warning(Resources.get(WarningStrings.FAILED_STOP_ENV_SERV), e);
-		} catch (EnvironmentInterfaceException e) {
+		} catch (EnvironmentInterfaceException | MessagingException
+				| InterruptedException e) {
 			new Warning(Resources.get(WarningStrings.FAILED_STOP_ENV), e);
-		} catch (InterruptedException e) {
-			new Warning(Resources.get(WarningStrings.INTERRUPT_STOP_RUNTIME), e);
 		}
-
 		// Shut down messaging infrastructure.
-		this.messagingService.shutDown();
+		try {
+			this.messagingService.shutDown();
+		} catch (MessagingException e) {
+			new Warning(
+					Resources.get(WarningStrings.FAILED_SHUTDOWN_MSG_SERVER), e);
+		}
 
 		new InfoLog("The multi-agent system "
 				+ this.agentService.getMAS().getSourceFile().getName()
