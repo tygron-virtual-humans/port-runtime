@@ -18,6 +18,7 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
+import krTools.KRInterface;
 import krTools.errors.exceptions.ParserException;
 import languageTools.program.agent.AgentProgram;
 import languageTools.program.mas.MASProgram;
@@ -78,6 +79,7 @@ public class LaunchManager {
 					+ masProgram.getSourceFile().getName()
 					+ " because it has errors.");
 		}
+
 		for (AgentProgram agent : agents.values()) {
 			if (!agent.isValid()) {
 				throw new GOALLaunchFailureException("Cannot launch MAS "
@@ -96,6 +98,20 @@ public class LaunchManager {
 
 		Messaging messaging = MessagingFactory.get(RunPreferences
 				.getUsedMiddleware().toLowerCase());
+
+		if (messaging.requiresSerialization()) {
+			for (AgentProgram agent : agents.values()) {
+				KRInterface kr = agent.getKRInterface();
+				if (!kr.supportsSerialization()) {
+					throw new GOALLaunchFailureException(
+							"the selected messaging system "
+									+ messaging.getName()
+									+ " requires serialization which is not supported by the language "
+									+ kr.getName() + " that is used in "
+									+ agent.getSourceFile().getName());
+				}
+			}
+		}
 
 		MessagingService messagingService = new MessagingService(host,
 				messaging);
