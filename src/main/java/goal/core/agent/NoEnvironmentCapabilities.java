@@ -6,7 +6,6 @@ import java.util.Set;
 import eis.iilang.Action;
 import eis.iilang.Percept;
 import goal.tools.errorhandling.Resources;
-import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 
 /**
@@ -29,10 +28,10 @@ public class NoEnvironmentCapabilities implements EnvironmentCapabilities {
 
 	@Override
 	public void performAction(Action action) {
-		// No environment is available, make a warning.
-		new Warning(String.format(
+		// No environment is attached.
+		throw new IllegalStateException(String.format(
 				Resources.get(WarningStrings.FAILED_ACTION_AGENT_NOT_ATTACHED),
-				action.toString()));
+				action.toProlog()));
 	}
 
 	@Override
