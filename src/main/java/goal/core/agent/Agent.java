@@ -85,13 +85,17 @@ public class Agent<CONTROLLER extends Controller> {
 	public void dispose() {
 		try {
 			this.controller.dispose();
-		} catch (Exception e) {
+		} catch (Exception e) { // we want to try our best to free everything.
 			new Warning(Resources.get(WarningStrings.FAILED_FREE_AGENT), e);
 		}
-		this.messaging.dispose();
+		try {
+			this.messaging.dispose();
+		} catch (Exception e) { // we want to try our best to free everything.
+			new Warning(Resources.get(WarningStrings.FAILED_DELETE_MSGBOX), e);
+		}
 		try {
 			this.environment.dispose();
-		} catch (Exception e) {
+		} catch (Exception e) { // we want to try our best to free everything.
 			new Warning(Resources.get(WarningStrings.FAILED_FREE_AGENT), e);
 		}
 		this.logging.dispose();
@@ -161,7 +165,7 @@ public class Agent<CONTROLLER extends Controller> {
 	 * @throws UnknownObjectException
 	 */
 	public void reset() throws InterruptedException, KRInitFailedException,
-	KRDatabaseException, KRQueryFailedException, UnknownObjectException {
+			KRDatabaseException, KRQueryFailedException, UnknownObjectException {
 		this.controller.reset();
 	}
 
