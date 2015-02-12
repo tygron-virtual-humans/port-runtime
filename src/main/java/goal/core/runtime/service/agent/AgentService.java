@@ -135,8 +135,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 * @throws GOALLaunchFailureException
 	 *             DOC
 	 */
-	public synchronized void startWithoutEnv()
-			throws GOALLaunchFailureException {
+	public synchronized void start() throws GOALLaunchFailureException {
 		for (LaunchRule multilaunch : this.masProgram.getLaunchRules()) {
 			for (Launch launch : multilaunch.getInstructions()) {
 				for (int i = 0; i < launch.getNumberOfAgentsToLaunch(); i++) {
@@ -193,11 +192,11 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 
 	/**
 	 * Get the MAS program
-	 * 
+	 *
 	 * @return
 	 */
 	public MASProgram getMAS() {
-		return masProgram;
+		return this.masProgram;
 	}
 
 	/**
@@ -623,8 +622,8 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 * @throws UnknownObjectException
 	 */
 	public synchronized void reset() throws InterruptedException,
-			KRInitFailedException, KRDatabaseException, KRQueryFailedException,
-			UnknownObjectException {
+	KRInitFailedException, KRDatabaseException, KRQueryFailedException,
+	UnknownObjectException {
 		for (Agent<C> a : this.agents.local()) {
 			a.reset();
 		}
