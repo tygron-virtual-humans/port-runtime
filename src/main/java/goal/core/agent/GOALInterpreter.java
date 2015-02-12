@@ -201,26 +201,25 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 	 *            {@code true} if agent is available and needs to be added;
 	 *            {@code false} if agent is no longer available and needs to be
 	 *            removed.
+	 * @throws UnknownObjectException
+	 * @throws KRQueryFailedException
+	 * @throws KRDatabaseException
+	 * @throws KRInitFailedException
 	 */
-	public void updateAgentAvailability(AgentId id, boolean available) {
+	public void updateAgentAvailability(AgentId id, boolean available)
+			throws KRInitFailedException, KRDatabaseException,
+			KRQueryFailedException, UnknownObjectException {
 		// FIXME: This should be two methods. One to add knowledge of agents.
 		// Another to remove it. Both should be placed in the run state.
 
 		// if it's me don't worry; I'll take care of myself.
 		if (id.equals(this.agent.getId())) {
 			return;
-		} else if (available) {
-			try {
-				this.runState.getMentalState().addAgentModel(id, this.debugger);
-			} catch (Exception e) {
-				new Warning(e.getMessage(), e.getCause());
-			}
+		}
+		if (available) {
+			this.runState.getMentalState().addAgentModel(id, this.debugger);
 		} else {
-			try {
-				this.runState.getMentalState().removeAgentModel(id);
-			} catch (Exception e) {
-				new Warning(e.getMessage(), e.getCause());
-			}
+			this.runState.getMentalState().removeAgentModel(id);
 		}
 	}
 
