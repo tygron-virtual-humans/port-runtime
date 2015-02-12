@@ -505,6 +505,7 @@ public class RunState<D extends Debugger> {
 			return this.environment.getPercepts();
 		} catch (MessagingException e) {
 			// typically, when system is taken down.
+			// HACK Only Debugger should throw this.
 			throw new DebuggerKilledException(
 					"Fatal error: messaging is failing.", e);
 		} catch (EnvironmentInterfaceException e) {
