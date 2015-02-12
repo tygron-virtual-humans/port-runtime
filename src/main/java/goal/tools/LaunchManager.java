@@ -8,6 +8,8 @@ import goal.core.runtime.service.agent.AgentService;
 import goal.core.runtime.service.environment.EnvironmentService;
 import goal.preferences.PMPreferences;
 import goal.preferences.RunPreferences;
+import goal.tools.errorhandling.Resources;
+import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALCommandCancelledException;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 import goal.tools.logging.InfoLog;
@@ -75,17 +77,18 @@ public class LaunchManager {
 		String host = getMiddlewareHostName();
 
 		if (!masProgram.isValid()) {
-			throw new GOALLaunchFailureException("Cannot launch MAS "
-					+ masProgram.getSourceFile().getName()
-					+ " because it has errors.");
+			// do we ever get here? Something else is catching this earlier on
+			throw new GOALLaunchFailureException(String.format(
+					Resources.get(WarningStrings.FAILED_LAUNCH_MAS_ERRORS),
+					masProgram.getSourceFile().getName()));
 		}
 
 		for (AgentProgram agent : agents.values()) {
 			if (!agent.isValid()) {
-				throw new GOALLaunchFailureException("Cannot launch MAS "
-						+ masProgram.getSourceFile().getName()
-						+ " because its child "
-						+ agent.getSourceFile().getName() + " has errors.");
+				throw new GOALLaunchFailureException(String.format(Resources
+						.get(WarningStrings.FAILED_LAUNCH_MAS_CHILD_ERRORS),
+						masProgram.getSourceFile().getName(), agent
+								.getSourceFile().getName()));
 			}
 		}
 
@@ -104,11 +107,11 @@ public class LaunchManager {
 				KRInterface kr = agent.getKRInterface();
 				if (!kr.supportsSerialization()) {
 					throw new GOALLaunchFailureException(
-							"the selected messaging system "
-									+ messaging.getName()
-									+ " requires serialization which is not supported by the language "
-									+ kr.getName() + " that is used in "
-									+ agent.getSourceFile().getName());
+							String.format(
+									Resources
+											.get(WarningStrings.FAILED_LAUNCH_NO_SERIALIZATION_SUPPORT),
+									messaging.getName(), kr.getName(), agent
+											.getSourceFile().getName()));
 				}
 			}
 		}

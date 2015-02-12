@@ -193,7 +193,7 @@ public class BeliefBase {
 		} catch (KRQueryFailedException e) {
 			throw new IllegalArgumentException(String.format(
 					Resources.get(WarningStrings.FAILED_DB_QUERY),
-					formula.toString(), this.database.getName()), e);
+					formula.toString()), e);
 		}
 	}
 
@@ -292,7 +292,7 @@ public class BeliefBase {
 			} catch (KRDatabaseException e) {
 				throw new IllegalArgumentException(String.format(
 						Resources.get(WarningStrings.FAILED_DEL_DBFORMULA),
-						formula.toString(), this.database.getName()), e);
+						formula.toString()), e);
 				// KR did not succeed, reinsert formula into theory again to
 				// keep KR database and theory synchronized.
 				// changed = !this.theory.add(formula);
