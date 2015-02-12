@@ -292,8 +292,9 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 				try {
 					agent.getController().updateAgentAvailability(id, true);
 				} catch (Exception e) { // callback protection
-					new Warning("agent " + agent.getId()
-							+ " failed to acknowledge new agent " + id, e);
+					new Warning(String.format(
+							Resources.get(WarningStrings.FAILED_ACK_NEW_AGENT),
+							agent.getId().getName(), id.getName()), e);
 				}
 			}
 		}
@@ -323,8 +324,9 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 				try {
 					a.getController().updateAgentAvailability(id, true);
 				} catch (Exception e) { // callback protection
-					new Warning("agent " + agent.getId()
-							+ " failed to acknowledge removed agent " + id, e);
+					new Warning(String.format(
+							Resources.get(WarningStrings.FAILED_ACK_DEL_AGENT),
+							agent.getId().getName(), id.getName()), e);
 				}
 			}
 		}
@@ -423,10 +425,8 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 		Agent<C> agent;
 		try {
 			agent = this.factory.build(program, agentBaseName, environment);
-		} catch (KRInitFailedException e) {
-			throw new GOALLaunchFailureException("Could not create Agent", e);
-		} catch (MessagingException e) {
-			throw new GOALLaunchFailureException("Could not create Agent", e);
+		} catch (KRInitFailedException | MessagingException e) {
+			throw new GOALLaunchFailureException("could not create agent", e);
 		}
 
 		if (environment != null) {
@@ -452,9 +452,9 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 					agent.getController()
 							.updateAgentAvailability(otherId, true);
 				} catch (Exception e) { // Callback protection
-					new Warning("agent " + agent.getId()
-							+ " failed to acknowledge launched agent "
-							+ otherId, e);
+					new Warning(String.format(Resources
+							.get(WarningStrings.FAILED_ACK_LAUCHED_AGENT),
+							agent.getId().getName(), otherId.getName()), e);
 				}
 			}
 
@@ -464,9 +464,9 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 					otherAgent.getController().updateAgentAvailability(
 							agent.getId(), true);
 				} catch (Exception e) { // Callback protection
-					new Warning("agent " + agent.getId()
-							+ " failed to acknowledge launched agent "
-							+ otherAgent.getId(), e);
+					new Warning(String.format(Resources
+							.get(WarningStrings.FAILED_ACK_LAUCHED_AGENT),
+							agent.getId().getName(), otherAgent.getId()), e);
 				}
 			}
 
