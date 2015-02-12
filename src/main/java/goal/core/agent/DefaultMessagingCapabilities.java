@@ -1,12 +1,9 @@
 package goal.core.agent;
 
 import goal.core.runtime.MessagingService;
-import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
-import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALMessagingException;
-import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -141,17 +138,11 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 		try {
 			this.messageBox.removeListener(this.listener);
 		} catch (MessagingException e) {
-			// FIXME: This should never throw an exception.
+			throw new GOALMessagingException(
+					"unsubscribing from messagebox failed", e);
 		}
 
-		try {
-			this.messaging.deleteMessageBox(this.messageBox);
-		} catch (GOALRuntimeErrorException e) {
-			// FIXME: Messaging should provide better information here.
-			// This can fail because the server was shut down, in which case we
-			// can ignore it. Or because of another reason, in which case we
-			// might not.
-			new Warning(Resources.get(WarningStrings.FAILED_DELETE_MSGBOX), e);
-		}
+		this.messaging.deleteMessageBox(this.messageBox);
+
 	}
 }
