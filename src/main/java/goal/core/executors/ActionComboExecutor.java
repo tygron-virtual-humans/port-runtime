@@ -116,8 +116,9 @@ public class ActionComboExecutor {
 					// Action is an option, add the combo as option.
 					options.add(this.actions);
 				} else {
-					throw new GOALActionFailedException("Attempt to execute "
-							+ this.actions + " with free variables.");
+					throw new GOALActionFailedException("attempt to execute "
+							+ firstaction + " with free variables, "
+							+ firstaction.getSourceInfo());
 				}
 			}
 		}

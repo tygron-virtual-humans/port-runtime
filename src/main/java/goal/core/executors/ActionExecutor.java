@@ -109,18 +109,19 @@ public abstract class ActionExecutor {
 			if (isSufficientlyClosed(action.getAction())) {
 				debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION,
 						getAction(), getAction().getSourceInfo(),
-						"Precondition of %s holds", getAction().getName());
+						"precondition of %s holds", getAction().getName());
 				// Perform the action if precondition holds.
 				result.merge(action.executeAction(runState, debugger));
 			} else {
 				throw new GOALActionFailedException(
-						"Attempt to execute action " + getAction().getName()
-								+ " with free variables.");
+						"attempt to execute action " + action.getAction()
+								+ " with free variables, "
+								+ action.getAction().getSourceInfo());
 			}
 		} else {
 			debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, getAction(),
 					getAction().getSourceInfo(),
-					"Precondition of %s does not hold", getAction().getName());
+					"precondition of %s does not hold", getAction().getName());
 		}
 
 		return result;

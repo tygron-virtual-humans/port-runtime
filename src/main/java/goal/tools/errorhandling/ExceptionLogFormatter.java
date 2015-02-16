@@ -32,8 +32,7 @@ public class ExceptionLogFormatter extends SingleLineFormatter {
 
 		String cause = StackHelper.getAllCauses(error);
 		if (!cause.isEmpty()) {
-			message.append(Resources.get(WarningStrings.BECAUSE)
-					+ cause.toLowerCase()); //$NON-NLS-1$
+			message.append(Resources.get(WarningStrings.BECAUSE) + cause);
 		}
 		message.append(".\n");
 
