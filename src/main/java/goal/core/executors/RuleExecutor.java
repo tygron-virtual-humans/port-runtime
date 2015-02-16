@@ -6,6 +6,7 @@ import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
+import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,8 +54,10 @@ public class RuleExecutor {
 	 *            substitutions that hold on the module level encapsulating this
 	 *            rule.
 	 * @return Result.
+	 * @throws GOALActionFailedException
 	 */
-	public Result run(RunState<?> runState, Substitution substitution) {
+	public Result run(RunState<?> runState, Substitution substitution)
+			throws GOALActionFailedException {
 		Set<Substitution> substset;
 		HashMap<Substitution, List<SingleGoal>> substGoalLinks = null;
 		MentalState mentalState = runState.getMentalState();
@@ -125,7 +128,7 @@ public class RuleExecutor {
 
 	private Result apply(RunState<?> runState, Set<Substitution> substset,
 			HashMap<Substitution, List<SingleGoal>> substGoalLinks,
-			Substitution globalsubst) {
+			Substitution globalsubst) throws GOALActionFailedException {
 		final ActionComboExecutor executor = new ActionComboExecutor(
 				this.rule.getAction());
 		executor.setContext(this.rule.getCondition());
@@ -151,7 +154,7 @@ public class RuleExecutor {
 					List<SingleGoal> validatingGoals = substGoalLinks
 							.get(subst);
 					runState.setFocusGoal(validatingGoals.get(new Random()
-					.nextInt(validatingGoals.size())));
+							.nextInt(validatingGoals.size())));
 				}
 
 				result.merge(executor.run(runState, subst, i == max));

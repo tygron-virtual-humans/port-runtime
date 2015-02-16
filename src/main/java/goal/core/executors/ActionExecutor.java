@@ -93,7 +93,7 @@ public abstract class ActionExecutor {
 	 *             not indicated in the program, or other exceptions occurred.
 	 */
 	public final Result run(RunState<?> runState, Substitution substitution,
-			Debugger debugger, boolean last) {
+			Debugger debugger, boolean last) throws GOALActionFailedException {
 		Result result = new Result();
 
 		// Apply the substitution provided by the (module and rule condition)
@@ -169,9 +169,10 @@ public abstract class ActionExecutor {
 	 *            The current debugger.
 	 * @return The action that has been executed; never returns {@code null} but
 	 *         throws runtime exceptions if executing the action fails.
+	 * @throws GOALActionFailedException
 	 */
 	protected abstract Result executeAction(RunState<?> runState,
-			Debugger debugger);
+			Debugger debugger) throws GOALActionFailedException;
 
 	/**
 	 * Reports that action was performed on either the channel for reporting

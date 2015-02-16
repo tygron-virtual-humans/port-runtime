@@ -42,7 +42,8 @@ public class SendActionExecutor extends ActionExecutor {
 	}
 
 	@Override
-	protected Result executeAction(RunState<?> runState, Debugger debugger) {
+	protected Result executeAction(RunState<?> runState, Debugger debugger)
+			throws GOALActionFailedException {
 		MentalState mentalState = runState.getMentalState();
 
 		Set<AgentId> receivers = determineReceivers(mentalState);
@@ -90,8 +91,10 @@ public class SendActionExecutor extends ActionExecutor {
 	 * @param mentalState
 	 *            The {@link MentalState} in which the action is executed.
 	 * @return A list of agents that should receive the message.
+	 * @throws GOALActionFailedException
 	 */
-	private Set<AgentId> determineReceivers(MentalState mentalState) {
+	private Set<AgentId> determineReceivers(MentalState mentalState)
+			throws GOALActionFailedException {
 		try {
 			return ExecuteTools.resolve(this.action.getSelector(), mentalState);
 		} catch (KRInitFailedException e) {

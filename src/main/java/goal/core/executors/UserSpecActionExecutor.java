@@ -23,6 +23,7 @@ import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
+import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -92,9 +93,11 @@ public class UserSpecActionExecutor extends ActionExecutor {
 	 *
 	 * @param runState
 	 *            The {@link RunState} in which this action is executed.
+	 * @throws GOALActionFailedException
 	 */
 	@Override
-	protected Result executeAction(RunState<?> runState, Debugger debugger) {
+	protected Result executeAction(RunState<?> runState, Debugger debugger)
+			throws GOALActionFailedException {
 		// Send the action to the environment if it should be sent.
 		if (this.action.getExernal()) {
 			runState.doPerformAction(this.action);

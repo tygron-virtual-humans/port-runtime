@@ -495,8 +495,10 @@ public class RunState<D extends Debugger> {
 	 * DOC
 	 *
 	 * @param isActionPerformed
+	 * @throws GOALActionFailedException
 	 */
-	public void startCycle(boolean isActionPerformed) {
+	public void startCycle(boolean isActionPerformed)
+			throws GOALActionFailedException {
 		startCycle(isActionPerformed, new HashSet<Percept>());
 	}
 
@@ -533,9 +535,11 @@ public class RunState<D extends Debugger> {
 	 *            only consider going to sleep if this is false.
 	 * @param initial
 	 *            the initial set of percepts to use
+	 * @throws GOALActionFailedException
 	 */
 	// TODO: Does not yet support measuring time used in Thread.
-	public void startCycle(boolean isActionPerformed, Set<Percept> initial) {
+	public void startCycle(boolean isActionPerformed, Set<Percept> initial)
+			throws GOALActionFailedException {
 		Set<Message> newMessages = this.messaging.getAllMessages();
 		Set<Percept> newPercepts = initial;
 		if (initial.isEmpty()) {
@@ -756,7 +760,8 @@ public class RunState<D extends Debugger> {
 		this.messaging.postMessage(message);
 	}
 
-	public void doPerformAction(UserSpecAction action) {
+	public void doPerformAction(UserSpecAction action)
+			throws GOALActionFailedException {
 		try {
 			Action eis = this.mentalState.getState().convert(action);
 			this.environment.performAction(eis);

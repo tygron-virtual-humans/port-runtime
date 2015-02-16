@@ -73,7 +73,8 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	}
 
 	@Override
-	protected Result executeAction(RunState<?> runState, Debugger debugger) {
+	protected Result executeAction(RunState<?> runState, Debugger debugger)
+			throws GOALActionFailedException {
 		// Use module parameters to filter bindings in substitution. Only
 		// values for free variables in the module's parameters are passed on
 		// in case of a non-anonymous module; an anonymous module is completely
@@ -113,7 +114,8 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	 * @throws GOALActionFailedException
 	 */
 	private GoalBase getNewFocus(MentalState mentalstate, Debugger debugger,
-			Substitution subst, SingleGoal goal) {
+			Substitution subst, SingleGoal goal)
+			throws GOALActionFailedException {
 		switch (this.action.getTarget().getFocusMethod()) {
 		case NEW:
 			// Create new empty goal base to construct a new attention set.
@@ -181,12 +183,12 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	 */
 	private GoalBase getNewFilterGoals(MentalState mentalstate,
 			Debugger debugger, Substitution subst)
-					throws GOALActionFailedException {
+			throws GOALActionFailedException {
 		MentalModel agentModel = mentalstate.getOwnModel();
 
 		GoalBase newAttentionSet = new GoalBase(mentalstate.getState(),
 				mentalstate.getAgentId(), mentalstate.getOwner(), this.action
-				.getTarget().getName());
+						.getTarget().getName());
 
 		// get the goals as obtained from the context, and add them to
 		// the goalbase

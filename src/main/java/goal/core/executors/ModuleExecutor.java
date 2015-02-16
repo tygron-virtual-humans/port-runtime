@@ -3,6 +3,7 @@ package goal.core.executors;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
+import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 
 import java.util.concurrent.Callable;
 
@@ -63,7 +64,7 @@ public class ModuleExecutor {
 
 	@SuppressWarnings("unchecked")
 	public Result executeFully(final RunState<?> runState,
-			final Substitution substitution) {
+			final Substitution substitution) throws GOALActionFailedException {
 		Callable<Callable<?>> call = execute(runState, substitution, true);
 		while (call != null) {
 			try {
@@ -87,14 +88,16 @@ public class ModuleExecutor {
 	 *            the focus call so that the module can use it without renaming.
 	 * @return {@link Runnable} for continuing to execute this module. Null when
 	 *         we should stop.
+	 * @throws GOALActionFailedException
 	 */
 	public Callable<Callable<?>> execute(final RunState<?> runState,
-			final Substitution substitution) {
+			final Substitution substitution) throws GOALActionFailedException {
 		return execute(runState, substitution, true);
 	}
 
 	private Callable<Callable<?>> execute(final RunState<?> runState,
-			final Substitution substitution, final boolean first) {
+			final Substitution substitution, final boolean first)
+			throws GOALActionFailedException {
 		if (first) {
 			// Push (non-anonymous) modules that were just entered onto stack
 			// that keeps track of modules that have been entered but not yet

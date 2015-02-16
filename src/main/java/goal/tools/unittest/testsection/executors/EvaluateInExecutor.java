@@ -4,6 +4,7 @@ import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.DebuggerKilledException;
 import goal.tools.debugger.ObservableDebugger;
+import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 import goal.tools.unittest.result.ResultFormatter;
 import goal.tools.unittest.result.testcondition.TestBoundaryException;
 import goal.tools.unittest.result.testcondition.TestConditionFailedException;
@@ -83,7 +84,12 @@ public class EvaluateInExecutor extends TestSectionExecutor {
 		/*
 		 * Initial evaluation of conditions before action is executed.
 		 */
-		runState.startCycle(false);
+		try {
+			runState.startCycle(false);
+		} catch (GOALActionFailedException e1) {
+			throw new IllegalStateException(
+					"Failed to startCycle, action is failing", e1);
+		}
 		for (TestConditionEvaluator evaluator : evaluators) {
 			try {
 				evaluator.firstEvaluation();

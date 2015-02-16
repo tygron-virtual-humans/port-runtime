@@ -44,7 +44,8 @@ public class SendOnceActionExecutor extends ActionExecutor {
 	}
 
 	@Override
-	protected Result executeAction(RunState<?> runState, Debugger debugger) {
+	protected Result executeAction(RunState<?> runState, Debugger debugger)
+			throws GOALActionFailedException {
 		MentalState mentalState = runState.getMentalState();
 
 		Set<AgentId> receivers = determineReceivers(mentalState, debugger);
@@ -94,9 +95,10 @@ public class SendOnceActionExecutor extends ActionExecutor {
 	 * @param debugger
 	 *            The current debugger
 	 * @return A list of agents that should receive the message.
+	 * @throws GOALActionFailedException
 	 */
 	private Set<AgentId> determineReceivers(MentalState mentalState,
-			Debugger debugger) {
+			Debugger debugger) throws GOALActionFailedException {
 		Set<AgentId> receivers;
 		try {
 			receivers = ExecuteTools.resolve(this.action.getSelector(),

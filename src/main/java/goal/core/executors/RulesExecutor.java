@@ -5,6 +5,7 @@ import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
+import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 
 import java.rmi.activation.UnknownObjectException;
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ public class RulesExecutor {
 	 *            The substitution provided by the module context that is passed
 	 *            on to this rule set.
 	 * @return The {@link Result} of executing this rule set.
+	 * @throws GOALActionFailedException
 	 * @throws KRInitFailedException
 	 * @throws UnknownObjectException
 	 * @throws KRQueryFailedException
@@ -55,7 +57,8 @@ public class RulesExecutor {
 	 *             FIXME: enable learner to deal with Rule#isSingleGoal
 	 */
 	@SuppressWarnings("fallthrough")
-	public Result run(RunState<?> runState, Substitution substitution) {
+	public Result run(RunState<?> runState, Substitution substitution)
+			throws GOALActionFailedException {
 		KRInterface krInterface = runState.getActiveModule().getKRInterface();
 		Result result = new Result();
 		// Make a copy of the rules so we don't shuffle the original below.
@@ -77,7 +80,7 @@ public class RulesExecutor {
 					null,
 					null,
 					"+++++++ Adaptive Cycle " + runState.getRoundCounter()
-					+ " +++++++ ");
+							+ " +++++++ ");
 
 			/*
 			 * Get the learner to choose one action option, from the input list
@@ -172,12 +175,14 @@ public class RulesExecutor {
 	 *            The current debugger.
 	 * @return A list of actions that may be performed in the given mental
 	 *         state, possibly empty.
+	 * @throws GOALActionFailedException
 	 * @throws KRInitFailedException
 	 * @throws UnknownObjectException
 	 */
 	@SuppressWarnings("fallthrough")
 	private final List<ActionCombo> getActionOptions(MentalState mentalState,
-			Debugger debugger, KRInterface krInterface) {
+			Debugger debugger, KRInterface krInterface)
+			throws GOALActionFailedException {
 		List<ActionCombo> actionOptions = new LinkedList<>();
 		Set<Substitution> solutions;
 		boolean finished = false;
@@ -201,7 +206,7 @@ public class RulesExecutor {
 		for (Rule rule : this.rules) {
 			// Evaluate the rule's condition.
 			solutions = new MentalStateConditionExecutor(rule.getCondition())
-			.evaluate(mentalState, debugger);
+					.evaluate(mentalState, debugger);
 			// Listall rules need to be processed further.
 			if (rule instanceof ListallDoRule) {
 				solutions = getVarSubstitution((ListallDoRule) rule, solutions,
