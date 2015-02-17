@@ -59,9 +59,7 @@ public class AlwaysExecutor extends TestConditionExecutor {
 				} else if (hasNestedExecutor()) {
 					final Set<Substitution> evaluation = evaluate(runstate,
 							substitution, getQuery());
-					if (!evaluation.isEmpty()) {
-						getNestedExecutor().setNested(evaluation);
-					}
+					getNestedExecutor().setNested(evaluation);
 				} else {
 					final Set<Substitution> evaluation = evaluate(runstate,
 							substitution, getQuery());
@@ -86,6 +84,9 @@ public class AlwaysExecutor extends TestConditionExecutor {
 					final TestConditionEvaluator nested = getNestedExecutor()
 							.provideEvaluator(runstate, substitution);
 					nested.lastEvaluation();
+					if (nested.getPassed() == TestConditionEvaluation.UNKNOWN) {
+						nested.setPassed(true);
+					}
 					setPassed(nested.isPassed());
 				}
 			}

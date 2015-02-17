@@ -62,8 +62,8 @@ public class EventuallyExecutor extends TestConditionExecutor {
 						if (!EventuallyExecutor.this.nestedOnce) {
 							final Set<Substitution> evaluation = evaluate(
 									runstate, substitution, getQuery());
+							getNestedExecutor().setNested(evaluation);
 							if (!evaluation.isEmpty()) {
-								getNestedExecutor().setNested(evaluation);
 								EventuallyExecutor.this.nestedOnce = true;
 							}
 						}
@@ -84,6 +84,9 @@ public class EventuallyExecutor extends TestConditionExecutor {
 					final TestConditionEvaluator nested = getNestedExecutor()
 							.provideEvaluator(runstate, substitution);
 					nested.lastEvaluation();
+					if (nested.getPassed() == TestConditionEvaluation.UNKNOWN) {
+						nested.setPassed(true);
+					}
 					setPassed(nested.isPassed());
 				} else if (!isPassed()) {
 					setPassed(false);
