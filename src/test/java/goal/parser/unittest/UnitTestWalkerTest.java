@@ -15,27 +15,20 @@ public class UnitTestWalkerTest extends AbstractUnitTestTest {
 		setup("src/test/resources/goal/parser/unittest/correctMinimal.test2g");
 
 		assertNoMessages();
-
 	}
 
 	@Test
 	public void testCorrectExhaustive() throws IOException {
 		setup("src/test/resources/goal/parser/unittest/correctExhaustive.test2g");
 
-		System.out.println(this.visitor.getErrors());
-
 		assertNoMessages();
-
 	}
 
 	@Test
 	public void testCorrectExhaustiveModuleActions() throws IOException {
 		setup("src/test/resources/goal/parser/unittest/correctExhaustiveModuleActions.test2g");
 
-		System.out.println(this.visitor.getErrors());
-
 		assertNoMessages();
-
 	}
 
 	@Test
@@ -43,7 +36,6 @@ public class UnitTestWalkerTest extends AbstractUnitTestTest {
 		setup("src/test/resources/goal/parser/unittest/correctMissingModuleUnderTest.test2g");
 
 		assertNoMessages();
-
 	}
 
 	@Test
@@ -53,18 +45,15 @@ public class UnitTestWalkerTest extends AbstractUnitTestTest {
 		assertFalse(this.visitor.getErrors().isEmpty());
 		// assertEquals(1, visitor.getErrors().size());
 		assertTrue(this.visitor.getWarnings().isEmpty());
-
 	}
 
 	@Test
 	public void testIncorrectMissingAgentUnderTestId() throws IOException {
 		setup("src/test/resources/goal/parser/unittest/incorrectMissingAgentUnderTestId.test2g");
 
-		// FIXME: Too many errors.
 		assertFalse(this.visitor.getErrors().isEmpty());
 		// assertEquals(9, visitor.getErrors().size());
 		assertTrue(this.visitor.getWarnings().isEmpty());
-
 	}
 
 	@Test
@@ -74,7 +63,6 @@ public class UnitTestWalkerTest extends AbstractUnitTestTest {
 		assertFalse(this.visitor.getErrors().isEmpty());
 		// assertEquals(1, visitor.getErrors().size());
 		assertTrue(this.visitor.getWarnings().isEmpty());
-
 	}
 
 	@Test
@@ -84,7 +72,6 @@ public class UnitTestWalkerTest extends AbstractUnitTestTest {
 		assertFalse(this.visitor.getErrors().isEmpty());
 		// assertEquals(1, visitor.getErrors().size());
 		assertTrue(this.visitor.getWarnings().isEmpty());
-
 	}
 
 	@Test
@@ -94,7 +81,6 @@ public class UnitTestWalkerTest extends AbstractUnitTestTest {
 		assertFalse(this.visitor.getErrors().isEmpty());
 		// assertEquals(1, visitor.getErrors().size());
 		assertTrue(this.visitor.getWarnings().isEmpty());
-
 	}
 
 	@Test
@@ -104,7 +90,6 @@ public class UnitTestWalkerTest extends AbstractUnitTestTest {
 		assertFalse(this.visitor.getErrors().isEmpty());
 		// assertEquals(1, visitor.getErrors().size());
 		assertTrue(this.visitor.getWarnings().isEmpty());
-
 	}
 
 	@Test
@@ -114,7 +99,6 @@ public class UnitTestWalkerTest extends AbstractUnitTestTest {
 		assertFalse(this.visitor.getErrors().isEmpty());
 		// assertEquals(3, visitor.getErrors().size());
 		assertTrue(this.visitor.getWarnings().isEmpty());
-
 	}
 
 	@Test
@@ -124,7 +108,6 @@ public class UnitTestWalkerTest extends AbstractUnitTestTest {
 		assertFalse(this.visitor.getErrors().isEmpty());
 		// assertEquals(1, visitor.getErrors().size());
 		assertTrue(this.visitor.getWarnings().isEmpty());
-
 	}
 
 	@Test
@@ -134,7 +117,6 @@ public class UnitTestWalkerTest extends AbstractUnitTestTest {
 		assertFalse(this.visitor.getErrors().isEmpty());
 		// assertEquals(1, visitor.getErrors().size());
 		assertTrue(this.visitor.getWarnings().isEmpty());
-
 	}
 
 	@Test
@@ -195,8 +177,7 @@ public class UnitTestWalkerTest extends AbstractUnitTestTest {
 	public void testModuleTwoArguments() throws IOException {
 		setup("src/test/resources/goal/parser/unittest/moduleTwoArguments.test2g");
 
-		assertTrue(this.visitor.getErrors().isEmpty());
-		assertTrue(this.visitor.getWarnings().isEmpty());
+		assertNoMessages();
 	}
 
 	private void assertNoMessages() {

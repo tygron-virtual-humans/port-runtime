@@ -12,7 +12,6 @@ public class UnitTestTest extends AbstractUnitTestTest {
 		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/correctMinimal.test2g");
 
 		assertPassedAndPrint(results);
-
 	}
 
 	@Test
@@ -81,6 +80,13 @@ public class UnitTestTest extends AbstractUnitTestTest {
 	@Test
 	public void testScope() throws Exception {
 		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/scope.test2g");
+
+		assertPassedAndPrint(results);
+	}
+
+	@Test
+	public void testModuleArgs() throws Exception {
+		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/moduleTwoArguments.test2g");
 
 		assertPassedAndPrint(results);
 	}
