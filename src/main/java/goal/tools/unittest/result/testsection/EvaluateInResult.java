@@ -29,7 +29,6 @@ public class EvaluateInResult implements TestSectionResult {
 			List<TestConditionEvaluator> evaluators) {
 		this.evaluateIn = evaluateIn;
 		this.evaluators = evaluators;
-
 		this.passed = checkPassed();
 	}
 

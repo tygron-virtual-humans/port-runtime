@@ -3,6 +3,7 @@ package goal.tools.unittest.result;
 import goal.tools.unittest.result.testsection.ActionResult;
 import goal.tools.unittest.result.testsection.AssertTestFailed;
 import goal.tools.unittest.result.testsection.AssertTestResult;
+import goal.tools.unittest.result.testsection.DoActionFailed;
 import goal.tools.unittest.result.testsection.EvaluateInFailed;
 import goal.tools.unittest.result.testsection.EvaluateInInterrupted;
 import goal.tools.unittest.result.testsection.EvaluateInResult;
@@ -47,6 +48,8 @@ public interface ResultFormatter<T> {
 	T visit(EvaluateInFailed result);
 
 	T visit(EvaluateInInterrupted result);
+
+	T visit(DoActionFailed result);
 
 	T visit(TestConditionEvaluator result);
 

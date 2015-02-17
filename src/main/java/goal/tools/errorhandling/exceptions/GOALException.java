@@ -38,7 +38,7 @@ import languageTools.parser.InputStreamPosition;
  *
  */
 public abstract class GOALException extends Exception implements
-Comparable<GOALException> {
+		Comparable<GOALException> {
 	/** auto-generated serial version UID */
 	private static final long serialVersionUID = 51927072972577978L;
 
@@ -78,7 +78,7 @@ Comparable<GOALException> {
 	 * Generates a {@link Warning}.
 	 */
 	public void generateNotification(String message) {
-		this.generateWarning(message);
+		generateWarning(message);
 	}
 
 	/**

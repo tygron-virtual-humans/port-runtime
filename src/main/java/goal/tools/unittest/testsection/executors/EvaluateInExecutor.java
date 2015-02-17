@@ -87,6 +87,7 @@ public class EvaluateInExecutor extends TestSectionExecutor {
 		try {
 			runState.startCycle(false);
 		} catch (GOALActionFailedException e1) {
+			// TODO: proper exception type
 			throw new IllegalStateException(
 					"Failed to startCycle, action is failing", e1);
 		}
@@ -102,8 +103,8 @@ public class EvaluateInExecutor extends TestSectionExecutor {
 		 * Evaluates the action. While being evaluated the conditions installed
 		 * on the debugger may throw a failed test condition exception.
 		 */
-		TestSectionExecutor action = TestSectionExecutor
-				.getTestConditionExecutor(this.evaluatein.getAction());
+		DoActionExecutor action = new DoActionExecutor(
+				this.evaluatein.getAction());
 		try {
 			action.run(runState);
 		} catch (TestConditionFailedException e) {

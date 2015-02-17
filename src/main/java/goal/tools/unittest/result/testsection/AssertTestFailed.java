@@ -16,6 +16,7 @@ public class AssertTestFailed extends TestSectionFailed {
 	}
 
 	public AssertTestFailed(AssertExecutor test) {
+		super(null);
 		this.test = test;
 	}
 

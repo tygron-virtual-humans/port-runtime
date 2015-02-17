@@ -152,8 +152,8 @@ public abstract class Controller {
 	 * @throws UnknownObjectException
 	 */
 	public final void reset() throws InterruptedException,
-			KRInitFailedException, KRDatabaseException, KRQueryFailedException,
-			UnknownObjectException {
+	KRInitFailedException, KRDatabaseException, KRQueryFailedException,
+	UnknownObjectException {
 		terminate();
 		awaitTermination(AbstractRun.TIMEOUT_FIRST_AGENT_SECONDS);
 		onReset();
@@ -175,8 +175,8 @@ public abstract class Controller {
 	 * @throws UnknownObjectException
 	 */
 	protected void onReset() throws InterruptedException,
-			KRInitFailedException, KRDatabaseException, KRQueryFailedException,
-			UnknownObjectException {
+	KRInitFailedException, KRDatabaseException, KRQueryFailedException,
+	UnknownObjectException {
 	}
 
 	/**
