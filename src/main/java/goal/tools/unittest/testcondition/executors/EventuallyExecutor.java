@@ -21,7 +21,6 @@ import languageTools.program.test.testsection.EvaluateIn;
  */
 public class EventuallyExecutor extends TestConditionExecutor {
 	private final Eventually eventually;
-	private boolean nestedOnce;
 
 	public EventuallyExecutor(Eventually eventually) {
 		this.eventually = eventually;
@@ -59,13 +58,11 @@ public class EventuallyExecutor extends TestConditionExecutor {
 							setPassed(true);
 						}
 					} else if (hasNestedExecutor()) {
-						if (!EventuallyExecutor.this.nestedOnce) {
-							final Set<Substitution> evaluation = evaluate(
-									runstate, substitution, getQuery());
-							getNestedExecutor().setNested(evaluation);
-							if (!evaluation.isEmpty()) {
-								EventuallyExecutor.this.nestedOnce = true;
-							}
+						final Set<Substitution> evaluation = evaluate(runstate,
+								substitution, getQuery());
+						getNestedExecutor().setNested(evaluation);
+						if (!evaluation.isEmpty()) {
+							setPassed(true);
 						}
 					} else {
 						final Set<Substitution> evaluation = evaluate(runstate,
@@ -87,7 +84,6 @@ public class EventuallyExecutor extends TestConditionExecutor {
 					if (nested.getPassed() == TestConditionEvaluation.UNKNOWN) {
 						nested.setPassed(true);
 					}
-					setPassed(nested.isPassed());
 				} else if (!isPassed()) {
 					setPassed(false);
 				}

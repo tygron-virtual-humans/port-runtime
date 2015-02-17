@@ -60,6 +60,9 @@ public class AlwaysExecutor extends TestConditionExecutor {
 					final Set<Substitution> evaluation = evaluate(runstate,
 							substitution, getQuery());
 					getNestedExecutor().setNested(evaluation);
+					if (!evaluation.isEmpty()) {
+						setPassed(true);
+					}
 				} else {
 					final Set<Substitution> evaluation = evaluate(runstate,
 							substitution, getQuery());
@@ -67,7 +70,7 @@ public class AlwaysExecutor extends TestConditionExecutor {
 						setPassed(false);
 						throw new TestConditionFailedException(
 								"The condition " + AlwaysExecutor.this.always
-										+ " did not hold.", this);
+								+ " did not hold.", this);
 					}
 				}
 			}
@@ -87,7 +90,6 @@ public class AlwaysExecutor extends TestConditionExecutor {
 					if (nested.getPassed() == TestConditionEvaluation.UNKNOWN) {
 						nested.setPassed(true);
 					}
-					setPassed(nested.isPassed());
 				}
 			}
 
