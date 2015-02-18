@@ -83,20 +83,31 @@ public class Agent<CONTROLLER extends Controller> {
 	 * Disposes any resources held by the agent.
 	 */
 	public void dispose() {
+
+		/*
+		 * we catch all exceptions here so that we can at least try to close
+		 * everything. We wrap caught exceptions in a CHECKED Exception() to
+		 * avoid bugging the user with stack traces if unchecked exceptions come
+		 * out (eg, with BW4T3).
+		 */
+
 		try {
 			this.controller.dispose();
-		} catch (Exception e) { // we want to try our best to free everything.
-			new Warning(Resources.get(WarningStrings.FAILED_FREE_AGENT), e);
+		} catch (Exception e) {
+			new Warning(Resources.get(WarningStrings.FAILED_FREE_AGENT),
+					new Exception(e));
 		}
 		try {
 			this.messaging.dispose();
-		} catch (Exception e) { // we want to try our best to free everything.
-			new Warning(Resources.get(WarningStrings.FAILED_DELETE_MSGBOX), e);
+		} catch (Exception e) {
+			new Warning(Resources.get(WarningStrings.FAILED_DELETE_MSGBOX),
+					new Exception(e));
 		}
 		try {
 			this.environment.dispose();
-		} catch (Exception e) { // we want to try our best to free everything.
-			new Warning(Resources.get(WarningStrings.FAILED_FREE_AGENT), e);
+		} catch (Exception e) {
+			new Warning(Resources.get(WarningStrings.FAILED_FREE_ENV),
+					new Exception(e));
 		}
 		this.logging.dispose();
 	}

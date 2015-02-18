@@ -127,14 +127,12 @@ public class LocalMessagingEnvironment {
 			/*
 			 * TODO: All requests could be handled on the calling thread if EIS
 			 * was thread-safe. EIS specifications make no such guarantees. So
-			 * we threat all operations as if they are not thread safe and queue
+			 * we treat all operations as if they are not thread safe and queue
 			 * them up.
 			 * 
 			 * On Thread-Safe implementations of EIS this creates somewhat of a
 			 * bottleneck because all agents are now waiting for the
 			 * environment.
-			 * 
-			 * handleAction(request);
 			 */
 
 			this.requests.add(request);
