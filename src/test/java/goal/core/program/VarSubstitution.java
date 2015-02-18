@@ -76,4 +76,11 @@ public class VarSubstitution extends SimpleProgramTest {
 				runAgent("src/test/resources/goal/core/program/anonymous.goal"));
 
 	}
+	
+	@Test
+	public void testVarsIntoModuleCall() throws Exception {
+		assertSame(RunResult.OK,
+				runAgent("src/test/resources/goal/core/program/varsintomodulecall.goal"));
+
+	}
 }
