@@ -3,6 +3,7 @@ package goal.tools.unittest.result;
 import goal.tools.unittest.result.testsection.ActionResult;
 import goal.tools.unittest.result.testsection.AssertTestFailed;
 import goal.tools.unittest.result.testsection.AssertTestResult;
+import goal.tools.unittest.result.testsection.DoActionFailed;
 import goal.tools.unittest.result.testsection.EvaluateInFailed;
 import goal.tools.unittest.result.testsection.EvaluateInInterrupted;
 import goal.tools.unittest.result.testsection.EvaluateInResult;
@@ -130,12 +131,16 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 		if (result.getUncaughtThrowable() != null) {
 			retString += indent(1, "exception: "
 					+ result.getUncaughtThrowable().getMessage() + "\n");
-			return retString;
+			if (result.getUncaughtThrowable().getCause() != null) {
+				retString += indent(1, "because: "
+						+ result.getUncaughtThrowable().getCause().getMessage()
+						+ "\n");
+			}
+		} else if (result.getResult() == null) {
+			retString += indent() + "test did not run or timed out\n";
+		} else {
+			retString += indent(result.getResult().accept(this)) + "\n";
 		}
-		if (result.getResult() == null) {
-			return retString += indent() + "test did not run or timed out\n";
-		}
-		retString += indent(result.getResult().accept(this)) + "\n";
 		return retString;
 	}
 
@@ -211,6 +216,20 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 		EvaluateIn section = (EvaluateIn) result.getEvaluateIn().getSection();
 		ret += "} in " + section.getAction() + ".";
 		return ret;
+	}
+
+	@Override
+	public String visit(DoActionFailed result) {
+		String ret = "failed: ";
+		DoActionSection section = (DoActionSection) result.getDoAction()
+				.getSection();
+		ret += section;
+		ret += indent(1, "because " + result.getCause().getMessage() + "\n");
+		if (result.getCause().getCause() != null) {
+			ret += indent(1, "because "
+					+ result.getCause().getCause().getMessage() + "\n");
+		}
+		return ret + ".";
 	}
 
 	@Override

@@ -164,6 +164,10 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 		return this.passed == TestConditionEvaluation.PASSED;
 	}
 
+	public TestConditionEvaluation getPassed() {
+		return this.passed;
+	}
+
 	/**
 	 * @return report that says test condition "passed", "failed", or was
 	 *         "interrupted".

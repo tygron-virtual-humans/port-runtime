@@ -60,8 +60,9 @@ public class AtEndExecutor extends TestConditionExecutor {
 				} else if (hasNestedExecutor()) {
 					final Set<Substitution> evaluation = evaluate(runstate,
 							substitution, getQuery());
+					getNestedExecutor().setNested(evaluation);
 					if (!evaluation.isEmpty()) {
-						getNestedExecutor().setNested(evaluation);
+						setPassed(true);
 					}
 				} else {
 					final Set<Substitution> evaluation = evaluate(runstate,
@@ -108,7 +109,9 @@ public class AtEndExecutor extends TestConditionExecutor {
 					final TestConditionEvaluator nested = getNestedExecutor()
 							.provideEvaluator(runstate, substitution);
 					nested.lastEvaluation();
-					setPassed(nested.isPassed());
+					if (nested.getPassed() == TestConditionEvaluation.UNKNOWN) {
+						nested.setPassed(true);
+					}
 				}
 			}
 

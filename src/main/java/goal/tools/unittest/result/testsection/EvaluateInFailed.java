@@ -47,6 +47,7 @@ public class EvaluateInFailed extends TestSectionFailed {
 	public EvaluateInFailed(EvaluateInExecutor evaluateIn,
 			List<TestConditionEvaluator> evaluators,
 			TestConditionFailedException exception) {
+		super(exception);
 		this.evaluateIn = evaluateIn;
 		this.evaluators = evaluators;
 		this.exception = exception;

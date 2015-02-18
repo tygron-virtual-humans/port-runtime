@@ -7,6 +7,7 @@ import goal.tools.debugger.ObservableDebugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 import goal.tools.unittest.result.ResultFormatter;
 import goal.tools.unittest.result.testsection.ActionResult;
+import goal.tools.unittest.result.testsection.DoActionFailed;
 import goal.tools.unittest.result.testsection.TestSectionFailed;
 import goal.tools.unittest.result.testsection.TestSectionResult;
 import languageTools.program.test.testsection.DoActionSection;
@@ -35,8 +36,7 @@ public class DoActionExecutor extends TestSectionExecutor {
 					.getOwner().getKRInterface().getSubstitution(null), true);
 			return new ActionResult(this, result);
 		} catch (GOALActionFailedException e) {
-			throw new IllegalStateException(
-					"test failed because an action failed", e);
+			throw new DoActionFailed(this, e);
 		}
 
 	}

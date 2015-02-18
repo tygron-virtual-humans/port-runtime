@@ -3,6 +3,7 @@ package goal.core.executors;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
+import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 
 import java.util.concurrent.Callable;
@@ -69,7 +70,10 @@ public class ModuleExecutor {
 		while (call != null) {
 			try {
 				call = (Callable<Callable<?>>) call.call();
+			} catch (GOALActionFailedException gafe) {
+				throw gafe;
 			} catch (Exception e) {
+				new Warning("Execution of module caused unknown exception", e);
 				break;
 			}
 		}
@@ -97,7 +101,7 @@ public class ModuleExecutor {
 
 	private Callable<Callable<?>> execute(final RunState<?> runState,
 			final Substitution substitution, final boolean first)
-			throws GOALActionFailedException {
+					throws GOALActionFailedException {
 		if (first) {
 			// Push (non-anonymous) modules that were just entered onto stack
 			// that keeps track of modules that have been entered but not yet
@@ -137,7 +141,7 @@ public class ModuleExecutor {
 		// Evaluate and apply the rules of this module
 		this.result = new RulesExecutor(this.module.getRules(),
 				this.module.getRuleEvaluationOrder()).run(runState,
-				substitution);
+						substitution);
 
 		// exit module if {@link ExitModuleAction} has been performed.
 		boolean exit = this.result.isModuleTerminated();
