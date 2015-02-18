@@ -6,7 +6,14 @@ import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import krTools.language.Substitution;
+import krTools.language.Term;
+import krTools.language.Var;
 import languageTools.analyzer.agent.AgentValidatorSecondPass;
 import languageTools.analyzer.module.ModuleValidatorSecondPass;
 import languageTools.program.agent.actions.Action;
@@ -234,4 +241,20 @@ public abstract class ActionExecutor {
 		}
 		return returned;
 	}
+
+	/**
+	 * Collect all the variables in a list of terms.
+	 * 
+	 * @param terms
+	 *            list of {@link Term}s
+	 * @return set of vars inside the given terms
+	 */
+	public Set<Var> getVariables(List<Term> terms) {
+		Set<Var> vars = new HashSet<Var>();
+		for (Term t : terms) {
+			vars.addAll(t.getFreeVar());
+		}
+		return vars;
+	}
+
 }

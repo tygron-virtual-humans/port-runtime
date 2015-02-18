@@ -119,7 +119,13 @@ public class UserSpecActionExecutor extends ActionExecutor {
 
 	@Override
 	protected ActionExecutor applySubst(Substitution subst) {
-		return new UserSpecActionExecutor(this.action.applySubst(subst));
+		/*
+		 * #3430 focus the global context substi , pass through only variables
+		 * that are still open in the module parameter list
+		 */
+		Substitution focusedSubst = subst.clone();
+		focusedSubst.retainAll(getVariables(action.getParameters()));
+		return new UserSpecActionExecutor(this.action.applySubst(focusedSubst));
 	}
 
 	@Override
