@@ -15,7 +15,9 @@ import java.util.Set;
 import krTools.language.Substitution;
 import krTools.language.Term;
 import krTools.language.Var;
+import languageTools.program.agent.actions.UserSpecAction;
 import languageTools.program.agent.msc.MentalStateCondition;
+import languageTools.program.test.TestMentalStateCondition;
 import languageTools.program.test.testsection.EvaluateIn;
 
 /**
@@ -68,7 +70,7 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 	/**
 	 * @return query used by the {@link TestConditionExecutor}.
 	 */
-	public MentalStateCondition getQuery() {
+	public TestMentalStateCondition getQuery() {
 		return this.executor.getCondition().getQuery();
 	}
 
@@ -91,7 +93,7 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 	 * @return result of evaluating the mental state query.
 	 */
 	protected Set<Substitution> evaluate(RunState<? extends Debugger> runState,
-			Substitution substitution, MentalStateCondition query) {
+			Substitution substitution, TestMentalStateCondition testquery) {
 		// Using a NOPDebugger here to avoid endless recursion on observer
 		Debugger debugger = new NOPDebugger(getObserverName());
 		// If this condition bound a variable to the substitution,
@@ -103,16 +105,34 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 			removed.put(pre, term);
 			substitution.remove(pre);
 		}
-		// Run the query
-		Set<Substitution> result = new HashSet<>(0);
-		try {
-			result = new MentalStateConditionExecutor(
-					query.applySubst(substitution)).evaluate(
-					runState.getMentalState(), debugger);
-		} catch (Exception e) {
-			result = new MentalStateConditionExecutor(query).evaluate(
-					runState.getMentalState(), debugger);
+
+		final Set<Substitution> result = new HashSet<>();
+		Substitution temp = substitution.clone();
+		for (UserSpecAction action : testquery.getActions()) {
+			Substitution check = (runState.getLastAction() == null) ? null
+					: action.mgu(runState.getLastAction());
+			if (check == null) {
+				result.clear();
+				return result;
+			} else {
+				result.add(check);
+				temp = temp.combine(check);
+			} // TODO: what about multiple actions in one rule (combo)?
 		}
+		for (MentalStateCondition query : testquery.getConditions()) {
+			try {
+				Set<Substitution> res = new MentalStateConditionExecutor(
+						query.applySubst(temp)).evaluate(
+						runState.getMentalState(), debugger);
+				result.addAll(res);
+			} catch (Exception e) {
+				// FIXME: this exception can occur (and is expected)
+				Set<Substitution> res = new MentalStateConditionExecutor(query)
+				.evaluate(runState.getMentalState(), debugger);
+				result.addAll(res);
+			}
+		}
+
 		// Update the substitution when needed,
 		// registering any new variables this condition has bounded,
 		// and restoring any deleted ones when the evaluation failed
@@ -121,11 +141,15 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 				substitution.addBinding(var, removed.get(var));
 			}
 		} else {
-			Substitution apply = result.iterator().next();
-			for (final Var var : apply.getVariables()) {
-				final Term term = apply.get(var);
-				if (term.isClosed() && this.executor.addBoundVar(var)) {
-					substitution.addBinding(var, term);
+			for (final Substitution apply : result) {
+				for (final Var var : apply.getVariables()) {
+					final Term term = apply.get(var);
+					if (term.isClosed() && this.executor.addBoundVar(var)) {
+						try {
+							substitution.addBinding(var, term);
+						} catch (final RuntimeException ignore) {
+						}
+					}
 				}
 			}
 		}

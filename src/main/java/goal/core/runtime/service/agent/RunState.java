@@ -169,11 +169,14 @@ public class RunState<D extends Debugger> {
 	 * Learner that allows agent to learn from repeated trials.
 	 */
 	private final Learner learner;
-
 	/**
 	 * Keep track whether sleep condition held previous cycle.
 	 */
 	private boolean sleepConditionsHoldingPreviousCycle;
+	/**
+	 * Keep track of executed actions
+	 */
+	private UserSpecAction lastAction;
 
 	/**
 	 * Creates a new {@link RunState}.
@@ -435,7 +438,6 @@ public class RunState<D extends Debugger> {
 			}
 			this.getMentalState().updateGoalState(this.debugger, sender);
 		}
-
 	}
 
 	/**
@@ -742,7 +744,7 @@ public class RunState<D extends Debugger> {
 	/**
 	 * Get the environment reward. May return null if environment does not
 	 * provide a reward.
-	 * 
+	 *
 	 * @return the reward, or null if no reward available.
 	 * @throws IllegalStateException
 	 *             if failed to connect with environment.
@@ -760,11 +762,17 @@ public class RunState<D extends Debugger> {
 		this.messaging.postMessage(message);
 	}
 
+	public UserSpecAction getLastAction() {
+		return this.lastAction;
+	}
+
 	public void doPerformAction(UserSpecAction action)
 			throws GOALActionFailedException {
 		try {
+			this.lastAction = null;
 			Action eis = this.mentalState.getState().convert(action);
 			this.environment.performAction(eis);
+			this.lastAction = action;
 		} catch (ActException ae) {
 			if (ae.getType() == ActException.NOTSPECIFIC) {
 				new Warning(String.format(

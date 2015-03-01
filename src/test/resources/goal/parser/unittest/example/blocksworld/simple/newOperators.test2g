@@ -3,9 +3,9 @@ masTest {
 	timeout = 10.
 	
 	stackbuilder {
-		test {
+		test {		
 			evaluate {
-				atstart[event] bel(percept(on(X,Y))) -> atend[event] bel(on(X,Y)).
+				always do(move(X,Y)) -> eventually bel(on(X,Y)).
 			} in do main.
 		}
 	}

@@ -33,7 +33,6 @@ import languageTools.program.test.testsection.EvaluateIn;
  * Formats a {@link UnitTestResult} in a concise and readable fashion.
  *
  * @author M.P. Korstanje
- *
  */
 public class UnitTestResultFormatter implements ResultFormatter<String> {
 	private String indent() {
@@ -129,6 +128,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 		}
 		String retString = "failed: " + result.getId().getName() + "\n";
 		if (result.getUncaughtThrowable() != null) {
+			result.getUncaughtThrowable().printStackTrace(); // TEMP
 			retString += indent(1, "exception: "
 					+ result.getUncaughtThrowable().getMessage() + "\n");
 			if (result.getUncaughtThrowable().getCause() != null) {
@@ -190,7 +190,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 
 	@Override
 	public String visit(AssertTestFailed result) {
-		return "failed: " + result.getTest().accept(this);
+		return "failed: " + result.getTest().accept(this) + getCause(result);
 	}
 
 	@Override
@@ -214,7 +214,8 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 			ret += indent(evalRet) + "\n";
 		}
 		EvaluateIn section = (EvaluateIn) result.getEvaluateIn().getSection();
-		ret += "} in " + section.getAction() + ".";
+		ret += "} in " + section.getAction() + ".\n";
+		ret += getCause(result);
 		return ret;
 	}
 
@@ -223,13 +224,9 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 		String ret = "failed: ";
 		DoActionSection section = (DoActionSection) result.getDoAction()
 				.getSection();
-		ret += section;
-		ret += indent(1, "because " + result.getCause().getMessage() + "\n");
-		if (result.getCause().getCause() != null) {
-			ret += indent(1, "because "
-					+ result.getCause().getCause().getMessage() + "\n");
-		}
-		return ret + ".";
+		ret += section + "\n";
+		ret += getCause(result);
+		return ret;
 	}
 
 	@Override
@@ -242,6 +239,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 		EvaluateIn section = (EvaluateIn) ((EvaluateInExecutor) result
 				.getTestSection()).getSection();
 		ret += "} in " + section.getAction() + ".";
+		ret += getCause(result);
 		return ret;
 	}
 
@@ -312,5 +310,17 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	@Override
 	public String visit(TestSectionInterupted testSection) {
 		return "interrupted: " + testSection.getTestSection().accept(this);
+	}
+
+	private String getCause(TestSectionFailed tsf) {
+		String ret = "";
+		Throwable cause = tsf.getCause();
+		if (cause != null) {
+			ret += "\nbecause: " + cause.getMessage();
+			if (cause.getCause() != null) {
+				ret += "\nbecause: " + cause.getCause().getMessage();
+			}
+		}
+		return ret;
 	}
 }

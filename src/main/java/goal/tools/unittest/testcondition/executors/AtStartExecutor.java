@@ -9,7 +9,6 @@ import goal.tools.unittest.result.testcondition.TestConditionFailedException;
 import java.util.Set;
 
 import krTools.language.Substitution;
-import languageTools.program.agent.Module;
 import languageTools.program.test.testcondition.AtStart;
 import languageTools.program.test.testcondition.TestCondition;
 import languageTools.program.test.testsection.EvaluateIn;
@@ -40,13 +39,7 @@ public class AtStartExecutor extends TestConditionExecutor {
 		return new TestConditionEvaluator(this) {
 			@Override
 			public void firstEvaluation() {
-				if (AtStartExecutor.this.atstart.getModule() == null) {
-					evaluation();
-				}
-			}
-
-			private void evaluation() throws TestConditionFailedException {
-				if (isNested()) {
+				if (isNested()) { // TODO: impossible?!
 					for (final Substitution substitution : getNested()) {
 						final Set<Substitution> evaluation = evaluate(runstate,
 								substitution, getQuery());
@@ -63,9 +56,7 @@ public class AtStartExecutor extends TestConditionExecutor {
 					final Set<Substitution> evaluation = evaluate(runstate,
 							substitution, getQuery());
 					getNestedExecutor().setNested(evaluation);
-					if (!evaluation.isEmpty()) {
-						setPassed(true);
-					}
+					setPassed(!evaluation.isEmpty());
 				} else {
 					final Set<Substitution> evaluation = evaluate(runstate,
 							substitution, getQuery());
@@ -82,37 +73,10 @@ public class AtStartExecutor extends TestConditionExecutor {
 
 			@Override
 			public void notifyBreakpointHit(DebugEvent event) {
-				if (AtStartExecutor.this.atstart.getModule() != null
-						&& event != null && !isPassed()) {
-					switch (event.getChannel()) {
-					case EVENT_MODULE_ENTRY:
-					case MAIN_MODULE_ENTRY:
-					case INIT_MODULE_ENTRY:
-					case USER_MODULE_ENTRY:
-						Module test = ((Module) event.getAssociatedObject());
-						if (AtStartExecutor.this.atstart.getModule().equals(
-								test)) {
-							break;
-						} else {
-							return;
-						}
-					default:
-						return;
-					}
-					evaluation();
-				}
 			}
 
 			@Override
 			public void lastEvaluation() {
-				if (hasNestedExecutor()) {
-					final TestConditionEvaluator nested = getNestedExecutor()
-							.provideEvaluator(runstate, substitution);
-					nested.lastEvaluation();
-					if (nested.getPassed() == TestConditionEvaluation.UNKNOWN) {
-						nested.setPassed(true);
-					}
-				}
 			}
 
 			@Override

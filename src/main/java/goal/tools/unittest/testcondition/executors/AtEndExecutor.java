@@ -9,7 +9,6 @@ import goal.tools.unittest.result.testcondition.TestConditionFailedException;
 import java.util.Set;
 
 import krTools.language.Substitution;
-import languageTools.program.agent.Module;
 import languageTools.program.test.testcondition.AtEnd;
 import languageTools.program.test.testcondition.TestCondition;
 import languageTools.program.test.testsection.EvaluateIn;
@@ -40,11 +39,15 @@ public class AtEndExecutor extends TestConditionExecutor {
 		return new TestConditionEvaluator(this) {
 			@Override
 			public void firstEvaluation() {
-				// Does nothing
 			}
 
-			private void evaluation() throws TestConditionFailedException {
-				if (isNested()) {
+			@Override
+			public void notifyBreakpointHit(DebugEvent event) {
+			}
+
+			@Override
+			public void lastEvaluation() {
+				if (isNested()) { // TODO: impossible?!
 					for (final Substitution substitution : getNested()) {
 						final Set<Substitution> evaluation = evaluate(runstate,
 								substitution, getQuery());
@@ -61,9 +64,7 @@ public class AtEndExecutor extends TestConditionExecutor {
 					final Set<Substitution> evaluation = evaluate(runstate,
 							substitution, getQuery());
 					getNestedExecutor().setNested(evaluation);
-					if (!evaluation.isEmpty()) {
-						setPassed(true);
-					}
+					setPassed(!evaluation.isEmpty());
 				} else {
 					final Set<Substitution> evaluation = evaluate(runstate,
 							substitution, getQuery());
@@ -74,43 +75,6 @@ public class AtEndExecutor extends TestConditionExecutor {
 								this);
 					} else {
 						setPassed(true);
-					}
-				}
-			}
-
-			@Override
-			public void notifyBreakpointHit(DebugEvent event) {
-				final Module module = AtEndExecutor.this.atend.getModule();
-				if (module != null && event != null && !isPassed()) {
-					switch (event.getChannel()) {
-					case EVENT_MODULE_EXIT:
-					case MAIN_MODULE_EXIT:
-					case INIT_MODULE_EXIT:
-					case USER_MODULE_EXIT:
-						Module test = ((Module) event.getAssociatedObject());
-						if (AtEndExecutor.this.atend.getModule().equals(test)) {
-							break;
-						} else {
-							return;
-						}
-					default:
-						return;
-					}
-					evaluation();
-				}
-			}
-
-			@Override
-			public void lastEvaluation() {
-				if (AtEndExecutor.this.atend.getModule() == null) {
-					evaluation();
-				}
-				if (hasNestedExecutor()) {
-					final TestConditionEvaluator nested = getNestedExecutor()
-							.provideEvaluator(runstate, substitution);
-					nested.lastEvaluation();
-					if (nested.getPassed() == TestConditionEvaluation.UNKNOWN) {
-						nested.setPassed(true);
 					}
 				}
 			}

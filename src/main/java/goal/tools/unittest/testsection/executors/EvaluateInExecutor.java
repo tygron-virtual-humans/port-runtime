@@ -70,15 +70,13 @@ public class EvaluateInExecutor extends TestSectionExecutor {
 			TestConditionEvaluator evaluator = executor.provideEvaluator(
 					runState, this.substitution);
 			evaluators.add(evaluator);
+			// Main event we listen to (executing actions)
 			debugger.subscribe(evaluator, Channel.ACTIONCOMBO_FINISHED);
-			debugger.subscribe(evaluator, Channel.EVENT_MODULE_ENTRY);
-			debugger.subscribe(evaluator, Channel.EVENT_MODULE_EXIT);
+			// Module entries might also add a set of beliefs/goals
 			debugger.subscribe(evaluator, Channel.INIT_MODULE_ENTRY);
-			debugger.subscribe(evaluator, Channel.INIT_MODULE_EXIT);
+			debugger.subscribe(evaluator, Channel.EVENT_MODULE_ENTRY);
 			debugger.subscribe(evaluator, Channel.MAIN_MODULE_ENTRY);
-			debugger.subscribe(evaluator, Channel.MAIN_MODULE_EXIT);
 			debugger.subscribe(evaluator, Channel.USER_MODULE_ENTRY);
-			debugger.subscribe(evaluator, Channel.USER_MODULE_EXIT);
 		}
 
 		/*

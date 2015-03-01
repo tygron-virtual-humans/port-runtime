@@ -70,7 +70,7 @@ public class AlwaysExecutor extends TestConditionExecutor {
 						setPassed(false);
 						throw new TestConditionFailedException(
 								"The condition " + AlwaysExecutor.this.always
-								+ " did not hold.", this);
+										+ " did not hold.", this);
 					}
 				}
 			}

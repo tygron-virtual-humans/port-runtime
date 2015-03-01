@@ -82,18 +82,39 @@ public abstract class TestConditionExecutor {
 	 *            The substitution set to use in our next evaluation .
 	 */
 	public void setNested(Set<Substitution> nested) {
-		final boolean empty = (this.isNested == null)
-				|| (this.isNested.isEmpty());
-		this.isNested = nested;
-		if (this.evaluator != null) {
-			this.evaluator.lastEvaluation();
-			if (empty || this.evaluator.isPassed()) {
-				this.evaluator.reset();
-			} else {
-				throw new TestConditionFailedException("The nested condition "
-						+ getCondition()
-						+ " did not get evaluated before next evaluation",
-						this.evaluator);
+		boolean equal = true; // regular equals does not work?!
+		if (this.isNested != null && this.isNested.size() == nested.size()) {
+			for (Substitution s1 : this.isNested) {
+				boolean found = false;
+				for (Substitution s2 : nested) {
+					if (s1.equals(s2)) {
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					equal = false;
+					break;
+				}
+			}
+		} else {
+			equal = false;
+		}
+		if (!equal) {
+			final boolean empty = (this.isNested == null)
+					|| (this.isNested.isEmpty());
+			this.isNested = nested;
+			if (this.evaluator != null) {
+				this.evaluator.lastEvaluation();
+				if (empty || this.evaluator.isPassed()) {
+					this.evaluator.reset();
+				} else {
+					throw new TestConditionFailedException(
+							"The nested condition '"
+									+ getCondition()
+									+ "' was not successfully evaluated before the next evaluation",
+							this.evaluator);
+				}
 			}
 		}
 	}

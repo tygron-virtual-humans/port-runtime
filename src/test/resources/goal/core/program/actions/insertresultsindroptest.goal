@@ -2,7 +2,7 @@
 
 main module [exit=nogoals] {
 	
-	goals{
+	goals {
 		test.
 	}
 	
