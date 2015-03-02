@@ -112,10 +112,8 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 			Substitution check = (runState.getLastAction() == null) ? null
 					: action.mgu(runState.getLastAction());
 			if (check == null) {
-				result.clear();
 				return result;
 			} else {
-				result.add(check);
 				temp = temp.combine(check);
 			} // TODO: what about multiple actions in one rule (combo)?
 		}
@@ -123,12 +121,12 @@ public abstract class TestConditionEvaluator implements DebugObserver {
 			try {
 				Set<Substitution> res = new MentalStateConditionExecutor(
 						query.applySubst(temp)).evaluate(
-						runState.getMentalState(), debugger);
+								runState.getMentalState(), debugger);
 				result.addAll(res);
 			} catch (Exception e) {
 				// FIXME: this exception can occur (and is expected)
 				Set<Substitution> res = new MentalStateConditionExecutor(query)
-				.evaluate(runState.getMentalState(), debugger);
+						.evaluate(runState.getMentalState(), debugger);
 				result.addAll(res);
 			}
 		}
