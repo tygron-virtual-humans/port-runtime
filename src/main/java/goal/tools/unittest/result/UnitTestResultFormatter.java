@@ -10,7 +10,7 @@ import goal.tools.unittest.result.testsection.EvaluateInResult;
 import goal.tools.unittest.result.testsection.TestSectionFailed;
 import goal.tools.unittest.result.testsection.TestSectionInterupted;
 import goal.tools.unittest.result.testsection.TestSectionResult;
-import goal.tools.unittest.testcondition.executors.TestConditionEvaluator;
+import goal.tools.unittest.testcondition.executors.TestConditionExecutor;
 import goal.tools.unittest.testsection.executors.EvaluateInExecutor;
 
 import java.util.List;
@@ -196,7 +196,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	@Override
 	public String visit(EvaluateInResult result) {
 		String ret = "executed: evaluate {\n";
-		for (TestConditionEvaluator evaluator : result.getEvaluators()) {
+		for (TestConditionExecutor evaluator : result.getEvaluators()) {
 			ret += indent(evaluator.accept(this)) + "\n";
 		}
 		ret += "} in " + result.getEvaluateIn().getAction() + ".";
@@ -206,8 +206,10 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	@Override
 	public String visit(EvaluateInFailed result) {
 		String ret = "failed: evaluate {\n";
-		for (TestConditionEvaluator evaluator : result.getEvaluators()) {
-			String evalRet = evaluator.accept(this);
+		for (TestConditionExecutor evaluator : result.getEvaluators()) {
+			String evalRet = evaluator.getState() + ": "
+					+ evaluator.accept(this) + " with "
+					+ evaluator.getSubstitution();
 			if (evaluator.equals(result.getFirstFailureCause())) {
 				evalRet += " <-- first failure";
 			}
@@ -232,7 +234,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	@Override
 	public String visit(EvaluateInInterrupted result) {
 		String ret = "interrupted: evaluate {\n";
-		for (TestConditionEvaluator evaluator : result.getEvaluators()) {
+		for (TestConditionExecutor evaluator : result.getEvaluators()) {
 			ret += indent(evaluator.accept(this)) + "\n";
 		}
 		// Must be interrupted EvaluateIn section
@@ -244,49 +246,48 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	}
 
 	@Override
-	public String visit(TestConditionEvaluator result) {
-		return result.getSummaryReport() + ": "
-				+ result.getConditionExecutor().getCondition();
+	public String visit(TestConditionExecutor result) {
+		return result.getState().toString() + ": " + result.getCondition();
 	}
 
 	@Override
 	public String visit(DoActionSection action) {
-		return "do " + action.getAction();
+		return action + ".";
 	}
 
 	@Override
-	public String visit(AtStart atStart) {
-		return "atstart " + atStart.getQuery();
+	public String visit(AtStart atstart) {
+		return atstart + ".";
 	}
 
 	@Override
 	public String visit(Always always) {
-		return "always " + always.getQuery();
+		return always + ".";
 	}
 
 	@Override
 	public String visit(Never never) {
-		return "never " + never.getQuery();
+		return never + ".";
 	}
 
 	@Override
-	public String visit(AtEnd atEnd) {
-		return "atend " + atEnd.getQuery();
+	public String visit(AtEnd atend) {
+		return atend + ".";
 	}
 
 	@Override
 	public String visit(Eventually eventually) {
-		return "eventually " + eventually.getQuery();
+		return eventually + ".";
 	}
 
 	@Override
 	public String visit(Until until) {
-		return "until " + until.getQuery() + ".";
+		return until + ".";
 	}
 
 	@Override
 	public String visit(While whil) {
-		return "while " + whil.getQuery() + ".";
+		return whil + ".";
 	}
 
 	@Override

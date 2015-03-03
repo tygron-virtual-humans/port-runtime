@@ -8,7 +8,7 @@ import goal.tools.unittest.result.testsection.EvaluateInFailed;
 import goal.tools.unittest.result.testsection.EvaluateInInterrupted;
 import goal.tools.unittest.result.testsection.EvaluateInResult;
 import goal.tools.unittest.result.testsection.TestSectionInterupted;
-import goal.tools.unittest.testcondition.executors.TestConditionEvaluator;
+import goal.tools.unittest.testcondition.executors.TestConditionExecutor;
 import languageTools.program.test.testcondition.Always;
 import languageTools.program.test.testcondition.AtEnd;
 import languageTools.program.test.testcondition.AtStart;
@@ -51,7 +51,7 @@ public interface ResultFormatter<T> {
 
 	T visit(DoActionFailed result);
 
-	T visit(TestConditionEvaluator result);
+	T visit(TestConditionExecutor result);
 
 	T visit(DoActionSection action);
 

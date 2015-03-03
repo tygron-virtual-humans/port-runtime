@@ -5,7 +5,6 @@ masTest {
 	stackbuilder {
 		test {		
 			evaluate {
-				always bel(percept(on(A,B))) -> eventually bel(on(A,B)).
 				always do(move(X,Y)) -> eventually bel(on(X,Y)).
 			} in do main.
 		}

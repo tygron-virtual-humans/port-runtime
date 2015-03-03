@@ -43,13 +43,6 @@ public class UnitTestTest extends AbstractUnitTestTest {
 	}
 
 	@Test
-	public void testNewCorrectLTLScope() throws Exception {
-		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/newCorrectLTLScope.test2g");
-
-		assertPassedAndPrint(results);
-	}
-
-	@Test
 	public void testNewCorrectBoundary() throws Exception {
 		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/newCorrectBoundary.test2g");
 

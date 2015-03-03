@@ -1,18 +1,20 @@
 package goal.tools.unittest.testcondition.executors;
 
+import goal.core.executors.MentalStateConditionExecutor;
 import goal.core.runtime.service.agent.RunState;
-import goal.tools.debugger.ObservableDebugger;
+import goal.tools.debugger.Channel;
+import goal.tools.debugger.Debugger;
+import goal.tools.debugger.NOPDebugger;
 import goal.tools.unittest.result.ResultFormatter;
-import goal.tools.unittest.result.testcondition.TestConditionFailedException;
+import goal.tools.unittest.testsection.executors.EvaluateInExecutor;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import krTools.language.Substitution;
-import krTools.language.Var;
+import languageTools.program.agent.actions.UserSpecAction;
+import languageTools.program.agent.msc.MentalStateCondition;
+import languageTools.program.test.TestMentalStateCondition;
 import languageTools.program.test.testcondition.Always;
 import languageTools.program.test.testcondition.AtEnd;
 import languageTools.program.test.testcondition.AtStart;
@@ -30,34 +32,80 @@ import languageTools.program.test.testcondition.While;
  */
 public abstract class TestConditionExecutor {
 	/**
-	 * Null when a condition is not nested; Empty set when a condition is nested
-	 * but not active (e.g. condition not met); Filled set when a condition is
-	 * nested and active (condition met) > all substitutions in the set need to
-	 * be evaluated.
+	 * A test condition can have one out of three evaluations:
+	 * {@link TestConditionEvaluation#PASSED},
+	 * {@link TestConditionEvaluation#FAILED}, or
+	 * {@link TestConditionEvaluation#UNKNOWN}.
+	 *
+	 * @author K.Hindriks
 	 */
-	private Set<Substitution> isNested;
-	/**
-	 * The (unbound) variables that were bound whilst evaluating this condition
-	 */
-	private final Set<Var> boundByMe = new HashSet<>();
-	/**
-	 * The actual evaluator for the conditions
-	 */
-	private TestConditionEvaluator evaluator;
+	public enum TestConditionEvaluation {
+		/**
+		 * PASSED means that the test condition has been passed (holds).
+		 */
+		PASSED,
+		/**
+		 * FAILED means that the test condition failed during the test (did not
+		 * hold).
+		 */
+		FAILED,
+		/**
+		 * UNKNOWN means that the test has not yet been completed and the test
+		 * condition has not yet been completely evaluated.
+		 */
+		UNKNOWN;
 
-	/**
-	 * @return true when this condition is a nested condition
-	 */
-	public boolean isNested() {
-		return this.isNested != null;
+		@Override
+		public String toString() {
+			switch (this) {
+			case FAILED:
+				return "failed";
+			case PASSED:
+				return "passed";
+			case UNKNOWN:
+				// if we don't know whether test condition was passed or not,
+				// this means the test must have been interrupted.
+				return "interrupted";
+			default:
+				// should never happen...
+				return "unknown";
+			}
+		}
 	}
 
-	/**
-	 * @return Get the substitutions to use for the nested condition (if we are
-	 *         one; null otherwise)
-	 */
-	public Set<Substitution> getNested() {
-		return this.isNested;
+	public enum TestEvaluationChannel {
+		START, MODULE_ENTRY, ACTION_EXECUTED, END;
+
+		public static TestEvaluationChannel fromDebugChannel(Channel debug) {
+			switch (debug) {
+			case ACTION_EXECUTED_BUILTIN:
+			case ACTION_EXECUTED_USERSPEC:
+				return ACTION_EXECUTED;
+			case INIT_MODULE_ENTRY:
+			case EVENT_MODULE_ENTRY:
+			case MAIN_MODULE_ENTRY:
+			case USER_MODULE_ENTRY:
+				return MODULE_ENTRY;
+			default:
+				return null;
+			}
+		}
+	}
+
+	private TestConditionEvaluation passed = TestConditionEvaluation.UNKNOWN;
+	private final Substitution substitution;
+	protected final RunState<? extends Debugger> runstate;
+	protected final EvaluateInExecutor parent;
+
+	public TestConditionExecutor(Substitution substitution,
+			RunState<? extends Debugger> runstate, EvaluateInExecutor parent) {
+		this.substitution = substitution;
+		this.runstate = runstate;
+		this.parent = parent;
+	}
+
+	public Substitution getSubstitution() {
+		return this.substitution;
 	}
 
 	/**
@@ -67,120 +115,92 @@ public abstract class TestConditionExecutor {
 	 */
 	abstract public TestCondition getCondition();
 
-	protected boolean hasNestedExecutor() {
-		return getTestConditionExecutor(getCondition().getNestedCondition()) != null;
-	}
-
-	protected TestConditionExecutor getNestedExecutor() {
-		return getTestConditionExecutor(getCondition().getNestedCondition());
-	}
-
 	/**
-	 * Update the state of a nested condition (which we are)
-	 *
-	 * @param nested
-	 *            The substitution set to use in our next evaluation .
-	 */
-	public void setNested(Set<Substitution> nested) {
-		boolean equal = true; // regular equals does not work?!
-		if (this.isNested != null && this.isNested.size() == nested.size()) {
-			for (Substitution s1 : this.isNested) {
-				boolean found = false;
-				for (Substitution s2 : nested) {
-					if (s1.equals(s2)) {
-						found = true;
-						break;
-					}
-				}
-				if (!found) {
-					equal = false;
-					break;
-				}
-			}
-		} else {
-			equal = false;
-		}
-		if (!equal) {
-			final boolean empty = (this.isNested == null)
-					|| (this.isNested.isEmpty());
-			this.isNested = nested;
-			if (this.evaluator != null) {
-				this.evaluator.lastEvaluation();
-				if (empty || this.evaluator.isPassed()) {
-					this.evaluator.reset();
-				} else {
-					throw new TestConditionFailedException(
-							"The nested condition '"
-									+ getCondition()
-									+ "' was not successfully evaluated before the next evaluation",
-							this.evaluator);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Register any variable this condition bounds during its evaluation.
-	 *
-	 * @param var
-	 *            The variable that this condition has bounded
-	 * @return True if we are a nested condition and the variable was registered
-	 *         successfully.
-	 */
-	public boolean addBoundVar(Var var) {
-		if (this.isNested == null) {
-			this.boundByMe.add(var);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * @return the (unbound) variables that were bound during the last
-	 *         evaluation of this condition
-	 */
-	public Set<Var> getBoundByMe() {
-		return Collections.unmodifiableSet(this.boundByMe);
-	}
-
-	/**
-	 * Provides an evaluator capable of evaluating the mental state query on a
-	 * running agent. The runstate is provided as an argument because it is not
-	 * available through the {@link ObservableDebugger}. This function uses
-	 * {@link createEvaluator} to create the initial evaluator initially, and
-	 * returns the existing instance otherwise.
+	 * Evaluates a mental state query on the agent's {@link RunState}.
 	 *
 	 * @param runstate
-	 *            of the agent
+	 *            of the agent.
 	 * @param substitution
-	 *            the substitution to share
-	 * @return a new evaluator
+	 *            the current substitution.
+	 * @param query
+	 *            the mental state query.
+	 * @return result of evaluating the mental state query.
 	 */
-	public final TestConditionEvaluator provideEvaluator(
-			final RunState<? extends ObservableDebugger> runstate,
-			final Substitution substitution) {
-		if (this.evaluator == null) {
-			this.evaluator = createEvaluator(runstate, substitution);
+	protected Set<Substitution> evaluate() {
+		// Using a NOPDebugger here to avoid endless recursion on observer
+		Debugger debugger = new NOPDebugger(getClass().getSimpleName());
+		TestMentalStateCondition testquery = getCondition().getQuery();
+
+		Substitution temp = this.substitution.clone();
+		Substitution sub = this.runstate.getMainModule().getKRInterface()
+				.getSubstitution(null);
+		for (UserSpecAction action : testquery.getActions()) {
+			Substitution check = (this.runstate.getLastAction() == null) ? null
+					: action.applySubst(temp)
+					.mgu(this.runstate.getLastAction());
+			if (check == null) {
+				return new HashSet<Substitution>(0);
+			} else {
+				temp = temp.combine(check);
+				sub = sub.combine(check);
+			}
 		}
-		return this.evaluator;
+		Set<Substitution> subresult = new HashSet<>();
+		for (MentalStateCondition query : testquery.getConditions()) {
+			try {
+				Set<Substitution> res = new MentalStateConditionExecutor(
+						query.applySubst(temp)).evaluate(
+								this.runstate.getMentalState(), debugger);
+				subresult.addAll(res);
+			} catch (Exception e) {
+				// FIXME: this exception can occur (and is expected)
+				Set<Substitution> res = new MentalStateConditionExecutor(query)
+				.evaluate(this.runstate.getMentalState(), debugger);
+				subresult.addAll(res);
+			}
+		}
+		Set<Substitution> result = new HashSet<>();
+		if (testquery.getConditions().isEmpty()) {
+			result.add(sub);
+		} else {
+			for (Substitution substitution : subresult) {
+				result.add(substitution.combine(sub));
+			}
+		}
+		return result;
+	}
+
+	public abstract void evaluate(TestEvaluationChannel channel);
+
+	/**
+	 * Use this method for setting evaluation of test condition to either
+	 * {@link TestConditionEvaluation#PASSED} or
+	 * {@link TestConditionEvaluation#FAILED}.
+	 *
+	 * @param passed
+	 *            {@code true} to set evaluation to
+	 *            {@link TestConditionEvaluation#PASSED}; {@code false} to set
+	 *            evaluation to {@link TestConditionEvaluation#FAILED}.
+	 */
+	protected void setPassed(boolean passed) {
+		if (passed) {
+			this.passed = TestConditionEvaluation.PASSED;
+			this.parent.remove(this); // good == no more evaluation
+		} else {
+			this.passed = TestConditionEvaluation.FAILED;
+		}
 	}
 
 	/**
-	 * Provides an evaluator capable of evaluating the mental state query on a
-	 * running agent. The runstate is provided as an argument because it is not
-	 * available through the {@link ObservableDebugger}. This function should
-	 * actually create the evaluator's implementation.
-	 *
-	 * @param runstate
-	 *            of the agent
-	 * @param substitution
-	 *            the substitution to share
-	 * @return a new evaluator
+	 * @return true iff the test condition is passed
 	 */
-	public abstract TestConditionEvaluator createEvaluator(
-			final RunState<? extends ObservableDebugger> runstate,
-			final Substitution substitution);
+	public boolean isPassed() {
+		return this.passed == TestConditionEvaluation.PASSED;
+	}
+
+	public TestConditionEvaluation getState() {
+		return this.passed;
+	}
 
 	/**
 	 * Uses double dispatch to call the formatter.
@@ -191,29 +211,32 @@ public abstract class TestConditionExecutor {
 	 */
 	public abstract <T> T accept(ResultFormatter<T> formatter);
 
-	private static Map<TestCondition, TestConditionExecutor> executors = new HashMap<>();
-
 	public static TestConditionExecutor getTestConditionExecutor(
-			TestCondition condition) {
-		TestConditionExecutor returned = executors.get(condition);
-		if (returned == null) {
-			if (condition instanceof Always) {
-				returned = new AlwaysExecutor((Always) condition);
-			} else if (condition instanceof AtEnd) {
-				returned = new AtEndExecutor((AtEnd) condition);
-			} else if (condition instanceof AtStart) {
-				returned = new AtStartExecutor((AtStart) condition);
-			} else if (condition instanceof Eventually) {
-				returned = new EventuallyExecutor((Eventually) condition);
-			} else if (condition instanceof Never) {
-				returned = new NeverExecutor((Never) condition);
-			} else if (condition instanceof Until) {
-				returned = new UntilExecutor((Until) condition);
-			} else if (condition instanceof While) {
-				returned = new WhileExecutor((While) condition);
-			}
-			executors.put(condition, returned);
+			TestCondition condition, Substitution substitution,
+			RunState<? extends Debugger> runstate, EvaluateInExecutor parent) {
+		if (condition instanceof Always) {
+			return new AlwaysExecutor((Always) condition, substitution,
+					runstate, parent);
+		} else if (condition instanceof AtEnd) {
+			return new AtEndExecutor((AtEnd) condition, substitution, runstate,
+					parent);
+		} else if (condition instanceof AtStart) {
+			return new AtStartExecutor((AtStart) condition, substitution,
+					runstate, parent);
+		} else if (condition instanceof Eventually) {
+			return new EventuallyExecutor((Eventually) condition, substitution,
+					runstate, parent);
+		} else if (condition instanceof Never) {
+			return new NeverExecutor((Never) condition, substitution, runstate,
+					parent);
+		} else if (condition instanceof Until) {
+			return new UntilExecutor((Until) condition, substitution, runstate,
+					parent);
+		} else if (condition instanceof While) {
+			return new WhileExecutor((While) condition, substitution, runstate,
+					parent);
+		} else {
+			return null;
 		}
-		return returned;
 	}
 }

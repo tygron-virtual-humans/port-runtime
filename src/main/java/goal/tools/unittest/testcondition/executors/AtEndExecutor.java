@@ -1,10 +1,10 @@
 package goal.tools.unittest.testcondition.executors;
 
 import goal.core.runtime.service.agent.RunState;
-import goal.tools.debugger.DebugEvent;
-import goal.tools.debugger.ObservableDebugger;
+import goal.tools.debugger.Debugger;
 import goal.tools.unittest.result.ResultFormatter;
 import goal.tools.unittest.result.testcondition.TestConditionFailedException;
+import goal.tools.unittest.testsection.executors.EvaluateInExecutor;
 
 import java.util.Set;
 
@@ -23,7 +23,9 @@ import languageTools.program.test.testsection.EvaluateIn;
 public class AtEndExecutor extends TestConditionExecutor {
 	private final AtEnd atend;
 
-	public AtEndExecutor(AtEnd atend) {
+	public AtEndExecutor(AtEnd atend, Substitution substitution,
+			RunState<? extends Debugger> runstate, EvaluateInExecutor parent) {
+		super(substitution, runstate, parent);
 		this.atend = atend;
 	}
 
@@ -33,57 +35,21 @@ public class AtEndExecutor extends TestConditionExecutor {
 	}
 
 	@Override
-	public TestConditionEvaluator createEvaluator(
-			final RunState<? extends ObservableDebugger> runstate,
-			final Substitution substitution) {
-		return new TestConditionEvaluator(this) {
-			@Override
-			public void firstEvaluation() {
-			}
-
-			@Override
-			public void notifyBreakpointHit(DebugEvent event) {
-			}
-
-			@Override
-			public void lastEvaluation() {
-				if (isNested()) { // TODO: impossible?!
-					for (final Substitution substitution : getNested()) {
-						final Set<Substitution> evaluation = evaluate(runstate,
-								substitution, getQuery());
-						if (evaluation.isEmpty()) {
-							setPassed(false);
-							throw new TestConditionFailedException(
-									"The nested condition "
-											+ AtEndExecutor.this.atend
-											+ " did not hold.", this);
-						}
-					}
-					setPassed(true);
-				} else if (hasNestedExecutor()) {
-					final Set<Substitution> evaluation = evaluate(runstate,
-							substitution, getQuery());
-					getNestedExecutor().setNested(evaluation);
-					setPassed(!evaluation.isEmpty());
+	public void evaluate(TestEvaluationChannel channel) {
+		if (channel == TestEvaluationChannel.END) { // ATEND
+			if (this.atend.hasNestedCondition()) {
+				// NOT POSSIBLE?!
+			} else {
+				final Set<Substitution> evaluation = evaluate();
+				if (evaluation.isEmpty()) {
+					setPassed(false);
+					throw new TestConditionFailedException("The condition "
+							+ this.atend + " did not hold.", this);
 				} else {
-					final Set<Substitution> evaluation = evaluate(runstate,
-							substitution, getQuery());
-					if (evaluation.isEmpty()) {
-						setPassed(false);
-						throw new TestConditionFailedException("The condition "
-								+ AtEndExecutor.this.atend + " did not hold.",
-								this);
-					} else {
-						setPassed(true);
-					}
+					setPassed(true);
 				}
 			}
-
-			@Override
-			public <T> T accept(ResultFormatter<T> formatter) {
-				return formatter.visit(this);
-			}
-		};
+		}
 	}
 
 	@Override

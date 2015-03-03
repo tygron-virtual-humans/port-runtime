@@ -2,7 +2,7 @@ package goal.tools.unittest.result.testsection;
 
 import goal.tools.debugger.DebuggerKilledException;
 import goal.tools.unittest.result.ResultFormatter;
-import goal.tools.unittest.testcondition.executors.TestConditionEvaluator;
+import goal.tools.unittest.testcondition.executors.TestConditionExecutor;
 import goal.tools.unittest.testsection.executors.EvaluateInExecutor;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 public class EvaluateInInterrupted extends TestSectionInterupted {
 	/** Generated serialVersionUID */
 	private static final long serialVersionUID = 2119184965021739086L;
-	private final List<TestConditionEvaluator> evaluators;
+	private final List<TestConditionExecutor> evaluators;
 
 	/**
 	 * @param evaluateIn
@@ -21,7 +21,7 @@ public class EvaluateInInterrupted extends TestSectionInterupted {
 	 * @param exception
 	 */
 	public EvaluateInInterrupted(EvaluateInExecutor evaluateIn,
-			List<TestConditionEvaluator> evaluators,
+			List<TestConditionExecutor> evaluators,
 			DebuggerKilledException exception) {
 		super(evaluateIn, exception);
 		this.evaluators = evaluators;
@@ -30,7 +30,7 @@ public class EvaluateInInterrupted extends TestSectionInterupted {
 	/**
 	 * @return the evaluators of the interrupted test section.
 	 */
-	public List<TestConditionEvaluator> getEvaluators() {
+	public List<TestConditionExecutor> getEvaluators() {
 		return this.evaluators;
 	}
 
