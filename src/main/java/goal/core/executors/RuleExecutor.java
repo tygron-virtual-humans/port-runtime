@@ -91,7 +91,7 @@ public class RuleExecutor {
 			// rule is evaluated using all goals in current attention set.
 			substset = new MentalStateConditionExecutor(
 					this.rule.getCondition()).evaluate(substitution,
-					mentalState, debugger);
+							mentalState, debugger);
 		}
 
 		// If condition does not hold (no solutions), then report and return.
@@ -109,7 +109,7 @@ public class RuleExecutor {
 		// #3079 this must pass the ACTION to the debugger
 		debugger.breakpoint(Channel.HIDDEN_RULE_CONDITION_EVALUATION,
 				this.rule.getAction(), pos, "Condition of rule %s holds.",
-				this.rule.toString());
+				this.rule.prettyPrint());
 		debugger.breakpoint(Channel.RULE_CONDITION_EVALUATION,
 				this.rule.getCondition(), pos,
 				"Condition of rule %s holds for: %s.", this.rule.prettyPrint(),
@@ -155,7 +155,7 @@ public class RuleExecutor {
 					List<SingleGoal> validatingGoals = substGoalLinks
 							.get(subst);
 					runState.setFocusGoal(validatingGoals.get(new Random()
-					.nextInt(validatingGoals.size())));
+							.nextInt(validatingGoals.size())));
 				}
 
 				result.merge(executor.run(runState, subst, i == max));

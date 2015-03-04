@@ -8,10 +8,12 @@ import goal.tools.debugger.NOPDebugger;
 import goal.tools.unittest.result.ResultFormatter;
 import goal.tools.unittest.testsection.executors.EvaluateInExecutor;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import krTools.language.Substitution;
+import krTools.language.Term;
 import languageTools.program.agent.actions.UserSpecAction;
 import languageTools.program.agent.msc.MentalStateCondition;
 import languageTools.program.test.TestMentalStateCondition;
@@ -134,10 +136,15 @@ public abstract class TestConditionExecutor {
 		Substitution temp = this.substitution.clone();
 		Substitution sub = this.runstate.getMainModule().getKRInterface()
 				.getSubstitution(null);
+		UserSpecAction prev = this.runstate.getLastAction();
+		if (prev == null) {
+			prev = new UserSpecAction("", new ArrayList<Term>(0), false, null,
+					null, null);
+		}
 		for (UserSpecAction action : testquery.getActions()) {
-			Substitution check = (this.runstate.getLastAction() == null) ? null
-					: action.applySubst(temp)
-					.mgu(this.runstate.getLastAction());
+			Substitution check = action.getSignature().equals(
+					prev.getSignature()) ? action.applySubst(temp).mgu(prev)
+					: null;
 			if (check == null) {
 				return new HashSet<Substitution>(0);
 			} else {
@@ -150,12 +157,12 @@ public abstract class TestConditionExecutor {
 			try {
 				Set<Substitution> res = new MentalStateConditionExecutor(
 						query.applySubst(temp)).evaluate(
-								this.runstate.getMentalState(), debugger);
+						this.runstate.getMentalState(), debugger);
 				subresult.addAll(res);
 			} catch (Exception e) {
 				// FIXME: this exception can occur (and is expected)
 				Set<Substitution> res = new MentalStateConditionExecutor(query)
-				.evaluate(this.runstate.getMentalState(), debugger);
+						.evaluate(this.runstate.getMentalState(), debugger);
 				subresult.addAll(res);
 			}
 		}
