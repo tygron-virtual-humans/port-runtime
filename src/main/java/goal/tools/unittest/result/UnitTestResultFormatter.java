@@ -208,8 +208,10 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 		String ret = "failed: evaluate {\n";
 		for (TestConditionExecutor evaluator : result.getEvaluators()) {
 			String evalRet = evaluator.getState() + ": "
-					+ evaluator.accept(this) + " with "
-					+ evaluator.getSubstitution();
+					+ evaluator.accept(this);
+			if (!evaluator.getSubstitution().getVariables().isEmpty()) {
+				evalRet += " with " + evaluator.getSubstitution();
+			}
 			if (evaluator.equals(result.getFirstFailureCause())) {
 				evalRet += " <-- first failure";
 			}

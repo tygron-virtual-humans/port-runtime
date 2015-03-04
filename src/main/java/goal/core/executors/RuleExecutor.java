@@ -78,7 +78,7 @@ public class RuleExecutor {
 		// FIXME using #toRuleString to prevent adding trailing dot...
 		debugger.breakpoint(Channel.RULE_CONDITIONAL_VIEW,
 				this.rule.getCondition(), pos, "Evaluating rule %s.",
-				this.rule.toString());
+				this.rule.prettyPrint());
 
 		// Get substitutions that satisfy rule condition.
 		// determine the rule mode
@@ -100,7 +100,8 @@ public class RuleExecutor {
 			// #3079 this must NOT pass the action to the debugger.
 			debugger.breakpoint(Channel.RULE_CONDITION_EVALUATION,
 					this.rule.getCondition(), pos,
-					"Condition of rule %s does not hold.", this.rule.toString());
+					"Condition of rule %s does not hold.",
+					this.rule.prettyPrint());
 			return new Result();
 		}
 
@@ -111,7 +112,7 @@ public class RuleExecutor {
 				this.rule.toString());
 		debugger.breakpoint(Channel.RULE_CONDITION_EVALUATION,
 				this.rule.getCondition(), pos,
-				"Condition of rule %s holds for: %s.", this.rule.toString(),
+				"Condition of rule %s holds for: %s.", this.rule.prettyPrint(),
 				substset);
 
 		// Apply rule.
@@ -154,7 +155,7 @@ public class RuleExecutor {
 					List<SingleGoal> validatingGoals = substGoalLinks
 							.get(subst);
 					runState.setFocusGoal(validatingGoals.get(new Random()
-							.nextInt(validatingGoals.size())));
+					.nextInt(validatingGoals.size())));
 				}
 
 				result.merge(executor.run(runState, subst, i == max));

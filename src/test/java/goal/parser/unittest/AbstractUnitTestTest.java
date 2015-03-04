@@ -69,15 +69,15 @@ public class AbstractUnitTestTest {
 	}
 
 	protected UnitTestResult runTest(String testFileName) throws IOException,
-	GOALCommandCancelledException, ParserException,
-	GOALLaunchFailureException, MessagingException,
-	InterruptedException, Exception {
+			GOALCommandCancelledException, ParserException,
+			GOALLaunchFailureException, MessagingException,
+			InterruptedException, Exception {
 		UnitTest unitTest = setup(testFileName);
 
 		assertNotNull(unitTest);
 
 		UnitTestRun testRun = new UnitTestRun(unitTest);
-
+		testRun.setDebuggerOutput(true);
 		UnitTestRunResultInspector inspector = new UnitTestRunResultInspector(
 				unitTest);
 		testRun.setResultInspector(inspector);
