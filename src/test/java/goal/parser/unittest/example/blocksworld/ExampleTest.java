@@ -47,7 +47,7 @@ public class ExampleTest extends AbstractUnitTestTest {
 		assertPassedAndPrint(results);
 	}
 
-	@Test
+	// @Test produces A LOT of output
 	public void testAfter() throws Exception {
 		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/example/after/pingpong.test2g");
 		assertFailedAndPrint(results);
