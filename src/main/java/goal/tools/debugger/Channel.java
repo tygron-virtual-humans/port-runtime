@@ -197,7 +197,12 @@ public enum Channel {
 	/**
 	 * Special channel for notifying the debugger for user-defined breakpoints.
 	 */
-	BREAKPOINTS("User-defined breakpoints", ChannelState.HIDDENPAUSE);
+	BREAKPOINTS("User-defined breakpoints", ChannelState.HIDDENPAUSE),
+	
+	/**
+	 * Special channel for notifying the debugger for user-defined breakpoints.
+	 */
+	TESTFAILURE("Test failure", ChannelState.VIEWPAUSE);
 
 	/**
 	 * text string used to explain channel in debug preference pane.

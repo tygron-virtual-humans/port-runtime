@@ -8,11 +8,13 @@ import goal.core.runtime.service.agent.AgentService;
 import goal.core.runtime.service.environment.EnvironmentService;
 import goal.preferences.PMPreferences;
 import goal.preferences.RunPreferences;
+import goal.tools.adapt.Learner;
 import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALCommandCancelledException;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 import goal.tools.logging.InfoLog;
+import goal.tools.unittest.UnitTestInterpreter;
 
 import java.awt.Component;
 import java.io.File;
@@ -24,6 +26,8 @@ import krTools.KRInterface;
 import krTools.errors.exceptions.ParserException;
 import languageTools.program.agent.AgentProgram;
 import languageTools.program.mas.MASProgram;
+import languageTools.program.test.AgentTest;
+import languageTools.program.test.UnitTest;
 import localmessaging.LocalMessaging;
 import nl.tudelft.goal.messaging.Messaging;
 import nl.tudelft.goal.messaging.MessagingFactory;
@@ -135,6 +139,83 @@ public class LaunchManager {
 	}
 
 	/**
+	 * Launches a MAS program. Can only be killed if there is no runtime running
+	 * right now #2666
+	 *
+	 * @param masProgram
+	 *            The registry that specifies how the MAS is to be launched.
+	 * @param agents
+	 *            the agents that are relevant for this MAS.
+	 * @return DOC
+	 * @throws ParserException
+	 * @throws GOALCommandCancelledException
+	 * @throws GOALLaunchFailureException
+	 */
+	public RuntimeManager<IDEDebugger, IDEGOALInterpreter> launchTest(
+			UnitTest test) throws ParserException,
+			GOALCommandCancelledException, GOALLaunchFailureException {
+		// Determine where to host middleware; ask user if needed.
+		String host = getMiddlewareHostName();
+
+		if (!test.isValid() || !test.getMasProgram().isValid()) {
+			// do we ever get here? Something else is catching this earlier on
+			throw new GOALLaunchFailureException(String.format(
+					Resources.get(WarningStrings.FAILED_LAUNCH_MAS_ERRORS),
+					test.getSourceFile().getName()));
+		}
+
+		for (AgentProgram agent : test.getAgents().values()) {
+			if (!agent.isValid()) {
+				throw new GOALLaunchFailureException(String.format(Resources
+						.get(WarningStrings.FAILED_LAUNCH_MAS_CHILD_ERRORS),
+						test.getSourceFile().getName(), agent.getSourceFile()
+								.getName()));
+			}
+		}
+
+		// Launch the multi-agent system. and start the runtime environment.
+		new InfoLog("Launching MAS " + test.getSourceFile() + ".");
+
+		// Initialize Messaging support.
+		MessagingFactory.add(new LocalMessaging());
+		MessagingFactory.add(new RmiMessaging());
+
+		Messaging messaging = MessagingFactory.get(RunPreferences
+				.getUsedMiddleware().toLowerCase());
+
+		if (messaging.requiresSerialization()) {
+			for (AgentProgram agent : test.getAgents().values()) {
+				KRInterface kr = agent.getKRInterface();
+				if (!kr.supportsSerialization()) {
+					throw new GOALLaunchFailureException(
+							String.format(
+									Resources
+											.get(WarningStrings.FAILED_LAUNCH_NO_SERIALIZATION_SUPPORT),
+									messaging.getName(), kr.getName(), agent
+											.getSourceFile().getName()));
+				}
+			}
+		}
+
+		MessagingService messagingService = new MessagingService(host,
+				messaging);
+		TestRunAgentFactory agentFactory = new TestRunAgentFactory(test,
+				messagingService);
+		AgentService<IDEDebugger, IDEGOALInterpreter> runtimeService = new AgentService<>(
+				test.getMasProgram(), test.getAgents(), agentFactory);
+		EnvironmentService environmentService = new EnvironmentService(
+				test.getMasProgram(), messagingService);
+
+		RemoteRuntimeService<IDEDebugger, IDEGOALInterpreter> remoteRuntimeService = new RemoteRuntimeService<>(
+				messagingService);
+
+		this.runtimeManager = new RuntimeManager<>(messagingService,
+				runtimeService, environmentService, remoteRuntimeService);
+
+		return this.runtimeManager;
+	}
+
+	/**
 	 * Ask user for middleware host.
 	 */
 	private static String getMiddlewareHostName()
@@ -189,5 +270,22 @@ public class LaunchManager {
 			this.runtimeManager.shutDown();
 		}
 		this.runtimeManager = null;
+	}
+
+	private class TestRunAgentFactory extends IDEAgentFactory {
+		private final UnitTest test;
+
+		public TestRunAgentFactory(UnitTest test, MessagingService messaging) {
+			super(messaging);
+			this.test = test;
+		}
+
+		@Override
+		protected UnitTestInterpreter provideController(IDEDebugger debugger,
+				Learner learner) {
+			AgentTest test = this.test.getTest(this.agentBaseName);
+			return new UnitTestInterpreter(this.program, test, debugger,
+					learner);
+		}
 	}
 }

@@ -390,7 +390,6 @@ public class PlatformManager {
 			// Provide message to logger.
 			parserLogger.log(new StringsLogRecord(Level.INFO, message
 					.toString()));
-
 			return test;
 		}
 	}

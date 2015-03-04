@@ -5,6 +5,7 @@ import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.unittest.result.testcondition.TestBoundaryException;
 import goal.tools.unittest.result.testcondition.TestConditionFailedException;
 
 import java.util.concurrent.Callable;
@@ -73,8 +74,8 @@ public class ModuleExecutor {
 				call = (Callable<Callable<?>>) call.call();
 			} catch (GOALActionFailedException gafe) {
 				throw gafe; // recognized exception
-			} catch (TestConditionFailedException tcfe) {
-				throw tcfe; // support testing framework
+			} catch (TestConditionFailedException | TestBoundaryException te) {
+				throw te; // support testing framework
 			} catch (Exception e) { // callable cannot be more specific...
 				new Warning("Execution of module caused unknown exception", e);
 				break;
@@ -104,7 +105,7 @@ public class ModuleExecutor {
 
 	private Callable<Callable<?>> execute(final RunState<?> runState,
 			final Substitution substitution, final boolean first)
-					throws GOALActionFailedException {
+			throws GOALActionFailedException {
 		if (first) {
 			// Push (non-anonymous) modules that were just entered onto stack
 			// that keeps track of modules that have been entered but not yet
@@ -144,7 +145,7 @@ public class ModuleExecutor {
 		// Evaluate and apply the rules of this module
 		this.result = new RulesExecutor(this.module.getRules(),
 				this.module.getRuleEvaluationOrder()).run(runState,
-						substitution);
+				substitution);
 
 		// exit module if {@link ExitModuleAction} has been performed.
 		boolean exit = this.result.isModuleTerminated();

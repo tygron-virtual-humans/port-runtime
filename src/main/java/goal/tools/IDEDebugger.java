@@ -43,7 +43,7 @@ public class IDEDebugger extends ObservableDebugger {
 	@Override
 	public void breakpoint(Channel channel, Object associateObject,
 			SourceInfo associateSource, String message, Object... args) {
-		while (!this.firstObserver) {
+		while (!this.firstObserver && !this.keepRunning) {
 			try {
 				if (LoggingPreferences.getEclipseDebug()) {
 					new InfoLog("Waiting for first observer...");
