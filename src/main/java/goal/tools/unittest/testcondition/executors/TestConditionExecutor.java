@@ -246,4 +246,43 @@ public abstract class TestConditionExecutor {
 			return null;
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((getCondition() == null) ? 0 : getCondition().hashCode());
+		result = prime
+				* result
+				+ ((this.substitution == null) ? 0 : this.substitution
+						.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+		TestConditionExecutor other = (TestConditionExecutor) obj;
+		if (getCondition() == null) {
+			if (other.getCondition() != null) {
+				return false;
+			}
+		} else if (!getCondition().equals(other.getCondition())) {
+			return false;
+		}
+		if (this.substitution == null) {
+			if (other.getSubstitution() != null) {
+				return false;
+			}
+		} else if (!this.substitution.equals(other.getSubstitution())) {
+			return false;
+		}
+		return true;
+	}
 }

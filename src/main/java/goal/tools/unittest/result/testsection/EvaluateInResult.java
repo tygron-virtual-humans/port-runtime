@@ -3,7 +3,7 @@ package goal.tools.unittest.result.testsection;
 import goal.tools.unittest.result.ResultFormatter;
 import goal.tools.unittest.testcondition.executors.TestConditionExecutor;
 
-import java.util.List;
+import java.util.Set;
 
 import languageTools.program.test.testsection.EvaluateIn;
 
@@ -17,7 +17,7 @@ import languageTools.program.test.testsection.EvaluateIn;
  */
 public class EvaluateInResult implements TestSectionResult {
 	private final EvaluateIn evaluateIn;
-	private final List<TestConditionExecutor> evaluators;
+	private final Set<TestConditionExecutor> evaluators;
 	private final boolean passed;
 
 	/**
@@ -25,7 +25,7 @@ public class EvaluateInResult implements TestSectionResult {
 	 * @param evaluators
 	 */
 	public EvaluateInResult(EvaluateIn evaluateIn,
-			List<TestConditionExecutor> evaluators) {
+			Set<TestConditionExecutor> evaluators) {
 		this.evaluateIn = evaluateIn;
 		this.evaluators = evaluators;
 		this.passed = checkPassed();
@@ -44,7 +44,7 @@ public class EvaluateInResult implements TestSectionResult {
 		return this.evaluateIn;
 	}
 
-	public List<TestConditionExecutor> getEvaluators() {
+	public Set<TestConditionExecutor> getEvaluators() {
 		return this.evaluators;
 	}
 

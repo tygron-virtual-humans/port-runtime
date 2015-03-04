@@ -18,8 +18,9 @@ import goal.tools.unittest.result.testsection.TestSectionResult;
 import goal.tools.unittest.testcondition.executors.TestConditionExecutor;
 import goal.tools.unittest.testcondition.executors.TestConditionExecutor.TestEvaluationChannel;
 
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import krTools.KRInterface;
 import languageTools.program.test.testcondition.TestCondition;
@@ -29,7 +30,7 @@ import languageTools.program.test.testsection.TestSection;
 public class EvaluateInExecutor extends TestSectionExecutor implements
 DebugObserver {
 	private final EvaluateIn evaluatein;
-	private List<TestConditionExecutor> executors;
+	private Set<TestConditionExecutor> executors;
 
 	public EvaluateInExecutor(EvaluateIn evaluatein) {
 		this.evaluatein = evaluatein;
@@ -74,7 +75,7 @@ DebugObserver {
 		debugger.subscribe(this, Channel.MAIN_MODULE_ENTRY);
 		debugger.subscribe(this, Channel.USER_MODULE_ENTRY);
 
-		this.executors = new LinkedList<>();
+		this.executors = new HashSet<>();
 		if (boundary != null) {
 			this.executors.add(TestConditionExecutor.getTestConditionExecutor(
 					boundary, kr.getSubstitution(null), runstate, this));
