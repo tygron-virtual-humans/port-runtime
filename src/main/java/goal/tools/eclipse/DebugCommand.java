@@ -161,10 +161,10 @@ public class DebugCommand {
 		final String environment = envName.replace('\n', ' ').replace(
 				DELIMITER, "\\" + DELIMITER);
 		buffer.append(DELIMITER).append(this.command.name()).append(DELIMITER)
-		.append(agent).append(DELIMITER).append(environment)
-		.append(DELIMITER).append(this.data.size());
+				.append(agent).append(DELIMITER).append(environment)
+				.append(DELIMITER).append(this.data.size());
 		for (final String data : this.data) {
-			final String d = data.replace('\n', ' ').replace(DELIMITER,
+			final String d = data.replace("\n", " --lb-- ").replace(DELIMITER,
 					"\\" + DELIMITER);
 			buffer.append(DELIMITER).append(d);
 		}
@@ -184,7 +184,8 @@ public class DebugCommand {
 				final int size = Integer.parseInt(s[4]);
 				final List<String> data = new ArrayList<>(size);
 				for (int i = 5; i < (size + 5); i++) {
-					data.add(s[i].replace("\\" + DELIMITER, DELIMITER));
+					data.add(s[i].replace("\\" + DELIMITER, DELIMITER).replace(
+							"--lb--", "\n"));
 				}
 				if (agent != null) {
 					return new DebugCommand(command, agent, data);
@@ -202,9 +203,6 @@ public class DebugCommand {
 	}
 
 	public static class StubBoxId extends MessageBoxId {
-		/**
-		 *
-		 */
 		private static final long serialVersionUID = 4910214653662191537L;
 		private final String name;
 
