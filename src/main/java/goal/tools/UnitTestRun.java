@@ -30,7 +30,7 @@ public class UnitTestRun extends AbstractRun<IDEDebugger, UnitTestInterpreter> {
 	 * @author M.P. Korstanje
 	 */
 	private class TestRunAgentFactory extends
-	AbstractAgentFactory<IDEDebugger, UnitTestInterpreter> {
+			AbstractAgentFactory<IDEDebugger, UnitTestInterpreter> {
 		public TestRunAgentFactory(MessagingService messaging) {
 			super(messaging);
 		}
@@ -76,19 +76,19 @@ public class UnitTestRun extends AbstractRun<IDEDebugger, UnitTestInterpreter> {
 	@Override
 	protected void awaitTermination(
 			RuntimeManager<? extends IDEDebugger, ? extends UnitTestInterpreter> runtimeManager)
-					throws InterruptedException {
-		// Wait while agents are running
+			throws InterruptedException {
+		long timeout = this.unitTest.getTimeout();
+		if (timeout <= 0) {
+			timeout = Long.MAX_VALUE;
+		} else {
+			timeout = System.currentTimeMillis() + timeout;
+		}
 		while (runtimeManager.hasAliveLocalAgents()) {
-			// Check if any dead agents failed their test.
-			if (checkDeadAgentWithFailedTest(runtimeManager)) {
-				return;
+			if (System.currentTimeMillis() > timeout
+					|| checkDeadAgentWithFailedTest(runtimeManager)
+					|| !checkAtleastOneAgentWithTest(runtimeManager)) {
+				break;
 			}
-			// Check if at least one of alive agents still is running a test
-			if (!checkAtleastOneAgentWithTest(runtimeManager)) {
-				return;
-			}
-			// Wait otherwise...
-			Thread.sleep(100);
 		}
 	}
 

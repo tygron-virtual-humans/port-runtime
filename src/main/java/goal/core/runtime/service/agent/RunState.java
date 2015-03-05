@@ -22,6 +22,7 @@ import eis.exceptions.EnvironmentInterfaceException;
 import eis.iilang.Action;
 import eis.iilang.Percept;
 import goal.core.agent.Agent;
+import goal.core.agent.Controller;
 import goal.core.agent.EnvironmentCapabilities;
 import goal.core.agent.LoggingCapabilities;
 import goal.core.agent.MessagingCapabilities;
@@ -85,6 +86,7 @@ import nl.tudelft.goal.messaging.messagebox.MessageBox;
  * @modified K.Hindriks
  */
 public class RunState<D extends Debugger> {
+	private final Controller parent;
 	/**
 	 * The agent's name. The name of an agent is derived from its
 	 * {@link MessageBox}, but stored here in case the agent gets killed and its
@@ -191,11 +193,12 @@ public class RunState<D extends Debugger> {
 	 * @param learner
 	 * @throws KRInitFailedException
 	 */
-	public RunState(AgentId agentName, EnvironmentCapabilities environment,
+	public RunState(Controller parent, AgentId agentName,
+			EnvironmentCapabilities environment,
 			MessagingCapabilities messaging, LoggingCapabilities logger,
 			AgentProgram program, D debugger, Learner learner)
-					throws KRInitFailedException {
-
+			throws KRInitFailedException {
+		this.parent = parent;
 		this.environment = environment;
 		this.messaging = messaging;
 		this.logActionsLogger = logger;
@@ -238,6 +241,10 @@ public class RunState<D extends Debugger> {
 
 		// Configure learner.
 		this.learner = learner;
+	}
+
+	public Controller getParent() {
+		return this.parent;
 	}
 
 	/**
@@ -304,7 +311,7 @@ public class RunState<D extends Debugger> {
 	 * @throws UnknownObjectException
 	 */
 	public void reset() throws KRInitFailedException, KRDatabaseException,
-	KRQueryFailedException, UnknownObjectException {
+			KRQueryFailedException, UnknownObjectException {
 		this.roundCounter = 0;
 		// Clean up old and create new initial mental state.
 		this.mentalState.cleanUp();
@@ -424,7 +431,7 @@ public class RunState<D extends Debugger> {
 				break;
 			case IMPERATIVE:
 				this.getMentalState()
-				.adopt(update, true, this.debugger, sender);
+						.adopt(update, true, this.debugger, sender);
 				this.getMentalState().delete(update, BASETYPE.BELIEFBASE,
 						this.debugger, sender);
 				break;
@@ -604,7 +611,7 @@ public class RunState<D extends Debugger> {
 		this.incrementRoundCounter();
 		this.debugger.breakpoint(Channel.REASONING_CYCLE_SEPARATOR,
 				getRoundCounter(), null, " +++++++ Cycle " + getRoundCounter() //$NON-NLS-1$
-				+ " +++++++ "); //$NON-NLS-1$
+						+ " +++++++ "); //$NON-NLS-1$
 
 		// Get and process percepts.
 		this.processPercepts(newPercepts, this.previousPercepts);
@@ -785,7 +792,7 @@ public class RunState<D extends Debugger> {
 				// interaction).
 				if (this.debugger instanceof SteppingDebugger) {
 					((SteppingDebugger) this.debugger)
-					.setRunMode(RunMode.FINESTEPPING);
+							.setRunMode(RunMode.FINESTEPPING);
 				}
 			} else {
 				// Specific act exception, like an unrecognized action,

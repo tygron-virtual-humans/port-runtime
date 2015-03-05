@@ -166,6 +166,8 @@ public class ModuleExecutor {
 			// exit whenever module has been terminated (see above)
 			break;
 		}
+		exit |= !runState.getParent().isRunning(); // FIXME: check for
+													// executeFully
 
 		// Check whether we need to start a new cycle. We do so if we do NOT
 		// exit this module, NO action has been performed while evaluating the
