@@ -6,6 +6,7 @@ masTest {
 		test {		
 			evaluate {
 				always do(move(X,Y)) -> eventually bel(on(X,Y)).
+				always not(do(move(X,X))).
 			} in do main.
 		}
 	}
