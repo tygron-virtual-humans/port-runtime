@@ -16,6 +16,7 @@ import krTools.language.Substitution;
 import krTools.language.Term;
 import languageTools.program.agent.actions.UserSpecAction;
 import languageTools.program.agent.msc.MentalStateCondition;
+import languageTools.program.test.TestAction;
 import languageTools.program.test.TestMentalStateCondition;
 import languageTools.program.test.testcondition.Always;
 import languageTools.program.test.testcondition.AtEnd;
@@ -141,15 +142,20 @@ public abstract class TestConditionExecutor {
 			prev = new UserSpecAction("", new ArrayList<Term>(0), false, null,
 					null, null);
 		}
-		for (UserSpecAction action : testquery.getActions()) {
+		for (TestAction testaction : testquery.getActions()) {
+			UserSpecAction action = testaction.getAction();
 			Substitution check = action.getSignature().equals(
 					prev.getSignature()) ? action.applySubst(temp).mgu(prev)
 					: null;
-			if (check == null) {
+			if (testaction.isPositive()) {
+						if (check == null) {
+							return new HashSet<Substitution>(0);
+						} else {
+							temp = temp.combine(check);
+							sub = sub.combine(check);
+						}
+			} else if (check != null) {
 				return new HashSet<Substitution>(0);
-			} else {
-				temp = temp.combine(check);
-				sub = sub.combine(check);
 			}
 		}
 		Set<Substitution> subresult = new HashSet<>();
