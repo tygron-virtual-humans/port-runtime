@@ -21,7 +21,6 @@ package goal.core.executors;
 import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
-import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 
@@ -70,7 +69,7 @@ public class ActionComboExecutor {
 	 */
 	public List<ActionCombo> getOptions(MentalState mentalState,
 			Substitution subst, Debugger debugger)
-			throws GOALActionFailedException {
+					throws GOALActionFailedException {
 		List<ActionCombo> options = new LinkedList<>();
 
 		// Get the first action from the list of actions of this combo.
@@ -148,7 +147,7 @@ public class ActionComboExecutor {
 			// FIXME is this ok if action is a ModuleCallAction??
 			Result result = ActionExecutor.getActionExecutor(action,
 					this.context).run(runState, substitution,
-					runState.getDebugger(), last);
+							runState.getDebugger(), last);
 			comboResult.merge(result);
 			// If module needs to be terminated, i.e., {@link ExitModuleAction}
 			// has been performed, then exit execution of combo action.
@@ -159,9 +158,6 @@ public class ActionComboExecutor {
 				break;
 			}
 		}
-
-		runState.getDebugger().breakpoint(Channel.ACTIONCOMBO_FINISHED,
-				this.actions, null, "Performed %s.", comboResult.getActions());
 
 		return comboResult;
 	}

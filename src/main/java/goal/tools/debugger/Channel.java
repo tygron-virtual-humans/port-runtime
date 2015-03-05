@@ -146,12 +146,6 @@ public enum Channel {
 			ChannelState.VIEW),
 
 	/**
-	 * Channel for reports on complete actioncombos that have been executed.
-	 */
-	ACTIONCOMBO_FINISHED("Action combos that have been executed",
-			ChannelState.NONE),
-
-	/**
 	 * Channel for reports on additions to / deletions from the belief base.
 	 */
 	BB_UPDATES("Changes to the belief base", ChannelState.NONE),
@@ -198,8 +192,8 @@ public enum Channel {
 	 * Special channel for notifying the debugger for user-defined breakpoints.
 	 */
 	BREAKPOINTS("User-defined breakpoints", ChannelState.HIDDENPAUSE),
-	
-	/**
+
+																					/**
 	 * Special channel for notifying the debugger for user-defined breakpoints.
 	 */
 	TESTFAILURE("Test failure", ChannelState.VIEWPAUSE);
