@@ -133,13 +133,12 @@ public class ModuleExecutor {
 							false);
 				}
 			}
-
-			// Report entry of non-anonymous module on debug channel.
-			if (this.module.getType() != TYPE.ANONYMOUS) {
-				runState.getDebugger().breakpoint(this.entrychannel,
-						this.module, this.module.getSourceInfo(),
-						"Entering " + this.module.getNamePhrase());
-			}
+		}
+		// Report (re)entry of non-anonymous module on debug channel.
+		if (this.module.getType() != TYPE.ANONYMOUS) {
+			runState.getDebugger().breakpoint(this.entrychannel, this.module,
+					this.module.getSourceInfo(),
+					"Entering " + this.module.getNamePhrase());
 		}
 
 		// Evaluate and apply the rules of this module
@@ -167,7 +166,7 @@ public class ModuleExecutor {
 			break;
 		}
 		exit |= !runState.getParent().isRunning(); // FIXME: check for
-													// executeFully
+		// executeFully
 
 		// Check whether we need to start a new cycle. We do so if we do NOT
 		// exit this module, NO action has been performed while evaluating the
