@@ -48,7 +48,7 @@ public class EventuallyExecutor extends TestConditionExecutor {
 			}
 		} else if (!evaluation.isEmpty()) {
 			setPassed(true);
-		} else if (channel == TestEvaluationChannel.END) {
+		} else if (channel == TestEvaluationChannel.STOPTEST) {
 			setPassed(false);
 		}
 	}

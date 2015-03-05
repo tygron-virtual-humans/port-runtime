@@ -43,7 +43,7 @@ public class AlwaysExecutor extends TestConditionExecutor {
 		this.evaluation = evaluate();
 
 		if (this.always.hasNestedCondition()) {
-			if (channel == TestEvaluationChannel.END) {
+			if (channel == TestEvaluationChannel.STOPTEST) {
 				setPassed(true);
 			} else if (!this.evaluation.isEmpty()
 					&& !equals(prev, this.evaluation)) {
@@ -59,7 +59,7 @@ public class AlwaysExecutor extends TestConditionExecutor {
 				setPassed(false);
 				throw new TestConditionFailedException("The condition "
 						+ this.always + " did not hold.", this);
-			} else if (channel == TestEvaluationChannel.END) {
+			} else if (channel == TestEvaluationChannel.STOPTEST) {
 				setPassed(true);
 			}
 		}

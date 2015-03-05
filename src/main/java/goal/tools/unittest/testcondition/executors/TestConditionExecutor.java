@@ -3,6 +3,7 @@ package goal.tools.unittest.testcondition.executors;
 import goal.core.executors.MentalStateConditionExecutor;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
+import goal.tools.debugger.DebugEvent;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.NOPDebugger;
 import goal.tools.unittest.result.ResultFormatter;
@@ -20,7 +21,6 @@ import languageTools.program.test.TestAction;
 import languageTools.program.test.TestMentalStateCondition;
 import languageTools.program.test.testcondition.Always;
 import languageTools.program.test.testcondition.AtEnd;
-import languageTools.program.test.testcondition.AtStart;
 import languageTools.program.test.testcondition.Eventually;
 import languageTools.program.test.testcondition.Never;
 import languageTools.program.test.testcondition.TestCondition;
@@ -77,7 +77,7 @@ public abstract class TestConditionExecutor {
 	}
 
 	public enum TestEvaluationChannel {
-		START, MODULE_ENTRY, ACTION_EXECUTED, END;
+		MODULE_ENTRY, MODULE_EXIT, ACTION_EXECUTED, STOPTEST;
 
 		public static TestEvaluationChannel fromDebugChannel(Channel debug) {
 			switch (debug) {
@@ -89,8 +89,13 @@ public abstract class TestConditionExecutor {
 			case MAIN_MODULE_ENTRY:
 			case USER_MODULE_ENTRY:
 				return MODULE_ENTRY;
+			case INIT_MODULE_EXIT:
+			case EVENT_MODULE_EXIT:
+			case MAIN_MODULE_EXIT:
+			case USER_MODULE_EXIT:
+				return MODULE_EXIT;
 			default:
-				return null;
+				return STOPTEST;
 			}
 		}
 	}
@@ -99,6 +104,7 @@ public abstract class TestConditionExecutor {
 	private final Substitution substitution;
 	protected final RunState<? extends Debugger> runstate;
 	protected final EvaluateInExecutor parent;
+	protected DebugEvent current;
 
 	public TestConditionExecutor(Substitution substitution,
 			RunState<? extends Debugger> runstate, EvaluateInExecutor parent) {
@@ -183,7 +189,14 @@ public abstract class TestConditionExecutor {
 		return result;
 	}
 
-	public abstract void evaluate(TestEvaluationChannel channel);
+	public void evaluate(DebugEvent event) {
+		this.current = event;
+		TestEvaluationChannel channel = (event == null) ? TestEvaluationChannel.STOPTEST
+				: TestEvaluationChannel.fromDebugChannel(event.getChannel());
+		evaluate(channel);
+	}
+
+	protected abstract void evaluate(TestEvaluationChannel channel);
 
 	/**
 	 * Use this method for setting evaluation of test condition to either
@@ -233,9 +246,6 @@ public abstract class TestConditionExecutor {
 		} else if (condition instanceof AtEnd) {
 			return new AtEndExecutor((AtEnd) condition, substitution, runstate,
 					parent);
-		} else if (condition instanceof AtStart) {
-			return new AtStartExecutor((AtStart) condition, substitution,
-					runstate, parent);
 		} else if (condition instanceof Eventually) {
 			return new EventuallyExecutor((Eventually) condition, substitution,
 					runstate, parent);

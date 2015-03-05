@@ -16,7 +16,7 @@ import languageTools.program.test.testsection.EvaluateIn;
 /**
  * AtEnd operator for LTL queries in {@link EvaluateIn}. The mental state
  * condition evaluated by this operator should hold after the execution of the
- * actions in the EvaluateIn rule.
+ * module in the EvaluateIn rule.
  *
  * @author mpkorstanje
  */
@@ -36,10 +36,11 @@ public class AtEndExecutor extends TestConditionExecutor {
 
 	@Override
 	public void evaluate(TestEvaluationChannel channel) {
-		if (channel == TestEvaluationChannel.END) { // ATEND
+		if (channel == TestEvaluationChannel.MODULE_EXIT) { // ATEND
 			if (this.atend.hasNestedCondition()) {
 				// NOT POSSIBLE?!
-			} else {
+			} else if (this.current.getAssociatedObject().equals(
+					this.parent.getSection().getAction().getTarget())) {
 				final Set<Substitution> evaluation = evaluate();
 				if (evaluation.isEmpty()) {
 					setPassed(false);

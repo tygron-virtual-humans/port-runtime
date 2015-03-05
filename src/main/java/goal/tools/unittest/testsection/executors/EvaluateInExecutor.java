@@ -1,5 +1,6 @@
 package goal.tools.unittest.testsection.executors;
 
+import goal.core.executors.ModuleCallActionExecutor;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.DebugEvent;
@@ -16,7 +17,6 @@ import goal.tools.unittest.result.testsection.EvaluateInResult;
 import goal.tools.unittest.result.testsection.TestSectionFailed;
 import goal.tools.unittest.result.testsection.TestSectionResult;
 import goal.tools.unittest.testcondition.executors.TestConditionExecutor;
-import goal.tools.unittest.testcondition.executors.TestConditionExecutor.TestEvaluationChannel;
 
 import java.util.HashSet;
 import java.util.List;
@@ -25,7 +25,6 @@ import java.util.Set;
 import krTools.KRInterface;
 import languageTools.program.test.testcondition.TestCondition;
 import languageTools.program.test.testsection.EvaluateIn;
-import languageTools.program.test.testsection.TestSection;
 
 public class EvaluateInExecutor extends TestSectionExecutor implements
 DebugObserver {
@@ -37,7 +36,7 @@ DebugObserver {
 	}
 
 	@Override
-	public TestSection getSection() {
+	public EvaluateIn getSection() {
 		return this.evaluatein;
 	}
 
@@ -70,10 +69,17 @@ DebugObserver {
 		debugger.subscribe(this, Channel.ACTION_EXECUTED_BUILTIN);
 		debugger.subscribe(this, Channel.ACTION_EXECUTED_USERSPEC);
 		// Module entries might also add a set of beliefs/goals
+		// Note: event module entry handles percept/mails as well
 		debugger.subscribe(this, Channel.INIT_MODULE_ENTRY);
 		debugger.subscribe(this, Channel.EVENT_MODULE_ENTRY);
 		debugger.subscribe(this, Channel.MAIN_MODULE_ENTRY);
 		debugger.subscribe(this, Channel.USER_MODULE_ENTRY);
+		// For atend conditions specifically
+		// Note: main module exit means agent exit
+		debugger.subscribe(this, Channel.INIT_MODULE_EXIT);
+		debugger.subscribe(this, Channel.EVENT_MODULE_EXIT);
+		debugger.subscribe(this, Channel.MAIN_MODULE_EXIT);
+		debugger.subscribe(this, Channel.USER_MODULE_EXIT);
 
 		this.executors = new HashSet<>();
 		if (boundary != null) {
@@ -95,41 +101,34 @@ DebugObserver {
 			throw new IllegalStateException(
 					"Failed to startCycle, action is failing", e1);
 		}
-		for (TestConditionExecutor executor : getExecutors()) {
-			try {
-				executor.evaluate(TestEvaluationChannel.START);
-			} catch (TestConditionFailedException e) {
-				throw new EvaluateInFailed(this, this.executors, e);
-			} catch (DebuggerKilledException e) {
-				throw new EvaluateInInterrupted(this, this.executors, e);
-			} catch (TestBoundaryException e) {
-				// continue silently
-			}
-		}
 
 		/*
 		 * Evaluates the action. While being evaluated the conditions installed
 		 * on the debugger may throw a failed test condition exception.
 		 */
-		DoActionExecutor action = new DoActionExecutor(
+		ModuleCallActionExecutor module = new ModuleCallActionExecutor(
 				this.evaluatein.getAction());
 		try {
-			action.run(runstate);
+			module.run(runstate, kr.getSubstitution(null),
+					runstate.getDebugger(), true);
 		} catch (TestConditionFailedException e) {
 			throw new EvaluateInFailed(this, this.executors, e);
 		} catch (DebuggerKilledException e) {
 			throw new EvaluateInInterrupted(this, this.executors, e);
+		} catch (GOALActionFailedException e) {
+			throw new EvaluateInInterrupted(this, this.executors,
+					new DebuggerKilledException("Module failed to execute", e));
 		} catch (TestBoundaryException e) {
 			// continue silently
 		}
 
 		/*
-		 * After the action has been done all conditions are evaluated one more
-		 * time.
+		 * Allow conditions to clean-up after themselves (determine final
+		 * results, e.g. fail eventually or succeed always/never conditions)
 		 */
 		for (TestConditionExecutor executor : getExecutors()) {
 			try {
-				executor.evaluate(TestEvaluationChannel.END);
+				executor.evaluate(null);
 			} catch (TestConditionFailedException e) {
 				throw new EvaluateInFailed(this, this.executors, e);
 			} catch (DebuggerKilledException e) {
@@ -172,8 +171,7 @@ DebugObserver {
 	@Override
 	public void notifyBreakpointHit(DebugEvent event) {
 		for (TestConditionExecutor executor : getExecutors()) {
-			executor.evaluate(TestEvaluationChannel.fromDebugChannel(event
-					.getChannel()));
+			executor.evaluate(event);
 		}
 	}
 }

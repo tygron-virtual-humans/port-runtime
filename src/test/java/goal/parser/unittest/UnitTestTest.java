@@ -64,13 +64,6 @@ public class UnitTestTest extends AbstractUnitTestTest {
 	}
 
 	@Test
-	public void testMentalAction() throws Exception {
-		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/mentalaction.test2g");
-
-		assertPassedAndPrint(results);
-	}
-
-	@Test
 	public void testScope() throws Exception {
 		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/scope.test2g");
 

@@ -45,7 +45,7 @@ public class NeverExecutor extends TestConditionExecutor {
 				setPassed(false);
 				throw new TestConditionFailedException("The condition "
 						+ this.never + " did not hold.", this);
-			} else if (channel == TestEvaluationChannel.END) {
+			} else if (channel == TestEvaluationChannel.STOPTEST) {
 				setPassed(true);
 			}
 		}

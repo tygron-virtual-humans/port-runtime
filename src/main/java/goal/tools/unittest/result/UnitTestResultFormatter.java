@@ -19,7 +19,6 @@ import java.util.Map.Entry;
 import languageTools.program.test.AgentTest;
 import languageTools.program.test.testcondition.Always;
 import languageTools.program.test.testcondition.AtEnd;
-import languageTools.program.test.testcondition.AtStart;
 import languageTools.program.test.testcondition.Eventually;
 import languageTools.program.test.testcondition.Never;
 import languageTools.program.test.testcondition.TestCondition;
@@ -255,11 +254,6 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	@Override
 	public String visit(DoActionSection action) {
 		return action + ".";
-	}
-
-	@Override
-	public String visit(AtStart atstart) {
-		return atstart + ".";
 	}
 
 	@Override

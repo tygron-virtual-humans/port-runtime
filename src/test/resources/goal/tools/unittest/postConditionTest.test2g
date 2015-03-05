@@ -5,9 +5,10 @@ masTest {
 
 	postConditionAgent {
 		test {
+			do init.
+			assert not(bel(test1)), bel(test2).
+			
 			evaluate {
-				% verify initial state after exiting init module.
-				atstart not(bel(test1)), bel(test2).
 				% verify that post-condition inserts fact test1.
 				eventually bel(test1).
 				% verify that post-condition deletes fact test2.

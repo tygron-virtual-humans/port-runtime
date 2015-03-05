@@ -15,7 +15,6 @@ import java.util.Set;
 
 import krTools.language.Substitution;
 import languageTools.program.test.testsection.AssertTest;
-import languageTools.program.test.testsection.TestSection;
 
 public class AssertExecutor extends TestSectionExecutor {
 	private final AssertTest _assert;
@@ -25,7 +24,7 @@ public class AssertExecutor extends TestSectionExecutor {
 	}
 
 	@Override
-	public TestSection getSection() {
+	public AssertTest getSection() {
 		return this._assert;
 	}
 
