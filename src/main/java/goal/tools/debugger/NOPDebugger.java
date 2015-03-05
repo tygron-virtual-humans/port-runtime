@@ -20,8 +20,6 @@ public class NOPDebugger implements Debugger {
 			SourceInfo associateSource, String message, Object... args) {
 		if (this.killed) {
 			throw new DebuggerKilledException();
-		} else {
-			System.out.println(String.format(message, args));
 		}
 	}
 
