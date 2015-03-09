@@ -5,8 +5,11 @@ masTest {
 	stackbuilder {
 		test {		
 			evaluate {
-				always do(move(X,Y)) -> eventually bel(on(X,Y)).
-				always not(do(move(X,X))).
+				always do(move(A,B)) -> eventually bel(on(A,B)).
+				reactTo(do(move(X,Y)),bel(on(X,Y))).
+				
+				always not(do(move(A,A))).
+				never do(move(X,X)).
 			} in do main.
 		}
 	}

@@ -19,7 +19,6 @@ import goal.tools.unittest.result.testsection.TestSectionResult;
 import goal.tools.unittest.testcondition.executors.TestConditionExecutor;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import krTools.KRInterface;
@@ -27,7 +26,7 @@ import languageTools.program.test.testcondition.TestCondition;
 import languageTools.program.test.testsection.EvaluateIn;
 
 public class EvaluateInExecutor extends TestSectionExecutor implements
-DebugObserver {
+		DebugObserver {
 	private final EvaluateIn evaluatein;
 	private Set<TestConditionExecutor> executors;
 
@@ -50,7 +49,7 @@ DebugObserver {
 
 	public TestConditionExecutor[] getExecutors() {
 		return this.executors.toArray(new TestConditionExecutor[this.executors
-		                                                        .size()]);
+				.size()]);
 	}
 
 	@Override
@@ -58,7 +57,7 @@ DebugObserver {
 			throws TestSectionFailed {
 		KRInterface kr = runstate.getMainModule().getKRInterface();
 		TestCondition boundary = this.evaluatein.getBoundary();
-		List<TestCondition> conditions = this.evaluatein.getQueries();
+		Set<TestCondition> conditions = this.evaluatein.getQueries();
 
 		/*
 		 * Installs the condition evaluators on the debugger. Conditions will be
