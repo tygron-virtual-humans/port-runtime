@@ -69,8 +69,7 @@ public class UserSpecActionExecutor extends ActionExecutor {
 			if (last) {
 				debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION_USERSPEC,
 						this.action, this.action.getSourceInfo(),
-						"Preconditions of action %s failed.",
-						this.action.getName());
+						"Preconditions of action %s failed.", this.action);
 			}
 			return null;
 		} else {
@@ -82,8 +81,7 @@ public class UserSpecActionExecutor extends ActionExecutor {
 			debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION_USERSPEC,
 					this.action, this.action.getSourceInfo(),
 					"Precondition { %s } of action %s holds for: %s.",
-					this.action.getPrecondition(), this.action.getName(),
-					solution);
+					this.action.getPrecondition(), this.action, solution);
 			return new UserSpecActionExecutor(this.action.applySubst(solution));
 		}
 	}
@@ -124,7 +122,7 @@ public class UserSpecActionExecutor extends ActionExecutor {
 		 * that are still open in the module parameter list
 		 */
 		Substitution focusedSubst = subst.clone();
-		focusedSubst.retainAll(getVariables(action.getParameters()));
+		focusedSubst.retainAll(getVariables(this.action.getParameters()));
 		return new UserSpecActionExecutor(this.action.applySubst(focusedSubst));
 	}
 

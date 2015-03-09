@@ -137,7 +137,7 @@ public enum Channel {
 	 * Channel for reports on built-in actions that have been executed.
 	 */
 	ACTION_EXECUTED_BUILTIN("Built-in actions that have been executed",
-			ChannelState.NONE),
+			ChannelState.VIEW),
 
 	/**
 	 * Channel for reports on user-spec actions that have been executed.

@@ -116,7 +116,7 @@ public abstract class ActionExecutor {
 			if (isSufficientlyClosed(action.getAction())) {
 				debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION,
 						getAction(), getAction().getSourceInfo(),
-						"precondition of %s holds", getAction().getName());
+						"precondition of %s holds", getAction());
 				// Perform the action if precondition holds.
 				result.merge(action.executeAction(runState, debugger));
 			} else {
@@ -136,7 +136,7 @@ public abstract class ActionExecutor {
 
 	/**
 	 * Some actions do not need to be entirely closed. #3424.
-	 * 
+	 *
 	 * @param action
 	 * @return
 	 */
@@ -157,7 +157,7 @@ public abstract class ActionExecutor {
 	 * {@link SendOnceAction}. Helper function to get around #3433. Code
 	 * duplicated with {@link AgentValidatorSecondPass} and
 	 * {@link ModuleValidatorSecondPass}.
-	 * 
+	 *
 	 * @param action
 	 * @return mood of the given action.
 	 */
@@ -193,7 +193,7 @@ public abstract class ActionExecutor {
 		boolean builtin = !(this instanceof UserSpecActionExecutor);
 		debugger.breakpoint(builtin ? Channel.ACTION_EXECUTED_BUILTIN
 				: Channel.ACTION_EXECUTED_USERSPEC, getAction(), getAction()
-				.getSourceInfo(), "Performed %s.", getAction().getName());
+				.getSourceInfo(), "Performed %s.", getAction());
 	}
 
 	@Override
@@ -244,7 +244,7 @@ public abstract class ActionExecutor {
 
 	/**
 	 * Collect all the variables in a list of terms.
-	 * 
+	 *
 	 * @param terms
 	 *            list of {@link Term}s
 	 * @return set of vars inside the given terms
