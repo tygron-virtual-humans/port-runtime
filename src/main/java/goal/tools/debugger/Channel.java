@@ -86,7 +86,7 @@ public enum Channel {
 	/**
 	 * Channel for reporting the exit of a user-defined module.
 	 */
-	USER_MODULE_EXIT("Exit of a user-defined module", ChannelState.NONE),
+	USER_MODULE_EXIT("Exit of a user-defined module", ChannelState.VIEW),
 
 	/**
 	 * Channel for reporting the call (before-entry) of any module.
