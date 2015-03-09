@@ -58,15 +58,15 @@ public enum Channel {
 	/**
 	 * Channel for reporting on the entry of the init module.
 	 */
-	INIT_MODULE_ENTRY("Entry of the init module", ChannelState.VIEWPAUSE),
+	INIT_MODULE_ENTRY("Entry of the init module", ChannelState.PAUSE),
 	/**
 	 * Channel for reporting on the entry of the main module.
 	 */
-	MAIN_MODULE_ENTRY("Entry of the main module", ChannelState.VIEWPAUSE),
+	MAIN_MODULE_ENTRY("Entry of the main module", ChannelState.PAUSE),
 	/**
 	 * Channel for reporting on the entry of the event module.
 	 */
-	EVENT_MODULE_ENTRY("Entry of the event module", ChannelState.VIEWPAUSE),
+	EVENT_MODULE_ENTRY("Entry of the event module", ChannelState.PAUSE),
 	/**
 	 * Channel for reporting the entry of a user-defined module.
 	 */
@@ -74,19 +74,19 @@ public enum Channel {
 	/**
 	 * Channel for reporting on the exit of the init module.
 	 */
-	INIT_MODULE_EXIT("Exit of the init module", ChannelState.VIEW),
+	INIT_MODULE_EXIT("Exit of the init module", ChannelState.NONE),
 	/**
 	 * Channel for reporting on the exit of the main module.
 	 */
-	MAIN_MODULE_EXIT("Exit of the main module", ChannelState.VIEW),
+	MAIN_MODULE_EXIT("Exit of the main module", ChannelState.NONE),
 	/**
 	 * Channel for reporting on the exit of the event module.
 	 */
-	EVENT_MODULE_EXIT("Exit of the event module", ChannelState.VIEW),
+	EVENT_MODULE_EXIT("Exit of the event module", ChannelState.NONE),
 	/**
 	 * Channel for reporting the exit of a user-defined module.
 	 */
-	USER_MODULE_EXIT("Exit of a user-defined module", ChannelState.VIEW),
+	USER_MODULE_EXIT("Exit of a user-defined module", ChannelState.NONE),
 
 	/**
 	 * Channel for reporting the call (before-entry) of any module.
@@ -137,7 +137,7 @@ public enum Channel {
 	 * Channel for reports on built-in actions that have been executed.
 	 */
 	ACTION_EXECUTED_BUILTIN("Built-in actions that have been executed",
-			ChannelState.VIEW),
+			ChannelState.NONE),
 
 	/**
 	 * Channel for reports on user-spec actions that have been executed.
@@ -193,7 +193,7 @@ public enum Channel {
 	 */
 	BREAKPOINTS("User-defined breakpoints", ChannelState.HIDDENPAUSE),
 
-																					/**
+	/**
 	 * Special channel for notifying the debugger for user-defined breakpoints.
 	 */
 	TESTFAILURE("Test failure", ChannelState.VIEWPAUSE);
