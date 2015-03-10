@@ -26,7 +26,7 @@ import languageTools.program.test.testcondition.TestCondition;
 import languageTools.program.test.testsection.EvaluateIn;
 
 public class EvaluateInExecutor extends TestSectionExecutor implements
-		DebugObserver {
+DebugObserver {
 	private final EvaluateIn evaluatein;
 	private Set<TestConditionExecutor> executors;
 
@@ -49,7 +49,7 @@ public class EvaluateInExecutor extends TestSectionExecutor implements
 
 	public TestConditionExecutor[] getExecutors() {
 		return this.executors.toArray(new TestConditionExecutor[this.executors
-				.size()]);
+		                                                        .size()]);
 	}
 
 	@Override
@@ -91,23 +91,13 @@ public class EvaluateInExecutor extends TestSectionExecutor implements
 		}
 
 		/*
-		 * Initial evaluation of conditions before action is executed.
-		 */
-		try {
-			runstate.startCycle(false);
-		} catch (GOALActionFailedException e1) {
-			// FIXME: proper exception type
-			throw new IllegalStateException(
-					"Failed to startCycle, action is failing", e1);
-		}
-
-		/*
 		 * Evaluates the action. While being evaluated the conditions installed
 		 * on the debugger may throw a failed test condition exception.
 		 */
 		ModuleCallActionExecutor module = new ModuleCallActionExecutor(
 				this.evaluatein.getAction());
 		try {
+			runstate.startCycle(false);
 			module.run(runstate, kr.getSubstitution(null),
 					runstate.getDebugger(), true);
 		} catch (TestConditionFailedException e) {
