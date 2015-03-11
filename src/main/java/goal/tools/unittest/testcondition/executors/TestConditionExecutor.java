@@ -146,7 +146,7 @@ public abstract class TestConditionExecutor {
 		UserSpecAction prev = this.runstate.getLastAction();
 		if (prev == null) {
 			prev = new UserSpecAction("", new ArrayList<Term>(0), false, null,
-					null, null);
+					null, null, null);
 		}
 		for (TestAction testaction : testquery.getActions()) {
 			UserSpecAction action = testaction.getAction();
