@@ -101,7 +101,7 @@ public class ModuleExecutor {
 
 	private Callable<Callable<?>> execute(final RunState<?> runState,
 			final Substitution substitution, final boolean first)
-					throws GOALActionFailedException {
+			throws GOALActionFailedException {
 		if (first) {
 			// Push (non-anonymous) modules that were just entered onto stack
 			// that keeps track of modules that have been entered but not yet
@@ -121,7 +121,8 @@ public class ModuleExecutor {
 			for (Query goal : this.module.getGoals()) {
 				ActionExecutor adopt = new AdoptActionExecutor(new AdoptAction(
 						new Selector(SelectorType.THIS), goal.applySubst(
-								substitution).toUpdate(), goal.getSourceInfo()));
+								substitution).toUpdate(), goal.getSourceInfo(),
+						module.getKRInterface()));
 				adopt = adopt.evaluatePrecondition(runState.getMentalState(),
 						runState.getDebugger(), false);
 				if (adopt != null) {
@@ -141,7 +142,7 @@ public class ModuleExecutor {
 		// Evaluate and apply the rules of this module
 		this.result = new RulesExecutor(this.module.getRules(),
 				this.module.getRuleEvaluationOrder()).run(runState,
-						substitution);
+				substitution);
 
 		// exit module if {@link ExitModuleAction} has been performed.
 		boolean exit = this.result.isModuleTerminated();
