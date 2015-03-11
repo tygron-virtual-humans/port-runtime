@@ -11,7 +11,6 @@ import goal.tools.unittest.result.testsection.DoActionFailed;
 import goal.tools.unittest.result.testsection.TestSectionFailed;
 import goal.tools.unittest.result.testsection.TestSectionResult;
 import languageTools.program.test.testsection.DoActionSection;
-import languageTools.program.test.testsection.TestSection;
 
 public class DoActionExecutor extends TestSectionExecutor {
 	private final DoActionSection doaction;
@@ -21,7 +20,7 @@ public class DoActionExecutor extends TestSectionExecutor {
 	}
 
 	@Override
-	public TestSection getSection() {
+	public DoActionSection getSection() {
 		return this.doaction;
 	}
 

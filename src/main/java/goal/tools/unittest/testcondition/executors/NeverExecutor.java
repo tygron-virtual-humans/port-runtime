@@ -1,10 +1,10 @@
 package goal.tools.unittest.testcondition.executors;
 
 import goal.core.runtime.service.agent.RunState;
-import goal.tools.debugger.DebugEvent;
-import goal.tools.debugger.ObservableDebugger;
+import goal.tools.debugger.Debugger;
 import goal.tools.unittest.result.ResultFormatter;
 import goal.tools.unittest.result.testcondition.TestConditionFailedException;
+import goal.tools.unittest.testsection.executors.EvaluateInExecutor;
 
 import java.util.Set;
 
@@ -23,7 +23,9 @@ import languageTools.program.test.testsection.EvaluateIn;
 public class NeverExecutor extends TestConditionExecutor {
 	private final Never never;
 
-	public NeverExecutor(Never never) {
+	public NeverExecutor(Never never, Substitution substitution,
+			RunState<? extends Debugger> runstate, EvaluateInExecutor parent) {
+		super(substitution, runstate, parent);
 		this.never = never;
 	}
 
@@ -33,56 +35,20 @@ public class NeverExecutor extends TestConditionExecutor {
 	}
 
 	@Override
-	public TestConditionEvaluator createEvaluator(
-			final RunState<? extends ObservableDebugger> runstate,
-			final Substitution substitution) {
-		return new TestConditionEvaluator(this) {
-			@Override
-			public void firstEvaluation() {
-				notifyBreakpointHit(null);
+	public void evaluate(TestEvaluationChannel channel)
+			throws TestConditionFailedException {
+		if (this.never.hasNestedCondition()) {
+			// NOT POSSIBLE?!
+		} else {
+			final Set<Substitution> evaluation = evaluate();
+			if (!evaluation.isEmpty()) {
+				setPassed(false);
+				throw new TestConditionFailedException("The condition "
+						+ this.never + " did not hold.", this);
+			} else if (channel == TestEvaluationChannel.STOPTEST) {
+				setPassed(true);
 			}
-
-			@Override
-			public void notifyBreakpointHit(DebugEvent event) {
-				if (isNested()) {
-					for (final Substitution substitution : getNested()) {
-						final Set<Substitution> evaluation = evaluate(runstate,
-								substitution, getQuery());
-						if (!evaluation.isEmpty()) {
-							setPassed(false);
-							throw new TestConditionFailedException(
-									"The nested condition "
-											+ NeverExecutor.this.never
-											+ " did not hold.", this);
-						}
-					}
-				} else {
-					final Set<Substitution> evaluation = evaluate(runstate,
-							substitution, getQuery());
-					if (!evaluation.isEmpty()) {
-						setPassed(false);
-						throw new TestConditionFailedException("The condition "
-								+ NeverExecutor.this.never + " did not hold.",
-								this);
-					}
-				}
-			}
-
-			@Override
-			public void lastEvaluation() {
-				try {
-					notifyBreakpointHit(null);
-					setPassed(true);
-				} catch (TestConditionFailedException e) {
-					// setPassed(false)
-				}
-			}
-
-			@Override
-			public <T> T accept(ResultFormatter<T> formatter) {
-				return formatter.visit(this);
-			}
-		};
+		}
 	}
 
 	@Override

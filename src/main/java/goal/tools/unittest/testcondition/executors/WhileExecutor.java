@@ -1,10 +1,13 @@
 package goal.tools.unittest.testcondition.executors;
 
 import goal.core.runtime.service.agent.RunState;
-import goal.tools.debugger.DebugEvent;
-import goal.tools.debugger.ObservableDebugger;
+import goal.tools.debugger.Debugger;
 import goal.tools.unittest.result.ResultFormatter;
 import goal.tools.unittest.result.testcondition.TestBoundaryException;
+import goal.tools.unittest.testsection.executors.EvaluateInExecutor;
+
+import java.util.Set;
+
 import krTools.language.Substitution;
 import languageTools.program.test.testcondition.TestCondition;
 import languageTools.program.test.testcondition.While;
@@ -18,9 +21,10 @@ import languageTools.program.test.testcondition.While;
  */
 public class WhileExecutor extends TestConditionExecutor {
 	private final While _while;
-	private boolean first = false;
 
-	public WhileExecutor(While _while) {
+	public WhileExecutor(While _while, Substitution substitution,
+			RunState<? extends Debugger> runstate, EvaluateInExecutor parent) {
+		super(substitution, runstate, parent);
 		this._while = _while;
 	}
 
@@ -30,37 +34,19 @@ public class WhileExecutor extends TestConditionExecutor {
 	}
 
 	@Override
-	public TestConditionEvaluator createEvaluator(
-			final RunState<? extends ObservableDebugger> runState,
-			final Substitution substitution) {
-		return new TestConditionEvaluator(this) {
-			@Override
-			public void firstEvaluation() {
-			}
-
-			@Override
-			public void notifyBreakpointHit(DebugEvent event) {
-				if (!WhileExecutor.this.first) {
-					WhileExecutor.this.first = true;
-				} else if (evaluate(runState, substitution, getQuery())
-						.isEmpty()) {
+	public void evaluate(TestEvaluationChannel channel) {
+		if (channel != null) { // UNTIL
+			if (this._while.hasNestedCondition()) {
+				// NOT POSSIBLE?!
+			} else {
+				final Set<Substitution> evaluation = evaluate();
+				if (evaluation.isEmpty()) {
 					setPassed(true);
-					throw new TestBoundaryException("While boundary reached");
+					throw new TestBoundaryException("Boundary " + this._while
+							+ " reached");
 				}
 			}
-
-			@Override
-			public void lastEvaluation() {
-				if (!isPassed()) {
-					setPassed(false);
-				}
-			}
-
-			@Override
-			public <T> T accept(ResultFormatter<T> formatter) {
-				return formatter.visit(this);
-			}
-		};
+		}
 	}
 
 	@Override

@@ -92,13 +92,10 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 	protected void initalizeController(Agent<? extends Controller> agent)
 			throws KRInitFailedException {
 		super.initalizeController(agent);
-		this.program.getKRInterface().initialize(/*
-												 * program,
-												 * agent.getId().getName()
-												 */);
-		this.runState = new RunState<>(agent.getId(), agent.getEnvironment(),
-				agent.getMessaging(), agent.getLogging(), this.program,
-				this.debugger, this.learner);
+		this.program.getKRInterface().initialize();
+		this.runState = new RunState<>(this, agent.getId(),
+				agent.getEnvironment(), agent.getMessaging(),
+				agent.getLogging(), this.program, this.debugger, this.learner);
 	}
 
 	@Override

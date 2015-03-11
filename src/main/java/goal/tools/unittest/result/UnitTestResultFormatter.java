@@ -10,7 +10,7 @@ import goal.tools.unittest.result.testsection.EvaluateInResult;
 import goal.tools.unittest.result.testsection.TestSectionFailed;
 import goal.tools.unittest.result.testsection.TestSectionInterupted;
 import goal.tools.unittest.result.testsection.TestSectionResult;
-import goal.tools.unittest.testcondition.executors.TestConditionEvaluator;
+import goal.tools.unittest.testcondition.executors.TestConditionExecutor;
 import goal.tools.unittest.testsection.executors.EvaluateInExecutor;
 
 import java.util.List;
@@ -19,7 +19,6 @@ import java.util.Map.Entry;
 import languageTools.program.test.AgentTest;
 import languageTools.program.test.testcondition.Always;
 import languageTools.program.test.testcondition.AtEnd;
-import languageTools.program.test.testcondition.AtStart;
 import languageTools.program.test.testcondition.Eventually;
 import languageTools.program.test.testcondition.Never;
 import languageTools.program.test.testcondition.TestCondition;
@@ -33,7 +32,6 @@ import languageTools.program.test.testsection.EvaluateIn;
  * Formats a {@link UnitTestResult} in a concise and readable fashion.
  *
  * @author M.P. Korstanje
- *
  */
 public class UnitTestResultFormatter implements ResultFormatter<String> {
 	private String indent() {
@@ -129,6 +127,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 		}
 		String retString = "failed: " + result.getId().getName() + "\n";
 		if (result.getUncaughtThrowable() != null) {
+			result.getUncaughtThrowable().printStackTrace(); // TEMP
 			retString += indent(1, "exception: "
 					+ result.getUncaughtThrowable().getMessage() + "\n");
 			if (result.getUncaughtThrowable().getCause() != null) {
@@ -190,13 +189,13 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 
 	@Override
 	public String visit(AssertTestFailed result) {
-		return "failed: " + result.getTest().accept(this);
+		return "failed: " + result.getTest().accept(this) + getCause(result);
 	}
 
 	@Override
 	public String visit(EvaluateInResult result) {
 		String ret = "executed: evaluate {\n";
-		for (TestConditionEvaluator evaluator : result.getEvaluators()) {
+		for (TestConditionExecutor evaluator : result.getEvaluators()) {
 			ret += indent(evaluator.accept(this)) + "\n";
 		}
 		ret += "} in " + result.getEvaluateIn().getAction() + ".";
@@ -206,15 +205,20 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	@Override
 	public String visit(EvaluateInFailed result) {
 		String ret = "failed: evaluate {\n";
-		for (TestConditionEvaluator evaluator : result.getEvaluators()) {
-			String evalRet = evaluator.accept(this);
+		for (TestConditionExecutor evaluator : result.getEvaluators()) {
+			String evalRet = evaluator.getState() + ": "
+					+ evaluator.accept(this);
+			if (!evaluator.getSubstitution().getVariables().isEmpty()) {
+				evalRet += " with " + evaluator.getSubstitution();
+			}
 			if (evaluator.equals(result.getFirstFailureCause())) {
 				evalRet += " <-- first failure";
 			}
 			ret += indent(evalRet) + "\n";
 		}
 		EvaluateIn section = (EvaluateIn) result.getEvaluateIn().getSection();
-		ret += "} in " + section.getAction() + ".";
+		ret += "} in " + section.getAction() + ".\n";
+		ret += getCause(result);
 		return ret;
 	}
 
@@ -223,72 +227,63 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 		String ret = "failed: ";
 		DoActionSection section = (DoActionSection) result.getDoAction()
 				.getSection();
-		ret += section;
-		ret += indent(1, "because " + result.getCause().getMessage() + "\n");
-		if (result.getCause().getCause() != null) {
-			ret += indent(1, "because "
-					+ result.getCause().getCause().getMessage() + "\n");
-		}
-		return ret + ".";
+		ret += section + "\n";
+		ret += getCause(result);
+		return ret;
 	}
 
 	@Override
 	public String visit(EvaluateInInterrupted result) {
 		String ret = "interrupted: evaluate {\n";
-		for (TestConditionEvaluator evaluator : result.getEvaluators()) {
+		for (TestConditionExecutor evaluator : result.getEvaluators()) {
 			ret += indent(evaluator.accept(this)) + "\n";
 		}
 		// Must be interrupted EvaluateIn section
 		EvaluateIn section = (EvaluateIn) ((EvaluateInExecutor) result
 				.getTestSection()).getSection();
 		ret += "} in " + section.getAction() + ".";
+		ret += getCause(result);
 		return ret;
 	}
 
 	@Override
-	public String visit(TestConditionEvaluator result) {
-		return result.getSummaryReport() + ": "
-				+ result.getConditionExecutor().getCondition();
+	public String visit(TestConditionExecutor result) {
+		return result.getState().toString() + ": " + result.getCondition();
 	}
 
 	@Override
 	public String visit(DoActionSection action) {
-		return "do " + action.getAction();
-	}
-
-	@Override
-	public String visit(AtStart atStart) {
-		return "atstart " + atStart.getQuery();
+		return action + ".";
 	}
 
 	@Override
 	public String visit(Always always) {
-		return "always " + always.getQuery();
+		return always + ".";
 	}
 
 	@Override
 	public String visit(Never never) {
-		return "never " + never.getQuery();
+		return never + ".";
 	}
 
 	@Override
-	public String visit(AtEnd atEnd) {
-		return "atend " + atEnd.getQuery();
+	public String visit(AtEnd atend) {
+		return atend + ".";
 	}
 
 	@Override
 	public String visit(Eventually eventually) {
-		return "eventually " + eventually.getQuery();
+		return eventually + ".";
 	}
 
 	@Override
 	public String visit(Until until) {
-		return "until " + until.getQuery() + ".";
+		return until + ".";
 	}
 
 	@Override
 	public String visit(While whil) {
-		return "while " + whil.getQuery() + ".";
+		return whil + ".";
 	}
 
 	@Override
@@ -312,5 +307,17 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	@Override
 	public String visit(TestSectionInterupted testSection) {
 		return "interrupted: " + testSection.getTestSection().accept(this);
+	}
+
+	private String getCause(TestSectionFailed tsf) {
+		String ret = "";
+		Throwable cause = tsf.getCause();
+		if (cause != null) {
+			ret += "\nbecause: " + cause.getMessage();
+			if (cause.getCause() != null) {
+				ret += "\nbecause: " + cause.getCause().getMessage();
+			}
+		}
+		return ret;
 	}
 }

@@ -337,8 +337,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 					.getSourceInfo(), "Goal %s"
 					+ " has been dropped from the "
 					+ (this.owner.equals(this.agentName) ? "" : this.agentName
-							+ "'s ") + "goal base: %s.", goal.toString(),
-					this.name);
+							+ "'s ") + "goal base: %s.", goal, this.name);
 
 			this.count++;
 			getTime();
@@ -368,7 +367,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 					"Goal %s has been achieved and removed from the "
 							+ (this.owner.equals(this.agentName) ? ""
 									: this.agentName + "'s ")
-							+ "goal base: %s.", goal.toString(), getName());
+							+ "goal base: %s.", goal, this.name);
 			// #2968 goal is to be disposed. Don't use with delay..
 			goal.unmarkOccurrence();
 		}

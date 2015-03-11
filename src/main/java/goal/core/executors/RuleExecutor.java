@@ -78,7 +78,7 @@ public class RuleExecutor {
 		// FIXME using #toRuleString to prevent adding trailing dot...
 		debugger.breakpoint(Channel.RULE_CONDITIONAL_VIEW,
 				this.rule.getCondition(), pos, "Evaluating rule %s.",
-				this.rule.toString());
+				this.rule.prettyPrint());
 
 		// Get substitutions that satisfy rule condition.
 		// determine the rule mode
@@ -91,7 +91,7 @@ public class RuleExecutor {
 			// rule is evaluated using all goals in current attention set.
 			substset = new MentalStateConditionExecutor(
 					this.rule.getCondition()).evaluate(substitution,
-					mentalState, debugger);
+							mentalState, debugger);
 		}
 
 		// If condition does not hold (no solutions), then report and return.
@@ -100,7 +100,8 @@ public class RuleExecutor {
 			// #3079 this must NOT pass the action to the debugger.
 			debugger.breakpoint(Channel.RULE_CONDITION_EVALUATION,
 					this.rule.getCondition(), pos,
-					"Condition of rule %s does not hold.", this.rule.toString());
+					"Condition of rule %s does not hold.",
+					this.rule.prettyPrint());
 			return new Result();
 		}
 
@@ -108,10 +109,10 @@ public class RuleExecutor {
 		// #3079 this must pass the ACTION to the debugger
 		debugger.breakpoint(Channel.HIDDEN_RULE_CONDITION_EVALUATION,
 				this.rule.getAction(), pos, "Condition of rule %s holds.",
-				this.rule.toString());
+				this.rule.prettyPrint());
 		debugger.breakpoint(Channel.RULE_CONDITION_EVALUATION,
 				this.rule.getCondition(), pos,
-				"Condition of rule %s holds for: %s.", this.rule.toString(),
+				"Condition of rule %s holds for: %s.", this.rule.prettyPrint(),
 				substset);
 
 		// Apply rule.

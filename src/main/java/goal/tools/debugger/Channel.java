@@ -58,15 +58,15 @@ public enum Channel {
 	/**
 	 * Channel for reporting on the entry of the init module.
 	 */
-	INIT_MODULE_ENTRY("Entry of the init module", ChannelState.VIEWPAUSE),
+	INIT_MODULE_ENTRY("Entry of the init module", ChannelState.PAUSE),
 	/**
 	 * Channel for reporting on the entry of the main module.
 	 */
-	MAIN_MODULE_ENTRY("Entry of the main module", ChannelState.VIEWPAUSE),
+	MAIN_MODULE_ENTRY("Entry of the main module", ChannelState.PAUSE),
 	/**
 	 * Channel for reporting on the entry of the event module.
 	 */
-	EVENT_MODULE_ENTRY("Entry of the event module", ChannelState.VIEWPAUSE),
+	EVENT_MODULE_ENTRY("Entry of the event module", ChannelState.PAUSE),
 	/**
 	 * Channel for reporting the entry of a user-defined module.
 	 */
@@ -74,15 +74,15 @@ public enum Channel {
 	/**
 	 * Channel for reporting on the exit of the init module.
 	 */
-	INIT_MODULE_EXIT("Exit of the init module", ChannelState.VIEW),
+	INIT_MODULE_EXIT("Exit of the init module", ChannelState.NONE),
 	/**
 	 * Channel for reporting on the exit of the main module.
 	 */
-	MAIN_MODULE_EXIT("Exit of the main module", ChannelState.VIEW),
+	MAIN_MODULE_EXIT("Exit of the main module", ChannelState.NONE),
 	/**
 	 * Channel for reporting on the exit of the event module.
 	 */
-	EVENT_MODULE_EXIT("Exit of the event module", ChannelState.VIEW),
+	EVENT_MODULE_EXIT("Exit of the event module", ChannelState.NONE),
 	/**
 	 * Channel for reporting the exit of a user-defined module.
 	 */
@@ -146,12 +146,6 @@ public enum Channel {
 			ChannelState.VIEW),
 
 	/**
-	 * Channel for reports on complete actioncombos that have been executed.
-	 */
-	ACTIONCOMBO_FINISHED("Action combos that have been executed",
-			ChannelState.NONE),
-
-	/**
 	 * Channel for reports on additions to / deletions from the belief base.
 	 */
 	BB_UPDATES("Changes to the belief base", ChannelState.NONE),
@@ -197,7 +191,12 @@ public enum Channel {
 	/**
 	 * Special channel for notifying the debugger for user-defined breakpoints.
 	 */
-	BREAKPOINTS("User-defined breakpoints", ChannelState.HIDDENPAUSE);
+	BREAKPOINTS("User-defined breakpoints", ChannelState.HIDDENPAUSE),
+
+	/**
+	 * Special channel for notifying the debugger for user-defined breakpoints.
+	 */
+	TESTFAILURE("Test failure", ChannelState.VIEWPAUSE);
 
 	/**
 	 * text string used to explain channel in debug preference pane.

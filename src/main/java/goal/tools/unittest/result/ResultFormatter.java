@@ -8,10 +8,9 @@ import goal.tools.unittest.result.testsection.EvaluateInFailed;
 import goal.tools.unittest.result.testsection.EvaluateInInterrupted;
 import goal.tools.unittest.result.testsection.EvaluateInResult;
 import goal.tools.unittest.result.testsection.TestSectionInterupted;
-import goal.tools.unittest.testcondition.executors.TestConditionEvaluator;
+import goal.tools.unittest.testcondition.executors.TestConditionExecutor;
 import languageTools.program.test.testcondition.Always;
 import languageTools.program.test.testcondition.AtEnd;
-import languageTools.program.test.testcondition.AtStart;
 import languageTools.program.test.testcondition.Eventually;
 import languageTools.program.test.testcondition.Never;
 import languageTools.program.test.testcondition.Until;
@@ -51,13 +50,11 @@ public interface ResultFormatter<T> {
 
 	T visit(DoActionFailed result);
 
-	T visit(TestConditionEvaluator result);
+	T visit(TestConditionExecutor result);
 
 	T visit(DoActionSection action);
 
 	T visit(UnitTestResult result);
-
-	T visit(AtStart atStart);
 
 	T visit(Always always);
 

@@ -22,6 +22,7 @@ import eis.exceptions.EnvironmentInterfaceException;
 import eis.iilang.Action;
 import eis.iilang.Percept;
 import goal.core.agent.Agent;
+import goal.core.agent.Controller;
 import goal.core.agent.EnvironmentCapabilities;
 import goal.core.agent.LoggingCapabilities;
 import goal.core.agent.MessagingCapabilities;
@@ -85,6 +86,7 @@ import nl.tudelft.goal.messaging.messagebox.MessageBox;
  * @modified K.Hindriks
  */
 public class RunState<D extends Debugger> {
+	private final Controller parent;
 	/**
 	 * The agent's name. The name of an agent is derived from its
 	 * {@link MessageBox}, but stored here in case the agent gets killed and its
@@ -169,11 +171,14 @@ public class RunState<D extends Debugger> {
 	 * Learner that allows agent to learn from repeated trials.
 	 */
 	private final Learner learner;
-
 	/**
 	 * Keep track whether sleep condition held previous cycle.
 	 */
 	private boolean sleepConditionsHoldingPreviousCycle;
+	/**
+	 * Keep track of executed actions
+	 */
+	private UserSpecAction lastAction;
 
 	/**
 	 * Creates a new {@link RunState}.
@@ -188,11 +193,12 @@ public class RunState<D extends Debugger> {
 	 * @param learner
 	 * @throws KRInitFailedException
 	 */
-	public RunState(AgentId agentName, EnvironmentCapabilities environment,
+	public RunState(Controller parent, AgentId agentName,
+			EnvironmentCapabilities environment,
 			MessagingCapabilities messaging, LoggingCapabilities logger,
 			AgentProgram program, D debugger, Learner learner)
 			throws KRInitFailedException {
-
+		this.parent = parent;
 		this.environment = environment;
 		this.messaging = messaging;
 		this.logActionsLogger = logger;
@@ -235,6 +241,10 @@ public class RunState<D extends Debugger> {
 
 		// Configure learner.
 		this.learner = learner;
+	}
+
+	public Controller getParent() {
+		return this.parent;
 	}
 
 	/**
@@ -435,7 +445,6 @@ public class RunState<D extends Debugger> {
 			}
 			this.getMentalState().updateGoalState(this.debugger, sender);
 		}
-
 	}
 
 	/**
@@ -546,6 +555,7 @@ public class RunState<D extends Debugger> {
 			newPercepts = getPercepts();
 		}
 
+		this.lastAction = null;
 		this.event = !newMessages.isEmpty() || !newPercepts.isEmpty()
 				|| isActionPerformed;
 
@@ -742,7 +752,7 @@ public class RunState<D extends Debugger> {
 	/**
 	 * Get the environment reward. May return null if environment does not
 	 * provide a reward.
-	 * 
+	 *
 	 * @return the reward, or null if no reward available.
 	 * @throws IllegalStateException
 	 *             if failed to connect with environment.
@@ -760,11 +770,16 @@ public class RunState<D extends Debugger> {
 		this.messaging.postMessage(message);
 	}
 
+	public UserSpecAction getLastAction() {
+		return this.lastAction;
+	}
+
 	public void doPerformAction(UserSpecAction action)
 			throws GOALActionFailedException {
 		try {
 			Action eis = this.mentalState.getState().convert(action);
 			this.environment.performAction(eis);
+			this.lastAction = action;
 		} catch (ActException ae) {
 			if (ae.getType() == ActException.NOTSPECIFIC) {
 				new Warning(String.format(

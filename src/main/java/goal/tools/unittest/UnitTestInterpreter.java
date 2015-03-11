@@ -1,10 +1,10 @@
 package goal.tools.unittest;
 
 import goal.core.agent.Agent;
-import goal.core.agent.GOALInterpreter;
+import goal.tools.IDEDebugger;
+import goal.tools.IDEGOALInterpreter;
 import goal.tools.adapt.Learner;
 import goal.tools.debugger.Channel;
-import goal.tools.debugger.ObservableDebugger;
 import goal.tools.unittest.result.AgentTestResult;
 import goal.tools.unittest.result.UnitTestInterpreterResult;
 import goal.tools.unittest.testsection.executors.TestExecutor;
@@ -25,8 +25,7 @@ import languageTools.program.test.AgentTest;
  *            class of the debugger used
  *
  */
-public class UnitTestInterpreter<D extends ObservableDebugger> extends
-GOALInterpreter<ObservableDebugger> {
+public class UnitTestInterpreter extends IDEGOALInterpreter {
 	private final AgentTest test;
 	private AgentTestResult agentTestResult;
 
@@ -43,7 +42,7 @@ GOALInterpreter<ObservableDebugger> {
 	 *            used evaluate adaptive rules
 	 */
 	public UnitTestInterpreter(AgentProgram program, AgentTest test,
-			D debugger, Learner learner) {
+			IDEDebugger debugger, Learner learner) {
 		super(program, debugger, learner);
 		this.test = test;
 	}
@@ -86,7 +85,8 @@ GOALInterpreter<ObservableDebugger> {
 								UnitTestInterpreter.this.agent.getId());
 						UnitTestInterpreter.this.agentTestResult = new TestExecutor(
 								UnitTestInterpreter.this.test)
-								.run((Agent<UnitTestInterpreter<ObservableDebugger>>) UnitTestInterpreter.this.agent);
+								.run((Agent<UnitTestInterpreter>) UnitTestInterpreter.this.agent,
+										UnitTestInterpreter.this.debugger);
 					} catch (final Exception e) {
 						UnitTestInterpreter.this.throwable = e;
 					} finally {

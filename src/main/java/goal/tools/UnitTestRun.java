@@ -20,9 +20,7 @@ import languageTools.program.test.UnitTest;
  *
  * @author M.P. Korstanje
  */
-public class UnitTestRun
-		extends
-		AbstractRun<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> {
+public class UnitTestRun extends AbstractRun<IDEDebugger, UnitTestInterpreter> {
 	/**
 	 * Creates the agents used when running the test program. The agents are
 	 * created with a {@link UnitTestInterpreter} controller. The agents base
@@ -31,18 +29,17 @@ public class UnitTestRun
 	 *
 	 * @author M.P. Korstanje
 	 */
-	private class TestRunAgentFactory
-			extends
-			AbstractAgentFactory<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> {
-
+	private class TestRunAgentFactory extends
+			AbstractAgentFactory<IDEDebugger, UnitTestInterpreter> {
 		public TestRunAgentFactory(MessagingService messaging) {
 			super(messaging);
 		}
 
 		@Override
-		protected ObservableDebugger provideDebugger() {
-			ObservableDebugger observableDebugger = new ObservableDebugger(
-					this.agentId, this.environment);
+		protected IDEDebugger provideDebugger() {
+			IDEDebugger observableDebugger = new IDEDebugger(this.agentId,
+					this.program, this.environment);
+			observableDebugger.setKeepRunning(true);
 			if (UnitTestRun.this.debuggerOutput) {
 				new LoggingObserver(observableDebugger);
 			}
@@ -50,11 +47,11 @@ public class UnitTestRun
 		}
 
 		@Override
-		protected UnitTestInterpreter<ObservableDebugger> provideController(
-				ObservableDebugger debugger, Learner learner) {
+		protected UnitTestInterpreter provideController(IDEDebugger debugger,
+				Learner learner) {
 			AgentTest test = UnitTestRun.this.unitTest
 					.getTest(this.agentBaseName);
-			return new UnitTestInterpreter<>(this.program, test, debugger,
+			return new UnitTestInterpreter(this.program, test, debugger,
 					learner);
 		}
 	}
@@ -78,26 +75,26 @@ public class UnitTestRun
 	 */
 	@Override
 	protected void awaitTermination(
-			RuntimeManager<? extends ObservableDebugger, ? extends UnitTestInterpreter<ObservableDebugger>> runtimeManager)
+			RuntimeManager<? extends IDEDebugger, ? extends UnitTestInterpreter> runtimeManager)
 			throws InterruptedException {
-		// Wait while agents are running
+		long timeout = this.unitTest.getTimeout();
+		if (timeout <= 0) {
+			timeout = Long.MAX_VALUE;
+		} else {
+			timeout = System.currentTimeMillis() + timeout;
+		}
 		while (runtimeManager.hasAliveLocalAgents()) {
-			// Check if any dead agents failed their test.
-			if (checkDeadAgentWithFailedTest(runtimeManager)) {
-				return;
+			if (System.currentTimeMillis() > timeout
+					|| checkDeadAgentWithFailedTest(runtimeManager)
+					|| !checkAtleastOneAgentWithTest(runtimeManager)) {
+				break;
 			}
-			// Check if at least one of alive agents still is running a test
-			if (!checkAtleastOneAgentWithTest(runtimeManager)) {
-				return;
-			}
-			// Wait otherwise...
-			Thread.sleep(100);
 		}
 	}
 
 	private static boolean checkDeadAgentWithFailedTest(
-			RuntimeManager<? extends ObservableDebugger, ? extends UnitTestInterpreter<ObservableDebugger>> runtimeManager) {
-		for (Agent<? extends UnitTestInterpreter<ObservableDebugger>> a : runtimeManager
+			RuntimeManager<? extends ObservableDebugger, ? extends UnitTestInterpreter> runtimeManager) {
+		for (Agent<? extends UnitTestInterpreter> a : runtimeManager
 				.getDeadAgents()) {
 			if (!a.getController().getTestResults().isPassed()) {
 				return true;
@@ -107,8 +104,8 @@ public class UnitTestRun
 	}
 
 	private static boolean checkAtleastOneAgentWithTest(
-			RuntimeManager<? extends ObservableDebugger, ? extends UnitTestInterpreter<ObservableDebugger>> runtimeManager) {
-		for (Agent<? extends UnitTestInterpreter<ObservableDebugger>> a : runtimeManager
+			RuntimeManager<? extends ObservableDebugger, ? extends UnitTestInterpreter> runtimeManager) {
+		for (Agent<? extends UnitTestInterpreter> a : runtimeManager
 				.getAliveAgents()) {
 			if (a.getController().getTest() != null) {
 				return true;
@@ -118,7 +115,7 @@ public class UnitTestRun
 	}
 
 	@Override
-	protected AgentFactory<ObservableDebugger, UnitTestInterpreter<ObservableDebugger>> buildAgentFactory(
+	protected AgentFactory<IDEDebugger, UnitTestInterpreter> buildAgentFactory(
 			MessagingService messaging) {
 		return new TestRunAgentFactory(messaging);
 	}

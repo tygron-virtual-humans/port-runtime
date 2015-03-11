@@ -1,7 +1,6 @@
 package goal.tools.debugger;
 
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
-import nl.tudelft.goal.messaging.exceptions.MessagingException;
 
 /**
  * DOC what is this exception ? It makes no sense to kill a debugger as a
@@ -15,7 +14,7 @@ public class DebuggerKilledException extends GOALRuntimeErrorException {
 		super("Debugger terminated the agent");
 	}
 
-	public DebuggerKilledException(String string, MessagingException e) {
+	public DebuggerKilledException(String string, Exception e) {
 		super(string, e);
 	}
 }
