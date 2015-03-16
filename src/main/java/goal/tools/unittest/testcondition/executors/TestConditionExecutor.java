@@ -16,7 +16,6 @@ import java.util.Set;
 import krTools.language.Substitution;
 import krTools.language.Term;
 import languageTools.program.agent.actions.UserSpecAction;
-import languageTools.program.test.TestAction;
 import languageTools.program.test.TestMentalStateCondition;
 import languageTools.program.test.testcondition.Always;
 import languageTools.program.test.testcondition.AtEnd;
@@ -140,44 +139,63 @@ public abstract class TestConditionExecutor {
 		TestMentalStateCondition testquery = getCondition().getQuery();
 
 		Substitution temp = this.substitution.clone();
-		Substitution sub = this.runstate.getMainModule().getKRInterface()
-				.getSubstitution(null);
 		UserSpecAction prev = this.runstate.getLastAction();
 		if (prev == null) {
 			prev = new UserSpecAction("", new ArrayList<Term>(0), false, null,
 					null, null, null);
 		}
-		for (TestAction testaction : testquery.getActions()) {
-			UserSpecAction action = testaction.getAction();
+
+		Set<Substitution> result = new HashSet<>();
+		if (testquery.isActionFirst()) {
+			UserSpecAction action = testquery.getAction().getAction();
 			Substitution check = action.getSignature().equals(
 					prev.getSignature()) ? action.applySubst(temp).mgu(prev)
-					: null;
-			if (testaction.isPositive()) {
+							: null;
+					if (testquery.getAction().isPositive()) {
 						if (check == null) {
 							return new HashSet<Substitution>(0);
 						} else {
 							temp = temp.combine(check);
-							sub = sub.combine(check);
 						}
-			} else if (check != null) {
-				return new HashSet<Substitution>(0);
-			}
+					} else if (check != null) {
+						return new HashSet<Substitution>(0);
+					}
+					if (testquery.getCondition() == null) {
+						result.add(check);
+						return result;
+					}
 		}
-		Set<Substitution> result = new HashSet<>();
-		if (testquery.getConditions().getSubFormulas().isEmpty()) {
-			result.add(sub);
-		} else {
+		if (testquery.getCondition() != null) {
 			try {
 				result = new MentalStateConditionExecutor(testquery
-						.getConditions().applySubst(temp)).evaluate(
-						this.runstate.getMentalState(), debugger);
+						.getCondition().applySubst(temp)).evaluate(
+								this.runstate.getMentalState(), debugger);
 			} catch (Exception e) {
 				// FIXME: this exception can occur (and is expected)
 				result = new MentalStateConditionExecutor(
-						testquery.getConditions()).evaluate(
-						this.runstate.getMentalState(), debugger);
+						testquery.getCondition()).evaluate(
+								this.runstate.getMentalState(), debugger);
+			}
+			if (!result.isEmpty() && testquery.getAction() != null) {
+				Substitution[] copy = result.toArray(new Substitution[result
+						.size()]);
+				result.clear();
+				for (Substitution sub : copy) {
+					UserSpecAction action = testquery.getAction().getAction();
+					Substitution check = action.getSignature().equals(
+							prev.getSignature()) ? action.applySubst(sub).mgu(
+							prev) : null;
+					if (testquery.getAction().isPositive()) {
+						if (check != null) {
+											result.add(check);
+						}
+					} else if (check == null) {
+						result.add(sub);
+					}
+				}
 			}
 		}
+
 		return result;
 	}
 
