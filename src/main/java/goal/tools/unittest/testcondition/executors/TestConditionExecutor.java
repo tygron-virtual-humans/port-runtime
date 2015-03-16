@@ -16,7 +16,6 @@ import java.util.Set;
 import krTools.language.Substitution;
 import krTools.language.Term;
 import languageTools.program.agent.actions.UserSpecAction;
-import languageTools.program.agent.msc.MentalStateCondition;
 import languageTools.program.test.TestAction;
 import languageTools.program.test.TestMentalStateCondition;
 import languageTools.program.test.testcondition.Always;
@@ -164,26 +163,19 @@ public abstract class TestConditionExecutor {
 				return new HashSet<Substitution>(0);
 			}
 		}
-		Set<Substitution> subresult = new HashSet<>();
-		for (MentalStateCondition query : testquery.getConditions()) {
-			try {
-				Set<Substitution> res = new MentalStateConditionExecutor(
-						query.applySubst(temp)).evaluate(
-						this.runstate.getMentalState(), debugger);
-				subresult.addAll(res);
-			} catch (Exception e) {
-				// FIXME: this exception can occur (and is expected)
-				Set<Substitution> res = new MentalStateConditionExecutor(query)
-						.evaluate(this.runstate.getMentalState(), debugger);
-				subresult.addAll(res);
-			}
-		}
 		Set<Substitution> result = new HashSet<>();
-		if (testquery.getConditions().isEmpty()) {
+		if (testquery.getConditions().getSubFormulas().isEmpty()) {
 			result.add(sub);
 		} else {
-			for (Substitution substitution : subresult) {
-				result.add(substitution.combine(sub));
+			try {
+				result = new MentalStateConditionExecutor(testquery
+						.getConditions().applySubst(temp)).evaluate(
+						this.runstate.getMentalState(), debugger);
+			} catch (Exception e) {
+				// FIXME: this exception can occur (and is expected)
+				result = new MentalStateConditionExecutor(
+						testquery.getConditions()).evaluate(
+						this.runstate.getMentalState(), debugger);
 			}
 		}
 		return result;
