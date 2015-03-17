@@ -103,7 +103,7 @@ public class LogActionExecutor extends ActionExecutor {
 		public static LogOptions fromString(String type) {
 			try {
 				return valueOf(type.toUpperCase());
-			} catch (Exception e) {
+			} catch (IllegalArgumentException e) {
 				return TEXT;
 			}
 		}

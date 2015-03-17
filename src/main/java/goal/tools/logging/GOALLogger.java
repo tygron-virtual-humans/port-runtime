@@ -100,9 +100,7 @@ public class GOALLogger {
 			addLogToFileHandler();
 		}
 
-		this.consoleHandler = new ConsoleHandler();
-		this.consoleHandler.setFormatter(new SingleLineFormatter());
-		this.consoleHandler.setLevel(Level.ALL);
+		this.consoleHandler = new GOALConsoleHandler();
 	}
 
 	/**
