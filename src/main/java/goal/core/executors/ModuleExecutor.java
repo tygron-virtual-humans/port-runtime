@@ -5,6 +5,7 @@ import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.unittest.result.testcondition.TestBoundaryException;
 import goal.tools.unittest.result.testcondition.TestConditionFailedException;
 
@@ -73,12 +74,12 @@ public class ModuleExecutor {
 			try {
 				call = (Callable<Callable<?>>) call.call();
 			} catch (GOALActionFailedException gafe) {
-				throw gafe; // recognized exception
-			} catch (TestConditionFailedException | TestBoundaryException te) {
-				throw te; // support testing framework
-			} catch (Exception e) { // callable cannot be more specific...
-				new Warning("Execution of module caused unknown exception", e);
-				break;
+				throw gafe; // module failed user error, pass upwards.
+			} catch (RuntimeException e) {
+				throw e; // goal bugs, let fall through.
+			} catch (Exception e) {
+				// we should never get here. 
+				throw new GOALBug("module is throwing unexpected exception", e);
 			}
 		}
 		return this.result;
