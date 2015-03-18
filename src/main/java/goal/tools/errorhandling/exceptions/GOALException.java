@@ -23,7 +23,9 @@ import languageTools.parser.InputStreamPosition;
 
 /**
  * <p>
- * Generic <i>checked</i> exception for issues while running GOAL.
+ * Generic <i>checked</i> exception for user error issues while running GOAL.
+ * This should not be used directly as this is too vague an exception. Use
+ * more specific exceptions .
  * <p>
  * Simple wrapper around {@link Exception}, so that generic Exceptions are no
  * longer necessary.

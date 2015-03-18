@@ -32,7 +32,8 @@ public class SingleLineFormatter extends Formatter {
 				record.getThrown().printStackTrace(pw);
 				pw.close();
 				sb.append(sw.toString());
-			} catch (Exception ignore) {
+			} catch (RuntimeException reportErr) { 
+				System.out.println("failed to format log record: "+reportErr.getMessage());
 			}
 		}
 

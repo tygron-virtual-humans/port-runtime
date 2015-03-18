@@ -24,6 +24,7 @@ import goal.core.mentalstate.SingleGoal;
 import goal.tools.adapt.FileLearner;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
+import krTools.errors.exceptions.KRInitFailedException;
 import krTools.language.DatabaseFormula;
 import languageTools.program.agent.AgentId;
 import languageTools.program.agent.Module;
@@ -210,7 +212,7 @@ public class GOALMentalStateConverter implements Serializable {
 
 			// Return GOALState.
 			return q;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -304,7 +306,7 @@ public class GOALMentalStateConverter implements Serializable {
 					break;
 				}
 			}
-		} catch (Exception e) {
+		} catch (RuntimeException | GOALDatabaseException | KRInitFailedException e) {
 			e.printStackTrace();
 		}
 	}
@@ -356,7 +358,7 @@ public class GOALMentalStateConverter implements Serializable {
 
 			/* Return */
 			return string;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			return null;
 		}

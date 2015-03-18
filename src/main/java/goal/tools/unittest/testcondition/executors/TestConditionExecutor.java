@@ -171,9 +171,7 @@ public abstract class TestConditionExecutor {
 				result = new MentalStateConditionExecutor(testquery
 						.getCondition().applySubst(temp)).evaluate(
 								this.runstate.getMentalState(), debugger);
-			} catch (Exception e) {
-				// FIXME: this exception can occur (and is expected)
-				// Apparently has to do something with macros?
+			} catch (GOALDatabaseException  | NullPointerException e) { // FIXME #3487 
 				try {
 					result = new MentalStateConditionExecutor(
 							testquery.getCondition()).evaluate(

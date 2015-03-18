@@ -5,7 +5,9 @@ import goal.core.agent.GOALInterpreter;
 import goal.core.executors.MentalStateConditionExecutor;
 import goal.core.mentalstate.MentalState;
 import goal.tools.debugger.SteppingDebugger;
+import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 import goal.tools.errorhandling.exceptions.GOALBug;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 import goal.tools.errorhandling.exceptions.GOALException;
 import goal.tools.errorhandling.exceptions.GOALUserError;
 
@@ -45,9 +47,9 @@ public class QueryTool {
 		MentalStateCondition mentalStateCondition;
 		try {
 			mentalStateCondition = parseMSC(userEnteredQuery);
-		} catch (Exception e) {
+		} catch ( GOALException | ParserException e) {
 			throw new GOALUserError("Parsing of " + userEnteredQuery
-					+ " failed: " + e.getMessage(), e);
+					+ " failed", e);
 		}
 		// Perform query: get the agent's mental state and evaluate the query.
 		MentalState mentalState = this.agent.getController().getRunState()
@@ -56,7 +58,7 @@ public class QueryTool {
 			// use a dummy debugger
 			Set<Substitution> substitutions = new MentalStateConditionExecutor(
 					mentalStateCondition).evaluate(mentalState,
-							new SteppingDebugger("query", null));
+					new SteppingDebugger("query", null));
 			String resulttext = "";
 			if (substitutions.isEmpty()) {
 				resulttext = "No solutions";
@@ -66,10 +68,10 @@ public class QueryTool {
 				}
 			}
 			return resulttext;
-		} catch (Exception e) {
+		} catch ( GOALDatabaseException e) {
 			throw new GOALUserError("Query entered in query area in "
 					+ "introspector of agent " + this.agent.getId()
-					+ " failed: " + e.getMessage(), e);
+					+ " failed", e);
 		}
 	}
 
@@ -82,18 +84,17 @@ public class QueryTool {
 		}
 		try {
 			Action<?> action = parseAction(userEnteredAction);
-			if (action.isClosed()) {
-				// Perform the action.
-				this.agent.getController().doPerformAction(action);
-				return "Executed action " + action;
-			} else {
+			if (!action.isClosed()) {
 				return "Action is not closed and cannot be executed";
 			}
-
-		} catch (Exception e) {
-			throw new GOALUserError("Action entered in query area in "
-					+ "introspector of agent " + this.agent.getId()
-					+ " failed: " + e.getMessage(), e);
+			// Perform the action.
+			this.agent.getController().doPerformAction(action);
+			return "Executed action " + action;
+		} catch (ParserException | GOALActionFailedException e) {
+			throw new GOALUserError(
+					"Action entered in query area in "
+							+ "introspector of agent " + this.agent.getId()
+							+ " failed", e);
 		}
 	}
 
@@ -160,7 +161,7 @@ public class QueryTool {
 	 * @throws ParserException
 	 */
 	private void checkParserErrors(AgentValidator walker, String query,
-			String desc) throws GOALUserError, ParserException {
+			String desc) throws ParserException {
 		List<Message> errors = walker.getErrors();
 		errors.addAll(walker.getSyntaxErrors());
 		String errMessage = "";
@@ -170,9 +171,9 @@ public class QueryTool {
 			}
 		}
 
-		// if any error has occurred, throw a UserError
+		// if any error has occurred, throw a ParserException
 		if (!errMessage.isEmpty()) {
-			throw new GOALUserError("Term " + query + " failed to parse as "
+			throw new ParserException("Term " + query + " failed to parse as "
 					+ desc + ";\n" + errMessage);
 		}
 	}
@@ -182,12 +183,12 @@ public class QueryTool {
 	 *
 	 * @author W.Pasman.
 	 * @throws ParserException
+	 * @throws GOALUserError 
 	 * @modified N.Kraayenbrink - GOAL parser does not print errors any more.
 	 * @modified W.Pasman 8feb2012 now also UserSpecActions can be parsed.
 	 * @modified K.Hindriks if UserOrFocusAction action must be UserSpecAction.
 	 */
-	private Action<?> parseAction(String action) throws GOALException,
-			ParserException {
+	private Action<?> parseAction(String action) throws ParserException, GOALUserError {
 		GOAL parser = prepareGOALParser(action);
 		ActionContext actionContext = parser.action();
 		AgentValidator test = new AgentValidator("inline");

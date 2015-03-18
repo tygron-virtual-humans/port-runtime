@@ -189,8 +189,8 @@ public class Preferences {
 				try (FileWriter writer = new FileWriter(settingsFile)) {
 					yaml.dump(prefs, writer);
 				}
-			} catch (Exception e) {
-				// TODO: we can't really do anything here?
+			} catch (IOException e) {
+				System.out.println("Failed to write preferences:"+e);
 			}
 		}
 	}

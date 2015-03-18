@@ -1,5 +1,6 @@
 package goal.tools;
 
+import goal.tools.errorhandling.exceptions.GOALRunFailedException;
 import goal.tools.logging.Loggers;
 import goal.tools.unittest.result.UnitTestResult;
 import goal.tools.unittest.result.UnitTestResultFormatter;
@@ -95,7 +96,7 @@ public class Run {
 		} catch (ParseException e) {
 			System.out.println(e.getMessage());
 			showHelp();
-		} catch (Exception e) {
+		} catch (Exception e) { // run throws generic Exceptions...
 			System.out.println("Exception during execution: " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -106,10 +107,10 @@ public class Run {
 	 * @throws ParseException
 	 * @throws ParserException
 	 * @throws FileNotFoundException
+	 * @throws GOALRunFailedException 
 	 * @throws Exception
 	 */
-	public static void run(String... args) throws ParseException,
-			ParserException, FileNotFoundException, Exception {
+	public static void run(String... args) throws GOALRunFailedException, ParseException, FileNotFoundException, ParserException {
 		// Get start time.
 		long startTime = System.nanoTime();
 

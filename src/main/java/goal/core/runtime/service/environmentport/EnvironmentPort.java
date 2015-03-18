@@ -230,7 +230,7 @@ public class EnvironmentPort {
 			EnvironmentInterfaceException {
 		try {
 			reset();
-		} catch (Exception ignore) {
+		} catch (Exception e) { // takedown protection
 		}
 
 		this.messagebox.removeListener(this.messageboxlistener);

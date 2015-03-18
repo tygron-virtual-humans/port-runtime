@@ -7,6 +7,7 @@ import goal.tools.UnitTestRun;
 import goal.tools.UnitTestRunResultInspector;
 import goal.tools.errorhandling.exceptions.GOALCommandCancelledException;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
+import goal.tools.errorhandling.exceptions.GOALRunFailedException;
 import goal.tools.logging.Loggers;
 import goal.tools.unittest.result.UnitTestResult;
 import goal.tools.unittest.result.UnitTestResultFormatter;
@@ -68,11 +69,14 @@ public class AbstractUnitTestTest {
 		}
 	}
 
-	protected UnitTestResult runTest(String testFileName) throws IOException,
-			GOALCommandCancelledException, ParserException,
-			GOALLaunchFailureException, MessagingException,
-			InterruptedException, Exception {
-		UnitTest unitTest = setup(testFileName);
+	protected UnitTestResult runTest(String testFileName)
+			throws GOALRunFailedException {
+		UnitTest unitTest;
+		try {
+			unitTest = setup(testFileName);
+		} catch (IOException e) {
+			throw new GOALRunFailedException("error while reading test file "+testFileName, e);
+		}
 
 		assertNotNull(unitTest);
 

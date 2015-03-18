@@ -44,7 +44,7 @@ public class RunTool {
 				throw new Exception("Unrecognized file: " + file);
 			}
 			System.exit(0);
-		} catch (final Exception e) {
+		} catch (final Exception e) { // runtool outer exception reporting
 			InputReaderWriter.logFatal(e);
 			System.exit(-1);
 		}

@@ -162,7 +162,7 @@ public class EnvironmentService {
 			port = this.environmentPorts.remove(id);
 			try {
 				port.shutDown();
-			} catch (Exception e) {
+			} catch (Exception e) { // takedown protection
 				new Warning(String.format(
 						Resources.get(WarningStrings.FAILED_STOP_ENV_PORT),
 						id.getName()), e);
@@ -246,7 +246,8 @@ public class EnvironmentService {
 			} catch (MessagingException e) {
 				try {
 					this.localEnvironment.shutDown();
-				} catch (Exception ignore) {
+				} catch (Exception e1) { // takedown protection
+					new Warning("Error while taking down environment", e1);
 				}
 				throw e;
 			}
@@ -262,7 +263,8 @@ public class EnvironmentService {
 			} catch (EnvironmentInterfaceException e) {
 				try {
 					this.localEnvironment.shutDown();
-				} catch (Exception ignore) {
+				} catch (Exception e1) { // takedown protection
+					new Warning("Error while taking down local environment",e1);
 				}
 				throw e;
 			}

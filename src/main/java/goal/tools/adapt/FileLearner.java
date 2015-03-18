@@ -22,6 +22,7 @@ import goal.core.agent.Agent;
 import goal.core.dependencygraph.ModuleGraphGenerator;
 import goal.core.mentalstate.MentalState;
 import goal.preferences.CorePreferences;
+import goal.tools.errorhandling.Warning;
 import goal.tools.logging.InfoLog;
 import goal.tools.mc.program.goal.GOALConversionUniverse;
 import goal.tools.mc.program.goal.GOALMentalStateConverter;
@@ -31,6 +32,7 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -190,22 +192,20 @@ public class FileLearner implements Serializable, Learner {
 				new Double(sarsa_epsilon).toString());
 		defaults.setProperty("sarsa_epsilon_decay", new Double(
 				sarsa_epsilon_decay).toString());
-		try {
-			Properties properties = new Properties(defaults);
-			File file = new File(module.getName() + ".adaptive.properties");
-			if (file.exists()) {
-				try (FileInputStream fis = new FileInputStream(file.getName())) {
-					properties.load(fis);
-					new InfoLog("Learner: Loaded properties from `"
-							+ file.getName() + "`.");
-					new InfoLog(properties.toString());
-				} catch (Exception e) {
-					System.err
-					.println("WARNING: Could not load learner properties from `"
-							+ file.getName()
-							+ "`. Will proceed with defaults.");
-				}
+		Properties properties = new Properties(defaults);
+		File file = new File(module.getName() + ".adaptive.properties");
+		if (file.exists()) {
+			try (FileInputStream fis = new FileInputStream(file.getName())) {
+				properties.load(fis);
+				new InfoLog("Learner: Loaded properties from `"
+						+ file.getName() + "`.");
+				new InfoLog(properties.toString());
+			} catch (IOException e) {
+				new Warning("Could not load learner properties from `"
+						+ file.getName() + "`. Will proceed with defaults.", e);
 			}
+		}
+		try {
 			sarsa_alpha = Double.parseDouble(properties
 					.getProperty("sarsa_alpha"));
 			sarsa_epsilon = Double.parseDouble(properties
@@ -214,11 +214,8 @@ public class FileLearner implements Serializable, Learner {
 					.getProperty("sarsa_epsilon_decay"));
 			sarsa_gamma = Double.parseDouble(properties
 					.getProperty("sarsa_gamma"));
-
-		} catch (Exception e) {
-			System.err
-			.println("WARNING: While loading learner properties got: "
-					+ e.getMessage());
+		} catch (NumberFormatException e) {
+			new Warning("Failed to parse learner properties",e);
 		}
 
 		// Associate belief filter with corresponding rule set.
@@ -291,7 +288,7 @@ public class FileLearner implements Serializable, Learner {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.tools.adapt.Learner#act(java.lang.String,
 	 * goal.core.mentalstate.MentalState, java.util.List, java.util.Set)
 	 */
@@ -333,7 +330,7 @@ public class FileLearner implements Serializable, Learner {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.tools.adapt.Learner#update(java.lang.String,
 	 * goal.core.mentalstate.MentalState, double, java.util.Set)
 	 */
@@ -405,9 +402,8 @@ public class FileLearner implements Serializable, Learner {
 			out.write(String.format("%s: %.2f %.2f %07d\n", agentName,
 					this.learners.get(module).totalactions,
 					this.learners.get(module).totalreward, this.stateid.size()));
-		} catch (Exception e) {
-			System.err.println("WARNING: Could not write " + outfile + ": "
-					+ e.getMessage());
+		} catch (IOException e) {
+			new Warning("Could not write report " + outfile + " but continuing",e);
 		}
 		/* Write human readable learning output to file */
 		outfile = module + ".lrn.txt";
@@ -450,9 +446,8 @@ public class FileLearner implements Serializable, Learner {
 				out.write(s);
 				index++;
 			}
-		} catch (Exception e) {
-			System.err.println("WARNING: Could not write " + outfile + ": "
-					+ e.getMessage());
+		} catch (IOException e) {
+			new Warning("WARNING: Could not write report file " + outfile, e);
 		}
 	}
 
@@ -559,7 +554,7 @@ public class FileLearner implements Serializable, Learner {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * goal.tools.adapt.Learner#terminateLearner(goal.core.mentalstate.MentalState
 	 * , java.lang.Double)
@@ -663,9 +658,8 @@ public class FileLearner implements Serializable, Learner {
 			this.converter = l.converter;
 			new InfoLog("\nLoading learned model from file " + file);
 			return true;
-		} catch (Exception e) {
-			new InfoLog("File " + file + " could not be read ("
-					+ e.getMessage() + "). Continuing.");
+		} catch (IOException | ClassNotFoundException e) {
+			new Warning("learner file " + file + " could not be read but continuing anyway.",e);
 		}
 		return false;
 	}

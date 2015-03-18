@@ -104,65 +104,35 @@ public class GOALState extends BitSet implements State {
 	 */
 	public GOALState minus(GOALState q) {
 
-		try {
-			/* Compute the intersection of the two states */
-			GOALState intersection = new GOALState(converter, this);
-			intersection.and(q);
+		/* Compute the intersection of the two states */
+		GOALState intersection = new GOALState(converter, this);
+		intersection.and(q);
 
-			/* Compute the subtraction */
-			GOALState minus = new GOALState(converter, this);
-			minus.andNot(intersection);
-			return minus;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+		/* Compute the subtraction */
+		GOALState minus = new GOALState(converter, this);
+		minus.andNot(intersection);
+		return minus;
 	}
 
 	@Override
 	public String toString(int indent) {
-
-		try {
 			converter.update(this);
 			return converter.toString(indent);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	@Override
 	public int jenkinsB() {
-
-		try {
-			/* This method has not been implemented */
-			throw new Exception();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		System.exit(0);
-		return 0;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public int jenkinsC() {
-
-		try {
-			/* This method has not been implemented */
-			throw new Exception();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		System.exit(0);
-		return 0;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public byte[] jenkinsKey() {
 
-		try {
 			/* If a key has not been defined before, define one */
 			if (jenkinsKey == null) {
 
@@ -183,10 +153,6 @@ public class GOALState extends BitSet implements State {
 
 			/* Return */
 			return jenkinsKey;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 }

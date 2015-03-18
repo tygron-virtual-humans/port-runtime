@@ -483,7 +483,7 @@ public class PlatformManager {
 		for (File agentFile : mas.getAgentFiles()) {
 			try {
 				parseGOALFile(agentFile, mas.getKRInterface(agentFile));
-			} catch (Exception e) {
+			} catch (Exception e) { // top level safety catch
 				throw new GOALBug("Unexpected failure in parser", e); //$NON-NLS-1$
 			}
 		}

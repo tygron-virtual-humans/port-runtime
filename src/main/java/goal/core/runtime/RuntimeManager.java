@@ -427,7 +427,7 @@ public class RuntimeManager<D extends Debugger, C extends GOALInterpreter<D>>
 
 		try {
 			environmentService.start();
-		} catch (Exception e) {
+		} catch (Exception e) { // protect for runtime exceptions at start
 			remoteRuntimeService.shutDown();
 			agentService.shutDown();
 			throw new GOALLaunchFailureException(

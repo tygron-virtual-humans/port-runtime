@@ -29,7 +29,7 @@ public class UTTool {
 			}
 			run.run();
 			System.exit(0);
-		} catch (final Exception e) {
+		} catch (final Exception e) { // outer exception logging
 			e.printStackTrace();
 			System.exit(-1);
 		}

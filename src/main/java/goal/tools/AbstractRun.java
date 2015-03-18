@@ -12,6 +12,7 @@ import goal.core.runtime.service.environment.EnvironmentService;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALCommandCancelledException;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
+import goal.tools.errorhandling.exceptions.GOALRunFailedException;
 import goal.tools.logging.InfoLog;
 
 import java.io.File;
@@ -172,9 +173,7 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	 */
 	// FIXME: This amount of exceptions is ridiculous. Clean this up.
 	@SuppressWarnings("unchecked")
-	public void run() throws MessagingException, GOALCommandCancelledException,
-			ParserException, GOALLaunchFailureException, InterruptedException,
-			EnvironmentInterfaceException {
+	public void run() throws GOALRunFailedException {
 		RuntimeManager<? extends D, ? extends C> runtimeManager = null;
 		try {
 			runtimeManager = buildRuntime();
@@ -206,11 +205,13 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 							.handleResult((Collection<Agent<C>>) agents);
 				}
 			}
-		} finally {
+		} catch (Exception e) { // top level catch of run of MAS
+			throw new GOALRunFailedException("The run of "+masProgram.toString()+" failed", e);
+		}finally {
 			if (runtimeManager != null) {
 				runtimeManager.shutDown();
 			}
-		}
+		} 
 	}
 
 	/**
