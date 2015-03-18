@@ -6,6 +6,7 @@ import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
 import java.rmi.activation.UnknownObjectException;
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class RulesExecutor {
 	 *            The substitution provided by the module context that is passed
 	 *            on to this rule set.
 	 * @return The {@link Result} of executing this rule set.
-	 * @throws GOALActionFailedException
+	 * @throws GOALActionFailedException 
 	 * @throws KRInitFailedException
 	 * @throws UnknownObjectException
 	 * @throws KRQueryFailedException
@@ -86,8 +87,12 @@ public class RulesExecutor {
 			 * Get the learner to choose one action option, from the input list
 			 * of action options.
 			 */
-			List<ActionCombo> options = getActionOptions(ms,
-					runState.getDebugger(), krInterface);
+			List<ActionCombo> options;
+			try {
+				options = getActionOptions(ms,runState.getDebugger(), krInterface);
+			} catch (GOALDatabaseException e1) {
+				throw new GOALActionFailedException("could not get action options for the rules",e1);
+			}
 
 			// There are no possible options for actions to execute.
 			if (options.isEmpty()) {
@@ -131,7 +136,11 @@ public class RulesExecutor {
 			Collections.shuffle(rules);
 		case LINEAR:
 			for (Rule rule : rules) {
-				result = new RuleExecutor(rule).run(runState, substitution);
+				try {
+					result = new RuleExecutor(rule).run(runState, substitution);
+				} catch (GOALDatabaseException e) {
+					throw new GOALActionFailedException("rule "+rule+" failed to run", e);
+				}
 				if (result.isFinished()) {
 					break;
 				}
@@ -143,7 +152,11 @@ public class RulesExecutor {
 			// Continue evaluating and applying rule as long as there are more,
 			// and no {@link ExitModuleAction} has been performed.
 			for (Rule rule : rules) {
-				result.merge(new RuleExecutor(rule).run(runState, substitution));
+				try {
+					result.merge(new RuleExecutor(rule).run(runState, substitution));
+				} catch (GOALDatabaseException e) {
+					throw new GOALActionFailedException("rule "+rule+" failed to run", e);
+				}
 				if (result.isModuleTerminated()) {
 					break;
 				}
@@ -175,14 +188,14 @@ public class RulesExecutor {
 	 *            The current debugger.
 	 * @return A list of actions that may be performed in the given mental
 	 *         state, possibly empty.
-	 * @throws GOALActionFailedException
+	 * @throws GOALDatabaseException 
 	 * @throws KRInitFailedException
 	 * @throws UnknownObjectException
 	 */
 	@SuppressWarnings("fallthrough")
 	private final List<ActionCombo> getActionOptions(MentalState mentalState,
 			Debugger debugger, KRInterface krInterface)
-			throws GOALActionFailedException {
+			throws GOALDatabaseException {
 		List<ActionCombo> actionOptions = new LinkedList<>();
 		Set<Substitution> solutions;
 		boolean finished = false;

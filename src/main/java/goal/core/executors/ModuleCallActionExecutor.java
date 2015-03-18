@@ -27,6 +27,8 @@ import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALBug;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
 import java.util.List;
 
@@ -203,23 +205,28 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 					|| literal instanceof GoalLiteral) {
 				Query query = literal.applySubst(subst).getFormula();
 				// do not insert if the goal has already been achieved
-				if (agentModel.beliefQuery(query, debugger).isEmpty()) {
-					// by using the substitution obtained from the
-					// action rule, we should have forced the literals
-					// to be closed.
-					if (!query.isClosed()) {
-						throw new GOALActionFailedException(
-								"A goal-literal "
-										+ query
-										+ " in the condition of rule "
-										+ this
-										+ " is not closed after applying the subst of the focus action",
-								null);
+				try {
+					if (agentModel.beliefQuery(query, debugger).isEmpty()) {
+						// by using the substitution obtained from the
+						// action rule, we should have forced the literals
+						// to be closed. 
+						if (!query.isClosed()) {
+							throw new GOALActionFailedException(
+									"A goal-literal "
+											+ query
+											+ " in the condition of rule "
+											+ this
+											+ " is not closed after applying the subst of the focus action",
+									null);
+						}
+						// FIXME seems better to just fail application instead of
+						// throwing, but how to best do that since we don't return
+						// Result here?
+						newAttentionSet.insert(query.toUpdate(), debugger);
 					}
-					// FIXME seems better to just fail application instead of
-					// throwing, but how to best do that since we don't return
-					// Result here?
-					newAttentionSet.insert(query.toUpdate(), debugger);
+				} catch (GOALDatabaseException e) {
+					// the beliefQuery itself failed. Seems a goal bug.
+					throw new GOALBug("query "+query +" failed while trying to collect filter goals for "+literal, e);
 				}
 			}
 		}

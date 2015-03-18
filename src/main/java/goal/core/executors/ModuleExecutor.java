@@ -6,6 +6,7 @@ import goal.tools.debugger.Channel;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 import goal.tools.errorhandling.exceptions.GOALBug;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 import goal.tools.unittest.result.testcondition.TestBoundaryException;
 import goal.tools.unittest.result.testcondition.TestConditionFailedException;
 
@@ -78,7 +79,7 @@ public class ModuleExecutor {
 			} catch (RuntimeException e) {
 				throw e; // goal bugs, let fall through.
 			} catch (Exception e) {
-				// we should never get here. 
+				// we should never get here.
 				throw new GOALBug("module is throwing unexpected exception", e);
 			}
 		}
@@ -108,17 +109,24 @@ public class ModuleExecutor {
 			final Substitution substitution, final boolean first)
 			throws GOALActionFailedException {
 		if (first) {
-			// Push (non-anonymous) modules that were just entered onto stack
-			// that keeps track of modules that have been entered but not yet
-			// exited again.
+			/*
+			 * Push (non-anonymous) modules that were just entered onto stack
+			 * that keeps track of modules that have been entered but not yet
+			 * exited again.
+			 */
 			runState.enteredModule(this.module);
 
-			// Add all initial beliefs defined in the beliefs section of this
-			// module
-			// to the agent's belief base.
+			/*
+			 * Add all initial beliefs defined in the beliefs section of this
+			 * module to the agent's belief base.
+			 */
 			for (DatabaseFormula belief : this.module.getBeliefs()) {
-				runState.getMentalState().insert(belief, BASETYPE.BELIEFBASE,
-						runState.getDebugger(), runState.getId());
+				try {
+					runState.getMentalState().insert(belief, BASETYPE.BELIEFBASE,
+							runState.getDebugger(), runState.getId());
+				} catch (GOALDatabaseException e) {
+					throw new IllegalStateException("insert "+belief+ "failed unexpectedly", e);
+				}
 			}
 
 			// Add all goals defined in the goals section of this module to the
@@ -128,8 +136,12 @@ public class ModuleExecutor {
 						new Selector(SelectorType.THIS), goal.applySubst(
 								substitution).toUpdate(), goal.getSourceInfo(),
 						module.getKRInterface()));
-				adopt = adopt.evaluatePrecondition(runState.getMentalState(),
-						runState.getDebugger(), false);
+				try {
+					adopt = adopt.evaluatePrecondition(runState.getMentalState(),
+							runState.getDebugger(), false);
+				} catch (GOALDatabaseException e) {
+					throw new IllegalStateException("adopt of "+goal+ "failed unexpectedly", e);
+				}
 				if (adopt != null) {
 					adopt.run(runState, substitution, runState.getDebugger(),
 							false);

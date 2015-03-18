@@ -24,6 +24,7 @@ import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,7 +47,7 @@ public class UserSpecActionExecutor extends ActionExecutor {
 
 	@Override
 	public ActionExecutor evaluatePrecondition(MentalState mentalState,
-			Debugger debugger, boolean last) {
+			Debugger debugger, boolean last) throws GOALDatabaseException {
 		MentalStateConditionExecutor check = new MentalStateConditionExecutor(
 				this.action.getPrecondition());
 		final Set<Substitution> solutions1 = check.evaluate(mentalState,
@@ -103,8 +104,12 @@ public class UserSpecActionExecutor extends ActionExecutor {
 
 		// Apply the action's postcondition.
 		Update postcondition = this.action.getPostcondition();
-		runState.getMentalState().insert(postcondition, BASETYPE.BELIEFBASE,
-				debugger);
+		try {
+			runState.getMentalState().insert(postcondition, BASETYPE.BELIEFBASE,
+					debugger);
+		} catch (GOALDatabaseException e) {
+			throw new GOALActionFailedException("postcondition "+postcondition +" can not be inserted",e);
+		}
 
 		// Check if goals have been achieved and, if so, update goal base.
 		runState.getMentalState().updateGoalState(debugger);

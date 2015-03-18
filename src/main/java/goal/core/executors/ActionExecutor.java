@@ -6,6 +6,7 @@ import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
 import java.util.HashSet;
 import java.util.List;
@@ -63,7 +64,7 @@ public abstract class ActionExecutor {
 	 *         is enabled as it is
 	 */
 	protected ActionExecutor evaluatePrecondition(MentalState mentalState,
-			Debugger debugger, boolean last) {
+			Debugger debugger, boolean last) throws GOALDatabaseException {
 		return this;
 	}
 
@@ -108,8 +109,14 @@ public abstract class ActionExecutor {
 		ActionExecutor instantiatedAction = applySubst(substitution);
 
 		// Evaluate the precondition of this {@link Action}.
-		ActionExecutor action = instantiatedAction.evaluatePrecondition(
-				runState.getMentalState(), debugger, last);
+		ActionExecutor action;
+		try {
+			action = instantiatedAction.evaluatePrecondition(
+					runState.getMentalState(), debugger, last);
+		} catch (GOALDatabaseException e) {
+			throw new GOALActionFailedException("Precondition of action "
+					+ getAction() + " failed to evaluate ", e);
+		}
 
 		if (action != null) {
 			// Check if action is closed.

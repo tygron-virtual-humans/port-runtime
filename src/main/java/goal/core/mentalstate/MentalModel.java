@@ -23,6 +23,7 @@ import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALBug;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 
 import java.util.HashSet;
@@ -286,9 +287,10 @@ public class MentalModel {
 	 *         result in instances of it that follow from the belief and/or goal
 	 *         base. If the mental atom is closed, and follows from the mental
 	 *         state, then pSubst is an empty list.
+	 * @throws GOALDatabaseException
 	 */
 	public final Set<Substitution> query(MentalLiteral literal, boolean focus,
-			Debugger debugger) {
+			Debugger debugger) throws GOALDatabaseException {
 		Query formula = literal.getFormula();
 		Set<Substitution> substitutions = new HashSet<>();
 		if (literal instanceof BelLiteral) {
@@ -324,8 +326,10 @@ public class MentalModel {
 	 *            The debugger controlling the call
 	 * @return (possibly empty) set of substitutions that when applied to the
 	 *         formula ensure it follows from the belief base.
+	 * @throws GOALDatabaseException
 	 */
-	public final Set<Substitution> beliefQuery(Query query, Debugger debugger) {
+	public final Set<Substitution> beliefQuery(Query query, Debugger debugger)
+			throws GOALDatabaseException {
 		return this.beliefBases.get(BASETYPE.BELIEFBASE).query(query, debugger);
 	}
 
@@ -341,9 +345,10 @@ public class MentalModel {
 	 *            The debugger controlling the call
 	 * @return (possibly empty) set of substitutions that when applied to the
 	 *         formula ensure it follows from the goal base.
+	 * @throws GOALDatabaseException
 	 */
 	public final Set<Substitution> goalQuery(Query query, boolean focus,
-			Debugger debugger) {
+			Debugger debugger) throws GOALDatabaseException {
 		return getAttentionSet(focus).query(query, debugger);
 	}
 
@@ -360,9 +365,10 @@ public class MentalModel {
 	 * @return (possibly empty) set of substitutions that when applied to
 	 *         formula ensure it follows from the goal base but NOT from the
 	 *         belief base.
+	 * @throws GOALDatabaseException
 	 */
 	public final Set<Substitution> agoalQuery(Query query, boolean focus,
-			Debugger debugger) {
+			Debugger debugger) throws GOALDatabaseException {
 		Set<Substitution> substitutions = new LinkedHashSet<>();
 
 		// First, check whether query follows from goal base.
@@ -405,9 +411,10 @@ public class MentalModel {
 	 * @return (possibly empty) set of substitutions that when applied to
 	 *         formula ensure it follows from the goal base AND from the belief
 	 *         base.
+	 * @throws GOALDatabaseException
 	 */
 	public final Set<Substitution> goalaQuery(Query query, boolean focus,
-			Debugger debugger) {
+			Debugger debugger) throws GOALDatabaseException {
 		Set<Substitution> lSubstSet = new LinkedHashSet<>();
 		Set<Substitution> retainSubstSet = new LinkedHashSet<>();
 		Query instantiatedQuery;
@@ -443,8 +450,10 @@ public class MentalModel {
 	 *            The goal to be dropped.
 	 * @param debugger
 	 *            Debugger observing the procedure.
+	 * @throws GOALDatabaseException
 	 */
-	public void drop(Update goal, Debugger debugger) {
+	public void drop(Update goal, Debugger debugger)
+			throws GOALDatabaseException {
 		for (int i = 0; i < this.goalBases.size(); i++) {
 			this.goalBases.elementAt(i).drop(goal, debugger);
 		}
@@ -462,6 +471,9 @@ public class MentalModel {
 	 *
 	 * @param debugger
 	 *            The debugger controlling the call
+	 * @throws IllegalStateException
+	 *             if update fails. If we fail to update this probably is a bug
+	 *             in GOAL.
 	 */
 	public void updateGoalState(Debugger debugger) {
 		if (this.goalBases.isEmpty()) {
@@ -472,9 +484,15 @@ public class MentalModel {
 		Set<SingleGoal> goals = getAttentionSet(true).getGoals();
 		List<SingleGoal> goalsToBeRemoved = new LinkedList<>();
 		for (SingleGoal goal : goals) {
-			if (!this.beliefBases.get(BASETYPE.BELIEFBASE)
-					.query(goal.getGoal().toQuery(), debugger).isEmpty()) {
-				goalsToBeRemoved.add(goal);
+			try {
+				if (!this.beliefBases.get(BASETYPE.BELIEFBASE)
+						.query(goal.getGoal().toQuery(), debugger).isEmpty()) {
+					goalsToBeRemoved.add(goal);
+				}
+			} catch (GOALDatabaseException e) {
+				throw new IllegalStateException(String.format(Resources
+						.get(WarningStrings.FAILED_REMOVING_GOAL_FROM_GB), goal
+						.toString()), e);
 			}
 		}
 

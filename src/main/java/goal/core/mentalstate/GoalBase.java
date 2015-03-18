@@ -24,6 +24,8 @@ import goal.tools.debugger.SteppingDebugger;
 import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
+import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
@@ -231,8 +233,9 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 *
 	 * @return a (possibly empty) set of substitutions each of which make the
 	 *         query succeed.
+	 * @throws GOALActionFailedException if the query fails to be executed.
 	 */
-	public final Set<Substitution> query(Query query, Debugger debugger) {
+	public final Set<Substitution> query(Query query, Debugger debugger) throws GOALDatabaseException {
 		Set<Substitution> substitutions = new LinkedHashSet<>();
 		for (SingleGoal goal : this.goals) {
 			try {
@@ -243,7 +246,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 				// Update time used.
 				updateTimeUsed();
 			} catch (KRQueryFailedException e) {
-				throw new IllegalArgumentException(String.format(
+				throw new GOALDatabaseException(String.format(
 						Resources.get(WarningStrings.FAILED_GOAL_QUERY),
 						query.toString(), goal.getGoalDatabase().getName()), e);
 			}
@@ -263,7 +266,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 *            The {@link SteppingDebugger} observing the call.
 	 * @return true if anything changed.
 	 */
-	public boolean insert(Update goal, Debugger debugger) {
+	public boolean insert(Update goal, Debugger debugger)  {
 		this.count++;
 		getTime();
 		addGoal(new SingleGoal(goal, this.owner, this.state), debugger);
@@ -313,7 +316,7 @@ public final class GoalBase implements Iterable<SingleGoal> {
 	 *            the current debugger
 	 * @return A (possibly empty) list of goals that have been dropped.
 	 */
-	public List<SingleGoal> drop(Update dropgoal, Debugger debugger) {
+	public List<SingleGoal> drop(Update dropgoal, Debugger debugger) throws GOALDatabaseException{
 		List<SingleGoal> goalsToBeDropped = new LinkedList<>();
 		for (SingleGoal goal : this.goals) {
 			try {
@@ -325,8 +328,8 @@ public final class GoalBase implements Iterable<SingleGoal> {
 				}
 				// Update time used.
 				updateTimeUsed();
-			} catch (Exception e) {
-				new Warning(debugger, String.format(Resources
+			} catch (KRQueryFailedException e) {
+				throw new GOALDatabaseException(String.format(Resources
 						.get(WarningStrings.FAILED_GB_QUERY), dropgoal
 						.toQuery().toString(), this.owner.toString()), e);
 			}

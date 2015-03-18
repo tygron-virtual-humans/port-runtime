@@ -7,6 +7,7 @@ import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,10 +55,11 @@ public class RuleExecutor {
 	 *            substitutions that hold on the module level encapsulating this
 	 *            rule.
 	 * @return Result.
-	 * @throws GOALActionFailedException
+	 * @throws GOALActionFailedException if the action (right hand side of rule) fails
+	 * @throws GOALDatabaseException  if the mental state condition (left hand side of rule) fails
 	 */
 	public Result run(RunState<?> runState, Substitution substitution)
-			throws GOALActionFailedException {
+			throws GOALActionFailedException, GOALDatabaseException {
 		Set<Substitution> substset;
 		HashMap<Substitution, List<SingleGoal>> substGoalLinks = null;
 		MentalState mentalState = runState.getMentalState();

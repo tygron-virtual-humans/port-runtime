@@ -23,6 +23,7 @@ import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
 import java.util.Set;
 
@@ -54,8 +55,12 @@ public class SendActionExecutor extends ActionExecutor {
 
 		runState.postMessage(message);
 
-		mentalState.getOwnBase(BASETYPE.MAILBOX).insert(message, false,
-				debugger);
+		try {
+			mentalState.getOwnBase(BASETYPE.MAILBOX).insert(message, false,
+					debugger);
+		} catch (GOALDatabaseException e) {
+			throw new GOALActionFailedException("message "+message+" can not be inserted in messagebase",e);
+		}
 
 		// TODO: implement functionality below but then efficiently!!
 		// Identifier eisname = new Identifier(receiver.getName());

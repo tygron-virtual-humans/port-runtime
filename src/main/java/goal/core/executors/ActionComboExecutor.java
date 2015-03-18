@@ -23,6 +23,7 @@ import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -66,10 +67,11 @@ public class ActionComboExecutor {
 	 *         for which a precondition (the first found) of the first action
 	 *         holds.
 	 * @throws GOALActionFailedException
+	 * @throws GOALDatabaseException 
 	 */
 	public List<ActionCombo> getOptions(MentalState mentalState,
 			Substitution subst, Debugger debugger)
-					throws GOALActionFailedException {
+					throws GOALDatabaseException {
 		List<ActionCombo> options = new LinkedList<>();
 
 		// Get the first action from the list of actions of this combo.
@@ -115,7 +117,7 @@ public class ActionComboExecutor {
 					// Action is an option, add the combo as option.
 					options.add(this.actions);
 				} else {
-					throw new GOALActionFailedException("attempt to execute "
+					throw new GOALDatabaseException("attempt to execute "
 							+ firstaction + " with free variables, "
 							+ firstaction.getSourceInfo());
 				}

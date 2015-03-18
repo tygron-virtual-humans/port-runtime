@@ -6,6 +6,7 @@ import goal.tools.debugger.Channel;
 import goal.tools.debugger.DebugEvent;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.NOPDebugger;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 import goal.tools.unittest.result.ResultFormatter;
 import goal.tools.unittest.testsection.executors.EvaluateInExecutor;
 
@@ -172,9 +173,14 @@ public abstract class TestConditionExecutor {
 								this.runstate.getMentalState(), debugger);
 			} catch (Exception e) {
 				// FIXME: this exception can occur (and is expected)
-				result = new MentalStateConditionExecutor(
-						testquery.getCondition()).evaluate(
-								this.runstate.getMentalState(), debugger);
+				// Apparently has to do something with macros?
+				try {
+					result = new MentalStateConditionExecutor(
+							testquery.getCondition()).evaluate(
+									this.runstate.getMentalState(), debugger);
+				} catch (GOALDatabaseException e1) {
+					throw new IllegalStateException("testcondition evaluation of "+testquery+" fails",e1);
+				}
 			}
 			if (!result.isEmpty() && testquery.getAction() != null) {
 				Substitution[] copy = result.toArray(new Substitution[result

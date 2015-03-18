@@ -5,6 +5,8 @@ import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
+import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
 import java.util.Set;
 
@@ -28,7 +30,7 @@ public class AdoptActionExecutor extends ActionExecutor {
 
 	@Override
 	public ActionExecutor evaluatePrecondition(MentalState mentalState,
-			Debugger debugger, boolean last) {
+			Debugger debugger, boolean last) throws GOALDatabaseException {
 		Set<Substitution> evaluation = new MentalStateConditionExecutor(
 				this.action.getPrecondition()).evaluate(mentalState, debugger);
 		if (!evaluation.isEmpty()) {
@@ -55,15 +57,19 @@ public class AdoptActionExecutor extends ActionExecutor {
 	}
 
 	@Override
-	protected Result executeAction(RunState<?> runState, Debugger debugger) {
+	protected Result executeAction(RunState<?> runState, Debugger debugger) throws GOALActionFailedException {
 		MentalState mentalState = runState.getMentalState();
 
 		// TODO: handle selector.
 		// Set<String> agentNames = this.getSelector().resolve(mentalState);
 
 		boolean topLevel = this.action.getSelector().getType() == SelectorType.SELF;
-		mentalState.adopt(this.action.getUpdate(), !topLevel, debugger,
-				mentalState.getAgentId());
+		try {
+			mentalState.adopt(this.action.getUpdate(), !topLevel, debugger,
+					mentalState.getAgentId());
+		} catch (GOALDatabaseException e) {
+			throw new GOALActionFailedException("Failed to execute action "+this.action,e);
+		}
 
 		// Report action was performed.
 		report(debugger);

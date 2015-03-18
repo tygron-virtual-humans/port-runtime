@@ -43,6 +43,7 @@ import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 import goal.tools.errorhandling.exceptions.GOALBug;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 
 import java.rmi.activation.UnknownObjectException;
@@ -383,7 +384,7 @@ public class RunState<D extends Debugger> {
 	 * model of the sending agent in a way that depends on the messages mood,
 	 * which is indicated by the ACL's performative.
 	 */
-	private void processMessages(Set<Message> messages) {
+	private void processMessages(Set<Message> messages)  {
 		if (!messages.isEmpty()) {
 			getDebugger().breakpoint(Channel.MAILS, null, null,
 					"Processing mails."); //$NON-NLS-1$
@@ -407,8 +408,9 @@ public class RunState<D extends Debugger> {
 	 *
 	 * @param message
 	 *            the new message
+	 * @throws GOALDatabaseException if there are issues manipulating the database
 	 */
-	private void processMessageMentalModel(Message message) {
+	private void processMessageMentalModel(Message message)  {
 		Update update = message.getContent();
 		AgentId sender = message.getSender();
 
@@ -424,6 +426,7 @@ public class RunState<D extends Debugger> {
 				}
 			}
 
+			try {
 			switch (message.getMood()) {
 			case INDICATIVE:
 				this.getMentalState().insert(update, BASETYPE.BELIEFBASE,
@@ -443,6 +446,9 @@ public class RunState<D extends Debugger> {
 				throw new GOALBug("Received a message with unexpected mood: " //$NON-NLS-1$
 						+ message.getMood());
 			}
+			} catch (GOALDatabaseException e) {
+				throw new IllegalStateException("received message "+message+" caused internal error",e);
+			}
 			this.getMentalState().updateGoalState(this.debugger, sender);
 		}
 	}
@@ -452,15 +458,20 @@ public class RunState<D extends Debugger> {
 	 *
 	 * @param message
 	 *            the message that was received.
+	 * @throws GOALDatabaseException 
 	 */
-	private void processMessageToMessagebox(Message message) {
+	private void processMessageToMessagebox(Message message)  {
 		/*
 		 * Put the received message in the mailbox as a "received" fact. The
 		 * message content is annotated with the mood, unless it is an
 		 * indicative.
 		 */
-		getMentalState().getOwnBase(BASETYPE.MAILBOX).insert(message, true,
-				this.debugger);
+		try {
+			getMentalState().getOwnBase(BASETYPE.MAILBOX).insert(message, true,
+					this.debugger);
+		} catch (GOALDatabaseException e) {
+			throw new IllegalStateException("the received message "+message+" can not be inserted",e);
+		}
 		// TODO: do this in a proper but also EFFICIENT way!!
 		// TRAC #1125, #1128, #738. This is getting ugly, see #....
 		// Identifier eisname = new Identifier(message.getSender().getName());
@@ -616,7 +627,7 @@ public class RunState<D extends Debugger> {
 		// Get and process percepts.
 		this.processPercepts(newPercepts, this.previousPercepts);
 		// Get messages and update message box.
-		this.processMessages(newMessages);
+			this.processMessages(newMessages);
 
 		// If there is an init module, run it in the first round.
 		if (this.initModule != null && this.getRoundCounter() == 1) {

@@ -22,6 +22,8 @@ import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
+import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 import krTools.language.Substitution;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.InsertAction;
@@ -35,15 +37,19 @@ public class InsertActionExecutor extends ActionExecutor {
 	}
 
 	@Override
-	protected Result executeAction(RunState<?> runState, Debugger debugger) {
+	protected Result executeAction(RunState<?> runState, Debugger debugger) throws GOALActionFailedException {
 		mentalState.MentalState state = runState.getMentalState().getState();
 		MentalState mentalState = runState.getMentalState();
-		mentalState.insert(
-				state.filterMailUpdates(this.action.getUpdate(), false),
-				BASETYPE.BELIEFBASE, debugger);
-		mentalState.insert(
-				state.filterMailUpdates(this.action.getUpdate(), true),
-				BASETYPE.MAILBOX, debugger);
+		try {
+			mentalState.insert(
+					state.filterMailUpdates(this.action.getUpdate(), false),
+					BASETYPE.BELIEFBASE, debugger);
+			mentalState.insert(
+					state.filterMailUpdates(this.action.getUpdate(), true),
+					BASETYPE.MAILBOX, debugger);
+		} catch (GOALDatabaseException e) {
+			throw new GOALActionFailedException("Failed to execute action "+this.action,e);
+		}
 		mentalState.updateGoalState(debugger);
 
 		report(debugger);

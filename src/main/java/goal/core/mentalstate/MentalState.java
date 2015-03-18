@@ -24,6 +24,7 @@ import goal.core.executors.MentalStateConditionExecutor;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
 import goal.tools.errorhandling.exceptions.GOALBug;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 import goal.tools.logging.InfoLog;
 
@@ -350,8 +351,9 @@ public class MentalState {
 	 * @param literal
 	 * @param debugger
 	 * @return
+	 * @throws GOALDatabaseException 
 	 */
-	public Set<Substitution> query(MentalLiteral literal, Debugger debugger) {
+	public Set<Substitution> query(MentalLiteral literal, Debugger debugger) throws GOALDatabaseException {
 		// Process selector.
 		Iterator<AgentId> agents;
 		try {
@@ -419,8 +421,9 @@ public class MentalState {
 	 * @param type
 	 * @param debugger
 	 * @return
+	 * @throws GOALDatabaseException 
 	 */
-	public Set<Substitution> query(Query query, BASETYPE type, Debugger debugger) {
+	public Set<Substitution> query(Query query, BASETYPE type, Debugger debugger) throws GOALDatabaseException {
 		return getOwnBase(type).query(query, debugger);
 	}
 
@@ -437,9 +440,10 @@ public class MentalState {
 	 *            An optional agent to do the insertion for; the current agent
 	 *            is used otherwise
 	 * @return success or failure.
+	 * @throws GOALDatabaseException 
 	 */
 	public boolean insert(Update update, BASETYPE type, Debugger debugger,
-			AgentId... agent) {
+			AgentId... agent) throws GOALDatabaseException {
 		AgentId id = ((agent.length == 0) ? this.agentId : agent[0]);
 		return this.models.get(id).getBase(type).insert(update, debugger);
 	}
@@ -458,9 +462,10 @@ public class MentalState {
 	 *            is used otherwise
 	 *
 	 * @return success or failure.
+	 * @throws GOALDatabaseException 
 	 */
 	public boolean insert(DatabaseFormula formula, BASETYPE type,
-			Debugger debugger, AgentId... agent) {
+			Debugger debugger, AgentId... agent) throws GOALDatabaseException {
 		AgentId name = ((agent.length == 0) ? this.agentId : agent[0]);
 		return this.models.get(name).getBase(type).insert(formula, debugger);
 	}
@@ -479,9 +484,10 @@ public class MentalState {
 	 *            used otherwise
 	 *
 	 * @return success or failure.
+	 * @throws GOALDatabaseException 
 	 */
 	public boolean delete(Update update, BASETYPE type, Debugger debugger,
-			AgentId... agent) {
+			AgentId... agent) throws GOALDatabaseException {
 		AgentId name = ((agent.length == 0) ? getAgentId() : agent[0]);
 		return this.models.get(name).getBase(type).delete(update, debugger);
 	}
@@ -500,9 +506,10 @@ public class MentalState {
 	 *            used otherwise
 	 *
 	 * @return success or failure.
+	 * @throws GOALDatabaseException 
 	 */
 	public boolean delete(DatabaseFormula formula, BASETYPE type,
-			Debugger debugger, AgentId... agent) {
+			Debugger debugger, AgentId... agent) throws GOALDatabaseException {
 		AgentId name = ((agent.length == 0) ? getAgentId() : agent[0]);
 		return this.models.get(name).getBase(type).delete(formula, debugger);
 	}
@@ -521,9 +528,10 @@ public class MentalState {
 	 *            An optional agent to do the adoption for; the current agent is
 	 *            used otherwise
 	 * @return success or failure.
+	 * @throws GOALDatabaseException 
 	 */
 	public boolean adopt(Update update, boolean focus, Debugger debugger,
-			AgentId... agent) {
+			AgentId... agent) throws GOALDatabaseException {
 		AgentId name = ((agent.length == 0) ? getAgentId() : agent[0]);
 
 		// Do not add goal if it already is implicated by an existing goal.
@@ -548,8 +556,9 @@ public class MentalState {
 	 * @param agent
 	 *            An optional agent to do the drop for; the current agent is
 	 *            used otherwise
+	 * @throws GOALDatabaseException 
 	 */
-	public void drop(Update update, Debugger debugger, AgentId... agent) {
+	public void drop(Update update, Debugger debugger, AgentId... agent) throws GOALDatabaseException {
 		AgentId name = ((agent.length == 0) ? getAgentId() : agent[0]);
 		this.models.get(name).drop(update, debugger);
 	}
@@ -640,6 +649,7 @@ public class MentalState {
 	 * @return The set of {@link Substitution}s that validate the given
 	 *         {@link MentalStateCondition} using only one goal from the goal
 	 *         base.
+	 * @throws GOALDatabaseException 
 	 *
 	 * @throws KRQueryFailedException
 	 *             If something went wrong when querying
@@ -648,7 +658,7 @@ public class MentalState {
 	 */
 	public Set<Substitution> contextQuery(MentalStateCondition context,
 			Map<Substitution, List<SingleGoal>> validatingGoals,
-			Debugger debugger) {
+			Debugger debugger) throws GOALDatabaseException {
 
 		Set<Substitution> substitutions = new LinkedHashSet<>();
 		Set<Substitution> partSubsts;
