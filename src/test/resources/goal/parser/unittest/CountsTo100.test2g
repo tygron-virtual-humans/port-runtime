@@ -9,8 +9,6 @@ masTest {
 				eventually bel(counter(100)).
 				always bel(true).
 				atend bel(true).
-				atstart bel(true).
-%				atstart bel(false).
 			} in do main.
 			
 			do printCounter.
@@ -20,7 +18,6 @@ masTest {
 				eventually bel(counter(20000)).
 				always bel(true).
 				atend bel(true).
-				atstart bel(true).
 %				always bel(false).
 				atend bel(false).
 			} in do main.
