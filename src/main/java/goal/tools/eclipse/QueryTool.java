@@ -13,7 +13,6 @@ import goal.tools.errorhandling.exceptions.GOALUserError;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.List;
 import java.util.Set;
 
 import krTools.KRInterface;
@@ -47,7 +46,7 @@ public class QueryTool {
 		MentalStateCondition mentalStateCondition;
 		try {
 			mentalStateCondition = parseMSC(userEnteredQuery);
-		} catch ( GOALException | ParserException e) {
+		} catch (GOALException | ParserException e) {
 			throw new GOALUserError("Parsing of " + userEnteredQuery
 					+ " failed", e);
 		}
@@ -58,7 +57,7 @@ public class QueryTool {
 			// use a dummy debugger
 			Set<Substitution> substitutions = new MentalStateConditionExecutor(
 					mentalStateCondition).evaluate(mentalState,
-					new SteppingDebugger("query", null));
+							new SteppingDebugger("query", null));
 			String resulttext = "";
 			if (substitutions.isEmpty()) {
 				resulttext = "No solutions";
@@ -68,10 +67,11 @@ public class QueryTool {
 				}
 			}
 			return resulttext;
-		} catch ( GOALDatabaseException e) {
-			throw new GOALUserError("Query entered in query area in "
-					+ "introspector of agent " + this.agent.getId()
-					+ " failed", e);
+		} catch (GOALDatabaseException e) {
+			throw new GOALUserError(
+					"Query entered in query area in "
+							+ "introspector of agent " + this.agent.getId()
+							+ " failed", e);
 		}
 	}
 
@@ -162,7 +162,7 @@ public class QueryTool {
 	 */
 	private void checkParserErrors(AgentValidator walker, String query,
 			String desc) throws ParserException {
-		List<Message> errors = walker.getErrors();
+		Set<Message> errors = walker.getErrors();
 		errors.addAll(walker.getSyntaxErrors());
 		String errMessage = "";
 		if (!errors.isEmpty()) {
@@ -183,12 +183,13 @@ public class QueryTool {
 	 *
 	 * @author W.Pasman.
 	 * @throws ParserException
-	 * @throws GOALUserError 
+	 * @throws GOALUserError
 	 * @modified N.Kraayenbrink - GOAL parser does not print errors any more.
 	 * @modified W.Pasman 8feb2012 now also UserSpecActions can be parsed.
 	 * @modified K.Hindriks if UserOrFocusAction action must be UserSpecAction.
 	 */
-	private Action<?> parseAction(String action) throws ParserException, GOALUserError {
+	private Action<?> parseAction(String action) throws ParserException,
+			GOALUserError {
 		GOAL parser = prepareGOALParser(action);
 		ActionContext actionContext = parser.action();
 		AgentValidator test = new AgentValidator("inline");
