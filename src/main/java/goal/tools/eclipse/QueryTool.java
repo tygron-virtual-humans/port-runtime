@@ -20,6 +20,7 @@ import krTools.KRInterface;
 import krTools.errors.exceptions.ParserException;
 import krTools.language.Substitution;
 import languageTools.analyzer.agent.AgentValidator;
+import languageTools.analyzer.agent.AgentValidatorSecondPass;
 import languageTools.errors.Message;
 import languageTools.parser.GOAL;
 import languageTools.parser.GOAL.ActionContext;
@@ -29,6 +30,7 @@ import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.MentalAction;
 import languageTools.program.agent.actions.UserSpecAction;
 import languageTools.program.agent.actions.UserSpecOrModuleCall;
+import languageTools.program.agent.msc.Macro;
 import languageTools.program.agent.msc.MentalStateCondition;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -139,8 +141,9 @@ public class QueryTool {
 		AgentValidator test = new AgentValidator("inline");
 		test.setKRInterface(this.kr);
 		MentalStateCondition msc = test.visitMentalStateCondition(mscContext);
+		new AgentValidatorSecondPass(test).resolve(msc);
+
 		checkParserErrors(test, mentalStateCondition, "mental state condition ");
-		// TODO? macros are not resolved, not clear how to do that anyways.
 		return msc;
 	}
 
