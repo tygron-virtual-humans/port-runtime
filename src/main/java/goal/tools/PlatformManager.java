@@ -43,6 +43,7 @@ import java.util.logging.Level;
 import krTools.KRInterface;
 import krTools.errors.exceptions.ParserException;
 import languageTools.analyzer.agent.AgentValidator;
+import languageTools.analyzer.agent.AgentValidatorSecondPass;
 import languageTools.analyzer.mas.MASValidator;
 import languageTools.analyzer.test.TestValidator;
 import languageTools.errors.Message;

@@ -13,6 +13,7 @@ import goal.tools.errorhandling.exceptions.GOALUserError;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.List;
 import java.util.Set;
 
 import krTools.KRInterface;
@@ -121,7 +122,7 @@ public class QueryTool {
 	}
 
 	/**
-	 * DOC
+	 * Parse a string to a {@link MentalStateCondition}
 	 *
 	 * @param mentalStateCondition
 	 *            Input string that should represent a mental state condition.
@@ -138,10 +139,10 @@ public class QueryTool {
 		// Try to parse the MSC.
 		GOAL parser = prepareGOALParser(mentalStateCondition);
 		MentalStateConditionContext mscContext = parser.mentalStateCondition();
-		AgentValidator test = new AgentValidator("inline");
+		AgentValidator test = new AgentValidator("inline", agent.getController().getProgram());
 		test.setKRInterface(this.kr);
 		MentalStateCondition msc = test.visitMentalStateCondition(mscContext);
-		new AgentValidatorSecondPass(test).resolve(msc);
+			test.getProgram().resolve(msc);
 
 		checkParserErrors(test, mentalStateCondition, "mental state condition ");
 		return msc;
