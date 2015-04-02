@@ -98,17 +98,18 @@ public class UserSpecActionExecutor extends ActionExecutor {
 	protected Result executeAction(RunState<?> runState, Debugger debugger)
 			throws GOALActionFailedException {
 		// Send the action to the environment if it should be sent.
-		if (this.action.getExernal()) {
+		if (this.action.isExternal()) {
 			runState.doPerformAction(this.action);
 		}
 
 		// Apply the action's postcondition.
 		Update postcondition = this.action.getPostcondition();
 		try {
-			runState.getMentalState().insert(postcondition, BASETYPE.BELIEFBASE,
-					debugger);
+			runState.getMentalState().insert(postcondition,
+					BASETYPE.BELIEFBASE, debugger);
 		} catch (GOALDatabaseException e) {
-			throw new GOALActionFailedException("postcondition "+postcondition +" can not be inserted",e);
+			throw new GOALActionFailedException("postcondition "
+					+ postcondition + " can not be inserted", e);
 		}
 
 		// Check if goals have been achieved and, if so, update goal base.
