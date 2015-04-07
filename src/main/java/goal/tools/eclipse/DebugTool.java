@@ -29,14 +29,6 @@ public class DebugTool {
 
 			final PlatformManager platform = PlatformManager.createNew();
 			final File executable = new File(args[1]);
-
-			if (args.length > 2) {
-				GoalBreakpointManager.loadAll(args[2]);
-				for (final File f : platform.getAllGOALFiles()) {
-					setFileBreaks(platform, f);
-				}
-			}
-
 			RuntimeManager<IDEDebugger, IDEGOALInterpreter> runtime;
 			if (executable.getName().endsWith("mas2g")) {
 				final MASProgram program = platform.parseMASFile(executable);
@@ -46,6 +38,14 @@ public class DebugTool {
 				final UnitTest test = platform.parseUnitTestFile(executable);
 				runtime = LaunchManager.createNew().launchTest(test);
 			}
+
+			if (args.length > 2) {
+				GoalBreakpointManager.loadAll(args[2]);
+				for (final File f : platform.getAllGOALFiles()) {
+					setFileBreaks(platform, f);
+				}
+			}
+
 			final EclipseEventObserver observer = new EclipseEventObserver();
 			final InputReaderWriter readerwriter = new InputReaderWriter(
 					System.in, System.out, runtime, observer);
