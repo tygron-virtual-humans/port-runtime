@@ -204,14 +204,19 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 					this.resultInspector
 							.handleResult((Collection<Agent<C>>) agents);
 				}
+			} else {
+				throw new Exception(
+						"First agent didn't appear before timeout ("
+								+ TIMEOUT_FIRST_AGENT_SECONDS + "s)");
 			}
 		} catch (Exception e) { // top level catch of run of MAS
-			throw new GOALRunFailedException("The run of "+masProgram.toString()+" failed", e);
-		}finally {
+			throw new GOALRunFailedException("The run of "
+					+ this.masProgram.toString() + " failed", e);
+		} finally {
 			if (runtimeManager != null) {
 				runtimeManager.shutDown();
 			}
-		} 
+		}
 	}
 
 	/**
