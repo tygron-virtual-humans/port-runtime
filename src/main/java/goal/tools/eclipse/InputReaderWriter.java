@@ -242,7 +242,7 @@ public class InputReaderWriter extends Thread {
 							.getBreakpoints(agent.getController().getProgram()
 									.getSourceFile());
 					agent.getController().getDebugger()
-					.setBreakpoints(newbreakpoints);
+							.setBreakpoints(newbreakpoints);
 				} catch (final Exception e) {
 					write(e);
 				}

@@ -17,7 +17,7 @@ public class UTTool {
 		try {
 			Loggers.addConsoleLogger();
 			final File mas2g = new File(args[0]);
-			final SingleRun run = new SingleRun(mas2g);
+			final SingleRun run = new SingleRun(mas2g, 0);
 			final MASProgram program = PlatformManager.getCurrent()
 					.getMASProgram(mas2g);
 			program.setEnvironmentfile(new File(args[1]));
@@ -29,7 +29,7 @@ public class UTTool {
 			}
 			run.run();
 			System.exit(0);
-		} catch (final Exception e) {
+		} catch (final Exception e) { // outer exception logging
 			e.printStackTrace();
 			System.exit(-1);
 		}

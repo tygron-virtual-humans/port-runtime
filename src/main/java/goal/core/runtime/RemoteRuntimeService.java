@@ -81,7 +81,7 @@ public class RemoteRuntimeService<D extends Debugger, C extends GOALInterpreter<
 				}
 			} catch (InterruptedException e) {
 				// This happens if someone tries to stop this thread.
-			} catch (Throwable e) {
+			} catch (Throwable e) { // Fatal thread termination handling
 				new Warning(Resources.get(WarningStrings.FAILED_MSG_RUNTIME), e);
 			}
 
@@ -103,29 +103,16 @@ public class RemoteRuntimeService<D extends Debugger, C extends GOALInterpreter<
 		 *
 		 * @param message
 		 */
-		private void broadcast(RemoteRuntimeEvent event) {
+		private void broadcast(RemoteRuntimeEvent event)
+				throws MessagingException {
 			List<MessageBoxId> rsmboxes;
-			try {
-				rsmboxes = RemoteRuntimeService.this.messagingService
-						.getClient().getMessageBoxes(
-								MessageBoxId.Type.RUNTIMESERVICE, null);
-			} catch (MessagingException e1) {
-				new Warning(
-						Resources.get(WarningStrings.FAILED_UPDATE_INTERNAL),
-						e1);
-				return; // FIXME this is fatal. Should throw up.
-			}
+			rsmboxes = RemoteRuntimeService.this.messagingService.getClient()
+					.getMessageBoxes(MessageBoxId.Type.RUNTIMESERVICE, null);
 			rsmboxes.remove(RemoteRuntimeService.this.messageBox.getId());
 			for (MessageBoxId receiver : rsmboxes) {
-				try {
-					Message msg = RemoteRuntimeService.this.messageBox
-							.createMessage(receiver, event, null);
-					RemoteRuntimeService.this.messageBox.send(msg);
-				} catch (MessagingException e) {
-					new Warning(String.format(
-							Resources.get(WarningStrings.FAILED_BROADCAST),
-							event.toString()), e);
-				}
+				Message msg = RemoteRuntimeService.this.messageBox
+						.createMessage(receiver, event, null);
+				RemoteRuntimeService.this.messageBox.send(msg);
 			}
 		}
 
@@ -139,8 +126,8 @@ public class RemoteRuntimeService<D extends Debugger, C extends GOALInterpreter<
 					broadcast(event);
 				}
 			} catch (InterruptedException e) {
-				// This happens if someone tries to stop this thread.
-			} catch (Throwable e) {
+				// Normal procedure: someone tries to stop this thread.
+			} catch (Throwable e) { // Fatal thread termination handling
 				new Warning(Resources.get(WarningStrings.FAILED_RUNTIME_MSG), e);
 			}
 

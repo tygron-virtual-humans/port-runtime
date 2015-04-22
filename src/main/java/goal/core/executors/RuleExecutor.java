@@ -6,6 +6,8 @@ import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
+import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,8 +55,11 @@ public class RuleExecutor {
 	 *            substitutions that hold on the module level encapsulating this
 	 *            rule.
 	 * @return Result.
+	 * @throws GOALActionFailedException if the action (right hand side of rule) fails
+	 * @throws GOALDatabaseException  if the mental state condition (left hand side of rule) fails
 	 */
-	public Result run(RunState<?> runState, Substitution substitution) {
+	public Result run(RunState<?> runState, Substitution substitution)
+			throws GOALActionFailedException, GOALDatabaseException {
 		Set<Substitution> substset;
 		HashMap<Substitution, List<SingleGoal>> substGoalLinks = null;
 		MentalState mentalState = runState.getMentalState();
@@ -75,7 +80,7 @@ public class RuleExecutor {
 		// FIXME using #toRuleString to prevent adding trailing dot...
 		debugger.breakpoint(Channel.RULE_CONDITIONAL_VIEW,
 				this.rule.getCondition(), pos, "Evaluating rule %s.",
-				this.rule.toString());
+				this.rule.prettyPrint());
 
 		// Get substitutions that satisfy rule condition.
 		// determine the rule mode
@@ -88,7 +93,7 @@ public class RuleExecutor {
 			// rule is evaluated using all goals in current attention set.
 			substset = new MentalStateConditionExecutor(
 					this.rule.getCondition()).evaluate(substitution,
-					mentalState, debugger);
+							mentalState, debugger);
 		}
 
 		// If condition does not hold (no solutions), then report and return.
@@ -97,7 +102,8 @@ public class RuleExecutor {
 			// #3079 this must NOT pass the action to the debugger.
 			debugger.breakpoint(Channel.RULE_CONDITION_EVALUATION,
 					this.rule.getCondition(), pos,
-					"Condition of rule %s does not hold.", this.rule.toString());
+					"Condition of rule %s does not hold.",
+					this.rule.prettyPrint());
 			return new Result();
 		}
 
@@ -105,10 +111,10 @@ public class RuleExecutor {
 		// #3079 this must pass the ACTION to the debugger
 		debugger.breakpoint(Channel.HIDDEN_RULE_CONDITION_EVALUATION,
 				this.rule.getAction(), pos, "Condition of rule %s holds.",
-				this.rule.toString());
+				this.rule.prettyPrint());
 		debugger.breakpoint(Channel.RULE_CONDITION_EVALUATION,
 				this.rule.getCondition(), pos,
-				"Condition of rule %s holds for: %s.", this.rule.toString(),
+				"Condition of rule %s holds for: %s.", this.rule.prettyPrint(),
 				substset);
 
 		// Apply rule.
@@ -125,7 +131,7 @@ public class RuleExecutor {
 
 	private Result apply(RunState<?> runState, Set<Substitution> substset,
 			HashMap<Substitution, List<SingleGoal>> substGoalLinks,
-			Substitution globalsubst) {
+			Substitution globalsubst) throws GOALActionFailedException {
 		final ActionComboExecutor executor = new ActionComboExecutor(
 				this.rule.getAction());
 		executor.setContext(this.rule.getCondition());
@@ -151,7 +157,7 @@ public class RuleExecutor {
 					List<SingleGoal> validatingGoals = substGoalLinks
 							.get(subst);
 					runState.setFocusGoal(validatingGoals.get(new Random()
-					.nextInt(validatingGoals.size())));
+							.nextInt(validatingGoals.size())));
 				}
 
 				result.merge(executor.run(runState, subst, i == max));

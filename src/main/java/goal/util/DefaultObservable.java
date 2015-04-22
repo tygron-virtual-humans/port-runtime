@@ -56,7 +56,7 @@ public class DefaultObservable<OBS extends Observer<SRC, OBJ>, SRC, OBJ>
 		for (OBS obs : getObservers()) {
 			try {
 				obs.eventOccured(src, obj);
-			} catch (Throwable e) {
+			} catch (Throwable e) { // Callback protection
 				new Warning(String.format(
 						Resources.get(WarningStrings.FAILED_CALLBACK_1),
 						obs.toString()), e);

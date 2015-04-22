@@ -36,7 +36,7 @@ public class PlatformManagerTest {
 			}
 		}
 
-		assertTrue(masFileRegistries.size() == 3);
+		assertEquals(2, masFileRegistries.size());
 	}
 
 	@Test

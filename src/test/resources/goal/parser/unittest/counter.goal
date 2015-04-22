@@ -7,7 +7,7 @@ init module{
 main module{
 	program{
 %		if bel(counter(X), X>200) then exit-module.
-		if bel(counter(X), Y is X+1) then print(X) + delete(counter(X)) + insert(counter(Y)).
+		if bel(counter(X), Y is X+1) then print(X) + insert(counter(Y)) + delete(counter(X)).
 	}
 }
 

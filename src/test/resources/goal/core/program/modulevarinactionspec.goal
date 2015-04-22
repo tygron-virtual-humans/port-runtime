@@ -1,5 +1,5 @@
-% test if module param is passed into the actionspec of the submodule
-
+% test if module param is NOT passed into the actionspec of the submodule
+% this behaviour has been changed since #3460
 
 main module [exit=nogoals] {
 	program{
@@ -14,12 +14,12 @@ module test(X) [focus=new, exit=always] {
 
 	program [order=linearall] {
 		if bel(true) then action.
-		if bel(aap(Y)), bel(Y==12) then insert(result(ok)).
+		if bel(aap(Y)), bel(Y==11) then insert(result(ok)).
 	}
 	
 	actionspec {
 		action@int {
-		   pre{ true }
+		   pre{ X=11 } % will fail if X has been set.
 		   post{ aap(X) }
 		}
 	}

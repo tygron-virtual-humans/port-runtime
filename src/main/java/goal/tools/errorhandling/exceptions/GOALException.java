@@ -23,7 +23,9 @@ import languageTools.parser.InputStreamPosition;
 
 /**
  * <p>
- * Generic <i>checked</i> exception for issues while running GOAL.
+ * Generic <i>checked</i> exception for user error issues while running GOAL.
+ * This should not be used directly as this is too vague an exception. Use
+ * more specific exceptions .
  * <p>
  * Simple wrapper around {@link Exception}, so that generic Exceptions are no
  * longer necessary.
@@ -38,7 +40,7 @@ import languageTools.parser.InputStreamPosition;
  *
  */
 public abstract class GOALException extends Exception implements
-Comparable<GOALException> {
+		Comparable<GOALException> {
 	/** auto-generated serial version UID */
 	private static final long serialVersionUID = 51927072972577978L;
 
@@ -78,7 +80,7 @@ Comparable<GOALException> {
 	 * Generates a {@link Warning}.
 	 */
 	public void generateNotification(String message) {
-		this.generateWarning(message);
+		generateWarning(message);
 	}
 
 	/**

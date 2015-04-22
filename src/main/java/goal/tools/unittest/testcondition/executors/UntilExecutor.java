@@ -1,10 +1,13 @@
 package goal.tools.unittest.testcondition.executors;
 
 import goal.core.runtime.service.agent.RunState;
-import goal.tools.debugger.DebugEvent;
-import goal.tools.debugger.ObservableDebugger;
+import goal.tools.debugger.Debugger;
 import goal.tools.unittest.result.ResultFormatter;
 import goal.tools.unittest.result.testcondition.TestBoundaryException;
+import goal.tools.unittest.testsection.executors.EvaluateInExecutor;
+
+import java.util.Set;
+
 import krTools.language.Substitution;
 import languageTools.program.test.testcondition.TestCondition;
 import languageTools.program.test.testcondition.Until;
@@ -18,9 +21,10 @@ import languageTools.program.test.testcondition.Until;
  */
 public class UntilExecutor extends TestConditionExecutor {
 	private final Until until;
-	private boolean first = false;
 
-	public UntilExecutor(Until until) {
+	public UntilExecutor(Until until, Substitution substitution,
+			RunState<? extends Debugger> runstate, EvaluateInExecutor parent) {
+		super(substitution, runstate, parent);
 		this.until = until;
 	}
 
@@ -30,42 +34,19 @@ public class UntilExecutor extends TestConditionExecutor {
 	}
 
 	@Override
-	public TestConditionEvaluator createEvaluator(
-			final RunState<? extends ObservableDebugger> runState,
-			final Substitution substitution) {
-		return new TestConditionEvaluator(this) {
-			@Override
-			public String getObserverName() {
-				return UntilExecutor.class.getSimpleName() + "Evaluator";
-			}
-
-			@Override
-			public void firstEvaluation() {
-			}
-
-			@Override
-			public void notifyBreakpointHit(DebugEvent event) {
-				if (!UntilExecutor.this.first) {
-					UntilExecutor.this.first = true;
-				} else if (!evaluate(runState, substitution, getQuery())
-						.isEmpty()) {
+	public void evaluate(TestEvaluationChannel channel) {
+		if (channel != null) { // UNTIL
+			if (this.until.hasNestedCondition()) {
+				// NOT POSSIBLE?!
+			} else {
+				final Set<Substitution> evaluation = evaluate();
+				if (!evaluation.isEmpty()) {
 					setPassed(true);
-					throw new TestBoundaryException("Until boundary reached");
+					throw new TestBoundaryException("Boundary " + this.until
+							+ " reached");
 				}
 			}
-
-			@Override
-			public void lastEvaluation() {
-				if (!isPassed()) {
-					setPassed(false);
-				}
-			}
-
-			@Override
-			public <T> T accept(ResultFormatter<T> formatter) {
-				return formatter.visit(this);
-			}
-		};
+		}
 	}
 
 	@Override

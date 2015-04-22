@@ -4,7 +4,7 @@ import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 
 /**
  * Exception thrown when a boundary is reached. This is an unchecked exception
- * to allow evaluation to end immediately.
+ * to allow evaluation to end immediately. It is not meant to be displayed.
  *
  * @author V.Koeman
  */

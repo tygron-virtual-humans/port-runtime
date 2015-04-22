@@ -30,14 +30,8 @@ public class ExampleTest extends AbstractUnitTestTest {
 	}
 
 	@Test
-	public void testNewModuleOperators() throws Exception {
-		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/example/blocksworld/simple/newModuleOperators.test2g");
-		assertPassedAndPrint(results);
-	}
-
-	@Test
-	public void testNewConditional() throws Exception {
-		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/example/blocksworld/simple/newConditional.test2g");
+	public void testNewOperators() throws Exception {
+		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/example/blocksworld/simple/newOperators.test2g");
 		assertPassedAndPrint(results);
 	}
 
@@ -53,7 +47,7 @@ public class ExampleTest extends AbstractUnitTestTest {
 		assertPassedAndPrint(results);
 	}
 
-	@Test
+	// @Test produces A LOT of output
 	public void testAfter() throws Exception {
 		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/example/after/pingpong.test2g");
 		assertFailedAndPrint(results);

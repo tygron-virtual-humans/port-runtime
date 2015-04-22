@@ -19,11 +19,16 @@
 package goal.tools.errorhandling.exceptions;
 
 /**
+ * This exception is thrown when an action can not be executed due to a user
+ * error.
+ * 
  * @author W.Pasman 21jul11
  * @modified K.Hindriks now extends GOALRuntimeErrorException.
+ * @modified W.Pasman 16feb2015 now extends GOALException as this is (should be)
+ *           a user error #3013.
  *
  */
-public class GOALActionFailedException extends GOALRuntimeErrorException {
+public class GOALActionFailedException extends GOALException {
 	/** Generated serialVersionUID */
 	private static final long serialVersionUID = 953890011844171754L;
 

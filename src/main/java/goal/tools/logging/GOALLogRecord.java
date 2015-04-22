@@ -18,7 +18,6 @@
 
 package goal.tools.logging;
 
-import goal.tools.errorhandling.GOALBugReport;
 import goal.tools.errorhandling.Warning;
 
 import java.util.logging.Formatter;

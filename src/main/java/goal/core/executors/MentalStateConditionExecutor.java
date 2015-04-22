@@ -3,6 +3,7 @@ package goal.core.executors;
 import goal.core.mentalstate.MentalState;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -37,9 +38,10 @@ public class MentalStateConditionExecutor {
 	 *         if the given substitution is {X/1} and the condition is
 	 *         bel(on(X,Y)), then any of the resulting substitutions will be of
 	 *         the form {X/1, Y/..}.
+	 * @throws GOALDatabaseException 
 	 */
 	public Set<Substitution> evaluate(Substitution substitution,
-			MentalState mentalState, Debugger debugger) {
+			MentalState mentalState, Debugger debugger) throws GOALDatabaseException {
 		Set<Substitution> result = new MentalStateConditionExecutor(
 				this.condition.applySubst(substitution)).evaluate(mentalState,
 				debugger);
@@ -60,8 +62,9 @@ public class MentalStateConditionExecutor {
 	 * @return The set of substitutions for which this mental state condition
 	 *         holds in the given mental state. If non-empty the condition
 	 *         holds, otherwise it does not hold.
+	 * @throws GOALDatabaseException 
 	 */
-	public Set<Substitution> evaluate(MentalState mentalState, Debugger debugger) {
+	public Set<Substitution> evaluate(MentalState mentalState, Debugger debugger) throws GOALDatabaseException {
 		Set<Substitution> result, newResults, subResults;
 		List<MentalLiteral> formulas = this.condition.getAllLiterals();
 		if (formulas.isEmpty()) {

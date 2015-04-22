@@ -25,7 +25,7 @@ import java.util.logging.LogRecord;
 /**
  * Class representing a {@link LogRecord} with a parameterized message. Does not
  * build the message until it is published and formatted by the
- * {@link StringsLogRecord.Formatter}.
+ * {@link StringsLogRecord.WarningFormatter}.
  *
  * @author N.Kraayenbrink
  */

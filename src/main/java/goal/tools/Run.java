@@ -1,5 +1,6 @@
 package goal.tools;
 
+import goal.tools.errorhandling.exceptions.GOALRunFailedException;
 import goal.tools.logging.Loggers;
 import goal.tools.unittest.result.UnitTestResult;
 import goal.tools.unittest.result.UnitTestResultFormatter;
@@ -49,11 +50,12 @@ import rmimessaging.RmiMessaging;
  *     --rmi <host>          Use RMI messaging middleware. Host is the
  *                           location of the RMI server. Using "localhost" will
  *                           initialize a RMI server
+ *  -t,--timeout <number>	 Maximum time to run a mas (in seconds)
  *  -v,--verbose             Print all messages
  *     --version             Shows the current version
  *  -w                       Print messages from warning
- *
- *
+ * 
+ * 
  * }
  * </pre>
  *
@@ -83,6 +85,8 @@ public class Run {
 
 	private static final String OPTION_REPEATS = "repeats";
 	private static final char OPTION_REPEATS_SHORT = 'r';
+	private static final String OPTION_TIMEOUT = "timeout";
+	private static final char OPTION_TIMEOUT_SHORT = 't';
 
 	private static final Options options = createOptions();
 
@@ -92,7 +96,7 @@ public class Run {
 		} catch (ParseException e) {
 			System.out.println(e.getMessage());
 			showHelp();
-		} catch (Exception e) {
+		} catch (Exception e) { // run throws generic Exceptions...
 			System.out.println("Exception during execution: " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -103,10 +107,10 @@ public class Run {
 	 * @throws ParseException
 	 * @throws ParserException
 	 * @throws FileNotFoundException
+	 * @throws GOALRunFailedException 
 	 * @throws Exception
 	 */
-	public static void run(String... args) throws ParseException,
-	ParserException, FileNotFoundException, Exception {
+	public static void run(String... args) throws GOALRunFailedException, ParseException, FileNotFoundException, ParserException {
 		// Get start time.
 		long startTime = System.nanoTime();
 
@@ -143,10 +147,6 @@ public class Run {
 				Loggers.getWarningLogger().addConsoleLogger();
 			}
 
-			if (cmd.hasOption(OPTION_VERBOSE_ERROR)) {
-				Loggers.getRuntimeErrorLogger().addConsoleLogger();
-			}
-
 			if (cmd.hasOption(OPTION_VERBOSE_PARSER)) {
 				Loggers.getParserLogger().addConsoleLogger();
 			}
@@ -176,6 +176,10 @@ public class Run {
 		if (cmd.hasOption(OPTION_REPEATS)) {
 			Number repeats = (Number) cmd.getParsedOptionValue(OPTION_REPEATS);
 			repeatedBatchRun.setRepeats(repeats.longValue());
+		}
+		if (cmd.hasOption(OPTION_TIMEOUT)) {
+			Number timeout = (Number) cmd.getParsedOptionValue(OPTION_TIMEOUT);
+			repeatedBatchRun.setTimeout(timeout.longValue());
 		}
 
 		repeatedBatchRun.setMessagingHost(host);
@@ -224,7 +228,7 @@ public class Run {
 		// Get elapsed time.
 		long elapsedTime = (System.nanoTime() - startTime) / 1000000;
 		System.out
-		.println("Took " + elapsedTime + " milliseconds to run jobs.");
+				.println("Took " + elapsedTime + " milliseconds to run jobs.");
 	}
 
 	/**
@@ -330,10 +334,18 @@ public class Run {
 		OptionBuilder.withLongOpt(OPTION_REPEATS);
 		OptionBuilder.withArgName("number");
 		OptionBuilder
-		.withDescription("Number of times to repeat running all episodes");
+				.withDescription("Number of times to repeat running all episodes");
 		OptionBuilder.hasArg();
 		OptionBuilder.withType(Number.class);
 		options.addOption(OptionBuilder.create(OPTION_REPEATS_SHORT));
+
+		OptionBuilder.withLongOpt(OPTION_TIMEOUT);
+		OptionBuilder.withArgName("number");
+		OptionBuilder
+				.withDescription("Maximum time to run a system (in seconds)");
+		OptionBuilder.hasArg();
+		OptionBuilder.withType(Number.class);
+		options.addOption(OptionBuilder.create(OPTION_TIMEOUT_SHORT));
 
 		OptionBuilder.withLongOpt(OPTION_RECURSIVE);
 		OptionBuilder.withDescription("Recursively search for mas files");
@@ -341,14 +353,14 @@ public class Run {
 
 		OptionBuilder.withLongOpt(OPTION_DEBUG);
 		OptionBuilder
-		.withDescription("Display out put from debugger while running agent");
+				.withDescription("Display out put from debugger while running agent");
 		options.addOption(OptionBuilder.create(OPTION_DEBUG_SHORT));
 
 		OptionBuilder.withLongOpt(OPTION_RMI_MESSAGING);
 		OptionBuilder.hasArg();
 		OptionBuilder.withArgName("host");
 		OptionBuilder
-		.withDescription("Use RMI messaging middleware. Host is the location of the RMI server. Using \"localhost\" will initialize a RMI server");
+				.withDescription("Use RMI messaging middleware. Host is the location of the RMI server. Using \"localhost\" will initialize a RMI server");
 		options.addOption(OptionBuilder.create());
 
 		return options;
@@ -366,7 +378,7 @@ public class Run {
 	 * Prints the help for the command line options.
 	 */
 	private static void showHelp() {
-		System.out.println("GOAL Copyright (C) 2014 GPLv3");
+		System.out.println("GOAL Copyright (C) 2015 GPLv3");
 		HelpFormatter formatter = new HelpFormatter();
 		formatter.printHelp(Run.class.getCanonicalName()
 				+ " [options] [[file|directory]]", options);
@@ -377,18 +389,18 @@ public class Run {
 	 */
 	private static void showLicense() {
 		System.out
-		.println("GOAL interpreter that facilitates developing and executing GOAL multi-agent programs.\n"
-				+ "Copyright (C) 2014  K.V. Hindriks\n\n"
-				+ "This program is free software: you can redistribute it and/or modify\n"
-				+ "it under the terms of the GNU General Public License as published by\n"
-				+ "the Free Software Foundation, either version 3 of the License, or\n"
-				+ "(at your option) any later version.\n\n"
-				+ "This program is distributed in the hope that it will be useful,\n"
-				+ "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-				+ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
-				+ "GNU General Public License for more details.\n\n"
-				+ "You should have received a copy of the GNU General Public License\n"
-				+ "along with this program.  If not, see <http://www.gnu.org/licenses/>.\n");
+				.println("GOAL interpreter that facilitates developing and executing GOAL multi-agent programs.\n"
+						+ "Copyright (C) 2015  K.V. Hindriks\n\n"
+						+ "This program is free software: you can redistribute it and/or modify\n"
+						+ "it under the terms of the GNU General Public License as published by\n"
+						+ "the Free Software Foundation, either version 3 of the License, or\n"
+						+ "(at your option) any later version.\n\n"
+						+ "This program is distributed in the hope that it will be useful,\n"
+						+ "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+						+ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+						+ "GNU General Public License for more details.\n\n"
+						+ "You should have received a copy of the GNU General Public License\n"
+						+ "along with this program.  If not, see <http://www.gnu.org/licenses/>.\n");
 	}
 
 }

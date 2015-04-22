@@ -22,6 +22,8 @@ import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
+import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 import krTools.language.Substitution;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.DropAction;
@@ -34,10 +36,14 @@ public class DropActionExecutor extends ActionExecutor {
 	}
 
 	@Override
-	protected Result executeAction(RunState<?> runState, Debugger debugger) {
+	protected Result executeAction(RunState<?> runState, Debugger debugger) throws GOALActionFailedException {
 		MentalState mentalState = runState.getMentalState();
 
-		mentalState.drop(this.action.getUpdate(), debugger);
+		try {
+			mentalState.drop(this.action.getUpdate(), debugger);
+		} catch (GOALDatabaseException e) {
+			throw new GOALActionFailedException("Failed to execute action "+this.action,e);
+		}
 
 		report(debugger);
 

@@ -13,6 +13,9 @@ import languageTools.program.agent.AgentProgram;
 
 public class IDEDebugger extends ObservableDebugger {
 	private final DebugSettingSynchronizer observer;
+
+	// HACK the IDEDebugger locks up on first breakpoint till first Observer
+	// attaches.
 	private volatile boolean firstObserver = false;
 
 	/**
@@ -40,7 +43,7 @@ public class IDEDebugger extends ObservableDebugger {
 	@Override
 	public void breakpoint(Channel channel, Object associateObject,
 			SourceInfo associateSource, String message, Object... args) {
-		while (!this.firstObserver) {
+		while (!this.firstObserver && !this.keepRunning) {
 			try {
 				if (LoggingPreferences.getEclipseDebug()) {
 					new InfoLog("Waiting for first observer...");

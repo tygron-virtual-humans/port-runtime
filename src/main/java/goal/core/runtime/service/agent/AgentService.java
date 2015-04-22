@@ -32,7 +32,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
@@ -75,6 +74,11 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 
 		private final Set<AgentId> all = new HashSet<>();
 
+		/**
+		 * get All known agent ids.
+		 *
+		 * @param id
+		 */
 		public Set<AgentId> allId() {
 			return this.all;
 		}
@@ -88,6 +92,11 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 			this.all.add(id);
 		}
 
+		/**
+		 * Get the agents running in this JVM
+		 *
+		 * @return
+		 */
 		public Collection<Agent<C>> local() {
 			return this.local.values();
 		}
@@ -121,28 +130,29 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	}
 
 	/**
-	 * Launches multi-agent system.
+	 * Launches multi-agent system. This comes down to applying the
+	 * non-conditional launch rules; the conditional launch rules are handled by
+	 * an environment.
 	 *
 	 * @throws GOALLaunchFailureException
 	 *             DOC
 	 */
-	public synchronized void startWithoutEnv()
-			throws GOALLaunchFailureException {
+	public synchronized void start() throws GOALLaunchFailureException {
 		for (LaunchRule multilaunch : this.masProgram.getLaunchRules()) {
-			for (Launch launch : multilaunch.getInstructions()) {
-				for (int i = 0; i < launch.getNumberOfAgentsToLaunch(); i++) {
-					launchAgent(launch, null, null);
+			if (!multilaunch.getConditional()) {
+				for (Launch launch : multilaunch.getInstructions()) {
+					for (int i = 0; i < launch.getNumberOfAgentsToLaunch(); i++) {
+						launchAgent(launch, null, null);
+					}
 				}
 			}
 		}
 	}
 
 	/**
-	 * DOC
+	 * Kills the entire multi-agent system (all agents).
 	 */
 	public synchronized void shutDown() {
-		// Kill any remaining agents (not connected to an entity).
-		// CHECK these are ALL agents, right?
 		for (Agent<C> agent : getAgents()) {
 			agent.stop();
 		}
@@ -151,14 +161,15 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	/**
 	 * Awaits the termination of all agents.
 	 *
+	 * @param timeout
 	 * @throws InterruptedException
 	 *             when interrupted while waiting
 	 */
-	public void awaitTermination() throws InterruptedException {
+	public void awaitTermination(long timeout) throws InterruptedException {
 		List<Agent<C>> agents;
 		while (!(agents = getAliveAgents()).isEmpty()) {
 			Agent<C> agent = agents.get(0);
-			agent.awaitTermination();
+			agent.awaitTermination(timeout);
 		}
 	}
 
@@ -179,6 +190,15 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 */
 	public Set<AgentId> getAll() {
 		return new HashSet<>(this.agents.all);
+	}
+
+	/**
+	 * Get the MAS program
+	 *
+	 * @return
+	 */
+	public MASProgram getMAS() {
+		return this.masProgram;
 	}
 
 	/**
@@ -270,7 +290,13 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 			// We don't know if the id is remote ore local.
 			// We just pass the message onto the agent.
 			for (Agent<C> agent : this.agents.local()) {
-				agent.getController().updateAgentAvailability(id, true);
+				try {
+					agent.getController().updateAgentAvailability(id, true);
+				} catch (Exception e) { // callback protection
+					new Warning(String.format(
+							Resources.get(WarningStrings.FAILED_ACK_NEW_AGENT),
+							agent.getId().getName(), id.getName()), e);
+				}
 			}
 		}
 
@@ -296,7 +322,13 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 
 			// Pass the message onto the other agent.
 			for (Agent<C> a : this.agents.local()) {
-				a.getController().updateAgentAvailability(id, true);
+				try {
+					a.getController().updateAgentAvailability(id, true);
+				} catch (Exception e) { // callback protection
+					new Warning(String.format(
+							Resources.get(WarningStrings.FAILED_ACK_DEL_AGENT),
+							agent.getId().getName(), id.getName()), e);
+				}
 			}
 		}
 
@@ -328,6 +360,9 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 			handleNewEntity(ne.getEntity(), ne.getType(), receiver);
 		} else if (event instanceof DeletedEntityEvent) {
 			DeletedEntityEvent de = (DeletedEntityEvent) event;
+			new Warning(String.format(Resources
+					.get(WarningStrings.ENV_DELETED_ENTITY), de.getEntity()
+					.toString(), de.getAgents().toString()));
 			handleDeletedEntity(de.getAgents());
 		} else {
 			return false; // not handled.
@@ -391,10 +426,8 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 		Agent<C> agent;
 		try {
 			agent = this.factory.build(program, agentBaseName, environment);
-		} catch (KRInitFailedException e) {
-			throw new GOALLaunchFailureException("Could not create Agent", e);
-		} catch (MessagingException e) {
-			throw new GOALLaunchFailureException("Could not create Agent", e);
+		} catch (KRInitFailedException | MessagingException e) {
+			throw new GOALLaunchFailureException("could not create agent", e);
 		}
 
 		if (environment != null) {
@@ -416,12 +449,26 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 		// other agents that we know of.
 		synchronized (this) {
 			for (AgentId otherId : this.agents.allId()) {
-				agent.getController().updateAgentAvailability(otherId, true);
+				try {
+					agent.getController()
+							.updateAgentAvailability(otherId, true);
+				} catch (Exception e) { // Callback protection
+					new Warning(String.format(Resources
+							.get(WarningStrings.FAILED_ACK_LAUCHED_AGENT),
+							agent.getId().getName(), otherId.getName()), e);
+				}
 			}
 
+			// CHECK why is this? local agents are included in all?
 			for (Agent<C> otherAgent : this.agents.local()) {
-				otherAgent.getController().updateAgentAvailability(
-						agent.getId(), true);
+				try {
+					otherAgent.getController().updateAgentAvailability(
+							agent.getId(), true);
+				} catch (Exception e) { // Callback protection
+					new Warning(String.format(Resources
+							.get(WarningStrings.FAILED_ACK_LAUCHED_AGENT),
+							agent.getId().getName(), otherAgent.getId()), e);
+				}
 			}
 
 			this.agents.addLocal(agent);
@@ -577,8 +624,8 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 * @throws UnknownObjectException
 	 */
 	public synchronized void reset() throws InterruptedException,
-	KRInitFailedException, KRDatabaseException, KRQueryFailedException,
-	UnknownObjectException {
+			KRInitFailedException, KRDatabaseException, KRQueryFailedException,
+			UnknownObjectException {
 		for (Agent<C> a : this.agents.local()) {
 			a.reset();
 		}
@@ -612,30 +659,24 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 * agent has been launched.
 	 *
 	 * @param timeout
-	 * @param timeUnit
 	 * @return True when any agent has launched within the timeout.
 	 * @throws InterruptedException
 	 */
-	public boolean awaitFirstAgent(long timeout, TimeUnit timeUnit)
-			throws InterruptedException {
-		if (timeout < 0) {
-			throw new IllegalArgumentException("timeout value is negative");
-		} else if (timeout == 0) {
+	public boolean awaitFirstAgent(long timeout) throws InterruptedException {
+		if (timeout <= 0) {
 			return awaitFirstAgent();
+		} else {
+			timeout = System.currentTimeMillis() + (timeout * 1000L);
 		}
-		long wait = timeUnit.toMillis(timeout);
 
 		synchronized (this) {
 			while (!hasLocalAgents()) {
-				long start = System.currentTimeMillis();
-
 				// This will surrender the lock.
 				// Wake up call is done in launchAgent().
-				wait(wait);
+				wait(100);
 
 				// Woken up. Check if we need to sleep and how long.
-				wait -= System.currentTimeMillis() - start;
-				if (wait <= 0) {
+				if (System.currentTimeMillis() > timeout) {
 					return hasLocalAgents();
 				}
 			}
@@ -673,7 +714,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 		for (AgentServiceEventObserver obs : this.observers) {
 			try {
 				obs.agentServiceEvent(this, evt);
-			} catch (Exception e) {
+			} catch (Exception e) { // Callback protection
 				new Warning(String.format(
 						Resources.get(WarningStrings.FAILED_CALLBACK),
 						obs.toString(), evt.toString()), e);

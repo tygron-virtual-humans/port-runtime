@@ -47,7 +47,7 @@ public class LoggingPreferences {
 		init(Pref.overwritelogfiles, false);
 		init(Pref.logtofile, false);
 		init(Pref.logconsoles, false);
-		init(Pref.logdirectory, System.getProperty("user.dir") + "/logs");
+		init(Pref.logdirectory, System.getProperty("user.home") + "/GOAL/logs");
 		init(Pref.showlogtime, false);
 		init(Pref.javadetails, false);
 		init(Pref.stackdump, false);

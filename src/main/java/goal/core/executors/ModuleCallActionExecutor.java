@@ -27,6 +27,8 @@ import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALBug;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
 import java.util.List;
 
@@ -53,21 +55,28 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	}
 
 	public void setContext(MentalStateCondition ctx) {
+		setContext(ctx, null);
+	}
+
+	public void setContext(MentalStateCondition ctx, Substitution pass) {
 		this.context = ctx;
-		this.substitutionToPassOnToModule = null;
+		this.substitutionToPassOnToModule = pass;
 	}
 
 	@Override
 	public ModuleCallActionExecutor evaluatePrecondition(MentalState runState,
 			Debugger debugger, boolean last) {
-		debugger.breakpoint(Channel.CALL_MODULE, this.action,
-				this.action.getSourceInfo(), "Going to enter module: %s.",
-				this.action.getTarget().getName());
+		if (this.action.getTarget().getType() != TYPE.ANONYMOUS) {
+			debugger.breakpoint(Channel.CALL_MODULE, this.action,
+					this.action.getSourceInfo(), "Going to enter module: %s.",
+					this.action.getTarget().getName());
+		}
 		return this;
 	}
 
 	@Override
-	protected Result executeAction(RunState<?> runState, Debugger debugger) {
+	protected Result executeAction(RunState<?> runState, Debugger debugger)
+			throws GOALActionFailedException {
 		// Use module parameters to filter bindings in substitution. Only
 		// values for free variables in the module's parameters are passed on
 		// in case of a non-anonymous module; an anonymous module is completely
@@ -107,7 +116,8 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	 * @throws GOALActionFailedException
 	 */
 	private GoalBase getNewFocus(MentalState mentalstate, Debugger debugger,
-			Substitution subst, SingleGoal goal) {
+			Substitution subst, SingleGoal goal)
+			throws GOALActionFailedException {
 		switch (this.action.getTarget().getFocusMethod()) {
 		case NEW:
 			// Create new empty goal base to construct a new attention set.
@@ -175,12 +185,12 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 	 */
 	private GoalBase getNewFilterGoals(MentalState mentalstate,
 			Debugger debugger, Substitution subst)
-					throws GOALActionFailedException {
+			throws GOALActionFailedException {
 		MentalModel agentModel = mentalstate.getOwnModel();
 
 		GoalBase newAttentionSet = new GoalBase(mentalstate.getState(),
 				mentalstate.getAgentId(), mentalstate.getOwner(), this.action
-				.getTarget().getName());
+						.getTarget().getName());
 
 		// get the goals as obtained from the context, and add them to
 		// the goalbase
@@ -195,23 +205,28 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 					|| literal instanceof GoalLiteral) {
 				Query query = literal.applySubst(subst).getFormula();
 				// do not insert if the goal has already been achieved
-				if (agentModel.beliefQuery(query, debugger).isEmpty()) {
-					// by using the substitution obtained from the
-					// action rule, we should have forced the literals
-					// to be closed.
-					if (!query.isClosed()) {
-						throw new GOALActionFailedException(
-								"A goal-literal "
-										+ query
-										+ " in the condition of rule "
-										+ this
-										+ " is not closed after applying the subst of the focus action",
-								null);
+				try {
+					if (agentModel.beliefQuery(query, debugger).isEmpty()) {
+						// by using the substitution obtained from the
+						// action rule, we should have forced the literals
+						// to be closed. 
+						if (!query.isClosed()) {
+							throw new GOALActionFailedException(
+									"A goal-literal "
+											+ query
+											+ " in the condition of rule "
+											+ this
+											+ " is not closed after applying the subst of the focus action",
+									null);
+						}
+						// FIXME seems better to just fail application instead of
+						// throwing, but how to best do that since we don't return
+						// Result here?
+						newAttentionSet.insert(query.toUpdate(), debugger);
 					}
-					// FIXME seems better to just fail application instead of
-					// throwing, but how to best do that since we don't return
-					// Result here?
-					newAttentionSet.insert(query.toUpdate(), debugger);
+				} catch (GOALDatabaseException e) {
+					// the beliefQuery itself failed. Seems a goal bug.
+					throw new GOALBug("query "+query +" failed while trying to collect filter goals for "+literal, e);
 				}
 			}
 		}
@@ -224,7 +239,8 @@ public class ModuleCallActionExecutor extends ActionExecutor {
 		ModuleCallActionExecutor returned = new ModuleCallActionExecutor(
 				(ModuleCallAction) this.action.applySubst(subst));
 		if (this.context != null) {
-			returned.setContext(this.context.applySubst(subst));
+			returned.setContext(this.context.applySubst(subst),
+					this.substitutionToPassOnToModule);
 		}
 		return returned;
 	}

@@ -19,7 +19,6 @@
 package goal.tools.logging;
 
 import goal.preferences.LoggingPreferences;
-import goal.tools.errorhandling.GOALBugReport;
 import goal.tools.errorhandling.Warning;
 
 import java.util.logging.Logger;
@@ -42,9 +41,6 @@ public final class Loggers {
 			InfoLog.class.getName(), LoggingPreferences.getLogConsolesToFile());
 	private static GOALLogger warningLogger = new GOALLogger(
 			Warning.class.getName(), LoggingPreferences.getLogConsolesToFile());
-	private static GOALLogger runtimeErrorLogger = new GOALLogger(
-			GOALBugReport.class.getName(),
-			LoggingPreferences.getLogConsolesToFile());
 	private static GOALLogger parserLogger = new GOALLogger("goal.parser",
 			LoggingPreferences.getLogConsolesToFile());
 
@@ -88,17 +84,10 @@ public final class Loggers {
 	}
 
 	/**
-	 * @return The {@link Logger} that logs all {@link GOALBugReport}s.
-	 */
-	public static GOALLogger getRuntimeErrorLogger() {
-		return runtimeErrorLogger;
-	}
-
-	/**
 	 * @return An array with all {@link Logger}s obtainable via this class.
 	 */
 	public static GOALLogger[] getAllLoggers() {
 		return new GOALLogger[] { getParserLogger(), getInfoLogger(),
-				getWarningLogger(), getRuntimeErrorLogger() };
+				getWarningLogger() };
 	}
 }

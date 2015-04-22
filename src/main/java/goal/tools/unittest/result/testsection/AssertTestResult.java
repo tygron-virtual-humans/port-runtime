@@ -57,17 +57,6 @@ public class AssertTestResult implements TestSectionResult {
 		return this.passsed;
 	}
 
-	/**
-	 * (non-Javadoc)
-	 *
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "MentalStateTestResult [test=" + this.test + ", passsed="
-				+ this.passsed + "]";
-	}
-
 	@Override
 	public <T> T accept(ResultFormatter<T> formatter) {
 		return formatter.visit(this);

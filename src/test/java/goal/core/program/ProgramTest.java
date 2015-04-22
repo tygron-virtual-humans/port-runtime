@@ -27,6 +27,7 @@ import goal.tools.SingleRun;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.NOPDebugger;
 import goal.tools.eclipse.QueryTool;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 import goal.tools.logging.Loggers;
 import goalhub.krTools.KRFactory;
@@ -117,7 +118,7 @@ public abstract class ProgramTest {
 
 		Agent<GOALInterpreter<Debugger>> agent = buildAgent(id, program);
 		agent.start();
-		agent.awaitTermination();
+		agent.awaitTermination(0); // TODO: timeout?!
 
 		return inspectResult(agent);
 	}
@@ -138,9 +139,14 @@ public abstract class ProgramTest {
 
 		MentalState mentalState = agent.getController().getRunState()
 				.getMentalState();
-		Set<Substitution> res = new MentalStateConditionExecutor(
-				mentalStateCondition).evaluate(mentalState, new NOPDebugger(
-				agent.getId()));
+		Set<Substitution> res;
+		try {
+			res = new MentalStateConditionExecutor(
+					mentalStateCondition).evaluate(mentalState, new NOPDebugger(
+					agent.getId()));
+		} catch (GOALDatabaseException e) {
+			throw new IllegalStateException("evaluation of mental state "+mentalState+" failed",e);
+		}
 
 		// there should be exactly 1 substi.
 		if (res.size() < 1) {

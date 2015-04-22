@@ -91,7 +91,8 @@ public class PMPreferences {
 		init(Pref.defaultKRInterface, "swiprolog");
 		init(Pref.agentsBrowseDir, runIn + "/GOALagents");
 		init(Pref.useMASNameAsAgentPrefix, false);
-		init(Pref.threadPoolSize, 0);
+		init(Pref.threadPoolSize, 20); // NOTE: this default is in the
+										// get-function as well
 	}
 
 	public static Map<String, Object> getPrefs() {
@@ -183,7 +184,12 @@ public class PMPreferences {
 	 * @return The amount of threads (e.g. cores) to use for running agents.
 	 */
 	public static int getThreadPoolSize() {
-		return (Integer) get(Pref.threadPoolSize);
+		int returned = (Integer) get(Pref.threadPoolSize);
+		if (returned < 1) {
+			return 20;
+		} else {
+			return returned;
+		}
 	}
 
 	/**

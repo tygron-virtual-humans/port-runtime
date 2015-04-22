@@ -23,14 +23,7 @@ public class SingleLineFormatter extends Formatter {
 	public String format(LogRecord record) {
 		final StringBuilder sb = new StringBuilder();
 
-		if (LoggingPreferences.getShowTime()) {
-			sb.append(format.format(new Date(record.getMillis()))).append(" ");
-		}
-		if (record.getLevel().equals(Level.WARNING)
-				|| record.getLevel().equals(Level.SEVERE)) {
-			sb.append(record.getLevel().getLocalizedName()).append(": ");
-		}
-		sb.append(formatMessage(record)).append("\n");
+		sb.append(formatHeader(record)).append("\n");
 
 		if (record.getThrown() != null && LoggingPreferences.getShowStackdump()) {
 			try {
@@ -39,9 +32,33 @@ public class SingleLineFormatter extends Formatter {
 				record.getThrown().printStackTrace(pw);
 				pw.close();
 				sb.append(sw.toString());
-			} catch (Exception ignore) {
+			} catch (RuntimeException reportErr) { 
+				System.out.println("failed to format log record: "+reportErr.getMessage());
 			}
 		}
+
+		return sb.toString();
+	}
+
+	/**
+	 * Format just the heaader, don't append the stackdump. Useful for classes
+	 * extending this as the default format() may attach stacktraces too
+	 * eagerly.
+	 * 
+	 * @param record
+	 * @return
+	 */
+	public String formatHeader(LogRecord record) {
+		final StringBuilder sb = new StringBuilder();
+
+		if (LoggingPreferences.getShowTime()) {
+			sb.append(format.format(new Date(record.getMillis()))).append(" ");
+		}
+		if (record.getLevel().equals(Level.WARNING)
+				|| record.getLevel().equals(Level.SEVERE)) {
+			sb.append(record.getLevel().getLocalizedName()).append(": ");
+		}
+		sb.append(formatMessage(record));
 
 		return sb.toString();
 	}

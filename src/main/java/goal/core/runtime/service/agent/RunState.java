@@ -22,6 +22,7 @@ import eis.exceptions.EnvironmentInterfaceException;
 import eis.iilang.Action;
 import eis.iilang.Percept;
 import goal.core.agent.Agent;
+import goal.core.agent.Controller;
 import goal.core.agent.EnvironmentCapabilities;
 import goal.core.agent.LoggingCapabilities;
 import goal.core.agent.MessagingCapabilities;
@@ -40,7 +41,9 @@ import goal.tools.debugger.SteppingDebugger.RunMode;
 import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
+import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 import goal.tools.errorhandling.exceptions.GOALBug;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 
 import java.rmi.activation.UnknownObjectException;
@@ -70,10 +73,11 @@ import nl.tudelft.goal.messaging.exceptions.MessagingException;
 import nl.tudelft.goal.messaging.messagebox.MessageBox;
 
 /**
- * The run state of an {@link Agent}.
+ * The run state of an {@link Agent}. Normally this is called by the Agent's
+ * thread.
  * <p>
  * Note that this has nothing to do with the {@link SteppingDebugger}'s
- * {@link RunMode} .A
+ * {@link RunMode}.
  * </p>
  *
  * @param <D>
@@ -83,6 +87,7 @@ import nl.tudelft.goal.messaging.messagebox.MessageBox;
  * @modified K.Hindriks
  */
 public class RunState<D extends Debugger> {
+	private final Controller parent;
 	/**
 	 * The agent's name. The name of an agent is derived from its
 	 * {@link MessageBox}, but stored here in case the agent gets killed and its
@@ -167,11 +172,14 @@ public class RunState<D extends Debugger> {
 	 * Learner that allows agent to learn from repeated trials.
 	 */
 	private final Learner learner;
-
 	/**
 	 * Keep track whether sleep condition held previous cycle.
 	 */
 	private boolean sleepConditionsHoldingPreviousCycle;
+	/**
+	 * Keep track of executed actions
+	 */
+	private UserSpecAction lastAction;
 
 	/**
 	 * Creates a new {@link RunState}.
@@ -186,11 +194,12 @@ public class RunState<D extends Debugger> {
 	 * @param learner
 	 * @throws KRInitFailedException
 	 */
-	public RunState(AgentId agentName, EnvironmentCapabilities environment,
+	public RunState(Controller parent, AgentId agentName,
+			EnvironmentCapabilities environment,
 			MessagingCapabilities messaging, LoggingCapabilities logger,
 			AgentProgram program, D debugger, Learner learner)
 			throws KRInitFailedException {
-
+		this.parent = parent;
 		this.environment = environment;
 		this.messaging = messaging;
 		this.logActionsLogger = logger;
@@ -233,6 +242,10 @@ public class RunState<D extends Debugger> {
 
 		// Configure learner.
 		this.learner = learner;
+	}
+
+	public Controller getParent() {
+		return this.parent;
 	}
 
 	/**
@@ -371,7 +384,7 @@ public class RunState<D extends Debugger> {
 	 * model of the sending agent in a way that depends on the messages mood,
 	 * which is indicated by the ACL's performative.
 	 */
-	private void processMessages(Set<Message> messages) {
+	private void processMessages(Set<Message> messages)  {
 		if (!messages.isEmpty()) {
 			getDebugger().breakpoint(Channel.MAILS, null, null,
 					"Processing mails."); //$NON-NLS-1$
@@ -395,8 +408,9 @@ public class RunState<D extends Debugger> {
 	 *
 	 * @param message
 	 *            the new message
+	 * @throws GOALDatabaseException if there are issues manipulating the database
 	 */
-	private void processMessageMentalModel(Message message) {
+	private void processMessageMentalModel(Message message)  {
 		Update update = message.getContent();
 		AgentId sender = message.getSender();
 
@@ -404,43 +418,39 @@ public class RunState<D extends Debugger> {
 			if (!this.getMentalState().getKnownAgents().contains(sender)) {
 				try {
 					this.getMentalState().addAgentModel(sender, this.debugger);
-				} catch (Exception e) {
-					new Warning(this.debugger, String.format(
+				} catch (KRInitFailedException | KRDatabaseException
+						| KRQueryFailedException | UnknownObjectException e) {
+					throw new IllegalStateException(String.format(
 							Resources.get(WarningStrings.FAILED_ADD_MODEL),
-							sender.getName()));
+							sender.getName()), e);
 				}
 			}
 
 			try {
-
-				switch (message.getMood()) {
-				case INDICATIVE:
-					this.getMentalState().insert(update, BASETYPE.BELIEFBASE,
-							this.debugger, sender);
-					break;
-				case IMPERATIVE:
-					this.getMentalState().adopt(update, true, this.debugger,
-							sender);
-					this.getMentalState().delete(update, BASETYPE.BELIEFBASE,
-							this.debugger, sender);
-					break;
-				case INTERROGATIVE:
-					this.getMentalState().delete(update, BASETYPE.BELIEFBASE,
-							this.debugger, sender);
-					break;
-				default:
-					throw new GOALBug(
-							"Received a message with unexpected mood: " //$NON-NLS-1$
-									+ message.getMood());
-				}
-				this.getMentalState().updateGoalState(this.debugger, sender);
-			} catch (Exception e) {
-				throw new GOALBug("Processing of message with content: " //$NON-NLS-1$
-						+ update + " failed due to exception " + e.toString(), //$NON-NLS-1$
-						e);
+			switch (message.getMood()) {
+			case INDICATIVE:
+				this.getMentalState().insert(update, BASETYPE.BELIEFBASE,
+						this.debugger, sender);
+				break;
+			case IMPERATIVE:
+				this.getMentalState()
+						.adopt(update, true, this.debugger, sender);
+				this.getMentalState().delete(update, BASETYPE.BELIEFBASE,
+						this.debugger, sender);
+				break;
+			case INTERROGATIVE:
+				this.getMentalState().delete(update, BASETYPE.BELIEFBASE,
+						this.debugger, sender);
+				break;
+			default:
+				throw new GOALBug("Received a message with unexpected mood: " //$NON-NLS-1$
+						+ message.getMood());
 			}
+			} catch (GOALDatabaseException e) {
+				throw new IllegalStateException("received message "+message+" caused internal error",e);
+			}
+			this.getMentalState().updateGoalState(this.debugger, sender);
 		}
-
 	}
 
 	/**
@@ -448,15 +458,20 @@ public class RunState<D extends Debugger> {
 	 *
 	 * @param message
 	 *            the message that was received.
+	 * @throws GOALDatabaseException 
 	 */
-	private void processMessageToMessagebox(Message message) {
+	private void processMessageToMessagebox(Message message)  {
 		/*
 		 * Put the received message in the mailbox as a "received" fact. The
 		 * message content is annotated with the mood, unless it is an
 		 * indicative.
 		 */
-		getMentalState().getOwnBase(BASETYPE.MAILBOX).insert(message, true,
-				this.debugger);
+		try {
+			getMentalState().getOwnBase(BASETYPE.MAILBOX).insert(message, true,
+					this.debugger);
+		} catch (GOALDatabaseException e) {
+			throw new IllegalStateException("the received message "+message+" can not be inserted",e);
+		}
 		// TODO: do this in a proper but also EFFICIENT way!!
 		// TRAC #1125, #1128, #738. This is getting ugly, see #....
 		// Identifier eisname = new Identifier(message.getSender().getName());
@@ -500,8 +515,10 @@ public class RunState<D extends Debugger> {
 	 * DOC
 	 *
 	 * @param isActionPerformed
+	 * @throws GOALActionFailedException
 	 */
-	public void startCycle(boolean isActionPerformed) {
+	public void startCycle(boolean isActionPerformed)
+			throws GOALActionFailedException {
 		startCycle(isActionPerformed, new HashSet<Percept>());
 	}
 
@@ -510,6 +527,7 @@ public class RunState<D extends Debugger> {
 			return this.environment.getPercepts();
 		} catch (MessagingException e) {
 			// typically, when system is taken down.
+			// HACK Only Debugger should throw this.
 			throw new DebuggerKilledException(
 					"Fatal error: messaging is failing.", e);
 		} catch (EnvironmentInterfaceException e) {
@@ -537,15 +555,18 @@ public class RunState<D extends Debugger> {
 	 *            only consider going to sleep if this is false.
 	 * @param initial
 	 *            the initial set of percepts to use
+	 * @throws GOALActionFailedException
 	 */
 	// TODO: Does not yet support measuring time used in Thread.
-	public void startCycle(boolean isActionPerformed, Set<Percept> initial) {
+	public void startCycle(boolean isActionPerformed, Set<Percept> initial)
+			throws GOALActionFailedException {
 		Set<Message> newMessages = this.messaging.getAllMessages();
 		Set<Percept> newPercepts = initial;
 		if (initial.isEmpty()) {
 			newPercepts = getPercepts();
 		}
 
+		this.lastAction = null;
 		this.event = !newMessages.isEmpty() || !newPercepts.isEmpty()
 				|| isActionPerformed;
 
@@ -606,7 +627,7 @@ public class RunState<D extends Debugger> {
 		// Get and process percepts.
 		this.processPercepts(newPercepts, this.previousPercepts);
 		// Get messages and update message box.
-		this.processMessages(newMessages);
+			this.processMessages(newMessages);
 
 		// If there is an init module, run it in the first round.
 		if (this.initModule != null && this.getRoundCounter() == 1) {
@@ -739,12 +760,20 @@ public class RunState<D extends Debugger> {
 		return false;
 	}
 
+	/**
+	 * Get the environment reward. May return null if environment does not
+	 * provide a reward.
+	 *
+	 * @return the reward, or null if no reward available.
+	 * @throws IllegalStateException
+	 *             if failed to connect with environment.
+	 */
 	public Double getReward() {
 		try {
 			return this.environment.getReward();
-		} catch (Exception e) {
-			new Warning(Resources.get(WarningStrings.FAILED_ENV_GET_REWARD), e);
-			return null;
+		} catch (EnvironmentInterfaceException | MessagingException e) {
+			throw new IllegalStateException(
+					Resources.get(WarningStrings.FAILED_ENV_GET_REWARD), e);
 		}
 	}
 
@@ -752,34 +781,42 @@ public class RunState<D extends Debugger> {
 		this.messaging.postMessage(message);
 	}
 
-	public void doPerformAction(UserSpecAction action) {
+	public UserSpecAction getLastAction() {
+		return this.lastAction;
+	}
+
+	public void doPerformAction(UserSpecAction action)
+			throws GOALActionFailedException {
 		try {
 			Action eis = this.mentalState.getState().convert(action);
 			this.environment.performAction(eis);
+			this.lastAction = action;
+		} catch (ActException ae) {
+			if (ae.getType() == ActException.NOTSPECIFIC) {
+				new Warning(String.format(
+						Resources.get(WarningStrings.FAILED_ACTION_EXECUTE),
+						action.toString()), ae);
+
+				// Non-specific act exception, which includes
+				// trying to do an action whilst the environment is paused:
+				// pause the agent if we can (continue after user
+				// interaction).
+				if (this.debugger instanceof SteppingDebugger) {
+					((SteppingDebugger) this.debugger)
+							.setRunMode(RunMode.FINESTEPPING);
+				}
+			} else {
+				// Specific act exception, like an unrecognized action,
+				// an illegal parameter, or entity problems:
+				// kill the agent (fatal error).
+				throw new GOALActionFailedException("Action failed", ae);
+			}
 		} catch (EnvironmentInterfaceException e) {
 			new Warning(String.format(
 					Resources.get(WarningStrings.FAILED_ACTION_EXECUTE),
 					action.toString()), e);
-			if (e instanceof ActException) {
-				ActException ae = (ActException) e;
-				if (ae.getType() == ActException.NOTSPECIFIC) {
-					// Non-specific act exception, which includes
-					// trying to do an action whilst the environment is paused:
-					// pause the agent if we can (continue after user
-					// interaction).
-					if (this.debugger instanceof SteppingDebugger) {
-						((SteppingDebugger) this.debugger)
-								.setRunMode(RunMode.FINESTEPPING);
-					}
-				} else {
-					// Specific act exception, like an unrecognized action,
-					// an illegal parameter, or entity problems:
-					// kill the agent (fatal error).
-					this.debugger.kill();
-				}
-			}
 		} catch (MessagingException e) {
-			new Warning(String.format(
+			throw new IllegalStateException(String.format(
 					Resources.get(WarningStrings.FAILED_ACTION_SEND),
 					action.toString()), e);
 		}

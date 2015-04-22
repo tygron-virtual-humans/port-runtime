@@ -73,7 +73,7 @@ public class AgentTest {
 		this.controller.run();
 		assertTrue(this.controller.isRunning());
 		assertFalse(this.controller.isTerminated());
-		this.controller.awaitTermination();
+		this.controller.awaitTermination(1);
 		assertFalse(this.controller.isRunning());
 		assertTrue(this.controller.isTerminated());
 	}
@@ -86,7 +86,7 @@ public class AgentTest {
 		assertTrue(this.controller.isRunning());
 		assertFalse(this.controller.isTerminated());
 		this.controller.terminate();
-		this.controller.awaitTermination();
+		this.controller.awaitTermination(1);
 		assertFalse(this.controller.isRunning());
 		assertTrue(this.controller.isTerminated());
 	}
@@ -115,7 +115,7 @@ public class AgentTest {
 		assertTrue(this.controller.isRunning());
 		assertFalse(this.controller.isTerminated());
 		this.controller.terminate();
-		this.controller.awaitTermination();
+		this.controller.awaitTermination(1);
 		assertFalse(this.controller.isRunning());
 		assertTrue(this.controller.isTerminated());
 	}

@@ -23,6 +23,7 @@ import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -44,7 +45,8 @@ public class SendOnceActionExecutor extends ActionExecutor {
 	}
 
 	@Override
-	protected Result executeAction(RunState<?> runState, Debugger debugger) {
+	protected Result executeAction(RunState<?> runState, Debugger debugger)
+			throws GOALActionFailedException {
 		MentalState mentalState = runState.getMentalState();
 
 		Set<AgentId> receivers = determineReceivers(mentalState, debugger);
@@ -55,8 +57,12 @@ public class SendOnceActionExecutor extends ActionExecutor {
 
 		runState.postMessage(message);
 
-		mentalState.getOwnBase(BASETYPE.MAILBOX).insert(message, false,
-				debugger);
+		try {
+			mentalState.getOwnBase(BASETYPE.MAILBOX).insert(message, false,
+					debugger);
+		} catch (GOALDatabaseException e) {
+			throw new GOALActionFailedException("message "+message+" can not be inserted in messagebase",e);
+		}
 
 		// TODO: implement functionality below but then efficiently!!
 		// Identifier eisname = new Identifier(receiver.getName());
@@ -94,9 +100,10 @@ public class SendOnceActionExecutor extends ActionExecutor {
 	 * @param debugger
 	 *            The current debugger
 	 * @return A list of agents that should receive the message.
+	 * @throws GOALActionFailedException
 	 */
 	private Set<AgentId> determineReceivers(MentalState mentalState,
-			Debugger debugger) {
+			Debugger debugger) throws GOALActionFailedException {
 		Set<AgentId> receivers;
 		try {
 			receivers = ExecuteTools.resolve(this.action.getSelector(),
@@ -111,10 +118,14 @@ public class SendOnceActionExecutor extends ActionExecutor {
 		for (AgentId receiver : receivers) {
 			Update update = mentalState.getState().convert(
 					this.action.getMessage(), true, receiver);
-			if (!mentalState
-					.query(update.toQuery(), BASETYPE.MAILBOX, debugger)
-					.isEmpty()) {
-				done.add(receiver);
+			try {
+				if (!mentalState
+						.query(update.toQuery(), BASETYPE.MAILBOX, debugger)
+						.isEmpty()) {
+					done.add(receiver);
+				}
+			} catch (GOALDatabaseException e) {
+				throw new IllegalStateException("failed to check if "+receiver+" received message",e);
 			}
 		}
 		// Remove all agents that already received message.

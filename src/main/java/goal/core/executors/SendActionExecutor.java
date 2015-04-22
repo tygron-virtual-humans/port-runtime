@@ -23,6 +23,7 @@ import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
 import java.util.Set;
 
@@ -42,7 +43,8 @@ public class SendActionExecutor extends ActionExecutor {
 	}
 
 	@Override
-	protected Result executeAction(RunState<?> runState, Debugger debugger) {
+	protected Result executeAction(RunState<?> runState, Debugger debugger)
+			throws GOALActionFailedException {
 		MentalState mentalState = runState.getMentalState();
 
 		Set<AgentId> receivers = determineReceivers(mentalState);
@@ -53,8 +55,12 @@ public class SendActionExecutor extends ActionExecutor {
 
 		runState.postMessage(message);
 
-		mentalState.getOwnBase(BASETYPE.MAILBOX).insert(message, false,
-				debugger);
+		try {
+			mentalState.getOwnBase(BASETYPE.MAILBOX).insert(message, false,
+					debugger);
+		} catch (GOALDatabaseException e) {
+			throw new GOALActionFailedException("message "+message+" can not be inserted in messagebase",e);
+		}
 
 		// TODO: implement functionality below but then efficiently!!
 		// Identifier eisname = new Identifier(receiver.getName());
@@ -90,8 +96,10 @@ public class SendActionExecutor extends ActionExecutor {
 	 * @param mentalState
 	 *            The {@link MentalState} in which the action is executed.
 	 * @return A list of agents that should receive the message.
+	 * @throws GOALActionFailedException
 	 */
-	private Set<AgentId> determineReceivers(MentalState mentalState) {
+	private Set<AgentId> determineReceivers(MentalState mentalState)
+			throws GOALActionFailedException {
 		try {
 			return ExecuteTools.resolve(this.action.getSelector(), mentalState);
 		} catch (KRInitFailedException e) {

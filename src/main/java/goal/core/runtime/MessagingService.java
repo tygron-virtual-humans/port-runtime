@@ -1,8 +1,5 @@
 package goal.core.runtime;
 
-import goal.tools.errorhandling.Resources;
-import goal.tools.errorhandling.Warning;
-import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 import goal.tools.logging.InfoLog;
@@ -161,18 +158,11 @@ public class MessagingService {
 	 * DOC If we're hosting the messaging server, we also bring down this
 	 * server.
 	 */
-	public void shutDown() {
+	public void shutDown() throws MessagingException {
 		this.localIDs.clear();
 		if (this.messaging != null) {
-			try {
-				this.messagingClient.dispose();
-				this.messaging.stopServer();
-			} catch (MessagingException e) {
-				new Warning(
-						Resources
-								.get(WarningStrings.FAILED_SHUTDOWN_MSG_SERVER),
-						e);
-			}
+			this.messagingClient.dispose();
+			this.messaging.stopServer();
 		}
 	}
 }

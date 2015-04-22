@@ -22,7 +22,8 @@ import languageTools.parser.InputStreamPosition;
 
 /**
  * An exception that serves as a <b>notification</b> of the fact that we could
- * not handle something that the user did.
+ * not handle something that the user did.  Typically, we could not parse or use the 
+ * text he entered in a text box.
  * <p>
  * This exception should <b>never be thrown</b> at runtime. The exception should
  * only be used within {@link languageTools.program.agent} for parser and

@@ -12,7 +12,6 @@ import org.junit.Test;
  * testframework itself.
  *
  * @author W.Pasman 29jan2014
- *
  */
 @SuppressWarnings("javadoc")
 public class ExampleTest extends AbstractUnitTestTest {
@@ -30,5 +29,4 @@ public class ExampleTest extends AbstractUnitTestTest {
 		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/example/bw4t/bw4tfind.test2g");
 		assertPassedAndPrint(results);
 	}
-
 }

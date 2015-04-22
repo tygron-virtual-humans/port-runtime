@@ -12,7 +12,6 @@ public class UnitTestTest extends AbstractUnitTestTest {
 		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/correctMinimal.test2g");
 
 		assertPassedAndPrint(results);
-
 	}
 
 	@Test
@@ -44,13 +43,6 @@ public class UnitTestTest extends AbstractUnitTestTest {
 	}
 
 	@Test
-	public void testNewCorrectLTLScope() throws Exception {
-		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/newCorrectLTLScope.test2g");
-
-		assertPassedAndPrint(results);
-	}
-
-	@Test
 	public void testNewCorrectBoundary() throws Exception {
 		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/newCorrectBoundary.test2g");
 
@@ -72,15 +64,15 @@ public class UnitTestTest extends AbstractUnitTestTest {
 	}
 
 	@Test
-	public void testMentalAction() throws Exception {
-		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/mentalaction.test2g");
+	public void testScope() throws Exception {
+		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/scope.test2g");
 
 		assertPassedAndPrint(results);
 	}
 
 	@Test
-	public void testScope() throws Exception {
-		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/scope.test2g");
+	public void testModuleArgs() throws Exception {
+		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/moduleTwoArguments.test2g");
 
 		assertPassedAndPrint(results);
 	}

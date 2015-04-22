@@ -27,7 +27,7 @@ public abstract class TestSectionExecutor {
 	 */
 	abstract public TestSectionResult run(
 			RunState<? extends ObservableDebugger> runState)
-			throws TestSectionFailed;
+					throws TestSectionFailed;
 
 	/**
 	 * Results are formatted by using double dispatch. Implementing classes

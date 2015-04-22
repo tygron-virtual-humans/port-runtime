@@ -1,9 +1,9 @@
 package goal.tools.unittest.testcondition.executors;
 
 import goal.core.runtime.service.agent.RunState;
-import goal.tools.debugger.DebugEvent;
-import goal.tools.debugger.ObservableDebugger;
+import goal.tools.debugger.Debugger;
 import goal.tools.unittest.result.ResultFormatter;
+import goal.tools.unittest.testsection.executors.EvaluateInExecutor;
 
 import java.util.Set;
 
@@ -21,9 +21,10 @@ import languageTools.program.test.testsection.EvaluateIn;
  */
 public class EventuallyExecutor extends TestConditionExecutor {
 	private final Eventually eventually;
-	private boolean nestedOnce;
 
-	public EventuallyExecutor(Eventually eventually) {
+	public EventuallyExecutor(Eventually eventually, Substitution substitution,
+			RunState<? extends Debugger> runstate, EvaluateInExecutor parent) {
+		super(substitution, runstate, parent);
 		this.eventually = eventually;
 	}
 
@@ -33,73 +34,23 @@ public class EventuallyExecutor extends TestConditionExecutor {
 	}
 
 	@Override
-	public TestConditionEvaluator createEvaluator(
-			final RunState<? extends ObservableDebugger> runstate,
-			final Substitution substitution) {
-		return new TestConditionEvaluator(this) {
-			@Override
-			public String getObserverName() {
-				return EventuallyExecutor.class.getSimpleName() + "Evaluator";
-			}
-
-			@Override
-			public void firstEvaluation() {
-				notifyBreakpointHit(null);
-			}
-
-			@Override
-			public void notifyBreakpointHit(DebugEvent event) {
-				if (!isPassed()) {
-					if (isNested()) {
-						boolean passed = true;
-						for (final Substitution substitution : getNested()) {
-							final Set<Substitution> evaluation = evaluate(
-									runstate, substitution, getQuery());
-							if (evaluation.isEmpty()) {
-								passed = false;
-								break;
-							}
-						}
-						if (passed) {
-							setPassed(true);
-						}
-					} else if (hasNestedExecutor()) {
-						if (!EventuallyExecutor.this.nestedOnce) {
-							final Set<Substitution> evaluation = evaluate(
-									runstate, substitution, getQuery());
-							if (!evaluation.isEmpty()) {
-								getNestedExecutor().setNested(evaluation);
-								EventuallyExecutor.this.nestedOnce = true;
-							}
-						}
-					} else {
-						final Set<Substitution> evaluation = evaluate(runstate,
-								substitution, getQuery());
-						if (!evaluation.isEmpty()) {
-							setPassed(true);
-						}
-					}
+	public void evaluate(TestEvaluationChannel channel) {
+		final Set<Substitution> evaluation = evaluate();
+		if (this.eventually.hasNestedCondition()) {
+			if (!evaluation.isEmpty()) {
+				for (Substitution subst : evaluation) {
+					this.parent.add(TestConditionExecutor
+							.getTestConditionExecutor(
+									this.eventually.getNestedCondition(),
+									subst, this.runstate, this.parent));
 				}
+				setPassed(true);
 			}
-
-			@Override
-			public void lastEvaluation() {
-				notifyBreakpointHit(null);
-				if (hasNestedExecutor()) {
-					final TestConditionEvaluator nested = getNestedExecutor()
-							.provideEvaluator(runstate, substitution);
-					nested.lastEvaluation();
-					setPassed(nested.isPassed());
-				} else if (!isPassed()) {
-					setPassed(false);
-				}
-			}
-
-			@Override
-			public <T> T accept(ResultFormatter<T> formatter) {
-				return formatter.visit(this);
-			}
-		};
+		} else if (!evaluation.isEmpty()) {
+			setPassed(true);
+		} else if (channel == TestEvaluationChannel.STOPTEST) {
+			setPassed(false);
+		}
 	}
 
 	@Override

@@ -1,14 +1,12 @@
 package goal.core.agent;
 
 import goal.preferences.PMPreferences;
+import goal.tools.AbstractRun;
 
 import java.rmi.activation.UnknownObjectException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import krTools.errors.exceptions.KRDatabaseException;
 import krTools.errors.exceptions.KRInitFailedException;
@@ -24,16 +22,9 @@ import krTools.errors.exceptions.KRQueryFailedException;
  * @author mpkorstanje
  */
 public abstract class Controller {
-	private final static Executor pool;
-	static {
-		if (PMPreferences.getThreadPoolSize() > 0) {
-			pool = Executors.newFixedThreadPool(PMPreferences
-					.getThreadPoolSize());
-		} else {
-			pool = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 0L,
-					TimeUnit.MILLISECONDS, new SynchronousQueue<Runnable>());
-		}
-	}
+	private final static Executor pool = Executors
+			.newFixedThreadPool(PMPreferences.getThreadPoolSize());
+
 	/**
 	 * The agent controlled by the controller.
 	 */
@@ -161,10 +152,10 @@ public abstract class Controller {
 	 * @throws UnknownObjectException
 	 */
 	public final void reset() throws InterruptedException,
-			KRInitFailedException, KRDatabaseException, KRQueryFailedException,
-			UnknownObjectException {
+	KRInitFailedException, KRDatabaseException, KRQueryFailedException,
+	UnknownObjectException {
 		terminate();
-		awaitTermination();
+		awaitTermination(AbstractRun.TIMEOUT_FIRST_AGENT_SECONDS);
 		onReset();
 		run();
 	}
@@ -184,20 +175,30 @@ public abstract class Controller {
 	 * @throws UnknownObjectException
 	 */
 	protected void onReset() throws InterruptedException,
-			KRInitFailedException, KRDatabaseException, KRQueryFailedException,
-			UnknownObjectException {
+	KRInitFailedException, KRDatabaseException, KRQueryFailedException,
+	UnknownObjectException {
 	}
 
 	/**
 	 * Waits for the agent to terminate. This method will only return once the
 	 * agent has stopped.
 	 *
+	 * @param timeout
 	 * @throws InterruptedException
 	 *             when interrupted while waiting for the agent to stop
 	 */
-	public final void awaitTermination() throws InterruptedException {
+	public final void awaitTermination(long timeout)
+			throws InterruptedException {
+		if (timeout <= 0) {
+			timeout = Long.MAX_VALUE;
+		} else {
+			timeout = System.currentTimeMillis() + (timeout * 1000L);
+		}
 		while (!this.terminated) {
-			Thread.sleep(1);
+			Thread.sleep(100);
+			if (System.currentTimeMillis() > timeout) {
+				break;
+			}
 		}
 	}
 
@@ -212,7 +213,7 @@ public abstract class Controller {
 	 */
 	public void dispose() throws InterruptedException {
 		terminate();
-		awaitTermination();
+		awaitTermination(AbstractRun.TIMEOUT_FIRST_AGENT_SECONDS);
 	}
 
 	/**

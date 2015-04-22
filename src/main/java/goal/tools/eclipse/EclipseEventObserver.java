@@ -35,7 +35,7 @@ public class EclipseEventObserver implements RuntimeEventObserver {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void eventOccured(RuntimeManager observable, RuntimeEvent event) {
+	public void eventOccured(RuntimeManager<?, ?> observable, RuntimeEvent event) {
 		switch (event.getType()) {
 		case ENVIRONMENT_LAUNCHED:
 			final EnvironmentPort env1 = (EnvironmentPort) event.getSource();
@@ -51,7 +51,7 @@ public class EclipseEventObserver implements RuntimeEventObserver {
 			break;
 		case AGENT_IS_LOCAL_AND_READY:
 			final Agent<IDEGOALInterpreter> agent = (Agent<IDEGOALInterpreter>) event
-			.getSource();
+					.getSource();
 			final EclipseDebugObserver debugobserver = new EclipseDebugObserver(
 					agent, this.writer);
 			debugobserver.subscribe();

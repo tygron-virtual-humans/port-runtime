@@ -1,9 +1,13 @@
 package goal.tools.unittest.testsection.executors;
 
+import goal.core.executors.ModuleCallActionExecutor;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
+import goal.tools.debugger.DebugEvent;
+import goal.tools.debugger.DebugObserver;
 import goal.tools.debugger.DebuggerKilledException;
 import goal.tools.debugger.ObservableDebugger;
+import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 import goal.tools.unittest.result.ResultFormatter;
 import goal.tools.unittest.result.testcondition.TestBoundaryException;
 import goal.tools.unittest.result.testcondition.TestConditionFailedException;
@@ -12,136 +16,135 @@ import goal.tools.unittest.result.testsection.EvaluateInInterrupted;
 import goal.tools.unittest.result.testsection.EvaluateInResult;
 import goal.tools.unittest.result.testsection.TestSectionFailed;
 import goal.tools.unittest.result.testsection.TestSectionResult;
-import goal.tools.unittest.testcondition.executors.TestConditionEvaluator;
 import goal.tools.unittest.testcondition.executors.TestConditionExecutor;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import krTools.language.Substitution;
+import krTools.KRInterface;
 import languageTools.program.test.testcondition.TestCondition;
 import languageTools.program.test.testsection.EvaluateIn;
-import languageTools.program.test.testsection.TestSection;
 
-public class EvaluateInExecutor extends TestSectionExecutor {
+public class EvaluateInExecutor extends TestSectionExecutor implements
+DebugObserver {
 	private final EvaluateIn evaluatein;
-	private Substitution substitution;
+	private Set<TestConditionExecutor> executors;
 
 	public EvaluateInExecutor(EvaluateIn evaluatein) {
 		this.evaluatein = evaluatein;
 	}
 
 	@Override
-	public TestSection getSection() {
+	public EvaluateIn getSection() {
 		return this.evaluatein;
 	}
 
+	public void add(TestConditionExecutor executor) {
+		this.executors.add(executor);
+	}
+
+	public void remove(TestConditionExecutor executor) {
+		this.executors.remove(executor);
+	}
+
+	public TestConditionExecutor[] getExecutors() {
+		return this.executors.toArray(new TestConditionExecutor[this.executors
+		                                                        .size()]);
+	}
+
 	@Override
-	public TestSectionResult run(RunState<? extends ObservableDebugger> runState)
+	public TestSectionResult run(RunState<? extends ObservableDebugger> runstate)
 			throws TestSectionFailed {
+		KRInterface kr = runstate.getMainModule().getKRInterface();
 		TestCondition boundary = this.evaluatein.getBoundary();
-		List<TestCondition> conditions = this.evaluatein.getQueries();
-		if (this.substitution == null) {
-			this.substitution = runState.getMainModule().getKRInterface()
-					.getSubstitution(null);
-		}
+		Set<TestCondition> conditions = this.evaluatein.getQueries();
 
 		/*
 		 * Installs the condition evaluators on the debugger. Conditions will be
 		 * evaluated after every action has been executed.
 		 */
-		ObservableDebugger debugger = runState.getDebugger();
-		List<TestConditionExecutor> executors = new LinkedList<>();
+		ObservableDebugger debugger = runstate.getDebugger();
+		// Main event we listen to (executing actions)
+		debugger.subscribe(this, Channel.ACTION_EXECUTED_BUILTIN);
+		debugger.subscribe(this, Channel.ACTION_EXECUTED_USERSPEC);
+		// Module entries might also add a set of beliefs/goals
+		// Note: event module entry handles percept/mails as well
+		debugger.subscribe(this, Channel.INIT_MODULE_ENTRY);
+		debugger.subscribe(this, Channel.EVENT_MODULE_ENTRY);
+		debugger.subscribe(this, Channel.MAIN_MODULE_ENTRY);
+		debugger.subscribe(this, Channel.USER_MODULE_ENTRY);
+		// For atend conditions specifically
+		// Note: main module exit means agent exit
+		debugger.subscribe(this, Channel.INIT_MODULE_EXIT);
+		debugger.subscribe(this, Channel.EVENT_MODULE_EXIT);
+		debugger.subscribe(this, Channel.MAIN_MODULE_EXIT);
+		debugger.subscribe(this, Channel.USER_MODULE_EXIT);
+
+		this.executors = new HashSet<>();
 		if (boundary != null) {
-			executors.add(TestConditionExecutor
-					.getTestConditionExecutor(boundary));
+			this.executors.add(TestConditionExecutor.getTestConditionExecutor(
+					boundary, kr.getSubstitution(null), runstate, this));
 		}
 		for (TestCondition condition : conditions) {
-			for (TestCondition subcondition : getAllConditions(condition)) {
-				executors.add(TestConditionExecutor
-						.getTestConditionExecutor(subcondition));
-			}
-		}
-		List<TestConditionEvaluator> evaluators = new ArrayList<>(
-				executors.size());
-		for (TestConditionExecutor executor : executors) {
-			TestConditionEvaluator evaluator = executor.provideEvaluator(
-					runState, this.substitution);
-			evaluators.add(evaluator);
-			debugger.subscribe(evaluator, Channel.ACTIONCOMBO_FINISHED);
-			debugger.subscribe(evaluator, Channel.EVENT_MODULE_ENTRY);
-			debugger.subscribe(evaluator, Channel.EVENT_MODULE_EXIT);
-			debugger.subscribe(evaluator, Channel.INIT_MODULE_ENTRY);
-			debugger.subscribe(evaluator, Channel.INIT_MODULE_EXIT);
-			debugger.subscribe(evaluator, Channel.MAIN_MODULE_ENTRY);
-			debugger.subscribe(evaluator, Channel.MAIN_MODULE_EXIT);
-			debugger.subscribe(evaluator, Channel.USER_MODULE_ENTRY);
-			debugger.subscribe(evaluator, Channel.USER_MODULE_EXIT);
-		}
-
-		/*
-		 * Initial evaluation of conditions before action is executed.
-		 */
-		runState.startCycle(false);
-		for (TestConditionEvaluator evaluator : evaluators) {
-			try {
-				evaluator.firstEvaluation();
-			} catch (TestConditionFailedException e) {
-				throw new EvaluateInFailed(this, evaluators, e);
-			}
+			this.executors.add(TestConditionExecutor.getTestConditionExecutor(
+					condition, kr.getSubstitution(null), runstate, this));
 		}
 
 		/*
 		 * Evaluates the action. While being evaluated the conditions installed
 		 * on the debugger may throw a failed test condition exception.
 		 */
-		TestSectionExecutor action = TestSectionExecutor
-				.getTestConditionExecutor(this.evaluatein.getAction());
+		ModuleCallActionExecutor module = new ModuleCallActionExecutor(
+				this.evaluatein.getAction());
 		try {
-			action.run(runState);
+			runstate.startCycle(false);
+			module.run(runstate, kr.getSubstitution(null),
+					runstate.getDebugger(), true);
 		} catch (TestConditionFailedException e) {
-			throw new EvaluateInFailed(this, evaluators, e);
+			throw new EvaluateInFailed(this, this.executors, e);
 		} catch (DebuggerKilledException e) {
-			throw new EvaluateInInterrupted(this, evaluators, e);
+			throw new EvaluateInInterrupted(this, this.executors, e);
+		} catch (GOALActionFailedException e) {
+			throw new EvaluateInInterrupted(this, this.executors,
+					new DebuggerKilledException("Module failed to execute", e));
 		} catch (TestBoundaryException e) {
 			// continue silently
 		}
 
 		/*
-		 * After the action has been done all conditions are evaluated one more
-		 * time.
+		 * Allow conditions to clean-up after themselves (determine final
+		 * results, e.g. fail eventually or succeed always/never conditions)
 		 */
-		for (TestConditionEvaluator evaluator : evaluators) {
-			evaluator.lastEvaluation();
+		for (TestConditionExecutor executor : getExecutors()) {
+			try {
+				executor.evaluate(null);
+			} catch (TestConditionFailedException e) {
+				throw new EvaluateInFailed(this, this.executors, e);
+			} catch (DebuggerKilledException e) {
+				throw new EvaluateInInterrupted(this, this.executors, e);
+			} catch (TestBoundaryException e) {
+				// continue silently
+			}
 		}
 
 		/*
 		 * Uninstall the evaluators
 		 */
-		for (TestConditionEvaluator evaluator : evaluators) {
-			debugger.unsubscribe(evaluator);
-		}
+		debugger.unsubscribe(this);
 
 		/*
 		 * If any of the queries failed we fail this test section.
 		 */
-		for (TestConditionEvaluator evaluator : evaluators) {
-			if (!evaluator.isPassed()) {
-				throw new EvaluateInFailed(this, evaluators);
+		for (TestConditionExecutor executor : getExecutors()) {
+			if (!executor.isPassed()) {
+				throw new EvaluateInFailed(this, this.executors);
 			}
 		}
 
-		return new EvaluateInResult(this.evaluatein, evaluators);
-	}
-
-	private List<TestCondition> getAllConditions(TestCondition condition) {
-		List<TestCondition> result = new LinkedList<>();
-		result.add(condition);
-		if (condition.hasNestedCondition()) {
-			result.addAll(getAllConditions(condition.getNestedCondition()));
-		}
-		return result;
+		/*
+		 * We succeeded :)
+		 */
+		return new EvaluateInResult(this.evaluatein, this.executors);
 	}
 
 	@Override
@@ -149,4 +152,15 @@ public class EvaluateInExecutor extends TestSectionExecutor {
 		return formatter.visit(this.evaluatein);
 	}
 
+	@Override
+	public String getObserverName() {
+		return getClass().getSimpleName();
+	}
+
+	@Override
+	public void notifyBreakpointHit(DebugEvent event) {
+		for (TestConditionExecutor executor : getExecutors()) {
+			executor.evaluate(event);
+		}
+	}
 }

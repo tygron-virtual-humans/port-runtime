@@ -23,6 +23,8 @@ import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
+import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +47,7 @@ public class UserSpecActionExecutor extends ActionExecutor {
 
 	@Override
 	public ActionExecutor evaluatePrecondition(MentalState mentalState,
-			Debugger debugger, boolean last) {
+			Debugger debugger, boolean last) throws GOALDatabaseException {
 		MentalStateConditionExecutor check = new MentalStateConditionExecutor(
 				this.action.getPrecondition());
 		final Set<Substitution> solutions1 = check.evaluate(mentalState,
@@ -68,8 +70,7 @@ public class UserSpecActionExecutor extends ActionExecutor {
 			if (last) {
 				debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION_USERSPEC,
 						this.action, this.action.getSourceInfo(),
-						"Preconditions of action %s failed.",
-						this.action.getName());
+						"Preconditions of action %s failed.", this.action);
 			}
 			return null;
 		} else {
@@ -81,8 +82,7 @@ public class UserSpecActionExecutor extends ActionExecutor {
 			debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION_USERSPEC,
 					this.action, this.action.getSourceInfo(),
 					"Precondition { %s } of action %s holds for: %s.",
-					this.action.getPrecondition(), this.action.getName(),
-					solution);
+					this.action.getPrecondition(), this.action, solution);
 			return new UserSpecActionExecutor(this.action.applySubst(solution));
 		}
 	}
@@ -92,18 +92,25 @@ public class UserSpecActionExecutor extends ActionExecutor {
 	 *
 	 * @param runState
 	 *            The {@link RunState} in which this action is executed.
+	 * @throws GOALActionFailedException
 	 */
 	@Override
-	protected Result executeAction(RunState<?> runState, Debugger debugger) {
+	protected Result executeAction(RunState<?> runState, Debugger debugger)
+			throws GOALActionFailedException {
 		// Send the action to the environment if it should be sent.
-		if (this.action.getExernal()) {
+		if (this.action.isExternal()) {
 			runState.doPerformAction(this.action);
 		}
 
 		// Apply the action's postcondition.
 		Update postcondition = this.action.getPostcondition();
-		runState.getMentalState().insert(postcondition, BASETYPE.BELIEFBASE,
-				debugger);
+		try {
+			runState.getMentalState().insert(postcondition,
+					BASETYPE.BELIEFBASE, debugger);
+		} catch (GOALDatabaseException e) {
+			throw new GOALActionFailedException("postcondition "
+					+ postcondition + " can not be inserted", e);
+		}
 
 		// Check if goals have been achieved and, if so, update goal base.
 		runState.getMentalState().updateGoalState(debugger);
@@ -116,7 +123,13 @@ public class UserSpecActionExecutor extends ActionExecutor {
 
 	@Override
 	protected ActionExecutor applySubst(Substitution subst) {
-		return new UserSpecActionExecutor(this.action.applySubst(subst));
+		/*
+		 * #3430 focus the global context substi , pass through only variables
+		 * that are still open in the module parameter list
+		 */
+		Substitution focusedSubst = subst.clone();
+		focusedSubst.retainAll(getVariables(this.action.getParameters()));
+		return new UserSpecActionExecutor(this.action.applySubst(focusedSubst));
 	}
 
 	@Override

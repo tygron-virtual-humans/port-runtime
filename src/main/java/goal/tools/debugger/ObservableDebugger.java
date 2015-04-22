@@ -33,7 +33,6 @@ public class ObservableDebugger extends SteppingDebugger {
 			SourceInfo associateSource, String message, Object... args) {
 		// Only if there are observers for the channel, events need to be send.
 		if (!this.channelObservers.get(channel).isEmpty()) {
-			// Create event and notify observers.
 			DebugEvent event = new DebugEvent(getRunMode(), getName(), channel,
 					associateObject, associateSource, message, args);
 			notifyObservers(channel, event);

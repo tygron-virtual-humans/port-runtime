@@ -25,14 +25,8 @@ import org.junit.Test;
  * Various test cases for variable substitution in GOAL.
  *
  * @author W.Pasman
- *
  */
 public class VarSubstitution extends SimpleProgramTest {
-	@Test(expected = IllegalStateException.class)
-	public void TestAdoptFreeVar() throws Exception {
-		runAgent("src/test/resources/goal/core/program/adoptfreevar.goal");
-	}
-
 	@Test
 	public void testModuleVarInListall() throws Exception {
 		assertSame(
@@ -59,7 +53,6 @@ public class VarSubstitution extends SimpleProgramTest {
 		assertSame(
 				RunResult.OK,
 				runAgent("src/test/resources/goal/core/program/postconditionvars.goal"));
-
 	}
 
 	@Test
@@ -67,6 +60,18 @@ public class VarSubstitution extends SimpleProgramTest {
 		assertSame(
 				RunResult.OK,
 				runAgent("src/test/resources/goal/core/program/beliefinmodulevar.goal"));
+	}
 
+	@Test
+	public void testPostBeliefInAnonymousModule() throws Exception {
+		assertSame(RunResult.OK,
+				runAgent("src/test/resources/goal/core/program/anonymous.goal"));
+	}
+
+	@Test
+	public void testVarsIntoModuleCall() throws Exception {
+		assertSame(
+				RunResult.OK,
+				runAgent("src/test/resources/goal/core/program/varsintomodulecall.goal"));
 	}
 }

@@ -6,7 +6,17 @@ import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import krTools.language.Substitution;
+import krTools.language.Term;
+import krTools.language.Var;
+import languageTools.analyzer.agent.AgentValidatorSecondPass;
+import languageTools.analyzer.module.ModuleValidatorSecondPass;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.AdoptAction;
 import languageTools.program.agent.actions.DeleteAction;
@@ -20,6 +30,7 @@ import languageTools.program.agent.actions.SendAction;
 import languageTools.program.agent.actions.SendOnceAction;
 import languageTools.program.agent.actions.UserSpecAction;
 import languageTools.program.agent.msc.MentalStateCondition;
+import languageTools.program.agent.msg.SentenceMood;
 
 /**
  * Abstract base class for part of the ActionExecutors
@@ -53,7 +64,7 @@ public abstract class ActionExecutor {
 	 *         is enabled as it is
 	 */
 	protected ActionExecutor evaluatePrecondition(MentalState mentalState,
-			Debugger debugger, boolean last) {
+			Debugger debugger, boolean last) throws GOALDatabaseException {
 		return this;
 	}
 
@@ -90,7 +101,7 @@ public abstract class ActionExecutor {
 	 *             not indicated in the program, or other exceptions occurred.
 	 */
 	public final Result run(RunState<?> runState, Substitution substitution,
-			Debugger debugger, boolean last) {
+			Debugger debugger, boolean last) throws GOALActionFailedException {
 		Result result = new Result();
 
 		// Apply the substitution provided by the (module and rule condition)
@@ -98,29 +109,70 @@ public abstract class ActionExecutor {
 		ActionExecutor instantiatedAction = applySubst(substitution);
 
 		// Evaluate the precondition of this {@link Action}.
-		ActionExecutor action = instantiatedAction.evaluatePrecondition(
-				runState.getMentalState(), debugger, last);
+		ActionExecutor action;
+		try {
+			action = instantiatedAction.evaluatePrecondition(
+					runState.getMentalState(), debugger, last);
+		} catch (GOALDatabaseException e) {
+			throw new GOALActionFailedException("Precondition of action "
+					+ getAction() + " failed to evaluate ", e);
+		}
 
 		if (action != null) {
 			// Check if action is closed.
-			if (action.getAction().isClosed()) {
+			if (isSufficientlyClosed(action.getAction())) {
 				debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION,
 						getAction(), getAction().getSourceInfo(),
-						"Precondition of %s holds", getAction().getName());
+						"precondition of %s holds", getAction());
 				// Perform the action if precondition holds.
 				result.merge(action.executeAction(runState, debugger));
 			} else {
 				throw new GOALActionFailedException(
-						"Attempt to execute action " + getAction().getName()
-						+ " with free variables.");
+						"attempt to execute action " + action.getAction()
+								+ " with free variables, "
+								+ action.getAction().getSourceInfo());
 			}
 		} else {
 			debugger.breakpoint(Channel.ACTION_PRECOND_EVALUATION, getAction(),
 					getAction().getSourceInfo(),
-					"Precondition of %s does not hold", getAction().getName());
+					"precondition of %s does not hold", getAction().getName());
 		}
 
 		return result;
+	}
+
+	/**
+	 * Some actions do not need to be entirely closed. #3424.
+	 *
+	 * @param action
+	 * @return
+	 */
+	private boolean isSufficientlyClosed(Action<?> action) {
+		if (action.isClosed()) {
+			return true;
+		}
+		if (action instanceof SendAction || action instanceof SendOnceAction) {
+			// FIXME we should check that receiver is instantiated
+			return getSendMood(action) == SentenceMood.INTERROGATIVE;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get the mood of the given action. Assumes action is {@link SendAction} or
+	 * {@link SendOnceAction}. Helper function to get around #3433. Code
+	 * duplicated with {@link AgentValidatorSecondPass} and
+	 * {@link ModuleValidatorSecondPass}.
+	 *
+	 * @param action
+	 * @return mood of the given action.
+	 */
+	private SentenceMood getSendMood(Action<?> action) {
+		if (action instanceof SendAction) {
+			return ((SendAction) action).getMood();
+		}
+		return ((SendOnceAction) action).getMood();
 	}
 
 	/**
@@ -132,9 +184,10 @@ public abstract class ActionExecutor {
 	 *            The current debugger.
 	 * @return The action that has been executed; never returns {@code null} but
 	 *         throws runtime exceptions if executing the action fails.
+	 * @throws GOALActionFailedException
 	 */
 	protected abstract Result executeAction(RunState<?> runState,
-			Debugger debugger);
+			Debugger debugger) throws GOALActionFailedException;
 
 	/**
 	 * Reports that action was performed on either the channel for reporting
@@ -147,7 +200,7 @@ public abstract class ActionExecutor {
 		boolean builtin = !(this instanceof UserSpecActionExecutor);
 		debugger.breakpoint(builtin ? Channel.ACTION_EXECUTED_BUILTIN
 				: Channel.ACTION_EXECUTED_USERSPEC, getAction(), getAction()
-				.getSourceInfo(), "Performed %s.", getAction().getName());
+				.getSourceInfo(), "Performed %s.", getAction());
 	}
 
 	@Override
@@ -195,4 +248,20 @@ public abstract class ActionExecutor {
 		}
 		return returned;
 	}
+
+	/**
+	 * Collect all the variables in a list of terms.
+	 *
+	 * @param terms
+	 *            list of {@link Term}s
+	 * @return set of vars inside the given terms
+	 */
+	public Set<Var> getVariables(List<Term> terms) {
+		Set<Var> vars = new HashSet<Var>();
+		for (Term t : terms) {
+			vars.addAll(t.getFreeVar());
+		}
+		return vars;
+	}
+
 }

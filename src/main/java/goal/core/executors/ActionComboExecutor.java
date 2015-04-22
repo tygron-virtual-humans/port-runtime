@@ -21,9 +21,9 @@ package goal.core.executors;
 import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
-import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -66,9 +66,12 @@ public class ActionComboExecutor {
 	 * @return A list of all available options for this action, i.e., instances
 	 *         for which a precondition (the first found) of the first action
 	 *         holds.
+	 * @throws GOALActionFailedException
+	 * @throws GOALDatabaseException 
 	 */
 	public List<ActionCombo> getOptions(MentalState mentalState,
-			Substitution subst, Debugger debugger) {
+			Substitution subst, Debugger debugger)
+					throws GOALDatabaseException {
 		List<ActionCombo> options = new LinkedList<>();
 
 		// Get the first action from the list of actions of this combo.
@@ -114,8 +117,9 @@ public class ActionComboExecutor {
 					// Action is an option, add the combo as option.
 					options.add(this.actions);
 				} else {
-					throw new GOALActionFailedException("Attempt to execute "
-							+ this.actions + " with free variables.");
+					throw new GOALDatabaseException("attempt to execute "
+							+ firstaction + " with free variables, "
+							+ firstaction.getSourceInfo());
 				}
 			}
 		}
@@ -135,9 +139,10 @@ public class ActionComboExecutor {
 	 *            execute, e.g. after this there are no more possibilities and
 	 *            the action will fail.
 	 * @return The {@link Result} of this action.
+	 * @throws GOALActionFailedException
 	 */
 	public Result run(RunState<?> runState, Substitution substitution,
-			boolean last) {
+			boolean last) throws GOALActionFailedException {
 		Result comboResult = new Result();
 
 		for (Action<?> action : this.actions) {
@@ -155,9 +160,6 @@ public class ActionComboExecutor {
 				break;
 			}
 		}
-
-		runState.getDebugger().breakpoint(Channel.ACTIONCOMBO_FINISHED,
-				this.actions, null, "Performed %s.", comboResult.getActions());
 
 		return comboResult;
 	}

@@ -1,7 +1,6 @@
 package goal.tools.unittest.result.testcondition;
 
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
-import goal.tools.unittest.testcondition.executors.TestConditionEvaluator;
 import goal.tools.unittest.testcondition.executors.TestConditionExecutor;
 
 /**
@@ -15,7 +14,7 @@ public class TestConditionFailedException extends GOALRuntimeErrorException {
 	 * Date of last change
 	 */
 	private static final long serialVersionUID = 201312122233L;
-	private final TestConditionEvaluator evaluator;
+	private final TestConditionExecutor evaluator;
 
 	/**
 	 * Creates a new failed test condition exception.
@@ -26,20 +25,15 @@ public class TestConditionFailedException extends GOALRuntimeErrorException {
 	 *            that failed.
 	 */
 	public TestConditionFailedException(String message,
-			TestConditionEvaluator evaluator) {
+			TestConditionExecutor evaluator) {
 		super(message);
 		this.evaluator = evaluator;
-	}
-
-	@Override
-	public String toString() {
-		return this.getClass() + " [Evaluator= " + this.evaluator + "]";
 	}
 
 	/**
 	 * @return the evaluator that failed to evaluate.
 	 */
-	public TestConditionEvaluator getEvaluator() {
+	public TestConditionExecutor getEvaluator() {
 		return this.evaluator;
 	}
 }

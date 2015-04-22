@@ -18,8 +18,8 @@
 package goal.preferences;
 
 import goal.tools.errorhandling.Resources;
-import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
+import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -111,11 +111,11 @@ public class Preferences {
 					loaded = yaml.load(reader);
 				}
 			} catch (FileNotFoundException e) {
-				new Warning(
+				throw new GOALRuntimeErrorException(
 						Resources.get(WarningStrings.FAILED_SETTINGSFILE_FIND),
 						e);
 			} catch (IOException e) {
-				new Warning(
+				throw new GOALRuntimeErrorException(
 						Resources.get(WarningStrings.FAILED_SETTINGSFILE_READ),
 						e);
 			}
@@ -138,7 +138,7 @@ public class Preferences {
 				.getSimpleName()));
 		PMPreferences.initPrefs(prefs.get(PMPreferences.class.getSimpleName()));
 		RunPreferences
-		.initPrefs(prefs.get(RunPreferences.class.getSimpleName()));
+				.initPrefs(prefs.get(RunPreferences.class.getSimpleName()));
 
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
@@ -189,8 +189,8 @@ public class Preferences {
 				try (FileWriter writer = new FileWriter(settingsFile)) {
 					yaml.dump(prefs, writer);
 				}
-			} catch (Exception e) {
-				// TODO: we can't really do anything here?
+			} catch (IOException e) {
+				System.out.println("Failed to write preferences:"+e);
 			}
 		}
 	}

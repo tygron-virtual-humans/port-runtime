@@ -9,6 +9,7 @@ import goal.core.runtime.MessagingService;
 import goal.core.runtime.service.agent.AgentService;
 import goal.core.runtime.service.agent.AgentServiceEventObserver;
 import goal.core.runtime.service.agent.events.AgentServiceEvent;
+import goal.tools.AbstractRun;
 import goal.tools.PlatformManager;
 import goal.tools.adapt.Learner;
 import goal.tools.debugger.NOPDebugger;
@@ -69,33 +70,35 @@ public class AgentServiceTest {
 
 	@After
 	public void tearDown() throws Exception {
-		this.runtimeService.awaitTermination();
+		this.runtimeService
+				.awaitTermination(AbstractRun.TIMEOUT_FIRST_AGENT_SECONDS);
 		this.runtimeService.dispose();
 		this.messaging.shutDown();
 	}
 
-	@Test(timeout = 15000)
+	@Test
 	public void testStart() throws GOALLaunchFailureException,
-	InterruptedException {
-		this.runtimeService.startWithoutEnv();
-		this.runtimeService.awaitTermination();
+			InterruptedException {
+		this.runtimeService.start();
+		this.runtimeService.awaitTermination(0); // TODO: timeout?!
 	}
 
 	int agentsStarted = 0;
 
 	@Test
 	public void testStartStop() throws GOALLaunchFailureException,
-	InterruptedException {
+			InterruptedException {
 		this.runtimeService.addObserver(new AgentServiceEventObserver() {
 			@Override
-			public void agentServiceEvent(AgentService rs, AgentServiceEvent evt) {
+			public void agentServiceEvent(AgentService<?, ?> rs,
+					AgentServiceEvent evt) {
 				AgentServiceTest.this.agentsStarted++;
 			}
 		});
 
-		this.runtimeService.startWithoutEnv();
+		this.runtimeService.start();
 		this.runtimeService.shutDown();
-		this.runtimeService.awaitTermination();
+		this.runtimeService.awaitTermination(1);
 
 		assertEquals(4, this.agentsStarted);
 		assertEquals(4, this.runtimeService.getAgents().size());

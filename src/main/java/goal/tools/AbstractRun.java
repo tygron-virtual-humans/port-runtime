@@ -12,12 +12,12 @@ import goal.core.runtime.service.environment.EnvironmentService;
 import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALCommandCancelledException;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
+import goal.tools.errorhandling.exceptions.GOALRunFailedException;
 import goal.tools.logging.InfoLog;
 
 import java.io.File;
 import java.util.Collection;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import krTools.errors.exceptions.ParserException;
 import languageTools.program.agent.AgentProgram;
@@ -61,6 +61,7 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 
 	private ResultInspector<C> resultInspector = null;
 	private final MASProgram masProgram;
+	private final long timeout;
 	private final Map<File, AgentProgram> agentPrograms;
 	private Messaging messaging = new LocalMessaging();
 	private String messagingHost = "localhost";
@@ -70,10 +71,16 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	 *
 	 * @param program
 	 *            to run
+	 * @param agents
+	 * @param timeout
+	 *            the number of seconds we should wait for the run to terminate;
+	 *            0 for indefinite.
 	 */
-	public AbstractRun(MASProgram program, Map<File, AgentProgram> agents) {
+	public AbstractRun(MASProgram program, Map<File, AgentProgram> agents,
+			long timeout) {
 		this.masProgram = program;
 		this.agentPrograms = agents;
+		this.timeout = timeout;
 	}
 
 	/**
@@ -166,24 +173,20 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	 */
 	// FIXME: This amount of exceptions is ridiculous. Clean this up.
 	@SuppressWarnings("unchecked")
-	public void run() throws MessagingException, GOALCommandCancelledException,
-			ParserException, GOALLaunchFailureException, InterruptedException,
-			EnvironmentInterfaceException {
+	public void run() throws GOALRunFailedException {
 		RuntimeManager<? extends D, ? extends C> runtimeManager = null;
 		try {
 			runtimeManager = buildRuntime();
 
-			// Start the environment.
-			// This will also start the multi-agent system
-			runtimeManager.startEnvironment();
+			// Start the environment (if any).
+			// This will also start the multi-agent system!
+			runtimeManager.start(true);
 
 			/*
 			 * Wait for at least one agent to show up. Not all environments
 			 * start agents directly in response to init.
 			 */
-			if (runtimeManager.awaitFirstAgent(TIMEOUT_FIRST_AGENT_SECONDS,
-					TimeUnit.SECONDS)) {
-
+			if (runtimeManager.awaitFirstAgent(TIMEOUT_FIRST_AGENT_SECONDS)) {
 				// Wait for system to end.
 				awaitTermination(runtimeManager);
 
@@ -201,7 +204,14 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 					this.resultInspector
 							.handleResult((Collection<Agent<C>>) agents);
 				}
+			} else {
+				throw new Exception(
+						"First agent didn't appear before timeout ("
+								+ TIMEOUT_FIRST_AGENT_SECONDS + "s)");
 			}
+		} catch (Exception e) { // top level catch of run of MAS
+			throw new GOALRunFailedException("The run of "
+					+ this.masProgram.toString() + " failed", e);
 		} finally {
 			if (runtimeManager != null) {
 				runtimeManager.shutDown();
@@ -212,17 +222,15 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 	/**
 	 * Blocks until the agent system is terminated or times out.
 	 *
-	 * Subclasses can implement their own termination criterea here.
+	 * Subclasses can implement their own termination criteria here.
 	 *
-	 * @param timeout
-	 * @param timeUnit
 	 * @param runtimeManager
 	 * @throws InterruptedException
 	 */
 	protected void awaitTermination(
 			RuntimeManager<? extends D, ? extends C> runtimeManager)
-					throws InterruptedException {
-		runtimeManager.awaitTermination();
+			throws InterruptedException {
+		runtimeManager.awaitTermination(this.timeout);
 	}
 
 	/**
@@ -237,13 +245,15 @@ public abstract class AbstractRun<D extends Debugger, C extends GOALInterpreter<
 			throws GOALLaunchFailureException {
 		if (!this.masProgram.isValid()) {
 			throw new GOALLaunchFailureException("Cannot launch MAS "
-					+ this.masProgram + " because it has errors.");
+					+ this.masProgram.getSourceFile().getName()
+					+ " because it has errors.");
 		}
 		for (AgentProgram agent : this.agentPrograms.values()) {
 			if (!agent.isValid()) {
 				throw new GOALLaunchFailureException("Cannot launch MAS "
-						+ this.masProgram + " because its child " + agent
-						+ " has errors.");
+						+ this.masProgram.getSourceFile().getName()
+						+ " because its child "
+						+ agent.getSourceFile().getName() + " has errors.");
 			}
 		}
 

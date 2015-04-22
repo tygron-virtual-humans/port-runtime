@@ -127,14 +127,12 @@ public class LocalMessagingEnvironment {
 			/*
 			 * TODO: All requests could be handled on the calling thread if EIS
 			 * was thread-safe. EIS specifications make no such guarantees. So
-			 * we threat all operations as if they are not thread safe and queue
+			 * we treat all operations as if they are not thread safe and queue
 			 * them up.
 			 * 
 			 * On Thread-Safe implementations of EIS this creates somewhat of a
 			 * bottleneck because all agents are now waiting for the
 			 * environment.
-			 * 
-			 * handleAction(request);
 			 */
 
 			this.requests.add(request);
@@ -164,7 +162,7 @@ public class LocalMessagingEnvironment {
 			Serializable result;
 			try {
 				result = action.invoke(this);
-			} catch (Exception e) {
+			} catch (Exception e) { // report all errors to caller
 				result = e;
 			}
 
@@ -173,7 +171,7 @@ public class LocalMessagingEnvironment {
 						.createMessage(action.getSender(), result,
 								action.getMessage());
 				LocalMessagingEnvironment.this.messageBox.send(replyMsg);
-			} catch (Exception e) {
+			} catch (MessagingException e) {
 				new Warning(
 						String.format(Resources
 								.get(WarningStrings.FAILED_REPLY_AFTER_ACTION),
@@ -195,17 +193,19 @@ public class LocalMessagingEnvironment {
 		 *             environment does not return a floating point number, etc.
 		 */
 		public Serializable getReward(String agentName) throws QueryException {
+			String value;
+
+			value = LocalMessagingEnvironment.this.eis
+					.queryProperty("REWARD " + agentName); //$NON-NLS-1$
+			if (value == null) {
+				return null;
+			}
+
 			try {
-				String value = LocalMessagingEnvironment.this.eis
-						.queryProperty("REWARD " + agentName); //$NON-NLS-1$
-				if (value == null) {
-					return null;
-				}
 				return Double.parseDouble(value);
-			} catch (QueryException e) {
-				throw e;
-			} catch (Exception e) {
-				throw new QueryException("failed to get reward", e); //$NON-NLS-1$
+			} catch (NumberFormatException e) {
+				throw new QueryException(
+						"getReward returned a non-number value " + value, e); //$NON-NLS-1$
 			}
 		}
 

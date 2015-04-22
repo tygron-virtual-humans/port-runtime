@@ -21,6 +21,7 @@ import krTools.language.Var;
 import languageTools.program.agent.AgentId;
 import languageTools.program.agent.rules.Rule;
 import languageTools.program.agent.selector.Selector;
+import mentalstatefactory.InstantiationFailedException;
 import mentalstatefactory.MentalStateFactory;
 
 public class ExecuteTools {
@@ -48,7 +49,7 @@ public class ExecuteTools {
 		mentalState.MentalState state;
 		try {
 			state = MentalStateFactory.getInterface(language.getClass());
-		} catch (UnknownObjectException e) {
+		} catch (InstantiationFailedException e) {
 			throw new GOALBug(
 					"Runtime can't get interface to running language "
 							+ language.getName());
@@ -112,7 +113,7 @@ public class ExecuteTools {
 		mentalState.MentalState state;
 		try {
 			state = MentalStateFactory.getInterface(kr.getClass());
-		} catch (UnknownObjectException e) {
+		} catch (InstantiationFailedException e) {
 			throw new GOALBug(
 					"Runtime can't get interface to running language "
 							+ kr.getName());

@@ -16,13 +16,6 @@ import languageTools.program.test.TestCollection;
  * @author mpkorstanje
  */
 public class TestResult {
-	@Override
-	public String toString() {
-		return "TestResult [Tests= " + this.tests + ", results=" + this.results
-				+ ", ruleFailed=" + this.testSectionFailed + ", passed="
-				+ this.passed + "]";
-	}
-
 	public static final TestResult EMPTY = new TestResult(TestCollection.EMPTY);
 
 	private final TestCollection tests;

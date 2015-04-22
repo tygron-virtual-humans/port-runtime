@@ -13,6 +13,7 @@ import goal.tools.logging.Loggers;
 import java.io.File;
 
 import languageTools.program.mas.MASProgram;
+import languageTools.program.test.UnitTest;
 
 public class DebugTool {
 
@@ -27,8 +28,16 @@ public class DebugTool {
 			}
 
 			final PlatformManager platform = PlatformManager.createNew();
-			final File mas2g = new File(args[1]);
-			final MASProgram program = platform.parseMASFile(mas2g);
+			final File executable = new File(args[1]);
+			RuntimeManager<IDEDebugger, IDEGOALInterpreter> runtime;
+			if (executable.getName().endsWith("mas2g")) {
+				final MASProgram program = platform.parseMASFile(executable);
+				runtime = LaunchManager.createNew().launchMAS(program,
+						platform.getParsedAgentPrograms());
+			} else {
+				final UnitTest test = platform.parseUnitTestFile(executable);
+				runtime = LaunchManager.createNew().launchTest(test);
+			}
 
 			if (args.length > 2) {
 				GoalBreakpointManager.loadAll(args[2]);
@@ -37,14 +46,12 @@ public class DebugTool {
 				}
 			}
 
-			final RuntimeManager<IDEDebugger, IDEGOALInterpreter> runtime = LaunchManager
-					.createNew().launchMAS(program,
-							platform.getParsedAgentPrograms());
 			final EclipseEventObserver observer = new EclipseEventObserver();
 			final InputReaderWriter readerwriter = new InputReaderWriter(
 					System.in, System.out, runtime, observer);
 			readerwriter.start();
 			runtime.addObserver(observer);
+			runtime.start(false);
 			if (LoggingPreferences.getEclipseDebug()) {
 				new InfoLog("Started debugging for " + args[1] + "!");
 			}

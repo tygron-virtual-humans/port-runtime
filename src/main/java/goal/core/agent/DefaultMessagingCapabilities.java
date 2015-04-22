@@ -1,12 +1,9 @@
 package goal.core.agent;
 
 import goal.core.runtime.MessagingService;
-import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
-import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALMessagingException;
-import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -19,6 +16,7 @@ import languageTools.program.agent.msg.Message;
 import nl.tudelft.goal.messaging.exceptions.MessagingException;
 import nl.tudelft.goal.messaging.messagebox.MessageBox;
 import nl.tudelft.goal.messaging.messagebox.MessageBoxId;
+import nl.tudelft.goal.messaging.messagebox.MessageBoxId.Type;
 import nl.tudelft.goal.messaging.messagebox.MessageBoxListener;
 
 /**
@@ -70,7 +68,7 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 			default:
 				// If we get here, we don't know how to handle the
 				// message.
-				throw new GOALMessagingException("Agent " + getId()
+				throw new GOALMessagingException("agent " + getId()
 						+ " does not know how to handle received message "
 						+ message + ".");
 			}
@@ -79,7 +77,7 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.core.agent.Capabilities#clear()
 	 */
 	@Override
@@ -94,7 +92,7 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.core.agent.Capabilities#getAllMessages()
 	 */
 	@Override
@@ -108,7 +106,7 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.core.agent.Capabilities#postMessage(goal.core.agent.Message)
 	 */
 	@Override
@@ -117,14 +115,15 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 		for (AgentId receiver : message.getReceivers()) {
 			try {
 				List<MessageBoxId> recvBoxes = this.messaging.getClient()
-						.getMessageBoxes(null, receiver.getName());
+						.getMessageBoxes(Type.GOALAGENT, receiver.getName());
 				if (recvBoxes.isEmpty()) {
 					new Warning("unknown receiver " + receiver);
 					continue;
 				}
 				if (recvBoxes.size() != 1) {
-					throw new GOALBug("The messagebox name " + receiver
-							+ " is not unique!");
+					throw new GOALBug(
+							"there are multiple agents using the messagebox name "
+									+ receiver);
 				}
 				this.messageBox.send(this.messageBox.createMessage(
 						recvBoxes.get(0), message, null));
@@ -139,17 +138,11 @@ public class DefaultMessagingCapabilities implements MessagingCapabilities {
 		try {
 			this.messageBox.removeListener(this.listener);
 		} catch (MessagingException e) {
-			// FIXME: This should never throw an exception.
+			throw new GOALMessagingException(
+					"unsubscribing from messagebox failed", e);
 		}
 
-		try {
-			this.messaging.deleteMessageBox(this.messageBox);
-		} catch (GOALRuntimeErrorException e) {
-			// FIXME: Messaging should provide better information here.
-			// This can fail because the server was shut down, in which case we
-			// can ignore it. Or because of another reason, in which case we
-			// might not.
-			new Warning(Resources.get(WarningStrings.FAILED_DELETE_MSGBOX), e);
-		}
+		this.messaging.deleteMessageBox(this.messageBox);
+
 	}
 }

@@ -12,12 +12,6 @@ import languageTools.program.test.testsection.DoActionSection;
  * @author mpkorstanje
  */
 public class ActionResult implements TestSectionResult {
-
-	@Override
-	public String toString() {
-		return "ActionResult [result=" + this.result + "]";
-	}
-
 	private final Result result;
 	private final DoActionExecutor action;
 

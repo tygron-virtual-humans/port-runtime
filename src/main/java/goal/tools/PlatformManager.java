@@ -43,6 +43,7 @@ import java.util.logging.Level;
 import krTools.KRInterface;
 import krTools.errors.exceptions.ParserException;
 import languageTools.analyzer.agent.AgentValidator;
+import languageTools.analyzer.agent.AgentValidatorSecondPass;
 import languageTools.analyzer.mas.MASValidator;
 import languageTools.analyzer.test.TestValidator;
 import languageTools.errors.Message;
@@ -248,7 +249,6 @@ public class PlatformManager {
 	 */
 	public AgentProgram getAgentProgram(File file) {
 		if (isGOALFile(file)) {
-			System.out.println(this.parsedFiles);
 			return (AgentProgram) this.parsedFiles.get(file);
 		} else {
 			return null;
@@ -391,7 +391,6 @@ public class PlatformManager {
 			// Provide message to logger.
 			parserLogger.log(new StringsLogRecord(Level.INFO, message
 					.toString()));
-
 			return test;
 		}
 	}
@@ -485,7 +484,7 @@ public class PlatformManager {
 		for (File agentFile : mas.getAgentFiles()) {
 			try {
 				parseGOALFile(agentFile, mas.getKRInterface(agentFile));
-			} catch (Exception e) {
+			} catch (Exception e) { // top level safety catch
 				throw new GOALBug("Unexpected failure in parser", e); //$NON-NLS-1$
 			}
 		}

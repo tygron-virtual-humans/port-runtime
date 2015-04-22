@@ -5,20 +5,17 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import goal.tools.UnitTestRun;
 import goal.tools.UnitTestRunResultInspector;
-import goal.tools.errorhandling.exceptions.GOALCommandCancelledException;
-import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
+import goal.tools.errorhandling.exceptions.GOALRunFailedException;
 import goal.tools.logging.Loggers;
 import goal.tools.unittest.result.UnitTestResult;
 import goal.tools.unittest.result.UnitTestResultFormatter;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
-import krTools.errors.exceptions.ParserException;
 import languageTools.analyzer.test.TestValidator;
 import languageTools.errors.Message;
 import languageTools.program.test.UnitTest;
-import nl.tudelft.goal.messaging.exceptions.MessagingException;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -61,23 +58,27 @@ public class AbstractUnitTestTest {
 		if (program != null && program.isValid()) {
 			return program;
 		} else {
-			List<Message> errors = this.visitor.getErrors();
+			Set<Message> errors = this.visitor.getErrors();
 			errors.addAll(this.visitor.getSyntaxErrors());
 			System.out.println(errors);
 			return null;
 		}
 	}
 
-	protected UnitTestResult runTest(String testFileName) throws IOException,
-	GOALCommandCancelledException, ParserException,
-	GOALLaunchFailureException, MessagingException,
-	InterruptedException, Exception {
-		UnitTest unitTest = setup(testFileName);
+	protected UnitTestResult runTest(String testFileName)
+			throws GOALRunFailedException {
+		UnitTest unitTest;
+		try {
+			unitTest = setup(testFileName);
+		} catch (IOException e) {
+			throw new GOALRunFailedException("error while reading test file "
+					+ testFileName, e);
+		}
 
 		assertNotNull(unitTest);
 
 		UnitTestRun testRun = new UnitTestRun(unitTest);
-
+		testRun.setDebuggerOutput(true);
 		UnitTestRunResultInspector inspector = new UnitTestRunResultInspector(
 				unitTest);
 		testRun.setResultInspector(inspector);

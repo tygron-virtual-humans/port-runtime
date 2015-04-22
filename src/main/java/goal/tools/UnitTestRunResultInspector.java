@@ -1,7 +1,6 @@
 package goal.tools;
 
 import goal.core.agent.Agent;
-import goal.tools.debugger.ObservableDebugger;
 import goal.tools.unittest.UnitTestInterpreter;
 import goal.tools.unittest.result.UnitTestInterpreterResult;
 import goal.tools.unittest.result.UnitTestResult;
@@ -20,7 +19,7 @@ import languageTools.program.test.UnitTest;
  * @author M.P. Korstanje
  */
 public class UnitTestRunResultInspector implements
-		ResultInspector<UnitTestInterpreter<ObservableDebugger>> {
+ResultInspector<UnitTestInterpreter> {
 	private final HashMap<AgentId, UnitTestInterpreterResult> results = new HashMap<>();
 	private final UnitTest unitTest;
 
@@ -39,8 +38,7 @@ public class UnitTestRunResultInspector implements
 	}
 
 	@Override
-	public void handleResult(
-			Collection<Agent<UnitTestInterpreter<ObservableDebugger>>> agents) {
+	public void handleResult(Collection<Agent<UnitTestInterpreter>> agents) {
 		this.results.clear();
 
 		// Stop agents. Agents are either stopped or half way in a test. When in
@@ -53,11 +51,11 @@ public class UnitTestRunResultInspector implements
 		// Wait for termination.
 		try {
 			for (Agent<?> agent : agents) {
-				agent.awaitTermination();
+				agent.awaitTermination(AbstractRun.TIMEOUT_FIRST_AGENT_SECONDS);
 			}
 
 			// Extract results.
-			for (Agent<UnitTestInterpreter<ObservableDebugger>> a : agents) {
+			for (Agent<UnitTestInterpreter> a : agents) {
 				UnitTestInterpreterResult result = a.getController()
 						.getTestResults();
 				this.results.put(a.getId(), result);

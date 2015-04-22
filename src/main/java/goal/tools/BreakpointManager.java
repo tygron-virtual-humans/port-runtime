@@ -14,7 +14,6 @@ import java.util.Set;
 
 import krTools.parser.SourceInfo;
 import languageTools.parser.InputStreamPosition;
-import languageTools.program.agent.ActionSpecification;
 import languageTools.program.agent.AgentProgram;
 import languageTools.program.agent.Module;
 import languageTools.program.agent.Module.TYPE;
@@ -47,13 +46,15 @@ public class BreakpointManager {
 	 *
 	 * @param program
 	 *            The program.
+	 * @param boolean conditionalOnly Return only the code points that are
+	 *        relevant to a conditional breakpoint (no mentalformulas)
 	 *
 	 * @return The set of objects in the program on which a breakpoint may be
 	 *         set. They are sorted. The ID of the objects will be the index in
 	 *         the returned list.
 	 */
-	public static List<InputStreamPosition> getBreakpointObjects(
-			AgentProgram program) {
+	private static List<InputStreamPosition> getBreakpointObjects(
+			AgentProgram program, boolean conditionalOnly) {
 		// Collect all objects for which a breakpoint can be set.
 		List<InputStreamPosition> objects = new LinkedList<>();
 
@@ -63,18 +64,16 @@ public class BreakpointManager {
 			for (Rule rule : module.getRules()) {
 				// FIXME: used to be just 2 objects; now all literals/actions
 				// are added
-				for (MentalFormula literal : rule.getCondition()
-						.getSubFormulas()) {
-					objects.add((InputStreamPosition) literal.getSourceInfo());
+				if (!conditionalOnly) {
+					for (MentalFormula literal : rule.getCondition()
+							.getSubFormulas()) {
+						objects.add((InputStreamPosition) literal
+								.getSourceInfo());
+					}
 				}
 				for (Action<?> action : rule.getAction()) {
 					objects.add((InputStreamPosition) action.getSourceInfo());
 				}
-			}
-			for (ActionSpecification spec : module.getActionSpecifications()) {
-				// FIXME: is getAction the correct point?!
-				objects.add((InputStreamPosition) spec.getAction()
-						.getSourceInfo());
 			}
 		}
 
@@ -90,52 +89,12 @@ public class BreakpointManager {
 	}
 
 	/**
-	 * Updates all breakpoints used by agent program (and all child files).
-	 * Called usually when launching a MAS.
-	 *
-	 * @param agentFile
-	 *            the file to update.
-	 */
-	public void updateBreakpoints(File agentFile) {
-		// make sure to also update the breakpoints for all child files.
-		List<File> affectedFiles = new LinkedList<>();
-		affectedFiles.add(agentFile);
-		// affectedFiles.addAll(platform.getAgentProgram(agentFile).getImports());
-
-		for (File file : affectedFiles) {
-			// remove and re-add all breakpoints of all affected files
-			Set<SourceInfo> originalBPs = this.breakpoints.remove(file);
-			if (originalBPs == null) {
-				continue;
-			}
-			for (SourceInfo bp : originalBPs) {
-				// HACK. we should respect breakpoint types.
-				addBreakpoint(
-						bp.getSource(),
-						new BreakPoint(
-								agentFile,
-								bp.getLineNumber() - 1,
-								bp instanceof Action ? BreakPoint.Type.CONDITIONAL
-										: BreakPoint.Type.ALWAYS));
-			}
-		}
-
-		// Update the set of breakpoint objects.
-		// FIXME: where and when do we need to do this??
-		for (SourceInfo bpObj : getBreakpointObjects(this.platform
-				.getAgentProgram(agentFile))) {
-			this.breakpoints.get(agentFile).add(bpObj);
-		}
-	}
-
-	/**
 	 * Attempts to add a breakpoint.
 	 *
 	 * @param sourceFile
 	 *            The file to add a breakpoint to.
 	 * @param bpt
-	 *            The breakpoint suggestion that should be added. Line number of
-	 *            the breakpoint must be &ge; 0. (0-based)
+	 *            The breakpoint suggestion that should be added.
 	 *
 	 * @return <ul>
 	 *         <li>-2 if there is no reference to the given source file in this
@@ -159,18 +118,13 @@ public class BreakpointManager {
 		// agents that reference the given file.
 		AgentProgram program = this.platform
 				.getAgentProgram(referencingAgentFiles.get(0));
-		for (InputStreamPosition bp : getBreakpointObjects(program)) {
-			// breakpointLocations.get(referencingAgentFiles.get(0))) {
+		for (InputStreamPosition bp : getBreakpointObjects(program,
+				bpt.getType() == Type.CONDITIONAL)) {
 			/*
 			 * since the breakpoint-objects are ordered, the first match is the
-			 * first object after the given line in the given file. If the
-			 * breakpoint is conditional, search for the first action
+			 * first object after the given line in the given file.
 			 */
-			if (bp.definedAfter(sourceFile, bpt.getLine())
-					&& (bpt.getType() == Type.ALWAYS /*
-					 * || (bp instanceof
-					 * ActionCombo)
-					 */)) {
+			if (bp.definedAfter(sourceFile, bpt.getLine())) {
 				line = bp.getLineNumber();
 				addBreakpoint(bp);
 				break;

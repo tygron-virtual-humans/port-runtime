@@ -3,6 +3,12 @@ package goal.core.executors;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
 import goal.tools.debugger.Channel;
+import goal.tools.errorhandling.Warning;
+import goal.tools.errorhandling.exceptions.GOALActionFailedException;
+import goal.tools.errorhandling.exceptions.GOALBug;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
+import goal.tools.unittest.result.testcondition.TestBoundaryException;
+import goal.tools.unittest.result.testcondition.TestConditionFailedException;
 
 import java.util.concurrent.Callable;
 
@@ -63,13 +69,18 @@ public class ModuleExecutor {
 
 	@SuppressWarnings("unchecked")
 	public Result executeFully(final RunState<?> runState,
-			final Substitution substitution) {
+			final Substitution substitution) throws GOALActionFailedException {
 		Callable<Callable<?>> call = execute(runState, substitution, true);
 		while (call != null) {
 			try {
 				call = (Callable<Callable<?>>) call.call();
+			} catch (GOALActionFailedException gafe) {
+				throw gafe; // module failed user error, pass upwards.
+			} catch (RuntimeException e) {
+				throw e; // goal bugs, let fall through.
 			} catch (Exception e) {
-				break;
+				// we should never get here.
+				throw new GOALBug("module is throwing unexpected exception", e);
 			}
 		}
 		return this.result;
@@ -87,26 +98,35 @@ public class ModuleExecutor {
 	 *            the focus call so that the module can use it without renaming.
 	 * @return {@link Runnable} for continuing to execute this module. Null when
 	 *         we should stop.
+	 * @throws GOALActionFailedException
 	 */
 	public Callable<Callable<?>> execute(final RunState<?> runState,
-			final Substitution substitution) {
+			final Substitution substitution) throws GOALActionFailedException {
 		return execute(runState, substitution, true);
 	}
 
 	private Callable<Callable<?>> execute(final RunState<?> runState,
-			final Substitution substitution, final boolean first) {
+			final Substitution substitution, final boolean first)
+			throws GOALActionFailedException {
 		if (first) {
-			// Push (non-anonymous) modules that were just entered onto stack
-			// that keeps track of modules that have been entered but not yet
-			// exited again.
+			/*
+			 * Push (non-anonymous) modules that were just entered onto stack
+			 * that keeps track of modules that have been entered but not yet
+			 * exited again.
+			 */
 			runState.enteredModule(this.module);
 
-			// Add all initial beliefs defined in the beliefs section of this
-			// module
-			// to the agent's belief base.
+			/*
+			 * Add all initial beliefs defined in the beliefs section of this
+			 * module to the agent's belief base.
+			 */
 			for (DatabaseFormula belief : this.module.getBeliefs()) {
-				runState.getMentalState().insert(belief, BASETYPE.BELIEFBASE,
-						runState.getDebugger(), runState.getId());
+				try {
+					runState.getMentalState().insert(belief, BASETYPE.BELIEFBASE,
+							runState.getDebugger(), runState.getId());
+				} catch (GOALDatabaseException e) {
+					throw new IllegalStateException("insert "+belief+ "failed unexpectedly", e);
+				}
 			}
 
 			// Add all goals defined in the goals section of this module to the
@@ -114,21 +134,25 @@ public class ModuleExecutor {
 			for (Query goal : this.module.getGoals()) {
 				ActionExecutor adopt = new AdoptActionExecutor(new AdoptAction(
 						new Selector(SelectorType.THIS), goal.applySubst(
-								substitution).toUpdate(), goal.getSourceInfo()));
-				adopt = adopt.evaluatePrecondition(runState.getMentalState(),
-						runState.getDebugger(), false);
+								substitution).toUpdate(), goal.getSourceInfo(),
+						module.getKRInterface()));
+				try {
+					adopt = adopt.evaluatePrecondition(runState.getMentalState(),
+							runState.getDebugger(), false);
+				} catch (GOALDatabaseException e) {
+					throw new IllegalStateException("adopt of "+goal+ "failed unexpectedly", e);
+				}
 				if (adopt != null) {
 					adopt.run(runState, substitution, runState.getDebugger(),
 							false);
 				}
 			}
-
-			// Report entry of non-anonymous module on debug channel.
-			if (this.module.getType() != TYPE.ANONYMOUS) {
-				runState.getDebugger().breakpoint(this.entrychannel,
-						this.module, this.module.getSourceInfo(),
-						"Entering " + this.module.getNamePhrase());
-			}
+		}
+		// Report (re)entry of non-anonymous module on debug channel.
+		if (this.module.getType() != TYPE.ANONYMOUS) {
+			runState.getDebugger().breakpoint(this.entrychannel, this.module,
+					this.module.getSourceInfo(),
+					"Entering " + this.module.getNamePhrase());
 		}
 
 		// Evaluate and apply the rules of this module
@@ -155,6 +179,8 @@ public class ModuleExecutor {
 			// exit whenever module has been terminated (see above)
 			break;
 		}
+		exit |= !runState.getParent().isRunning(); // FIXME: check for
+		// executeFully
 
 		// Check whether we need to start a new cycle. We do so if we do NOT
 		// exit this module, NO action has been performed while evaluating the

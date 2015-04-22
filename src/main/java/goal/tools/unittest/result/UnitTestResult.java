@@ -27,12 +27,6 @@ import languageTools.program.test.UnitTest;
  * @author M.P. Korstanje
  */
 public class UnitTestResult {
-	@Override
-	public String toString() {
-		return "UnitTestResult [unitTest=" + this.unitTest + ", results="
-				+ this.results + ", passed=" + this.passed + "]";
-	}
-
 	private final UnitTest unitTest;
 	private final Map<AgentTest, List<UnitTestInterpreterResult>> results;
 	private final boolean passed;

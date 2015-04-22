@@ -19,15 +19,20 @@
 package goal.tools.adapt;
 
 import goal.core.agent.Agent;
+import goal.core.dependencygraph.ModuleGraphGenerator;
 import goal.core.mentalstate.MentalState;
 import goal.preferences.CorePreferences;
+import goal.tools.errorhandling.Warning;
 import goal.tools.logging.InfoLog;
+import goal.tools.mc.program.goal.GOALConversionUniverse;
+import goal.tools.mc.program.goal.GOALMentalStateConverter;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -48,11 +53,13 @@ import java.util.TreeMap;
 import java.util.Vector;
 
 import krTools.language.DatabaseFormula;
+import krTools.language.Expression;
 import languageTools.program.agent.AgentProgram;
 import languageTools.program.agent.Module;
 import languageTools.program.agent.Module.RuleEvaluationOrder;
 import languageTools.program.agent.actions.ActionCombo;
 import mentalState.BASETYPE;
+import mentalState.DependencyGraph;
 
 /**
  * The generic learner. This class makes the link between GOAL core and the
@@ -77,7 +84,6 @@ import mentalState.BASETYPE;
  *
  */
 public class FileLearner implements Serializable, Learner {
-
 	/** Auto-generated serial version UID */
 	private static final long serialVersionUID = 4158712238978167789L;
 	/**
@@ -104,27 +110,15 @@ public class FileLearner implements Serializable, Learner {
 	private Map<Integer, String> actionstr = new TreeMap<>();
 	private Map<String, String> statestr = new TreeMap<>();
 
-	/**
-	 *
-	 *
-	 private GOALMentalStateConverter converter;
-	 *
-	 * /** Used to save the converter universe
-	 *
-	 * private List<String> universe;
-	 *
-	 * /* The program that this learner is associated with
-	 */
+	private GOALMentalStateConverter converter;
+	/** Used to save the converter universe */
+	private List<String> universe;
+	/** The program that this learner is associated with */
 	private final AgentProgram program;
 
-	/*
-	 * File name prefix for .lrn file
-	 */
+	/** File name prefix for .lrn file */
 	private final String lrnPrefix;
 
-	/**
-	 *
-	 */
 	private Integer runCount;
 	private boolean finishedEpisode;
 	private boolean updateCalled;
@@ -136,7 +130,7 @@ public class FileLearner implements Serializable, Learner {
 	 * @param program
 	 */
 	public FileLearner(String name, AgentProgram program) {
-		// this.converter = new GOALMentalStateConverter(null);
+		this.converter = new GOALMentalStateConverter(null);
 
 		String filename = null;
 		boolean loaded = false;
@@ -198,22 +192,20 @@ public class FileLearner implements Serializable, Learner {
 				new Double(sarsa_epsilon).toString());
 		defaults.setProperty("sarsa_epsilon_decay", new Double(
 				sarsa_epsilon_decay).toString());
-		try {
-			Properties properties = new Properties(defaults);
-			File file = new File(module.getName() + ".adaptive.properties");
-			if (file.exists()) {
-				try (FileInputStream fis = new FileInputStream(file.getName())) {
-					properties.load(fis);
-					new InfoLog("Learner: Loaded properties from `"
-							+ file.getName() + "`.");
-					new InfoLog(properties.toString());
-				} catch (Exception e) {
-					System.err
-					.println("WARNING: Could not load learner properties from `"
-							+ file.getName()
-							+ "`. Will proceed with defaults.");
-				}
+		Properties properties = new Properties(defaults);
+		File file = new File(module.getName() + ".adaptive.properties");
+		if (file.exists()) {
+			try (FileInputStream fis = new FileInputStream(file.getName())) {
+				properties.load(fis);
+				new InfoLog("Learner: Loaded properties from `"
+						+ file.getName() + "`.");
+				new InfoLog(properties.toString());
+			} catch (IOException e) {
+				new Warning("Could not load learner properties from `"
+						+ file.getName() + "`. Will proceed with defaults.", e);
 			}
+		}
+		try {
 			sarsa_alpha = Double.parseDouble(properties
 					.getProperty("sarsa_alpha"));
 			sarsa_epsilon = Double.parseDouble(properties
@@ -222,15 +214,12 @@ public class FileLearner implements Serializable, Learner {
 					.getProperty("sarsa_epsilon_decay"));
 			sarsa_gamma = Double.parseDouble(properties
 					.getProperty("sarsa_gamma"));
-
-		} catch (Exception e) {
-			System.err
-			.println("WARNING: While loading learner properties got: "
-					+ e.getMessage());
+		} catch (NumberFormatException e) {
+			new Warning("Failed to parse learner properties",e);
 		}
 
 		// Associate belief filter with corresponding rule set.
-		this.setBeliefFilter(module);
+		setBeliefFilter(module);
 
 		// Create a new Q-learner.
 		if (learner == null) {
@@ -249,20 +238,18 @@ public class FileLearner implements Serializable, Learner {
 	private void setBeliefFilter(Module module) {
 		new InfoLog("Computing filter for module " + module.getName() + ".");
 
-		/*
-		 * ModuleGraphGenerator moduleGraphGenerator = new
-		 * ModuleGraphGenerator();
-		 * moduleGraphGenerator.setKRlanguage(module.getKRInterface());
-		 * moduleGraphGenerator.createGraph(module, null); DependencyGraph<?>
-		 * filter = moduleGraphGenerator.getGraph(); List<? extends Expression>
-		 * queried = filter.getQueries(); Set<String> signatures = new
-		 * HashSet<>(queried.size()); for (Expression query : queried) {
-		 * signatures.add(query.getSignature()); }
-		 * this.filters.put(module.getName(), signatures);
-		 */
-		this.filters.put(module.getName(), new HashSet<String>(0));
+		ModuleGraphGenerator moduleGraphGenerator = new ModuleGraphGenerator();
+		moduleGraphGenerator.setKRlanguage(module.getKRInterface());
+		moduleGraphGenerator.createGraph(module, null);
+		DependencyGraph<?> filter = moduleGraphGenerator.getGraph();
+		List<? extends Expression> queried = filter.getQueries();
+		Set<String> signatures = new HashSet<>(queried.size());
+		for (Expression query : queried) {
+			signatures.add(query.getSignature());
+		}
+		this.filters.put(module.getName(), signatures);
 
-		// new InfoLog("Filter = " + signatures);
+		new InfoLog("Filter = " + signatures);
 	}
 
 	private Set<String> getBeliefFilters(String module) {
@@ -301,7 +288,7 @@ public class FileLearner implements Serializable, Learner {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.tools.adapt.Learner#act(java.lang.String,
 	 * goal.core.mentalstate.MentalState, java.util.List, java.util.Set)
 	 */
@@ -343,7 +330,7 @@ public class FileLearner implements Serializable, Learner {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see goal.tools.adapt.Learner#update(java.lang.String,
 	 * goal.core.mentalstate.MentalState, double, java.util.Set)
 	 */
@@ -415,9 +402,8 @@ public class FileLearner implements Serializable, Learner {
 			out.write(String.format("%s: %.2f %.2f %07d\n", agentName,
 					this.learners.get(module).totalactions,
 					this.learners.get(module).totalreward, this.stateid.size()));
-		} catch (Exception e) {
-			System.err.println("WARNING: Could not write " + outfile + ": "
-					+ e.getMessage());
+		} catch (IOException e) {
+			new Warning("Could not write report " + outfile + " but continuing",e);
 		}
 		/* Write human readable learning output to file */
 		outfile = module + ".lrn.txt";
@@ -460,9 +446,8 @@ public class FileLearner implements Serializable, Learner {
 				out.write(s);
 				index++;
 			}
-		} catch (Exception e) {
-			System.err.println("WARNING: Could not write " + outfile + ": "
-					+ e.getMessage());
+		} catch (IOException e) {
+			new Warning("WARNING: Could not write report file " + outfile, e);
 		}
 	}
 
@@ -478,8 +463,8 @@ public class FileLearner implements Serializable, Learner {
 	 */
 	private String processState(MentalState ms, Set<String> filter) {
 		String state = "";
-		// this.converter.translate(filteredBeliefs(ms,
-		// filter),ms.getAttentionStack()).toString();
+		this.converter.translate(filteredBeliefs(ms, filter),
+				ms.getAttentionStack()).toString();
 		if (!this.stateid.containsKey(state)) {
 			this.stateid.put(state, new Integer(this.stateid.size() + 1));
 		}
@@ -520,24 +505,20 @@ public class FileLearner implements Serializable, Learner {
 	 * Holds an instance of a LearningAlgorithm along with records of use
 	 *
 	 * @author dsingh
-	 *
 	 */
-	class LearnerInstance implements Serializable {
-		/**
-		 *
-		 */
+	private static class LearnerInstance implements Serializable {
 		private static final long serialVersionUID = -8539363627078273749L;
-		LearnerAlgorithm instance;
+		private final LearnerAlgorithm instance;
 		/**
 		 * Accumulates the total reward received from start to finish.
 		 */
-		transient double totalreward = 0;
+		private transient double totalreward = 0;
 		/**
 		 * Counts the total number of actions performed from start to finish.
 		 */
-		transient double totalactions = 0;
+		private transient double totalactions = 0;
 
-		LearnerInstance(LearnerAlgorithm instance) {
+		protected LearnerInstance(LearnerAlgorithm instance) {
 			this.instance = instance;
 			this.totalreward = 0;
 			this.totalactions = 0;
@@ -552,8 +533,8 @@ public class FileLearner implements Serializable, Learner {
 		oos.writeObject(this.stateid);
 		oos.writeObject(this.actionstr);
 		oos.writeObject(this.statestr);
-		// this.universe = this.converter.getUniverse().toStringArray();
-		// oos.writeObject(this.universe);
+		this.universe = this.converter.getUniverse().toStringArray();
+		oos.writeObject(this.universe);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -566,21 +547,20 @@ public class FileLearner implements Serializable, Learner {
 		this.stateid = (Map<String, Integer>) ois.readObject();
 		this.actionstr = (Map<Integer, String>) ois.readObject();
 		this.statestr = (Map<String, String>) ois.readObject();
-		// this.universe = (List<String>) ois.readObject();
-		// this.converter = new GOALMentalStateConverter(null);
-		// this.converter.getUniverse().setPreassignedIndices(this.universe);
+		this.universe = (List<String>) ois.readObject();
+		this.converter = new GOALMentalStateConverter(null);
+		this.converter.getUniverse().setPreassignedIndices(this.universe);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * goal.tools.adapt.Learner#terminateLearner(goal.core.mentalstate.MentalState
 	 * , java.lang.Double)
 	 */
 	@Override
 	public void terminate(MentalState ms, Double envReward) {
-
 		boolean writeLearnerToFile = false;
 		/*
 		 * Learning episodes are always terminated here. We do this once for all
@@ -674,13 +654,12 @@ public class FileLearner implements Serializable, Learner {
 			this.stateid = l.stateid;
 			this.actionstr = l.actionstr;
 			this.statestr = l.statestr;
-			// this.universe = l.universe;
-			// this.converter = l.converter;
+			this.universe = l.universe;
+			this.converter = l.converter;
 			new InfoLog("\nLoading learned model from file " + file);
 			return true;
-		} catch (Exception e) {
-			new InfoLog("File " + file + " could not be read ("
-					+ e.getMessage() + "). Continuing.");
+		} catch (IOException | ClassNotFoundException e) {
+			new Warning("learner file " + file + " could not be read but continuing anyway.",e);
 		}
 		return false;
 	}

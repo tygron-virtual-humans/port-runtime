@@ -90,7 +90,7 @@ public class FileLearnerTest {
 	public void testStart() throws InterruptedException {
 		this.controller.run();
 		assertTrue(this.controller.isRunning());
-		this.controller.awaitTermination();
+		this.controller.awaitTermination(0); // TODO: timeout?!
 		assertFalse(this.controller.isRunning());
 	}
 
@@ -98,5 +98,4 @@ public class FileLearnerTest {
 	public void tearDown() throws Exception {
 		// this.language.reset();
 	}
-
 }

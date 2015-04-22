@@ -23,13 +23,13 @@ import goal.tools.debugger.Channel;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
 import goal.tools.errorhandling.Resources;
-import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALBug;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 
-import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.MissingResourceException;
 import java.util.Observable;
 import java.util.Set;
 
@@ -186,15 +186,16 @@ public class BeliefBase {
 	 *
 	 * @return a set of substitutions each of which make the query true, or an
 	 *         empty set otherwise.
+	 * @throws IllegalArgumentException
+	 *             if query fails.
 	 */
-	public final Set<Substitution> query(Query formula, Debugger debugger) {
+	public final Set<Substitution> query(Query formula, Debugger debugger) throws GOALDatabaseException {
 		try {
 			return this.database.query(formula);
-		} catch (Exception e) {
-			new Warning(debugger, String.format(
+		} catch (KRQueryFailedException e) {
+			throw new GOALDatabaseException(String.format(
 					Resources.get(WarningStrings.FAILED_DB_QUERY),
-					formula.toString(), this.database.getName()), e);
-			return new LinkedHashSet<>(0);
+					formula.toString()), e);
 		}
 	}
 
@@ -210,25 +211,27 @@ public class BeliefBase {
 	 *            The debugger monitoring the insertion.
 	 * @return <code>true</code> if anything changed; <code>false</code> if
 	 *         nothing changed or a KR technology exception occurred.
+	 * @throws  
+	 * @throws GOALDatabaseException 
 	 */
-	public boolean insert(DatabaseFormula formula, Debugger debugger) {
+	public boolean insert(DatabaseFormula formula, Debugger debugger) throws GOALDatabaseException {
 		boolean change = this.theory.add(formula);
 		if (change) {
 			try {
 				this.database.insert(formula);
-
-				debugger.breakpoint(getChannel(), formula,
-						formula.getSourceInfo(),
-						"%s has been inserted into the belief base of %s.",
-						formula, this.agentName);
-			} catch (Exception e) {
-				new Warning(debugger, String.format(
+			} catch (KRDatabaseException e) {
+				throw new GOALDatabaseException(String.format(
 						Resources.get(WarningStrings.FAILED_ADD_DBFORMULA),
 						formula.toString(), this.database.getName()), e);
 				// KR did not succeed, remove formula again from theory to keep
 				// KR database and theory synchronized.
-				change = !this.theory.remove(formula);
+				// change = !this.theory.remove(formula);
+
 			}
+
+			debugger.breakpoint(getChannel(), formula, formula.getSourceInfo(),
+					"%s has been inserted into the belief base of %s.",
+					formula, this.agentName);
 		}
 		return change;
 	}
@@ -242,8 +245,9 @@ public class BeliefBase {
 	 *            The debugger monitoring the updating.
 	 * @return <code>true</code> if anything changed; <code>false</code>
 	 *         otherwise.
+	 * @throws GOALDatabaseException 
 	 */
-	public boolean insert(Update update, Debugger debugger) {
+	public boolean insert(Update update, Debugger debugger) throws GOALDatabaseException {
 		return update(update.getAddList(), update.getDeleteList(), debugger);
 	}
 
@@ -253,24 +257,25 @@ public class BeliefBase {
 	 * @param message
 	 * @param received
 	 * @param debugger
+	 * @throws GOALDatabaseException 
 	 */
-	public void insert(Message message, boolean received, Debugger debugger) {
+	public void insert(Message message, boolean received, Debugger debugger) throws GOALDatabaseException {
+		Set<DatabaseFormula> updates;
 		try {
-			Set<DatabaseFormula> updates = this.state.insert(this.database,
-					message, received);
-			for (DatabaseFormula formula : updates) {
-				boolean change = this.theory.add(formula);
-				if (change) {
-					debugger.breakpoint(getChannel(), formula,
-							formula.getSourceInfo(),
-							"%s has been inserted into the mailbox of %s.",
-							formula, this.agentName);
-				}
-			}
+			updates = this.state.insert(this.database, message, received);
 		} catch (KRDatabaseException e) {
-			new Warning(debugger, String.format(
+			throw new GOALDatabaseException(String.format(
 					"Failed to add message %s to %s (received: %s)",
 					message.toString(), this.database.getName(), received), e);
+		}
+		for (DatabaseFormula formula : updates) {
+			boolean change = this.theory.add(formula);
+			if (change) {
+				debugger.breakpoint(getChannel(), formula,
+						formula.getSourceInfo(),
+						"%s has been inserted into the mailbox of %s.",
+						formula, this.agentName);
+			}
 		}
 	}
 
@@ -284,25 +289,26 @@ public class BeliefBase {
 	 *            The debugger monitoring the removal.
 	 * @return <code>true</code> if anything changed; <code>false</code> if
 	 *         nothing changed or a KR technology exception occurred.
+	 * @throws  
+	 * @throws GOALDatabaseException 
 	 */
-	public boolean delete(DatabaseFormula formula, Debugger debugger) {
+	public boolean delete(DatabaseFormula formula, Debugger debugger) throws GOALDatabaseException {
 		boolean changed = this.theory.remove(formula);
 		if (changed) {
 			try {
 				this.database.delete(formula);
-
-				debugger.breakpoint(getChannel(), formula,
-						formula.getSourceInfo(),
-						"%s has been deleted from the belief base of %s.",
-						formula, this.agentName);
 			} catch (KRDatabaseException e) {
-				new Warning(debugger, String.format(
+				throw new GOALDatabaseException(String.format(
 						Resources.get(WarningStrings.FAILED_DEL_DBFORMULA),
-						formula.toString(), this.database.getName()), e);
+						formula.toString()), e);
 				// KR did not succeed, reinsert formula into theory again to
 				// keep KR database and theory synchronized.
-				changed = !this.theory.add(formula);
+				// changed = !this.theory.add(formula);
 			}
+
+			debugger.breakpoint(getChannel(), formula, formula.getSourceInfo(),
+					"%s has been deleted from the belief base of %s.", formula,
+					this.agentName);
 		}
 		return changed;
 	}
@@ -317,8 +323,9 @@ public class BeliefBase {
 	 *            The debugger monitoring the updating.
 	 * @return <code>true</code> if anything changed; <code>false</code>
 	 *         otherwise.
+	 * @throws GOALDatabaseException 
 	 */
-	public boolean delete(Update update, Debugger debugger) {
+	public boolean delete(Update update, Debugger debugger) throws GOALDatabaseException {
 		return update(update.getDeleteList(), update.getAddList(), debugger);
 	}
 
@@ -337,9 +344,10 @@ public class BeliefBase {
 	 *
 	 * @return <code>true</code> if anything changed; <code>false</code>
 	 *         otherwise.
+	 * @throws GOALDatabaseException 
 	 */
 	public boolean update(List<DatabaseFormula> addList,
-			List<DatabaseFormula> deleteList, Debugger debugger) {
+			List<DatabaseFormula> deleteList, Debugger debugger) throws GOALDatabaseException {
 		boolean changed = false;
 
 		// Delegate reporting to methods called.

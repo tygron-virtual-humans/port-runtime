@@ -31,173 +31,172 @@ public enum Channel {
 	REASONING_CYCLE_SEPARATOR("The reasoning cycle separator",
 			ChannelState.VIEW),
 
-			/**
-			 * Channel for reports on received mails.
-			 */
-			MAILS("Mails received", ChannelState.NONE),
-
-			/**
-			 * Channel for reporting percepts inserted into percept base, but only if
-			 * PERCEPTS channel has VIEW state.
-			 */
-			MAILS_CONDITIONAL_VIEW("Changes to the mailbox",
-					ChannelState.CONDITIONALVIEW),
-
-					/**
-					 * Channel for reports on received percepts.
-					 */
-					PERCEPTS("Percepts processed", ChannelState.NONE),
-
-					/**
-					 * Channel for reporting percepts inserted into percept base, but only if
-					 * PERCEPTS channel has VIEW state.
-					 */
-					PERCEPTS_CONDITIONAL_VIEW("Changes to the percept base",
-							ChannelState.CONDITIONALVIEW),
-
-							/**
-							 * Channel for reporting on the entry of the init module.
-							 */
-							INIT_MODULE_ENTRY("Entry of the init module", ChannelState.VIEWPAUSE),
-							/**
-							 * Channel for reporting on the entry of the main module.
-							 */
-							MAIN_MODULE_ENTRY("Entry of the main module", ChannelState.VIEWPAUSE),
-							/**
-							 * Channel for reporting on the entry of the event module.
-							 */
-							EVENT_MODULE_ENTRY("Entry of the event module", ChannelState.VIEWPAUSE),
-							/**
-							 * Channel for reporting the entry of a user-defined module.
-							 */
-							USER_MODULE_ENTRY("Entry of a user-defined module", ChannelState.VIEW),
-							/**
-							 * Channel for reporting on the exit of the init module.
-							 */
-							INIT_MODULE_EXIT("Exit of the init module", ChannelState.VIEW),
-							/**
-							 * Channel for reporting on the exit of the main module.
-							 */
-							MAIN_MODULE_EXIT("Exit of the main module", ChannelState.VIEW),
-							/**
-							 * Channel for reporting on the exit of the event module.
-							 */
-							EVENT_MODULE_EXIT("Exit of the event module", ChannelState.VIEW),
-							/**
-							 * Channel for reporting the exit of a user-defined module.
-							 */
-							USER_MODULE_EXIT("Exit of a user-defined module", ChannelState.VIEW),
-
-							/**
-							 * Channel for reporting the call (before-entry) of any module.
-							 */
-							CALL_MODULE("Call to a module", ChannelState.PAUSE),
-
-							/**
-							 * Reports whether rule is applicable, and, if so, for which instantiations
-							 * if has been applied.
-							 */
-							RULE_APPLICATION_SUMMARY("Rule application summary", ChannelState.NONE),
-
-							/**
-							 * Channel for reporting on the evaluation of a rule's condition.
-							 */
-							RULE_CONDITION_EVALUATION("Evaluation of rule conditions",
-									ChannelState.PAUSE),
-
-									/**
-									 * Channel for reporting on the evaluation of a rule's condition. Passes a
-									 * different object, used for conditional breakpoints!
-									 */
-									HIDDEN_RULE_CONDITION_EVALUATION(
-											"Evaluation of rule conditions (for breakpoints)",
-											ChannelState.HIDDEN),
-
-											/**
-											 * Channel for reporting that a rule is being evaluated
-											 */
-											RULE_CONDITIONAL_VIEW("Starting evaluation of rule",
-													ChannelState.CONDITIONALVIEW),
-
-													/**
-													 * Channel for reports on actions going to be executed.
-													 */
-													ACTION_PRECOND_EVALUATION("Evaluation of action preconditions",
-															ChannelState.NONE),
-
-															/**
-															 * Channel for reports on user-spec actions going to be executed. Only
-															 * actions with a precondition should report here.
-															 */
-															ACTION_PRECOND_EVALUATION_USERSPEC(
-																	"Evaluation of user-specified action preconditions",
-																	ChannelState.PAUSE),
-
-																	/**
-																	 * Channel for reports on built-in actions that have been executed.
-																	 */
-																	ACTION_EXECUTED_BUILTIN("Built-in actions that have been executed",
-																			ChannelState.VIEW),
-
-																			/**
-																			 * Channel for reports on user-spec actions that have been executed.
-																			 */
-																			ACTION_EXECUTED_USERSPEC("User-specified actions that have been executed",
-																					ChannelState.VIEW),
+	/**
+	 * Channel for reports on received mails.
+	 */
+	MAILS("Mails received", ChannelState.NONE),
 
 	/**
-																					 * Channel for reports on complete actioncombos that have been executed.
-																					 */
-																					ACTIONCOMBO_FINISHED("Action combos that have been executed",
-																							ChannelState.NONE),
+	 * Channel for reporting percepts inserted into percept base, but only if
+	 * PERCEPTS channel has VIEW state.
+	 */
+	MAILS_CONDITIONAL_VIEW("Changes to the mailbox",
+			ChannelState.CONDITIONALVIEW),
 
-																							/**
-																							 * Channel for reports on additions to / deletions from the belief base.
-																							 */
-																							BB_UPDATES("Changes to the belief base", ChannelState.NONE),
+	/**
+	 * Channel for reports on received percepts.
+	 */
+	PERCEPTS("Percepts processed", ChannelState.NONE),
 
-																							/**
-																							 * Channel for reports on additions to / deletions from the goal base.
-																							 */
-																							GB_UPDATES("Changes to the goal base", ChannelState.NONE),
+	/**
+	 * Channel for reporting percepts inserted into percept base, but only if
+	 * PERCEPTS channel has VIEW state.
+	 */
+	PERCEPTS_CONDITIONAL_VIEW("Changes to the percept base",
+			ChannelState.CONDITIONALVIEW),
 
-																							/**
-																							 * Channel for reports on any changes to the goal base. This is a channel
-																							 * similar to {@link #GB_UPDATES} but hidden.
-																							 */
-																							GB_CHANGES("Changes to the goal base", ChannelState.HIDDEN),
+	/**
+	 * Channel for reporting on the entry of the init module.
+	 */
+	INIT_MODULE_ENTRY("Entry of the init module", ChannelState.PAUSE),
+	/**
+	 * Channel for reporting on the entry of the main module.
+	 */
+	MAIN_MODULE_ENTRY("Entry of the main module", ChannelState.PAUSE),
+	/**
+	 * Channel for reporting on the entry of the event module.
+	 */
+	EVENT_MODULE_ENTRY("Entry of the event module", ChannelState.PAUSE),
+	/**
+	 * Channel for reporting the entry of a user-defined module.
+	 */
+	USER_MODULE_ENTRY("Entry of a user-defined module", ChannelState.VIEW),
+	/**
+	 * Channel for reporting on the exit of the init module.
+	 */
+	INIT_MODULE_EXIT("Exit of the init module", ChannelState.NONE),
+	/**
+	 * Channel for reporting on the exit of the main module.
+	 */
+	MAIN_MODULE_EXIT("Exit of the main module", ChannelState.NONE),
+	/**
+	 * Channel for reporting on the exit of the event module.
+	 */
+	EVENT_MODULE_EXIT("Exit of the event module", ChannelState.NONE),
+	/**
+	 * Channel for reporting the exit of a user-defined module.
+	 */
+	USER_MODULE_EXIT("Exit of a user-defined module", ChannelState.VIEW),
 
-																							/**
-																							 * Channel for reports on goals that have been achieved (and not dropped).
-																							 */
-																							GOAL_ACHIEVED("Goals that have been achieved", ChannelState.VIEW),
+	/**
+	 * Channel for reporting the call (before-entry) of any module.
+	 */
+	CALL_MODULE("Call to a module", ChannelState.PAUSE),
 
-																							/**
-																							 * Channel for reports on queries by atoms. Reports should contain both the
-																							 * query and the result. a-goal and goal-a should not be separated into
-																							 * smaller atoms.
-																							 */
-																							ATOM_QUERIES("Results of mental atom queries", ChannelState.NONE),
+	/**
+	 * Reports whether rule is applicable, and, if so, for which instantiations
+	 * if has been applied.
+	 */
+	RULE_APPLICATION_SUMMARY("Rule application summary", ChannelState.NONE),
 
-																							/**
-																							 * Middleware reports here. For now we hide this.
-																							 */
-																							MIDDLEWARE_AGENT("Middleware action", ChannelState.HIDDEN),
+	/**
+	 * Channel for reporting on the evaluation of a rule's condition.
+	 */
+	RULE_CONDITION_EVALUATION("Evaluation of rule conditions",
+			ChannelState.PAUSE),
 
-																							/**
-																							 * Channel to report on changes in run mode. Internal use only.
-																							 */
-																							RUNMODE("Run mode changes of agent", ChannelState.HIDDEN),
+	/**
+	 * Channel for reporting on the evaluation of a rule's condition. Passes a
+	 * different object, used for conditional breakpoints!
+	 */
+	HIDDEN_RULE_CONDITION_EVALUATION(
+			"Evaluation of rule conditions (for breakpoints)",
+			ChannelState.HIDDEN),
 
-																							/**
-																							 * Channel to report that agent has gone to sleep.
-																							 */
-																							SLEEP("Going to sleep mode", ChannelState.HIDDENVIEW),
+	/**
+	 * Channel for reporting that a rule is being evaluated
+	 */
+	RULE_CONDITIONAL_VIEW("Starting evaluation of rule",
+			ChannelState.CONDITIONALVIEW),
 
-																							/**
-																							 * Special channel for notifying the debugger for user-defined breakpoints.
-																							 */
-																							BREAKPOINTS("User-defined breakpoints", ChannelState.HIDDENPAUSE);
+	/**
+	 * Channel for reports on actions going to be executed.
+	 */
+	ACTION_PRECOND_EVALUATION("Evaluation of action preconditions",
+			ChannelState.NONE),
+
+	/**
+	 * Channel for reports on user-spec actions going to be executed. Only
+	 * actions with a precondition should report here.
+	 */
+	ACTION_PRECOND_EVALUATION_USERSPEC(
+			"Evaluation of user-specified action preconditions",
+			ChannelState.PAUSE),
+
+	/**
+	 * Channel for reports on built-in actions that have been executed.
+	 */
+	ACTION_EXECUTED_BUILTIN("Built-in actions that have been executed",
+			ChannelState.VIEW),
+
+	/**
+	 * Channel for reports on user-spec actions that have been executed.
+	 */
+	ACTION_EXECUTED_USERSPEC("User-specified actions that have been executed",
+			ChannelState.VIEW),
+
+	/**
+	 * Channel for reports on additions to / deletions from the belief base.
+	 */
+	BB_UPDATES("Changes to the belief base", ChannelState.NONE),
+
+	/**
+	 * Channel for reports on additions to / deletions from the goal base.
+	 */
+	GB_UPDATES("Changes to the goal base", ChannelState.NONE),
+
+	/**
+	 * Channel for reports on any changes to the goal base. This is a channel
+	 * similar to {@link #GB_UPDATES} but hidden.
+	 */
+	GB_CHANGES("Changes to the goal base", ChannelState.HIDDEN),
+
+	/**
+	 * Channel for reports on goals that have been achieved (and not dropped).
+	 */
+	GOAL_ACHIEVED("Goals that have been achieved", ChannelState.VIEW),
+
+	/**
+	 * Channel for reports on queries by atoms. Reports should contain both the
+	 * query and the result. a-goal and goal-a should not be separated into
+	 * smaller atoms.
+	 */
+	ATOM_QUERIES("Results of mental atom queries", ChannelState.NONE),
+
+	/**
+	 * Middleware reports here. For now we hide this.
+	 */
+	MIDDLEWARE_AGENT("Middleware action", ChannelState.HIDDEN),
+
+	/**
+	 * Channel to report on changes in run mode. Internal use only.
+	 */
+	RUNMODE("Run mode changes of agent", ChannelState.HIDDEN),
+
+	/**
+	 * Channel to report that agent has gone to sleep.
+	 */
+	SLEEP("Going to sleep mode", ChannelState.HIDDENVIEW),
+
+	/**
+	 * Special channel for notifying the debugger for user-defined breakpoints.
+	 */
+	BREAKPOINTS("User-defined breakpoints", ChannelState.HIDDENPAUSE),
+
+	/**
+	 * Special channel for notifying the debugger for user-defined breakpoints.
+	 */
+	TESTFAILURE("Test failure", ChannelState.VIEWPAUSE);
 
 	/**
 	 * text string used to explain channel in debug preference pane.

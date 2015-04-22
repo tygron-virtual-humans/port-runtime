@@ -40,6 +40,5 @@ public class NOPDebugger implements Debugger {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 	}
 }

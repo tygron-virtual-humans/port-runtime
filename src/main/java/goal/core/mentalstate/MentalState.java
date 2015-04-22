@@ -24,6 +24,7 @@ import goal.core.executors.MentalStateConditionExecutor;
 import goal.tools.debugger.Debugger;
 import goal.tools.debugger.SteppingDebugger;
 import goal.tools.errorhandling.exceptions.GOALBug;
+import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 import goal.tools.errorhandling.exceptions.GOALRuntimeErrorException;
 import goal.tools.logging.InfoLog;
 
@@ -54,6 +55,7 @@ import languageTools.program.agent.msc.MentalStateCondition;
 import languageTools.program.agent.msg.Message;
 import languageTools.program.agent.selector.Selector.SelectorType;
 import mentalState.BASETYPE;
+import mentalstatefactory.InstantiationFailedException;
 import mentalstatefactory.MentalStateFactory;
 import nl.tudelft.goal.messaging.messagebox.MessageBox;
 
@@ -132,8 +134,15 @@ public class MentalState {
 		this.usesMentalModeling = program.usesMentalModels();
 		this.agentId = id;
 		this.agentProgram = program;
-		this.state = MentalStateFactory.getInterface(this.agentProgram
-				.getKRInterface().getClass());
+		Class<? extends KRInterface> krClass = this.agentProgram
+				.getKRInterface().getClass();
+		try {
+			this.state = MentalStateFactory.getInterface(krClass);
+		} catch (InstantiationFailedException e) {
+			throw new KRInitFailedException(
+					"can not make a mental state interface for "
+							+ krClass.getCanonicalName(), e);
+		}
 		addAgentModel(id, debugger);
 	}
 
@@ -342,8 +351,9 @@ public class MentalState {
 	 * @param literal
 	 * @param debugger
 	 * @return
+	 * @throws GOALDatabaseException 
 	 */
-	public Set<Substitution> query(MentalLiteral literal, Debugger debugger) {
+	public Set<Substitution> query(MentalLiteral literal, Debugger debugger) throws GOALDatabaseException {
 		// Process selector.
 		Iterator<AgentId> agents;
 		try {
@@ -377,7 +387,7 @@ public class MentalState {
 				for (Substitution subst : result) {
 					Set<Substitution> tempResult = this.models.get(
 							agents.next()).query(literal.applySubst(subst),
-									focus, debugger);
+							focus, debugger);
 					for (Substitution tempSubst : tempResult) {
 						currentResults.add(subst.combine(tempSubst));
 					}
@@ -411,8 +421,9 @@ public class MentalState {
 	 * @param type
 	 * @param debugger
 	 * @return
+	 * @throws GOALDatabaseException 
 	 */
-	public Set<Substitution> query(Query query, BASETYPE type, Debugger debugger) {
+	public Set<Substitution> query(Query query, BASETYPE type, Debugger debugger) throws GOALDatabaseException {
 		return getOwnBase(type).query(query, debugger);
 	}
 
@@ -429,9 +440,10 @@ public class MentalState {
 	 *            An optional agent to do the insertion for; the current agent
 	 *            is used otherwise
 	 * @return success or failure.
+	 * @throws GOALDatabaseException 
 	 */
 	public boolean insert(Update update, BASETYPE type, Debugger debugger,
-			AgentId... agent) {
+			AgentId... agent) throws GOALDatabaseException {
 		AgentId id = ((agent.length == 0) ? this.agentId : agent[0]);
 		return this.models.get(id).getBase(type).insert(update, debugger);
 	}
@@ -450,9 +462,10 @@ public class MentalState {
 	 *            is used otherwise
 	 *
 	 * @return success or failure.
+	 * @throws GOALDatabaseException 
 	 */
 	public boolean insert(DatabaseFormula formula, BASETYPE type,
-			Debugger debugger, AgentId... agent) {
+			Debugger debugger, AgentId... agent) throws GOALDatabaseException {
 		AgentId name = ((agent.length == 0) ? this.agentId : agent[0]);
 		return this.models.get(name).getBase(type).insert(formula, debugger);
 	}
@@ -471,9 +484,10 @@ public class MentalState {
 	 *            used otherwise
 	 *
 	 * @return success or failure.
+	 * @throws GOALDatabaseException 
 	 */
 	public boolean delete(Update update, BASETYPE type, Debugger debugger,
-			AgentId... agent) {
+			AgentId... agent) throws GOALDatabaseException {
 		AgentId name = ((agent.length == 0) ? getAgentId() : agent[0]);
 		return this.models.get(name).getBase(type).delete(update, debugger);
 	}
@@ -492,9 +506,10 @@ public class MentalState {
 	 *            used otherwise
 	 *
 	 * @return success or failure.
+	 * @throws GOALDatabaseException 
 	 */
 	public boolean delete(DatabaseFormula formula, BASETYPE type,
-			Debugger debugger, AgentId... agent) {
+			Debugger debugger, AgentId... agent) throws GOALDatabaseException {
 		AgentId name = ((agent.length == 0) ? getAgentId() : agent[0]);
 		return this.models.get(name).getBase(type).delete(formula, debugger);
 	}
@@ -513,9 +528,10 @@ public class MentalState {
 	 *            An optional agent to do the adoption for; the current agent is
 	 *            used otherwise
 	 * @return success or failure.
+	 * @throws GOALDatabaseException 
 	 */
 	public boolean adopt(Update update, boolean focus, Debugger debugger,
-			AgentId... agent) {
+			AgentId... agent) throws GOALDatabaseException {
 		AgentId name = ((agent.length == 0) ? getAgentId() : agent[0]);
 
 		// Do not add goal if it already is implicated by an existing goal.
@@ -540,8 +556,9 @@ public class MentalState {
 	 * @param agent
 	 *            An optional agent to do the drop for; the current agent is
 	 *            used otherwise
+	 * @throws GOALDatabaseException 
 	 */
-	public void drop(Update update, Debugger debugger, AgentId... agent) {
+	public void drop(Update update, Debugger debugger, AgentId... agent) throws GOALDatabaseException {
 		AgentId name = ((agent.length == 0) ? getAgentId() : agent[0]);
 		this.models.get(name).drop(update, debugger);
 	}
@@ -632,6 +649,7 @@ public class MentalState {
 	 * @return The set of {@link Substitution}s that validate the given
 	 *         {@link MentalStateCondition} using only one goal from the goal
 	 *         base.
+	 * @throws GOALDatabaseException 
 	 *
 	 * @throws KRQueryFailedException
 	 *             If something went wrong when querying
@@ -640,7 +658,7 @@ public class MentalState {
 	 */
 	public Set<Substitution> contextQuery(MentalStateCondition context,
 			Map<Substitution, List<SingleGoal>> validatingGoals,
-			Debugger debugger) {
+			Debugger debugger) throws GOALDatabaseException {
 
 		Set<Substitution> substitutions = new LinkedHashSet<>();
 		Set<Substitution> partSubsts;
@@ -650,9 +668,9 @@ public class MentalState {
 		for (SingleGoal goal : getAttentionSet()) {
 			// temporarily only have one of the goals
 			this.models
-			.get(this.agentId)
-			.getAttentionStack()
-			.push(new GoalBase(goal, this.state, this.agentId,
+					.get(this.agentId)
+					.getAttentionStack()
+					.push(new GoalBase(goal, this.state, this.agentId,
 							this.agentProgram, getAgentId().getName(),
 							debugger, this.agentId));
 
@@ -661,7 +679,7 @@ public class MentalState {
 			// substitutions.
 			try {
 				partSubsts = new MentalStateConditionExecutor(context)
-				.evaluate(this, debugger);
+						.evaluate(this, debugger);
 				if (!partSubsts.isEmpty()) {
 					substitutions.addAll(partSubsts);
 					// make sure we do not have to re-query everything in order

@@ -63,7 +63,7 @@ public class BreakPoint {
 	 * @param file
 	 *            is the file that this breakpoint is in.
 	 * @param linenumber
-	 *            is the line number where the breakpoint is. 0 is first line.
+	 *            is the line number where the breakpoint is. 1 is first line.
 	 * @param type
 	 *            is the type of this breakpoint.
 	 */
@@ -88,7 +88,7 @@ public class BreakPoint {
 	/**
 	 * get the line number where this breakpoint is placed
 	 *
-	 * @return line holding this breakpoint. 0 is first line.
+	 * @return line holding this breakpoint. 1 is first line.
 	 */
 	public int getLine() {
 		return this.linenumber;

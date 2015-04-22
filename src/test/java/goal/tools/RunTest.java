@@ -10,27 +10,27 @@ import org.junit.Test;
 public class RunTest {
 	@Test
 	public void testSinglefile() throws ParserException, ParseException,
-	Exception {
+			Exception {
 		Run.run("src/test/resources/goal/tools/testselect.mas2g");
 	}
 
 	@Test
 	public void testMultipleFiles() throws ParserException, ParseException,
-	Exception {
-		Run.run("src/test/resources/goal/tools/adoptfreevar.mas2g",
+			Exception {
+		Run.run("src/test/resources/goal/tools/unittest/postConditionTest.mas2g",
 				"src/test/resources/goal/tools/testselect.mas2g");
 	}
 
 	// @Test
 	// FIXME: Too slow.
 	public void testFileInDir() throws ParserException, ParseException,
-	Exception {
+			Exception {
 		Run.run("src/test/resources/goal/tools");
 	}
 
 	@Test
 	public void testVerboseReverse() throws ParserException, ParseException,
-	Exception {
+			Exception {
 		Run.run("src/test/resources/goal/tools/testselect.mas2g", "--verbose");
 	}
 
@@ -41,27 +41,27 @@ public class RunTest {
 
 	@Test
 	public void testVerboseArgumentsNoSeperator() throws ParserException,
-	ParseException, Exception {
+			ParseException, Exception {
 		Run.run("--verbose", "-piew",
 				"src/test/resources/goal/tools/testselect.mas2g");
 	}
 
 	@Test
 	public void testVerboseNoArguments() throws ParserException,
-	ParseException, Exception {
+			ParseException, Exception {
 		Run.run("--verbose", "src/test/resources/goal/tools/testselect.mas2g");
 	}
 
 	@Test(expected = FileNotFoundException.class)
 	public void testVerboseArguments() throws ParserException, ParseException,
-			FileNotFoundException, Exception {
+	FileNotFoundException, Exception {
 		Run.run("--verbose", "iwep",
 				"src/test/resources/goal/tools/testselect.mas2g");
 	}
 
 	@Test(expected = FileNotFoundException.class)
 	public void testVerboseArgumentsException() throws ParserException,
-	ParseException, FileNotFoundException, Exception {
+			ParseException, FileNotFoundException, Exception {
 		Run.run("--verbose=all",
 				"src/test/resources/goal/tools/testselect.mas2g");
 	}
@@ -74,7 +74,7 @@ public class RunTest {
 
 	@Test
 	public void testUnitTest() throws ParserException, ParseException,
-	Exception {
+			Exception {
 		Run.run("src/test/resources/goal/parser/unittest/correctMinimal.test2g",
 				"src/test/resources/goal/parser/unittest/correctExhaustive.test2g");
 	}

@@ -23,6 +23,7 @@ import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
@@ -99,9 +100,7 @@ public class GOALLogger {
 			addLogToFileHandler();
 		}
 
-		this.consoleHandler = new ConsoleHandler();
-		this.consoleHandler.setFormatter(new SingleLineFormatter());
-		this.consoleHandler.setLevel(Level.ALL);
+		this.consoleHandler = new GOALConsoleHandler();
 	}
 
 	/**
@@ -166,8 +165,9 @@ public class GOALLogger {
 	 */
 	protected void addLogToFileHandler() {
 		try {
-			String fname = LoggingPreferences.getLogDirectory();
-			fname += "/" + this.logger.getName() //$NON-NLS-1$
+			String dirname = LoggingPreferences.getLogDirectory();
+			new File(dirname).mkdirs();
+			String fname = dirname + "/" + this.logger.getName() //$NON-NLS-1$
 					+ (LoggingPreferences.getOverwriteFile() ? "" : "_%u") //$NON-NLS-1$ //$NON-NLS-2$
 					+ ".log"; //$NON-NLS-1$
 			this.fileHandler = new FileHandler(fname);
