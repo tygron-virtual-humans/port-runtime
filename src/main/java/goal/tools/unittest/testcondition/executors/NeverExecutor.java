@@ -31,7 +31,7 @@ public class NeverExecutor extends TestConditionExecutor {
 
 	@Override
 	public <T> T accept(ResultFormatter<T> formatter) {
-		return formatter.visit(this.never);
+		return formatter.visit(this);
 	}
 
 	@Override

@@ -102,16 +102,16 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 			List<UnitTestInterpreterResult> results) {
 		if (results.isEmpty()) {
 			return groupName + ": did not run.\n";
-		}
-		if (results.size() == 1) {
+		} else if (results.size() == 1) {
 			UnitTestInterpreterResult result = results.get(0);
 			return this.visit(result);
+		} else {
+			String ret = groupName + ":\n";
+			for (UnitTestInterpreterResult result : results) {
+				ret += indent(1, this.visit(result)) + "\n";
+			}
+			return ret;
 		}
-		String ret = groupName + ":\n";
-		for (UnitTestInterpreterResult result : results) {
-			ret += indent(1, this.visit(result)) + "\n";
-		}
-		return ret;
 	}
 
 	/**
@@ -200,6 +200,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	@Override
 	public String visit(EvaluateInResult result) {
 		String ret = "executed: evaluate {\n";
+		System.out.println(result.getEvaluators());
 		for (TestConditionExecutor evaluator : result.getEvaluators()) {
 			ret += indent(evaluator.accept(this)) + "\n";
 		}
@@ -211,8 +212,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	public String visit(EvaluateInFailed result) {
 		String ret = "failed: evaluate {\n";
 		for (TestConditionExecutor evaluator : result.getEvaluators()) {
-			String evalRet = evaluator.getState() + ": "
-					+ evaluator.accept(this);
+			String evalRet = evaluator.accept(this);
 			if (!evaluator.getSubstitution().getVariables().isEmpty()) {
 				evalRet += " with " + evaluator.getSubstitution();
 			}
@@ -331,6 +331,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 			if (cause.getCause() != null) {
 				ret += "\nbecause: " + cause.getCause().getMessage();
 			}
+			ret += "\n";
 		}
 		return ret;
 	}

@@ -31,7 +31,7 @@ public class AtEndExecutor extends TestConditionExecutor {
 
 	@Override
 	public <T> T accept(ResultFormatter<T> formatter) {
-		return formatter.visit(this.atend);
+		return formatter.visit(this);
 	}
 
 	@Override

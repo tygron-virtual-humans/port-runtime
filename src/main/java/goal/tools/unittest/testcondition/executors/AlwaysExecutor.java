@@ -34,7 +34,7 @@ public class AlwaysExecutor extends TestConditionExecutor {
 
 	@Override
 	public <T> T accept(ResultFormatter<T> formatter) {
-		return formatter.visit(this.always);
+		return formatter.visit(this);
 	}
 
 	@Override

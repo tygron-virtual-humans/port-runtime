@@ -5,8 +5,6 @@ import goal.tools.unittest.result.testcondition.TestConditionFailedException;
 import goal.tools.unittest.testcondition.executors.TestConditionExecutor;
 import goal.tools.unittest.testsection.executors.EvaluateInExecutor;
 
-import java.util.Set;
-
 /**
  * @author M.P.Korstanje
  */
@@ -19,7 +17,7 @@ public class EvaluateInFailed extends TestSectionFailed {
 		return this.evaluateIn;
 	}
 
-	public Set<TestConditionExecutor> getEvaluators() {
+	public TestConditionExecutor[] getEvaluators() {
 		return this.evaluators;
 	}
 
@@ -27,7 +25,7 @@ public class EvaluateInFailed extends TestSectionFailed {
 		return this.exception != null ? this.exception.getEvaluator() : null;
 	}
 
-	private final Set<TestConditionExecutor> evaluators;
+	private final TestConditionExecutor[] evaluators;
 	private final TestConditionFailedException exception;
 
 	/**
@@ -35,7 +33,7 @@ public class EvaluateInFailed extends TestSectionFailed {
 	 * @param evaluators
 	 */
 	public EvaluateInFailed(EvaluateInExecutor evaluateIn,
-			Set<TestConditionExecutor> evaluators) {
+			TestConditionExecutor[] evaluators) {
 		this(evaluateIn, evaluators, null);
 	}
 
@@ -45,7 +43,7 @@ public class EvaluateInFailed extends TestSectionFailed {
 	 * @param exception
 	 */
 	public EvaluateInFailed(EvaluateInExecutor evaluateIn,
-			Set<TestConditionExecutor> evaluators,
+			TestConditionExecutor[] evaluators,
 			TestConditionFailedException exception) {
 		super(exception);
 		this.evaluateIn = evaluateIn;

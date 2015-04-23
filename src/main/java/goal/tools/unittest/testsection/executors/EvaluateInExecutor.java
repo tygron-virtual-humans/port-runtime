@@ -89,6 +89,7 @@ DebugObserver {
 			this.executors.add(TestConditionExecutor.getTestConditionExecutor(
 					condition, kr.getSubstitution(null), runstate, this));
 		}
+		final TestConditionExecutor[] allExecutors = getExecutors();
 
 		/*
 		 * Evaluates the action. While being evaluated the conditions installed
@@ -101,11 +102,11 @@ DebugObserver {
 			module.run(runstate, kr.getSubstitution(null),
 					runstate.getDebugger(), true);
 		} catch (TestConditionFailedException e) {
-			throw new EvaluateInFailed(this, this.executors, e);
+			throw new EvaluateInFailed(this, getExecutors(), e);
 		} catch (DebuggerKilledException e) {
-			throw new EvaluateInInterrupted(this, this.executors, e);
+			throw new EvaluateInInterrupted(this, getExecutors(), e);
 		} catch (GOALActionFailedException e) {
-			throw new EvaluateInInterrupted(this, this.executors,
+			throw new EvaluateInInterrupted(this, getExecutors(),
 					new DebuggerKilledException("Module failed to execute", e));
 		} catch (TestBoundaryException e) {
 			// continue silently
@@ -119,9 +120,9 @@ DebugObserver {
 			try {
 				executor.evaluate(null);
 			} catch (TestConditionFailedException e) {
-				throw new EvaluateInFailed(this, this.executors, e);
+				throw new EvaluateInFailed(this, allExecutors, e);
 			} catch (DebuggerKilledException e) {
-				throw new EvaluateInInterrupted(this, this.executors, e);
+				throw new EvaluateInInterrupted(this, allExecutors, e);
 			} catch (TestBoundaryException e) {
 				// continue silently
 			}
@@ -137,14 +138,14 @@ DebugObserver {
 		 */
 		for (TestConditionExecutor executor : getExecutors()) {
 			if (!executor.isPassed()) {
-				throw new EvaluateInFailed(this, this.executors);
+				throw new EvaluateInFailed(this, allExecutors);
 			}
 		}
 
 		/*
 		 * We succeeded :)
 		 */
-		return new EvaluateInResult(this.evaluatein, this.executors);
+		return new EvaluateInResult(this.evaluatein, allExecutors);
 	}
 
 	@Override
