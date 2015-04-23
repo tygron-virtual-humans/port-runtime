@@ -36,8 +36,11 @@ public class WatchExecutor extends TestConditionExecutor {
 
 	@Override
 	public void evaluate(TestEvaluationChannel channel) {
-		this.evaluation = evaluate();
-		System.out.println(this.watch + ": " + this.evaluation);
+		Set<Substitution> evaluation = evaluate();
+		if (!evaluation.isEmpty()) {
+			this.evaluation = evaluation;
+			System.out.println(this.watch + ": " + this.evaluation);
+		}
 	}
 
 	public Set<Substitution> getEvaluation() {
