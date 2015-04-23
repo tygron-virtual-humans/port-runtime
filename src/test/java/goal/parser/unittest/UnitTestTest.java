@@ -29,6 +29,13 @@ public class UnitTestTest extends AbstractUnitTestTest {
 	}
 
 	@Test
+	public void testCountsTo100() throws Exception {
+		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/CountsTo100.test2g");
+
+		assertPassedAndPrint(results);
+	}
+
+	@Test
 	public void testCorrectFailingLTL() throws Exception {
 		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/correctFailingLTL.test2g");
 

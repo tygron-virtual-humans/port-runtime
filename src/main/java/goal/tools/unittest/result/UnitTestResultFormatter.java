@@ -66,11 +66,11 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	 */
 	@Override
 	public String visit(UnitTestResult unitTestResult) {
-		String ret = "";
+		String ret;
 		if (unitTestResult.isPassed()) {
-			ret += "passed:\n";
+			ret = "passed:\n";
 		} else {
-			ret += "failed:\n";
+			ret = "failed:\n";
 		}
 		ret += indent() + "test: " + unitTestResult.getUnitTestFile() + "\n";
 		ret += indent() + "mas : " + unitTestResult.getMasFile() + "\n";
@@ -124,25 +124,28 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	 */
 	@Override
 	public String visit(UnitTestInterpreterResult result) {
+		String ret;
 		if (result.isPassed()) {
-			return "passed: " + result.getId().getName() + "\n";
+			ret = "passed: ";
+		} else {
+			ret = "failed: ";
 		}
-		String retString = "failed: " + result.getId().getName() + "\n";
+		ret += result.getId().getName() + "\n";
 		if (result.getUncaughtThrowable() != null) {
 			result.getUncaughtThrowable().printStackTrace(); // TEMP
-			retString += indent(1, "exception: "
+			ret += indent(1, "exception: "
 					+ result.getUncaughtThrowable().getMessage() + "\n");
 			if (result.getUncaughtThrowable().getCause() != null) {
-				retString += indent(1, "because: "
+				ret += indent(1, "because: "
 						+ result.getUncaughtThrowable().getCause().getMessage()
 						+ "\n");
 			}
 		} else if (result.getResult() == null) {
-			retString += indent() + "test did not run or timed out\n";
+			ret += indent() + "test did not run\n";
 		} else {
-			retString += indent(result.getResult().accept(this)) + "\n";
+			ret += indent(result.getResult().accept(this)) + "\n";
 		}
-		return retString;
+		return ret;
 	}
 
 	@Override
@@ -164,7 +167,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 			TestSectionFailed failed = result.getRuleFailed();
 			ret += indent(failed.accept(this));
 		}
-		ret += "\n}\n";
+		ret += "}\n";
 		return ret;
 	}
 

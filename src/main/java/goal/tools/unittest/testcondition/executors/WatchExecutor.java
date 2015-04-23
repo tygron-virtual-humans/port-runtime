@@ -31,7 +31,7 @@ public class WatchExecutor extends TestConditionExecutor {
 
 	@Override
 	public <T> T accept(ResultFormatter<T> formatter) {
-		return formatter.visit(this.watch);
+		return formatter.visit(this);
 	}
 
 	@Override
