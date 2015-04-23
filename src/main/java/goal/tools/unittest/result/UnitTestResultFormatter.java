@@ -11,6 +11,7 @@ import goal.tools.unittest.result.testsection.TestSectionFailed;
 import goal.tools.unittest.result.testsection.TestSectionInterupted;
 import goal.tools.unittest.result.testsection.TestSectionResult;
 import goal.tools.unittest.testcondition.executors.TestConditionExecutor;
+import goal.tools.unittest.testcondition.executors.WatchExecutor;
 import goal.tools.unittest.testsection.executors.EvaluateInExecutor;
 
 import java.util.List;
@@ -23,6 +24,7 @@ import languageTools.program.test.testcondition.Eventually;
 import languageTools.program.test.testcondition.Never;
 import languageTools.program.test.testcondition.TestCondition;
 import languageTools.program.test.testcondition.Until;
+import languageTools.program.test.testcondition.Watch;
 import languageTools.program.test.testcondition.While;
 import languageTools.program.test.testsection.AssertTest;
 import languageTools.program.test.testsection.DoActionSection;
@@ -216,7 +218,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 			}
 			ret += indent(evalRet) + "\n";
 		}
-		EvaluateIn section = (EvaluateIn) result.getEvaluateIn().getSection();
+		EvaluateIn section = result.getEvaluateIn().getSection();
 		ret += "} in " + section.getAction() + ".\n";
 		ret += getCause(result);
 		return ret;
@@ -225,8 +227,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	@Override
 	public String visit(DoActionFailed result) {
 		String ret = "failed: ";
-		DoActionSection section = (DoActionSection) result.getDoAction()
-				.getSection();
+		DoActionSection section = result.getDoAction().getSection();
 		ret += section + "\n";
 		ret += getCause(result);
 		return ret;
@@ -239,8 +240,8 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 			ret += indent(evaluator.accept(this)) + "\n";
 		}
 		// Must be interrupted EvaluateIn section
-		EvaluateIn section = (EvaluateIn) ((EvaluateInExecutor) result
-				.getTestSection()).getSection();
+		EvaluateIn section = ((EvaluateInExecutor) result.getTestSection())
+				.getSection();
 		ret += "} in " + section.getAction() + ".";
 		ret += getCause(result);
 		return ret;
@@ -248,7 +249,12 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 
 	@Override
 	public String visit(TestConditionExecutor result) {
-		return result.getState().toString() + ": " + result.getCondition();
+		if (result instanceof WatchExecutor) {
+			return result.getCondition() + ": "
+					+ ((WatchExecutor) result).getEvaluation();
+		} else {
+			return result.getState().toString() + ": " + result.getCondition();
+		}
 	}
 
 	@Override
@@ -284,6 +290,11 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	@Override
 	public String visit(While whil) {
 		return whil + ".";
+	}
+
+	@Override
+	public String visit(Watch watch) {
+		return watch + ".";
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import languageTools.program.test.testcondition.AtEnd;
 import languageTools.program.test.testcondition.Eventually;
 import languageTools.program.test.testcondition.Never;
 import languageTools.program.test.testcondition.Until;
+import languageTools.program.test.testcondition.Watch;
 import languageTools.program.test.testcondition.While;
 import languageTools.program.test.testsection.AssertTest;
 import languageTools.program.test.testsection.DoActionSection;
@@ -67,6 +68,8 @@ public interface ResultFormatter<T> {
 	T visit(Until until);
 
 	T visit(While whil);
+
+	T visit(Watch watch);
 
 	T visit(AssertTest assertTest);
 
