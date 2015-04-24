@@ -39,7 +39,8 @@ public class WatchExecutor extends TestConditionExecutor {
 		Set<Substitution> evaluation = evaluate();
 		if (!evaluation.isEmpty()) {
 			this.evaluation = evaluation;
-			System.out.println(this.watch + ": " + this.evaluation);
+			System.out.println(this.runstate.getId() + " " + this.watch + ": "
+					+ this.evaluation);
 		}
 	}
 
