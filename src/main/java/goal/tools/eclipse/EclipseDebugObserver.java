@@ -75,15 +75,13 @@ public class EclipseDebugObserver implements DebugObserver {
 	@Override
 	public void notifyBreakpointHit(DebugEvent event) {
 		final Object object = event.getAssociatedObject();
-		if (event.getAssociatedSource() != null) {
-			this.source = event.getAssociatedSource();
-		}
 		final AgentId agentId = this.agent.getId();
 		if (DebugPreferences.getChannelState(event.getChannel()).canView()
 				&& LoggingPreferences.getEclipseAgentConsoles()) {
 			this.writer.write(new DebugCommand(Command.LOG, agentId, event
 					.getMessage()));
 		}
+		boolean handled = true;
 		switch (event.getChannel()) {
 		case RUNMODE:
 			this.writer.write(new DebugCommand(Command.RUNMODE, agentId, event
@@ -191,7 +189,7 @@ public class EclipseDebugObserver implements DebugObserver {
 			break;
 		case ACTION_PRECOND_EVALUATION_USERSPEC:
 			final UserSpecAction action = (UserSpecAction) event
-			.getAssociatedObject();
+					.getAssociatedObject();
 			final List<String> aAsList = new LinkedList<>();
 			if (event.getRawArguments().length > 1) {
 				aAsList.add("selected: " + action);
@@ -205,7 +203,7 @@ public class EclipseDebugObserver implements DebugObserver {
 			break;
 		case CALL_MODULE:
 			final ModuleCallAction call = (ModuleCallAction) event
-			.getAssociatedObject();
+					.getAssociatedObject();
 			final List<String> cAsList = new LinkedList<>();
 			if (call.getParameters() != null) {
 				cAsList.add(call.getParameters().toString());
@@ -224,7 +222,11 @@ public class EclipseDebugObserver implements DebugObserver {
 			}
 			break;
 		default:
+			handled = false;
 			break;
+		}
+		if (handled && event.getAssociatedSource() != null) {
+			this.source = event.getAssociatedSource();
 		}
 	}
 
