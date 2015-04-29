@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: com.github.goalhub.krTools:krFactory:1.1.4" level="project" />
+    <orderEntry type="library" name="Maven: com.github.goalhub.krTools:krInterface:1.1.4" level="project" />
+    <orderEntry type="library" name="Maven: com.github.goalhub.krTools.krLanguages:swiprolog:1.1.4" level="project" />
+    <orderEntry type="library" name="Maven: org.antlr:antlr-runtime:3.2" level="project" />
+    <orderEntry type="library" name="Maven: org.antlr:stringtemplate:3.2" level="project" />
+    <orderEntry type="library" name="Maven: antlr:antlr:2.7.7" level="project" />
+    <orderEntry type="library" name="Maven: jpl:jpl:3.1.4-alpha" level="project" />
+    <orderEntry type="library" name="Maven: com.github.goalhub.krTools.krLanguages:swiPrologEnabler:1.1.2" level="project" />
+    <orderEntry type="library" name="Maven: com.github.goalhub.mentalstate:mentalstatefactory:1.1.5" level="project" />
+    <orderEntry type="library" name="Maven: com.github.goalhub.mentalstate.mentalstateimpl:swiprologmentalstate:1.3.5" level="project" />
+    <orderEntry type="library" name="Maven: com.github.goalhub.grammar:languageTools:1.1.5" level="project" />
+    <orderEntry type="library" name="Maven: org.antlr:antlr4-runtime:4.5" level="project" />
+    <orderEntry type="library" name="Maven: org.abego.treelayout:org.abego.treelayout.core:1.0.1" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:2.4" level="project" />
+    <orderEntry type="library" name="Maven: commons-cli:commons-cli:1.2" level="project" />
+    <orderEntry type="library" name="Maven: com.github.goalhub.mentalstate:mentalstateinterface:1.3.5" level="project" />
+    <orderEntry type="library" name="Maven: eishub:eis:0.5.0" level="project" />
+    <orderEntry type="library" name="Maven: com.github.goalhub.messaging:messaginginterface:1.1.5" level="project" />
+    <orderEntry type="library" name="Maven: com.github.goalhub.messaging:localmessaging:1.1.5" level="project" />
+    <orderEntry type="library" name="Maven: com.github.goalhub.messaging:rmimessaging:1.1.5" level="project" />
+    <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.15" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
+  </component>
+</module>
+
