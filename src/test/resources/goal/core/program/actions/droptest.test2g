@@ -9,7 +9,6 @@ masTest {
 				eventually goal(test).
 				atend not(goal(true)).
 			} in do main.
-		
 		}
 	}
 }

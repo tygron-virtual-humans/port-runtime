@@ -303,7 +303,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	@Override
 	public String visit(EvaluateIn evaluateIn) {
 		String ret = "evaluate {\n";
-		for (TestCondition query : evaluateIn.getQueries()) {
+		for (TestCondition query : evaluateIn.getConditions()) {
 			ret += indent(query.toString()) + "\n";
 		}
 		ret += "} in " + evaluateIn.getAction();

@@ -26,7 +26,7 @@ import languageTools.program.test.testcondition.TestCondition;
 import languageTools.program.test.testsection.EvaluateIn;
 
 public class EvaluateInExecutor extends TestSectionExecutor implements
-DebugObserver {
+		DebugObserver {
 	private final EvaluateIn evaluatein;
 	private Set<TestConditionExecutor> executors;
 
@@ -49,7 +49,7 @@ DebugObserver {
 
 	public TestConditionExecutor[] getExecutors() {
 		return this.executors.toArray(new TestConditionExecutor[this.executors
-		                                                        .size()]);
+				.size()]);
 	}
 
 	@Override
@@ -57,7 +57,7 @@ DebugObserver {
 			throws TestSectionFailed {
 		KRInterface kr = runstate.getMainModule().getKRInterface();
 		TestCondition boundary = this.evaluatein.getBoundary();
-		Set<TestCondition> conditions = this.evaluatein.getQueries();
+		Set<TestCondition> conditions = this.evaluatein.getConditions();
 
 		/*
 		 * Installs the condition evaluators on the debugger. Conditions will be
