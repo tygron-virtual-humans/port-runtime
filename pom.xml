@@ -4,7 +4,7 @@
         xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.VH3.runtime</groupId>
+    <groupId>com.github.goalhub.runtime</groupId>
     <artifactId>runtime</artifactId>
     <version>1.1.2</version>
     <packaging>jar</packaging>
@@ -50,6 +50,11 @@
     </properties>
 
     <repositories>
+        <repository>
+            <id>VH3-mvn-repo</id>
+            <url>https://raw.github.com/VH3/mvn-repo/master</url>
+        </repository>
+
         <repository>
             <id>goalhub-mvn-repo</id>
             <url>https://raw.github.com/goalhub/mvn-repo/master</url>
