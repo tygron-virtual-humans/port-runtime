@@ -1,4 +1,4 @@
-package main;
+package plugin;
 
 import java.util.List;
 

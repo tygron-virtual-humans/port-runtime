@@ -1,4 +1,6 @@
-package main;
+package plugin.operations;
+
+import plugin.Operation;
 
 import java.util.List;
 
