@@ -5,3 +5,6 @@
 /settings.yaml
 /pom.xml.versionsBackup
 /bin/
+.DS_STORE
+.idea
+*.iml
