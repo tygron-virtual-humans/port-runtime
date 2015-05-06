@@ -4,22 +4,22 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.vh3.goalplugin</groupId>
+    <groupId>com.github.port.goalplugin</groupId>
     <artifactId>calculator</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>GOAL Calculator Plugin</name>
-    <url>https://github.com/VH3/goalplugin</url>
+    <url>https://github.com/tygron-virtual-humans/port-goalplugin</url>
     <description>The GOAL calculator plugin.</description>
 
     <organization>
-        <name>VH3</name>
-        <url>https://github.com/VH3</url>
+        <name>tygron-virtual-humans</name>
+        <url>https://github.com/tygron-virtual-humans</url>
     </organization>
 
     <issueManagement>
-        <url>https://github.com/VH3/goalplugin/issues</url>
+        <url>https://github.com/tygron-virtual-humans/port-goalplugin/issues</url>
         <system>Github Issues</system>
     </issueManagement>
 
@@ -58,7 +58,7 @@
                 <artifactId>maven-deploy-plugin</artifactId>
                 <version>2.8.2</version>
                 <configuration>
-                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
+                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/port-mvn-repo</altDeploymentRepository>
                 </configuration>
             </plugin>
 
@@ -71,7 +71,7 @@
                     <!-- git commit message -->
                     <message>Maven artifacts for ${project.name} version ${project.version}</message>
                     <!-- matches distribution management repository url above -->
-                    <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+                    <outputDirectory>${project.build.directory}/port-mvn-repo</outputDirectory>
                     <!-- remote branch name -->
                     <branch>refs/heads/master</branch>
                     <merge>true</merge>
@@ -79,9 +79,9 @@
                         <include>**/*</include>
                     </includes>
                     <!-- github repo name -->
-                    <repositoryName>mvn-repo</repositoryName>
+                    <repositoryName>port-mvn-repo</repositoryName>
                     <!-- github organization -->
-                    <repositoryOwner>VH3</repositoryOwner>
+                    <repositoryOwner>tygron-virtual-humans</repositoryOwner>
                 </configuration>
                 <executions>
                     <!-- run site-maven-plugin as part of the build's 'deploy' phase -->
