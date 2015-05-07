@@ -451,7 +451,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 			for (AgentId otherId : this.agents.allId()) {
 				try {
 					agent.getController()
-							.updateAgentAvailability(otherId, true);
+					.updateAgentAvailability(otherId, true);
 				} catch (Exception e) { // Callback protection
 					new Warning(String.format(Resources
 							.get(WarningStrings.FAILED_ACK_LAUCHED_AGENT),
@@ -502,7 +502,7 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 		// Initial hypothesis about what has gone wrong if no rule applies.
 		String warning = Resources
 				.get(WarningStrings.MISMATCH_ENTITY_TYPE_RULE);
-
+		boolean launched = false;
 		for (LaunchRule launchRule : launchrules) {
 			// check whether type-condition exists and is satisfied
 			if (!launchRule.getRequiredEntityType().equals("")
@@ -545,9 +545,11 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 								newEntity), e);
 					}
 				}
+				launched = true;
 				break;
 			}
-
+		}
+		if (!launched) {
 			// None of the launch rules could be fired; give a warning.
 			new Warning(String.format(
 					Resources.get(WarningStrings.NO_APPLICABLE_LAUNCH_RULE),
@@ -624,8 +626,8 @@ public class AgentService<D extends Debugger, C extends GOALInterpreter<D>> {
 	 * @throws UnknownObjectException
 	 */
 	public synchronized void reset() throws InterruptedException,
-			KRInitFailedException, KRDatabaseException, KRQueryFailedException,
-			UnknownObjectException {
+	KRInitFailedException, KRDatabaseException, KRQueryFailedException,
+	UnknownObjectException {
 		for (Agent<C> a : this.agents.local()) {
 			a.reset();
 		}

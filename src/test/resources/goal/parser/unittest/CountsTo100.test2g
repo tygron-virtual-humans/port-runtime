@@ -6,21 +6,13 @@ masTest {
 	counter {
 		timeOutTest {
 			evaluate {
+				watch bel(counter(X)).
 				eventually bel(counter(100)).
 				always bel(true).
 				atend bel(true).
 			} in do main.
 			
 			do printCounter.
-
-			evaluate {
-				eventually bel(counter(100)).
-				eventually bel(counter(20000)).
-				always bel(true).
-				atend bel(true).
-%				always bel(false).
-				atend bel(false).
-			} in do main.
 		}
 	}
 

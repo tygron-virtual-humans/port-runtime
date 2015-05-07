@@ -30,7 +30,7 @@ public class WhileExecutor extends TestConditionExecutor {
 
 	@Override
 	public <T> T accept(ResultFormatter<T> formatter) {
-		return formatter.visit(this._while);
+		return formatter.visit(this);
 	}
 
 	@Override

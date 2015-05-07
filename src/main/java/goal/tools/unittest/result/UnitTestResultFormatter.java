@@ -11,6 +11,7 @@ import goal.tools.unittest.result.testsection.TestSectionFailed;
 import goal.tools.unittest.result.testsection.TestSectionInterupted;
 import goal.tools.unittest.result.testsection.TestSectionResult;
 import goal.tools.unittest.testcondition.executors.TestConditionExecutor;
+import goal.tools.unittest.testcondition.executors.WatchExecutor;
 import goal.tools.unittest.testsection.executors.EvaluateInExecutor;
 
 import java.util.List;
@@ -23,6 +24,7 @@ import languageTools.program.test.testcondition.Eventually;
 import languageTools.program.test.testcondition.Never;
 import languageTools.program.test.testcondition.TestCondition;
 import languageTools.program.test.testcondition.Until;
+import languageTools.program.test.testcondition.Watch;
 import languageTools.program.test.testcondition.While;
 import languageTools.program.test.testsection.AssertTest;
 import languageTools.program.test.testsection.DoActionSection;
@@ -64,11 +66,11 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	 */
 	@Override
 	public String visit(UnitTestResult unitTestResult) {
-		String ret = "";
+		String ret;
 		if (unitTestResult.isPassed()) {
-			ret += "passed:\n";
+			ret = "passed:\n";
 		} else {
-			ret += "failed:\n";
+			ret = "failed:\n";
 		}
 		ret += indent() + "test: " + unitTestResult.getUnitTestFile() + "\n";
 		ret += indent() + "mas : " + unitTestResult.getMasFile() + "\n";
@@ -100,16 +102,16 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 			List<UnitTestInterpreterResult> results) {
 		if (results.isEmpty()) {
 			return groupName + ": did not run.\n";
-		}
-		if (results.size() == 1) {
+		} else if (results.size() == 1) {
 			UnitTestInterpreterResult result = results.get(0);
 			return this.visit(result);
+		} else {
+			String ret = groupName + ":\n";
+			for (UnitTestInterpreterResult result : results) {
+				ret += indent(1, this.visit(result)) + "\n";
+			}
+			return ret;
 		}
-		String ret = groupName + ":\n";
-		for (UnitTestInterpreterResult result : results) {
-			ret += indent(1, this.visit(result)) + "\n";
-		}
-		return ret;
 	}
 
 	/**
@@ -122,25 +124,28 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	 */
 	@Override
 	public String visit(UnitTestInterpreterResult result) {
+		String ret;
 		if (result.isPassed()) {
-			return "passed: " + result.getId().getName() + "\n";
+			ret = "passed: ";
+		} else {
+			ret = "failed: ";
 		}
-		String retString = "failed: " + result.getId().getName() + "\n";
+		ret += result.getId().getName() + "\n";
 		if (result.getUncaughtThrowable() != null) {
 			result.getUncaughtThrowable().printStackTrace(); // TEMP
-			retString += indent(1, "exception: "
+			ret += indent(1, "exception: "
 					+ result.getUncaughtThrowable().getMessage() + "\n");
 			if (result.getUncaughtThrowable().getCause() != null) {
-				retString += indent(1, "because: "
+				ret += indent(1, "because: "
 						+ result.getUncaughtThrowable().getCause().getMessage()
 						+ "\n");
 			}
 		} else if (result.getResult() == null) {
-			retString += indent() + "test did not run or timed out\n";
+			ret += indent() + "test did not run\n";
 		} else {
-			retString += indent(result.getResult().accept(this)) + "\n";
+			ret += indent(result.getResult().accept(this)) + "\n";
 		}
-		return retString;
+		return ret;
 	}
 
 	@Override
@@ -162,7 +167,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 			TestSectionFailed failed = result.getRuleFailed();
 			ret += indent(failed.accept(this));
 		}
-		ret += "\n}\n";
+		ret += "}\n";
 		return ret;
 	}
 
@@ -195,6 +200,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	@Override
 	public String visit(EvaluateInResult result) {
 		String ret = "executed: evaluate {\n";
+		System.out.println(result.getEvaluators());
 		for (TestConditionExecutor evaluator : result.getEvaluators()) {
 			ret += indent(evaluator.accept(this)) + "\n";
 		}
@@ -206,8 +212,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	public String visit(EvaluateInFailed result) {
 		String ret = "failed: evaluate {\n";
 		for (TestConditionExecutor evaluator : result.getEvaluators()) {
-			String evalRet = evaluator.getState() + ": "
-					+ evaluator.accept(this);
+			String evalRet = evaluator.accept(this);
 			if (!evaluator.getSubstitution().getVariables().isEmpty()) {
 				evalRet += " with " + evaluator.getSubstitution();
 			}
@@ -216,7 +221,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 			}
 			ret += indent(evalRet) + "\n";
 		}
-		EvaluateIn section = (EvaluateIn) result.getEvaluateIn().getSection();
+		EvaluateIn section = result.getEvaluateIn().getSection();
 		ret += "} in " + section.getAction() + ".\n";
 		ret += getCause(result);
 		return ret;
@@ -225,8 +230,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	@Override
 	public String visit(DoActionFailed result) {
 		String ret = "failed: ";
-		DoActionSection section = (DoActionSection) result.getDoAction()
-				.getSection();
+		DoActionSection section = result.getDoAction().getSection();
 		ret += section + "\n";
 		ret += getCause(result);
 		return ret;
@@ -239,8 +243,8 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 			ret += indent(evaluator.accept(this)) + "\n";
 		}
 		// Must be interrupted EvaluateIn section
-		EvaluateIn section = (EvaluateIn) ((EvaluateInExecutor) result
-				.getTestSection()).getSection();
+		EvaluateIn section = ((EvaluateInExecutor) result.getTestSection())
+				.getSection();
 		ret += "} in " + section.getAction() + ".";
 		ret += getCause(result);
 		return ret;
@@ -248,7 +252,12 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 
 	@Override
 	public String visit(TestConditionExecutor result) {
-		return result.getState().toString() + ": " + result.getCondition();
+		if (result instanceof WatchExecutor) {
+			return result.getCondition() + ": "
+					+ ((WatchExecutor) result).getEvaluation();
+		} else {
+			return result.getState().toString() + ": " + result.getCondition();
+		}
 	}
 
 	@Override
@@ -287,9 +296,14 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 	}
 
 	@Override
+	public String visit(Watch watch) {
+		return watch + ".";
+	}
+
+	@Override
 	public String visit(EvaluateIn evaluateIn) {
 		String ret = "evaluate {\n";
-		for (TestCondition query : evaluateIn.getQueries()) {
+		for (TestCondition query : evaluateIn.getConditions()) {
 			ret += indent(query.toString()) + "\n";
 		}
 		ret += "} in " + evaluateIn.getAction();
@@ -317,6 +331,7 @@ public class UnitTestResultFormatter implements ResultFormatter<String> {
 			if (cause.getCause() != null) {
 				ret += "\nbecause: " + cause.getCause().getMessage();
 			}
+			ret += "\n";
 		}
 		return ret;
 	}

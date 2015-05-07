@@ -26,7 +26,7 @@ import languageTools.program.test.testcondition.TestCondition;
 import languageTools.program.test.testsection.EvaluateIn;
 
 public class EvaluateInExecutor extends TestSectionExecutor implements
-DebugObserver {
+		DebugObserver {
 	private final EvaluateIn evaluatein;
 	private Set<TestConditionExecutor> executors;
 
@@ -49,7 +49,7 @@ DebugObserver {
 
 	public TestConditionExecutor[] getExecutors() {
 		return this.executors.toArray(new TestConditionExecutor[this.executors
-		                                                        .size()]);
+				.size()]);
 	}
 
 	@Override
@@ -57,7 +57,7 @@ DebugObserver {
 			throws TestSectionFailed {
 		KRInterface kr = runstate.getMainModule().getKRInterface();
 		TestCondition boundary = this.evaluatein.getBoundary();
-		Set<TestCondition> conditions = this.evaluatein.getQueries();
+		Set<TestCondition> conditions = this.evaluatein.getConditions();
 
 		/*
 		 * Installs the condition evaluators on the debugger. Conditions will be
@@ -89,6 +89,7 @@ DebugObserver {
 			this.executors.add(TestConditionExecutor.getTestConditionExecutor(
 					condition, kr.getSubstitution(null), runstate, this));
 		}
+		final TestConditionExecutor[] allExecutors = getExecutors();
 
 		/*
 		 * Evaluates the action. While being evaluated the conditions installed
@@ -101,11 +102,11 @@ DebugObserver {
 			module.run(runstate, kr.getSubstitution(null),
 					runstate.getDebugger(), true);
 		} catch (TestConditionFailedException e) {
-			throw new EvaluateInFailed(this, this.executors, e);
+			throw new EvaluateInFailed(this, getExecutors(), e);
 		} catch (DebuggerKilledException e) {
-			throw new EvaluateInInterrupted(this, this.executors, e);
+			throw new EvaluateInInterrupted(this, getExecutors(), e);
 		} catch (GOALActionFailedException e) {
-			throw new EvaluateInInterrupted(this, this.executors,
+			throw new EvaluateInInterrupted(this, getExecutors(),
 					new DebuggerKilledException("Module failed to execute", e));
 		} catch (TestBoundaryException e) {
 			// continue silently
@@ -119,9 +120,9 @@ DebugObserver {
 			try {
 				executor.evaluate(null);
 			} catch (TestConditionFailedException e) {
-				throw new EvaluateInFailed(this, this.executors, e);
+				throw new EvaluateInFailed(this, allExecutors, e);
 			} catch (DebuggerKilledException e) {
-				throw new EvaluateInInterrupted(this, this.executors, e);
+				throw new EvaluateInInterrupted(this, allExecutors, e);
 			} catch (TestBoundaryException e) {
 				// continue silently
 			}
@@ -137,14 +138,14 @@ DebugObserver {
 		 */
 		for (TestConditionExecutor executor : getExecutors()) {
 			if (!executor.isPassed()) {
-				throw new EvaluateInFailed(this, this.executors);
+				throw new EvaluateInFailed(this, allExecutors);
 			}
 		}
 
 		/*
 		 * We succeeded :)
 		 */
-		return new EvaluateInResult(this.evaluatein, this.executors);
+		return new EvaluateInResult(this.evaluatein, allExecutors);
 	}
 
 	@Override

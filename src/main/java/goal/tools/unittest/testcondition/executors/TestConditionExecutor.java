@@ -24,6 +24,7 @@ import languageTools.program.test.testcondition.Eventually;
 import languageTools.program.test.testcondition.Never;
 import languageTools.program.test.testcondition.TestCondition;
 import languageTools.program.test.testcondition.Until;
+import languageTools.program.test.testcondition.Watch;
 import languageTools.program.test.testcondition.While;
 
 /**
@@ -171,13 +172,16 @@ public abstract class TestConditionExecutor {
 				result = new MentalStateConditionExecutor(testquery
 						.getCondition().applySubst(temp)).evaluate(
 								this.runstate.getMentalState(), debugger);
-			} catch (GOALDatabaseException  | NullPointerException e) { // FIXME #3487 
+			} catch (GOALDatabaseException | NullPointerException e) { // FIXME
+				// #3487
 				try {
 					result = new MentalStateConditionExecutor(
 							testquery.getCondition()).evaluate(
 									this.runstate.getMentalState(), debugger);
 				} catch (GOALDatabaseException e1) {
-					throw new IllegalStateException("testcondition evaluation of "+testquery+" fails",e1);
+					throw new IllegalStateException(
+							"testcondition evaluation of " + testquery
+							+ " fails", e1);
 				}
 			}
 			if (!result.isEmpty() && testquery.getAction() != null) {
@@ -271,6 +275,9 @@ public abstract class TestConditionExecutor {
 					parent);
 		} else if (condition instanceof While) {
 			return new WhileExecutor((While) condition, substitution, runstate,
+					parent);
+		} else if (condition instanceof Watch) {
+			return new WatchExecutor((Watch) condition, substitution, runstate,
 					parent);
 		} else {
 			return null;
