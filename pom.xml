@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <name>GOAL Runtime</name>
-    <url>https://github.com/VH3/runtime</url>
+    <url>https://github.com/tygron-virtual-humans/port-runtime</url>
     <description>An system for running GOAL MAS programs.</description>
 
     <licenses>
@@ -30,19 +30,19 @@
     </developers>
 
     <organization>
-        <name>VH3</name>
-        <url>https://github.com/VH3</url>
+        <name>tygron-virtual-humans</name>
+        <url>https://github.com/tygron-virtual-humans</url>
     </organization>
 
     <issueManagement>
-        <url>https://github.com/VH3/runtime/issues</url>
+        <url>https://github.com/tygron-virtual-humans/port-runtime/issues</url>
         <system>Github Issues</system>
     </issueManagement>
 
     <scm>
-        <connection>scm:git:git@github.com:VH3/runtime.git</connection>
-        <developerConnection>scm:git:git@github.com:VH3/runtime.git</developerConnection>
-        <url>https://github.com:VH3/runtime</url>
+        <connection>scm:git:git@github.com:tygron-virtual-humans/port-runtime.git</connection>
+        <developerConnection>scm:git:git@github.com:tygron-virtual-humans/port-runtime.git</developerConnection>
+        <url>https://github.com:tygron-virtual-humans/port-runtime</url>
     </scm>
 
     <properties>
@@ -51,8 +51,8 @@
 
     <repositories>
         <repository>
-            <id>VH3-mvn-repo</id>
-            <url>https://raw.github.com/VH3/mvn-repo/master</url>
+            <id>port-mvn-repo</id>
+            <url>https://raw.github.com/tygron-virtual-humans/port-mvn-repo/master</url>
         </repository>
 
         <repository>
@@ -100,7 +100,7 @@
         <dependency>
             <groupId>com.github.goalhub.grammar</groupId>
             <artifactId>languageTools</artifactId>
-            <version>1.1.5</version>
+            <version>1.1.6</version>
         </dependency>
 
         <dependency>
@@ -252,7 +252,7 @@
                 <artifactId>maven-deploy-plugin</artifactId>
                 <version>2.8.2</version>
                 <configuration>
-                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
+                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/port-mvn-repo</altDeploymentRepository>
                 </configuration>
             </plugin>
 
@@ -265,7 +265,7 @@
                     <!-- git commit message -->
                     <message>Maven artifacts for ${project.name} version ${project.version}</message>
                     <!-- matches distribution management repository url above -->
-                    <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+                    <outputDirectory>${project.build.directory}/port-mvn-repo</outputDirectory>
                     <!-- remote branch name -->
                     <branch>refs/heads/master</branch>
                     <merge>true</merge>
@@ -273,9 +273,9 @@
                         <include>**/*</include>
                     </includes>
                     <!-- github repo name -->
-                    <repositoryName>mvn-repo</repositoryName>
+                    <repositoryName>port-mvn-repo</repositoryName>
                     <!-- github organization -->
-                    <repositoryOwner>VH3</repositoryOwner>
+                    <repositoryOwner>tygron-virtual-humans</repositoryOwner>
                 </configuration>
                 <executions>
                     <!-- run site-maven-plugin as part of the build's 'deploy' phase -->
@@ -291,290 +291,4 @@
         </plugins>
     </build>
 
-    <groupId>com.github.goalhub.runtime</groupId>
-    <artifactId>runtime</artifactId>
-    <version>1.1.2</version>
-    <packaging>jar</packaging>
-
-    <name>GOAL Runtime</name>
-    <url>https://github.com/VH3/runtime</url>
-    <description>An system for running GOAL MAS programs.</description>
-
-    <licenses>
-        <license>
-            <name>The GNU General Public License, Version 3.0</name>
-            <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
-        </license>
-    </licenses>
-
-    <developers>
-        <developer>
-            <name>Koen Hindriks</name>
-            <email>k.v.hindriks@gmail.com</email>
-            <organization>goalhub</organization>
-            <organizationUrl>https://github.com/koenhindriks</organizationUrl>
-        </developer>
-    </developers>
-
-    <organization>
-        <name>VH3</name>
-        <url>https://github.com/VH3</url>
-    </organization>
-
-    <issueManagement>
-        <url>https://github.com/VH3/runtime/issues</url>
-        <system>Github Issues</system>
-    </issueManagement>
-
-    <scm>
-        <connection>scm:git:git@github.com:VH3/runtime.git</connection>
-        <developerConnection>scm:git:git@github.com:VH3/runtime.git</developerConnection>
-        <url>https://github.com:VH3/runtime</url>
-    </scm>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
-    <repositories>
-        <repository>
-            <id>VH3-mvn-repo</id>
-            <url>https://raw.github.com/VH3/mvn-repo/master</url>
-        </repository>
-
-        <repository>
-            <id>goalhub-mvn-repo</id>
-            <url>https://raw.github.com/goalhub/mvn-repo/master</url>
-        </repository>
-
-        <repository>
-            <id>eishub-mvn-repo</id>
-            <url>https://raw.github.com/eishub/mvn-repo/master</url>
-        </repository>
-    </repositories>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.github.goalhub.krTools</groupId>
-            <artifactId>krFactory</artifactId>
-            <version>1.1.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.goalhub.krTools</groupId>
-            <artifactId>krInterface</artifactId>
-            <version>1.1.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.goalhub.mentalstate</groupId>
-            <artifactId>mentalstatefactory</artifactId>
-            <version>1.1.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.goalhub.mentalstate</groupId>
-            <artifactId>mentalstateinterface</artifactId>
-            <version>1.3.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>eishub</groupId>
-            <artifactId>eis</artifactId>
-            <version>0.5.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.goalhub.grammar</groupId>
-            <artifactId>languageTools</artifactId>
-            <version>1.1.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.goalhub.messaging</groupId>
-            <artifactId>messaginginterface</artifactId>
-            <version>1.1.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.goalhub.messaging</groupId>
-            <artifactId>localmessaging</artifactId>
-            <version>1.1.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.goalhub.messaging</groupId>
-            <artifactId>rmimessaging</artifactId>
-            <version>1.1.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr4-runtime</artifactId>
-            <version>4.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-cli</groupId>
-            <artifactId>commons-cli</artifactId>
-            <version>1.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <version>1.15</version>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.9</version>
-                <executions>
-                    <execution>
-                        <id>analyze</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>analyze-only</goal>
-                        </goals>
-                        <configuration>
-                            <failOnWarning>true</failOnWarning>
-                            <ignoreNonCompile>true</ignoreNonCompile>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.2</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.1</version>
-                <configuration>
-                    <failOnError>false</failOnError>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.4</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.5</version>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.5.2</version>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <archive>
-                        <manifest>
-                            <mainClass>goal.tools.Run</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.8.2</version>
-                <configuration>
-                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>com.github.github</groupId>
-                <artifactId>site-maven-plugin</artifactId>
-                <version>0.10</version>
-                <configuration>
-                    <server>github</server>
-                    <!-- git commit message -->
-                    <message>Maven artifacts for ${project.name} version ${project.version}</message>
-                    <!-- matches distribution management repository url above -->
-                    <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
-                    <!-- remote branch name -->
-                    <branch>refs/heads/master</branch>
-                    <merge>true</merge>
-                    <includes>
-                        <include>**/*</include>
-                    </includes>
-                    <!-- github repo name -->
-                    <repositoryName>mvn-repo</repositoryName>
-                    <!-- github organization -->
-                    <repositoryOwner>VH3</repositoryOwner>
-                </configuration>
-                <executions>
-                    <!-- run site-maven-plugin as part of the build's 'deploy' phase -->
-                    <execution>
-                        <id>git-deploy</id>
-                        <goals>
-                            <goal>site</goal>
-                        </goals>
-                        <phase>deploy</phase>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>
