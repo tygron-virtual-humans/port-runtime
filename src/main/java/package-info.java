@@ -1,4 +1,0 @@
-/**
- * Package info.
- * Main package.
- */
