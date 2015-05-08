@@ -68,7 +68,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.VH3.goalplugin</groupId>
+            <groupId>com.github.port.goalplugin</groupId>
             <artifactId>calculator</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
@@ -106,7 +106,7 @@
         <dependency>
             <groupId>com.github.goalhub.grammar</groupId>
             <artifactId>languageTools</artifactId>
-            <version>1.1.6</version>
+            <version>1.1.6-calc</version>
         </dependency>
 
         <dependency>
