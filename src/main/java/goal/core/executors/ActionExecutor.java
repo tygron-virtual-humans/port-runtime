@@ -17,18 +17,7 @@ import krTools.language.Term;
 import krTools.language.Var;
 import languageTools.analyzer.agent.AgentValidatorSecondPass;
 import languageTools.analyzer.module.ModuleValidatorSecondPass;
-import languageTools.program.agent.actions.Action;
-import languageTools.program.agent.actions.AdoptAction;
-import languageTools.program.agent.actions.DeleteAction;
-import languageTools.program.agent.actions.DropAction;
-import languageTools.program.agent.actions.ExitModuleAction;
-import languageTools.program.agent.actions.InsertAction;
-import languageTools.program.agent.actions.LogAction;
-import languageTools.program.agent.actions.ModuleCallAction;
-import languageTools.program.agent.actions.PrintAction;
-import languageTools.program.agent.actions.SendAction;
-import languageTools.program.agent.actions.SendOnceAction;
-import languageTools.program.agent.actions.UserSpecAction;
+import languageTools.program.agent.actions.*;
 import languageTools.program.agent.msc.MentalStateCondition;
 import languageTools.program.agent.msg.SentenceMood;
 
@@ -240,7 +229,9 @@ public abstract class ActionExecutor {
 				return new SendOnceActionExecutor((SendOnceAction) action);
 			} else if (action instanceof UserSpecAction) {
 				returned = new UserSpecActionExecutor((UserSpecAction) action);
-			}
+			} else if (action instanceof CalculateAction) {
+                returned = new CalculateActionExecutor((CalculateAction) action);
+            }
 			// executors.put(action, returned);
 		}
 		if (returned instanceof ModuleCallActionExecutor) {
