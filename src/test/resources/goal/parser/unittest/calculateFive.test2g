@@ -1,0 +1,16 @@
+masTest {
+	
+	mas = "calculator.mas2g".
+	timeout = 1.
+	
+	calculator {
+		timeOutTest {
+			evaluate {
+				eventually bel(calculated(1,5)).
+				always bel(true).
+				atend bel(true).
+			} in do main.
+		}
+	}
+
+}

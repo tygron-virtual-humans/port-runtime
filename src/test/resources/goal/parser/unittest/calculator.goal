@@ -1,0 +1,12 @@
+init module{
+	beliefs{
+	    calculated(0,0).
+	}
+}
+
+main module{
+	program{
+%		if bel(calculated(1,5)) then exit-module.
+		if bel(true) then calculate(1,"plus",2,3).
+	}
+}
