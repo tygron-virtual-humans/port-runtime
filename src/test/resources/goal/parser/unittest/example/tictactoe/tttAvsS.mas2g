@@ -1,0 +1,18 @@
+environment{
+    % insert a proper environment reference on the next line.
+    env = "Tic-Tac-Toe-1.2.0-jar-with-dependencies.jar".
+    % insert proper initialization parameters and values on the next line, or remove it.
+    init = [xplayer = "agent",  oplayer = "agent", gui = true].
+}
+
+agentfiles{
+    % insert (list of) agent file references below.
+    "tttAdaptive.goal" [name = playerX].
+    "tttSmart.goal"    [name = playerO].
+}
+
+launchpolicy{
+    % insert appropriate launch rules for your environment and agents below.
+    when [name=xplayer]@env do launch x : playerX.
+	when [name=oplayer]@env do launch o : playerO.
+}

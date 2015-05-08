@@ -1,0 +1,9 @@
+
+masTest {
+
+	mas 		= 	"correctMasUnderTest.mas2g".
+
+	unknownAgent {
+		test { do moduleUnderTest(identifier, 42, 0.42, function(id,id,id)). }
+	}
+}

@@ -1,0 +1,23 @@
+init module {
+
+	actionspec {
+	
+		skip@int {
+			pre{}
+			post{}
+		}
+	}
+
+}
+
+main module [exit=nogoals] {
+	
+	program{
+		if bel(received(ping,shutdown)) then exit-module.
+	}
+}
+
+
+
+
+	

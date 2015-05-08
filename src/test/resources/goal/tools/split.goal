@@ -1,0 +1,15 @@
+% splits very often. Meant to be slow.
+	
+main module [exit=never] {
+	program{
+		if true then split(24).
+	}
+}
+
+module split(X) {
+
+	program{
+		if bel(X > 0, X2 is X-2, X1 is X-1) then split(X2) + split(X1).
+	}
+
+}

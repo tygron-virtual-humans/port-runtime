@@ -1,0 +1,15 @@
+masTest {
+
+	mas = "insertresultsindroptest.mas2g".
+	timeout = 10. %seconds
+
+	insertresultsindroptest {
+		test {
+			evaluate {
+				eventually goal(test).
+				atend not(goal(true)).
+			} in do main.
+		
+		}
+	}
+}

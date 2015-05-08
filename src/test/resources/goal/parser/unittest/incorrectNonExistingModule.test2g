@@ -1,0 +1,14 @@
+%Incorrect: non existing module
+
+masTest {
+
+	mas 		= "correctMasUnderTest.mas2g".
+
+	agentUnderTest {
+		
+		before { do nonExistingModule. }
+		test { do nonExistingModule. }
+		after { do nonExistingModule. }
+		
+	}
+}

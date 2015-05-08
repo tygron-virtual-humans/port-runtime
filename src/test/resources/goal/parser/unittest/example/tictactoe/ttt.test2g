@@ -1,0 +1,19 @@
+masTest {
+
+	mas = "tttAvsA.mas2g" .
+	timeout = 15 . % seconds
+	
+	x {
+		
+		test {
+		
+			evaluate {
+				atend not(goal(true)).
+			} in do main.
+			
+		}
+	}
+	
+	% can we also test o?
+	
+}

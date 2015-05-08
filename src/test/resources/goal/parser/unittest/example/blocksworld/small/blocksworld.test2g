@@ -1,0 +1,42 @@
+masTest {
+
+	mas = "blocksworld.mas2g" .
+	timeout = 15 . % seconds
+	
+	stackbuilder {
+		
+		test {
+		
+			do build(['b3','b2','b1']) .
+
+			evaluate {
+				atend bel(tower(['b3','b2','b1'])) .
+			} in do build(['b3','b2','b1']).
+
+			do clear.
+		
+			do build(['b1','b2','b3']).
+
+			evaluate {
+				atend bel(tower(['b3','b2','b1'])).
+			} in do build(['b3','b2','b1']).	
+					
+			do clear.
+			
+			do build(['b1','b2']).
+
+			evaluate {
+				atend bel(tower(['b3','b2','b1'])).
+			} in do build(['b3','b2','b1']).		
+			
+			do clear.
+					
+			do build(['b3','b2','b1']).
+	
+			evaluate {
+				atend bel(not(tower(['b2','b1','b3']))).
+			} in do build(['b2','b1','b3']).
+		}
+		
+	}
+}

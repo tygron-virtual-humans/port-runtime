@@ -1,0 +1,13 @@
+
+
+main module [exit=nogoals] {
+	
+	goals {
+		test.
+	}
+	
+	program {
+		if bel(true) then drop(test).
+	}
+}
+

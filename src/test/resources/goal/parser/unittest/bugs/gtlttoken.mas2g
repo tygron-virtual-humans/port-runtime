@@ -1,0 +1,8 @@
+
+agentfiles {
+	"gtlttoken.goal".
+}
+
+launchpolicy {
+    launch gtlttokenAgent : gtlttoken. 
+}

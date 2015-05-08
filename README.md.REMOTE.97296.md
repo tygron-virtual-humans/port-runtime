@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# Goalplugin ![travis](https://travis-ci.org/VH3/goalplugin.svg?branch=master_plugin_init)
-A calculation plugin for GOAL
-=======
 GOAL Runtime
 ========
 
@@ -55,4 +51,3 @@ mvn versions:use-latest-versions -DallowSnapshots=true -DexcludeReactor=false &&
 ```
 
 Note that you must have a public name and e-mail address set on GitHub for this to work correctly (https://github.com/settings/profile)
->>>>>>> d8cfa4e22f4b9561a2e0217a2270170784ccf714

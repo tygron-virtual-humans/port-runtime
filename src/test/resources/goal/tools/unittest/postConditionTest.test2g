@@ -1,0 +1,24 @@
+masTest {
+
+	mas = "postConditionTest.mas2g".
+	timeout = 10. %seconds
+
+	postConditionAgent {
+		test {
+			do init.
+			assert not(bel(test1)), bel(test2).
+			
+			evaluate {
+				% verify that post-condition inserts fact test1.
+				eventually bel(test1).
+				% verify that post-condition deletes fact test2.
+				eventually not(bel(test2)).
+				% verify that post-condition is atomic update.
+				always not(bel(test1, test2)).
+				% verify that second rule restores initial state.
+				atend not(bel(test1)).
+				atend bel(test2).
+			} in do main.
+		}
+	}
+}

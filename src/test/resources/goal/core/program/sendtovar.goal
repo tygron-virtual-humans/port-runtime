@@ -1,0 +1,29 @@
+% test if send actions work properly if used with a variable.
+% would be nice if we could test this with multiple agents.
+% but it's acceptable to test with 1 agent.
+
+init module {
+	goals{
+		verstuurd('I am going to Room_C1').
+	}
+}
+	
+module test [exit=always] {
+	program [order=linear]{
+		if bel(me(Me)), a-goal(verstuurd(Y)) then (Me).send(msg(Y)) + insert(verstuurd(Y)).	
+		if bel(me(Me), verstuurd(Y), received(Me,msg(Y))) then insert(result(ok)).
+		if bel(true) then insert(result(failure)).
+	}
+}
+
+
+main module {
+	program{
+		if bel(result(X)) then exit-module.
+		
+		% proceed testing.
+		if bel(true) then test.
+	}
+}
+
+

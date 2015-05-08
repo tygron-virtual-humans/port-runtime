@@ -1,0 +1,14 @@
+masTest {
+
+	mas 		= 	"main.mas2g".
+
+	mainagent {
+		test {
+			do main.
+			
+			evaluate {
+			
+			} in do main.
+		}
+	}
+}

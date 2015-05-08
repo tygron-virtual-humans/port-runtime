@@ -1,0 +1,56 @@
+    % This agent receives asks for meetings from chameneos,
+	% when pairs are formed, they are informed of their partners for
+	% the mutation.
+	% 
+	% It also notifies "leader" agent when a given number of meetings
+	% are achieved.
+
+init module {
+	beliefs{
+		i(0).
+	}
+}
+
+main module{
+	program{
+		if bel(received(Sender, simulationFinished)) then exit-module.
+		
+		% receives the number of meetings and start the i counter
+		if bel(received(Sender, nb_meets(N)), i(K)) then
+		  delete(received(Sender, nb_meets(N))) +
+		  delete(i(K)) +
+		  insert(i(N)).
+
+		% chameneo wants to meet
+		if bel(received(Sender, imp(meet(C)))) then
+		  delete(received(Sender, imp(meet(C)))) +
+		  meet(Sender, C).
+		  
+		% Empty mail box (sent).
+		forall bel(sent(Receiver, Content)) do delete(sent(Receiver, Content)).
+	}
+}
+
+module meet(A, C) {
+	program {
+		if bel(stopped) then exit-module.
+		
+		% do a meeting between two chameneos
+		if bel(firstC(A1, C1), i(I), I > 0, NewI is I - 1) then
+		  delete(firstC(A1, C1), i(I)) +
+		  insert(i(NewI)) +
+		  (A1).send(!mutate(A,C)) +
+		  (A).send(!mutate(A1,C1)).
+		  
+		% the first chameneo arrived, it needs to wait the second one
+		if bel(not(i(0))) then
+		  insert(firstC(A, C)).
+		  
+		% all meetings were done. Do not need more meetings
+		if true then
+		  insert(stopped) +
+		  (leader).send(run_finished).
+	}
+}
+
+#import "common.mod2g".

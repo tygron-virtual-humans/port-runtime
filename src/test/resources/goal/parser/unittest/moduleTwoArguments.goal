@@ -1,0 +1,20 @@
+main module [exit=nogoals] {
+	program{
+		if true then exit-module.
+	}
+}
+
+module twoArguments(ArgOne,ArgTwo){
+	program{
+		if true then {
+			if true then insert(twoArguments(ArgOne,ArgTwo)).
+			if true then insert(twoArgumentsDone).
+		}
+	}
+}
+
+module twoIdenticalArguments(Arg,Arg){
+	program{
+		if true then insert(twoIdenticalArguments(Arg,Arg)) + insert(twoIdenticalArgumentsDone).
+	}
+}

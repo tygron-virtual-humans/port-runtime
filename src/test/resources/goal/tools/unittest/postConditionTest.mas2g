@@ -1,0 +1,8 @@
+
+agentfiles {
+	"postConditiontest.goal".
+}
+
+launchpolicy {
+    launch postConditionAgent : postConditiontest. 
+}

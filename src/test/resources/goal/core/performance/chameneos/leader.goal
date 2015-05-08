@@ -1,0 +1,119 @@
+	% This agent manages the overall execution of the experiment.
+
+init module {
+	knowledge{
+		#import "comp.pl".
+			
+		strConcatList([H|[]], H).
+		strConcatList([H|T], Str) :- strConcatList(T,StrTemp), string_concat(H, StrTemp, Str).
+		
+		listToStr([H|[]], H).
+		listToStr([H|T], Str) :- listToStr(T,StrTemp), string_concat(H, ', ', Str1), string_concat(Str1, StrTemp, Str).
+		
+		getHeadTail([H|T], H, T).
+	}
+	
+	beliefs{
+		%run(a,[blue, red, yellow], 600).
+		run(b,[blue, red, yellow, red, yellow, blue, red, yellow, red, blue], 6000).
+		
+		sumNM(0).
+		countNM(0).
+		numChameneos(0).
+	}
+	
+	goals {
+		finishSimulation.
+	}
+	
+	program {		
+		% Start the execucion of the run specification
+		if bel(get_time(Time)) then
+		  insert(oldTime(Time)) +
+		  showComplements +
+		  printMessage(' ') +
+		  run.	  
+    }
+}
+
+main module[exit=nogoals] {
+	program{
+		% Request the number of meetings of each chameneo
+		if bel(received(Sender, run_finished), numChameneos(Ids)) then
+		  delete(received(Sender, run_finished)) +
+		  sendNM(Ids).
+		
+		% I received the number of meetings of a chameneo
+		if bel(received(Sender, nm(LN)), 
+		       sumNM(CurrentSum), NewCurrentSum is CurrentSum + LN,
+			   countNM(CurrentCount), NewCurrentCount is CurrentCount + 1) then
+		  delete(received(Sender, nm(LN))) +
+		  delete(sumNM(CurrentSum), countNM(CurrentCount)) +
+		  insert(sumNM(NewCurrentSum), countNM(NewCurrentCount)) +
+		  checkNM.
+		  
+		% Empty mail box (sent).
+		forall bel(sent(Receiver, Content)) do delete(sent(Receiver, Content)).
+	}
+}
+
+% Print the color complements
+module showComplements {
+	program {
+        forall bel(member(A,[blue,red,yellow]), member(B,[blue,red,yellow]), complement(A,B,C), strConcatList([A, ' + ', B, ' -> ', C], Str)) do
+		  printMessage(Str).
+	}
+}
+
+% Execute the run specification
+module run {
+	program {
+		if bel(run(Id,Colors,N), listToStr(Colors, StrColors), length(Colors, Ids), numChameneos(Current)) then
+		  delete(numChameneos(Current)) +
+		  insert(numChameneos(Ids)) +
+		  printMessage(StrColors) +
+		  (broker).send(nb_meets(N)) +
+		  sendColors(Colors) +
+		  sendGoMall(Ids).
+	}
+}
+
+module sendColors(L){ 
+	program{
+		if bel(getHeadTail(L, [], T)) then exit-module.
+		if bel(getHeadTail(L, H, T), length(L, Id), string_concat('chameneo', Id, StrChameneo)) then
+		  (StrChameneo).send(color(H)) +
+		  sendColors(T).
+	}
+}
+
+module sendGoMall(Id) {
+	program {
+		if bel(Id == 0) then exit-module.
+		if bel(NewId is Id - 1, string_concat('chameneo', Id, StrChameneo)) then
+		  (StrChameneo).send(go_mall) +
+		  sendGoMall(NewId).
+	}
+}
+
+module sendNM(Id) {
+	program {
+		if bel(Id == 0) then exit-module.
+		if bel(NewId is Id - 1, string_concat('chameneo', Id, StrChameneo)) then
+		  (StrChameneo).send(?nm) +
+		  sendNM(NewId).
+	}
+}
+
+module checkNM {
+	program {
+		% Check if I received all number of meetings of the chameneos
+		if bel(countNM(CurrentCount), numChameneos(CurrentCount), sumNM(CurrentSum), 
+		       spell(CurrentSum, S), oldTime(OldTime), get_time(Time), Result is Time - OldTime) then
+		  printMessage(S) +
+		  allother.send(simulationFinished) +
+		  drop(finishSimulation).
+	}
+}
+
+#import "common.mod2g".

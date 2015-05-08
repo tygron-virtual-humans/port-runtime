@@ -1,0 +1,14 @@
+init module {
+	knowledge {
+
+	}
+	
+
+}
+
+main module [exit=nogoals] {
+	program [order=linearall] {
+		if bel( not(in(X)) ) then insert( in('Place') ).
+		if bel(in(X), atom(X), X=='Place') then insert(result(ok)).
+	}
+}

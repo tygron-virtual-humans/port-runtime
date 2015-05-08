@@ -1,0 +1,25 @@
+masTest {
+
+	mas = "bw4t.mas2g" .
+	timeout = 60 . % seconds
+	
+	robot {
+		
+		test {
+		
+			evaluate {
+				eventually goal(visited(Room)).		
+				eventually bel(holdingColor(X)).
+				eventually bel(sequenceIndex(1)).
+				atend not(goal(true)).
+			} in do deliverblock.
+			
+			evaluate {
+				always not(goal(visited(Room))).		
+				eventually bel(holdingColor(X)).
+				eventually bel(sequenceIndex(2)).
+				atend not(goal(true)).
+			} in do deliverblock.
+		}
+	}
+}

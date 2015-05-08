@@ -1,0 +1,43 @@
+masTest {
+
+	mas 		= 	"scope.mas2g".
+
+	scope {
+		test {
+			
+			evaluate {
+				always bel(knowledgeInInit).
+				always bel(knowledgeInMain).
+				always bel(knowledgeInTest).
+				always bel(knowledgeInOther).
+			} in do main.
+			
+			evaluate {
+				always bel(knowledgeInInit).
+				always bel(knowledgeInTest).
+				always bel(knowledgeInMain).
+				always bel(knowledgeInOther).
+			} in do test.
+			
+			
+			evaluate {
+				always duplicateRule(test).
+			} in do test.
+			
+			evaluate {
+				always duplicateRule(init).			
+				always duplicateRule(main).
+				always duplicateRule(test).
+				always duplicateRule(other).
+			} in do main.
+			
+			evaluate {
+				always duplicateRule(init).			
+				always duplicateRule(main).
+				always duplicateRule(test).
+				always duplicateRule(other).
+			} in do main.
+			
+		}
+	}
+}

@@ -1,0 +1,38 @@
+masTest {
+
+	mas = "pingpong.mas2g".
+	timeout = 10. %seconds
+	
+	ping {
+		
+		test { 
+	
+			do waitFor(pong).
+		
+			do (pong).send(ping).
+		
+			do waitForReceived(pong,pong).
+			
+			do reply.
+
+		}
+		
+	}
+	
+	pong {
+		
+		test { 
+	
+			do waitFor(ping).
+						
+			do waitForReceived(ping,ping).
+			
+			% delete received percept, or we'll receive it again.			
+			do reply + delete(received(ping,ping)).
+			
+			do waitForReceived(ping,ping).
+						
+		}
+		
+	}
+}

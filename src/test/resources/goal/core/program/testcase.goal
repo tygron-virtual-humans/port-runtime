@@ -1,0 +1,26 @@
+init module {
+	beliefs{
+		aap.
+		noot.
+		mies.
+	}
+
+}
+
+main module [exit=nogoals] {
+	program{
+		if true then insert(result(ok)).
+	}
+}
+
+module exampleTestCase {
+
+	goals{
+		
+	}
+
+	program {
+		if true then exit-module.
+	}
+
+}

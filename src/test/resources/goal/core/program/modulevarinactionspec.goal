@@ -1,0 +1,26 @@
+% test if module param is NOT passed into the actionspec of the submodule
+% this behaviour has been changed since #3460
+
+main module [exit=nogoals] {
+	program{
+		if bel(result(X)) then exit-module.
+		
+		% do module call with parameter.
+		if bel(true) then test(12).
+	}
+}
+
+module test(X) [focus=new, exit=always] {
+
+	program [order=linearall] {
+		if bel(true) then action.
+		if bel(aap(Y)), bel(Y==11) then insert(result(ok)).
+	}
+	
+	actionspec {
+		action@int {
+		   pre{ X=11 } % will fail if X has been set.
+		   post{ aap(X) }
+		}
+	}
+}

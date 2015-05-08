@@ -1,0 +1,7 @@
+agentfiles{
+	"counter.goal".
+}
+
+launchpolicy{
+	launch counter : counter.
+}

@@ -1,0 +1,20 @@
+% test if only specified vars are passed into module
+
+main module [exit=nogoals] {
+	program{
+		if bel(result(X)) then exit-module.
+		
+		% do module call with parameter.
+		if bel(X=12, Y=15) then test(Y).
+	}
+}
+
+module test(Z) [focus=new, exit=always] {
+
+	program {
+		if bel(X==12) then exit-module.
+		if bel(Y==15) then exit-module.
+		if bel(Z==15) then insert(result(ok)).
+	}
+	
+}

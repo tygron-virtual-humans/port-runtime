@@ -1,0 +1,30 @@
+init module {
+	
+	knowledge {
+		pi(3.14).
+	}
+
+}
+	
+main module [exit=nogoals] {
+	program{
+		if bel(pi(X)) then insert(pi(X)).
+	}
+}
+
+module beforePiModule {
+
+	program{
+		if bel(not(beforePiModule)) then insert(beforePiModule).
+	}
+}
+
+module modulePiUnderTest {
+
+	program{
+		if bel(not(modulePiUnderTest)) then insert(modulePiUnderTest).
+	}
+
+}
+
+	

@@ -1,0 +1,9 @@
+%Incorrect: missing module under test
+
+masTest {
+
+	mas 		= 	"correctMasUnderTest.mas2g".
+
+	agentUnderTest {
+	}
+}

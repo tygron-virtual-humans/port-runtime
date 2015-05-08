@@ -1,0 +1,70 @@
+    % The chameneo agent asks the broker for a meeting and them, when a pair is found,
+	% mutates its color based on the color of the pair. 
+	% 
+	% The belief color/1 represents the current color of the chameneo. It is initially
+	% informed by leader and then changed each mutation.
+
+init module {
+	knowledge{
+		#import "comp.pl".
+	}
+	
+	beliefs{
+		nb_meetings(0).
+		nb_meetings_same_color(0).
+	}
+}
+
+main module{
+	program{
+		if bel(received(Sender, simulationFinished)) then exit-module.
+		
+		% This will be my color and my name
+		if bel(received(Sender, color(Color))) then
+		  delete(received(Sender, color(Color))) +
+		  insert(color(Color)).
+		  
+		% I am going to the mall
+		if bel(received(Sender, go_mall)) then
+		  delete(received(Sender, go_mall)) +
+		  goMall.
+		  
+		% The run execution is over
+		if bel(received(Sender, int(nm)), nb_meetings(N), nb_meetings_same_color(NS), spell(NS, NSS), 
+		       string_concat(N, NSS, Str)) then
+		  delete(received(Sender, int(nm))) +
+		  printMessage(Str) +
+		  (Sender).send(nm(N)).
+		
+		% I need to mutate because of other chameneo
+		if bel(received(Sender, imp(mutate(A,C2))), color(C1), complement(C1,C2,C), nb_meetings(N), NewN is N + 1) then
+		  delete(received(Sender, imp(mutate(A,C2)))) +
+		  delete(nb_meetings(N), color(C1)) +
+		  insert(nb_meetings(NewN), color(C)) +
+		  checkSame(A) +
+		  goMall.
+		  
+		% Empty mail box (sent).
+		forall bel(sent(Receiver, Content)) do delete(sent(Receiver, Content)).
+	}
+}
+
+
+
+module checkSame(A) {
+	program {
+		% Check if I met myself
+		if bel(me(A), nb_meetings_same_color(N), NewN is N + 1) then
+		  delete(nb_meetings_same_color(N)) +
+		  insert(nb_meetings_same_color(NewN)).
+	}
+}
+
+module goMall {
+	program {
+		if bel(color(C)) then 
+		  (broker).send(!meet(C)).
+	}
+}
+
+#import "common.mod2g".

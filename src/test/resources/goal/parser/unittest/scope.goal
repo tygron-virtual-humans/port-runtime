@@ -1,0 +1,47 @@
+init module {
+
+	knowledge{
+		knowledgeInInit.
+		duplicateRule(X) :- X is init.
+	}
+}
+
+main module [exit=noaction] {
+	
+	knowledge{
+		knowledgeInMain.
+		duplicateRule(X) :- X is main.
+
+	}
+ 
+	program{
+		if true then test.
+	}
+}
+
+module test {
+	
+	knowledge{
+		knowledgeInTest.
+		duplicateRule(X) :- X is test.
+		
+	}
+
+	program{
+		if true then exit-module.
+	}
+}
+
+module other {
+	
+	knowledge{
+		knowledgeInOther.
+		duplicateRule(X) :- X is other.
+
+	}
+
+	program{
+		if true then exit-module.
+	}
+}
+

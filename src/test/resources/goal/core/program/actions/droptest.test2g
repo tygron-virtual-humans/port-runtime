@@ -1,0 +1,14 @@
+masTest {
+
+	mas = "droptest.mas2g".
+	timeout = 10. %seconds
+
+	droptest {
+		test {
+			evaluate {
+				eventually goal(test).
+				atend not(goal(true)).
+			} in do main.
+		}
+	}
+}

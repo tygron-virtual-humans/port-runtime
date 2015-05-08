@@ -1,0 +1,9 @@
+agentfiles{
+	% insert (list of) agent file references below.
+	"main.goal" [name = filename] .
+}
+
+launchpolicy{
+	launch mainagent : filename.
+}
+

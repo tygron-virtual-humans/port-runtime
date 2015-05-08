@@ -1,0 +1,14 @@
+
+environment{
+	env = "../../../../../../../../GOALagents/BW4T2/BW4T2/BW4TClient.jar".
+	init = [ clientip ="localhost", clientport="2000", serverip = "localhost", serverport = "8000", agentcount = "3", humancount = "0", launchgui = "false", goal = "true", map="Random"] .
+}
+
+agentfiles{
+	"robot.goal" [name = robot] .
+}
+
+launchpolicy{
+	when [max=1]@env do launch robot : robot .
+}
+

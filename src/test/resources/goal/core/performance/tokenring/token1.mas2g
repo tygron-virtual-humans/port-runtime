@@ -1,0 +1,10 @@
+agentfiles{
+	"ag.goal".
+	"leader.goal".
+}
+
+launchpolicy{
+launch ag[100]:ag.
+launch leader:leader.
+}
+

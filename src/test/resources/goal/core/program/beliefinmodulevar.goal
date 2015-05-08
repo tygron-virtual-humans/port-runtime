@@ -1,0 +1,25 @@
+% test if module param is passed into the actionspec of the submodule
+init module {
+	
+	beliefs{
+		noot(42).
+	}	
+	
+}
+
+main module [exit=nogoals] {
+	
+	program{
+		if bel(result(X)) then exit-module.
+		
+		% do module call with parameter.
+		if bel(noot(Y)) then test(Y).
+	}
+}
+
+module test(X) [focus=new, exit=always] {
+
+	program [order=linearall] {
+		if bel(X == 42) then insert(result(ok)).
+	}
+}

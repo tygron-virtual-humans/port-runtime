@@ -1,0 +1,14 @@
+%Correct: minimal version
+
+masTest {
+
+	mas 		= 	"correctMasUnderTest.mas2g".
+
+	agentUnderTest {
+		test { do moduleUnderTest(identifier, 42, 0.42, function). }
+	}
+	
+	agentUnderTest {
+		test { moduleUnderTest(identifier, 42, 0.42, function). }
+	}
+}

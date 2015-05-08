@@ -1,0 +1,12 @@
+agentfiles{
+	% insert (list of) agent file references below.
+	"fibonaci.goal" [name = filename] .
+}
+
+launchpolicy{
+	launch fib1 : filename.
+	launch fib2 : filename.
+	launch fib3 : filename.
+	launch fib4 : filename.
+}
+

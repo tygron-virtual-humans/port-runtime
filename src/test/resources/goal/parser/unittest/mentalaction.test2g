@@ -1,0 +1,17 @@
+masTest {
+
+	mas = "main.mas2g".
+	timeout = 10. %seconds
+	
+	mainagent {
+		
+		test { 
+	
+			evaluate {
+				atend bel(insertDone), goal(adoptDone).
+			} in do insert(insertDone) + adopt(adoptDone).
+			
+		}
+		
+	}
+}
