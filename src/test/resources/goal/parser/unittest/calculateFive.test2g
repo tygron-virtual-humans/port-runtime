@@ -6,7 +6,7 @@ masTest {
 	calculator {
 		timeOutTest {
 			evaluate {
-			    watch bel(calculated(X,Y)).
+			    watch bel(calculated(X,Y),value1(A),value2(B)).
 				eventually bel(calculated(1,5.0)).
 				always bel(true).
 				atend bel(true).
