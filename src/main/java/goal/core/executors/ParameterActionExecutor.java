@@ -8,28 +8,43 @@ import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 import krTools.language.Substitution;
 import krTools.language.Term;
 import languageTools.program.agent.actions.Action;
+import languageTools.program.agent.actions.ParameterAction;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-public abstract class ParameterActionExecutor extends ActionExecutor {
+public abstract class ParameterActionExecutor<ParamAction extends ParameterAction> extends ActionExecutor {
 
-    private final ParameterAction action;
+    protected final ParamAction action;
 
-    public abstract void executeActionParameters(List<Term> terms);
+    protected abstract Result executeActionWithParameters(List<Term> terms, RunState<?> runState, Debugger debugger);
+
+    public ParameterActionExecutor(ParamAction action){
+        this.action = action;
+    }
 
     @Override
     protected Result executeAction(RunState<?> runState, Debugger debugger) throws GOALActionFailedException {
-        MentalState mentalState = runState.getMentalState();
         List<Term> terms = this.action.getParameters();
 
-        executeActionParameters(terms);
-
-        return new Result();
+        return executeActionWithParameters(terms,runState,debugger);
     }
 
     @Override
     protected ActionExecutor applySubst(Substitution subst) {
-        return new CalculateActionExecutor(this.action.applySubst(subst));
+        try {
+            return this.getClass().getDeclaredConstructor(action.getClass()).newInstance(
+                    (ParamAction) action.applySubst(subst));
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
