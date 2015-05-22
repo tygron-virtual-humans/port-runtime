@@ -1,5 +1,6 @@
 package goal.core.executors;
 
+import goal.core.executors.parameter.CalculateActionExecutor;
 import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
@@ -8,6 +9,9 @@ import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,20 +21,11 @@ import krTools.language.Term;
 import krTools.language.Var;
 import languageTools.analyzer.agent.AgentValidatorSecondPass;
 import languageTools.analyzer.module.ModuleValidatorSecondPass;
-import languageTools.program.agent.actions.Action;
-import languageTools.program.agent.actions.AdoptAction;
-import languageTools.program.agent.actions.DeleteAction;
-import languageTools.program.agent.actions.DropAction;
-import languageTools.program.agent.actions.ExitModuleAction;
-import languageTools.program.agent.actions.InsertAction;
-import languageTools.program.agent.actions.LogAction;
-import languageTools.program.agent.actions.ModuleCallAction;
-import languageTools.program.agent.actions.PrintAction;
-import languageTools.program.agent.actions.SendAction;
-import languageTools.program.agent.actions.SendOnceAction;
-import languageTools.program.agent.actions.UserSpecAction;
+import languageTools.program.agent.actions.*;
+import languageTools.program.agent.actions.parameter.CalculateAction;
 import languageTools.program.agent.msc.MentalStateCondition;
 import languageTools.program.agent.msg.SentenceMood;
+import org.reflections.Reflections;
 
 /**
  * Abstract base class for part of the ActionExecutors
@@ -211,6 +206,18 @@ public abstract class ActionExecutor {
 	// private static Map<Action<?>, ActionExecutor> executors = new
 	// HashMap<>();
 
+    private static HashMap<Class,Class<? extends ParameterActionExecutor>> paramActionExecutors;
+
+    private static void initParamActionExecutors(){
+        paramActionExecutors = new HashMap<>();
+        Reflections ref = new Reflections("goal.core.executors.parameter");
+        Set<Class<? extends ParameterActionExecutor>> classes = ref.getSubTypesOf(ParameterActionExecutor.class);
+        for(Class<? extends ParameterActionExecutor> paeClass : classes){
+            Class paramType = (Class) ((ParameterizedType)paeClass.getGenericSuperclass()).getActualTypeArguments()[0];
+            paramActionExecutors.put(paramType,paeClass);
+        }
+    }
+
 	public static ActionExecutor getActionExecutor(Action<?> action,
 			MentalStateCondition context) {
 		ActionExecutor returned = null;
@@ -240,7 +247,25 @@ public abstract class ActionExecutor {
 				return new SendOnceActionExecutor((SendOnceAction) action);
 			} else if (action instanceof UserSpecAction) {
 				returned = new UserSpecActionExecutor((UserSpecAction) action);
-			}
+			} else if (action instanceof ParameterAction) {
+                if(paramActionExecutors == null){
+                    initParamActionExecutors();
+                }
+
+                Class actionClass = action.getClass();
+
+                try {
+                    returned = paramActionExecutors.get(actionClass).getDeclaredConstructor(actionClass).newInstance(action);
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
+            }
 			// executors.put(action, returned);
 		}
 		if (returned instanceof ModuleCallActionExecutor) {

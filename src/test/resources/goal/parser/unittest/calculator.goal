@@ -1,0 +1,14 @@
+init module{
+	beliefs{
+	    calculated(0,0).
+	    value1(2).
+	    value2(3).
+	}
+}
+
+main module{
+	program{
+%		if bel(calculated(1,5)) then exit-module.
+		if bel(value1(A),value2(B)) then print(A) + print(B) + calculate(1,"plus",A,B).
+	}
+}

@@ -1,0 +1,7 @@
+agentfiles{
+	"calculator.goal".
+}
+
+launchpolicy{
+	launch calculator : calculator.
+}
