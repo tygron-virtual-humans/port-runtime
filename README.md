@@ -1,4 +1,4 @@
-GOAL Runtime
+GOAL Runtime [![Build Status](https://travis-ci.org/tygron-virtual-humans/port-runtime.svg?branch=master)](https://travis-ci.org/tygron-virtual-humans/port-runtime)
 ========
 
 This project contains the GOAL runtime.
