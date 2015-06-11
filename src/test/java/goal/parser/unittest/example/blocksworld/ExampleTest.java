@@ -29,6 +29,12 @@ public class ExampleTest extends AbstractUnitTestTest {
 		assertPassedAndPrint(results);
 	}
 
+    @Test
+    public void testGamygdalaBlocksWorld() throws Exception {
+        UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/example/blocksworld/gamygdala/blocksworld.test2g");
+        assertPassedAndPrint(results);
+    }
+
 	@Test
 	public void testNewOperators() throws Exception {
 		UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/example/blocksworld/simple/newOperators.test2g");

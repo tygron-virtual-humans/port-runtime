@@ -1,0 +1,7 @@
+agentfiles{
+	"gamygdala.goal".
+}
+
+launchpolicy{
+	launch gamygdala : gamygdala.
+}
