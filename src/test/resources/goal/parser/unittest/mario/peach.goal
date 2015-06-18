@@ -13,7 +13,6 @@ init module {
     }
 
     program {
-        if bel(true) then ga-register(a).
         if bel(true) then waitFor(mario).
         if bel(true) then ga-create-relation(mario,0.6).
     }

@@ -17,7 +17,6 @@ init module {
     }
 
     program {
-        if bel(true) then ga-register(a).
         if bel(true) then ga-adopt(rescuepeach,0.7,false).
         if bel(true) then ga-adopt(survivemario,1.0,false).
         if bel(true) then ga-adopt(collectcoins,0.2,true).

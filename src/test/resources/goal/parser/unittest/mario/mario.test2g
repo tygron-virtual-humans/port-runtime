@@ -1,13 +1,12 @@
 masTest {
 	
 	mas = "mario.mas2g".
-	timeout = 20.
+	timeout = 3.
 	
 	mario {
 		timeOutTest {
 			evaluate {
-			    watch bel(emotion(A,B)).
-				eventually bel(true).
+				eventually bel(emotion(hope,_),emotion(joy,_)).
 				always bel(true).
 				atend bel(true).
 			} in do main.
@@ -17,8 +16,7 @@ masTest {
 	peach {
 	    timeOutTest {
             evaluate {
-                watch bel(emotion(A,B)).
-                eventually bel(true).
+                eventually bel(emotion("happy-for",_)).
                 always bel(true).
                 atend bel(true).
             } in do main.
@@ -28,8 +26,7 @@ masTest {
 	bowser {
         timeOutTest {
 			evaluate {
-			    watch bel(emotion(A,B)).
-				eventually bel(true).
+				eventually bel(emotion(resentment,_)).
 				always bel(true).
 				atend bel(true).
 			} in do main.

@@ -17,7 +17,6 @@ init module {
     }
 
     program {
-        if bel(true) then ga-register(a).
         if bel(true) then ga-adopt(lockpeach,0.6,true).
         if bel(true) then ga-adopt(killmario,1.0,false).
         if bel(true) then waitFor(mario).
