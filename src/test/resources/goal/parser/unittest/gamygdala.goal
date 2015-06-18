@@ -1,0 +1,16 @@
+init module{
+	beliefs{
+	    emotion(none,0).
+	}
+
+	program{
+	    if bel(true) then ga-register(a).
+	    if bel(true) then ga-adopt(collectcoins,1,true).
+	}
+}
+
+main module{
+	program{
+	    if bel(true) then ga-appraise(0.7,gamygdala,[collectcoins],[1],true).
+	}
+}

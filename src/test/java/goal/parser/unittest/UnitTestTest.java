@@ -90,4 +90,11 @@ public class UnitTestTest extends AbstractUnitTestTest {
 
         assertPassedAndPrint(results);
     }
+
+    @Test
+    public void testCollectCoins() throws Exception {
+        UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/collectCoins.test2g");
+
+        assertPassedAndPrint(results);
+    }
 }

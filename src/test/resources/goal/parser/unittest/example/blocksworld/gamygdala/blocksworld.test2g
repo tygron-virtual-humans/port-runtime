@@ -1,0 +1,21 @@
+masTest {
+
+	mas = "blocksworld.mas2g".
+	timeout = 10. %seconds
+
+	stackbuilder {
+
+		test {
+		
+			do clear .
+		
+			evaluate {
+			    watch bel(emotion(A,B)).
+			    watch bel(justPlaced(A,B)).
+			    watch goal(on(A,B)).
+				atend bel(tower(['b3','b2','b1'])) .
+			} in do main.
+
+		}
+	}
+}

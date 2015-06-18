@@ -9,6 +9,7 @@ import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
@@ -208,13 +209,15 @@ public abstract class ActionExecutor {
 
     private static HashMap<Class,Class<? extends ParameterActionExecutor>> paramActionExecutors;
 
-    private static void initParamActionExecutors(){
-        paramActionExecutors = new HashMap<>();
-        Reflections ref = new Reflections("goal.core.executors.parameter");
-        Set<Class<? extends ParameterActionExecutor>> classes = ref.getSubTypesOf(ParameterActionExecutor.class);
-        for(Class<? extends ParameterActionExecutor> paeClass : classes){
-            Class paramType = (Class) ((ParameterizedType)paeClass.getGenericSuperclass()).getActualTypeArguments()[0];
-            paramActionExecutors.put(paramType,paeClass);
+    private static synchronized void initParamActionExecutors(){
+        if(paramActionExecutors == null) {
+            paramActionExecutors = new HashMap<>();
+            Reflections ref = new Reflections("goal.core.executors.parameter");
+            Set<Class<? extends ParameterActionExecutor>> classes = ref.getSubTypesOf(ParameterActionExecutor.class);
+            for (Class<? extends ParameterActionExecutor> paeClass : classes) {
+                Class paramType = (Class) ((ParameterizedType) paeClass.getGenericSuperclass()).getActualTypeArguments()[0];
+                paramActionExecutors.put(paramType, paeClass);
+            }
         }
     }
 
@@ -248,14 +251,14 @@ public abstract class ActionExecutor {
 			} else if (action instanceof UserSpecAction) {
 				returned = new UserSpecActionExecutor((UserSpecAction) action);
 			} else if (action instanceof ParameterAction) {
-                if(paramActionExecutors == null){
-                    initParamActionExecutors();
-                }
+                initParamActionExecutors();
 
                 Class actionClass = action.getClass();
 
                 try {
-                    returned = paramActionExecutors.get(actionClass).getDeclaredConstructor(actionClass).newInstance(action);
+                    Class<? extends ActionExecutor> executor = paramActionExecutors.get(actionClass);
+                    Constructor<? extends ActionExecutor> constructor = executor.getDeclaredConstructor(actionClass);
+                    returned = constructor.newInstance(action);
                 } catch (InstantiationException e) {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
