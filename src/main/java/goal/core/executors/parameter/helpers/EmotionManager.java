@@ -12,7 +12,6 @@ import swiprolog.language.PrologDBFormula;
 import swiprolog.language.PrologQuery;
 import swiprolog.language.PrologUpdate;
 import vh3.goalgamygdala.GoalGamygdala;
-import vh3.goalgamygdala.GoalGamygdalaAgent;
 
 import java.util.Iterator;
 import java.util.List;
