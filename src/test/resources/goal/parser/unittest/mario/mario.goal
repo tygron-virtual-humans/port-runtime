@@ -1,13 +1,5 @@
 init module {
 
-    actionspec {
-
-        skip@int {
-            pre{}
-            post{}
-        }
-    }
-
     goals {
         rescue(peach).
     }
@@ -63,17 +55,6 @@ module sleep [exit=nogoals] {
     program{
         if bel(countdown(X),Y is X-1) then insert(countdown(Y)) + delete(countdown(X)).
     }
-}
-
-module waitFor(Agent) [focus=new,exit=nogoals] {
-
-	goals{
-		agent(Agent).
-	}
-
-	program {
-		if true then skip.
-	}
 }
 
 

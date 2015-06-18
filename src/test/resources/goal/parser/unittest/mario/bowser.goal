@@ -1,13 +1,5 @@
 init module {
 
-    actionspec {
-
-        skip@int {
-            pre{}
-            post{}
-        }
-    }
-
     goals {
         kill(mario).
     }
@@ -19,7 +11,6 @@ init module {
     program {
         if bel(true) then ga-adopt(lockpeach,0.6,true).
         if bel(true) then ga-adopt(killmario,1.0,false).
-        if bel(true) then waitFor(mario).
         if bel(true) then ga-create-relation(mario,-0.9).
     }
 
@@ -55,17 +46,5 @@ module sleep [focus=new,exit=nogoals] {
         if bel(countdown(X),Y is X-1) then insert(countdown(Y)) + delete(countdown(X)).
     }
 }
-
-module waitFor(Agent) [focus=new,exit=nogoals] {
-
-	goals{
-		agent(Agent).
-	}
-
-	program {
-		if true then skip.
-	}
-}
-
 
 	
