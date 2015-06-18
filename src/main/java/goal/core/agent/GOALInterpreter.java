@@ -28,6 +28,7 @@ import languageTools.program.agent.AgentProgram;
 import languageTools.program.agent.actions.Action;
 import languageTools.program.agent.actions.MentalAction;
 import languageTools.program.agent.actions.UserSpecAction;
+import vh3.goalgamygdala.GoalGamygdala;
 
 /**
  * Interpreter for {@link AgentProgram}.
@@ -62,6 +63,8 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 	 */
 	protected final Learner learner;
 
+    private final GoalGamygdala goalGamygdala;
+
 	/**
 	 * Constructs a new interpreter.
 	 *
@@ -77,6 +80,7 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 		this.program = program;
 		this.debugger = debugger;
 		this.learner = learner;
+        this.goalGamygdala = GoalGamygdala.getInstance();
 	}
 
 	/**
@@ -96,6 +100,7 @@ public class GOALInterpreter<DEBUGGER extends Debugger> extends Controller {
 		this.runState = new RunState<>(this, agent.getId(),
 				agent.getEnvironment(), agent.getMessaging(),
 				agent.getLogging(), this.program, this.debugger, this.learner);
+        goalGamygdala.createAgent(agent.getId().getName());
 	}
 
 	@Override
