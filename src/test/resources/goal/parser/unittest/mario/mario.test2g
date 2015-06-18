@@ -7,7 +7,7 @@ masTest {
 		timeOutTest {
 			evaluate {
 			    watch bel(emotion(A,B)).
-				eventually bel(emotion(hope,_),emotion(joy,_)).
+				eventually bel(emotion(hope,_),emotion(joy,_),emotion(fear,_)).
 				always bel(true).
 				atend bel(true).
 			} in do main.
