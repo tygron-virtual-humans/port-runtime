@@ -6,6 +6,7 @@ init module {
 
     beliefs {
         emotion(0,0).
+        needtodothings.
     }
 
     program {
@@ -16,18 +17,31 @@ init module {
 
 }
 
-main module {
-	
+main module{
+
 	program [order=linearall]{
-		if bel(true) then collect.
-		if bel(true) then sleep.
-		if bel(true) then ga-decay(a).
-		if bel(true) then collect.
-		if bel(true) then sleep.
-		if bel(true) then ga-decay(a).
-		if bel(true) then collectshroom.
+	    if bel(needtodothings) then dothings + delete(needtodothings).
+	    if bel(true) then ga-decay(a).
 	}
 
+}
+
+module dothings [exit=always]{
+    program[order=linearall] {
+        if bel(true) then collect.
+        if bel(true) then sleep.
+        if bel(true) then ga-decay(a).
+        if bel(true) then collect.
+        if bel(true) then sleep.
+        if bel(true) then ga-decay(a).
+        if bel(true) then collectshroom.
+        if bel(true) then sleep.
+        if bel(true) then ga-decay(a).
+        if bel(true) then hitbyturtle.
+        if bel(true) then sleep.
+        if bel(true) then ga-decay(a).
+        if bel(true) then hitbyturtle.
+    }
 }
 
 module collect [exit=always] {
@@ -40,6 +54,13 @@ module collectshroom [exit=always] {
     program[order=linearall] {
         if bel(true) then ga-appraise(1,mario,[rescuepeach,survivemario],[0.3,0.6],true).
         if bel(agent(bowser)) then (bowser).send(collectshroom).
+    }
+}
+
+module hitbyturtle [exit=always] {
+    program[order=linearall] {
+        if bel(true) then ga-appraise(1,mario,[rescuepeach,survivemario],[-0.3,-0.6],true).
+        if bel(agent(bowser)) then (bowser).send(hitbyturtle).
     }
 }
 

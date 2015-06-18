@@ -29,6 +29,7 @@ event module {
 
     program{
         forall bel(received(mario,collectshroom)) do ga-appraise(1,mario,[killmario,lockpeach],[-0.7,-0.3],true).
+        forall bel(received(mario,hitbyturtle)) do ga-appraise(1,mario,[killmario,lockpeach],[0.7,0.3],true).
     }
 
 }
