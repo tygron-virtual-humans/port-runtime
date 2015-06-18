@@ -1,0 +1,72 @@
+init module {
+
+    actionspec {
+
+        skip@int {
+            pre{}
+            post{}
+        }
+    }
+
+    goals {
+        kill(mario).
+    }
+
+    beliefs {
+        emotion(0,0).
+    }
+
+    program {
+        if bel(true) then ga-register(a).
+        if bel(true) then ga-adopt(lockpeach,0.6,true).
+        if bel(true) then ga-adopt(killmario,1.0,false).
+        if bel(true) then waitFor(mario).
+        if bel(true) then ga-create-relation(mario,-0.9).
+    }
+
+}
+
+main module {
+	
+	program [order=linearall]{
+		if bel(true) then sleep.
+		if bel(true) then ga-decay(a).
+	}
+
+}
+
+event module {
+
+    program{
+        forall bel(received(mario,collectshroom)) do ga-appraise(1,mario,[killmario,lockpeach],[-0.7,-0.3],true).
+    }
+
+}
+
+module sleep [focus=new,exit=nogoals] {
+    goals{
+        countdown(0).
+    }
+
+    beliefs{
+        countdown(2000).
+    }
+
+    program{
+        if bel(countdown(X),Y is X-1) then insert(countdown(Y)) + delete(countdown(X)).
+    }
+}
+
+module waitFor(Agent) [focus=new,exit=nogoals] {
+
+	goals{
+		agent(Agent).
+	}
+
+	program {
+		if true then skip.
+	}
+}
+
+
+	

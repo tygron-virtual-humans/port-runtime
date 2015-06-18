@@ -97,4 +97,11 @@ public class UnitTestTest extends AbstractUnitTestTest {
 
         assertPassedAndPrint(results);
     }
+
+    @Test
+    public void testMario() throws Exception {
+        UnitTestResult results = runTest("src/test/resources/goal/parser/unittest/mario/mario.test2g");
+
+        assertPassedAndPrint(results);
+    }
 }

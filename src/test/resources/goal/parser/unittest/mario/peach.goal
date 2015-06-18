@@ -1,0 +1,43 @@
+init module {
+
+    actionspec {
+
+        skip@int {
+            pre{}
+            post{}
+        }
+    }
+
+    beliefs {
+        emotion(0,0).
+    }
+
+    program {
+        if bel(true) then ga-register(a).
+        if bel(true) then waitFor(mario).
+        if bel(true) then ga-create-relation(mario,0.6).
+    }
+
+}
+
+main module {
+	
+	program{
+		if true then ga-decay(a).
+	}
+
+}
+
+module waitFor(Agent) [focus=new,exit=nogoals] {
+
+	goals{
+		agent(Agent).
+	}
+
+	program {
+		if true then print("appel") + skip.
+	}
+}
+
+
+	

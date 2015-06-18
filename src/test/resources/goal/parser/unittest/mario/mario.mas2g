@@ -1,0 +1,11 @@
+agentfiles {
+    "mario.goal".
+    "peach.goal".
+    "bowser.goal".
+}
+
+launchpolicy{
+	launch mario : mario.
+	launch peach : peach.
+	launch bowser : bowser.
+}
