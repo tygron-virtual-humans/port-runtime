@@ -1,0 +1,19 @@
+init module {
+
+    beliefs {
+        emotion(0,0).
+    }
+
+    program {
+        if bel(true) then ga-create-relation(mario,0.6).
+    }
+
+}
+
+main module {
+	
+	program{
+		if true then ga-decay(a).
+	}
+
+}

@@ -1,6 +1,7 @@
 package goal.core.executors;
 
-import goal.core.executors.parameter.CalculateActionExecutor;
+import goal.core.executors.parameter.helpers.ParameterActionExecutorFactory;
+import goal.core.executors.parameter.helpers.ReflectionParameterActionExecutorFactory;
 import goal.core.mentalstate.MentalState;
 import goal.core.runtime.service.agent.Result;
 import goal.core.runtime.service.agent.RunState;
@@ -9,10 +10,6 @@ import goal.tools.debugger.Debugger;
 import goal.tools.errorhandling.exceptions.GOALActionFailedException;
 import goal.tools.errorhandling.exceptions.GOALDatabaseException;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,10 +20,8 @@ import krTools.language.Var;
 import languageTools.analyzer.agent.AgentValidatorSecondPass;
 import languageTools.analyzer.module.ModuleValidatorSecondPass;
 import languageTools.program.agent.actions.*;
-import languageTools.program.agent.actions.parameter.CalculateAction;
 import languageTools.program.agent.msc.MentalStateCondition;
 import languageTools.program.agent.msg.SentenceMood;
-import org.reflections.Reflections;
 
 /**
  * Abstract base class for part of the ActionExecutors
@@ -204,20 +199,13 @@ public abstract class ActionExecutor {
 		return "execute(" + getAction().toString() + ")";
 	}
 
-	// private static Map<Action<?>, ActionExecutor> executors = new
-	// HashMap<>();
 
-    private static HashMap<Class,Class<? extends ParameterActionExecutor>> paramActionExecutors;
 
-    private static synchronized void initParamActionExecutors(){
-        if(paramActionExecutors == null) {
-            paramActionExecutors = new HashMap<>();
-            Reflections ref = new Reflections("goal.core.executors.parameter");
-            Set<Class<? extends ParameterActionExecutor>> classes = ref.getSubTypesOf(ParameterActionExecutor.class);
-            for (Class<? extends ParameterActionExecutor> paeClass : classes) {
-                Class paramType = (Class) ((ParameterizedType) paeClass.getGenericSuperclass()).getActualTypeArguments()[0];
-                paramActionExecutors.put(paramType, paeClass);
-            }
+    private static ParameterActionExecutorFactory parameterActionExecutorFactory;
+
+    private static synchronized void initParamActionExecutorFactory(){
+        if(parameterActionExecutorFactory == null){
+            parameterActionExecutorFactory = new ReflectionParameterActionExecutorFactory();
         }
     }
 
@@ -251,23 +239,9 @@ public abstract class ActionExecutor {
 			} else if (action instanceof UserSpecAction) {
 				returned = new UserSpecActionExecutor((UserSpecAction) action);
 			} else if (action instanceof ParameterAction) {
-                initParamActionExecutors();
+                initParamActionExecutorFactory();
 
-                Class actionClass = action.getClass();
-
-                try {
-                    Class<? extends ActionExecutor> executor = paramActionExecutors.get(actionClass);
-                    Constructor<? extends ActionExecutor> constructor = executor.getDeclaredConstructor(actionClass);
-                    returned = constructor.newInstance(action);
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                }
+                return parameterActionExecutorFactory.createParameterActionExecutor((ParameterAction)action);
             }
 			// executors.put(action, returned);
 		}

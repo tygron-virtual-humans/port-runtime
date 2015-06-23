@@ -1,0 +1,82 @@
+init module {
+
+    goals {
+        rescue(peach).
+    }
+
+    beliefs {
+        emotion(0,0).
+        needtodothings.
+    }
+
+    program {
+        if bel(true) then ga-adopt(rescuepeach,0.7,false).
+        if bel(true) then ga-adopt(survivemario,1.0,false).
+        if bel(true) then ga-adopt(collectcoins,0.2,true).
+    }
+
+}
+
+main module{
+
+	program [order=linearall]{
+	    if bel(needtodothings) then dothings + delete(needtodothings).
+	    if bel(true) then ga-decay(a).
+	}
+
+}
+
+module dothings [exit=always]{
+    program[order=linearall] {
+        if bel(true) then collect.
+        if bel(true) then sleep.
+        if bel(true) then ga-decay(a).
+        if bel(true) then collect.
+        if bel(true) then sleep.
+        if bel(true) then ga-decay(a).
+        if bel(true) then collectshroom.
+        if bel(true) then sleep.
+        if bel(true) then ga-decay(a).
+        if bel(true) then hitbyturtle.
+        if bel(true) then sleep.
+        if bel(true) then ga-decay(a).
+        if bel(true) then hitbyturtle.
+    }
+}
+
+module collect [exit=always] {
+    program[order=linearall] {
+        if bel(true) then ga-appraise(1,mario,[collectcoins],[0.1],true).
+    }
+}
+
+module collectshroom [exit=always] {
+    program[order=linearall] {
+        if bel(true) then ga-appraise(1,mario,[rescuepeach,survivemario],[0.3,0.6],true).
+        if bel(agent(bowser)) then (bowser).send(collectshroom).
+    }
+}
+
+module hitbyturtle [exit=always] {
+    program[order=linearall] {
+        if bel(true) then ga-appraise(1,mario,[rescuepeach,survivemario],[-0.3,-0.6],true).
+        if bel(agent(bowser)) then (bowser).send(hitbyturtle).
+    }
+}
+
+module sleep [exit=nogoals] {
+    goals{
+        countdown(0).
+    }
+
+    beliefs{
+        countdown(2000).
+    }
+
+    program{
+        if bel(countdown(X),Y is X-1) then insert(countdown(Y)) + delete(countdown(X)).
+    }
+}
+
+
+	
