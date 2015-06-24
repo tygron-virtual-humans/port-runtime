@@ -4,7 +4,6 @@ init module{
 	}
 
 	program{
-	    if bel(true) then ga-register(a).
 	    if bel(true) then ga-adopt(collectcoins,1,true).
 	}
 }

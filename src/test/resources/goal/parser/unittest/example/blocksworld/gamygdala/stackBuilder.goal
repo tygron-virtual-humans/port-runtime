@@ -18,7 +18,6 @@ init module {
 	}
 	program{
 		if true then insert(testInsert).
-		if true then ga-register(a).
 		if true then ga-adopt(buildtowers,1,false).
 	}
 	actionspec{
